@@ -41,20 +41,18 @@ export class LoginComponent {
       return;
     }
 
-    this.loginService.login();
+    const sub = this.loginService.login({
+      email: this.form.get("email")!.value,
+      password: this.form.get("password")!.value,
+    }).subscribe({
+      next: value => {
+        console.log("response: ", value);
+      },
+      error: error => {
+        console.log("error: ", error.error);
+      }
+    });
 
-    /*  const sub = this.loginService.login({
-        email: this.form.get("email")!.value,
-        password: this.form.get("password")!.value,
-      }).subscribe({
-        next: value => {
-          console.log("response: ", value);
-        },
-        error: error => {
-          console.log("error: ", error.error);
-        }
-      });*/
-
-    /* this.destroyRef.onDestroy(() => sub.unsubscribe());*/
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 }

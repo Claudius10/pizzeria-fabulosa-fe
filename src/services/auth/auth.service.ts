@@ -10,13 +10,12 @@ export class AuthService {
   public isAuthenticated: boolean = false;
 
   public setUserCredentials(token: string) {
-    /*    const idToken = this.decode(token);
-        if (idToken !== null) {
-          this.userEmail = idToken.sub;
-          this.userId = idToken.userId;
-          this.isAuthenticated = true;
-        }*/
-    this.isAuthenticated = true;
+    const idToken = this.decode(token);
+    if (idToken !== null) {
+      this.userEmail = idToken.sub;
+      this.userId = idToken.userId;
+      this.isAuthenticated = true;
+    }
   }
 
   public getIsAuthenticated(): boolean {
