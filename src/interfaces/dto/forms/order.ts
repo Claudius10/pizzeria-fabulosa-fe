@@ -18,12 +18,12 @@ export type OrderDetailsFormData = {
 }
 
 export type OrderItemFormData = {
-  id: number | null;
-  productType: string | null;
-  name: string | null;
+  id: number;
+  productType: string;
+  name: string;
   format: string | null;
-  price: number | null;
-  quantity: number | null;
+  price: number;
+  quantity: number;
 }
 
 type CartFormData = {
@@ -44,17 +44,16 @@ export type AnonOrderFormData = {
 }
 
 export type UserOrderFormData = {
-  userId: number | null;
-  addressId: number | null;
+  addressId: number;
   orderDetails: OrderDetailsFormData;
   cart: CartFormData;
 }
 
 export type UpdatingUserOrderFormData = {
-  orderId: number | null;
-  userId: number | null;
-  addressId: number | null;
-  createdOn: string | null;
+  orderId: number;
+  userId: number;
+  addressId: number;
+  createdOn: string;
   orderDetails: OrderDetailsFormData;
   cart: CartFormData;
 }

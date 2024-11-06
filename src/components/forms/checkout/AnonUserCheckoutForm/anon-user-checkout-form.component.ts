@@ -108,7 +108,6 @@ export class AnonUserCheckoutFormComponent {
       return;
     }
 
-
     console.log(this.form.value);
     const newAnonOrderSub = this.checkoutFormService.createNewAnonOrder({
       anonCustomerName: this.form.get("customer.fullName")!.value,

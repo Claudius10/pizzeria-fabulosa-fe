@@ -5,15 +5,15 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  public userEmail: string | undefined = undefined;
-  public userId: string | undefined = undefined;
+  private userId: string | undefined = undefined;
+  private userEmail = signal<string | undefined>(undefined);
   private isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
     if (idToken !== null) {
-      this.userEmail = idToken.sub;
       this.userId = idToken.userId;
+      this.userEmail.set(idToken.sub);
       this.isAuthenticated.set(true);
     }
   }
@@ -22,11 +22,12 @@ export class AuthService {
     return this.isAuthenticated.asReadonly();
   }
 
-  public getUserCredentials(): UserCredentials {
-    return {
-      userEmail: this.userEmail !== undefined ? this.userEmail : null,
-      userId: this.userId !== undefined ? this.userId : null
-    };
+  public getUserEmail() {
+    return this.userEmail.asReadonly();
+  }
+
+  public getUserId() {
+    return this.userId;
   }
 
   private decode(token: string): MyJwtPayload | null {

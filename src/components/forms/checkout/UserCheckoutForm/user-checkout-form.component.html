@@ -1,51 +1,10 @@
 <div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div formGroupName="customer">
-      <label for="fullName">Nombre y Apellido(s)*</label>
-      <input id="fullName" type="text" formControlName="fullName">
-
-      @if (!form.controls.customer.controls.fullName.untouched && form.controls.customer.controls.fullName.invalid) {
-        <p>Bad</p>
-      }
-
-      <label for="contactNumber">Teléfono de contacto*</label>
-      <input id="contactNumber" type="number" formControlName="contactNumber">
-
-      <label for="email">Correo electrónico*</label>
-      <input id="email" type="email" formControlName="email">
-    </div>
-
     <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
     <select id="deliveryOption">
       <option (click)="checkoutFormService.showHomeDeliveryOption()">A domicilio</option>
       <option (click)="checkoutFormService.hideHomeDeliveryOption()">Recoger</option>
     </select>
-
-    @if (checkoutFormService.homeDeliveryOptionVisibility) {
-      <div formGroupName="address">
-        <label for="street">Dirección*</label>
-        <input id="street" type="text" formControlName="street">
-
-        <label for="streetNumber">Número*</label>
-        <input id="streetNumber" type="number" formControlName="number">
-
-        <p>Interior</p>
-
-        <label for="gate">Portal</label>
-        <input id="gate" type="text" formControlName="gate">
-
-        <label for="staircase">Escalera</label>
-        <input id="staircase" type="text" formControlName="staircase">
-
-        <label for="floor">Piso</label>
-        <input id="floor" type="text" formControlName="floor">
-
-        <label for="door">Puerta</label>
-        <input id="door" type="text" formControlName="door">
-      </div>
-    } @else {
-      <p>Select Store</p>
-    }
 
     <div formGroupName="orderDetails">
       <label for="deliveryChoice">Hora de entrega*</label>
