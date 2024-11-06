@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 @Injectable({
@@ -7,19 +7,19 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
 export class AuthService {
   public userEmail: string | undefined = undefined;
   public userId: string | undefined = undefined;
-  public isAuthenticated: boolean = false;
+  private isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
     if (idToken !== null) {
       this.userEmail = idToken.sub;
       this.userId = idToken.userId;
-      this.isAuthenticated = true;
+      this.isAuthenticated.set(true);
     }
   }
 
-  public getIsAuthenticated(): boolean {
-    return this.isAuthenticated;
+  public getIsAuthenticated() {
+    return this.isAuthenticated.asReadonly();
   }
 
   public getUserCredentials(): UserCredentials {

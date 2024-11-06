@@ -6,7 +6,7 @@
   <button>Postres</button>
   <button>Bebidas</button>
 
-  @if (!isAuthenticated) {
+  @if (!isAuthenticated()) {
     <button routerLink="iniciar-sesion">Inicia Sesión</button>
   } @else {
     <button routerLink="usuario/perfil">Mi cuenta</button>

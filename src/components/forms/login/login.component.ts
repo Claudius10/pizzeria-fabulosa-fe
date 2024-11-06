@@ -4,6 +4,8 @@ import {PaginatorModule} from 'primeng/paginator';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginService} from '../../../services/login/login.service';
+import {CookieService} from 'ngx-cookie-service';
+import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +21,8 @@ import {LoginService} from '../../../services/login/login.service';
 })
 export class LoginComponent {
   private loginService = inject(LoginService);
+  private authService = inject(AuthService);
+  private cookieService = inject(CookieService);
   private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
@@ -47,6 +51,8 @@ export class LoginComponent {
     }).subscribe({
       next: value => {
         console.log("response: ", value);
+        this.authService.setUserCredentials(this.cookieService.get("idToken"));
+
       },
       error: error => {
         console.log("error: ", error.error);
