@@ -28,10 +28,6 @@ export class AddressListComponent {
   addressList = toSignal(this.getUserAddressList(this.authService.getUserId()), {initialValue: []});
   showAddressForm = signal(false);
 
-  public toggleAddressForm() {
-    this.showAddressForm.set(!this.showAddressForm());
-  }
-
   private getUserAddressList(userId: string | undefined) {
     if (userId === undefined) {
       // user not authed - notification
@@ -41,7 +37,8 @@ export class AddressListComponent {
     return this.userService.getAddressList(userId);
   }
 
-  public addUserAddress(userId: string | undefined, address: AddressFormData) {
 
+  public toggleAddressForm() {
+    this.showAddressForm.set(!this.showAddressForm());
   }
 }

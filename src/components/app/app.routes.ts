@@ -1,5 +1,4 @@
 import {Routes} from '@angular/router';
-import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
 import {ProductListComponent} from '../products/product-list/product-list.component';
 import {MenuComponent} from '../menu/menu.component';
 import {HomeComponent} from '../home/home.component';
@@ -13,6 +12,7 @@ import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderListComponent} from '../user/order-list/order-list.component';
 import {OrderItemComponent} from '../user/order-item/order-item.component';
 import {SettingsComponent} from '../user/settings/settings.component';
+import {CheckoutComponent} from '../checkout/checkout.component';
 
 export const routes: Routes = [
   {
@@ -62,7 +62,7 @@ export const routes: Routes = [
   },
   {
     path: "pedido-nuevo",
-    component: AnonUserCheckoutFormComponent,
+    component: CheckoutComponent,
     title: "Pedido Nuevo",
   },
   {

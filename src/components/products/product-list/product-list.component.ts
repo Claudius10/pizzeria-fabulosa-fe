@@ -4,6 +4,7 @@ import {ProductItemComponent} from '../product-item/product-item.component';
 import {RouterOutlet} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
 import {toSignal} from '@angular/core/rxjs-interop';
+import {ProductDTO} from '../../../interfaces/dto/resources';
 
 @Component({
   selector: 'app-product-list',
@@ -19,5 +20,5 @@ import {toSignal} from '@angular/core/rxjs-interop';
 })
 export class ProductListComponent {
   private resourceService = inject(ResourceService);
-  protected products = toSignal(this.resourceService.getProducts("pizza"), {initialValue: []});
+  protected products = toSignal<ProductDTO[]>(this.resourceService.getProducts("pizza"));
 }

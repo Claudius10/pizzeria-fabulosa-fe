@@ -15,7 +15,7 @@ export class CheckoutFormService {
 
   public createUserOrder(userOrder: UserOrderFormData, userId: string) {
     console.log(userOrder);
-    return this.httpService.post<UserOrderFormData>(`http://192.168.1.128:8080/api/user/${userId}/order`, userOrder)
+    return this.httpService.post<UserOrderFormData>(`http://192.168.1.128:8080/api/user/${userId}/order`, userOrder, {withCredentials: true})
       .pipe(catchError((err, caught) => {
         // have to return an Observable or throw the error
         const message: string = err.error.message;

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -14,6 +14,11 @@ import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
+import {AddressListComponent} from '../../../user/address-list/address-list.component';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {of} from 'rxjs';
+import {UserService} from '../../../../services/user/user.service';
+import {AddressDTO} from '../../../../interfaces/dto/order';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -21,7 +26,8 @@ import {CartService} from '../../../../services/cart/cart.service';
   imports: [
     CartComponent,
     PaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AddressListComponent
   ],
   templateUrl: './user-checkout-form.component.html',
   styleUrl: './user-checkout-form.component.css',
@@ -31,14 +37,23 @@ export class UserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
+  addressList = toSignal<AddressDTO[]>(this.getUserAddressList(this.authService.getUserId()));
+
+  private getUserAddressList(userId: string | undefined) {
+    if (userId === undefined) {
+      // user not authed - notification
+      return of([]);
+    }
+    return this.userService.getAddressList(userId);
+  }
 
   form = new FormGroup({
-    address: new FormGroup({
-      id: new FormControl(0, {
-        nonNullable: true,
-      }),
+    addressId: new FormControl(0, {
+      nonNullable: true,
     }),
     orderDetails: new FormGroup({
       deliveryTime: new FormControl("Lo antes posible", {
@@ -70,14 +85,13 @@ export class UserCheckoutFormComponent {
       return;
     }
 
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    const userOrderSub = this.checkoutFormService.createUserOrder({
-        addressId: this.form.get("address.id")!.value,
+    const sub = this.checkoutFormService.createUserOrder({
+        addressId: this.form.get("addressId")!.value,
         orderDetails: {
           id: null,
           deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
@@ -94,7 +108,16 @@ export class UserCheckoutFormComponent {
           totalQuantity: this.cartService.cartQuantity(),
         }
       },
-      this.authService.getUserId()!);
+      this.authService.getUserId()!).subscribe({
+      next: response => {
+
+      },
+      error: error => {
+
+      }
+    });
+
+    this.destroyRef.onDestroy(() => sub.unsubscribe());
   }
 }
 

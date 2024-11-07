@@ -13,7 +13,11 @@
     </select>
 
     @if (checkoutFormService.homeDeliveryOptionVisibility) {
-      <p>Select User Address</p>
+      <select id="address" formControlName="addressId">
+        @for (address of addressList(); track address.id) {
+          <option [value]="address.id">{{ address.street }} | {{ address.streetNr }}</option>
+        }
+      </select>
     } @else {
       <p>Select Store</p>
     }
