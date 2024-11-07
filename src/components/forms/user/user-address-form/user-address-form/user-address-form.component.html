@@ -1,0 +1,26 @@
+<div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="street">Dirección*</label>
+      <input id="street" type="text" formControlName="street">
+
+      <label for="streetNumber">Número*</label>
+      <input id="streetNumber" type="number" formControlName="number">
+
+      <p>Interior</p>
+
+      <label for="gate">Portal</label>
+      <input id="gate" type="text" formControlName="gate">
+
+      <label for="staircase">Escalera</label>
+      <input id="staircase" type="text" formControlName="staircase">
+
+      <label for="floor">Piso</label>
+      <input id="floor" type="text" formControlName="floor">
+
+      <label for="door">Puerta</label>
+      <input id="door" type="text" formControlName="door">
+    </div>
+    <button type="submit">REALIZAR PEDIDO</button>
+  </form>
+</div>

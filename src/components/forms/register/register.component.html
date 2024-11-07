@@ -2,6 +2,9 @@
   <p>Crear cuenta</p>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
+    <label>Nombre completo</label>
+    <input id="name" type="text" formControlName="name"/>
+
     <label>Correo electrónico</label>
     <input id="email" type="email" formControlName="email"/>
 

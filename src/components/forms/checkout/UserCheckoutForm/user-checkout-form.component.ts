@@ -31,6 +31,8 @@ export class UserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
+  userName = this.authService.getUserName();
+  userEmail = this.authService.getUserEmail();
 
   form = new FormGroup({
     address: new FormGroup({
@@ -75,23 +77,24 @@ export class UserCheckoutFormComponent {
     }
 
     const userOrderSub = this.checkoutFormService.createUserOrder({
-      addressId: this.form.get("address.id")!.value,
-      orderDetails: {
-        id: null,
-        deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
-        paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
-        changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
-        billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
-        comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
+        addressId: this.form.get("address.id")!.value,
+        orderDetails: {
+          id: null,
+          deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
+          paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
+          changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
+          billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
+          comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
+        },
+        cart: {
+          id: null,
+          orderItems: this.cartService.cartItems(),
+          totalCost: this.cartService.cartTotal(),
+          totalCostOffers: this.cartService.cartTotalAfterOffers(),
+          totalQuantity: this.cartService.cartQuantity(),
+        }
       },
-      cart: {
-        id: null,
-        orderItems: this.cartService.cartItems(),
-        totalCost: this.cartService.cartTotal(),
-        totalCostOffers: this.cartService.cartTotalAfterOffers(),
-        totalQuantity: this.cartService.cartQuantity(),
-      }
-    }, this.authService.getUserId()!);
+      this.authService.getUserId()!);
   }
 }
 

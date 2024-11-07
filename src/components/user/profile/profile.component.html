@@ -1,1 +1,9 @@
-<p>Correo electrónico: {{ userCredentials.userEmail }}</p>
+<div>
+  <p>Nombre completo:</p><span>{{ userName() }}</span>
+  <p>Correo electrónico:</p><span>{{ userEmail() }}</span>
+  <button (click)="toggleAddressList()">Show address List</button>
+
+  @if (showAddressList()) {
+    <app-address-list/>
+  }
+</div>

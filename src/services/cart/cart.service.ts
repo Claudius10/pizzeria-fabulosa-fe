@@ -1,11 +1,11 @@
 import {Injectable, signal} from '@angular/core';
-import {OrderItemFormData} from '../../interfaces/dto/forms/order';
+import {OrderItemDTO} from '../../interfaces/dto/order';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private items = signal<OrderItemFormData[]>([]);
+  private items = signal<OrderItemDTO[]>([]);
   private total = signal<number>(0);
   private totalAfterOffers = signal<number>(0);
   private quantity = signal<number>(0);
@@ -19,7 +19,7 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
-  public addItem(item: OrderItemFormData) {
+  public addItem(item: OrderItemDTO) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === item.id);
 
     if (itemIndex !== -1) {
@@ -65,18 +65,18 @@ export class CartService {
     this.calculateCostWithOffers(this.items(), this.total());
   }
 
-  private updateQuantity(items: OrderItemFormData[]) {
+  private updateQuantity(items: OrderItemDTO[]) {
     const itemQuantity = items.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
     this.quantity.set(itemQuantity);
   }
 
-  private updateTotal(items: OrderItemFormData[]) {
+  private updateTotal(items: OrderItemDTO[]) {
     const itemCosts = items.map((item) => item.price * item.quantity);
     const total = itemCosts.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
     this.total.set(total);
   }
 
-  private calculateCostWithOffers(items: OrderItemFormData[], total: number) {
+  private calculateCostWithOffers(items: OrderItemDTO[], total: number) {
     const pizzaItems = this.getPizzaItems(items);
     const pizzaQuantity = this.getPizzaQuantity(pizzaItems);
     const pizzaPrices = this.getPizzaPrices(pizzaItems);
@@ -104,15 +104,15 @@ export class CartService {
     this.threeForTwoOffers.set(timesToApplyThreeForTwoOffer);
   }
 
-  private getPizzaItems(items: OrderItemFormData[]) {
+  private getPizzaItems(items: OrderItemDTO[]) {
     return items.filter((item) => item.productType === "pizza");
   }
 
-  private getPizzaQuantity(pizzaItems: OrderItemFormData[]) {
+  private getPizzaQuantity(pizzaItems: OrderItemDTO[]) {
     return pizzaItems.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
   }
 
-  private getPizzaPrices(pizzaItems: OrderItemFormData[]) {
+  private getPizzaPrices(pizzaItems: OrderItemDTO[]) {
     return pizzaItems.map(item => item.price);
   }
 

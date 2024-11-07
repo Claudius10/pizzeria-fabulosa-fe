@@ -1,10 +1,22 @@
 <div>
+
+  <div>
+    <p>Nombre completo:</p><span>{{ userName() }}</span>
+    <p>Correo electrónico:</p><span>{{ userEmail() }}</span>
+  </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
     <select id="deliveryOption">
       <option (click)="checkoutFormService.showHomeDeliveryOption()">A domicilio</option>
       <option (click)="checkoutFormService.hideHomeDeliveryOption()">Recoger</option>
     </select>
+
+    @if (checkoutFormService.homeDeliveryOptionVisibility) {
+      <p>Select User Address</p>
+    } @else {
+      <p>Select Store</p>
+    }
 
     <div formGroupName="orderDetails">
       <label for="deliveryChoice">Hora de entrega*</label>

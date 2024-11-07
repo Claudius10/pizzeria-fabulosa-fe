@@ -7,6 +7,7 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
 export class AuthService {
   private userId: string | undefined = undefined;
   private userEmail = signal<string | undefined>(undefined);
+  private userName = signal<string | undefined>(undefined);
   private isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
@@ -14,6 +15,7 @@ export class AuthService {
     if (idToken !== null) {
       this.userId = idToken.userId;
       this.userEmail.set(idToken.sub);
+      this.userName.set(idToken.userName);
       this.isAuthenticated.set(true);
     }
   }
@@ -24,6 +26,10 @@ export class AuthService {
 
   public getUserEmail() {
     return this.userEmail.asReadonly();
+  }
+
+  public getUserName() {
+    return this.userName.asReadonly();
   }
 
   public getUserId() {
@@ -42,9 +48,5 @@ export class AuthService {
 
 interface MyJwtPayload extends JwtPayload {
   userId?: string;
-}
-
-export interface UserCredentials {
-  userId: string | null;
-  userEmail: string | null;
+  userName?: string;
 }

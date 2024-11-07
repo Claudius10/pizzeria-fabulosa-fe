@@ -1,5 +1,6 @@
 import {Component, inject, input} from '@angular/core';
-import {CartService, OrderItemDTO} from '../../../services/cart/cart.service';
+import {CartService} from '../../../services/cart/cart.service';
+import {OrderItemDTO} from '../../../interfaces/dto/order';
 
 @Component({
   selector: 'app-cart-item',

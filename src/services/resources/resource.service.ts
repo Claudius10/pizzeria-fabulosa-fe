@@ -7,10 +7,10 @@ import {catchError, Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class ResourceService {
-  private httpService = inject(HttpClient);
+  private httpClient = inject(HttpClient);
 
   public getProducts(type: string): Observable<ProductDTO[]> {
-    return this.httpService.get<ProductDTO[]>(`http://192.168.1.128:8080/api/resource/product?type=${type}`)
+    return this.httpClient.get<ProductDTO[]>(`http://192.168.1.128:8080/api/resource/product?type=${type}`)
       .pipe(catchError((err, caught) => {
         // have to return an Observable or throw the error
         const message: string = err.error.message;

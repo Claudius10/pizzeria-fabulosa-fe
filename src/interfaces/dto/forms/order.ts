@@ -1,3 +1,5 @@
+import {OrderItemDTO} from '../order';
+
 export type AddressFormData = {
   id: number | null;
   street: string
@@ -17,21 +19,12 @@ export type OrderDetailsFormData = {
   comment: string | null;
 }
 
-export type OrderItemFormData = {
-  id: number;
-  productType: string;
-  name: string;
-  format: string | null;
-  price: number;
-  quantity: number;
-}
-
 type CartFormData = {
   id: number | null;
   totalQuantity: number;
   totalCost: number;
   totalCostOffers: number | null;
-  orderItems: OrderItemFormData[];
+  orderItems: OrderItemDTO[];
 }
 
 export type AnonOrderFormData = {

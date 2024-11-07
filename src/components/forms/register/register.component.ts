@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {emailRgx, passwordRegex} from '../../../regex';
+import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RegisterService} from '../../../services/register/register.service';
 import {RouterLink} from '@angular/router';
 
@@ -28,6 +28,11 @@ export class RegisterComponent {
   private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
+    name: new FormControl<string>("", {
+      validators: [Validators.pattern(esCharsRegex)],
+      nonNullable: true,
+      updateOn: 'blur'
+    }),
     email: new FormControl<string>("", {
       validators: [Validators.pattern(emailRgx)],
       nonNullable: true,
@@ -58,6 +63,7 @@ export class RegisterComponent {
     }
 
     const sub = this.registerService.registerNewUser({
+      name: this.form.get("name")!.value,
       email: this.form.get("email")!.value,
       matchingEmail: this.form.get("matchingEmail")!.value,
       password: this.form.get("password")!.value,

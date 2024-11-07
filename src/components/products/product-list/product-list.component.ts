@@ -3,6 +3,7 @@ import {ResourceService} from '../../../services/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {RouterOutlet} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
+import {toSignal} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-list',
@@ -18,5 +19,5 @@ import {AsyncPipe} from '@angular/common';
 })
 export class ProductListComponent {
   private resourceService = inject(ResourceService);
-  protected products$ = this.resourceService.getProducts("pizza");
+  protected products = toSignal(this.resourceService.getProducts("pizza"), {initialValue: []});
 }

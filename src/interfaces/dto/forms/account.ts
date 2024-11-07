@@ -1,4 +1,5 @@
 export type RegisterForm = {
+  name: string;
   email: string
   matchingEmail: string,
   password: string

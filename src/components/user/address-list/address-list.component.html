@@ -1,0 +1,15 @@
+@if (addressList().length === 0) {
+  <p>No tiene ningún domicilio </p>
+} @else {
+  @for (address of addressList(); track address.id) {
+    <app-address-item [address]="address"/>
+  }
+}
+
+<button (click)="toggleAddressForm()">Añadir</button>
+
+@if (showAddressForm()) {
+  <app-user-address-form/>
+}
+
+
