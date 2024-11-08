@@ -9,8 +9,7 @@ import {ForibiddenComponent} from '../wildcard-routes/forbidden/foribidden.compo
 import {UserHomeComponent} from '../user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';
-import {OrderListComponent} from '../user/order-list/order-list.component';
-import {OrderItemComponent} from '../user/order-item/order-item.component';
+import {OrderSummaryListComponent} from '../user/order-summary-list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
 import {CheckoutComponent} from '../checkout/checkout.component';
 
@@ -43,15 +42,8 @@ export const routes: Routes = [
       },
       {
         path: "pedidos",
-        component: OrderListComponent,
+        component: OrderSummaryListComponent,
         title: "Tus pedidos",
-        children: [
-          {
-            path: ":id",
-            component: OrderItemComponent,
-            title: "Pedido"
-          }
-        ]
       },
       {
         path: "configuracion",

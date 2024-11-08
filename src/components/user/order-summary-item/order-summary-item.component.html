@@ -1,0 +1,8 @@
+<div>
+  <p>Fecha creación: {{ orderSummaryItem().formattedCreatedOn }}</p>
+  <p>Fecha actualización: {{ orderSummaryItem().formattedUpdatedOn }}</p>
+  <p>Método de pago: {{ orderSummaryItem().orderDetails.paymentMethod }}</p>
+  <p>Artículos: {{ orderSummaryItem().cart.totalQuantity }}</p>
+  <p>Total: {{ orderSummaryItem().cart.totalCost }}</p>
+  <p>Total con ofertas: {{ orderSummaryItem().cart.totalCostOffers }}</p>
+</div>

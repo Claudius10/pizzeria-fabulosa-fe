@@ -16,7 +16,6 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {AddressListComponent} from '../../../user/address-list/address-list.component';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {of} from 'rxjs';
 import {UserService} from '../../../../services/user/user.service';
 import {AddressDTO} from '../../../../interfaces/dto/order';
 
@@ -41,15 +40,7 @@ export class UserCheckoutFormComponent {
   private destroyRef = inject(DestroyRef);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  addressList = toSignal<AddressDTO[]>(this.getUserAddressList(this.authService.getUserId()));
-
-  private getUserAddressList(userId: string | undefined) {
-    if (userId === undefined) {
-      // user not authed - notification
-      return of([]);
-    }
-    return this.userService.getAddressList(userId);
-  }
+  addressList = toSignal<AddressDTO[]>(this.userService.getAddressList(this.authService.getUserId()));
 
   form = new FormGroup({
     addressId: new FormControl(0, {

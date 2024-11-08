@@ -55,11 +55,11 @@ export type OrderDTO = {
 }
 
 export type CreatedAnonOrderDTO = {
-  id: number | null;
-  formattedCreatedOn: string | null,
-  anonCustomerName: string | null;
-  anonCustomerContactNumber: number | null;
-  anonCustomerEmail: string | null;
+  id: number;
+  formattedCreatedOn: string,
+  anonCustomerName: string;
+  anonCustomerContactNumber: number;
+  anonCustomerEmail: string;
   address: AddressDTO;
   orderDetails: OrderDetailsDTO;
   cart: CartDTO;
@@ -72,15 +72,19 @@ export type CartSummaryDTO = {
 }
 
 export type OrderDetailsSummaryDTO = {
-  paymentType: string;
+  paymentMethod: string;
 }
 
 export type OrderSummaryDTO = {
   id: string;
-  createdOn: string;
-  updatedOn: string;
   formattedCreatedOn: string;
   formattedUpdatedOn: string;
   orderDetails: OrderDetailsSummaryDTO;
   cart: CartSummaryDTO;
+}
+
+export type OrderSummaryListDTO = {
+  orderList: OrderSummaryDTO[];
+  totalPages: number;
+  pageSize: number;
 }

@@ -1,0 +1,10 @@
+@if (userOrderSummaryList().orderList.length === 0) {
+  <p>Aún no tiene pedidos....</p>
+} @else {
+  @for (orderSummaryItem of userOrderSummaryList().orderList; track orderSummaryItem.id) {
+    <app-order-summary-item [orderSummaryItem]="orderSummaryItem"/>
+  }
+}
+
+<p>Total pages: {{ userOrderSummaryList().totalPages }}</p>
+<p>Page Size: {{ userOrderSummaryList().pageSize }}</p>
