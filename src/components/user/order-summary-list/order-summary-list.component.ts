@@ -2,13 +2,13 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {UserService} from '../../../services/user/user.service';
 import {toSignal} from '@angular/core/rxjs-interop';
-import {OrderSummaryItemComponent} from '../order-summary-item/order-summary-item.component';
+import {OrderSummaryComponent} from '../order-summary/order-summary.component';
 
 @Component({
   selector: 'app-order-summary-list',
   standalone: true,
   imports: [
-    OrderSummaryItemComponent
+    OrderSummaryComponent
   ],
   templateUrl: './order-summary-list.component.html',
   styleUrl: './order-summary-list.component.css',

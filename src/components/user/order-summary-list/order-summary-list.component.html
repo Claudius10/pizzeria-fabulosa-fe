@@ -1,8 +1,8 @@
 @if (userOrderSummaryList().orderList.length === 0) {
   <p>Aún no tiene pedidos....</p>
 } @else {
-  @for (orderSummaryItem of userOrderSummaryList().orderList; track orderSummaryItem.id) {
-    <app-order-summary-item [orderSummaryItem]="orderSummaryItem"/>
+  @for (orderSummary of userOrderSummaryList().orderList; track orderSummary.id) {
+    <app-order-summary [orderSummary]="orderSummary"/>
   }
 }
 

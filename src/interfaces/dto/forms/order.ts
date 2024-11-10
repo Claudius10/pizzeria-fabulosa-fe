@@ -1,4 +1,4 @@
-import {OrderItemDTO} from '../order';
+import {CartItemDTO} from '../order';
 
 export type AddressFormData = {
   id: number | null;
@@ -24,7 +24,7 @@ type CartFormData = {
   totalQuantity: number;
   totalCost: number;
   totalCostOffers: number | null;
-  orderItems: OrderItemDTO[];
+  cartItems: CartItemDTO[];
 }
 
 export type AnonOrderFormData = {

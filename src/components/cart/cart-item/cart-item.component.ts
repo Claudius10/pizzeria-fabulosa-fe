@@ -1,6 +1,6 @@
 import {Component, inject, input} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
-import {OrderItemDTO} from '../../../interfaces/dto/order';
+import {CartItemDTO} from '../../../interfaces/dto/order';
 
 @Component({
   selector: 'app-cart-item',
@@ -10,7 +10,7 @@ import {OrderItemDTO} from '../../../interfaces/dto/order';
   styleUrl: './cart-item.component.css',
 })
 export class CartItemComponent {
-  public item = input.required<OrderItemDTO>();
+  public item = input.required<CartItemDTO>();
   private cartService: CartService = inject(CartService);
 
   decreaseItemQuantity(id: number) {

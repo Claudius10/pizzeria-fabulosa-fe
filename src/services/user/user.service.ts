@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AddressFormData} from '../../interfaces/dto/forms/order';
 import {catchError, of} from 'rxjs';
-import {AddressDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
+import {AddressDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
 
 @Injectable({
   providedIn: 'root'
@@ -30,13 +30,28 @@ export class UserService {
       }));
   }
 
-  public getUserOrder(userId: string, orderId: string) {
+  public getUserOrder(userId: string | undefined, orderId: string | null) {
+    const empty = getEmptyOrder();
 
+    if (userId === undefined || orderId === null) {
+      // notify
+      return of(empty);
+    }
+
+    return this.httpClient.get<OrderDTO>
+    (`http://192.168.1.128:8080/api/user/${userId}/order/${orderId}`,
+      {withCredentials: true})
+      .pipe(catchError((err, caught) => {
+        // have to return an Observable or throw the error
+        const error = err as string;
+        console.log(error);
+        console.log(err.error.message);
+        return of(empty);
+      }));
   }
 
   public getAddressList(userId: string | undefined) {
     const empty: AddressDTO[] = [];
-
     if (userId === undefined) {
       // user not authed - notification
       return of(empty);
@@ -61,4 +76,33 @@ export class UserService {
         throw err as string;
       }));
   }
+}
+
+export function getEmptyOrder() {
+  const empty: OrderDTO = {
+    id: 0,
+    address: {id: 0, streetNr: 0, street: "", staircase: "", gate: "", door: "", floor: ""},
+    cart: {
+      cartItems: [],
+      id: 0,
+      totalCost: 0,
+      totalCostOffers: 0,
+      totalQuantity: 0
+
+    },
+    orderDetails: {
+      id: 0,
+      changeRequested: 0,
+      deliverNow: "",
+      deliveryComment: "",
+      deliveryHour: "",
+      paymentChange: 0,
+      paymentType: ""
+    },
+    createdOn: "",
+    updatedOn: "",
+    formattedCreatedOn: "",
+    formattedUpdatedOn: ""
+  };
+  return empty;
 }

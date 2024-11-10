@@ -18,7 +18,7 @@ export type OrderDetailsDTO = {
   deliveryComment: string;
 }
 
-export type OrderItemDTO = {
+export type CartItemDTO = {
   id: number;
   productType: string;
   name: string;
@@ -32,14 +32,7 @@ export type CartDTO = {
   totalQuantity: number;
   totalCost: number;
   totalCostOffers: number;
-  orderItems: OrderItemDTO[];
-}
-
-export type UserDTO = {
-  id: number;
-  name: string;
-  email: string;
-  contactNumber: string;
+  cartItems: CartItemDTO[];
 }
 
 export type OrderDTO = {
@@ -51,7 +44,6 @@ export type OrderDTO = {
   address: AddressDTO;
   orderDetails: OrderDetailsDTO;
   cart: CartDTO;
-  user: UserDTO;
 }
 
 export type CreatedAnonOrderDTO = {

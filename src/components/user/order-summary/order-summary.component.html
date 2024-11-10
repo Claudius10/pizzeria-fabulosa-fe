@@ -1,0 +1,8 @@
+<div routerLink="{{orderSummary().id}}">
+  <p>Fecha creación: {{ orderSummary().formattedCreatedOn }}</p>
+  <p>Fecha actualización: {{ orderSummary().formattedUpdatedOn }}</p>
+  <p>Método de pago: {{ orderSummary().orderDetails.paymentMethod }}</p>
+  <p>Artículos: {{ orderSummary().cart.totalQuantity }}</p>
+  <p>Total: {{ orderSummary().cart.totalCost }}</p>
+  <p>Total con ofertas: {{ orderSummary().cart.totalCostOffers }}</p>
+</div>

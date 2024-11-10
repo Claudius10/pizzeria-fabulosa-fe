@@ -12,6 +12,7 @@ import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderSummaryListComponent} from '../user/order-summary-list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
 import {CheckoutComponent} from '../checkout/checkout.component';
+import {OrderComponent} from '../user/order/order.component';
 
 export const routes: Routes = [
   {
@@ -44,6 +45,12 @@ export const routes: Routes = [
         path: "pedidos",
         component: OrderSummaryListComponent,
         title: "Tus pedidos",
+      },
+      {
+        path: "pedidos/:orderId",
+        component: OrderComponent,
+        title: "Tu pedido",
+        pathMatch: "full",
       },
       {
         path: "configuracion",

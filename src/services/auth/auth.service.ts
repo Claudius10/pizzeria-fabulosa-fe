@@ -8,14 +8,16 @@ export class AuthService {
   private userId: string | undefined = undefined;
   private userEmail = signal<string | undefined>(undefined);
   private userName = signal<string | undefined>(undefined);
+  private userContactNumber = signal<string | undefined>(undefined);
   private isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
     if (idToken !== null) {
-      this.userId = idToken.userId;
+      this.userId = idToken.id;
       this.userEmail.set(idToken.sub);
-      this.userName.set(idToken.userName);
+      this.userName.set(idToken.name);
+      this.userContactNumber.set(idToken.contactNumber);
       this.isAuthenticated.set(true);
     }
   }
@@ -30,6 +32,10 @@ export class AuthService {
 
   public getUserName() {
     return this.userName.asReadonly();
+  }
+
+  public getUserContactNumber() {
+    return this.userContactNumber.asReadonly();
   }
 
   public getUserId() {
@@ -47,6 +53,7 @@ export class AuthService {
 }
 
 interface MyJwtPayload extends JwtPayload {
-  userId?: string;
-  userName?: string;
+  id?: string;
+  name?: string;
+  contactNumber?: string;
 }

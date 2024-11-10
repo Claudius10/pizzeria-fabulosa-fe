@@ -132,7 +132,7 @@ export class AnonUserCheckoutFormComponent {
       },
       cart: {
         id: null,
-        orderItems: this.cartService.cartItems(),
+        cartItems: this.cartService.cartItems(),
         totalCost: this.cartService.cartTotal(),
         totalCostOffers: this.cartService.cartTotalAfterOffers(),
         totalQuantity: this.cartService.cartQuantity(),
