@@ -2,4 +2,11 @@
   <p>Order id: {{ order().id }}</p>
 </div>
 
+@if (!isUpdatingOrder()) {
+  <button (click)="startUpdate()" type="button">Actualizar pedido</button>
+}
 
+@if (isUpdatingOrder()) {
+  <app-user-checkout-form/>
+  <button (click)="finishUpdate()" type="button">Cancelar actualización</button>
+}

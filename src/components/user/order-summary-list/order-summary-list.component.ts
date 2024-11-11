@@ -1,8 +1,7 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {UserService} from '../../../services/user/user.service';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {OrderSummaryComponent} from '../order-summary/order-summary.component';
+import {OrderService} from '../../../services/order/order.service';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -15,14 +14,22 @@ import {OrderSummaryComponent} from '../order-summary/order-summary.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {
+  private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
-  private userService = inject(UserService);
+  private orderService = inject(OrderService);
+  protected orderSummaryList = this.orderService.getOrderSummaryList();
 
-  userOrderSummaryList = toSignal(this.userService.getOrderSummaryList(this.authService.getUserId(), 0, 5), {
-    initialValue: {
-      orderList: [],
-      totalPages: 0,
-      pageSize: 0
+  constructor() {
+    if (this.orderSummaryList().orderList.length === 0) {
+      const subscription = this.orderService.findOrderSummaryList(this.authService.getUserId(), 0, 5).subscribe({
+        next: orderSummaryList => {
+          this.orderService.setOrderSummaryList(orderSummaryList);
+        }
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
     }
-  });
+  }
 }

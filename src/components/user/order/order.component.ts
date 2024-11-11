@@ -1,35 +1,59 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, signal} from '@angular/core';
-import {getEmptyOrder, UserService} from '../../../services/user/user.service';
 import {AuthService} from '../../../services/auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {AsyncPipe} from '@angular/common';
-import {OrderDTO} from '../../../interfaces/dto/order';
+import {CartComponent} from '../../cart/cart.component';
+import {CartService} from '../../../services/cart/cart.service';
+import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
+import {OrderService} from '../../../services/order/order.service';
 
 @Component({
   selector: 'app-order',
   standalone: true,
   imports: [
-    AsyncPipe
+    AsyncPipe,
+    CartComponent,
+    UserCheckoutFormComponent
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent {
-  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
+  private activatedRoute = inject(ActivatedRoute);
+  private orderService = inject(OrderService);
   private authService = inject(AuthService);
-  order = signal<OrderDTO>(getEmptyOrder());
+  private cartService = inject(CartService);
+  order = this.orderService.getOrder();
+  isUpdatingOrder = signal(false);
 
-  constructor(private activatedRoute: ActivatedRoute, private destroyRef: DestroyRef) {
-    const subscription = this.userService.getUserOrder(this.authService.getUserId(), this.activatedRoute.snapshot.paramMap.get("orderId"))
-      .subscribe({
-        next: order => {
-          this.order.set(order);
-        }
-      });
+  constructor() {
+    const orderId = this.activatedRoute.snapshot.paramMap.get("orderId");
+    if (orderId !== null) {
+      if (this.order().id === 0 || this.order().id !== Number(orderId)) {
 
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
+        const subscription = this.orderService.findUserOrder(this.authService.getUserId(), orderId).subscribe({
+          next: order => {
+            this.orderService.setOrder(order);
+          }
+        });
+
+        // stop request if component is destroyed early
+        this.destroyRef.onDestroy(() => {
+          subscription.unsubscribe();
+        });
+      }
+    }
+  }
+
+  startUpdate() {
+    const cart = this.order().cart;
+    this.cartService.setOrderCart(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
+    this.isUpdatingOrder.set(true);
+  }
+
+  finishUpdate() {
+    this.isUpdatingOrder.set(false);
   }
 }

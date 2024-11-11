@@ -15,9 +15,7 @@ import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../reg
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {AddressListComponent} from '../../../user/address-list/address-list.component';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {UserService} from '../../../../services/user/user.service';
-import {AddressDTO} from '../../../../interfaces/dto/order';
+import {AddressService} from '../../../../services/address/address.service';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -36,11 +34,11 @@ export class UserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
-  private userService = inject(UserService);
+  private addressService = inject(AddressService);
   private destroyRef = inject(DestroyRef);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  addressList = toSignal<AddressDTO[]>(this.userService.getAddressList(this.authService.getUserId()));
+  addressList = this.addressService.getAddressList();
 
   form = new FormGroup({
     addressId: new FormControl(0, {

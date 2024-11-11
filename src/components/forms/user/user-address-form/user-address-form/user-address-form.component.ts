@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
-import {UserService} from '../../../../../services/user/user.service';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {CartComponent} from '../../../../cart/cart.component';
+import {AddressService} from '../../../../../services/address/address.service';
 
 @Component({
   selector: 'app-user-address-form',
@@ -17,7 +17,7 @@ import {CartComponent} from '../../../../cart/cart.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressFormComponent {
-  private userService = inject(UserService);
+  private addressService = inject(AddressService);
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
 
@@ -54,7 +54,7 @@ export class UserAddressFormComponent {
       return;
     }
 
-    const sub = this.userService.addAddress(userId, {
+    const sub = this.addressService.createAddress(userId, {
       id: null,
       street: this.form.get("street")!.value,
       streetNr: Number(this.form.get("number")!.value),
@@ -62,14 +62,7 @@ export class UserAddressFormComponent {
       staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
       floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
       door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
-    }).subscribe({
-      error: err => {
-        // notify
-      },
-      complete: () => {
-        // notify
-      }
-    });
+    }).subscribe();
 
     this.destroyRef.onDestroy(() => sub.unsubscribe());
   }

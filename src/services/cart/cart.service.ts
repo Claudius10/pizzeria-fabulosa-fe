@@ -19,6 +19,14 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
+  public setOrderCart(items: CartItemDTO[], quantity: number, total: number, totalAfterOffers: number) {
+    this.items.set(items);
+    this.quantity.set(quantity);
+    this.total.set(total);
+    this.totalAfterOffers.set(totalAfterOffers);
+    this.calculateCostWithOffers(items, total);
+  }
+
   public addItem(item: CartItemDTO) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === item.id);
 

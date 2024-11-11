@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {UserService} from '../../../services/user/user.service';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, signal} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {AddressItemComponent} from '../address-item/address-item.component';
-import {toSignal} from '@angular/core/rxjs-interop';
 import {
   UserAddressFormComponent
 } from '../../forms/user/user-address-form/user-address-form/user-address-form.component';
+import {AddressService} from '../../../services/address/address.service';
 
 @Component({
   selector: 'app-address-list',
@@ -19,10 +18,25 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressListComponent {
-  private userService = inject(UserService);
+  private destroyRef = inject(DestroyRef);
+  private addressService = inject(AddressService);
   private authService = inject(AuthService);
-  addressList = toSignal(this.userService.getAddressList(this.authService.getUserId()), {initialValue: []});
+  protected addressList = this.addressService.getAddressList();
   showAddressForm = signal(false);
+
+  constructor() {
+    if (this.addressList().length === 0) {
+      const subscription = this.addressService.findAddressList(this.authService.getUserId()).subscribe({
+        next: addressList => {
+          this.addressService.setAddressList(addressList);
+        }
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    }
+  }
 
   public toggleAddressForm() {
     this.showAddressForm.set(!this.showAddressForm());

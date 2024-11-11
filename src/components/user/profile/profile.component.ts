@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core'
 import {AuthService} from '../../../services/auth/auth.service';
 import {RouterOutlet} from '@angular/router';
 import {UserNavComponent} from '../nav/user-nav.component';
-import {UserService} from '../../../services/user/user.service';
 import {AddressListComponent} from '../address-list/address-list.component';
 
 @Component({
@@ -19,7 +18,6 @@ import {AddressListComponent} from '../address-list/address-list.component';
 })
 export class ProfileComponent {
   private authService = inject(AuthService);
-  private userService = inject(UserService);
   showAddressList = signal(false);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
