@@ -1,10 +1,8 @@
-@if (orderSummaryList().orderList.length === 0) {
-  <p>Aún no tiene pedidos....</p>
-} @else {
-  @for (orderSummary of orderSummaryList().orderList; track orderSummary.id) {
+@if (orderSummaryList.data(); as orderSummaryList) {
+  @for (orderSummary of orderSummaryList.orderList; track orderSummary.id) {
     <app-order-summary [orderSummary]="orderSummary"/>
   }
-}
 
-<p>Total pages: {{ orderSummaryList().totalPages }}</p>
-<p>Page Size: {{ orderSummaryList().pageSize }}</p>
+  <p>Total pages: {{ orderSummaryList.totalPages }}</p>
+  <p>Page Size: {{ orderSummaryList.pageSize }}</p>
+}

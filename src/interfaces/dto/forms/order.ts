@@ -37,16 +37,21 @@ export type AnonOrderFormData = {
 }
 
 export type UserOrderFormData = {
-  addressId: number;
-  orderDetails: OrderDetailsFormData;
-  cart: CartFormData;
+  userId: string;
+  order: {
+    addressId: number;
+    orderDetails: OrderDetailsFormData;
+    cart: CartFormData;
+  }
 }
 
-export type UpdatingUserOrderFormData = {
-  orderId: number;
-  userId: number;
-  addressId: number;
-  createdOn: string;
-  orderDetails: OrderDetailsFormData;
-  cart: CartFormData;
+export type UpdateUserOrderFormData = {
+  userId: string;
+  orderId: number,
+  order: {
+    addressId: number;
+    createdOn: string;
+    orderDetails: OrderDetailsFormData;
+    cart: CartFormData;
+  }
 }

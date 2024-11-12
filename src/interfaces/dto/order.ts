@@ -10,12 +10,11 @@ export type AddressDTO = {
 
 export type OrderDetailsDTO = {
   id: number;
-  deliverNow: string;
-  deliveryHour: string;
-  paymentType: string;
-  changeRequested: number;
-  paymentChange: number;
-  deliveryComment: string;
+  deliveryTime: string;
+  paymentMethod: string;
+  billToChange: number | null;
+  changeToGive: number | null;
+  comment: string | null;
 }
 
 export type CartItemDTO = {
@@ -46,7 +45,7 @@ export type OrderDTO = {
   cart: CartDTO;
 }
 
-export type CreatedAnonOrderDTO = {
+export type AnonOrderDTO = {
   id: number;
   formattedCreatedOn: string,
   anonCustomerName: string;

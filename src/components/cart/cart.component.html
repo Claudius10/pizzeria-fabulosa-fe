@@ -19,5 +19,8 @@
     }
   }
 
-  <button routerLink="/pedido-nuevo">Continuar</button>
+  @if (!isUpdatingOrder()) {
+    <button routerLink="/pedido-nuevo">Continuar</button>
+  }
+
 </div>

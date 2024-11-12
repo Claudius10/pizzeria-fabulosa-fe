@@ -16,6 +16,8 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {AddressListComponent} from '../../../user/address-list/address-list.component';
 import {AddressService} from '../../../../services/address/address.service';
+import {OrderService} from '../../../../services/order/order.service';
+import {UpdateUserOrderFormData, UserOrderFormData} from '../../../../interfaces/dto/forms/order';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -32,6 +34,7 @@ import {AddressService} from '../../../../services/address/address.service';
 })
 export class UserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
+  private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private addressService = inject(AddressService);
@@ -39,6 +42,23 @@ export class UserCheckoutFormComponent {
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
   addressList = this.addressService.getAddressList();
+  isUpdatingOrder = this.orderService.getIsUpdatingOrder();
+  newUserOrderMutation = this.orderService.newUserOrderMutation();
+  updateUserOrderMutation = this.orderService.updateUserOrderMutation();
+
+  constructor() {
+    if (this.addressList().length === 0) {
+      const subscription = this.addressService.findAddressList(this.authService.getUserId()).subscribe({
+        next: addressList => {
+          this.addressService.setAddressList(addressList);
+        }
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    }
+  }
 
   form = new FormGroup({
     addressId: new FormControl(0, {
@@ -69,7 +89,8 @@ export class UserCheckoutFormComponent {
 
 
   public onSubmit() {
-    if (this.authService.getUserId() === undefined) {
+    const userId = this.authService.getUserId();
+    if (userId === undefined) {
       //notify
       return;
     }
@@ -79,7 +100,9 @@ export class UserCheckoutFormComponent {
       return;
     }
 
-    const sub = this.checkoutFormService.createUserOrder({
+    const data: UserOrderFormData = {
+      userId: userId,
+      order: {
         addressId: this.form.get("addressId")!.value,
         orderDetails: {
           id: null,
@@ -96,17 +119,36 @@ export class UserCheckoutFormComponent {
           totalCostOffers: this.cartService.cartTotalAfterOffers(),
           totalQuantity: this.cartService.cartQuantity(),
         }
-      },
-      this.authService.getUserId()!).subscribe({
-      next: response => {
-
-      },
-      error: error => {
-
       }
-    });
+    };
 
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    if (!this.isUpdatingOrder()) {
+      this.newUserOrderMutation.mutate(data, {
+        onSuccess: (response: string) => {
+          console.log(response);
+          console.log("success");
+        },
+        onError: (error, variables, context) => {
+          console.log(error);
+        }
+      });
+    } else {
+      const order = this.orderService.getLastViewedUserOrderFromCache();
+      const updateData: UpdateUserOrderFormData = {
+        ...data,
+        orderId: order.id,
+        order: {...data.order, createdOn: order.createdOn}
+      };
+      this.updateUserOrderMutation.mutate(updateData, {
+        onSuccess: (response: string) => {
+          console.log(response);
+          console.log("success");
+        },
+        onError: (error, variables, context) => {
+          console.log(error);
+        }
+      });
+    }
   }
 }
 

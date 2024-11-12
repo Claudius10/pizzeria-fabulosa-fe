@@ -1,6 +1,5 @@
-export type UserDataDTO = {
-    id: number;
-    name: string;
-    email: string;
-    contactNumber: number | null;
+export type UserDetails = {
+  name: string;
+  email: string;
+  contactNumber: number;
 }

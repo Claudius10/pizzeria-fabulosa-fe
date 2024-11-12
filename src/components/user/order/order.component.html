@@ -1,5 +1,13 @@
 <div>
-  <p>Order id: {{ order().id }}</p>
+  @if (order.data(); as order) {
+    <div>
+      <p>Order id: {{ order.id }}</p>
+      <p>Fecha creación: {{ order.createdOn }}</p>
+      <app-user-details [name]="userName()!" [email]="userEmail()!" [contactNumber]="userContactNumber()!"/>
+      <app-address-item [address]="order.address"/>
+      <app-order-details [orderDetails]="order.orderDetails"/>
+    </div>
+  }
 </div>
 
 @if (!isUpdatingOrder()) {

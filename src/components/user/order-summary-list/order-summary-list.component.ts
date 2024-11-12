@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/c
 import {AuthService} from '../../../services/auth/auth.service';
 import {OrderSummaryComponent} from '../order-summary/order-summary.component';
 import {OrderService} from '../../../services/order/order.service';
+import {injectQueryClient} from '@tanstack/angular-query-experimental';
+import {USER_ORDER_SUMMARY_LIST} from '../../../query-keys';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -14,22 +16,15 @@ import {OrderService} from '../../../services/order/order.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {
+  private queryClient = injectQueryClient();
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
-  protected orderSummaryList = this.orderService.getOrderSummaryList();
+  protected orderSummaryList = this.orderService.findOrderSummaryList(USER_ORDER_SUMMARY_LIST, this.authService.getUserId(), 0, 5);
 
   constructor() {
-    if (this.orderSummaryList().orderList.length === 0) {
-      const subscription = this.orderService.findOrderSummaryList(this.authService.getUserId(), 0, 5).subscribe({
-        next: orderSummaryList => {
-          this.orderService.setOrderSummaryList(orderSummaryList);
-        }
-      });
-
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
-    }
+    this.destroyRef.onDestroy(() => {
+      this.queryClient.cancelQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+    });
   }
 }

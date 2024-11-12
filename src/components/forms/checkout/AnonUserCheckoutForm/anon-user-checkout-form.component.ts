@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -18,6 +18,8 @@ import {
 } from '../../../../regex';
 import {CartComponent} from '../../../cart/cart.component';
 import {CartService} from '../../../../services/cart/cart.service';
+import {OrderService} from '../../../../services/order/order.service';
+import {AnonOrderDTO} from '../../../../interfaces/dto/order';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -32,8 +34,9 @@ import {CartService} from '../../../../services/cart/cart.service';
 })
 export class AnonUserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
+  private orderService = inject(OrderService);
   private cartService = inject(CartService);
-  private destroyRef = inject(DestroyRef);
+  private newAnonOrderMutation = this.orderService.newAnonOrderMutation();
 
   form = new FormGroup({
     customer: new FormGroup({
@@ -109,7 +112,7 @@ export class AnonUserCheckoutFormComponent {
     }
 
     console.log(this.form.value);
-    const newAnonOrderSub = this.checkoutFormService.createNewAnonOrder({
+    this.newAnonOrderMutation.mutate({
       anonCustomerName: this.form.get("customer.fullName")!.value,
       anonCustomerContactNumber: Number(this.form.get("customer.contactNumber")!.value),
       anonCustomerEmail: this.form.get("customer.email")!.value,
@@ -137,17 +140,14 @@ export class AnonUserCheckoutFormComponent {
         totalCostOffers: this.cartService.cartTotalAfterOffers(),
         totalQuantity: this.cartService.cartQuantity(),
       }
-    }).subscribe({
-      next: response => {
+    }, {
+      onSuccess: (response: AnonOrderDTO) => {
         console.log(response);
+        console.log("success");
       },
-      error: error => {
-        console.log("Component" + error);
+      onError: (error, variables, context) => {
+        console.log(error);
       }
-    });
-
-    this.destroyRef.onDestroy(() => {
-      newAnonOrderSub.unsubscribe();
     });
   }
 }
