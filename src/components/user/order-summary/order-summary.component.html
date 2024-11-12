@@ -1,4 +1,5 @@
 <div routerLink="{{orderSummary().id}}">
+  <p>Pedido: {{ orderSummary().id }}</p>
   <p>Fecha creación: {{ orderSummary().formattedCreatedOn }}</p>
   <p>Fecha actualización: {{ orderSummary().formattedUpdatedOn }}</p>
   <p>Método de pago: {{ orderSummary().orderDetails.paymentMethod }}</p>

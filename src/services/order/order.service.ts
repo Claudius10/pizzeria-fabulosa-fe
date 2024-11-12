@@ -4,7 +4,7 @@ import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/
 import {lastValueFrom} from 'rxjs';
 import {AnonOrderFormData, UpdateUserOrderFormData, UserOrderFormData} from '../../interfaces/dto/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER} from '../../query-keys';
+import {USER_ORDER, USER_ORDER_SUMMARY_LIST} from '../../query-keys';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +17,18 @@ export class OrderService {
   public newUserOrderMutation() {
     return injectMutation(() => ({
       mutationFn: (data: UserOrderFormData) =>
-        lastValueFrom(this.httpClient.post<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order`, data.order, {withCredentials: true}))
+        lastValueFrom(this.httpClient.post<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order`, data.order, {withCredentials: true})),
+      onSuccess: () => {
+        // mark order summary list as stale to be re-fetched on next mount
+        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+      }
     }));
-
-    // refetch order summary list
   }
 
   public newAnonOrderMutation() {
     return injectMutation(() => ({
-      mutationFn: (anonOrder: AnonOrderFormData) => lastValueFrom(this.httpClient.post<AnonOrderDTO>(`http://192.168.1.128:8080/api/anon/order`, anonOrder))
+      mutationFn: (anonOrder: AnonOrderFormData) =>
+        lastValueFrom(this.httpClient.post<AnonOrderDTO>(`http://192.168.1.128:8080/api/anon/order`, anonOrder))
     }));
   }
 
@@ -33,15 +36,16 @@ export class OrderService {
     return injectQuery(() => ({
       queryKey: queryKey,
       queryFn: () => lastValueFrom(this.httpClient.get<OrderSummaryListDTO>
-      (`http://192.168.1.128:8080/api/user/${userId}/order/summary?pageNumber=${pageNumber}&pageSize=${pageSize}`, {withCredentials: true}))
+      (`http://192.168.1.128:8080/api/user/${userId}/order/summary?pageNumber=${pageNumber}&pageSize=${pageSize}`, {withCredentials: true})),
     }));
   }
 
   public findUserOrderQuery(queryKey: string[], userId: string | undefined, orderId: string | null) {
     return injectQuery(() => ({
       queryKey: queryKey,
-      queryFn: () => lastValueFrom(this.httpClient.get<OrderDTO>(`http://192.168.1.128:8080/api/user/${userId}/order/${orderId}`,
-        {withCredentials: true})),
+      queryFn: () =>
+        lastValueFrom(this.httpClient.get<OrderDTO>(`http://192.168.1.128:8080/api/user/${userId}/order/${orderId}`,
+          {withCredentials: true})),
     }));
   }
 

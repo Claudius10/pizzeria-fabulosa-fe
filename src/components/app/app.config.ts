@@ -29,7 +29,8 @@ export const appConfig: ApplicationConfig = {
     provideTanStackQuery(new QueryClient({
       defaultOptions: {
         queries: {
-          refetchOnMount: false
+          refetchOnMount: true,
+          staleTime: 300000
         },
       }
     })),
