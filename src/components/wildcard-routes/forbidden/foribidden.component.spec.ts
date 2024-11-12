@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ForibiddenComponent } from './foribidden.component';
+import {ForibiddenComponent} from './foribidden.component';
 
 describe('ForibiddenComponent', () => {
   let component: ForibiddenComponent;

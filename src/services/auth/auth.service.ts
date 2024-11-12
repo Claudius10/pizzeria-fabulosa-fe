@@ -5,17 +5,17 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private userId: string | undefined = undefined;
-  private userEmail = signal<string | undefined>(undefined);
-  private userName = signal<string | undefined>(undefined);
-  private userContactNumber = signal<string | undefined>(undefined);
+  private userId = "0";
+  private userEmail = signal<string>("quijote@gmail.com");
+  private userName = signal<string>("Cervantes");
+  private userContactNumber = signal<string>("000 000 000");
   private isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
     if (idToken !== null) {
       this.userId = idToken.id;
-      this.userEmail.set(idToken.sub);
+      this.userEmail.set(idToken.sub!);
       this.userName.set(idToken.name);
       this.userContactNumber.set(idToken.contactNumber);
       this.isAuthenticated.set(true);
@@ -53,7 +53,7 @@ export class AuthService {
 }
 
 interface MyJwtPayload extends JwtPayload {
-  id?: string;
-  name?: string;
-  contactNumber?: string;
+  id: string;
+  name: string;
+  contactNumber: string;
 }

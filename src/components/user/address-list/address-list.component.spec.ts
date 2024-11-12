@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddressListComponent } from './address-list.component';
+import {AddressListComponent} from './address-list.component';
 
 describe('AddressListComponent', () => {
   let component: AddressListComponent;

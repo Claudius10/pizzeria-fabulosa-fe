@@ -8,8 +8,8 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
     <select id="deliveryOption">
-      <option (click)="checkoutFormService.showHomeDeliveryOption()">A domicilio</option>
-      <option (click)="checkoutFormService.hideHomeDeliveryOption()">Recoger</option>
+      <option (click)="checkoutFormService.setShowHomeDeliveryOption(true)">A domicilio</option>
+      <option (click)="checkoutFormService.setShowHomeDeliveryOption(false)">Recoger</option>
     </select>
 
     @if (checkoutFormService.homeDeliveryOptionVisibility) {

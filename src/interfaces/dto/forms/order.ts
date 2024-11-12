@@ -14,7 +14,6 @@ export type OrderDetailsFormData = {
   id: number | null;
   deliveryTime: string;
   paymentMethod: string;
-  changeRequestChoice: string | null;
   billToChange: number | null;
   comment: string | null;
 }
@@ -36,22 +35,22 @@ export type AnonOrderFormData = {
   cart: CartFormData;
 }
 
-export type UserOrderFormData = {
-  userId: string;
-  order: {
-    addressId: number;
-    orderDetails: OrderDetailsFormData;
-    cart: CartFormData;
-  }
+export interface UserOrderFormData {
+  addressId: number;
+  orderDetails: OrderDetailsFormData;
+  cart: CartFormData;
 }
 
-export type UpdateUserOrderFormData = {
-  userId: string;
-  orderId: number,
-  order: {
-    addressId: number;
-    createdOn: string;
-    orderDetails: OrderDetailsFormData;
-    cart: CartFormData;
-  }
+export interface UserOrderUpdateFormData extends UserOrderFormData {
+  createdOn: string;
+}
+
+export interface NewUserOrderFormData {
+  userId: number;
+  order: UserOrderFormData;
+}
+
+export interface UpdateUserOrderFormData extends NewUserOrderFormData {
+  orderId: number;
+  order: UserOrderUpdateFormData;
 }

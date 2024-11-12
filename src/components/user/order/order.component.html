@@ -10,11 +10,11 @@
   }
 </div>
 
-@if (!isUpdatingOrder()) {
+@if (orderToUpdateId() === null) {
   <button (click)="startUpdate()" type="button">Actualizar pedido</button>
 }
 
-@if (isUpdatingOrder()) {
+@if (orderToUpdateId() !== null) {
   <app-user-checkout-form/>
   <button (click)="finishUpdate()" type="button">Cancelar actualización</button>
 }

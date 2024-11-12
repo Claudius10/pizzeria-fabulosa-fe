@@ -2,9 +2,9 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
 import {lastValueFrom} from 'rxjs';
-import {AnonOrderFormData, UpdateUserOrderFormData, UserOrderFormData} from '../../interfaces/dto/forms/order';
+import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/dto/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER, USER_ORDER_SUMMARY_LIST} from '../../query-keys';
+import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../query-keys';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +12,11 @@ import {USER_ORDER, USER_ORDER_SUMMARY_LIST} from '../../query-keys';
 export class OrderService {
   private httpClient = inject(HttpClient);
   private queryClient = injectQueryClient();
-  private isUpdatingOrder = signal(false);
+  private orderToUpdateId = signal<string | null>(null);
 
   public newUserOrderMutation() {
     return injectMutation(() => ({
-      mutationFn: (data: UserOrderFormData) =>
+      mutationFn: (data: NewUserOrderFormData) =>
         lastValueFrom(this.httpClient.post<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order`, data.order, {withCredentials: true})),
       onSuccess: () => {
         // mark order summary list as stale to be re-fetched on next mount
@@ -40,7 +40,7 @@ export class OrderService {
     }));
   }
 
-  public findUserOrderQuery(queryKey: string[], userId: string | undefined, orderId: string | null) {
+  public findUserOrder(queryKey: string[], userId: string | undefined, orderId: string) {
     return injectQuery(() => ({
       queryKey: queryKey,
       queryFn: () =>
@@ -49,31 +49,31 @@ export class OrderService {
     }));
   }
 
-  public getLastViewedUserOrderFromCache() {
-    const order = this.queryClient.getQueryData(USER_ORDER) as OrderDTO;
-    return order === undefined ? getEmptyOrder() : order;
+  public getOrderFromQueryCache(id: string | null) {
+    return id === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(id)) as OrderDTO;
   }
 
   public updateUserOrderMutation() {
     return injectMutation(() => ({
       mutationFn: (data: UpdateUserOrderFormData) =>
         lastValueFrom(this.httpClient.put<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order/${data.orderId}`, data.order,
-          {withCredentials: true}))
+          {withCredentials: true})),
+      onSuccess: (id: string) => {
+        // mark user order as stale
+        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(id)});
+        // mark user order summary list as stale
+        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+      }
     }));
   }
 
-  public getIsUpdatingOrder() {
-    return this.isUpdatingOrder.asReadonly();
+  public getOrderToUpdateId() {
+    return this.orderToUpdateId.asReadonly();
   }
 
-  public setIsUpdatingOrder(isUpdatingOrder: boolean) {
-    this.isUpdatingOrder.set(isUpdatingOrder);
+  public setOrderToUpdateId(id: string | null) {
+    this.orderToUpdateId.set(id);
   }
-}
-
-function getEmptyOrderSummaryDTO() {
-  const empty: OrderSummaryListDTO = {orderList: [], totalPages: 0, pageSize: 0};
-  return empty;
 }
 
 export function getEmptyOrder() {

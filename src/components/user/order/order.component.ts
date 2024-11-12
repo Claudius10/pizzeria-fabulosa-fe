@@ -10,7 +10,7 @@ import {AddressItemComponent} from '../address-item/address-item.component';
 import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER} from '../../../query-keys';
+import {userOrderQueryKey} from '../../../query-keys';
 
 @Component({
   selector: 'app-order',
@@ -34,16 +34,16 @@ export class OrderComponent {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
-  private orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "null" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
-  order = this.orderService.findUserOrderQuery(USER_ORDER, this.authService.getUserId(), this.orderId);
-  isUpdatingOrder = this.orderService.getIsUpdatingOrder();
+  private orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
+  order = this.orderService.findUserOrder(userOrderQueryKey(this.orderId), this.authService.getUserId(), this.orderId);
+  orderToUpdateId = this.orderService.getOrderToUpdateId();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
   userContactNumber = this.authService.getUserContactNumber();
 
   constructor() {
     this.destroyRef.onDestroy(() => {
-      this.queryClient.cancelQueries({queryKey: USER_ORDER});
+      this.queryClient.cancelQueries({queryKey: userOrderQueryKey(this.orderId)});
     });
   }
 
@@ -51,11 +51,11 @@ export class OrderComponent {
     if (this.order.isSuccess()) {
       const cart = this.order.data().cart;
       this.cartService.setOrderCart(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
-      this.orderService.setIsUpdatingOrder(true);
+      this.orderService.setOrderToUpdateId(this.order.data().id.toString());
     }
   }
 
   finishUpdate() {
-    this.orderService.setIsUpdatingOrder(false);
+    this.orderService.setOrderToUpdateId(null);
   }
 }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {UserNavComponent} from '../nav/user-nav.component';
 import {RouterOutlet} from '@angular/router';
 

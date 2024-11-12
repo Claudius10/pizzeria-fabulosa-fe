@@ -18,7 +18,7 @@ import {OrderService} from '../../services/order/order.service';
 export class CartComponent {
   private cartService: CartService = inject(CartService);
   private orderService: OrderService = inject(OrderService);
-  isUpdatingOrder = this.orderService.getIsUpdatingOrder();
+  orderToUpdateId = this.orderService.getOrderToUpdateId();
   items = this.cartService.cartItems;
   quantity = this.cartService.cartQuantity;
   total = this.cartService.cartTotal;

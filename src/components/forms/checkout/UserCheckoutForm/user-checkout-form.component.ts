@@ -17,7 +17,7 @@ import {CartService} from '../../../../services/cart/cart.service';
 import {AddressListComponent} from '../../../user/address-list/address-list.component';
 import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
-import {UpdateUserOrderFormData, UserOrderFormData} from '../../../../interfaces/dto/forms/order';
+import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/dto/forms/order';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -42,7 +42,7 @@ export class UserCheckoutFormComponent {
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
   addressList = this.addressService.getAddressList();
-  isUpdatingOrder = this.orderService.getIsUpdatingOrder();
+  orderToUpdateId = this.orderService.getOrderToUpdateId();
   newUserOrderMutation = this.orderService.newUserOrderMutation();
   updateUserOrderMutation = this.orderService.updateUserOrderMutation();
 
@@ -75,6 +75,7 @@ export class UserCheckoutFormComponent {
         nonNullable: true,
         updateOn: "blur"
       }),
+      // ONLY USING 'changeRequestChoice' SO I CAN ENABLE/DISABLE THE SELECT, NOT ACTUALLY SENDING THE VALUE TO THE BACK-END
       changeRequestChoice: new FormControl({value: "F", disabled: true}, {
         nonNullable: true,
       }),
@@ -100,15 +101,14 @@ export class UserCheckoutFormComponent {
       return;
     }
 
-    const data: UserOrderFormData = {
-      userId: userId,
+    const data: NewUserOrderFormData = {
+      userId: Number(userId),
       order: {
-        addressId: this.form.get("addressId")!.value,
+        addressId: Number(this.form.get("addressId")!.value),
         orderDetails: {
           id: null,
           deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
           paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
-          changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
           billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
           comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
         },
@@ -122,7 +122,8 @@ export class UserCheckoutFormComponent {
       }
     };
 
-    if (!this.isUpdatingOrder()) {
+    if (this.orderToUpdateId() === null) {
+      // create new order
       this.newUserOrderMutation.mutate(data, {
         onSuccess: (response: string) => {
           console.log(response);
@@ -133,12 +134,26 @@ export class UserCheckoutFormComponent {
         }
       });
     } else {
-      const order = this.orderService.getLastViewedUserOrderFromCache();
+      // update existing order
+      const order = this.orderService.getOrderFromQueryCache(this.orderToUpdateId());
+
       const updateData: UpdateUserOrderFormData = {
-        ...data,
+        userId: Number(userId),
         orderId: order.id,
-        order: {...data.order, createdOn: order.createdOn}
+        order: {
+          createdOn: order.createdOn,
+          addressId: data.order.addressId,
+          orderDetails: {
+            ...data.order.orderDetails,
+            id: order.orderDetails.id
+          },
+          cart: {
+            ...data.order.cart,
+            id: order.cart.id
+          }
+        }
       };
+
       this.updateUserOrderMutation.mutate(updateData, {
         onSuccess: (response: string) => {
           console.log(response);

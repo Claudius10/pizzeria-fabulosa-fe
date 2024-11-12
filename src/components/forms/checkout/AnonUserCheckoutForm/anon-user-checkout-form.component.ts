@@ -86,6 +86,7 @@ export class AnonUserCheckoutFormComponent {
         nonNullable: true,
         updateOn: "blur"
       }),
+      // ONLY USING 'changeRequestChoice' SO I CAN ENABLE/DISABLE THE SELECT, NOT ACTUALLY SENDING THE VALUE TO THE BACK-END
       changeRequestChoice: new FormControl({value: "F", disabled: true}, {
         nonNullable: true,
       }),
@@ -129,7 +130,6 @@ export class AnonUserCheckoutFormComponent {
         id: null,
         deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
         paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
-        changeRequestChoice: this.form.get("orderDetails.changeRequestChoice")!.value,
         billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
         comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
       },

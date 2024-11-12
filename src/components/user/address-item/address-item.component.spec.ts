@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AddressItemComponent } from './address-item.component';
+import {AddressItemComponent} from './address-item.component';
 
 describe('AddressItemComponent', () => {
   let component: AddressItemComponent;

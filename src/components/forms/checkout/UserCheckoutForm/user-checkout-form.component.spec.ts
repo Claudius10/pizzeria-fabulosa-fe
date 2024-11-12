@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserCheckoutFormComponent } from './user-checkout-form.component';
+import {UserCheckoutFormComponent} from './user-checkout-form.component';
 
 describe('UserCheckoutFormComponent', () => {
   let component: UserCheckoutFormComponent;

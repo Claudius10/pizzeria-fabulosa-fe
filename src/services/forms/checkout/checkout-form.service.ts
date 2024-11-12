@@ -5,34 +5,18 @@ import {FormControl} from '@angular/forms';
   providedIn: 'root'
 })
 export class CheckoutFormService {
-  private _homeDeliveryOptionVisibility = true;
-  private _programmedDeliveryTimeVisibility = false;
-  private _changeRequestInput = false;
+  homeDeliveryOptionVisibility = true;
+  programmedDeliveryTimeVisibility = false;
+  changeRequestInput = false;
 
-  showHomeDeliveryOption() {
-    this._homeDeliveryOptionVisibility = true;
-  }
-
-  hideHomeDeliveryOption() {
-    this._homeDeliveryOptionVisibility = false;
-  }
-
-  get homeDeliveryOptionVisibility(): boolean {
-    return this._homeDeliveryOptionVisibility;
-  }
-
-  get programmedDeliveryTimeVisibility(): boolean {
-    return this._programmedDeliveryTimeVisibility;
-  }
-
-  get changeRequestInput(): boolean {
-    return this._changeRequestInput;
+  public setShowHomeDeliveryOption(value: boolean) {
+    this.homeDeliveryOptionVisibility = value;
   }
 
   toggleProgrammedDeliveryTime(eventTarget: EventTarget | null) {
     if (eventTarget) {
       const value = (eventTarget as HTMLSelectElement).value;
-      this._programmedDeliveryTimeVisibility = value !== "Lo antes posible";
+      this.programmedDeliveryTimeVisibility = value !== "Lo antes posible";
     }
   }
 
@@ -50,7 +34,7 @@ export class CheckoutFormService {
   toggleChangeRequestInput(eventTarget: EventTarget | null) {
     if (eventTarget) {
       const value = (eventTarget as HTMLSelectElement).value;
-      this._changeRequestInput = value === "V";
+      this.changeRequestInput = value === "V";
     }
   }
 }

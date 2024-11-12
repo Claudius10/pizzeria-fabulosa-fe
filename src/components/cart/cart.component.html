@@ -19,7 +19,7 @@
     }
   }
 
-  @if (!isUpdatingOrder()) {
+  @if (orderToUpdateId() === null) {
     <button routerLink="/pedido-nuevo">Continuar</button>
   }
 

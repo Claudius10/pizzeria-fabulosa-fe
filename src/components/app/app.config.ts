@@ -4,7 +4,7 @@ import {routes} from './app.routes';
 import {provideHttpClient, withFetch} from '@angular/common/http';
 import {AuthService} from '../../services/auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
-import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experimental';
+import {provideTanStackQuery, QueryClient, withDevtools} from '@tanstack/angular-query-experimental';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -27,13 +27,14 @@ export const appConfig: ApplicationConfig = {
     //provideClientHydration(),
     provideHttpClient(withFetch()),
     provideTanStackQuery(new QueryClient({
-      defaultOptions: {
-        queries: {
-          refetchOnMount: true,
-          staleTime: 300000
-        },
-      }
-    })),
+        defaultOptions: {
+          queries: {
+            refetchOnMount: true,
+            staleTime: 300000
+          },
+        }
+      }),
+      withDevtools()),
     {
       provide: APP_INITIALIZER,
       useFactory: () => {

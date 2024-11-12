@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UserAddressFormComponent } from './user-address-form.component';
+import {UserAddressFormComponent} from './user-address-form.component';
 
 describe('UserAddressFormComponent', () => {
   let component: UserAddressFormComponent;
