@@ -20,7 +20,8 @@ export class OrderSummaryListComponent {
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
-  protected orderSummaryList = this.orderService.findOrderSummaryList(USER_ORDER_SUMMARY_LIST, this.authService.getUserId(), 0, 5);
+  orderSummaryList =
+    this.orderService.findOrderSummaryList(USER_ORDER_SUMMARY_LIST, this.authService.getUserId(), 0, 5);
 
   constructor() {
     this.destroyRef.onDestroy(() => {

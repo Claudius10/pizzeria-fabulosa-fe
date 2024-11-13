@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {PaginatorModule} from 'primeng/paginator';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginService} from '../../../services/login/login.service';
@@ -11,9 +10,8 @@ import {AuthService} from '../../../services/auth/auth.service';
   selector: 'app-login',
   standalone: true,
   imports: [
-    RouterLink,
-    PaginatorModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',

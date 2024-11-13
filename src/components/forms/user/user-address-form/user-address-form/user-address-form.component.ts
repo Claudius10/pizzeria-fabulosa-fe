@@ -2,14 +2,12 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/c
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
 import {AuthService} from '../../../../../services/auth/auth.service';
-import {CartComponent} from '../../../../cart/cart.component';
 import {AddressService} from '../../../../../services/address/address.service';
 
 @Component({
   selector: 'app-user-address-form',
   standalone: true,
   imports: [
-    CartComponent,
     ReactiveFormsModule
   ],
   templateUrl: './user-address-form.component.html',

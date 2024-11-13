@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
-import {RouterOutlet} from '@angular/router';
-import {AsyncPipe} from '@angular/common';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {ProductDTO} from '../../../interfaces/dto/resources';
 
@@ -10,9 +8,7 @@ import {ProductDTO} from '../../../interfaces/dto/resources';
   selector: 'app-product-list',
   standalone: true,
   imports: [
-    ProductItemComponent,
-    RouterOutlet,
-    AsyncPipe
+    ProductItemComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',

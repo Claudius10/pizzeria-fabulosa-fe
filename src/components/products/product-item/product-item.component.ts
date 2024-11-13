@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {NgOptimizedImage} from '@angular/common';
-import {Button} from 'primeng/button';
 import {CartService} from '../../../services/cart/cart.service';
 
 export type ProductDTO = {
@@ -17,8 +16,7 @@ export type ProductDTO = {
   selector: 'app-product',
   standalone: true,
   imports: [
-    NgOptimizedImage,
-    Button
+    NgOptimizedImage
   ],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.css',
@@ -28,7 +26,7 @@ export class ProductItemComponent {
   public product = input.required<ProductDTO>();
   private cartService = inject(CartService);
 
-  protected addProductToCart() {
+  public addProductToCart() {
     this.cartService.addItem({
       name: this.product().name,
       format: this.product().format,

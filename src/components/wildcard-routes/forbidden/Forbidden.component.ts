@@ -1,13 +1,13 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
-  selector: 'app-foribidden',
+  selector: 'app-forbidden',
   standalone: true,
   imports: [],
-  templateUrl: './foribidden.component.html',
-  styleUrl: './foribidden.component.css',
+  templateUrl: './forbidden.component.html',
+  styleUrl: './forbidden.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ForibiddenComponent {
+export class ForbiddenComponent {
 
 }

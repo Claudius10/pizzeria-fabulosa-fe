@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
-import {AsyncPipe} from '@angular/common';
-import {CartComponent} from '../../cart/cart.component';
 import {CartService} from '../../../services/cart/cart.service';
 import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
 import {OrderService} from '../../../services/order/order.service';
@@ -16,8 +14,6 @@ import {userOrderQueryKey} from '../../../query-keys';
   selector: 'app-order',
   standalone: true,
   imports: [
-    AsyncPipe,
-    CartComponent,
     UserCheckoutFormComponent,
     AddressItemComponent,
     UserDetailsComponent,

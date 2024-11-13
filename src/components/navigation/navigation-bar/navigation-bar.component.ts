@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.component';
-import {CardModule} from 'primeng/card';
 import {AuthService} from '../../../services/auth/auth.service';
 
 @Component({
@@ -10,7 +9,6 @@ import {AuthService} from '../../../services/auth/auth.service';
   imports: [
     RouterLink,
     ThemeSelectorComponent,
-    CardModule
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrl: './navigation-bar.component.css',

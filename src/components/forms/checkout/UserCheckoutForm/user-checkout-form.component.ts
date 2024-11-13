@@ -9,12 +9,10 @@ import {
   Validators
 } from '@angular/forms';
 import {CartComponent} from '../../../cart/cart.component';
-import {PaginatorModule} from 'primeng/paginator';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
-import {AddressListComponent} from '../../../user/address-list/address-list.component';
 import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/dto/forms/order';
@@ -23,10 +21,8 @@ import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfa
   selector: 'app-user-checkout-form',
   standalone: true,
   imports: [
-    CartComponent,
-    PaginatorModule,
     ReactiveFormsModule,
-    AddressListComponent
+    CartComponent
   ],
   templateUrl: './user-checkout-form.component.html',
   styleUrl: './user-checkout-form.component.css',

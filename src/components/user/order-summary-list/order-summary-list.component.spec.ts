@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderSummaryListComponent} from './order-summary-list.component';
+import {OrderService} from '../../../services/order/order.service';
 
 describe('OrderListComponent', () => {
   let component: OrderSummaryListComponent;
@@ -8,9 +9,10 @@ describe('OrderListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrderSummaryListComponent]
+      imports: [OrderSummaryListComponent],
+      providers: [OrderService]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(OrderSummaryListComponent);
     component = fixture.componentInstance;
