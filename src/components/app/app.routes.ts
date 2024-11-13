@@ -5,7 +5,7 @@ import {HomeComponent} from '../home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
 import {LoginComponent} from '../forms/login/login.component';
 import {NotFoundComponent} from '../wildcard-routes/not-found/not-found.component';
-import {ForbiddenComponent} from '../wildcard-routes/forbidden/Forbidden.component';
+import {ForbiddenComponent} from '../wildcard-routes/forbidden/forbidden.component';
 import {UserHomeComponent} from '../user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';

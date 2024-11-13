@@ -1,23 +1,29 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
 import {NavigationBarComponent} from './navigation-bar.component';
+import {AuthService} from '../../../services/auth/auth.service';
+import {signal} from '@angular/core';
+import {provideRouter} from '@angular/router';
 
 describe('NavigationBarComponent', () => {
-  let component: NavigationBarComponent;
-  let fixture: ComponentFixture<NavigationBarComponent>;
+  it('test', () => {
+    const authService = jasmine.createSpyObj<AuthService>("AuthService", ["getIsAuthenticated"]);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NavigationBarComponent]
-    })
-      .compileComponents();
+    TestBed.configureTestingModule({
+      imports: [NavigationBarComponent],
+      providers: [
+        {provide: AuthService, useValue: authService},
+        provideRouter([{path: '**', component: NavigationBarComponent}]),
+      ]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(NavigationBarComponent);
-    component = fixture.componentInstance;
+    authService.getIsAuthenticated.and.returnValues(signal(true), signal(false));
+
+    const fixture = TestBed.createComponent(NavigationBarComponent);
+    const component = fixture.componentInstance;
+
+    expect(component.isAuthenticated()).toBeTrue(); // OK!
     fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component.isAuthenticated()).toBeFalse(); // NOT OK!
   });
 });
