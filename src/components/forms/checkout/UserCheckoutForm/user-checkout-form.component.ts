@@ -15,7 +15,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
-import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/dto/forms/order';
+import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
 
 @Component({
   selector: 'app-user-checkout-form',

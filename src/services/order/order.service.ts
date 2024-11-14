@@ -2,9 +2,10 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
 import {lastValueFrom} from 'rxjs';
-import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/dto/forms/order';
+import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../query-keys';
+import {UserOrderQueryResult} from '../../interfaces/query';
 
 @Injectable({
   providedIn: 'root'
@@ -41,16 +42,30 @@ export class OrderService {
   }
 
   public findUserOrder(queryKey: string[], userId: string | undefined, orderId: string) {
-    return injectQuery(() => ({
+    const orderQuery = injectQuery(() => ({
       queryKey: queryKey,
       queryFn: () =>
         lastValueFrom(this.httpClient.get<OrderDTO>(`http://192.168.1.128:8080/api/user/${userId}/order/${orderId}`,
           {withCredentials: true})),
     }));
+
+    const queryResult: UserOrderQueryResult = {
+      data: orderQuery.data,
+      isLoading: orderQuery.isLoading,
+      isSuccess: orderQuery.isSuccess(),
+      isError: orderQuery.isError(),
+      error: orderQuery.error
+    };
+
+    return queryResult;
   }
 
   public getOrderFromQueryCache(id: string | null) {
     return id === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(id)) as OrderDTO;
+  }
+
+  public async cancelFindUserOrder(orderId: string) {
+    await this.queryClient.cancelQueries({queryKey: userOrderQueryKey(orderId)});
   }
 
   public updateUserOrderMutation() {

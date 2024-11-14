@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RegisterForm} from '../../interfaces/dto/forms/account';
+import {RegisterForm} from '../../interfaces/forms/account';
 import {catchError} from 'rxjs';
 
 @Injectable({

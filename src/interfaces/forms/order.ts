@@ -1,4 +1,4 @@
-import {CartItemDTO} from '../order';
+import {CartItemDTO} from '../dto/order';
 
 export type AddressFormData = {
   id: number | null;

@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AddressFormData} from '../../interfaces/dto/forms/order';
+import {AddressFormData} from '../../interfaces/forms/order';
 import {catchError} from 'rxjs';
 import {AddressDTO} from '../../interfaces/dto/order';
 import {toObservable} from '@angular/core/rxjs-interop';
