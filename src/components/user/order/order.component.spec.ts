@@ -6,6 +6,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ActivatedRoute} from '@angular/router';
 import {UserOrderQueryResult} from '../../../interfaces/query';
+import {findElement} from '../../../utils/jasmine';
 
 describe('OrderComponent', () => {
 
@@ -34,7 +35,7 @@ describe('OrderComponent', () => {
     MockInstance(ActivatedRoute, "snapshot", jasmine.createSpy(), "get").and.returnValue({paramMap: new Map([["orderId", "1"]])});
     MockInstance(OrderService, "findUserOrder", () => queryResult);
     MockInstance(AuthService, "getUserId", () => "0");
-    MockInstance(OrderService, "getOrderToUpdateId", () => signal("0").asReadonly());
+    MockInstance(OrderService, "getOrderToUpdateId", () => signal(null).asReadonly());
     MockInstance(AuthService, "getUserName", () => signal("tester"));
     MockInstance(AuthService, "getUserEmail", () => signal("email@gmail.com"));
     MockInstance(AuthService, "getUserContactNumber", () => signal("0"));
@@ -47,10 +48,18 @@ describe('OrderComponent', () => {
     // Assert
 
     expect(component).toBeDefined();
+
     expect(component.orderId).toBe("1");
     expect(component.order.data()!.id).toBe(0);
+
     expect(component.userName()).toBe("tester");
     expect(component.userEmail()).toBe("email@gmail.com");
     expect(component.userContactNumber()).toBe("0");
+
+    const updateButton = findElement(fixture, "updateButton") as HTMLButtonElement;
+    expect(updateButton.textContent).toEqual("Actualizar pedido");
+
+    const cancelUpdateButton = findElement(fixture, "cancelUpdateButton") as HTMLButtonElement;
+    expect(cancelUpdateButton).toBeNull();
   });
 });

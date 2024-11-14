@@ -11,10 +11,10 @@
 </div>
 
 @if (orderToUpdateId() === null) {
-  <button (click)="startUpdate()" type="button">Actualizar pedido</button>
+  <button data-test-key="updateButton" (click)="startUpdate()" type="button">Actualizar pedido</button>
 }
 
 @if (orderToUpdateId() !== null) {
   <app-user-checkout-form/>
-  <button (click)="finishUpdate()" type="button">Cancelar actualización</button>
+  <button data-test-key="cancelUpdateButton" (click)="finishUpdate()" type="button">Cancelar actualización</button>
 }
