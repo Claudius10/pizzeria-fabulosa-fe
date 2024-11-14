@@ -6,7 +6,8 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ActivatedRoute} from '@angular/router';
 import {UserOrderQueryResult} from '../../../interfaces/query';
-import {findElement} from '../../../utils/jasmine';
+import {findDebugElement, findNativeElement} from '../../../utils/jasmine';
+import {UserDetailsComponent} from '../user-details/user-details.component';
 
 describe('OrderComponent', () => {
 
@@ -42,24 +43,33 @@ describe('OrderComponent', () => {
 
     // Act
 
-    const fixture = MockRender(OrderComponent);
-    const component = fixture.componentInstance;
+    const orderComponentFixture = MockRender(OrderComponent);
+    const orderComponent = orderComponentFixture.componentInstance;
 
     // Assert
 
-    expect(component).toBeDefined();
+    expect(orderComponent).toBeDefined();
 
-    expect(component.orderId).toBe("1");
-    expect(component.order.data()!.id).toBe(0);
+    expect(orderComponent.orderId).toBe("1");
+    expect(orderComponent.order.data()!.id).toBe(0);
 
-    expect(component.userName()).toBe("tester");
-    expect(component.userEmail()).toBe("email@gmail.com");
-    expect(component.userContactNumber()).toBe("0");
+    expect(orderComponent.userName()).toBe("tester");
+    expect(orderComponent.userEmail()).toBe("email@gmail.com");
+    expect(orderComponent.userContactNumber()).toBe("0");
 
-    const updateButton = findElement(fixture, "updateButton") as HTMLButtonElement;
+    const userDetailsFixture = findDebugElement(orderComponentFixture, "userDetails");
+    expect(userDetailsFixture).toBeDefined();
+
+    const userDetailsComponent: UserDetailsComponent = userDetailsFixture!.componentInstance;
+    expect(userDetailsComponent).toBeDefined();
+    expect(userDetailsComponent.name).toBe("tester");
+    expect(userDetailsComponent.email).toBe("email@gmail.com");
+    expect(userDetailsComponent.contactNumber).toBe("0");
+
+    const updateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
     expect(updateButton.textContent).toEqual("Actualizar pedido");
 
-    const cancelUpdateButton = findElement(fixture, "cancelUpdateButton") as HTMLButtonElement;
+    const cancelUpdateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
     expect(cancelUpdateButton).toBeNull();
   });
 });
