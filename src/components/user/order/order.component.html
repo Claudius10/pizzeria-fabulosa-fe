@@ -16,6 +16,6 @@
 }
 
 @if (orderToUpdateId() !== null) {
-  <app-user-checkout-form/>
+  <app-user-checkout-form data-test-key="userCheckOutForm"/>
   <button data-test-key="cancelUpdateButton" (click)="finishUpdate()" type="button">Cancelar actualización</button>
 }

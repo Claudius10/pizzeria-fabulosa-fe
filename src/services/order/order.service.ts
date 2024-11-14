@@ -13,7 +13,7 @@ import {UserOrderQueryResult} from '../../interfaces/query';
 export class OrderService {
   private httpClient = inject(HttpClient);
   private queryClient = injectQueryClient();
-  private orderToUpdateId = signal<string | null>(null);
+  orderToUpdateId = signal<string | null>(null);
 
   public newUserOrderMutation() {
     return injectMutation(() => ({
