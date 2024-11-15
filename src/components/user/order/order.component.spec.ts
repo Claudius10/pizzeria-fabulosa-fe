@@ -42,7 +42,7 @@ describe('OrderComponent', () => {
     // Arrange
 
     MockInstance(OrderService, "findUserOrder", () => queryResult);
-    MockInstance(OrderService, "getOrderToUpdateId", () => signal(null).asReadonly());
+    MockInstance(OrderService, "getOrderToUpdateId", () => signal(null));
 
     // Act
 
@@ -78,15 +78,13 @@ describe('OrderComponent', () => {
     expect(cancelUpdateButton).toBeNull();
   });
 
-  it('givenStartUpdateClick_thenRenderUserCheckoutForm', () => {
+  it('givenNonNullOrderToUpdateId_thenRenderUserCheckoutFormAndCancelButton', () => {
 
     // Arrange
 
     MockInstance(OrderService, (instance) => {
       instance.findUserOrder = () => queryResult;
-      instance.getOrderToUpdateId = () => signal(null);
-      instance.setOrderToUpdateId = (id) =>
-        (instance.orderToUpdateId = signal(id));
+      instance.getOrderToUpdateId = () => signal("0");
     });
 
     // Act
@@ -100,19 +98,14 @@ describe('OrderComponent', () => {
     userDetailsComponent = userDetailsFixture!.componentInstance;
     expect(userDetailsComponent).toBeDefined();
 
-
-    const updateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
-    expect(updateButton.textContent).toEqual("Actualizar pedido");
-    updateButton.click();
-    orderComponentFixture.detectChanges();
-
     // Assert
 
-    expect(orderComponent.orderToUpdateId()).toBe("0");
+    const updateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
+    expect(updateButton.textContent).toEqual("Cancelar actualización");
+
     const userCheckoutFormFixture = findDebugElement(orderComponentFixture, "userCheckOutForm");
     expect(userCheckoutFormFixture).toBeDefined();
-    expect(userCheckoutFormFixture?.componentInstance).toBeDefined();
-
+    expect(userCheckoutFormFixture!.componentInstance).toBeDefined();
   });
 });
 
