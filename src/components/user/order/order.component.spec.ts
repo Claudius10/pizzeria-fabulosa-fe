@@ -14,6 +14,8 @@ describe('OrderComponent', () => {
   let orderComponent: OrderComponent;
   let userDetailsFixture: DebugElement | null;
   let userDetailsComponent: UserDetailsComponent;
+  let startUpdateButton: HTMLButtonElement;
+  let cancelUpdateButton: HTMLButtonElement;
 
   MockInstance.scope();
 
@@ -28,7 +30,6 @@ describe('OrderComponent', () => {
   );
 
   beforeEach(() => {
-      // Arrange
       MockInstance(ActivatedRoute, "snapshot", jasmine.createSpy(), "get").and.returnValue({paramMap: new Map([["orderId", "1"]])});
       MockInstance(AuthService, "getUserId", () => "0");
       MockInstance(AuthService, "getUserName", () => signal("tester"));
@@ -58,13 +59,16 @@ describe('OrderComponent', () => {
       expect(userDetailsFixture).toBeDefined();
       userDetailsComponent = userDetailsFixture!.componentInstance;
       expect(userDetailsComponent).toBeDefined();
+
+      startUpdateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
+      expect(startUpdateButton).toBeDefined();
+      expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
+
+      cancelUpdateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
     }
   );
 
   it('givenSetup_whenMockedProperties_thenCreateComponent', () => {
-
-    // Assert
-
     expect(orderComponent.orderId).toBe("1");
     expect(orderComponent.order.data()!.id).toBe(0);
     expect(orderComponent.order.isSuccess).toBeTrue();
@@ -78,27 +82,24 @@ describe('OrderComponent', () => {
     expect(userDetailsComponent.email).toBe("email@gmail.com");
     expect(userDetailsComponent.contactNumber).toBe("0");
 
-    const startUpdateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
-    expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
-
-    const cancelUpdateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
     expect(cancelUpdateButton).toBeNull();
   });
 
   it('givenUpdateButtonClick_thenRenderUserCheckoutFormAndCancelButton', () => {
 
+    // confirm the cancel button is not yet rendered due to orderToUpdateId being null
+    expect(cancelUpdateButton).toBeNull();
+
     // Act
 
-    const startUpdateButton = findNativeElement(orderComponentFixture, "updateButton");
-    expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
-    expect(startUpdateButton).toBeDefined();
     startUpdateButton.click();
     orderComponentFixture.detectChanges();
 
     // Assert
 
-    const updateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
-    expect(updateButton.textContent).toEqual("Cancelar actualización");
+    const cancelUpdateButtonAfterClick = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
+    expect(cancelUpdateButtonAfterClick).toBeDefined();
+    expect(cancelUpdateButtonAfterClick.textContent).toEqual("Cancelar actualización");
 
     const userCheckoutFormFixture = findDebugElement(orderComponentFixture, "userCheckOutForm");
     expect(userCheckoutFormFixture).toBeDefined();
