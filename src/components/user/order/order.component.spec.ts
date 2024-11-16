@@ -90,6 +90,10 @@ describe('OrderComponent', () => {
     // confirm the cancel button is not yet rendered due to orderToUpdateId being null
     expect(cancelUpdateButton).toBeNull();
 
+    // confirm user checkout form is not rendered before click
+    const userCheckoutFormFixture = findDebugElement(orderComponentFixture, "userCheckOutForm");
+    expect(userCheckoutFormFixture).toBeNull();
+
     // Act
 
     startUpdateButton.click();
@@ -101,9 +105,9 @@ describe('OrderComponent', () => {
     expect(cancelUpdateButtonAfterClick).toBeDefined();
     expect(cancelUpdateButtonAfterClick.textContent).toEqual("Cancelar actualización");
 
-    const userCheckoutFormFixture = findDebugElement(orderComponentFixture, "userCheckOutForm");
-    expect(userCheckoutFormFixture).toBeDefined();
-    expect(userCheckoutFormFixture!.componentInstance).toBeDefined();
+    const userCheckoutFormFixtureAfterClick = findDebugElement(orderComponentFixture, "userCheckOutForm");
+    expect(userCheckoutFormFixtureAfterClick).toBeDefined();
+    expect(userCheckoutFormFixtureAfterClick!.componentInstance).toBeDefined();
   });
 });
 
