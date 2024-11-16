@@ -9,7 +9,7 @@ export class AuthService {
   private userEmail = signal<string>("quijote@gmail.com");
   private userName = signal<string>("Cervantes");
   private userContactNumber = signal<string>("000 000 000");
-  private isAuthenticated = signal(false);
+  isAuthenticated = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);

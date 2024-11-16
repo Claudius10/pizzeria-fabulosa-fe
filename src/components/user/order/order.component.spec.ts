@@ -34,26 +34,34 @@ describe('OrderComponent', () => {
       MockInstance(AuthService, "getUserName", () => signal("tester"));
       MockInstance(AuthService, "getUserEmail", () => signal("email@gmail.com"));
       MockInstance(AuthService, "getUserContactNumber", () => signal("0"));
+      MockInstance(CartService, (instance) => {
+        instance.setOrderCart = jasmine.createSpy().and.callFake(() => {
+        });
+      });
+      MockInstance(OrderService, (instance) => {
+        instance.orderToUpdateId = signal<string | null>(null);
+        instance.findUserOrder = jasmine.createSpy().and.returnValue(queryResult);
+        instance.getOrderToUpdateId = jasmine.createSpy().and.returnValue(instance.orderToUpdateId);
+        instance.setOrderToUpdateId = jasmine.createSpy().and.callFake((id: string) => {
+          instance.orderToUpdateId.set(id);
+        });
+      });
+    }
+  );
+
+  beforeEach(() => {
+      orderComponentFixture = MockRender(OrderComponent);
+      orderComponent = orderComponentFixture.componentInstance;
+      expect(orderComponent).toBeDefined();
+
+      userDetailsFixture = findDebugElement(orderComponentFixture, "userDetails");
+      expect(userDetailsFixture).toBeDefined();
+      userDetailsComponent = userDetailsFixture!.componentInstance;
+      expect(userDetailsComponent).toBeDefined();
     }
   );
 
   it('givenSetup_whenMockedProperties_thenCreateComponent', () => {
-
-    // Arrange
-
-    MockInstance(OrderService, "findUserOrder", () => queryResult);
-    MockInstance(OrderService, "getOrderToUpdateId", () => signal(null));
-
-    // Act
-
-    orderComponentFixture = MockRender(OrderComponent);
-    orderComponent = orderComponentFixture.componentInstance;
-    expect(orderComponent).toBeDefined();
-
-    userDetailsFixture = findDebugElement(orderComponentFixture, "userDetails");
-    expect(userDetailsFixture).toBeDefined();
-    userDetailsComponent = userDetailsFixture!.componentInstance;
-    expect(userDetailsComponent).toBeDefined();
 
     // Assert
 
@@ -66,37 +74,26 @@ describe('OrderComponent', () => {
     expect(orderComponent.userEmail()).toBe("email@gmail.com");
     expect(orderComponent.userContactNumber()).toBe("0");
 
-    expect(userDetailsFixture).toBeDefined();
     expect(userDetailsComponent.name).toBe("tester");
     expect(userDetailsComponent.email).toBe("email@gmail.com");
     expect(userDetailsComponent.contactNumber).toBe("0");
 
-    const updateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
-    expect(updateButton.textContent).toEqual("Actualizar pedido");
+    const startUpdateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
+    expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
 
     const cancelUpdateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
     expect(cancelUpdateButton).toBeNull();
   });
 
-  it('givenNonNullOrderToUpdateId_thenRenderUserCheckoutFormAndCancelButton', () => {
-
-    // Arrange
-
-    MockInstance(OrderService, (instance) => {
-      instance.findUserOrder = () => queryResult;
-      instance.getOrderToUpdateId = () => signal("0");
-    });
+  it('givenUpdateButtonClick_thenRenderUserCheckoutFormAndCancelButton', () => {
 
     // Act
 
-    orderComponentFixture = MockRender(OrderComponent);
-    orderComponent = orderComponentFixture.componentInstance;
-    expect(orderComponent).toBeDefined();
-
-    userDetailsFixture = findDebugElement(orderComponentFixture, "userDetails");
-    expect(userDetailsFixture).toBeDefined();
-    userDetailsComponent = userDetailsFixture!.componentInstance;
-    expect(userDetailsComponent).toBeDefined();
+    const startUpdateButton = findNativeElement(orderComponentFixture, "updateButton");
+    expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
+    expect(startUpdateButton).toBeDefined();
+    startUpdateButton.click();
+    orderComponentFixture.detectChanges();
 
     // Assert
 
@@ -108,6 +105,7 @@ describe('OrderComponent', () => {
     expect(userCheckoutFormFixture!.componentInstance).toBeDefined();
   });
 });
+
 
 const queryResult: UserOrderQueryResult = {
   data: signal(getEmptyOrder()),
