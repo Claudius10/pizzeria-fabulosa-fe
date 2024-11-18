@@ -2,14 +2,14 @@ import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {AddressDTO} from '../../../interfaces/dto/order';
 
 @Component({
-  selector: 'app-address-item',
+  selector: 'app-user-address-item',
   standalone: true,
   imports: [],
-  templateUrl: './address-item.component.html',
-  styleUrl: './address-item.component.css',
+  templateUrl: './user-address-item.component.html',
+  styleUrl: './user-address-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressItemComponent {
+export class UserAddressItemComponent {
   address = input.required<AddressDTO>();
 
 }

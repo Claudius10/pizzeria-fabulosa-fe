@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {AddressListComponent} from '../address-list/address-list.component';
+import {UserAddressListComponent} from '../user-address-list/user-address-list.component';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
-    AddressListComponent
+    UserAddressListComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

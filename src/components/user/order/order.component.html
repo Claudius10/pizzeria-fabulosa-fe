@@ -5,7 +5,7 @@
       <p>Fecha creación: {{ order.createdOn }}</p>
       <app-user-details data-test-key="userDetails" [name]="userName()!" [email]="userEmail()!"
                         [contactNumber]="userContactNumber()!"/>
-      <app-address-item [address]="order.address"/>
+      <app-user-address-item [address]="order.address"/>
       <app-order-details [orderDetails]="order.orderDetails"/>
     </div>
   }

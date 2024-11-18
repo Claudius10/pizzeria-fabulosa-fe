@@ -2,7 +2,7 @@
   <p>No tiene ningún domicilio </p>
 } @else {
   @for (address of addressList.data(); track address.id) {
-    <app-address-item [address]="address"/>
+    <app-user-address-item [address]="address"/>
   }
 }
 

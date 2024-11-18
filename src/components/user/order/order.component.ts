@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
 import {OrderService} from '../../../services/order/order.service';
-import {AddressItemComponent} from '../address-item/address-item.component';
+import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {userOrderQueryKey} from '../../../interfaces/query-keys';
@@ -15,7 +15,7 @@ import {SUCCESS} from '../../../utils/constants';
   standalone: true,
   imports: [
     UserCheckoutFormComponent,
-    AddressItemComponent,
+    UserAddressItemComponent,
     UserDetailsComponent,
     OrderDetailsComponent
   ],
