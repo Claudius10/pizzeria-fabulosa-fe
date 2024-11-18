@@ -39,8 +39,8 @@ export class UserCheckoutFormComponent {
   userEmail = this.authService.getUserEmail();
   addressList = this.addressService.getAddressList();
   orderToUpdateId = this.orderService.getOrderToUpdateId();
-  newUserOrderMutation = this.orderService.newUserOrderMutation();
-  updateUserOrderMutation = this.orderService.updateUserOrderMutation();
+  createUserOrder = this.orderService.createUserOrder();
+  updateUserOrder = this.orderService.updateUserOrder();
 
   constructor() {
     if (this.addressList().length === 0) {
@@ -120,7 +120,7 @@ export class UserCheckoutFormComponent {
 
     if (this.orderToUpdateId() === null) {
       // create new order
-      this.newUserOrderMutation.mutate(data, {
+      this.createUserOrder.mutate(data, {
         onSuccess: (response: string) => {
           console.log(response);
           console.log("success");
@@ -150,7 +150,7 @@ export class UserCheckoutFormComponent {
         }
       };
 
-      this.updateUserOrderMutation.mutate(updateData, {
+      this.updateUserOrder.mutate(updateData, {
         onSuccess: (response: string) => {
           console.log(response);
           console.log("success");

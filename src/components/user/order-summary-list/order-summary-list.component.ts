@@ -21,7 +21,12 @@ export class OrderSummaryListComponent {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   orderSummaryList =
-    this.orderService.findOrderSummaryList(USER_ORDER_SUMMARY_LIST, this.authService.getUserId(), 0, 5);
+    this.orderService.findOrderSummaryList({
+      queryKey: USER_ORDER_SUMMARY_LIST,
+      userId: this.authService.getUserId(),
+      pageNumber: 0,
+      pageSize: 5
+    });
 
   constructor() {
     this.destroyRef.onDestroy(() => {

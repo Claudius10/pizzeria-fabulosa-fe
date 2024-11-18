@@ -29,7 +29,11 @@ export class OrderComponent {
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
-  order = this.orderService.findUserOrder(userOrderQueryKey(this.orderId), this.authService.getUserId(), this.orderId);
+  order = this.orderService.findUserOrder({
+    orderId: this.orderId,
+    userId: this.authService.getUserId(),
+    queryKey: userOrderQueryKey(this.orderId)
+  });
   orderToUpdateId = this.orderService.getOrderToUpdateId();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();

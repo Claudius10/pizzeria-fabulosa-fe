@@ -1,85 +1,121 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
-import {lastValueFrom} from 'rxjs';
+import {OrderDTO} from '../../interfaces/dto/order';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../query-keys';
-import {UserOrderQueryResult} from '../../interfaces/query';
+import {
+  OrderSummaryListQueryOptions,
+  OrderSummaryListQueryResult,
+  UserOrderQueryOptions,
+  UserOrderQueryResult
+} from '../../interfaces/query';
+import {AnonOrderMutation, UserOrderMutation, UserOrderUpdateMutation} from '../../interfaces/mutation';
+import {OrderHttpService} from './order-http.service';
+import {lastValueFrom} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
-  private httpClient = inject(HttpClient);
+  private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
   orderToUpdateId = signal<string | null>(null);
 
-  public newUserOrderMutation() {
-    return injectMutation(() => ({
-      mutationFn: (data: NewUserOrderFormData) =>
-        lastValueFrom(this.httpClient.post<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order`, data.order, {withCredentials: true})),
+  public createUserOrder() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: NewUserOrderFormData) => lastValueFrom(this.orderHttpService.createUserOrder(data)),
       onSuccess: () => {
         // mark order summary list as stale to be re-fetched on next mount
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }
     }));
+
+    const mutationResult: UserOrderMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
   }
 
-  public newAnonOrderMutation() {
-    return injectMutation(() => ({
-      mutationFn: (anonOrder: AnonOrderFormData) =>
-        lastValueFrom(this.httpClient.post<AnonOrderDTO>(`http://192.168.1.128:8080/api/anon/order`, anonOrder))
+  public createAnonOrder() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: AnonOrderFormData) => lastValueFrom(this.orderHttpService.createAnonOrder(data))
     }));
+
+    const mutationResult: AnonOrderMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
   }
 
-  public findOrderSummaryList(queryKey: string[], userId: string | undefined, pageNumber: number, pageSize: number) {
-    return injectQuery(() => ({
-      queryKey: queryKey,
-      queryFn: () => lastValueFrom(this.httpClient.get<OrderSummaryListDTO>
-      (`http://192.168.1.128:8080/api/user/${userId}/order/summary?pageNumber=${pageNumber}&pageSize=${pageSize}`, {withCredentials: true})),
-    }));
-  }
-
-  public findUserOrder(queryKey: string[], userId: string | undefined, orderId: string) {
-    const orderQuery = injectQuery(() => ({
-      queryKey: queryKey,
-      queryFn: () =>
-        lastValueFrom(this.httpClient.get<OrderDTO>(`http://192.168.1.128:8080/api/user/${userId}/order/${orderId}`,
-          {withCredentials: true})),
+  public findOrderSummaryList(options: OrderSummaryListQueryOptions) {
+    const query = injectQuery(() => ({
+      queryKey: options.queryKey,
+      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(options)),
     }));
 
-    const queryResult: UserOrderQueryResult = {
-      data: orderQuery.data,
-      isLoading: orderQuery.isLoading,
-      isSuccess: orderQuery.isSuccess(),
-      isError: orderQuery.isError(),
-      error: orderQuery.error
+    const queryResult: OrderSummaryListQueryResult = {
+      data: query.data,
+      isLoading: query.isLoading,
+      isSuccess: query.isSuccess(),
+      isError: query.isError(),
+      error: query.error
     };
 
     return queryResult;
   }
 
-  public getOrderFromQueryCache(id: string | null) {
-    return id === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(id)) as OrderDTO;
+  public findUserOrder(options: UserOrderQueryOptions) {
+    const query = injectQuery(() => ({
+      queryKey: options.queryKey,
+      queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(options))
+    }));
+
+    const queryResult: UserOrderQueryResult = {
+      data: query.data,
+      isLoading: query.isLoading,
+      isSuccess: query.isSuccess(),
+      isError: query.isError(),
+      error: query.error
+    };
+
+    return queryResult;
   }
 
-  public async cancelFindUserOrder(orderId: string) {
-    await this.queryClient.cancelQueries({queryKey: userOrderQueryKey(orderId)});
-  }
-
-  public updateUserOrderMutation() {
-    return injectMutation(() => ({
-      mutationFn: (data: UpdateUserOrderFormData) =>
-        lastValueFrom(this.httpClient.put<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order/${data.orderId}`, data.order,
-          {withCredentials: true})),
-      onSuccess: (id: string) => {
+  public updateUserOrder() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: UpdateUserOrderFormData) => lastValueFrom(this.orderHttpService.updateUserOrder(data)),
+      onSuccess: (orderId: string) => {
         // mark user order as stale
-        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(id)});
+        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(orderId)});
         // mark user order summary list as stale
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }
     }));
+
+    const mutationResult: UserOrderUpdateMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
+  }
+
+  public getOrderFromQueryCache(orderId: string | null) {
+    return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
+  }
+
+  public async cancelFindUserOrder(orderId: string) {
+    await this.queryClient.cancelQueries({queryKey: userOrderQueryKey(orderId)});
   }
 
   public getOrderToUpdateId() {

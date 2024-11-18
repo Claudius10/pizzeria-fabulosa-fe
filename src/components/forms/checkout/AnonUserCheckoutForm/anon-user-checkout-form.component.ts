@@ -36,7 +36,7 @@ export class AnonUserCheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
-  private newAnonOrderMutation = this.orderService.newAnonOrderMutation();
+  private createAnonOrder = this.orderService.createAnonOrder();
 
   form = new FormGroup({
     customer: new FormGroup({
@@ -113,7 +113,7 @@ export class AnonUserCheckoutFormComponent {
     }
 
     console.log(this.form.value);
-    this.newAnonOrderMutation.mutate({
+    this.createAnonOrder.mutate({
       anonCustomerName: this.form.get("customer.fullName")!.value,
       anonCustomerContactNumber: Number(this.form.get("customer.contactNumber")!.value),
       anonCustomerEmail: this.form.get("customer.email")!.value,
