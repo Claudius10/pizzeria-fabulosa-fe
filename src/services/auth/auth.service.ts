@@ -22,6 +22,14 @@ export class AuthService {
     }
   }
 
+  public logout() {
+    this.userId = "0";
+    this.userEmail.set("quijote@gmail.com");
+    this.userName.set("Cervantes");
+    this.userContactNumber.set("000 000 000");
+    this.isAuthenticated.set(false);
+  }
+
   public getIsAuthenticated() {
     return this.isAuthenticated.asReadonly();
   }

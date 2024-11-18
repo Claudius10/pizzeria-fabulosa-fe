@@ -9,9 +9,9 @@ import {
   Validators
 } from '@angular/forms';
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
-import {RegisterService} from '../../../services/register/register.service';
 import {RouterLink} from '@angular/router';
 import {RegisterForm} from '../../../interfaces/forms/account';
+import {AccountService} from '../../../services/account/account.service';
 
 @Component({
   selector: 'app-register',
@@ -25,8 +25,8 @@ import {RegisterForm} from '../../../interfaces/forms/account';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
-  private registerService = inject(RegisterService);
-  private register = this.registerService.createNewUser();
+  private accountService = inject(AccountService);
+  private register = this.accountService.create();
 
   form = new FormGroup({
     name: new FormControl<string>("", {

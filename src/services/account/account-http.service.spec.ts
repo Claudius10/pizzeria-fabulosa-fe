@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { LoginHttpService } from './login-http.service';
+import { AccountHttpService } from './account-http.service';
 
-describe('LoginHttpService', () => {
-  let service: LoginHttpService;
+describe('AccountHttpService', () => {
+  let service: AccountHttpService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(LoginHttpService);
+    service = TestBed.inject(AccountHttpService);
   });
 
   it('should be created', () => {

@@ -3,7 +3,7 @@ import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
 import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from './forms/order';
 import {AnonOrderDTO} from './dto/order';
 import {LoginForm, RegisterForm} from './forms/account';
-import {BaseQueryOptions, BaseUserMutationOptions, BaseUserQueryOptions} from './base';
+import {BaseUserMutationOptions} from './base';
 
 // ---------- BASE QUERY ----------
 
@@ -15,16 +15,23 @@ export interface BaseMutationResult {
 
 // ---------- ANON QUERY ----------
 
+export interface AnonOrderMutation extends BaseMutationResult {
+  mutate: CreateMutateFunction<AnonOrderDTO, Error, AnonOrderFormData>;
+}
+
+// ---------- ACCOUNT QUERY ----------
+
+
 export interface LoginMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<Object, Error, LoginForm>;
 }
 
-export interface RegisterMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, RegisterForm>;
+export interface LogoutMutation extends BaseMutationResult {
+  mutate: CreateMutateFunction<Object, Error>;
 }
 
-export interface AnonOrderMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<AnonOrderDTO, Error, AnonOrderFormData>;
+export interface RegisterMutation extends BaseMutationResult {
+  mutate: CreateMutateFunction<string, Error, RegisterForm>;
 }
 
 // ---------- USER QUERY ----------

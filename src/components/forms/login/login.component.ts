@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
-import {LoginService} from '../../../services/login/login.service';
 import {LoginForm} from '../../../interfaces/forms/account';
+import {AccountService} from '../../../services/account/account.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +17,8 @@ import {LoginForm} from '../../../interfaces/forms/account';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  private loginService = inject(LoginService);
-  private login = this.loginService.login();
+  private accountService = inject(AccountService);
+  private login = this.accountService.login();
 
   form = new FormGroup({
     email: new FormControl<string>("", {

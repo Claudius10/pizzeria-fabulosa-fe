@@ -1,12 +1,10 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {BaseUserQueryOptions} from '../../interfaces/base';
 import {injectMutation, injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
 import {UserAddressListQueryResult} from '../../interfaces/query';
 import {AddressDTO} from '../../interfaces/dto/order';
 import {UserAddressMutation, UserAddressMutationOptions} from '../../interfaces/mutation';
-import {AddressHttpService} from '../address/address-http.service';
 import {UserHttpService} from './user-http.service';
 
 @Injectable({
