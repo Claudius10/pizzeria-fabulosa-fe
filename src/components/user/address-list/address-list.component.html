@@ -1,7 +1,7 @@
-@if (addressList().length === 0) {
+@if (addressList.status() === SUCCESS && addressList.data()!.length === 0) {
   <p>No tiene ningún domicilio </p>
 } @else {
-  @for (address of addressList(); track address.id) {
+  @for (address of addressList.data(); track address.id) {
     <app-address-item [address]="address"/>
   }
 }

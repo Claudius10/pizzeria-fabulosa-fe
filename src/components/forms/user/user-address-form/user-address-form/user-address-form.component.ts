@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
 import {AuthService} from '../../../../../services/auth/auth.service';
@@ -17,7 +17,6 @@ import {AddressService} from '../../../../../services/address/address.service';
 export class UserAddressFormComponent {
   private addressService = inject(AddressService);
   private authService = inject(AuthService);
-  private destroyRef = inject(DestroyRef);
 
   form = new FormGroup({
     id: new FormControl<null>(null),
@@ -52,16 +51,14 @@ export class UserAddressFormComponent {
       return;
     }
 
-    const sub = this.addressService.createAddress(userId, {
-      id: null,
-      street: this.form.get("street")!.value,
-      streetNr: Number(this.form.get("number")!.value),
-      gate: this.form.get("gate")!.value === null ? null : this.form.get("gate")!.value,
-      staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
-      floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
-      door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
-    }).subscribe();
-
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    /*   const sub = this.addressService.createAddress(userId, {
+         id: null,
+         street: this.form.get("street")!.value,
+         streetNr: Number(this.form.get("number")!.value),
+         gate: this.form.get("gate")!.value === null ? null : this.form.get("gate")!.value,
+         staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
+         floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
+         door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
+       }).subscribe();*/
   }
 }

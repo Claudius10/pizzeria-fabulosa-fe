@@ -1,41 +1,43 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {AddressFormData} from '../../interfaces/forms/order';
-import {catchError} from 'rxjs';
+import {firstValueFrom} from 'rxjs';
 import {AddressDTO} from '../../interfaces/dto/order';
-import {toObservable} from '@angular/core/rxjs-interop';
+import {AddressHttpService} from './address-http.service';
+import {BaseUserQueryOptions, UserAddressListQueryResult} from '../../interfaces/query';
+import {injectQuery} from '@tanstack/angular-query-experimental';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
-  private httpClient = inject(HttpClient);
-  private addressList = signal<AddressDTO[]>([]);
+  private addressHttpService = inject(AddressHttpService);
 
-  public findAddressList(userId: string | undefined) {
-    if (userId === undefined) {
-      return toObservable(this.addressList);
+  public findUserAddressList(options: BaseUserQueryOptions) {
+    if (options.userId !== undefined) {
+      const query = injectQuery(() => ({
+        queryKey: options.queryKey,
+        queryFn: () => firstValueFrom(this.addressHttpService.findUserAddressList(options.userId!))
+      }));
+
+      const queryResult: UserAddressListQueryResult = {
+        data: query.data,
+        status: query.status,
+        error: query.error
+      };
+
+      return queryResult;
     }
 
-    return this.httpClient.get<AddressDTO[]>(`http://192.168.1.128:8080/api/user/${userId}/address`, {withCredentials: true})
-      .pipe(catchError((err, caught) => {
-        // have to return an Observable or throw the error
-        const error = err as string;
-        console.log(error);
-        console.log(err.error.message);
-        return toObservable(this.addressList);
-      }));
+    const emptyAddressList: AddressDTO[] = [];
+    const queryResult: UserAddressListQueryResult = {
+      data: signal(emptyAddressList),
+      status: signal("error"),
+      error: signal(new Error("User id is undefined"))
+    };
+
+    return queryResult;
   }
 
-  public getAddressList() {
-    return this.addressList.asReadonly();
-  }
-
-  public setAddressList(addressList: AddressDTO[]) {
-    this.addressList.set(addressList);
-  }
-
-  public createAddress(userId: string, address: AddressFormData) {
+  /*public createAddress(userId: string, address: AddressFormData) {
     return this.httpClient.post(`http://192.168.1.128:8080/api/user/${userId}/address`, address, {
       withCredentials: true,
       responseType: "text"
@@ -43,5 +45,5 @@ export class AddressService {
       .pipe(catchError((err, caught) => {
         throw err as string;
       }));
-  }
+  }*/
 }

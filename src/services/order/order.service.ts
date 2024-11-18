@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {OrderDTO} from '../../interfaces/dto/order';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../query-keys';
+import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../interfaces/query-keys';
 import {
   OrderSummaryListQueryOptions,
   OrderSummaryListQueryResult,
@@ -63,9 +63,7 @@ export class OrderService {
 
     const queryResult: OrderSummaryListQueryResult = {
       data: query.data,
-      isLoading: query.isLoading,
-      isSuccess: query.isSuccess(),
-      isError: query.isError(),
+      status: query.status,
       error: query.error
     };
 
@@ -80,9 +78,7 @@ export class OrderService {
 
     const queryResult: UserOrderQueryResult = {
       data: query.data,
-      isLoading: query.isLoading,
-      isSuccess: query.isSuccess(),
-      isError: query.isError(),
+      status: query.status,
       error: query.error
     };
 

@@ -1,22 +1,34 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {LoginHttpService} from './login-http.service';
+import {injectMutation} from '@tanstack/angular-query-experimental';
+import {LoginMutation} from '../../interfaces/mutation';
 import {LoginForm} from '../../interfaces/forms/account';
-import {catchError} from 'rxjs';
+import {AuthService} from '../auth/auth.service';
+import {CookieService} from 'ngx-cookie-service';
+import {lastValueFrom} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
-  private httpClient = inject(HttpClient);
+  private loginHttpService = inject(LoginHttpService);
+  private authService = inject(AuthService);
+  private cookieService = inject(CookieService);
 
-  public login(data: LoginForm) {
-    return this.httpClient.post(`http://192.168.1.128:8080/api/auth/login?username=${data.email}&password=${data.password}`,
-      {responseType: "text"},
-      {withCredentials: true})
-      .pipe(
-        catchError((err) => {
-          throw err as string;
-        })
-      );
+  public login() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: LoginForm) => lastValueFrom(this.loginHttpService.login(data)), onSuccess: () => {
+        this.authService.setUserCredentials(this.cookieService.get("idToken"));
+      }
+    }));
+
+    const mutationResult: LoginMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
   }
 }

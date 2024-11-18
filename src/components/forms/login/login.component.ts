@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginService} from '../../../services/login/login.service';
-import {CookieService} from 'ngx-cookie-service';
-import {AuthService} from '../../../services/auth/auth.service';
+import {LoginForm} from '../../../interfaces/forms/account';
 
 @Component({
   selector: 'app-login',
@@ -19,9 +18,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 })
 export class LoginComponent {
   private loginService = inject(LoginService);
-  private authService = inject(AuthService);
-  private cookieService = inject(CookieService);
-  private destroyRef = inject(DestroyRef);
+  private login = this.loginService.login();
 
   form = new FormGroup({
     email: new FormControl<string>("", {
@@ -43,20 +40,11 @@ export class LoginComponent {
       return;
     }
 
-    const sub = this.loginService.login({
+    const data: LoginForm = {
       email: this.form.get("email")!.value,
       password: this.form.get("password")!.value,
-    }).subscribe({
-      next: value => {
-        console.log("response: ", value);
-        this.authService.setUserCredentials(this.cookieService.get("idToken"));
+    };
 
-      },
-      error: error => {
-        console.log("error: ", error.error);
-      }
-    });
-
-    this.destroyRef.onDestroy(() => sub.unsubscribe());
+    this.login.mutate(data);
   }
 }

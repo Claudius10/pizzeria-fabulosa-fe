@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -16,6 +16,7 @@ import {CartService} from '../../../../services/cart/cart.service';
 import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
+import {USER_ADDRESS_LIST} from '../../../../interfaces/query-keys';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -34,27 +35,15 @@ export class UserCheckoutFormComponent {
   private cartService = inject(CartService);
   private authService = inject(AuthService);
   private addressService = inject(AddressService);
-  private destroyRef = inject(DestroyRef);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  addressList = this.addressService.getAddressList();
+  addressList = this.addressService.findUserAddressList({
+    queryKey: USER_ADDRESS_LIST,
+    userId: this.authService.getUserId()
+  });
   orderToUpdateId = this.orderService.getOrderToUpdateId();
   createUserOrder = this.orderService.createUserOrder();
   updateUserOrder = this.orderService.updateUserOrder();
-
-  constructor() {
-    if (this.addressList().length === 0) {
-      const subscription = this.addressService.findAddressList(this.authService.getUserId()).subscribe({
-        next: addressList => {
-          this.addressService.setAddressList(addressList);
-        }
-      });
-
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
-    }
-  }
 
   form = new FormGroup({
     addressId: new FormControl(0, {

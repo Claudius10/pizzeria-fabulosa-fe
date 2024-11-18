@@ -14,7 +14,7 @@
 
     @if (checkoutFormService.homeDeliveryOptionVisibility) {
       <select id="address" formControlName="addressId">
-        @for (address of addressList(); track address.id) {
+        @for (address of addressList.data(); track address.id) {
           <option [value]="address.id">{{ address.street }} | {{ address.streetNr }}</option>
         }
       </select>

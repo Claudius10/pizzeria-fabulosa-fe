@@ -7,7 +7,8 @@ import {OrderService} from '../../../services/order/order.service';
 import {AddressItemComponent} from '../address-item/address-item.component';
 import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
-import {userOrderQueryKey} from '../../../query-keys';
+import {userOrderQueryKey} from '../../../interfaces/query-keys';
+import {SUCCESS} from '../../../utils/constants';
 
 @Component({
   selector: 'app-order',
@@ -46,7 +47,7 @@ export class OrderComponent {
   }
 
   startUpdate() {
-    if (this.order.isSuccess) {
+    if (this.order.status() === SUCCESS) {
       const cart = this.order.data()!.cart;
       this.cartService.setOrderCart(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
       this.orderService.setOrderToUpdateId(this.order.data()!.id.toString());

@@ -3,7 +3,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {OrderSummaryComponent} from '../order-summary/order-summary.component';
 import {OrderService} from '../../../services/order/order.service';
 import {injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER_SUMMARY_LIST} from '../../../query-keys';
+import {USER_ORDER_SUMMARY_LIST} from '../../../interfaces/query-keys';
 
 @Component({
   selector: 'app-order-summary-list',

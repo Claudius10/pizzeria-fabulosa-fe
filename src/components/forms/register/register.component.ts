@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -11,6 +11,7 @@ import {
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RegisterService} from '../../../services/register/register.service';
 import {RouterLink} from '@angular/router';
+import {RegisterForm} from '../../../interfaces/forms/account';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,7 @@ import {RouterLink} from '@angular/router';
 })
 export class RegisterComponent {
   private registerService = inject(RegisterService);
-  private destroyRef = inject(DestroyRef);
+  private register = this.registerService.createNewUser();
 
   form = new FormGroup({
     name: new FormControl<string>("", {
@@ -62,26 +63,18 @@ export class RegisterComponent {
       return;
     }
 
-    const sub = this.registerService.registerNewUser({
+    const data: RegisterForm = {
       name: this.form.get("name")!.value,
       email: this.form.get("email")!.value,
       matchingEmail: this.form.get("matchingEmail")!.value,
       password: this.form.get("password")!.value,
       matchingPassword: this.form.get("matchingPassword")!.value
-    }).subscribe({
-      next: value => {
-        console.log("response");
-        console.log(value);
-      },
-      error: error => {
-        console.log("error");
-        console.log(error);
-        console.log(error.error);
-      }
-    });
+    };
 
-    this.destroyRef.onDestroy(() => {
-      sub.unsubscribe();
+    this.register.mutate(data, {
+      onSuccess: (response) => {
+        console.log(response);
+      }
     });
   }
 }

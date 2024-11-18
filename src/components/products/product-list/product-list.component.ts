@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ResourceService} from '../../../services/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {ProductDTO} from '../../../interfaces/dto/resources';
+import {RESOURCE_PRODUCT_PIZZA} from '../../../interfaces/query-keys';
 
 @Component({
   selector: 'app-product-list',
@@ -16,5 +15,5 @@ import {ProductDTO} from '../../../interfaces/dto/resources';
 })
 export class ProductListComponent {
   private resourceService = inject(ResourceService);
-  protected products = toSignal<ProductDTO[]>(this.resourceService.getProducts("pizza"));
+  protected products = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
 }
