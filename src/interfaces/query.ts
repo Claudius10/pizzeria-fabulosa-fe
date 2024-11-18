@@ -1,21 +1,7 @@
 import {Signal} from '@angular/core';
 import {AddressDTO, OrderDTO, OrderSummaryListDTO} from './dto/order';
 import {ProductDTO} from './dto/resources';
-
-// ---------- BASE QUERY ----------
-
-interface BaseQueryResult {
-  status: Signal<"error" | "success" | "pending">;
-  error: Signal<Error | null>;
-}
-
-export interface BaseQueryOptions {
-  queryKey: string[];
-}
-
-export interface BaseUserQueryOptions extends BaseQueryOptions {
-  userId: string | undefined;
-}
+import {BaseQueryResult, BaseUserQueryOptions} from './base';
 
 // ---------- USER QUERY ----------
 

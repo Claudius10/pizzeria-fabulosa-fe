@@ -3,6 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {AddressService} from '../../../../../services/address/address.service';
+import {UserService} from '../../../../../services/user/user.service';
+import {AddressFormData} from '../../../../../interfaces/forms/order';
 
 @Component({
   selector: 'app-user-address-form',
@@ -15,8 +17,9 @@ import {AddressService} from '../../../../../services/address/address.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressFormComponent {
-  private addressService = inject(AddressService);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
+  private createAddress = this.userService.createUserAddress();
 
   form = new FormGroup({
     id: new FormControl<null>(null),
@@ -51,14 +54,21 @@ export class UserAddressFormComponent {
       return;
     }
 
-    /*   const sub = this.addressService.createAddress(userId, {
-         id: null,
-         street: this.form.get("street")!.value,
-         streetNr: Number(this.form.get("number")!.value),
-         gate: this.form.get("gate")!.value === null ? null : this.form.get("gate")!.value,
-         staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
-         floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
-         door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
-       }).subscribe();*/
+    const data: AddressFormData = {
+      id: null,
+      street: this.form.get("street")!.value,
+      streetNr: Number(this.form.get("number")!.value),
+      gate: this.form.get("gate")!.value === null ? null : this.form.get("gate")!.value,
+      staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
+      floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
+      door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
+    };
+
+    this.createAddress.mutate({userId: this.authService.getUserId(), data: data}, {
+      onSuccess: () => {
+      },
+      onError: () => {
+      }
+    });
   }
 }

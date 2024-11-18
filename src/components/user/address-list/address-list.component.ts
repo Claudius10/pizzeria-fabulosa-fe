@@ -7,6 +7,7 @@ import {
 import {AddressService} from '../../../services/address/address.service';
 import {USER_ADDRESS_LIST} from '../../../interfaces/query-keys';
 import {SUCCESS} from '../../../utils/constants';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-address-list',
@@ -20,10 +21,13 @@ import {SUCCESS} from '../../../utils/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressListComponent {
+
+  // TODO - add input with address list
+
   protected readonly SUCCESS = SUCCESS;
-  private addressService = inject(AddressService);
+  private userService = inject(UserService);
   private authService = inject(AuthService);
-  protected addressList = this.addressService.findUserAddressList({
+  protected addressList = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
     userId: this.authService.getUserId()
   });

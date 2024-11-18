@@ -17,6 +17,7 @@ import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
 import {USER_ADDRESS_LIST} from '../../../../interfaces/query-keys';
+import {UserService} from '../../../../services/user/user.service';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -34,10 +35,10 @@ export class UserCheckoutFormComponent {
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private authService = inject(AuthService);
-  private addressService = inject(AddressService);
+  private userService = inject(UserService);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  addressList = this.addressService.findUserAddressList({
+  addressList = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
     userId: this.authService.getUserId()
   });

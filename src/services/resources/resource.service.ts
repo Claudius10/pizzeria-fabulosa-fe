@@ -1,8 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {ResourcesHttpService} from './resources-http.service';
 import {injectQuery} from '@tanstack/angular-query-experimental';
-import {BaseQueryOptions, ProductsQueryResult} from '../../interfaces/query';
+import {ProductsQueryResult} from '../../interfaces/query';
 import {firstValueFrom} from 'rxjs';
+import {BaseQueryOptions} from '../../interfaces/base';
 
 @Injectable({
   providedIn: 'root'
