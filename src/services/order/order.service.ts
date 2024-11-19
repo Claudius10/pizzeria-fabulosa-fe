@@ -72,6 +72,7 @@ export class OrderService {
 
   public findUserOrder(options: UserOrderQueryOptions) {
     const query = injectQuery(() => ({
+      // enabled: options.userId !== undefined,
       queryKey: options.queryKey,
       queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(options))
     }));
@@ -108,10 +109,6 @@ export class OrderService {
 
   public getOrderFromQueryCache(orderId: string | null) {
     return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
-  }
-
-  public async cancelFindUserOrder(orderId: string) {
-    await this.queryClient.cancelQueries({queryKey: userOrderQueryKey(orderId)});
   }
 
   public getOrderToUpdateId() {

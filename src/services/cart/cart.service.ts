@@ -19,6 +19,14 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
+  public clear() {
+    this.items.set([]);
+    this.total.set(0);
+    this.totalAfterOffers.set(0);
+    this.quantity.set(0);
+    this.calculateCostWithOffers([], 0);
+  }
+
   public setOrderCart(items: CartItemDTO[], quantity: number, total: number, totalAfterOffers: number) {
     this.items.set(items);
     this.quantity.set(quantity);
@@ -85,6 +93,12 @@ export class CartService {
   }
 
   private calculateCostWithOffers(items: CartItemDTO[], total: number) {
+    if (items.length === 0 || total === 0) {
+      this.secondHalfPriceOffer.set(0);
+      this.threeForTwoOffers.set(0);
+      return;
+    }
+
     const pizzaItems = this.getPizzaItems(items);
     const pizzaQuantity = this.getPizzaQuantity(pizzaItems);
     const pizzaPrices = this.getPizzaPrices(pizzaItems);

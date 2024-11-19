@@ -5,6 +5,7 @@ import {provideHttpClient, withFetch} from '@angular/common/http';
 import {AuthService} from '../../services/auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
 import {provideTanStackQuery, QueryClient, withDevtools} from '@tanstack/angular-query-experimental';
+import {provideAnimations} from '@angular/platform-browser/animations';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -22,6 +23,7 @@ function initializeApp(cookieService: CookieService, authService: AuthService) {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes, withComponentInputBinding()),
     //provideClientHydration(),

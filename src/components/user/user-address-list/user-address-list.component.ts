@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {
-  UserAddressFormComponent
-} from '../../forms/user/address-form/user-address-form.component';
+import {UserAddressFormComponent} from '../../forms/user/address-form/user-address-form.component';
 import {USER_ADDRESS_LIST} from '../../../interfaces/query-keys';
 import {SUCCESS} from '../../../utils/constants';
 import {UserService} from '../../../services/user/user.service';

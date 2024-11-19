@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/forms/account';
@@ -18,6 +18,7 @@ import {AccountService} from '../../../services/account/account.service';
 })
 export class LoginComponent {
   private accountService = inject(AccountService);
+  private router = inject(Router);
   private login = this.accountService.login();
 
   form = new FormGroup({
@@ -45,6 +46,13 @@ export class LoginComponent {
       password: this.form.get("password")!.value,
     };
 
-    this.login.mutate(data);
+    this.login.mutate(data, {
+      onSuccess: () => {
+        // notification
+        this.router.navigate(["/menu/pizzas"]);
+      },
+      onError: () => {
+      }
+    });
   }
 }

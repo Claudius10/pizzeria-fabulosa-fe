@@ -13,7 +13,6 @@ import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
-import {AddressService} from '../../../../services/address/address.service';
 import {OrderService} from '../../../../services/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
 import {USER_ADDRESS_LIST} from '../../../../interfaces/query-keys';
@@ -114,6 +113,7 @@ export class UserCheckoutFormComponent {
         onSuccess: (response: string) => {
           console.log(response);
           console.log("success");
+          this.cartService.clear();
         },
         onError: (error, variables, context) => {
           console.log(error);
@@ -144,6 +144,7 @@ export class UserCheckoutFormComponent {
         onSuccess: (response: string) => {
           console.log(response);
           console.log("success");
+          this.cartService.clear();
         },
         onError: (error, variables, context) => {
           console.log(error);

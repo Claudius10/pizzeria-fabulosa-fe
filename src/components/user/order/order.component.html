@@ -1,21 +1,33 @@
-<div>
-  @if (order.data(); as order) {
-    <div>
-      <p>Order id: {{ order.id }}</p>
-      <p>Fecha creación: {{ order.createdOn }}</p>
-      <app-user-details data-test-key="userDetails" [name]="userName()!" [email]="userEmail()!"
-                        [contactNumber]="userContactNumber()!"/>
-      <app-user-address-item [address]="order.address"/>
-      <app-order-details [orderDetails]="order.orderDetails"/>
-    </div>
-  }
-</div>
+@if (order.status() === SUCCESS) {
+  <div>
+    @if (order.data(); as order) {
+      <div>
+        <p>Order id: {{ order.id }}</p>
+        <p>Fecha creación: {{ order.createdOn }}</p>
+        <app-user-details data-test-key="userDetails" [name]="userName()!" [email]="userEmail()!"
+                          [contactNumber]="userContactNumber()!"/>
+        <app-user-address-item [address]="order.address"/>
+        <app-order-details [orderDetails]="order.orderDetails"/>
+      </div>
+    }
+  </div>
 
-@if (orderToUpdateId() === null) {
-  <button data-test-key="updateButton" (click)="startUpdate()" type="button">Actualizar pedido</button>
+  @if (orderToUpdateId() === null) {
+    <button data-test-key="updateButton" (click)="beginUpdate()" type="button">Actualizar pedido</button>
+    <button data-test-key="deleteButton" (click)="beginDelete()" type="button">Cancelar pedido</button>
+  }
+  <p-toast />
+
+  @if (orderToUpdateId() !== null) {
+    <app-user-checkout-form data-test-key="userCheckOutForm"/>
+    <button data-test-key="cancelUpdateButton" (click)="cancelUpdate()" type="button">Cancelar actualización</button>
+  }
 }
 
-@if (orderToUpdateId() !== null) {
-  <app-user-checkout-form data-test-key="userCheckOutForm"/>
-  <button data-test-key="cancelUpdateButton" (click)="finishUpdate()" type="button">Cancelar actualización</button>
+@if (order.status() === PENDING) {
+  <div>Cargando...</div>
+}
+
+@if (order.status() === ERROR) {
+  <div>Error..</div>
 }

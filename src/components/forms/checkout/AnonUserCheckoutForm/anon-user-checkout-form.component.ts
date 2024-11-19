@@ -144,6 +144,7 @@ export class AnonUserCheckoutFormComponent {
       onSuccess: (response: AnonOrderDTO) => {
         console.log(response);
         console.log("success");
+        this.cartService.clear();
       },
       onError: (error, variables, context) => {
         console.log(error);
