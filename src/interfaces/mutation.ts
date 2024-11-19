@@ -1,11 +1,11 @@
 import {Signal} from '@angular/core';
-import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
 import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from './forms/order';
 import {AnonOrderDTO} from './dto/order';
 import {DeleteAccountForm, LoginForm, RegisterForm} from './forms/account';
 import {BaseUserMutationOptions} from './base';
+import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
 
-// ---------- BASE QUERY ----------
+// ---------- BASE MUTATION ----------
 
 export interface BaseMutationResult {
   isSuccess: Signal<boolean>;
@@ -13,14 +13,13 @@ export interface BaseMutationResult {
   isPending: Signal<boolean>;
 }
 
-// ---------- ANON QUERY ----------
+// ---------- ANON MUTATION ----------
 
 export interface AnonOrderMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<AnonOrderDTO, Error, AnonOrderFormData>;
 }
 
-// ---------- ACCOUNT QUERY ----------
-
+// ---------- ACCOUNT MUTATION ----------
 
 export interface LoginMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<Object, Error, LoginForm>;
@@ -38,7 +37,7 @@ export interface DeleteMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<Object, Error, DeleteAccountForm>;
 }
 
-// ---------- USER QUERY ----------
+// ---------- ORDER MUTATION ----------
 
 export interface UserOrderMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<string, Error, NewUserOrderFormData>;
@@ -48,7 +47,15 @@ export interface UserOrderUpdateMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<string, Error, UpdateUserOrderFormData>;
 }
 
-// ---------- ADDRESS QUERY ----------
+export interface UserOrderDeleteMutation extends BaseMutationResult {
+  mutate: CreateMutateFunction<string, Error, UserOrderDeleteMutationOptions>;
+}
+
+export interface UserOrderDeleteMutationOptions extends BaseUserMutationOptions {
+  orderId: number;
+}
+
+// ---------- ADDRESS MUTATION ----------
 
 export interface UserAddressMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<string, Error, UserAddressMutationOptions>;

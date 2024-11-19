@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
 import {OrderService} from '../../../services/order/order.service';
@@ -9,8 +9,9 @@ import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {userOrderQueryKey} from '../../../interfaces/query-keys';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
-import {MessageService} from 'primeng/api';
+import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
+import {ConfirmDialogModule} from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-order',
@@ -20,9 +21,10 @@ import {ToastModule} from 'primeng/toast';
     UserCheckoutFormComponent,
     UserAddressItemComponent,
     UserDetailsComponent,
-    OrderDetailsComponent
+    OrderDetailsComponent,
+    ConfirmDialogModule
   ],
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -36,12 +38,15 @@ export class OrderComponent {
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
+  private router = inject(Router);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order = this.orderService.findUserOrder({
     orderId: this.orderId,
     userId: this.authService.getUserId(),
     queryKey: userOrderQueryKey(this.orderId)
   });
+  delete = this.orderService.deleteUserOrder();
   orderToUpdateId = this.orderService.getOrderToUpdateId();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
@@ -56,26 +61,74 @@ export class OrderComponent {
     } else {
       this.messageService.add({
         severity: 'warn',
-        summary: 'Advertencia',
-        detail: 'El tiempo limite para modificar el pedido ha terminado'
+        summary: 'Política de actualización',
+        detail: 'EL pedido no se puede modificar transcurrido 10 minutos'
       });
     }
   }
 
   cancelUpdate() {
     this.orderService.setOrderToUpdateId(null);
+    this.cartService.clear();
   }
 
-  beginDelete() {
-
-  }
-
-  confirmDelete() {
-
-  }
-
-  cancelDelete() {
-
+  beginDelete(event: Event) {
+    const isDeleteAllowed = isOrderMutationAllowed(this.order.data()!.createdOn, 10);
+    if (isDeleteAllowed) {
+      this.confirmationService.confirm({
+        target: event.target as EventTarget,
+        message: '¿Desea cancelar el pedido?',
+        header: 'Confirmación',
+        icon: 'pi pi-exclamation-triangle',
+        acceptIcon: "none",
+        rejectIcon: "none",
+        rejectButtonStyleClass: "p-button-text",
+        accept: () => {
+          // if user accepts, send delete
+          this.delete.mutate({userId: this.authService.getUserId(), orderId: this.order.data()!.id}, {
+            onSuccess: (orderId) => {
+              // trigger toast
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Confirmado',
+                detail: `Pedido ${orderId} eliminado. Redirigiendo en 2 segundos...`,
+                life: 2000
+              });
+              // nav to order summary list after two seconds
+              setTimeout(() => {
+                this.router.navigate(["usuario", "pedidos"]).catch(reason => {
+                  // handle nav error
+                });
+              }, 2000);
+            },
+            onError: () => {
+              // trigger toast
+              this.messageService.add({
+                severity: 'info',
+                summary: 'Error',
+                detail: `Error al eliminar el pedido`,
+                life: 2000
+              });
+            }
+          });
+        },
+        // if user rejects
+        reject: () => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Cancelado',
+            detail: 'Eliminación cancelada',
+            life: 2000
+          });
+        }
+      });
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Política de actualización',
+        detail: 'EL pedido no se puede modificar transcurrido 10 minutos'
+      });
+    }
   }
 }
 

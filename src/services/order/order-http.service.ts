@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
 import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
 import {OrderSummaryListQueryOptions, UserOrderQueryOptions} from '../../interfaces/query';
+import {UserOrderDeleteMutationOptions} from '../../interfaces/mutation';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,11 @@ export class OrderHttpService {
 
   public updateUserOrder(data: UpdateUserOrderFormData) {
     return this.httpClient.put<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order/${data.orderId}`, data.order,
+      {withCredentials: true});
+  }
+
+  public deleteUserOrder(data: UserOrderDeleteMutationOptions) {
+    return this.httpClient.delete<string>(`http://192.168.1.128:8080/api/user/${data.userId}/order/${data.orderId}`,
       {withCredentials: true});
   }
 }

@@ -49,7 +49,7 @@ export class AccountService {
 
   public create() {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: RegisterForm) => firstValueFrom(this.accountHttpService.create(data))
+      mutationFn: (data: RegisterForm) => lastValueFrom(this.accountHttpService.create(data))
     }));
 
     const mutationResult: RegisterMutation = {

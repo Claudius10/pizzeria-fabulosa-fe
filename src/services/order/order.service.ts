@@ -9,7 +9,13 @@ import {
   UserOrderQueryOptions,
   UserOrderQueryResult
 } from '../../interfaces/query';
-import {AnonOrderMutation, UserOrderMutation, UserOrderUpdateMutation} from '../../interfaces/mutation';
+import {
+  AnonOrderMutation,
+  UserOrderDeleteMutation,
+  UserOrderDeleteMutationOptions,
+  UserOrderMutation,
+  UserOrderUpdateMutation
+} from '../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
 
@@ -98,6 +104,25 @@ export class OrderService {
     }));
 
     const mutationResult: UserOrderUpdateMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
+  }
+
+  public deleteUserOrder() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: UserOrderDeleteMutationOptions) => lastValueFrom(this.orderHttpService.deleteUserOrder(data)),
+      onSuccess: (orderId: string) => {
+        // mark user order summary list as stale
+        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+      }
+    }));
+
+    const mutationResult: UserOrderDeleteMutation = {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,

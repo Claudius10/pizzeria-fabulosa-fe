@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {BaseUserQueryOptions} from '../../interfaces/base';
 import {injectMutation, injectQuery} from '@tanstack/angular-query-experimental';
-import {firstValueFrom} from 'rxjs';
+import {lastValueFrom} from 'rxjs';
 import {UserAddressListQueryResult} from '../../interfaces/query';
 import {AddressDTO} from '../../interfaces/dto/order';
 import {UserAddressMutation, UserAddressMutationOptions} from '../../interfaces/mutation';
@@ -17,7 +17,7 @@ export class UserService {
     if (options.userId !== undefined) {
       const query = injectQuery(() => ({
         queryKey: options.queryKey,
-        queryFn: () => firstValueFrom(this.userHttpService.findUserAddressList(options.userId!))
+        queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.userId!))
       }));
 
       const queryResult: UserAddressListQueryResult = {
@@ -41,7 +41,7 @@ export class UserService {
 
   public createUserAddress() {
     const mutation = injectMutation(() => ({
-      mutationFn: (options: UserAddressMutationOptions) => firstValueFrom(this.userHttpService.createUserAddress(options)),
+      mutationFn: (options: UserAddressMutationOptions) => lastValueFrom(this.userHttpService.createUserAddress(options)),
     }));
 
     const mutationResult: UserAddressMutation = {
