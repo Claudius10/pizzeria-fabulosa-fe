@@ -1,0 +1,8 @@
+<div>
+  <p>Borra tu cuenta</p>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="password">Contraseña*</label>
+    <input id="password" type="password" formControlName="password">
+    <button type="submit">Continuar</button>
+  </form>
+</div>

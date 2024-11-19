@@ -1,8 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {injectMutation} from '@tanstack/angular-query-experimental';
-import {LoginForm, RegisterForm} from '../../interfaces/forms/account';
+import {DeleteAccountForm, LoginForm, RegisterForm} from '../../interfaces/forms/account';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
-import {LoginMutation, LogoutMutation, RegisterMutation} from '../../interfaces/mutation';
+import {DeleteMutation, LoginMutation, LogoutMutation, RegisterMutation} from '../../interfaces/mutation';
 import {AuthService} from '../auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
 import {AccountHttpService} from './account-http.service';
@@ -53,6 +53,21 @@ export class AccountService {
     }));
 
     const mutationResult: RegisterMutation = {
+      mutate: mutation.mutate,
+      isSuccess: mutation.isSuccess,
+      isError: mutation.isError,
+      isPending: mutation.isPending
+    };
+
+    return mutationResult;
+  }
+
+  public delete() {
+    const mutation = injectMutation(() => ({
+      mutationFn: (data: DeleteAccountForm) => lastValueFrom(this.accountHttpService.delete(data))
+    }));
+
+    const mutationResult: DeleteMutation = {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
