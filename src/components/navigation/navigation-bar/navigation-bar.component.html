@@ -1,7 +1,7 @@
 <div>
   <button routerLink="">Home</button>
   <button routerLink="menu/pizzas">Pizzas</button>
-  <button>Bebidas</button>
+  <button>{{ 'navigation.button.beverages' | translate }}</button>
 
   @if (!isAuthenticated()) {
     <button routerLink="iniciar-sesion">Inicia Sesión</button>
@@ -10,4 +10,5 @@
   }
 
   <app-theme-selector/>
+  <app-locale-selector/>
 </div>

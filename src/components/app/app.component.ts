@@ -2,6 +2,8 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../navigation/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../footer/footer.component';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import defaultLanguage from "../../../public/i18n/en.json";
 
 @Component({
   selector: 'app-root',
@@ -9,7 +11,8 @@ import {FooterComponent} from '../footer/footer.component';
   imports: [
     NavigationBarComponent,
     RouterOutlet,
-    FooterComponent
+    FooterComponent,
+    TranslateModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -17,4 +20,10 @@ import {FooterComponent} from '../footer/footer.component';
 })
 export class AppComponent {
   title = 'PizzeriaAngularFE';
+
+  constructor(private translate: TranslateService) {
+    this.translate.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
+    this.translate.setTranslation('en', defaultLanguage);
+    this.translate.setDefaultLang('en');
+  }
 }

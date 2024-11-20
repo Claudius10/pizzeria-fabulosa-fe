@@ -27,7 +27,7 @@
               }
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/primeflex/primeflex.css",
               {
                 "input": "src/themes/theme-lara-dark-blue.scss",
