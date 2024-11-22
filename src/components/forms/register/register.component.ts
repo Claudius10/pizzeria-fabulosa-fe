@@ -11,7 +11,7 @@ import {
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RouterLink} from '@angular/router';
 import {RegisterForm} from '../../../interfaces/forms/account';
-import {AccountService} from '../../../services/account/account.service';
+import {AccountService} from '../../../services/http/account/account.service';
 
 @Component({
   selector: 'app-register',

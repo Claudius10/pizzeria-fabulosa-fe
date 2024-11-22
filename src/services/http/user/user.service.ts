@@ -1,10 +1,10 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {BaseUserQueryOptions} from '../../interfaces/base';
+import {BaseUserQueryOptions} from '../../../interfaces/base';
 import {injectMutation, injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {UserAddressListQueryResult} from '../../interfaces/query';
-import {AddressDTO} from '../../interfaces/dto/order';
-import {UserAddressMutation, UserAddressMutationOptions} from '../../interfaces/mutation';
+import {UserAddressListQueryResult} from '../../../interfaces/query';
+import {AddressDTO} from '../../../interfaces/dto/order';
+import {UserAddressMutation, UserAddressMutationOptions} from '../../../interfaces/mutation';
 import {UserHttpService} from './user-http.service';
 
 @Injectable({
@@ -13,44 +13,38 @@ import {UserHttpService} from './user-http.service';
 export class UserService {
   private userHttpService = inject(UserHttpService);
 
-  public findUserAddressList(options: BaseUserQueryOptions) {
+  public findUserAddressList(options: BaseUserQueryOptions): UserAddressListQueryResult {
     if (options.userId !== undefined) {
       const query = injectQuery(() => ({
         queryKey: options.queryKey,
         queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.userId!))
       }));
 
-      const queryResult: UserAddressListQueryResult = {
+      return {
         data: query.data,
         status: query.status,
         error: query.error
       };
-
-      return queryResult;
     }
 
     const emptyAddressList: AddressDTO[] = [];
-    const queryResult: UserAddressListQueryResult = {
+    return {
       data: signal(emptyAddressList),
       status: signal("error"),
       error: signal(new Error("User id is undefined"))
     };
-
-    return queryResult;
   }
 
-  public createUserAddress() {
+  public createUserAddress(): UserAddressMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (options: UserAddressMutationOptions) => lastValueFrom(this.userHttpService.createUserAddress(options)),
     }));
 
-    const mutationResult: UserAddressMutation = {
+    return {
       mutate: mutation.mutate,
       isError: mutation.isError,
       isPending: mutation.isPending,
       isSuccess: mutation.isSuccess,
     };
-
-    return mutationResult;
   }
 }

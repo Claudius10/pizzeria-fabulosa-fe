@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CartService} from '../../services/cart/cart.service';
 import {CartItemComponent} from './cart-item/cart-item.component';
 import {RouterLink} from '@angular/router';
-import {OrderService} from '../../services/order/order.service';
+import {OrderService} from '../../services/http/order/order.service';
 
 @Component({
   selector: 'app-cart',

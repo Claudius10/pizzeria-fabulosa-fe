@@ -2,7 +2,6 @@ import {Signal} from '@angular/core';
 import {AddressDTO, OrderDTO, OrderSummaryListDTO} from './dto/order';
 import {ProductDTO} from './dto/resources';
 import {BaseQueryResult, BaseUserQueryOptions} from './base';
-import {QueryObserverResult, RefetchOptions} from '@tanstack/angular-query-experimental';
 
 // ---------- USER QUERY ----------
 
@@ -12,9 +11,6 @@ export interface UserOrderQueryResult extends BaseQueryResult {
 
 export interface OrderSummaryListQueryResult extends BaseQueryResult {
   data: Signal<OrderSummaryListDTO | undefined>;
-}
-
-export interface OrderSummaryListQueryOptions extends BaseUserQueryOptions {
 }
 
 export interface UserOrderQueryOptions extends BaseUserQueryOptions {

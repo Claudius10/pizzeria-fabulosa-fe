@@ -18,7 +18,7 @@ import {
 } from '../../../../regex';
 import {CartComponent} from '../../../cart/cart.component';
 import {CartService} from '../../../../services/cart/cart.service';
-import {OrderService} from '../../../../services/order/order.service';
+import {OrderService} from '../../../../services/http/order/order.service';
 import {AnonOrderDTO} from '../../../../interfaces/dto/order';
 
 @Component({

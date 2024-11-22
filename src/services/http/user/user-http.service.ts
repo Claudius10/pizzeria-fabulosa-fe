@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AddressDTO} from '../../interfaces/dto/order';
-import {UserAddressMutationOptions} from '../../interfaces/mutation';
+import {AddressDTO} from '../../../interfaces/dto/order';
+import {UserAddressMutationOptions} from '../../../interfaces/mutation';
 
 @Injectable({
   providedIn: 'root'

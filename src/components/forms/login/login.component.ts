@@ -3,7 +3,7 @@ import {Router, RouterLink} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/forms/account';
-import {AccountService} from '../../../services/account/account.service';
+import {AccountService} from '../../../services/http/account/account.service';
 
 @Component({
   selector: 'app-login',

@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {injectMutation} from '@tanstack/angular-query-experimental';
-import {DeleteAccountForm, LoginForm, RegisterForm} from '../../interfaces/forms/account';
+import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/forms/account';
 import {lastValueFrom} from 'rxjs';
-import {DeleteMutation, LoginMutation, LogoutMutation, RegisterMutation} from '../../interfaces/mutation';
-import {AuthService} from '../auth/auth.service';
+import {DeleteMutation, LoginMutation, LogoutMutation, RegisterMutation} from '../../../interfaces/mutation';
+import {AuthService} from '../../auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
 import {AccountHttpService} from './account-http.service';
 
@@ -15,65 +15,57 @@ export class AccountService {
   private authService = inject(AuthService);
   private cookieService = inject(CookieService);
 
-  public login() {
+  public login(): LoginMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: LoginForm) => lastValueFrom(this.accountHttpService.login(data)), onSuccess: () => {
         this.authService.setUserCredentials(this.cookieService.get("idToken"));
       }
     }));
 
-    const mutationResult: LoginMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public logout() {
+  public logout(): LogoutMutation {
     const mutation = injectMutation(() => ({
       mutationFn: () => lastValueFrom(this.accountHttpService.logout())
     }));
 
-    const mutationResult: LogoutMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public create() {
+  public create(): RegisterMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: RegisterForm) => lastValueFrom(this.accountHttpService.create(data))
     }));
 
-    const mutationResult: RegisterMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public delete() {
+  public delete(): DeleteMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: DeleteAccountForm) => lastValueFrom(this.accountHttpService.delete(data))
     }));
 
-    const mutationResult: DeleteMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 }

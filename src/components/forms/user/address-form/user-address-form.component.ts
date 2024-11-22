@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {UserService} from '../../../../services/user/user.service';
+import {UserService} from '../../../../services/http/user/user.service';
 import {AddressFormData} from '../../../../interfaces/forms/order';
 
 @Component({

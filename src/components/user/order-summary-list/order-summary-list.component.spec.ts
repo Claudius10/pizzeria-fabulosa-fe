@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderSummaryListComponent} from './order-summary-list.component';
-import {OrderService} from '../../../services/order/order.service';
+import {OrderService} from '../../../services/http/order/order.service';
 
 describe('OrderListComponent', () => {
   let component: OrderSummaryListComponent;

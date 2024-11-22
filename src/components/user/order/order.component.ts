@@ -3,7 +3,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
-import {OrderService} from '../../../services/order/order.service';
+import {OrderService} from '../../../services/http/order/order.service';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';

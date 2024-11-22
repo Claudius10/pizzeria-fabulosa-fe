@@ -13,10 +13,10 @@ import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
-import {OrderService} from '../../../../services/order/order.service';
+import {OrderService} from '../../../../services/http/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
 import {USER_ADDRESS_LIST} from '../../../../interfaces/query-keys';
-import {UserService} from '../../../../services/user/user.service';
+import {UserService} from '../../../../services/http/user/user.service';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -145,6 +145,7 @@ export class UserCheckoutFormComponent {
           console.log(response);
           console.log("success");
           this.cartService.clear();
+          this.orderService.setOrderToUpdateId(null);
         },
         onError: (error, variables, context) => {
           console.log(error);

@@ -1,7 +1,7 @@
 import {OrderComponent} from './order.component';
 import {MockBuilder, MockedComponentFixture, MockInstance, MockRender} from 'ng-mocks';
 import {DebugElement, DestroyRef, signal} from '@angular/core';
-import {getEmptyOrder, OrderService} from '../../../services/order/order.service';
+import {getEmptyOrder, OrderService} from '../../../services/http/order/order.service';
 import {AuthService} from '../../../services/auth/auth.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ActivatedRoute} from '@angular/router';

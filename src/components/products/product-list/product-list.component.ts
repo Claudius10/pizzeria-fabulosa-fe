@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {ResourceService} from '../../../services/resources/resource.service';
+import {ResourceService} from '../../../services/http/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {RESOURCE_PRODUCT_PIZZA} from '../../../interfaces/query-keys';
 

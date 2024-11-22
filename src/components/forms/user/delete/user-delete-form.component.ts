@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {passwordRegex} from '../../../../regex';
-import {AccountService} from '../../../../services/account/account.service';
+import {AccountService} from '../../../../services/http/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {DeleteAccountForm} from '../../../../interfaces/forms/account';
 import {PaginatorModule} from 'primeng/paginator';

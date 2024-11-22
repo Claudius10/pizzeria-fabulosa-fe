@@ -3,7 +3,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {UserAddressFormComponent} from '../../forms/user/address-form/user-address-form.component';
 import {USER_ADDRESS_LIST} from '../../../interfaces/query-keys';
 import {SUCCESS} from '../../../utils/constants';
-import {UserService} from '../../../services/user/user.service';
+import {UserService} from '../../../services/http/user/user.service';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 
 @Component({

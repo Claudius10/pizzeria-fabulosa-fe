@@ -1,16 +1,16 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {OrderDTO} from '../../interfaces/dto/order';
-import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
-import {injectMutation, injectQuery, injectQueryClient, keepPreviousData} from '@tanstack/angular-query-experimental';
-import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../interfaces/query-keys';
-import {OrderSummaryListQueryResult, UserOrderQueryOptions, UserOrderQueryResult} from '../../interfaces/query';
+import {OrderDTO} from '../../../interfaces/dto/order';
+import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/forms/order';
+import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
+import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../interfaces/query-keys';
+import {OrderSummaryListQueryResult, UserOrderQueryOptions, UserOrderQueryResult} from '../../../interfaces/query';
 import {
   AnonOrderMutation,
   UserOrderDeleteMutation,
   UserOrderDeleteMutationOptions,
   UserOrderMutation,
   UserOrderUpdateMutation
-} from '../../interfaces/mutation';
+} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
 
@@ -21,10 +21,25 @@ export class OrderService {
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
   private orderToUpdateId = signal<string | null>(null);
-  private pageNumber = signal(0);
-  private pageSize = signal(2);
+  private pageNumber = signal(1);
 
-  public createUserOrder() {
+  public setPageNumber = (pageNumber: number): void => {
+    this.pageNumber.set(pageNumber);
+  };
+
+  public getOrderToUpdateId() {
+    return this.orderToUpdateId.asReadonly();
+  }
+
+  public setOrderToUpdateId(id: string | null) {
+    this.orderToUpdateId.set(id);
+  }
+
+  public getOrderFromQueryCache(orderId: string | null) {
+    return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
+  }
+
+  public createUserOrder(): UserOrderMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: NewUserOrderFormData) => lastValueFrom(this.orderHttpService.createUserOrder(data)),
       onSuccess: () => {
@@ -33,64 +48,55 @@ export class OrderService {
       }
     }));
 
-    const mutationResult: UserOrderMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public createAnonOrder() {
+  public createAnonOrder(): AnonOrderMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: AnonOrderFormData) => lastValueFrom(this.orderHttpService.createAnonOrder(data))
     }));
 
-    const mutationResult: AnonOrderMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public findOrderSummaryList(userId: string, pageNumber: number, pageSize: number) {
-    console.log(pageNumber);
+  public findOrderSummaryList(userId: string): OrderSummaryListQueryResult {
     const query = injectQuery(() => ({
-      queryKey: ["user", "order", "summary", pageNumber, pageSize],
-      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, pageNumber, pageSize)),
+      queryKey: ["user", "order", "summary", this.pageNumber() - 1],
+      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 5)),
     }));
 
-    const queryResult: OrderSummaryListQueryResult = {
+    return {
       data: query.data,
       status: query.status,
       error: query.error,
     };
-
-    return queryResult;
   }
 
-  public findUserOrder(options: UserOrderQueryOptions) {
+  public findUserOrder(options: UserOrderQueryOptions): UserOrderQueryResult {
     const query = injectQuery(() => ({
       // enabled: options.userId !== undefined,
       queryKey: options.queryKey,
       queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(options))
     }));
 
-    const queryResult: UserOrderQueryResult = {
+    return {
       data: query.data,
       status: query.status,
       error: query.error
     };
-
-    return queryResult;
   }
 
-  public updateUserOrder() {
+  public updateUserOrder(): UserOrderUpdateMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: UpdateUserOrderFormData) => lastValueFrom(this.orderHttpService.updateUserOrder(data)),
       onSuccess: (orderId: string) => {
@@ -101,17 +107,15 @@ export class OrderService {
       }
     }));
 
-    const mutationResult: UserOrderUpdateMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
   }
 
-  public deleteUserOrder() {
+  public deleteUserOrder(): UserOrderDeleteMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: UserOrderDeleteMutationOptions) => lastValueFrom(this.orderHttpService.deleteUserOrder(data)),
       onSuccess: (orderId: string) => {
@@ -120,26 +124,12 @@ export class OrderService {
       }
     }));
 
-    const mutationResult: UserOrderDeleteMutation = {
+    return {
       mutate: mutation.mutate,
       isSuccess: mutation.isSuccess,
       isError: mutation.isError,
       isPending: mutation.isPending
     };
-
-    return mutationResult;
-  }
-
-  public getOrderFromQueryCache(orderId: string | null) {
-    return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
-  }
-
-  public getOrderToUpdateId() {
-    return this.orderToUpdateId.asReadonly();
-  }
-
-  public setOrderToUpdateId(id: string | null) {
-    this.orderToUpdateId.set(id);
   }
 }
 
