@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
 import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../interfaces/dto/order';
-import {OrderSummaryListQueryOptions, UserOrderQueryOptions} from '../../interfaces/query';
+import {UserOrderQueryOptions} from '../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../interfaces/mutation';
 
 @Injectable({
@@ -19,9 +19,10 @@ export class OrderHttpService {
     return this.httpClient.post<AnonOrderDTO>(`http://192.168.1.128:8080/api/anon/order`, data);
   }
 
-  public findOrderSummaryList(options: OrderSummaryListQueryOptions) {
+  public findOrderSummaryList(userId: string, pageNumber: number, pageSize: number) {
     return this.httpClient.get<OrderSummaryListDTO>
-    (`http://192.168.1.128:8080/api/user/${options.userId}/order/summary?pageNumber=${options.pageNumber}&pageSize=${options.pageSize}`, {withCredentials: true});
+    (`http://192.168.1.128:8080/api/user/${userId}/order/summary?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {withCredentials: true});
   }
 
   public findUserOrder(options: UserOrderQueryOptions) {

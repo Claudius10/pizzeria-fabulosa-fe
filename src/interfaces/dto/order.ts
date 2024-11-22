@@ -78,4 +78,6 @@ export type OrderSummaryListDTO = {
   orderList: OrderSummaryDTO[];
   totalPages: number;
   pageSize: number;
+  totalElements: number;
+  hasNext: boolean;
 }

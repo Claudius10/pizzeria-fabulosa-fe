@@ -1,14 +1,9 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {OrderDTO} from '../../interfaces/dto/order';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../interfaces/forms/order';
-import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
+import {injectMutation, injectQuery, injectQueryClient, keepPreviousData} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../interfaces/query-keys';
-import {
-  OrderSummaryListQueryOptions,
-  OrderSummaryListQueryResult,
-  UserOrderQueryOptions,
-  UserOrderQueryResult
-} from '../../interfaces/query';
+import {OrderSummaryListQueryResult, UserOrderQueryOptions, UserOrderQueryResult} from '../../interfaces/query';
 import {
   AnonOrderMutation,
   UserOrderDeleteMutation,
@@ -25,7 +20,9 @@ import {lastValueFrom} from 'rxjs';
 export class OrderService {
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
-  orderToUpdateId = signal<string | null>(null);
+  private orderToUpdateId = signal<string | null>(null);
+  private pageNumber = signal(0);
+  private pageSize = signal(2);
 
   public createUserOrder() {
     const mutation = injectMutation(() => ({
@@ -61,16 +58,17 @@ export class OrderService {
     return mutationResult;
   }
 
-  public findOrderSummaryList(options: OrderSummaryListQueryOptions) {
+  public findOrderSummaryList(userId: string, pageNumber: number, pageSize: number) {
+    console.log(pageNumber);
     const query = injectQuery(() => ({
-      queryKey: options.queryKey,
-      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(options)),
+      queryKey: ["user", "order", "summary", pageNumber, pageSize],
+      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, pageNumber, pageSize)),
     }));
 
     const queryResult: OrderSummaryListQueryResult = {
       data: query.data,
       status: query.status,
-      error: query.error
+      error: query.error,
     };
 
     return queryResult;
