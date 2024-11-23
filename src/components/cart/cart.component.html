@@ -1,26 +1,30 @@
 <div>
-  <h2>cart</h2>
-  @for (item of items(); track item.id) {
-    <app-cart-item [item]="item"/>
-  }
+  <h2>Cart</h2>
 
-  <p>Total: {{ total().toFixed(2) }}€</p>
-
-  @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
-    <p>Total con ofertas: {{ totalAfterOffers().toFixed(2) }}€</p>
-    <p>Ofertas aplicadas:</p>
-
-    @if (secondForHalfPriceOffer() != 0) {
-      <p>La segunda al 50%</p>
+  @if (quantity() === 0) {
+    <p>Nothing here yet</p>
+  } @else {
+    @for (item of items(); track item.id) {
+      <app-cart-item [item]="item"/>
     }
 
-    @if (threeForTwoOffers() != 0) {
-      <p>El 3 por 2: {{ threeForTwoOffers() }}x</p>
+    <p>Total: {{ total().toFixed(2) }}€</p>
+
+    @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
+      <p>Total con ofertas: {{ totalAfterOffers().toFixed(2) }}€</p>
+      <p>Ofertas aplicadas:</p>
+
+      @if (secondForHalfPriceOffer() != 0) {
+        <p>La segunda al 50%</p>
+      }
+
+      @if (threeForTwoOffers() != 0) {
+        <p>El 3 por 2: {{ threeForTwoOffers() }}x</p>
+      }
+    }
+
+    @if (orderToUpdateId() === null) {
+      <button routerLink="/pedido-nuevo">Continuar</button>
     }
   }
-
-  @if (orderToUpdateId() === null) {
-    <button routerLink="/pedido-nuevo">Continuar</button>
-  }
-
 </div>

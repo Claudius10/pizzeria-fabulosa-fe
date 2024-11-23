@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit} from '@angular/core';
 import {ProductItemComponent} from '../product-item/product-item.component';
-import {ProductsQueryResult} from '../../../interfaces/query';
+import {ProductsQueryResult} from '../../../../interfaces/query';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {Title} from '@angular/platform-browser';
 

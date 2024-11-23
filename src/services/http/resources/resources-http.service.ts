@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ProductDTO} from '../../../components/products/product-item/product-item.component';
+import {ProductDTO} from '../../../components/front/products/product-item/product-item.component';
 
 @Injectable({
   providedIn: 'root'

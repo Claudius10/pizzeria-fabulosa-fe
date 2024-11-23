@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {NgOptimizedImage} from '@angular/common';
-import {CartService} from '../../../services/cart/cart.service';
+import {CartService} from '../../../../services/cart/cart.service';
 
 export type ProductDTO = {
   id: number;

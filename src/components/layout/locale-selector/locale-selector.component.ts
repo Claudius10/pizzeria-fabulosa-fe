@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {PrimeNGConfig} from 'primeng/api';
-import primeNgEs from "../../../public/i18n/primeng-es.json";
-import primeNgEn from "../../../public/i18n/primeng-en.json";
+import primeNgEs from "../../../../public/i18n/primeng-es.json";
+import primeNgEn from "../../../../public/i18n/primeng-en.json";
 
 @Component({
   selector: 'app-locale-selector',
