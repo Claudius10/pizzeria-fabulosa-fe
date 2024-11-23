@@ -15,7 +15,6 @@ import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.com
     TranslatePipe,
   ],
   templateUrl: './navigation-bar.component.html',
-  styleUrl: './navigation-bar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationBarComponent {

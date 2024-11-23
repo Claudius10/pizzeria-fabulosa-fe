@@ -1,14 +1,54 @@
-<div>
-  <button routerLink="">Home</button>
-  <button routerLink="menu/pizzas">Pizzas</button>
-  <button routerLink="menu/bebidas">{{ 'navigation.button.beverages' | translate }}</button>
+<div class="flex gap-2 w-screen border-green-500 border-1">
 
-  @if (!isAuthenticated()) {
-    <button routerLink="iniciar-sesion">Inicia Sesión</button>
-  } @else {
-    <button routerLink="usuario/perfil">Mi cuenta</button>
-  }
+  <div>
+    <button routerLink="">Home</button>
+    <button routerLink="menu/pizzas">Pizzas</button>
+    <button routerLink="menu/bebidas">{{ 'navigation.button.beverages' | translate }}</button>
+  </div>
 
-  <app-theme-selector/>
-  <app-locale-selector/>
+  <div class="flex gap-2">
+    <div>
+      @if (!isAuthenticated()) {
+        <!-- SIGN IN BUTTON -->
+        <button routerLink="iniciar-sesion" type="button"
+                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-sign-in"></i>
+        </button>
+
+      } @else {
+        <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+          <!-- USER BUTTON -->
+          <li>
+            <button routerLink="usuario/perfil" type="button"
+                    class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+              <i class="pi pi-user"></i>
+            </button>
+          </li>
+
+          <!-- SIGN OUT BUTTON -->
+          <li>
+            <button routerLink="usuario/perfil" type="button"
+                    class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+              <i class="pi pi-sign-out"></i>
+            </button>
+          </li>
+        </ul>
+      }
+    </div>
+
+    <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
+    <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+      <app-theme-selector/>
+      <app-locale-selector/>
+
+      <!-- GITHUB BUTTON -->
+      <a class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+        <i class="pi pi-github"></i>
+      </a>
+    </ul>
+  </div>
 </div>

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {NavigationBarComponent} from '../layout/navigation/navigation-bar/navigation-bar.component';
-import {FooterComponent} from '../layout/footer/footer.component';
+import {NavigationBarComponent} from '../../layout/navigation/navigation-bar/navigation-bar.component';
+import {FooterComponent} from '../../layout/footer/footer.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import defaultLanguage from "../../../public/i18n/en.json";
+import defaultLanguage from "../../../../public/i18n/en.json";
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,29 @@
-<div>
-  <p>Choose your theme:</p>
-  <a (click)="switchTheme('aura-light-noir')">Light</a>
-  <a (click)="switchTheme('aura-dark-noir')">Dark</a>
-  <a (click)="switchTheme('aura-dark-pink')">Pink</a>
-</div>
+<ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+  @if (isDark()) {
+    <li>
+      <button (click)="switchTheme('aura-light-noir')"
+              type="button"
+              class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+        <i class="pi pi-sun"></i>
+      </button>
+    </li>
+  } @else {
+    <li>
+      <button (click)="switchTheme('aura-dark-noir')"
+              class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+        <i class="pi pi-moon"></i>
+      </button>
+    </li>
+  }
+
+  <li>
+    <button
+      type="button"
+      class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+      <i class="pi pi-palette"></i>
+    </button>
+  </li>
+</ul>
