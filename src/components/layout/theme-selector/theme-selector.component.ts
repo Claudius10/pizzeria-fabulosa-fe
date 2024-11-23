@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {ThemeService} from '../../../services/themes/theme.service';
-import {THEMES_DARK, THEMES_LIGHT} from '../../../utils/constants';
+import {THEMES_DARK, THEMES_DEFAULT, THEMES_LIGHT} from '../../../utils/constants';
 
 @Component({
   selector: 'app-theme-selector',
   standalone: true,
   imports: [],
   templateUrl: './theme-selector.component.html',
+  styleUrls: ['./theme-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
@@ -14,8 +15,8 @@ export class ThemeSelectorComponent {
   protected isDark = signal(true);
   private darkThemes: string[] = THEMES_DARK;
   private lightThemes: string[] = THEMES_LIGHT;
+  private currentTheme = THEMES_DEFAULT;
   private index = 0;
-  private currentTheme = THEMES_DARK[0];
 
   switchTheme() {
     if (this.isDark()) {
