@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../../layout/navigation/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../../layout/footer/footer.component';
@@ -15,15 +15,14 @@ import defaultLanguage from "../../../../public/i18n/en.json";
     TranslateModule
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent {
-  title = 'PizzeriaAngularFE';
+export class AppComponent implements OnInit {
+  private translateService = inject(TranslateService);
 
-  constructor(private translate: TranslateService) {
-    this.translate.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
-    this.translate.setTranslation('en', defaultLanguage);
-    this.translate.setDefaultLang('en');
+  ngOnInit() {
+    this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
+    this.translateService.setTranslation('en', defaultLanguage);
+    this.translateService.use('en');
   }
 }

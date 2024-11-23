@@ -47,7 +47,7 @@ export class LocaleSelectorComponent implements OnInit {
       severity: 'info',
       summary: 'Información',
       detail: 'El idioma seleccionado es Español',
-      life: 3000
+      life: 2000
     });
   }
 
@@ -57,7 +57,7 @@ export class LocaleSelectorComponent implements OnInit {
       severity: 'info',
       summary: 'Information',
       detail: 'The selected language is English',
-      life: 3000
+      life: 2000
     });
   }
 
