@@ -41,7 +41,7 @@ export class UserCheckoutFormComponent {
     queryKey: USER_ADDRESS_LIST,
     userId: this.authService.getUserId()
   });
-  orderToUpdateId = this.orderService.getOrderToUpdateId();
+  orderToUpdateId = this.orderService.getId();
   createUserOrder = this.orderService.createUserOrder();
   updateUserOrder = this.orderService.updateUserOrder();
 
@@ -121,7 +121,7 @@ export class UserCheckoutFormComponent {
       });
     } else {
       // update existing order
-      const order = this.orderService.getOrderFromQueryCache(this.orderToUpdateId());
+      const order = this.orderService.getOrder(this.orderToUpdateId());
 
       const updateData: UpdateUserOrderFormData = {
         userId: Number(userId),
@@ -145,7 +145,7 @@ export class UserCheckoutFormComponent {
           console.log(response);
           console.log("success");
           this.cartService.clear();
-          this.orderService.setOrderToUpdateId(null);
+          this.orderService.setId(null);
         },
         onError: (error, variables, context) => {
           console.log(error);

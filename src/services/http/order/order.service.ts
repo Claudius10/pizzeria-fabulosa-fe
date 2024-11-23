@@ -20,22 +20,22 @@ import {lastValueFrom} from 'rxjs';
 export class OrderService {
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
-  private orderToUpdateId = signal<string | null>(null);
+  private id = signal<string | null>(null);
   private pageNumber = signal(1);
 
   public setPageNumber = (pageNumber: number): void => {
     this.pageNumber.set(pageNumber);
   };
 
-  public getOrderToUpdateId() {
-    return this.orderToUpdateId.asReadonly();
+  public getId() {
+    return this.id.asReadonly();
   }
 
-  public setOrderToUpdateId(id: string | null) {
-    this.orderToUpdateId.set(id);
+  public setId(id: string | null) {
+    this.id.set(id);
   }
 
-  public getOrderFromQueryCache(orderId: string | null) {
+  public getOrder(orderId: string | null) {
     return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
   }
 

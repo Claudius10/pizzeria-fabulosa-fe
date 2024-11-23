@@ -1,3 +1,5 @@
 {
-	"navigation.button.beverages": "Bebidas"
+  "component.title.beverages": "Bebidas",
+  "component.title.pizzas": "Pizzas",
+  "navigation.button.beverages": "Bebidas"
 }

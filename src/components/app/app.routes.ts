@@ -13,6 +13,7 @@ import {OrderSummaryListComponent} from '../user/order-summary-list/order-summar
 import {SettingsComponent} from '../user/settings/settings.component';
 import {CheckoutComponent} from '../checkout/checkout.component';
 import {OrderComponent} from '../user/order/order.component';
+import {resolveBeverages, resolvePizzas} from './resolvers';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,18 @@ export const routes: Routes = [
       {
         path: "pizzas",
         component: ProductListComponent,
-        title: "Pizzas"
+        title: "Pizzas",
+        resolve: {
+          query: resolvePizzas
+        }
+      },
+      {
+        path: "bebidas",
+        component: ProductListComponent,
+        title: "Bebidas",
+        resolve: {
+          query: resolveBeverages
+        }
       }
     ]
   },

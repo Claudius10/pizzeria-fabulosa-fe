@@ -47,7 +47,7 @@ export class OrderComponent {
     queryKey: userOrderQueryKey(this.orderId)
   });
   delete = this.orderService.deleteUserOrder();
-  orderToUpdateId = this.orderService.getOrderToUpdateId();
+  orderToUpdateId = this.orderService.getId();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
   userContactNumber = this.authService.getUserContactNumber();
@@ -56,8 +56,8 @@ export class OrderComponent {
     const isUpdateAllowed = isOrderMutationAllowed(this.order.data()!.createdOn, 10);
     if (isUpdateAllowed) {
       const cart = this.order.data()!.cart;
-      this.orderService.setOrderToUpdateId(this.order.data()!.id.toString());
-      this.cartService.setOrderCart(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
+      this.orderService.setId(this.order.data()!.id.toString());
+      this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
     } else {
       this.messageService.add({
         severity: 'warn',
@@ -68,7 +68,7 @@ export class OrderComponent {
   }
 
   cancelUpdate() {
-    this.orderService.setOrderToUpdateId(null);
+    this.orderService.setId(null);
     this.cartService.clear();
   }
 

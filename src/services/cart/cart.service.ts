@@ -1,10 +1,14 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
+import {Cart} from './localstorage/Cart';
+import {CartLocalstorageService} from './localstorage/cart-localstorage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
+  private cartLocalStorageService = inject(CartLocalstorageService);
+
   private items = signal<CartItemDTO[]>([]);
   private total = signal<number>(0);
   private totalAfterOffers = signal<number>(0);
@@ -19,23 +23,16 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
-  public clear() {
-    this.items.set([]);
-    this.total.set(0);
-    this.totalAfterOffers.set(0);
-    this.quantity.set(0);
-    this.calculateCostWithOffers([], 0);
-  }
-
-  public setOrderCart(items: CartItemDTO[], quantity: number, total: number, totalAfterOffers: number) {
+  public set(items: CartItemDTO[], quantity: number, total: number, totalAfterOffers: number) {
     this.items.set(items);
     this.quantity.set(quantity);
     this.total.set(total);
     this.totalAfterOffers.set(totalAfterOffers);
     this.calculateCostWithOffers(items, total);
+    this.updateLocalStorage();
   }
 
-  public addItem(item: CartItemDTO) {
+  public add(item: CartItemDTO) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === item.id);
 
     if (itemIndex !== -1) {
@@ -49,6 +46,7 @@ export class CartService {
       this.updateTotal(this.items());
       this.calculateCostWithOffers(this.items(), this.total());
     }
+    this.updateLocalStorage();
   }
 
   public decreaseQuantity(id: number) {
@@ -68,6 +66,7 @@ export class CartService {
       this.updateTotal(this.items());
       this.calculateCostWithOffers(this.items(), this.total());
     }
+    this.updateLocalStorage();
   }
 
   public increaseQuantity(id: number) {
@@ -79,6 +78,7 @@ export class CartService {
     this.updateQuantity(this.items());
     this.updateTotal(this.items());
     this.calculateCostWithOffers(this.items(), this.total());
+    this.updateLocalStorage();
   }
 
   private updateQuantity(items: CartItemDTO[]) {
@@ -124,6 +124,27 @@ export class CartService {
     }
 
     this.threeForTwoOffers.set(timesToApplyThreeForTwoOffer);
+  }
+
+  public clear() {
+    this.items.set([]);
+    this.total.set(0);
+    this.totalAfterOffers.set(0);
+    this.quantity.set(0);
+    this.calculateCostWithOffers([], 0);
+    this.updateLocalStorage();
+  }
+
+  private updateLocalStorage() {
+    const cart = new Cart()
+      .withItems(this.items())
+      .withTotal(this.total())
+      .withQuantity(this.quantity())
+      .withTotalAfterOffers(this.totalAfterOffers())
+      .withThreeForTwo(this.threeForTwoOffers())
+      .withSecondHalfPrice(this.secondHalfPriceOffer());
+
+    this.cartLocalStorageService.set(cart);
   }
 
   private getPizzaItems(items: CartItemDTO[]) {

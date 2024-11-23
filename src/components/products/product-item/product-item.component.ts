@@ -27,7 +27,7 @@ export class ProductItemComponent {
   private cartService = inject(CartService);
 
   public addProductToCart() {
-    this.cartService.addItem({
+    this.cartService.add({
       name: this.product().name,
       format: this.product().format,
       productType: this.product().productType,
