@@ -40,18 +40,11 @@ export class NavigationBarComponent {
 
   popup(event: Event) {
     this.confirmationService.confirm({target: event.target as EventTarget});
-    console.log(this.translateService.currentLang);
   }
 
   accept() {
     this.confirmPopup.accept();
     this.logout();
-    this.authService.logout();
-    this.router.navigate(["/"]).then(() => {
-
-    }).catch(() => {
-
-    });
   }
 
   reject() {
