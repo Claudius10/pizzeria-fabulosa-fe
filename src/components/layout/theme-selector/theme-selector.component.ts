@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {ThemeService} from '../../../services/themes/theme.service';
+import {THEMES_DARK, THEMES_LIGHT} from '../../../utils/constants';
 
 @Component({
   selector: 'app-theme-selector',
@@ -10,15 +11,41 @@ import {ThemeService} from '../../../services/themes/theme.service';
 })
 export class ThemeSelectorComponent {
   private themeService = inject(ThemeService);
-  isDark = signal(true);
+  protected isDark = signal(true);
+  private darkThemes: string[] = THEMES_DARK;
+  private lightThemes: string[] = THEMES_LIGHT;
+  private index = 0;
+  private currentTheme = THEMES_DARK[0];
 
-  protected switchTheme(theme: string) {
-    if (theme === "aura-light-noir") {
-      this.isDark.set(false);
+  switchTheme() {
+    if (this.isDark()) {
+      const nextTheme = this.darkThemes[this.index];
+      this.themeService.switchTheme(nextTheme);
+      this.currentTheme = nextTheme;
     } else {
-      this.isDark.set(true);
+      const nextTheme = this.lightThemes[this.index];
+      this.themeService.switchTheme(nextTheme);
+      this.currentTheme = nextTheme;
     }
+    this.handleIndex();
+  }
 
+  private handleIndex(): void {
+    if (this.index === THEMES_DARK.length - 1) {
+      this.index = 0;
+    } else {
+      this.index++;
+    }
+  }
+
+  toggleDarkMode() {
+    let theme;
+    if (this.isDark()) {
+      theme = this.currentTheme.replace("dark", "light");
+    } else {
+      theme = this.currentTheme.replace("light", "dark");
+    }
+    this.isDark.set(!this.isDark());
     this.themeService.switchTheme(theme);
   }
 }
