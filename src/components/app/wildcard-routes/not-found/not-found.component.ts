@@ -2,6 +2,9 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'app-not-found',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [],
   templateUrl: './not-found.component.html',

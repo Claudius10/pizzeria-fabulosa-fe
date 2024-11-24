@@ -1,6 +1,5 @@
 import {Routes} from '@angular/router';
 import {ProductListComponent} from '../front/products/product-list/product-list.component';
-import {MenuComponent} from '../front/menu/menu.component';
 import {HomeComponent} from '../front/home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
 import {NotFoundComponent} from './wildcard-routes/not-found/not-found.component';
@@ -20,27 +19,20 @@ export const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: "menu",
-    component: MenuComponent,
-    title: "Menu",
-    children: [
-      {
-        path: "pizzas",
-        component: ProductListComponent,
-        title: "Pizzas",
-        resolve: {
-          query: resolvePizzas
-        }
-      },
-      {
-        path: "beverages",
-        component: ProductListComponent,
-        title: "Beverages",
-        resolve: {
-          query: resolveBeverages
-        }
-      }
-    ]
+    path: "pizzas",
+    component: ProductListComponent,
+    title: "Pizzas",
+    resolve: {
+      query: resolvePizzas
+    }
+  },
+  {
+    path: "beverages",
+    component: ProductListComponent,
+    title: "Beverages",
+    resolve: {
+      query: resolveBeverages
+    }
   },
   {
     path: "user",

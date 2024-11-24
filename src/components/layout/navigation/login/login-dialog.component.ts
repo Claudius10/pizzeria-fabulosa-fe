@@ -74,7 +74,7 @@ export class LoginDialogComponent implements OnDestroy {
       onSuccess: () => {
         this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
         this.closeDialog();
-        this.router.navigate(["/menu/pizzas"]);
+        this.router.navigate(["/pizzas"]);
       },
       onError: () => {
         this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});

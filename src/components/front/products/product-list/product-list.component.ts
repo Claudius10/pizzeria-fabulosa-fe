@@ -3,12 +3,17 @@ import {ProductItemComponent} from '../product-item/product-item.component';
 import {ProductsQueryResult} from '../../../../interfaces/query';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {Title} from '@angular/platform-browser';
+import {CartComponent} from '../../../cart/cart.component';
 
 @Component({
   selector: 'app-product-list',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
-    ProductItemComponent
+    ProductItemComponent,
+    CartComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',

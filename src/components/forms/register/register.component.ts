@@ -15,6 +15,9 @@ import {AccountService} from '../../../services/http/account/account.service';
 
 @Component({
   selector: 'app-register',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
     ReactiveFormsModule,

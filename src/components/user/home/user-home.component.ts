@@ -4,6 +4,9 @@ import {RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-user-home',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
     UserNavComponent,

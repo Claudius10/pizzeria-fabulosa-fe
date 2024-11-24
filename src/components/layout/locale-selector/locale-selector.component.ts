@@ -21,7 +21,6 @@ export class LocaleSelectorComponent implements OnInit {
   private translateService = inject(TranslateService);
   private primeNgConfig = inject(PrimeNGConfig);
   private messageService = inject(MessageService);
-
   items: MenuItem[] | undefined;
 
   ngOnInit() {

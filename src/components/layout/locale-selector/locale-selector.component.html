@@ -1,7 +1,6 @@
 <li (click)="menu.toggle($event)" class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-  <p-menu #menu [model]="items" [popup]="true"/>
   <i class="pi pi-language"></i>
-  <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
 </li>
-
+<p-menu #menu [model]="items" [popup]="true"/>
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>

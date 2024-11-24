@@ -1,58 +1,59 @@
-<div class="flex justify-content-between px-6 w-screen border-green-500 border-1">
+<div class="fixed top-0 left-0 w-screen index border-green-500 border-1">
+  <div class="flex justify-content-between h-4rem px-6 py-3">
+    <div>
+      <button routerLink="">Home</button>
+      <button routerLink="pizzas">Pizzas</button>
+      <button routerLink="beverages">{{ 'navigation.button.beverages' | translate }}</button>
+    </div>
 
-  <div>
-    <button routerLink="">Home</button>
-    <button routerLink="menu/pizzas">Pizzas</button>
-    <button routerLink="menu/beverages">{{ 'navigation.button.beverages' | translate }}</button>
-  </div>
-
-  <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
-    @if (!isAuthenticated()) {
-      <!-- SIGN IN BUTTON -->
-      <li (click)="showLoginDialog()">
-        <button type="button"
-                class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+    <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+      @if (!isAuthenticated()) {
+        <!-- SIGN IN BUTTON -->
+        <li (click)="showLoginDialog()">
+          <button type="button"
+                  class="cursor-pointer flex border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-          <i class="pi pi-sign-in"></i>
-        </button>
-        @if (loginDialog()) {
-          <app-login-dialog/>
-        }
-      </li>
-    } @else {
-      <!-- USER BUTTON -->
+            <i class="pi pi-sign-in"></i>
+          </button>
+          @if (loginDialog()) {
+            <app-login-dialog/>
+          }
+        </li>
+      } @else {
+        <!-- USER BUTTON -->
+        <li>
+          <button [routerLink]="['user', 'profile']" type="button"
+                  class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+            <i class="pi pi-user"></i>
+          </button>
+        </li>
+        <!-- SIGN OUT BUTTON -->
+        <li (click)="showLogoutDialog()">
+          <button type="button"
+                  class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+            <i class="pi pi-sign-out"></i>
+          </button>
+          @if (logoutDialog()) {
+            <app-logout-dialog/>
+          }
+        </li>
+      }
+
+      <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
+      <app-theme-selector/>
+      <app-locale-selector/>
+
+      <!-- GITHUB BUTTON -->
       <li>
-        <button [routerLink]="['user', 'profile']" type="button"
-                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-          <i class="pi pi-user"></i>
-        </button>
-      </li>
-      <!-- SIGN OUT BUTTON -->
-      <li (click)="showLogoutDialog()">
-        <button type="button"
-                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-          <i class="pi pi-sign-out"></i>
-        </button>
-        @if (logoutDialog()) {
-          <app-logout-dialog/>
-        }
-      </li>
-    }
-
-    <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
-    <app-locale-selector/>
-    <app-theme-selector/>
-
-    <!-- GITHUB BUTTON -->
-    <li>
-      <a class="github flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        <a class="github flex border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary"
-         href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
-        <i class="pi pi-github"></i>
-      </a>
-    </li>
-  </ul>
+           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
+          <i class="pi pi-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>
 <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>

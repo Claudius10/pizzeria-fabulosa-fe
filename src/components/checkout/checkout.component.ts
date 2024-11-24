@@ -5,6 +5,9 @@ import {UserCheckoutFormComponent} from '../forms/checkout/UserCheckoutForm/user
 
 @Component({
   selector: 'app-checkout',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
     AnonUserCheckoutFormComponent,
