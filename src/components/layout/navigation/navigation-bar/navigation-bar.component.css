@@ -1,8 +1,7 @@
 .style {
   z-index: 1100;
-  background-color: var(--nav-bg);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--surface-border);
+  background-color: var(--surface-ground);
+  border-bottom: 2px solid var(--primary-color);
 }
 
 a, a:visited {

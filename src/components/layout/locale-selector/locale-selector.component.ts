@@ -1,61 +1,50 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MenuItem, MessageService, PrimeNGConfig} from 'primeng/api';
+import {MessageService, PrimeNGConfig} from 'primeng/api';
 import primeNgEs from "../../../../public/i18n/primeng-es.json";
 import primeNgEn from "../../../../public/i18n/primeng-en.json";
 import {ToastModule} from 'primeng/toast';
-import {MenuModule} from 'primeng/menu';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-locale-selector',
   standalone: true,
   imports: [
     ToastModule,
-    MenuModule
+    NgClass
   ],
   providers: [MessageService],
   templateUrl: './locale-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LocaleSelectorComponent implements OnInit {
+export class LocaleSelectorComponent {
   private translateService = inject(TranslateService);
   private primeNgConfig = inject(PrimeNGConfig);
   private messageService = inject(MessageService);
-  items: MenuItem[] | undefined;
+  visible = false;
 
-  ngOnInit() {
-    this.items = [
-      {
-        label: 'Español',
-        command: () => {
-          this.spanish();
-        }
-      },
-      {
-        label: 'English',
-        command: () => {
-          this.english();
-        }
-      }
-    ];
+  toggle() {
+    this.visible = !this.visible;
   }
 
   spanish() {
     this.useLanguage('es');
+    this.visible = false;
     this.messageService.add({
       severity: 'info',
       summary: 'Información',
-      detail: 'El idioma seleccionado es Español',
+      detail: 'Usted seleccionó Español',
       life: 2000
     });
   }
 
   english() {
     this.useLanguage('en');
+    this.visible = false;
     this.messageService.add({
       severity: 'info',
       summary: 'Information',
-      detail: 'The selected language is English',
+      detail: 'You selected English',
       life: 2000
     });
   }
