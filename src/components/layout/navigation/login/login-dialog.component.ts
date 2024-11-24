@@ -1,25 +1,32 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {Router, RouterLink} from '@angular/router';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {emailRgx, passwordRegex} from '../../../regex';
-import {LoginForm} from '../../../interfaces/forms/account';
-import {AccountService} from '../../../services/http/account/account.service';
+import {Button} from 'primeng/button';
+import {DialogModule} from 'primeng/dialog';
+import {Router} from '@angular/router';
+import {AccountService} from '../../../../services/http/account/account.service';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {emailRgx, passwordRegex} from '../../../../regex';
+import {LoginForm} from '../../../../interfaces/forms/account';
+import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-dialog',
   standalone: true,
   imports: [
+    Button,
+    DialogModule,
+    FormsModule,
     ReactiveFormsModule,
-    RouterLink
+    InputTextModule
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  templateUrl: './login-dialog.component.html',
+  styleUrl: './login-dialog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent {
+export class LoginDialogComponent {
   private accountService = inject(AccountService);
   private router = inject(Router);
   private login = this.accountService.login();
+  visible: boolean = false;
 
   form = new FormGroup({
     email: new FormControl<string>("", {
@@ -54,5 +61,13 @@ export class LoginComponent {
       onError: () => {
       }
     });
+  }
+
+  showDialog() {
+    this.visible = true;
+  }
+
+  closeDialog() {
+    this.visible = false;
   }
 }

@@ -10,12 +10,7 @@
     <div>
       @if (!isAuthenticated()) {
         <!-- SIGN IN BUTTON -->
-        <button routerLink="iniciar-sesion" type="button"
-                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-          <i class="pi pi-sign-in"></i>
-        </button>
-
+        <app-login-dialog/>
       } @else {
         <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
           <!-- USER BUTTON -->
@@ -28,27 +23,7 @@
           </li>
 
           <!-- SIGN OUT BUTTON -->
-          <li>
-            <button (click)="popup($event)" type="button"
-                    class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-              <i class="pi pi-sign-out"></i>
-            </button>
-
-            <p-confirmPopup #confirmPopupRef>
-              <ng-template pTemplate="headless" let-message>
-                <div class="border-round p-3">
-                  <span>{{ 'navigation.button.logout.title' | translate }}</span>
-                  <div class="flex align-items-center gap-2 mt-3">
-                    <p-button (onClick)="accept()" label="{{ 'navigation.button.logout.accept' | translate }}"
-                              size="small"/>
-                    <p-button (onClick)="reject()" label="{{ 'navigation.button.logout.reject' | translate }}"
-                              [outlined]="true" size="small"/>
-                  </div>
-                </div>
-              </ng-template>
-            </p-confirmPopup>
-          </li>
+          <app-logout-popup/>
         </ul>
       }
     </div>
@@ -66,4 +41,4 @@
     </ul>
   </div>
 </div>
-<p-toast/>
+<p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>

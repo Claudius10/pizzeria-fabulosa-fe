@@ -3,7 +3,6 @@ import {ProductListComponent} from '../front/products/product-list/product-list.
 import {MenuComponent} from '../front/menu/menu.component';
 import {HomeComponent} from '../front/home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
-import {LoginComponent} from '../forms/login/login.component';
 import {NotFoundComponent} from './wildcard-routes/not-found/not-found.component';
 import {ForbiddenComponent} from './wildcard-routes/forbidden/forbidden.component';
 import {UserHomeComponent} from '../user/home/user-home.component';
@@ -80,11 +79,6 @@ export const routes: Routes = [
     path: "registracion-usuario",
     component: RegisterComponent,
     title: "Crea tu cuenta"
-  },
-  {
-    path: "iniciar-sesion",
-    component: LoginComponent,
-    title: "Inicia sesión"
   },
   {
     path: "acceso-denegado",
