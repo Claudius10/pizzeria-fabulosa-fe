@@ -1,0 +1,31 @@
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
+  [(visible)]="visible"
+  [modal]="true"
+  (onHide)="rejectLogout()"
+  [position]="'topright'">
+  <ng-template pTemplate="headless">
+    <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+      <span class="font-bold text-2xl block">
+                {{ 'Account' }}
+      </span>
+      <p class="mb-0">{{ 'Proceed with sign-out?' }}</p>
+      <div class="flex align-items-center gap-2 mt-4">
+        <button
+          pButton
+          label="Yes"
+          (click)="acceptLogout()"
+          class="w-8rem">
+        </button>
+        <button
+          pButton
+          label="No"
+          (click)="rejectLogout()"
+          class="p-button-outlined w-8rem ">
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

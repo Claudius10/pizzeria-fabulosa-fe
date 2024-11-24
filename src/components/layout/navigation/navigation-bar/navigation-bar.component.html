@@ -1,4 +1,4 @@
-<div class="flex justify-content-between w-screen border-green-500 border-1">
+<div class="flex justify-content-between px-6 w-screen border-green-500 border-1">
 
   <div>
     <button routerLink="">Home</button>
@@ -9,16 +9,16 @@
   <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
     @if (!isAuthenticated()) {
       <!-- SIGN IN BUTTON -->
-      <li>
-        <button (click)="showDialog()" type="button"
+      <li (click)="showLoginDialog()">
+        <button type="button"
                 class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-sign-in"></i>
         </button>
+        @if (loginDialog()) {
+          <app-login-dialog/>
+        }
       </li>
-      @if (loginDialog()) {
-        <app-login-dialog/>
-      }
     } @else {
       <!-- USER BUTTON -->
       <li>
@@ -29,7 +29,16 @@
         </button>
       </li>
       <!-- SIGN OUT BUTTON -->
-      <app-logout-popup/>
+      <li (click)="showLogoutDialog()">
+        <button type="button"
+                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-sign-out"></i>
+        </button>
+        @if (logoutDialog()) {
+          <app-logout-dialog/>
+        }
+      </li>
     }
 
     <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
@@ -45,6 +54,5 @@
       </a>
     </li>
   </ul>
-
 </div>
 <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>

@@ -11,7 +11,7 @@ export class AuthService {
   private userContactNumber = signal<string>("000 000 000");
   private isAuthenticated = signal(false);
   private loginDialog = signal(false);
-  private logoutPopup = signal(false);
+  private logoutDialog = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
@@ -44,12 +44,16 @@ export class AuthService {
     this.loginDialog.set(value);
   }
 
-  public getLogoutPopup() {
-    return this.logoutPopup.asReadonly();
+  public getLogoutDialog() {
+    return this.logoutDialog.asReadonly();
   }
 
-  public setLogoutPopup(value: boolean) {
-    this.logoutPopup.set(value);
+  public getIsLogoutDialogVisible() {
+    return this.logoutDialog();
+  }
+
+  public setLogoutDialog(value: boolean) {
+    this.logoutDialog.set(value);
   }
 
   public getIsAuthenticated() {

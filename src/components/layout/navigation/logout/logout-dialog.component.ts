@@ -1,44 +1,40 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {ConfirmPopupModule} from 'primeng/confirmpopup';
-import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {Button} from 'primeng/button';
+import {TranslateService} from '@ngx-translate/core';
 import {LogoutMutation} from '../../../../interfaces/mutation';
-import {ConfirmationService, MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../../services/auth/auth.service';
+import {DialogModule} from 'primeng/dialog';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
-  selector: 'app-logout-popup',
+  selector: 'app-logout-dialog',
   standalone: true,
   imports: [
-    ConfirmPopupModule,
-    TranslatePipe,
-    Button
+    DialogModule,
+    ButtonDirective
   ],
-  templateUrl: './logout-popup.component.html',
-  styleUrl: './logout-popup.component.css',
+  templateUrl: './logout-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LogoutPopupComponent {
+export class LogoutDialogComponent {
   private router = inject(Router);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private translateService = inject(TranslateService);
-  private confirmationService = inject(ConfirmationService);
   private logoutUser: LogoutMutation = this.accountService.logout();
-
-  logoutPopup(event: Event) {
-    this.confirmationService.confirm({target: event.target as EventTarget});
-  }
+  // visible provides hiding dialog on esc key press
+  visible: boolean = this.authService.getIsLogoutDialogVisible();
 
   acceptLogout() {
     this.logout();
   }
 
   rejectLogout() {
-    this.confirmationService.close();
+    this.authService.setLogoutDialog(false);
+    this.visible = false;
   }
 
   private logout() {
@@ -50,12 +46,9 @@ export class LogoutPopupComponent {
     this.logoutUser.mutate(undefined, {
       onSuccess: () => {
         this.authService.logout();
+        this.rejectLogout();
         this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
-        this.router.navigate(["/"]).then(() => {
-
-        }).catch(() => {
-
-        });
+        this.router.navigate(["/"]);
       },
       onError: () => {
         this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});

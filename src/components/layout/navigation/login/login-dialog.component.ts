@@ -9,6 +9,8 @@ import {LoginForm} from '../../../../interfaces/forms/account';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {LoginMutation} from '../../../../interfaces/mutation';
+import {MessageService} from 'primeng/api';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-login-dialog',
@@ -26,9 +28,12 @@ import {LoginMutation} from '../../../../interfaces/mutation';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private login: LoginMutation = this.accountService.login();
+  // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.getIsLoginDialogVisible();
 
   form = new FormGroup({
@@ -60,12 +65,19 @@ export class LoginDialogComponent implements OnDestroy {
       password: this.form.get("password")!.value,
     };
 
+    const currentLang = this.translateService.currentLang;
+    const successFeedbackMessage: string = currentLang === 'en' ? "Sign-in successful" : "Sesión iniciada con éxito";
+    const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful" : "Error al iniciar la session";
+    const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
+
     this.login.mutate(data, {
       onSuccess: () => {
-        // notification
+        this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
+        this.closeDialog();
         this.router.navigate(["/menu/pizzas"]);
       },
       onError: () => {
+        this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});
       }
     });
   }

@@ -4,7 +4,7 @@ import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.compon
 import {AuthService} from '../../../../services/auth/auth.service';
 import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.component';
 import {ToastModule} from 'primeng/toast';
-import {LogoutPopupComponent} from '../logout/logout-popup.component';
+import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {LoginDialogComponent} from '../login/login-dialog.component';
@@ -14,12 +14,12 @@ import {LoginDialogComponent} from '../login/login-dialog.component';
   standalone: true,
   imports: [
     RouterLink,
-    LogoutPopupComponent,
     ThemeSelectorComponent,
     LocaleSelectorComponent,
     ToastModule,
     TranslatePipe,
-    LoginDialogComponent
+    LoginDialogComponent,
+    LogoutDialogComponent
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './navigation-bar.component.html',
@@ -29,10 +29,14 @@ import {LoginDialogComponent} from '../login/login-dialog.component';
 export class NavigationBarComponent {
   private authService = inject(AuthService);
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
-  logoutPopup: Signal<boolean> = this.authService.getLogoutPopup();
+  logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
 
-  showDialog() {
+  showLoginDialog() {
     this.authService.setLoginDialog(true);
+  }
+
+  showLogoutDialog() {
+    this.authService.setLogoutDialog(true);
   }
 }
