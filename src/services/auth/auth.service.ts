@@ -9,7 +9,9 @@ export class AuthService {
   private userEmail = signal<string>("quijote@gmail.com");
   private userName = signal<string>("Cervantes");
   private userContactNumber = signal<string>("000 000 000");
-  isAuthenticated = signal(false);
+  private isAuthenticated = signal(false);
+  private loginDialog = signal(false);
+  private logoutPopup = signal(false);
 
   public setUserCredentials(token: string) {
     const idToken = this.decode(token);
@@ -28,6 +30,26 @@ export class AuthService {
     this.userName.set("Cervantes");
     this.userContactNumber.set("000 000 000");
     this.isAuthenticated.set(false);
+  }
+
+  public getLoginDialog() {
+    return this.loginDialog.asReadonly();
+  }
+
+  public getIsLoginDialogVisible() {
+    return this.loginDialog();
+  }
+
+  public setLoginDialog(value: boolean) {
+    this.loginDialog.set(value);
+  }
+
+  public getLogoutPopup() {
+    return this.logoutPopup.asReadonly();
+  }
+
+  public setLogoutPopup(value: boolean) {
+    this.logoutPopup.set(value);
   }
 
   public getIsAuthenticated() {

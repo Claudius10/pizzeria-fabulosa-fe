@@ -1,4 +1,4 @@
-<div class="flex gap-2 w-screen border-green-500 border-1">
+<div class="flex justify-content-between w-screen border-green-500 border-1">
 
   <div>
     <button routerLink="">Home</button>
@@ -6,47 +6,45 @@
     <button routerLink="menu/beverages">{{ 'navigation.button.beverages' | translate }}</button>
   </div>
 
-  <div class="flex gap-2">
-    <div>
-      @if (!isAuthenticated()) {
-        <!-- SIGN IN BUTTON -->
+  <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+    @if (!isAuthenticated()) {
+      <!-- SIGN IN BUTTON -->
+      <li>
         <button (click)="showDialog()" type="button"
                 class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-sign-in"></i>
         </button>
-        @if (loginDialog()) {
-          <app-login-dialog/>
-        }
-      } @else {
-        <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
-          <!-- USER BUTTON -->
-          <li>
-            <button [routerLink]="['user', 'profile']" type="button"
-                    class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
-              <i class="pi pi-user"></i>
-            </button>
-          </li>
-
-          <!-- SIGN OUT BUTTON -->
-          <app-logout-popup/>
-        </ul>
+      </li>
+      @if (loginDialog()) {
+        <app-login-dialog/>
       }
-    </div>
+    } @else {
+      <!-- USER BUTTON -->
+      <li>
+        <button [routerLink]="['user', 'profile']" type="button"
+                class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-user"></i>
+        </button>
+      </li>
+      <!-- SIGN OUT BUTTON -->
+      <app-logout-popup/>
+    }
 
     <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
-    <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
-      <app-theme-selector/>
-      <app-locale-selector/>
+    <app-locale-selector/>
+    <app-theme-selector/>
 
-      <!-- GITHUB BUTTON -->
+    <!-- GITHUB BUTTON -->
+    <li>
       <a class="github flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary"
          href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
         <i class="pi pi-github"></i>
       </a>
-    </ul>
-  </div>
+    </li>
+  </ul>
+
 </div>
 <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>

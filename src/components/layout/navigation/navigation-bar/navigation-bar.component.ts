@@ -8,7 +8,6 @@ import {LogoutPopupComponent} from '../logout/logout-popup.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {LoginDialogComponent} from '../login/login-dialog.component';
-import {LoginDialogService} from '../login/service/login-dialog.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -29,11 +28,11 @@ import {LoginDialogService} from '../login/service/login-dialog.service';
 })
 export class NavigationBarComponent {
   private authService = inject(AuthService);
-  private loginDialogService = inject(LoginDialogService);
-  loginDialog: Signal<boolean> = this.loginDialogService.getVisible();
+  loginDialog: Signal<boolean> = this.authService.getLoginDialog();
+  logoutPopup: Signal<boolean> = this.authService.getLogoutPopup();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
 
   showDialog() {
-    this.loginDialogService.setVisible(true);
+    this.authService.setLoginDialog(true);
   }
 }

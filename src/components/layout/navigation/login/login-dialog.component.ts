@@ -7,7 +7,8 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {emailRgx, passwordRegex} from '../../../../regex';
 import {LoginForm} from '../../../../interfaces/forms/account';
 import {InputTextModule} from 'primeng/inputtext';
-import {LoginDialogService} from './service/login-dialog.service';
+import {AuthService} from '../../../../services/auth/auth.service';
+import {LoginMutation} from '../../../../interfaces/mutation';
 
 @Component({
   selector: 'app-login-dialog',
@@ -25,10 +26,10 @@ import {LoginDialogService} from './service/login-dialog.service';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
-  private loginDialogService = inject(LoginDialogService);
+  private authService = inject(AuthService);
   private accountService = inject(AccountService);
-  private login = this.accountService.login();
-  visible = this.loginDialogService.getIsVisible();
+  private login: LoginMutation = this.accountService.login();
+  visible: boolean = this.authService.getIsLoginDialogVisible();
 
   form = new FormGroup({
     email: new FormControl<string>("", {
@@ -70,7 +71,7 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   closeDialog() {
-    this.loginDialogService.setVisible(false);
+    this.authService.setLoginDialog(false);
     this.visible = false;
   }
 }
