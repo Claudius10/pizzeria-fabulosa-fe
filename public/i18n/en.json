@@ -1,9 +1,9 @@
 {
-
   "component.title.beverages": "Beverages",
   "component.title.pizzas": "Pizzas",
   "navigation.button.beverages": "Beverages",
   "navigation.button.logout.title": "Proceed with sign-out?",
   "navigation.button.logout.accept": "Yes",
-  "navigation.button.logout.reject": "No"
+  "navigation.button.logout.reject": "No",
+  "navigation.quick.link.home": "Home"
 }

@@ -4,5 +4,6 @@
   "navigation.button.beverages": "Bebidas",
   "navigation.button.logout.title": "¿Cerrar la sesión?",
   "navigation.button.logout.accept": "Sí",
-  "navigation.button.logout.reject": "No"
+  "navigation.button.logout.reject": "No",
+  "navigation.quick.link.home": "Inicio"
 }

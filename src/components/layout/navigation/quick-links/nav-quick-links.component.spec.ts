@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {LoginDialogComponent} from './login-dialog.component';
+import {NavQuickLinksComponent} from './nav-quick-links.component';
 
-describe('LoginDialogComponent', () => {
-  let component: LoginDialogComponent;
-  let fixture: ComponentFixture<LoginDialogComponent>;
+describe('NavQuickLinksComponent', () => {
+  let component: NavQuickLinksComponent;
+  let fixture: ComponentFixture<NavQuickLinksComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginDialogComponent]
+      imports: [NavQuickLinksComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginDialogComponent);
+    fixture = TestBed.createComponent(NavQuickLinksComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

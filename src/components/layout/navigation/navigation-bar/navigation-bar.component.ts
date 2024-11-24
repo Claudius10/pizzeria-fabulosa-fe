@@ -5,21 +5,22 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.component';
 import {ToastModule} from 'primeng/toast';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
-import {TranslatePipe} from '@ngx-translate/core';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {LoginDialogComponent} from '../login/login-dialog.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navigation-bar',
   standalone: true,
   imports: [
     RouterLink,
-    ThemeSelectorComponent,
-    LocaleSelectorComponent,
-    ToastModule,
     TranslatePipe,
     LoginDialogComponent,
-    LogoutDialogComponent
+    LogoutDialogComponent,
+    ToastModule,
+    ThemeSelectorComponent,
+    LocaleSelectorComponent
+
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './navigation-bar.component.html',
