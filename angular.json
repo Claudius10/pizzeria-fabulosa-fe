@@ -36,6 +36,21 @@
                 "inject": false
               },
               {
+                "input": "src/themes/theme-aura-light-amber.scss",
+                "bundleName": "aura-light-amber",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-aura-light-blue.scss",
+                "bundleName": "aura-light-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-aura-light-purple.scss",
+                "bundleName": "aura-light-purple",
+                "inject": false
+              },
+              {
                 "input": "src/themes/theme-aura-light-cyan.scss",
                 "bundleName": "aura-light-cyan",
                 "inject": false
@@ -48,6 +63,21 @@
               {
                 "input": "src/themes/theme-aura-dark-pink.scss",
                 "bundleName": "aura-dark-pink",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-aura-dark-amber.scss",
+                "bundleName": "aura-dark-amber",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-aura-dark-blue.scss",
+                "bundleName": "aura-dark-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/theme-aura-dark-purple.scss",
+                "bundleName": "aura-dark-purple",
                 "inject": false
               },
               {
