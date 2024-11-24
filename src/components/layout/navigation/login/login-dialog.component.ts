@@ -1,12 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {Button} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../../regex';
 import {LoginForm} from '../../../../interfaces/forms/account';
 import {InputTextModule} from 'primeng/inputtext';
+import {LoginDialogService} from './service/login-dialog.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -16,17 +17,18 @@ import {InputTextModule} from 'primeng/inputtext';
     DialogModule,
     FormsModule,
     ReactiveFormsModule,
-    InputTextModule
+    InputTextModule,
+    RouterLink
   ],
   templateUrl: './login-dialog.component.html',
-  styleUrl: './login-dialog.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginDialogComponent {
-  private accountService = inject(AccountService);
+export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private loginDialogService = inject(LoginDialogService);
+  private accountService = inject(AccountService);
   private login = this.accountService.login();
-  visible: boolean = false;
+  visible = this.loginDialogService.getIsVisible();
 
   form = new FormGroup({
     email: new FormControl<string>("", {
@@ -40,6 +42,10 @@ export class LoginDialogComponent {
       updateOn: 'blur'
     }),
   });
+
+  ngOnDestroy(): void {
+    this.form.reset();
+  }
 
   public onSubmit(): void {
     if (this.form.invalid) {
@@ -63,11 +69,8 @@ export class LoginDialogComponent {
     });
   }
 
-  showDialog() {
-    this.visible = true;
-  }
-
   closeDialog() {
+    this.loginDialogService.setVisible(false);
     this.visible = false;
   }
 }

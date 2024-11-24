@@ -96,7 +96,7 @@ export class OrderComponent {
               });
               // nav to order summary list after two seconds
               setTimeout(() => {
-                this.router.navigate(["usuario", "pedidos"]).catch(reason => {
+                this.router.navigate(["user", "orders"]).catch(reason => {
                   // handle nav error
                 });
               }, 2000);

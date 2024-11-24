@@ -33,9 +33,9 @@ export const routes: Routes = [
         }
       },
       {
-        path: "bebidas",
+        path: "beverages",
         component: ProductListComponent,
-        title: "Bebidas",
+        title: "Beverages",
         resolve: {
           query: resolveBeverages
         }
@@ -43,51 +43,51 @@ export const routes: Routes = [
     ]
   },
   {
-    path: "usuario",
+    path: "user",
     component: UserHomeComponent,
     canMatch: [userCredentialsGuardGuard],
     children: [
       {
-        path: "perfil",
+        path: "profile",
         component: ProfileComponent,
-        title: "Tu perfil",
+        title: "Your Profile",
       },
       {
-        path: "pedidos",
+        path: "orders",
         component: OrderSummaryListComponent,
-        title: "Tus pedidos",
+        title: "Your Orders",
       },
       {
-        path: "pedidos/:orderId",
+        path: "orders/:orderId",
         component: OrderComponent,
-        title: "Tu pedido",
+        title: "Your Order",
         pathMatch: "full",
       },
       {
-        path: "configuracion",
+        path: "settings",
         component: SettingsComponent,
-        title: "Configuracion",
+        title: "Account Settings",
       }
     ]
   },
   {
-    path: "pedido-nuevo",
+    path: "new-order",
     component: CheckoutComponent,
-    title: "Pedido Nuevo",
+    title: "New Order",
   },
   {
-    path: "registracion-usuario",
+    path: "new-user",
     component: RegisterComponent,
-    title: "Crea tu cuenta"
+    title: "Create your account"
   },
   {
-    path: "acceso-denegado",
+    path: "access-denied",
     component: ForbiddenComponent,
-    title: "Acceso denegado",
+    title: "403 Access forbidden",
   },
   {
     path: "**",
     component: NotFoundComponent,
-    title: "Nos hemos perdido"
+    title: "404 Not Found",
   }
 ];

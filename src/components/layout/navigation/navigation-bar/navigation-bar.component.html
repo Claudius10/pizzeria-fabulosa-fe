@@ -3,19 +3,26 @@
   <div>
     <button routerLink="">Home</button>
     <button routerLink="menu/pizzas">Pizzas</button>
-    <button routerLink="menu/bebidas">{{ 'navigation.button.beverages' | translate }}</button>
+    <button routerLink="menu/beverages">{{ 'navigation.button.beverages' | translate }}</button>
   </div>
 
   <div class="flex gap-2">
     <div>
       @if (!isAuthenticated()) {
         <!-- SIGN IN BUTTON -->
-        <app-login-dialog/>
+        <button (click)="showDialog()" type="button"
+                class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-sign-in"></i>
+        </button>
+        @if (loginDialog()) {
+          <app-login-dialog/>
+        }
       } @else {
         <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
           <!-- USER BUTTON -->
           <li>
-            <button routerLink="usuario/perfil" type="button"
+            <button [routerLink]="['user', 'profile']" type="button"
                     class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
               <i class="pi pi-user"></i>
@@ -34,8 +41,9 @@
       <app-locale-selector/>
 
       <!-- GITHUB BUTTON -->
-      <a class="flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+      <a class="github flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary"
+         href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
         <i class="pi pi-github"></i>
       </a>
     </ul>
