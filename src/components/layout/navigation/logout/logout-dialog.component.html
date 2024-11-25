@@ -5,6 +5,7 @@
   [(visible)]="visible"
   [modal]="true"
   (onHide)="rejectLogout()"
+  [dismissableMask]="true"
   [position]="'topright'">
   <ng-template pTemplate="headless">
     <div class="flex flex-column align-items-center p-5 surface-overlay border-round">

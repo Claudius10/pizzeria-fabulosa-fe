@@ -5,6 +5,7 @@
   [style]="{ width: '22.5vw' }"
   [modal]="true"
   (onHide)="closeDialog()"
+  [dismissableMask]="true"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
