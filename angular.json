@@ -56,11 +56,6 @@
                 "inject": false
               },
               {
-                "input": "src/themes/theme-aura-light-noir.scss",
-                "bundleName": "aura-light-noir",
-                "inject": false
-              },
-              {
                 "input": "src/themes/theme-aura-dark-pink.scss",
                 "bundleName": "aura-dark-pink",
                 "inject": false
@@ -83,11 +78,6 @@
               {
                 "input": "src/themes/theme-aura-dark-cyan.scss",
                 "bundleName": "aura-dark-cyan",
-                "inject": false
-              },
-              {
-                "input": "src/themes/theme-aura-dark-noir.scss",
-                "bundleName": "aura-dark-noir",
                 "inject": false
               }
             ],

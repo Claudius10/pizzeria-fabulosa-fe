@@ -1,5 +1,5 @@
 <div class="flex flex-column align-items-center">
-  <div class="flex flex-wrap justify-content-center column-gap-5 gap-5 lg:w-5 border-3">
+  <div class="flex flex-wrap justify-content-center column-gap-5 gap-5 lg:w-5">
     @if (query().status() === "pending") {
       <p>Loading</p>
     } @else if (query().status() === "error") {
@@ -10,5 +10,4 @@
       }
     }
   </div>
-  <app-cart/>
 </div>

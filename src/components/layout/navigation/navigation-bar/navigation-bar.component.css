@@ -2,6 +2,7 @@
   z-index: 1100;
   background-color: var(--surface-ground);
   border-bottom: 2px solid var(--primary-color);
+  padding: 0.5rem 9rem 0.5rem 9rem
 }
 
 a, a:visited {
@@ -35,6 +36,10 @@ a, a:visited {
 }
 
 @media (max-width: 768px) {
+  .style {
+    padding: 0;
+  }
+
   .quick-links-ls {
     display: none;
   }

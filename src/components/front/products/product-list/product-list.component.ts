@@ -3,7 +3,6 @@ import {ProductItemComponent} from '../product-item/product-item.component';
 import {ProductsQueryResult} from '../../../../interfaces/query';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {Title} from '@angular/platform-browser';
-import {CartComponent} from '../../../cart/cart.component';
 
 @Component({
   selector: 'app-product-list',
@@ -12,8 +11,7 @@ import {CartComponent} from '../../../cart/cart.component';
   },
   standalone: true,
   imports: [
-    ProductItemComponent,
-    CartComponent
+    ProductItemComponent
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css',
