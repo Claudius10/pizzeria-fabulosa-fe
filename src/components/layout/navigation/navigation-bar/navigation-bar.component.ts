@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {RouterLink, RouterLinkActive} from '@angular/router';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from '../login/login-dialog.component';
@@ -33,13 +33,18 @@ import {SidebarModule} from 'primeng/sidebar';
 })
 export class NavigationBarComponent {
   private authService = inject(AuthService);
+  private router = inject(Router);
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   sidebarVisible = false;
 
   toggleMobileMenu() {
-    this.sidebarVisible = true;
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+
+  hideMobileMenu() {
+    this.sidebarVisible = false;
   }
 
   showLoginDialog() {
