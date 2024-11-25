@@ -2,7 +2,7 @@
   z-index: 1100;
   background-color: var(--surface-ground);
   border-bottom: 2px solid var(--primary-color);
-  padding: 0.5rem 9rem 0.5rem 9rem
+  padding: 0.5rem 10.5rem 0.5rem 10.5rem
 }
 
 a, a:visited {
