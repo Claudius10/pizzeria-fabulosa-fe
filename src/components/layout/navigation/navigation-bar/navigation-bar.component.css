@@ -8,3 +8,46 @@ a, a:visited {
   text-decoration: inherit;
   color: inherit;
 }
+
+.logo-ls {
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+.logo-sm {
+  display: none;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+
+.color {
+  color: var(--primary-color);
+}
+
+.quick-links-ls {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+
+.quick-links-sm {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .quick-links-ls {
+    display: none;
+  }
+
+  .quick-links-sm {
+    display: flex;
+  }
+
+  .logo-ls {
+    display: none;
+  }
+
+  .logo-sm {
+    display: flex;
+  }
+}

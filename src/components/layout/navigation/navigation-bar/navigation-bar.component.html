@@ -1,12 +1,32 @@
 <div class="fixed top-0 left-0 w-screen style">
-  <div class="flex justify-content-between h-4rem px-6 py-3">
-    <div>
-      <button routerLink="">Home</button>
-      <button routerLink="pizzas">Pizzas</button>
-      <button routerLink="beverages">{{ 'navigation.button.beverages' | translate }}</button>
+  <div class="flex align-items-center justify-content-between h-4rem px-4 py-5">
+
+    <!-- ICON -->
+    <img routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="40" width="40">
+
+    <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
+    <div class="quick-links-ls">
+      <img routerLink="/" class="logo-ls" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="40" width="40">
+      <div class="flex gap-6">
+        <p class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
+        <p class="cursor-pointer" routerLinkActive="color"
+           routerLink="beverages">{{ 'navigation.quick.link.beverages' | translate }}</p>
+        <p class="cursor-pointer" routerLinkActive="color"
+           routerLink="about">{{ 'navigation.quick.link.about' | translate }}</p>
+      </div>
     </div>
 
+    <!-- RIGHT SIDE ICON LIST -->
     <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+      <!-- MENU ICON -->
+      <li (click)="toggleMobileMenu()" class="quick-links-sm">
+        <button type="button"
+                class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-bars"></i>
+        </button>
+      </li>
+
       @if (!isAuthenticated()) {
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
@@ -57,3 +77,15 @@
   </div>
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
 </div>
+<p-sidebar [(visible)]="sidebarVisible">
+  <div class="flex flex-column align-items-center gap-4">
+    <p class="cursor-pointer" routerLinkActive="color" routerLink="/"
+       [routerLinkActiveOptions]="{exact: true}">
+      Home</p>
+    <p class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
+    <p class="cursor-pointer" routerLinkActive="color"
+       routerLink="beverages">{{ 'navigation.quick.link.beverages' | translate }}</p>
+    <p class="cursor-pointer" routerLinkActive="color"
+       routerLink="about">{{ 'navigation.quick.link.about' | translate }}</p>
+  </div>
+</p-sidebar>
