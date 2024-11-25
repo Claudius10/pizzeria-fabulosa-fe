@@ -10,6 +10,7 @@ import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.compon
 import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.component';
 import {ToastModule} from 'primeng/toast';
 import {SidebarModule} from 'primeng/sidebar';
+import {CartComponent} from '../../../cart/cart.component';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -24,7 +25,8 @@ import {SidebarModule} from 'primeng/sidebar';
     ThemeSelectorComponent,
     LocaleSelectorComponent,
     ToastModule,
-    SidebarModule
+    SidebarModule,
+    CartComponent
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './navigation-bar.component.html',
@@ -37,14 +39,23 @@ export class NavigationBarComponent {
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
-  sidebarVisible = false;
+  sidebarMobileMenuVisible = false;
+  sidebarCartVisible = false;
 
-  toggleMobileMenu() {
-    this.sidebarVisible = !this.sidebarVisible;
+  toggleMobileSidePanelMenu() {
+    this.sidebarMobileMenuVisible = !this.sidebarMobileMenuVisible;
   }
 
-  hideMobileMenu() {
-    this.sidebarVisible = false;
+  toggleCartSidePanel() {
+    this.sidebarCartVisible = !this.sidebarCartVisible;
+  }
+
+  hideMobileSidePanelMenu() {
+    this.sidebarMobileMenuVisible = false;
+  }
+
+  hideCartSidePanelMenu() {
+    this.sidebarCartVisible = false;
   }
 
   showLoginDialog() {

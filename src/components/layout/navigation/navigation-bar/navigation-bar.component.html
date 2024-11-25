@@ -18,8 +18,17 @@
 
     <!-- RIGHT SIDE ICON LIST -->
     <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
-      <!-- MENU ICON -->
-      <li (click)="toggleMobileMenu()" class="quick-links-sm">
+      <!-- CART ICON -->
+      <li (click)="toggleCartSidePanel()">
+        <button type="button"
+                class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
+        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+          <i class="pi pi-shopping-cart"></i>
+        </button>
+      </li>
+
+      <!-- SMALL SCREEN MENU ICON -->
+      <li (click)="toggleMobileSidePanelMenu()" class="quick-links-sm">
         <button type="button"
                 class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
         surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
@@ -77,15 +86,19 @@
   </div>
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
 </div>
-<p-sidebar [(visible)]="sidebarVisible">
+<p-sidebar [(visible)]="sidebarMobileMenuVisible">
   <div class="flex flex-column align-items-center gap-4">
-    <p (click)="hideMobileMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
+    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
        [routerLinkActiveOptions]="{exact: true}">
       Home</p>
-    <p (click)="hideMobileMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
-    <p (click)="hideMobileMenu()" class="cursor-pointer" routerLinkActive="color"
+    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
+      Pizzas</p>
+    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color"
        routerLink="beverages">{{ 'navigation.quick.link.beverages' | translate }}</p>
-    <p (click)="hideMobileMenu()" class="cursor-pointer" routerLinkActive="color"
+    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color"
        routerLink="about">{{ 'navigation.quick.link.about' | translate }}</p>
   </div>
+</p-sidebar>
+<p-sidebar [(visible)]="sidebarCartVisible" position="right">
+  <app-cart/>
 </p-sidebar>
