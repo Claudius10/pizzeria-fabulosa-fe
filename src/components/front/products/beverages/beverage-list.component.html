@@ -2,7 +2,7 @@
   @if (query.status() === "pending") {
     <p>Loading</p>
   } @else if (query.status() === "error") {
-    <p>Error {{ query.error }}</p>
+    <p>Error {{ query.error()?.message }}</p>
   } @else {
     @for (product of query.data(); track product.id) {
       <app-product [product]="product"/>
