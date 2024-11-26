@@ -1,7 +1,7 @@
 .style {
   z-index: 1100;
   background-color: var(--surface-ground);
-  padding: 1rem 10.5rem 1.5rem 10.5rem;
+  padding: 0.5rem 10.5rem 0.5rem 10.5rem;
 }
 
 a, a:visited {
@@ -38,9 +38,9 @@ a, a:visited {
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .style {
-    padding: 1rem 1rem 0.5rem 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
   }
 
   .quick-links-ls {
