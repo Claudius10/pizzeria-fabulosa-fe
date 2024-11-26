@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {NgOptimizedImage} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from '../login/login-dialog.component';
@@ -11,6 +11,8 @@ import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.com
 import {ToastModule} from 'primeng/toast';
 import {SidebarModule} from 'primeng/sidebar';
 import {CartComponent} from '../../../cart/cart.component';
+import {ProgressBarModule} from 'primeng/progressbar';
+import {NavigationService} from '../../../../services/navigation/navigation.service';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -26,7 +28,8 @@ import {CartComponent} from '../../../cart/cart.component';
     LocaleSelectorComponent,
     ToastModule,
     SidebarModule,
-    CartComponent
+    CartComponent,
+    ProgressBarModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './navigation-bar.component.html',
@@ -35,7 +38,8 @@ import {CartComponent} from '../../../cart/cart.component';
 })
 export class NavigationBarComponent {
   private authService = inject(AuthService);
-  private router = inject(Router);
+  private navigationService = inject(NavigationService);
+  isLoading: Signal<boolean> = this.navigationService.getIsLoading();
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
@@ -52,10 +56,6 @@ export class NavigationBarComponent {
 
   hideMobileSidePanelMenu() {
     this.sidebarMobileMenuVisible = false;
-  }
-
-  hideCartSidePanelMenu() {
-    this.sidebarCartVisible = false;
   }
 
   showLoginDialog() {

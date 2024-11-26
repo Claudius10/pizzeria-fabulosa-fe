@@ -1,7 +1,6 @@
 .style {
   z-index: 1100;
   background-color: var(--surface-ground);
-  border-bottom: 2px solid var(--primary-color);
   padding: 0.5rem 10.5rem 0.5rem 10.5rem
 }
 
@@ -23,6 +22,10 @@ a, a:visited {
 
 .color {
   color: var(--primary-color);
+}
+
+:host ::ng-deep .p-progressbar-label {
+  display: none;
 }
 
 .quick-links-ls {

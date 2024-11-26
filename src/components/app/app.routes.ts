@@ -1,5 +1,5 @@
 import {Routes} from '@angular/router';
-import {ProductListComponent} from '../front/products/product-list/product-list.component';
+import {PizzaListComponent} from '../front/products/pizzas/pizza-list.component';
 import {HomeComponent} from '../front/home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
 import {NotFoundComponent} from './wildcard-routes/not-found/not-found.component';
@@ -11,7 +11,7 @@ import {OrderSummaryListComponent} from '../user/order-summary-list/order-summar
 import {SettingsComponent} from '../user/settings/settings.component';
 import {CheckoutComponent} from '../checkout/checkout.component';
 import {OrderComponent} from '../user/order/order.component';
-import {resolveBeverages, resolvePizzas} from './resolvers';
+import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
 
 export const routes: Routes = [
   {
@@ -20,19 +20,13 @@ export const routes: Routes = [
   },
   {
     path: "pizzas",
-    component: ProductListComponent,
+    component: PizzaListComponent,
     title: "Pizzas",
-    resolve: {
-      query: resolvePizzas
-    }
   },
   {
     path: "beverages",
-    component: ProductListComponent,
+    component: BeverageListComponent,
     title: "Beverages",
-    resolve: {
-      query: resolveBeverages
-    }
   },
   {
     path: "user",

@@ -1,6 +1,5 @@
 <div class="fixed top-0 left-0 w-screen style">
   <div class="flex align-items-center justify-content-between">
-
     <!-- ICON -->
     <img routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="40" width="40">
 
@@ -84,6 +83,13 @@
       </li>
     </ul>
   </div>
+  @if (isLoading()) {
+    <p-progressBar mode="indeterminate"
+                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px'}"/>
+  } @else {
+    <p-progressBar [value]="100"
+                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px'}"/>
+  }
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
 </div>
 <p-sidebar [(visible)]="sidebarMobileMenuVisible">
@@ -102,3 +108,4 @@
 <p-sidebar [(visible)]="sidebarCartVisible" position="right">
   <app-cart/>
 </p-sidebar>
+
