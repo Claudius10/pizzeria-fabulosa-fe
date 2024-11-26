@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService, PrimeNGConfig} from 'primeng/api';
 import primeNgEs from "../../../../public/i18n/primeng-es.json";
@@ -22,6 +22,16 @@ export class LocaleSelectorComponent {
   private primeNgConfig = inject(PrimeNGConfig);
   private messageService = inject(MessageService);
   visible = false;
+  @ViewChild('locale') locale: ElementRef | undefined;
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: Event) {
+    if (this.locale) {
+      if (!this.locale.nativeElement.contains(event.target)) {
+        this.visible = false;
+      }
+    }
+  }
 
   toggle() {
     this.visible = !this.visible;

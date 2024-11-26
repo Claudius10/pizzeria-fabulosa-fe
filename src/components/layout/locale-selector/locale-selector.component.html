@@ -1,11 +1,10 @@
 <li>
-  <button (click)="toggle()"
+  <button #locale (click)="toggle()"
           class="p-element p-link flex align-items-center surface-card h-2rem px-2 hover:surface-hover border-1 border-solid surface-border transition-all transition-duration-300 hover:border-primary">
     <i class="pi pi-language"></i>
   </button>
-
   <div
-    [ngClass]="{'p-3 surface-overlay absolute top-auto border-round shadow-2 origin-top mt-1':visible, 'hidden':!visible}">
+    [ngClass]="{'p-3 surface-overlay absolute top-auto border-round shadow-2 origin-top mt-1 z-5':visible, 'hidden':!visible}">
     <ul class="flex flex-column gap-4 list-none m-0 p-0">
       <li (click)="spanish()">Español</li>
       <li (click)="english()">English</li>
