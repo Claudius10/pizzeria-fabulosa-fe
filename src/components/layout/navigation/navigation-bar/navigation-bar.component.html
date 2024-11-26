@@ -20,8 +20,10 @@
       <!-- CART ICON -->
       <li (click)="toggleCartSidePanel()">
         <button type="button"
-                class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                [ngClass]="!bump() ?
+                'flex border-1 border-solid w-2rem h-2rem surface-border border-round surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary' :
+                'flex border-1 border-solid w-2rem h-2rem surface-border border-round surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary bump'"
+                [ngStyle]="cartQuantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart"></i>
         </button>
       </li>
