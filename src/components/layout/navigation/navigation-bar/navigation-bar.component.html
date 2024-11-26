@@ -85,10 +85,10 @@
   </div>
   @if (isLoading()) {
     <p-progressBar mode="indeterminate"
-                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px'}"/>
+                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '1rem'}"/>
   } @else {
     <p-progressBar [value]="100"
-                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px'}"/>
+                   [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '1rem'}"/>
   }
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
 </div>
