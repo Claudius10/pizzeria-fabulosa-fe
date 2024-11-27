@@ -1,12 +1,18 @@
-<div class="w-min">
+<div class="w-min h-25rem">
   <div>
-    <img [ngSrc]=" product().image" width="225" height="300" alt="Product image">
+    <img [ngSrc]=" product().image" width="175" height="190" alt="Product image">
   </div>
 
-  <p>{{ product().name }} {{ product().format }}</p>
+  <div class="flex flex-column align-items-center">
+    <div>{{ product().name }} {{ product().format }}</div>
 
-  <p>{{ product().description }}</p>
+    <div class="flex flex-column justify-content-center text-center h-7rem">{{ product().description }}</div>
 
-  <div>{{ product().price }}€</div>
-  <p-button type="button" (click)="addProductToCart()">Add</p-button>
+    <div class="flex align-items-center justify-content-center gap-3">
+      <p-button type="button" size="small" label="{{ product().price.toFixed(2) }}€" [outlined]="true" [raised]="true"/>
+      <p-button type="button" size="small" icon="pi pi-plus" [raised]="true" (click)="addProductToCart()"/>
+    </div>
+  </div>
+
+
 </div>

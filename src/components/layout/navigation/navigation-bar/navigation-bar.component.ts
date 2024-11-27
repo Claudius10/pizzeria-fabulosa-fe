@@ -40,7 +40,6 @@ import {CartService} from '../../../../services/cart/cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationBarComponent {
-
   private authService = inject(AuthService);
   private navigationService = inject(NavigationService);
   private cartService = inject(CartService);
