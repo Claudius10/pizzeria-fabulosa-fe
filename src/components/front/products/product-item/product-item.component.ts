@@ -1,7 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
-import {NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
+import {CardModule} from 'primeng/card';
+import {PanelModule} from 'primeng/panel';
 
 export type ProductDTO = {
   id: number;
@@ -18,9 +20,13 @@ export type ProductDTO = {
   standalone: true,
   imports: [
     NgOptimizedImage,
-    Button
+    Button,
+    CardModule,
+    PanelModule,
+    NgClass
   ],
   templateUrl: './product-item.component.html',
+  styleUrls: ['./product-item.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent {
