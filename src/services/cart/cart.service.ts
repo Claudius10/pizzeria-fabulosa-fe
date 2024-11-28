@@ -23,11 +23,11 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
-  public set(items: CartItemDTO[], quantity: number, total: number, totalAfterOffers: number) {
+  public set(items: CartItemDTO[], quantity: number, total: number) {
+    this.clear();
     this.items.set(items);
     this.quantity.set(quantity);
     this.total.set(total);
-    this.totalAfterOffers.set(totalAfterOffers);
     this.calculateCostWithOffers(items, total);
     this.updateLocalStorage();
   }

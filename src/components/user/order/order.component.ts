@@ -57,7 +57,7 @@ export class OrderComponent {
     if (isUpdateAllowed) {
       const cart = this.order.data()!.cart;
       this.orderService.setId(this.order.data()!.id.toString());
-      this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, cart.totalCostOffers);
+      this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
     } else {
       this.messageService.add({
         severity: 'warn',
