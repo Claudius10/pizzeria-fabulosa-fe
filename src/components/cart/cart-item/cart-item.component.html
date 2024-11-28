@@ -1,8 +1,35 @@
-<div>
-  {{ item().name }}
-  {{ item().format }}
-  {{ item().quantity }}
-  <span>{{ item().price }}€</span>
-  <button (click)="increaseItemQuantity(item().id)" type="button">+</button>
-  <button (click)="decreaseItemQuantity(item().id)" type="button">-</button>
+<div class="flex justify-content-between border-bottom-2 border-round-bottom-xl border-primary">
+
+  <!-- IMAGE -->
+  <div>
+    <img class="border-round ml-1" [ngSrc]="item().image" width="90" height="90" alt="Product image">
+  </div>
+
+  <!-- BODY -->
+  <div class="flex flex-column justify-content-center align-items-center w-15rem gap-3">
+
+    <!-- 1ST ROW -> NAME + FORMAT -->
+    <div class="flex gap-3">
+      <span>{{ item().name }}</span>
+      <span>{{ item().format }}</span>
+    </div>
+
+    <!-- 2ND ROW -> PRICE AND BUTTON WITH Q -->
+    <div class="flex gap-3">
+
+      <!-- PRICE -->
+      <p-button type="button" size="small" label="{{ item().price.toFixed(2) }}€" [outlined]="true"
+                [raised]="true"/>
+
+      <!-- BUTTONS -->
+      <div class="flex gap-2 align-items-center justify-content-center">
+        <p-button type="button" size="small" icon="pi pi-plus" [raised]="true"
+                  (click)="increaseItemQuantity(item().id)"/>
+        <span>{{ item().quantity }}</span>
+        <p-button type="button" size="small" icon="pi pi-minus" [raised]="true"
+                  (click)="decreaseItemQuantity(item().id)"/>
+      </div>
+    </div>
+
+  </div>
 </div>

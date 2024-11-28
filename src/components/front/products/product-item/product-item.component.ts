@@ -41,6 +41,7 @@ export class ProductItemComponent {
       id: this.product().id,
       price: this.product().price,
       quantity: 1,
+      image: this.product().image,
     });
   }
 }

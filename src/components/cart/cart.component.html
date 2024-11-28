@@ -1,30 +1,35 @@
-<div>
-  <h2>Cart</h2>
-
+<div class="flex flex-column gap-5 h-full">
   @if (quantity() === 0) {
-    <p>Nothing here yet</p>
+    <span>Nothing here yet</span>
   } @else {
+
+
     @for (item of items(); track item.id) {
       <app-cart-item [item]="item"/>
     }
 
-    <p>Total: {{ total().toFixed(2) }}€</p>
+    <div>
+      <span>Total: {{ total().toFixed(2) }}€</span>
+      <div>
+        @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
+          <span>Total con ofertas: {{ totalAfterOffers().toFixed(2) }}€</span>
+          <span>Ofertas aplicadas:</span>
 
-    @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
-      <p>Total con ofertas: {{ totalAfterOffers().toFixed(2) }}€</p>
-      <p>Ofertas aplicadas:</p>
+          @if (secondForHalfPriceOffer() != 0) {
+            <span>La segunda al 50%</span>
+          }
 
-      @if (secondForHalfPriceOffer() != 0) {
-        <p>La segunda al 50%</p>
-      }
-
-      @if (threeForTwoOffers() != 0) {
-        <p>El 3 por 2: {{ threeForTwoOffers() }}x</p>
-      }
-    }
+          @if (threeForTwoOffers() != 0) {
+            <span>El 3 por 2: {{ threeForTwoOffers() }}x</span>
+          }
+        }
+      </div>
+    </div>
 
     @if (orderToUpdateId() === null) {
       <button routerLink="/new-order">Continuar</button>
+    } @else {
+      <button>Volver a mi Pedido</button>
     }
   }
 </div>

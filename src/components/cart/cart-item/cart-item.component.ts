@@ -1,13 +1,17 @@
 import {Component, inject, input} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemDTO} from '../../../interfaces/dto/order';
+import {NgOptimizedImage} from '@angular/common';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-cart-item',
   standalone: true,
-  imports: [],
+  imports: [
+    NgOptimizedImage,
+    Button
+  ],
   templateUrl: './cart-item.component.html',
-  styleUrl: './cart-item.component.css',
 })
 export class CartItemComponent {
   public item = input.required<CartItemDTO>();

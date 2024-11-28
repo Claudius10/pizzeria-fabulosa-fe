@@ -24,6 +24,7 @@ export type CartItemDTO = {
   format: string | null;
   price: number;
   quantity: number;
+  image: string;
 }
 
 export type CartDTO = {
