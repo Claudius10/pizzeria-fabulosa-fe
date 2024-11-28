@@ -82,6 +82,10 @@ export class NavigationBarComponent {
     this.sidebarCartVisible = !this.sidebarCartVisible;
   }
 
+  hideCartSidePanelMenu(event: boolean) {
+    this.sidebarCartVisible = event;
+  }
+
   hideMobileSidePanelMenu() {
     this.sidebarMobileMenuVisible = false;
   }

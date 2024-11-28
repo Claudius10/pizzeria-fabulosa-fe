@@ -22,7 +22,7 @@ import {CartService} from '../../../services/cart/cart.service';
 export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private cartLocalStorageService = inject(CartLocalstorageService);
-  private cartService: CartService = inject(CartService);
+  private cartService = inject(CartService);
 
   ngOnInit() {
     this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
