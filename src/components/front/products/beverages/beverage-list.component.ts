@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {NavigationService} from '../../../../services/navigation/navigation.service';
-import {RESOURCE_PRODUCT_BEVERAGES} from '../../../../interfaces/query-keys';
+import {RESOURCE_PRODUCT_BEVERAGES} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {ProductsQueryResult} from '../../../../interfaces/query';

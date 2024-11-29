@@ -1,0 +1,15 @@
+<p-card header="{{store().name}}" [style]="{ width: '320px' }">
+  <ng-template pTemplate="header">
+  </ng-template>
+  <div class="flex flex-column">
+    <span>{{ store().address.street }} {{ store().address.streetNr }}</span>
+    <span>Informáte: {{ store().phoneNumber }}</span>
+  </div>
+  <ng-template pTemplate="footer">
+    <p-accordion>
+      <p-accordionTab header="Horario">
+        <span>{{ store().schedule }}</span>
+      </p-accordionTab>
+    </p-accordion>
+  </ng-template>
+</p-card>

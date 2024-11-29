@@ -15,7 +15,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
-import {USER_ADDRESS_LIST} from '../../../../interfaces/query-keys';
+import {USER_ADDRESS_LIST} from '../../../../utils/query-keys';
 import {UserService} from '../../../../services/http/user/user.service';
 
 @Component({

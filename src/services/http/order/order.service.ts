@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {OrderDTO} from '../../../interfaces/dto/order';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/forms/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../interfaces/query-keys';
+import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../utils/query-keys';
 import {OrderSummaryListQueryResult, UserOrderQueryOptions, UserOrderQueryResult} from '../../../interfaces/query';
 import {
   AnonOrderMutation,

@@ -7,7 +7,7 @@ import {OrderService} from '../../../services/http/order/order.service';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {UserDetailsComponent} from '../user-details/user-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
-import {userOrderQueryKey} from '../../../interfaces/query-keys';
+import {userOrderQueryKey} from '../../../utils/query-keys';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';

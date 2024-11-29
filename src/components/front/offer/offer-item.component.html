@@ -1,0 +1,13 @@
+<p-card header="{{offer().name}}" [style]="{ width: '320px' }">
+  <ng-template pTemplate="header">
+    <img class="border-round" [ngSrc]="offer().image" width="50" height="200" alt="Product image">
+  </ng-template>
+  <span>{{ offer().description }}</span>
+  <ng-template pTemplate="footer">
+    <p-accordion>
+      <p-accordionTab header="Condiciones">
+        <span>{{ offer().caveat }}</span>
+      </p-accordionTab>
+    </p-accordion>
+  </ng-template>
+</p-card>

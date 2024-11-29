@@ -1,6 +1,6 @@
 import {Signal} from '@angular/core';
 import {AddressDTO, OrderDTO, OrderSummaryListDTO} from './dto/order';
-import {ProductDTO} from './dto/resources';
+import {OfferDTO, ProductDTO, StoreDTO} from './dto/resources';
 import {BaseQueryResult, BaseUserQueryOptions} from './base';
 
 // ---------- USER QUERY ----------
@@ -23,8 +23,16 @@ export interface UserAddressListQueryResult extends BaseQueryResult {
   data: Signal<AddressDTO[] | undefined>;
 }
 
-// ---------- PRODUCTS QUERY ----------
+// ---------- RESOURCES QUERY ----------
 
 export interface ProductsQueryResult extends BaseQueryResult {
   data: Signal<ProductDTO[] | undefined>;
+}
+
+export interface OffersQueryResult extends BaseQueryResult {
+  data: Signal<OfferDTO[] | undefined>;
+}
+
+export interface StoresQueryResult extends BaseQueryResult {
+  data: Signal<StoreDTO[] | undefined>;
 }

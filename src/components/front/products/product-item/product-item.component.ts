@@ -4,16 +4,7 @@ import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
-
-export type ProductDTO = {
-  id: number;
-  productType: string;
-  image: string;
-  name: string;
-  description: string;
-  price: number;
-  format: string;
-}
+import {ProductDTO} from '../../../../interfaces/dto/resources';
 
 @Component({
   selector: 'app-product',
