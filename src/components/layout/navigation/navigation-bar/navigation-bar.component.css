@@ -62,7 +62,7 @@ a, a:visited {
 
 @media (max-width: 992px) {
   .style {
-    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    padding: 0.5rem 10.5rem 0.5rem 10.5rem;
   }
 
   .quick-links-ls {
@@ -79,5 +79,17 @@ a, a:visited {
 
   .logo-sm {
     display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .style {
+    padding: 0.5rem 5.5rem 0.5rem 5.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .style {
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
   }
 }

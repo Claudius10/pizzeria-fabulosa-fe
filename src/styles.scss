@@ -13,7 +13,19 @@ html, body {
   justify-content: center;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
+  .upper-layout {
+    padding: 8rem 10.5rem 2rem 10.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .upper-layout {
+    padding: 8rem 5.5rem 2rem 5.5rem;
+  }
+}
+
+@media (max-width: 576px) {
   .upper-layout {
     padding: 8rem 0 2rem 0;
   }

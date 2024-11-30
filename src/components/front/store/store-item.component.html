@@ -1,9 +1,16 @@
 <p-card header="{{store().name}}" [style]="{ width: '320px' }">
   <ng-template pTemplate="header">
+    <img class="border-round" [ngSrc]="store().image" width="50" height="200" alt="Store image">
   </ng-template>
-  <div class="flex flex-column">
-    <span>{{ store().address.street }} {{ store().address.streetNr }}</span>
-    <span>Informáte: {{ store().phoneNumber }}</span>
+  <div class="flex flex-column gap-4">
+    <div>
+      <i class="pi pi-map-marker"></i>
+      {{ store().address.street }} {{ store().address.streetNr }}
+    </div>
+    <div>
+      <i class="pi pi-phone"></i>
+      {{ store().phoneNumber }}
+    </div>
   </div>
   <ng-template pTemplate="footer">
     <p-accordion>

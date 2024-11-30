@@ -14,6 +14,7 @@ export type StoreDTO = {
   address: AddressDTO;
   phoneNumber: number;
   schedule: string;
+  image: string;
 }
 
 export type ProductDTO = {

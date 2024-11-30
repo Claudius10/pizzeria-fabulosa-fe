@@ -1,18 +1,21 @@
-<div>
+<div class="flex flex-column align-items-center gap-8">
+
   <!-- WELCOME MESSAGE  -->
-  <div>
-    <span>Bienvenidos a la Pizzeria Fabulosa</span>
+  <div class="flex flex-column align-items-center">
+    <span class="font-bold font-italic text-primary font-size">Bienvenidos</span>
+    <span class="font-bold font-italic text-primary font-size">a la</span>
+    <span class="font-bold font-italic text-primary font-size">Pizzeria Fabulosa</span>
   </div>
 
   <!-- OFFERS  -->
   <div class="flex flex-column align-items-center gap-5">
-    <span class="text-4xl uppercase font-bold">Descubre nuestras ofertas</span>
+    <span class="text-center uppercase font-bold cart-header">Descubre nuestras ofertas</span>
     @if (offers.status() === "pending") {
       <p>Loading...</p>
     } @else if (offers.status() === "error") {
       <p>Error {{ offers.error()?.message }}</p>
     } @else {
-      <div class="flex flex-wrap gap-5">
+      <div class="flex flex-wrap justify-content-center gap-5">
         @for (offer of offers.data(); track offer.id) {
           <app-offer-item [offer]="offer"/>
         }
@@ -22,13 +25,13 @@
 
   <!-- STORES -->
   <div class="flex flex-column align-items-center gap-5">
-    <span class="text-4xl uppercase font-bold">Acercate a la tienda</span>
+    <span class="text-center uppercase font-bold cart-header">Acercate a la tienda</span>
     @if (stores.status() === "pending") {
       <p>Loading...</p>
     } @else if (stores.status() === "error") {
       <p>Error {{ stores.error()?.message }}</p>
     } @else {
-      <div class="flex flex-wrap gap-5">
+      <div class="flex flex-wrap justify-content-center gap-5">
         @for (store of stores.data(); track store.id) {
           <app-store-item [store]="store"/>
         }
