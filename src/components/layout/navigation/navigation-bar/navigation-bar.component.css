@@ -28,6 +28,12 @@ a, a:visited {
   display: none;
 }
 
+:host ::ng-deep .p-badge {
+  min-width: 1rem !important;
+  height: 1rem !important;
+  line-height: 1rem !important;
+}
+
 .quick-links-ls {
   display: flex;
   align-items: center;

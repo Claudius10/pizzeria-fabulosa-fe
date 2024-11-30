@@ -18,7 +18,7 @@
     <!-- RIGHT SIDE ICON LIST -->
     <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
       <!-- CART ICON -->
-      <li (click)="toggleCartSidePanel()">
+      <li (click)="toggleCartSidePanel()" pBadge value="{{cartQuantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
                 'flex border-1 border-solid w-2rem h-2rem surface-border border-round surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary' :

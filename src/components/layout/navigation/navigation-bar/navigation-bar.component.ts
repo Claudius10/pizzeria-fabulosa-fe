@@ -14,6 +14,7 @@ import {CartComponent} from '../../../cart/cart.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {NavigationService} from '../../../../services/navigation/navigation.service';
 import {CartService} from '../../../../services/cart/cart.service';
+import {BadgeModule} from 'primeng/badge';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -23,16 +24,17 @@ import {CartService} from '../../../../services/cart/cart.service';
     NgOptimizedImage,
     RouterLinkActive,
     TranslatePipe,
+    BadgeModule,
+    NgClass,
+    NgStyle,
     LoginDialogComponent,
     LogoutDialogComponent,
     ThemeSelectorComponent,
     LocaleSelectorComponent,
+    ProgressBarModule,
     ToastModule,
     SidebarModule,
-    CartComponent,
-    ProgressBarModule,
-    NgStyle,
-    NgClass
+    CartComponent
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './navigation-bar.component.html',
