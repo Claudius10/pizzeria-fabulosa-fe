@@ -9,9 +9,9 @@ import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.gu
 import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderSummaryListComponent} from '../user/order-summary-list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
-import {CheckoutComponent} from '../checkout/checkout.component';
 import {OrderComponent} from '../user/order/order.component';
 import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
+import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
 
 export const routes: Routes = [
   {
@@ -58,7 +58,7 @@ export const routes: Routes = [
   },
   {
     path: "new-order",
-    component: CheckoutComponent,
+    component: AnonUserCheckoutFormComponent,
     title: "New Order",
   },
   {

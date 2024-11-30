@@ -1,22 +1,31 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {FormControl} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutFormService {
-  homeDeliveryOptionVisibility = true;
-  programmedDeliveryTimeVisibility = false;
-  changeRequestInput = false;
+  step = signal(0);
+  homeDelivery = signal(true);
+  programmedDelivery = signal(false);
+  changeRequested = signal(false);
 
-  public setShowHomeDeliveryOption(value: boolean) {
-    this.homeDeliveryOptionVisibility = value;
+  nextStep() {
+    if (this.step() < 4) {
+      this.step.update(current => current + 1);
+    }
+  }
+
+  previousStep() {
+    if (this.step() > 0) {
+      this.step.update(current => current - 1);
+    }
   }
 
   toggleProgrammedDeliveryTime(eventTarget: EventTarget | null) {
     if (eventTarget) {
       const value = (eventTarget as HTMLSelectElement).value;
-      this.programmedDeliveryTimeVisibility = value !== "Lo antes posible";
+      this.programmedDelivery.set(value !== "Lo antes posible");
     }
   }
 
@@ -34,7 +43,7 @@ export class CheckoutFormService {
   toggleChangeRequestInput(eventTarget: EventTarget | null) {
     if (eventTarget) {
       const value = (eventTarget as HTMLSelectElement).value;
-      this.changeRequestInput = value === "V";
+      this.changeRequested.set(value === "V");
     }
   }
 }

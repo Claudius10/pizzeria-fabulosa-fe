@@ -17,9 +17,13 @@ import {OrderService} from '../../../../services/http/order/order.service';
 import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfaces/forms/order';
 import {USER_ADDRESS_LIST} from '../../../../utils/query-keys';
 import {UserService} from '../../../../services/http/user/user.service';
+import {MenuItem} from 'primeng/api';
 
 @Component({
   selector: 'app-user-checkout-form',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -44,6 +48,13 @@ export class UserCheckoutFormComponent {
   orderToUpdateId = this.orderService.getId();
   createUserOrder = this.orderService.createUserOrder();
   updateUserOrder = this.orderService.updateUserOrder();
+
+  items: MenuItem[] = [
+    {label: "Mi cesta"},
+    {label: "Opciones de entrega"},
+    {label: "Método de pago"},
+    {label: "Resumen"},
+  ];
 
   form = new FormGroup({
     addressId: new FormControl(0, {

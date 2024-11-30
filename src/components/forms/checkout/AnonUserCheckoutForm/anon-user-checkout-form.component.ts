@@ -16,17 +16,27 @@ import {
   esCharsRegex,
   numbersRegex
 } from '../../../../regex';
-import {CartComponent} from '../../../cart/cart.component';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
 import {AnonOrderDTO} from '../../../../interfaces/dto/order';
+import {MenuItem} from 'primeng/api';
+import {StepsModule} from 'primeng/steps';
+import {CardModule} from 'primeng/card';
+import {PanelModule} from 'primeng/panel';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
+  host: {
+    class: 'upper-layout',
+  },
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CartComponent
+    StepsModule,
+    CardModule,
+    PanelModule,
+    Button
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
@@ -38,8 +48,16 @@ export class AnonUserCheckoutFormComponent {
   private cartService = inject(CartService);
   private createAnonOrder = this.orderService.createAnonOrder();
 
+  items: MenuItem[] = [
+    {label: "Mis datos",},
+    {label: "Dirección de entrega"},
+    {label: "Plazo de entrega"},
+    {label: "Método de pago"},
+    {label: "Resumen"},
+  ];
+
   form = new FormGroup({
-    customer: new FormGroup({
+    who: new FormGroup({
       fullName: new FormControl("", {
         validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
         nonNullable: true,
@@ -56,31 +74,36 @@ export class AnonUserCheckoutFormComponent {
         updateOn: "blur"
       })
     }),
-    address: new FormGroup({
-      id: new FormControl<number | null>(null),
-      street: new FormControl("", {
-          validators: [Validators.required, Validators.pattern(esCharsRegex)],
-          nonNullable: true,
-          updateOn: "blur"
-        }
-      ),
-      number: new FormControl("", {
-          validators: [Validators.required, Validators.pattern(numbersRegex)],
-          nonNullable: true,
-          updateOn: "blur"
-        }
-      ),
-      gate: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-      staircase: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-      floor: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-      door: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)])
+    where: new FormGroup({
+      storeId: new FormControl<number | null>(null),
+      address: new FormGroup({
+        id: new FormControl<number | null>(null),
+        street: new FormControl("", {
+            validators: [Validators.required, Validators.pattern(esCharsRegex)],
+            nonNullable: true,
+            updateOn: "blur"
+          }
+        ),
+        number: new FormControl("", {
+            validators: [Validators.required, Validators.pattern(numbersRegex)],
+            nonNullable: true,
+            updateOn: "blur"
+          }
+        ),
+        gate: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
+        staircase: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
+        floor: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
+        door: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
+      }),
     }),
-    orderDetails: new FormGroup({
+    when: new FormGroup({
       deliveryTime: new FormControl("Lo antes posible", {
         validators: [Validators.required],
         nonNullable: true,
         updateOn: "blur"
       }),
+    }),
+    how: new FormGroup({
       paymentMethod: new FormControl("Tarjeta", {
         validators: [Validators.required],
         nonNullable: true,

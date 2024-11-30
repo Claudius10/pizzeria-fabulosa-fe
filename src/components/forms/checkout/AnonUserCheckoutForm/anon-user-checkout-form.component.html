@@ -1,93 +1,137 @@
-<div>
+<div class="flex flex-column justify-content-center align-items-center">
+  <div class="steps">
+    <p-steps [activeIndex]="checkoutFormService.step()" [model]="items"/>
+  </div>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div formGroupName="customer">
-      <label for="fullName">Nombre y Apellido(s)*</label>
-      <input id="fullName" type="text" formControlName="fullName">
 
-      @if (!form.controls.customer.controls.fullName.untouched && form.controls.customer.controls.fullName.invalid) {
-        <p>Bad</p>
-      }
+    <!-- STEP ONE -->
+    @if (checkoutFormService.step() === 0) {
+      <div formGroupName="who" class="flex flex-column">
+        <label for="fullName">Nombre y Apellido(s)*</label>
+        <input id="fullName" type="text" formControlName="fullName">
 
-      <label for="contactNumber">Teléfono de contacto*</label>
-      <input id="contactNumber" type="number" formControlName="contactNumber">
+        @if (!form.controls.who.controls.fullName.untouched && form.controls.who.controls.fullName.invalid) {
+          <p>Bad</p>
+        }
 
-      <label for="email">Correo electrónico*</label>
-      <input id="email" type="email" formControlName="email">
-    </div>
+        <label for="contactNumber">Teléfono de contacto*</label>
+        <input id="contactNumber" type="number" formControlName="contactNumber">
 
-    <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
-    <select id="deliveryOption">
-      <option (click)="checkoutFormService.setShowHomeDeliveryOption(true)">A domicilio</option>
-      <option (click)="checkoutFormService.setShowHomeDeliveryOption(false)">Recoger</option>
-    </select>
-
-    @if (checkoutFormService.homeDeliveryOptionVisibility) {
-      <div formGroupName="address">
-        <label for="street">Dirección*</label>
-        <input id="street" type="text" formControlName="street">
-
-        <label for="streetNumber">Número*</label>
-        <input id="streetNumber" type="number" formControlName="number">
-
-        <p>Interior</p>
-
-        <label for="gate">Portal</label>
-        <input id="gate" type="text" formControlName="gate">
-
-        <label for="staircase">Escalera</label>
-        <input id="staircase" type="text" formControlName="staircase">
-
-        <label for="floor">Piso</label>
-        <input id="floor" type="text" formControlName="floor">
-
-        <label for="door">Puerta</label>
-        <input id="door" type="text" formControlName="door">
+        <label for="email">Correo electrónico*</label>
+        <input id="email" type="email" formControlName="email">
       </div>
-    } @else {
-      <p>Select Store</p>
     }
 
-    <div formGroupName="orderDetails">
-      <label for="deliveryChoice">Hora de entrega*</label>
-      <select id="deliveryChoice" formControlName="deliveryTime"
-              (change)="checkoutFormService.toggleProgrammedDeliveryTime($event.target)">
-        <option value="Lo antes posible">Lo antes posible</option>
-        <option value="Hora programada">Hora programada</option>
+    <!-- STEP TWO -->
+    @if (checkoutFormService.step() === 1) {
+      <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
+      <select id="deliveryOption">
+        <option (click)="checkoutFormService.homeDelivery.set(true)">A domicilio</option>
+        <option (click)="checkoutFormService.homeDelivery.set(true)">Recoger</option>
       </select>
 
-      @if (checkoutFormService.programmedDeliveryTimeVisibility) {
-        <label for="deliveryTime">Selecciona la hora de entrega*</label>
-        <select id="deliveryTime" formControlName="deliveryTime">
-          <option value="15:00">15:00</option>
-          <option value="13:00">13:00</option>
+      <!-- ADDRESS SELECT -->
+      <div formGroupName="where">
+        @if (checkoutFormService.homeDelivery()) {
+          <div formGroupName="address">
+            <label for="street">Dirección*</label>
+            <input id="street" type="text" formControlName="street">
+
+            <label for="streetNumber">Número*</label>
+            <input id="streetNumber" type="number" formControlName="number">
+
+            <p>Interior</p>
+
+            <label for="gate">Portal</label>
+            <input id="gate" type="text" formControlName="gate">
+
+            <label for="staircase">Escalera</label>
+            <input id="staircase" type="text" formControlName="staircase">
+
+            <label for="floor">Piso</label>
+            <input id="floor" type="text" formControlName="floor">
+
+            <label for="door">Puerta</label>
+            <input id="door" type="text" formControlName="door">
+          </div>
+        } @else {
+          <!-- STORE SELECT -->
+          <p>Select Store</p>
+        }
+      </div>
+    }
+
+    <!-- STEP THREE -->
+    @if (checkoutFormService.step() === 2) {
+      <div formGroupName="when">
+        <label for="deliveryChoice">Hora de entrega*</label>
+        <select id="deliveryChoice" formControlName="deliveryTime"
+                (change)="checkoutFormService.toggleProgrammedDeliveryTime($event.target)">
+          <option value="Lo antes posible">Lo antes posible</option>
+          <option value="Hora programada">Hora programada</option>
         </select>
-      }
 
-      <label for="paymentMethod">Método de pago*</label>
-      <select id="paymentMethod" formControlName="paymentMethod"
-              (change)="checkoutFormService.toggleRequestChangeOption(form.controls.orderDetails.controls.changeRequestChoice, $event.target)">
-        <option value="Tarjeta">Tarjeta</option>
-        <option value="Efectivo">Efectivo</option>
-      </select>
+        @if (checkoutFormService.programmedDelivery()) {
+          <label for="deliveryTime">Selecciona la hora de entrega*</label>
+          <select id="deliveryTime" formControlName="deliveryTime">
+            <option value="15:00">15:00</option>
+            <option value="13:00">13:00</option>
+          </select>
+        }
+      </div>
+    }
 
-      <label for="changeRequestChoice">¿Necesita cambio?*</label>
-      <select id="changeRequestChoice" formControlName="changeRequestChoice"
-              (change)="checkoutFormService.toggleChangeRequestInput($event.target)">
-        <option value="V">Sí</option>
-        <option value="F">No</option>
-      </select>
+    <!-- STEP FOUR -->
+    @if (checkoutFormService.step() === 3) {
+      <div formGroupName="how">
+        <label for="paymentMethod">Método de pago*</label>
+        <select id="paymentMethod" formControlName="paymentMethod"
+                (change)="checkoutFormService.toggleRequestChangeOption(form.controls.how.controls.changeRequestChoice, $event.target)">
+          <option value="Tarjeta">Tarjeta</option>
+          <option value="Efectivo">Efectivo</option>
+        </select>
 
-      @if (checkoutFormService.changeRequestInput) {
-        <label for="billToChange">Cambio de*</label>
-        <input id="billToChange" type="number" formControlName="billToChange">
-      }
+        <label for="changeRequestChoice">¿Necesita cambio?*</label>
+        <select id="changeRequestChoice" formControlName="changeRequestChoice"
+                (change)="checkoutFormService.toggleChangeRequestInput($event.target)">
+          <option value="V">Sí</option>
+          <option value="F">No</option>
+        </select>
 
-      <label for="comment">Observaciones</label>
-      <textarea id="comment" formControlName="comment"></textarea>
-    </div>
+        @if (checkoutFormService.changeRequested()) {
+          <label for="billToChange">Cambio de*</label>
+          <input id="billToChange" type="number" formControlName="billToChange">
+        }
 
-    <button type="submit">REALIZAR PEDIDO</button>
+        <label for="comment">Observaciones</label>
+        <textarea id="comment" formControlName="comment"></textarea>
+      </div>
+    }
+
+    <!-- STEP FIVE -->
+    @if (checkoutFormService.step() === 4) {
+
+    }
+
+    <!-- SUBMIT -->
+
   </form>
-  <app-cart/>
-</div>
 
+  <!-- STEP NAVIGATION BUTTONS -->
+  <div>
+    <p-button
+      type="button"
+      (onClick)="checkoutFormService.previousStep()"
+      [disabled]="checkoutFormService.step() === 0"
+      label="VOLVER"/>
+    <p-button
+      type="button"
+      label="CANCELAR"/>
+    <p-button
+      type="button"
+      (onClick)="checkoutFormService.nextStep()"
+      [disabled]="checkoutFormService.step() === 4"
+      label="CONTINUAR"/>
+  </div>
+</div>

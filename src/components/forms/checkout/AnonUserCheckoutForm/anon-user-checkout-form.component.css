@@ -1,0 +1,7 @@
+.steps {
+  background: var(--surface-card);
+  border: none;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 60vw;
+}
