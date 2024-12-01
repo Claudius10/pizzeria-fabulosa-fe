@@ -1,40 +1,80 @@
-<div class="flex flex-column justify-content-center align-items-center">
+<div class="form flex flex-column gap-5 align-items-center">
+
   <div class="steps">
-    <p-steps [activeIndex]="checkoutFormService.step()" [model]="items"/>
+    <p-card>
+      <p-steps [activeIndex]="checkoutFormService.step()" [model]="items"/>
+    </p-card>
   </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="small-steps">
+    <p-card>
+      <app-small-screen-steps [activeIndex]="checkoutFormService.step()" [items]="items"/>
+    </p-card>
+  </div>
+
+  <form class="w-full" [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <!-- STEP ONE -->
     @if (checkoutFormService.step() === 0) {
-      <div formGroupName="who" class="flex flex-column">
-        <label for="fullName">Nombre y Apellido(s)*</label>
-        <input id="fullName" type="text" formControlName="fullName">
+      <div formGroupName="who" class="flex flex-column gap-5">
+        <div class="flex flex-column gap-2">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user"/>
+            <input
+              class="w-full"
+              [ngClass]="valid() ? '' : 'ng-invalid ng-dirty'"
+              pInputText
+              id="fullName"
+              type="text"
+              placeholder="Name"
+              formControlName="fullName">
+          </p-iconField>
+          @if (!valid()) {
+            <small id="fullName-help">
+              Customer name is required.
+            </small>
+          }
+        </div>
 
-        @if (!form.controls.who.controls.fullName.untouched && form.controls.who.controls.fullName.invalid) {
-          <p>Bad</p>
-        }
+        <div class="flex flex-column gap-2">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-envelope"/>
+            <input class="w-full" pInputText id="email" type="email" placeholder="Email" formControlName="email">
+          </p-iconField>
+          @if (!valid()) {
+            <small id="email-help">
+              Customer name is required.
+            </small>
+          }
+        </div>
 
-        <label for="contactNumber">Teléfono de contacto*</label>
-        <input id="contactNumber" type="number" formControlName="contactNumber">
-
-        <label for="email">Correo electrónico*</label>
-        <input id="email" type="email" formControlName="email">
+        <div class="flex flex-column gap-2">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-phone"/>
+            <input class="w-full" pInputText id="contactNumber" type="number" placeholder="Contact Number"
+                   formControlName="contactNumber">
+          </p-iconField>
+          @if (!valid()) {
+            <small id="contactNumber-help">
+              Customer name is required.
+            </small>
+          }
+        </div>
       </div>
     }
 
     <!-- STEP TWO -->
     @if (checkoutFormService.step() === 1) {
-      <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
-      <select id="deliveryOption">
-        <option (click)="checkoutFormService.homeDelivery.set(true)">A domicilio</option>
-        <option (click)="checkoutFormService.homeDelivery.set(true)">Recoger</option>
-      </select>
-
       <!-- ADDRESS SELECT -->
-      <div formGroupName="where">
+      <div formGroupName="where" class="flex flex-column">
+        <label for="deliveryOption">¿Viene a recoger o se lo mandamos a domicilio?*</label>
+        <select id="deliveryOption">
+          <option (click)="checkoutFormService.homeDelivery.set(true)">A domicilio</option>
+          <option (click)="checkoutFormService.homeDelivery.set(true)">Recoger</option>
+        </select>
+
         @if (checkoutFormService.homeDelivery()) {
-          <div formGroupName="address">
+          <div formGroupName="address" class="flex flex-column">
             <label for="street">Dirección*</label>
             <input id="street" type="text" formControlName="street">
 
@@ -64,7 +104,7 @@
 
     <!-- STEP THREE -->
     @if (checkoutFormService.step() === 2) {
-      <div formGroupName="when">
+      <div formGroupName="when" class="flex flex-column">
         <label for="deliveryChoice">Hora de entrega*</label>
         <select id="deliveryChoice" formControlName="deliveryTime"
                 (change)="checkoutFormService.toggleProgrammedDeliveryTime($event.target)">
@@ -84,7 +124,7 @@
 
     <!-- STEP FOUR -->
     @if (checkoutFormService.step() === 3) {
-      <div formGroupName="how">
+      <div formGroupName="how" class="flex flex-column">
         <label for="paymentMethod">Método de pago*</label>
         <select id="paymentMethod" formControlName="paymentMethod"
                 (change)="checkoutFormService.toggleRequestChangeOption(form.controls.how.controls.changeRequestChoice, $event.target)">
@@ -119,7 +159,11 @@
   </form>
 
   <!-- STEP NAVIGATION BUTTONS -->
-  <div>
+  <div class="buttons">
+    <p-button
+      severity="danger"
+      type="button"
+      label="CANCELAR"/>
     <p-button
       type="button"
       (onClick)="checkoutFormService.previousStep()"
@@ -127,10 +171,7 @@
       label="VOLVER"/>
     <p-button
       type="button"
-      label="CANCELAR"/>
-    <p-button
-      type="button"
-      (onClick)="checkoutFormService.nextStep()"
+      (onClick)="nextStep()"
       [disabled]="checkoutFormService.step() === 4"
       label="CONTINUAR"/>
   </div>

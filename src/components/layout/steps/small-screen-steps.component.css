@@ -1,0 +1,32 @@
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s, outline-color 0.2s;
+  transition-property: background-color, color, border-color, box-shadow, outline-color;
+  transition-duration: 0.2s, 0.2s, 0.2s, 0.2s, 0.2s;
+  transition-timing-function: ease, ease, ease, ease, ease;
+  transition-delay: 0s, 0s, 0s, 0s, 0s;
+  transition-behavior: normal, normal, normal, normal, normal;
+  font-family: var(--font-family), serif;
+  font-feature-settings: var(--font-feature-settings, normal);
+}
+
+.step-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  min-width: 2rem;
+  height: 2rem;
+  line-height: 2rem;
+  font-size: 1.143rem;
+  border: 2px solid var(--surface-border);
+  color: var(--primary-color);
+}
+
+.step-name {
+  font-weight: 500;
+  color: var(--text-color);
+}

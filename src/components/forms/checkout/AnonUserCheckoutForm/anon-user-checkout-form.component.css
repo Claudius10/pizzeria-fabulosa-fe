@@ -1,7 +1,53 @@
+:host ::ng-deep .p-input-icon {
+  color: var(--primary-color);
+}
+
+:host ::ng-deep .p-button {
+  width: 10rem;
+}
+
+.form {
+  width: 55vw;
+  min-width: 15rem;
+}
+
 .steps {
-  background: var(--surface-card);
-  border: none;
-  padding: 2rem;
-  border-radius: 10px;
-  width: 60vw;
+  width: 100%;
+}
+
+.small-steps {
+  display: none;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 1185px) {
+  .form {
+    width: 80vw;
+  }
+
+  .steps {
+    display: none;
+  }
+
+  .small-steps {
+    display: block;
+    width: 100%;
+  }
+}
+
+@media (max-width: 578px) {
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    width: 100%;
+  }
 }

@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
   ValidatorFn,
@@ -24,6 +25,14 @@ import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
 import {Button} from 'primeng/button';
+import {SmallScreenStepsComponent} from '../../../layout/steps/small-screen-steps.component';
+import {InputGroupModule} from 'primeng/inputgroup';
+import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {NgClass} from '@angular/common';
+import {IconFieldModule} from 'primeng/iconfield';
+import {InputIconModule} from 'primeng/inputicon';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -36,7 +45,16 @@ import {Button} from 'primeng/button';
     StepsModule,
     CardModule,
     PanelModule,
-    Button
+    Button,
+    SmallScreenStepsComponent,
+    InputGroupModule,
+    InputGroupAddonModule,
+    InputTextModule,
+    InputNumberModule,
+    FormsModule,
+    NgClass,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
@@ -56,7 +74,101 @@ export class AnonUserCheckoutFormComponent {
     {label: "Resumen"},
   ];
 
-  form = new FormGroup({
+  form = getForm();
+  valid = signal(true);
+
+  isStepValid(stepNumber: number) {
+    console.log('stepNumber', stepNumber);
+    if (stepNumber === 0) {
+      const valid = this.form.controls.who.valid;
+      if (!valid) {
+        this.valid.set(false);
+      }
+      return valid;
+    }
+
+    if (stepNumber === 1) {
+      return this.form.controls.where.valid;
+    }
+
+    if (stepNumber === 0) {
+      return this.form.controls.when.valid;
+    }
+
+    if (stepNumber === 0) {
+      return this.form.controls.how.valid;
+    }
+    return false;
+  }
+
+  isFormValid() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      const controls = this.form.controls;
+
+      Object.keys(controls).forEach(control => {
+        console.log(this.form.get(control)?.value);
+        console.log(this.form.get(control)?.status);
+        console.log(this.form.get(control)?.valid);
+      });
+
+      return false;
+    }
+    return true;
+  }
+
+  nextStep() {
+    if (this.isStepValid(this.checkoutFormService.step())) {
+      this.checkoutFormService.nextStep();
+    }
+  }
+
+  onSubmit(): void {
+    console.log(this.form.value);
+    if (this.isFormValid()) {
+      this.createAnonOrder.mutate({
+        anonCustomerName: this.form.get("who.fullName")!.value,
+        anonCustomerContactNumber: Number(this.form.get("who.contactNumber")!.value),
+        anonCustomerEmail: this.form.get("who.email")!.value,
+        address: {
+          id: this.form.get("where.storeId")!.value === null ? null : this.form.get("where.storeId")!.value,
+          street: this.form.get("where.address.street")!.value,
+          streetNr: Number(this.form.get("where.address.number")!.value),
+          gate: this.form.get("where.address.gate")!.value === null ? null : this.form.get("where.address.gate")!.value,
+          staircase: this.form.get("where.address.staircase")!.value === null ? null : this.form.get("where.address.staircase")!.value,
+          floor: this.form.get("where.address.floor")!.value === null ? null : this.form.get("where.address.floor")!.value,
+          door: this.form.get("where.address.door")!.value === null ? null : this.form.get("where.address.door")!.value,
+        },
+        orderDetails: {
+          id: null,
+          deliveryTime: this.form.get("when.deliveryTime")!.value,
+          paymentMethod: this.form.get("how.paymentMethod")!.value,
+          billToChange: this.form.get("how.billToChange")!.value === null ? null : this.form.get("how.billToChange")!.value,
+          comment: this.form.get("how.comment")!.value === null ? null : this.form.get("how.comment")!.value,
+        },
+        cart: {
+          id: null,
+          cartItems: this.cartService.cartItems(),
+          totalCost: this.cartService.cartTotal(),
+          totalCostOffers: this.cartService.cartTotalAfterOffers(),
+          totalQuantity: this.cartService.cartQuantity(),
+        }
+      }, {
+        onSuccess: (response: AnonOrderDTO) => {
+          console.log(response);
+          console.log("success");
+          this.cartService.clear();
+        },
+        onError: (error, variables, context) => {
+          console.log(error);
+        }
+      });
+    }
+  }
+}
+
+const getForm = () => {
+  return new FormGroup({
     who: new FormGroup({
       fullName: new FormControl("", {
         validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
@@ -120,61 +232,7 @@ export class AnonUserCheckoutFormComponent {
       comment: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx), Validators.maxLength(250)])
     })
   }, {validators: [validateStreet, validateStreetNumber, validateChangeToGive]});
-
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      const controls = this.form.controls;
-
-      Object.keys(controls).forEach(control => {
-        console.log(this.form.get(control)?.value);
-        console.log(this.form.get(control)?.status);
-        console.log(this.form.get(control)?.valid);
-      });
-
-      return;
-    }
-
-    console.log(this.form.value);
-    this.createAnonOrder.mutate({
-      anonCustomerName: this.form.get("customer.fullName")!.value,
-      anonCustomerContactNumber: Number(this.form.get("customer.contactNumber")!.value),
-      anonCustomerEmail: this.form.get("customer.email")!.value,
-      address: {
-        id: null,
-        street: this.form.get("address.street")!.value,
-        streetNr: Number(this.form.get("address.number")!.value),
-        gate: this.form.get("address.gate")!.value === null ? null : this.form.get("address.gate")!.value,
-        staircase: this.form.get("address.staircase")!.value === null ? null : this.form.get("address.staircase")!.value,
-        floor: this.form.get("address.floor")!.value === null ? null : this.form.get("address.floor")!.value,
-        door: this.form.get("address.door")!.value === null ? null : this.form.get("address.door")!.value,
-      },
-      orderDetails: {
-        id: null,
-        deliveryTime: this.form.get("orderDetails.deliveryTime")!.value,
-        paymentMethod: this.form.get("orderDetails.paymentMethod")!.value,
-        billToChange: this.form.get("orderDetails.billToChange")!.value === null ? null : this.form.get("orderDetails.billToChange")!.value,
-        comment: this.form.get("orderDetails.comment")!.value === null ? null : this.form.get("orderDetails.comment")!.value,
-      },
-      cart: {
-        id: null,
-        cartItems: this.cartService.cartItems(),
-        totalCost: this.cartService.cartTotal(),
-        totalCostOffers: this.cartService.cartTotalAfterOffers(),
-        totalQuantity: this.cartService.cartQuantity(),
-      }
-    }, {
-      onSuccess: (response: AnonOrderDTO) => {
-        console.log(response);
-        console.log("success");
-        this.cartService.clear();
-      },
-      onError: (error, variables, context) => {
-        console.log(error);
-      }
-    });
-  }
-}
+};
 
 const validateStreet: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   return null;
