@@ -21,16 +21,15 @@
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-user"/>
             <input
-              class="w-full"
-              [ngClass]="valid() ? '' : 'ng-invalid ng-dirty'"
+              class="w-full invalid-border"
               pInputText
               id="fullName"
               type="text"
               placeholder="Name"
               formControlName="fullName">
           </p-iconField>
-          @if (!valid()) {
-            <small id="fullName-help">
+          @if (!this.form.controls.who.controls.fullName.untouched && !this.form.controls.who.controls.fullName.valid) {
+            <small id="fullName-help" class="invalid-text">
               Customer name is required.
             </small>
           }
@@ -39,11 +38,12 @@
         <div class="flex flex-column gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-envelope"/>
-            <input class="w-full" pInputText id="email" type="email" placeholder="Email" formControlName="email">
+            <input class="w-full invalid-border" pInputText id="email" type="email" placeholder="Email"
+                   formControlName="email">
           </p-iconField>
-          @if (!valid()) {
-            <small id="email-help">
-              Customer name is required.
+          @if (!this.form.controls.who.controls.email.untouched && !this.form.controls.who.controls.email.valid) {
+            <small id="email-help" class="invalid-text">
+              Email is required.
             </small>
           }
         </div>
@@ -51,12 +51,13 @@
         <div class="flex flex-column gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-phone"/>
-            <input class="w-full" pInputText id="contactNumber" type="number" placeholder="Contact Number"
+            <input class="w-full invalid-border" pInputText id="contactNumber" type="number"
+                   placeholder="Contact Number"
                    formControlName="contactNumber">
           </p-iconField>
-          @if (!valid()) {
-            <small id="contactNumber-help">
-              Customer name is required.
+          @if (!this.form.controls.who.controls.contactNumber.untouched && !this.form.controls.who.controls.contactNumber.valid) {
+            <small id="contactNumber-help" class="invalid-text">
+              Contact number is required.
             </small>
           }
         </div>

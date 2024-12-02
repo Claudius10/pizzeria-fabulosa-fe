@@ -1,3 +1,11 @@
+.invalid-border.ng-invalid.ng-touched {
+  border: 1px solid #f87171;
+}
+
+.invalid-text {
+  color: #f87171;
+}
+
 :host ::ng-deep .p-input-icon {
   color: var(--primary-color);
 }

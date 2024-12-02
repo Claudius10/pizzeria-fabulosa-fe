@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -30,7 +30,6 @@ import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
-import {NgClass} from '@angular/common';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 
@@ -52,7 +51,6 @@ import {InputIconModule} from 'primeng/inputicon';
     InputTextModule,
     InputNumberModule,
     FormsModule,
-    NgClass,
     IconFieldModule,
     InputIconModule
   ],
@@ -75,28 +73,66 @@ export class AnonUserCheckoutFormComponent {
   ];
 
   form = getForm();
-  valid = signal(true);
 
   isStepValid(stepNumber: number) {
-    console.log('stepNumber', stepNumber);
     if (stepNumber === 0) {
-      const valid = this.form.controls.who.valid;
-      if (!valid) {
-        this.valid.set(false);
+      const validOne = this.form.controls.who.valid;
+
+      if (!validOne) {
+        Object.keys(this.form.controls.who.controls).forEach(controlName => {
+          const control = this.form.get(`who.${controlName}`);
+          if (!control!.valid) {
+            control!.markAsTouched();
+          }
+        });
       }
-      return valid;
+
+      return validOne;
     }
 
     if (stepNumber === 1) {
-      return this.form.controls.where.valid;
+      const validTwo = this.form.controls.where.valid;
+
+      if (!validTwo) {
+        Object.keys(this.form.controls.where.controls).forEach(controlName => {
+          const control = this.form.get(`where.${controlName}`);
+          if (!control!.valid) {
+            control!.markAsTouched();
+          }
+        });
+      }
+
+      return validTwo;
     }
 
-    if (stepNumber === 0) {
-      return this.form.controls.when.valid;
+    if (stepNumber === 2) {
+      const validThree = this.form.controls.when.valid;
+
+      if (!validThree) {
+        Object.keys(this.form.controls.when.controls).forEach(controlName => {
+          const control = this.form.get(`when.${controlName}`);
+          if (!control!.valid) {
+            control!.markAsTouched();
+          }
+        });
+      }
+
+      return validThree;
     }
 
-    if (stepNumber === 0) {
-      return this.form.controls.how.valid;
+    if (stepNumber === 3) {
+      const validFour = this.form.controls.how.valid;
+
+      if (!validFour) {
+        Object.keys(this.form.controls.how.controls).forEach(controlName => {
+          const control = this.form.get(`how.${controlName}`);
+          if (!control!.valid) {
+            control!.markAsTouched();
+          }
+        });
+      }
+
+      return validFour;
     }
     return false;
   }
@@ -175,16 +211,16 @@ const getForm = () => {
         nonNullable: true,
         updateOn: "blur"
       }),
+      email: new FormControl("", {
+        validators: [Validators.required, Validators.pattern(emailRgx)],
+        nonNullable: true,
+        updateOn: "blur"
+      }),
       contactNumber: new FormControl("", {
         validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
         nonNullable: true,
         updateOn: "blur"
       }),
-      email: new FormControl("", {
-        validators: [Validators.pattern(emailRgx)],
-        nonNullable: true,
-        updateOn: "blur"
-      })
     }),
     where: new FormGroup({
       storeId: new FormControl<number | null>(null),
