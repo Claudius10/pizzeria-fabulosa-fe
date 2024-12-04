@@ -1,0 +1,22 @@
+<p-card
+  [ngClass]="selected() === store().id ?
+  'flex border-2 border-primary border-round-xl transition-all transition-duration-300 ' :
+  'flex border-2 border-round-xl border-transparent'"
+  (click)="selectStore()"
+  header="{{store().name}}"
+  [style]="{ width: '320px' }">
+  <div class="flex flex-column gap-4">
+    <div class="flex gap-2">
+      <i class="pi pi-map"></i>
+      {{ store().address.street }} {{ store().address.streetNr }}
+    </div>
+    <div class="flex gap-2">
+      <i class="pi pi-phone"></i>
+      {{ store().phoneNumber }}
+    </div>
+    <div class="flex gap-2">
+      <i class="pi pi-calendar-clock"></i>
+      <span>{{ store().schedule }}</span>
+    </div>
+  </div>
+</p-card>

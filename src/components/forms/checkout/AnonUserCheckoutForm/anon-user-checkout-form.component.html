@@ -2,13 +2,13 @@
   <div class="flex flex-column gap-5">
     <div class="steps">
       <p-card>
-        <p-steps [activeIndex]="checkoutFormService.step()" [model]="items"/>
+        <p-steps [activeIndex]="checkoutFormService.step()" [model]="steps"/>
       </p-card>
     </div>
 
     <div class="small-steps">
       <p-card>
-        <app-small-screen-steps [activeIndex]="checkoutFormService.step()" [items]="items"/>
+        <app-small-screen-steps [activeIndex]="checkoutFormService.step()" [items]="steps"/>
       </p-card>
     </div>
 
@@ -87,11 +87,12 @@
               <p-iconField iconPosition="right">
                 <p-inputIcon styleClass="pi pi-angle-down"/>
                 <select
+                  (change)="selectDelivery($event)"
                   pInputText
                   class="w-full"
                   id="deliveryOption">
-                  <option (click)="checkoutFormService.homeDelivery.set(true)">A domicilio</option>
-                  <option (click)="checkoutFormService.homeDelivery.set(true)">Recoger</option>
+                  <option value="home">A domicilio</option>
+                  <option value="store">Recoger</option>
                 </select>
               </p-iconField>
             </div>
@@ -160,7 +161,23 @@
               </div>
             } @else {
               <!-- STORE SELECT -->
-              <p>Select Store</p>
+              <p>Select store</p>
+              <div class="flex flex-column align-items-center gap-5">
+                @if (stores.status() === "pending") {
+                  <p>Loading stores...</p>
+                } @else if (stores.status() === "error") {
+                  <p>Error loading stores {{ stores.error()?.message }}</p>
+                } @else {
+                  <div class="flex flex-wrap justify-content-center gap-5">
+                    @for (store of stores.data(); track store.id) {
+                      <app-store-checkout
+                        (storeId)="setSelectedStoreId($event)"
+                        [selected]="selectedStore()"
+                        [store]="store"/>
+                    }
+                  </div>
+                }
+              </div>
             }
           </div>
         }

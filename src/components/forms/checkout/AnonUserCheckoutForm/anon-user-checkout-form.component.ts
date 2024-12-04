@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -33,6 +33,10 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
+import {ResourceService} from '../../../../services/http/resources/resource.service';
+import {StoresQueryResult} from '../../../../interfaces/query';
+import {RESOURCE_STORES} from '../../../../utils/query-keys';
+import {StoreCheckoutComponent} from '../store/store-checkout.component';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -54,7 +58,8 @@ import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.compon
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    CheckoutCartComponent
+    CheckoutCartComponent,
+    StoreCheckoutComponent
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
@@ -65,18 +70,29 @@ export class AnonUserCheckoutFormComponent {
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private createAnonOrder = this.orderService.createAnonOrder();
-
-  items: MenuItem[] = [
+  private resourceService = inject(ResourceService);
+  stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  steps: MenuItem[] = [
     {label: "Mis datos",},
     {label: "Dirección de entrega"},
     {label: "Plazo de entrega"},
-    {label: "Método de pago"},
-    {label: "Resumen"},
+    {label: "Método de pago"}, {label: "Resumen"},
   ];
-
   form = getForm();
+  selectedStore = signal<number | null>(null);
+
+  selectDelivery(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    if (selectElement.value === "home") {
+      this.checkoutFormService.homeDelivery.set(true);
+      this.selectedStore.set(null);
+    } else {
+      this.checkoutFormService.homeDelivery.set(false);
+    }
+  }
 
   isStepValid(stepNumber: number) {
+    console.log(stepNumber);
     if (stepNumber === 0) {
       const validOne = this.form.controls.who.valid;
 
@@ -141,31 +157,21 @@ export class AnonUserCheckoutFormComponent {
     return false;
   }
 
-  isFormValid() {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      const controls = this.form.controls;
-
-      Object.keys(controls).forEach(control => {
-        console.log(this.form.get(control)?.value);
-        console.log(this.form.get(control)?.status);
-        console.log(this.form.get(control)?.valid);
-      });
-
-      return false;
-    }
-    return true;
-  }
-
   nextStep() {
     if (this.isStepValid(this.checkoutFormService.step())) {
       this.checkoutFormService.nextStep();
     }
   }
 
+  setSelectedStoreId(id: number) {
+    console.log(id);
+    this.form.controls.where.controls.storeId.setValue(id);
+    this.selectedStore.set(id);
+  }
+
   onSubmit(): void {
     console.log(this.form.value);
-    if (this.isFormValid()) {
+    if (this.form.invalid) {
       this.createAnonOrder.mutate({
         anonCustomerName: this.form.get("who.fullName")!.value,
         anonCustomerContactNumber: Number(this.form.get("who.contactNumber")!.value),

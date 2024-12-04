@@ -3,11 +3,11 @@
     <img class="border-round" [ngSrc]="store().image" width="50" height="200" alt="Store image">
   </ng-template>
   <div class="flex flex-column gap-4">
-    <div>
+    <div class="flex gap-2">
       <i class="pi pi-map"></i>
       {{ store().address.street }} {{ store().address.streetNr }}
     </div>
-    <div>
+    <div class="flex gap-2">
       <i class="pi pi-phone"></i>
       {{ store().phoneNumber }}
     </div>
