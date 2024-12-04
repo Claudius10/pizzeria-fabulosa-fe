@@ -72,20 +72,22 @@ export class AnonUserCheckoutFormComponent {
   private createAnonOrder = this.orderService.createAnonOrder();
   private resourceService = inject(ResourceService);
   stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  selectedStore = signal<number | null>(null);
   steps: MenuItem[] = [
     {label: "Mis datos",},
     {label: "Dirección de entrega"},
     {label: "Plazo de entrega"},
     {label: "Método de pago"}, {label: "Resumen"},
   ];
+
   form = getForm();
-  selectedStore = signal<number | null>(null);
 
   selectDelivery(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     if (selectElement.value === "home") {
       this.checkoutFormService.homeDelivery.set(true);
       this.selectedStore.set(null);
+      this.form.controls.where.controls.storeId.setValue(null);
     } else {
       this.checkoutFormService.homeDelivery.set(false);
     }
@@ -112,11 +114,15 @@ export class AnonUserCheckoutFormComponent {
 
     if (stepNumber === 1) {
       const validTwo = this.form.controls.where.valid;
+      console.log(validTwo);
+      console.log(this.form.controls.where.errors);
 
       if (!validTwo) {
         Object.keys(this.form.controls.where.controls).forEach(controlName => {
           const control = this.form.get(`where.${controlName}`);
+          console.log(control?.valid);
           if (!control!.valid) {
+            console.log(control?.errors);
             control!.markAsTouched();
           }
         });
@@ -164,7 +170,6 @@ export class AnonUserCheckoutFormComponent {
   }
 
   setSelectedStoreId(id: number) {
-    console.log(id);
     this.form.controls.where.controls.storeId.setValue(id);
     this.selectedStore.set(id);
   }
@@ -236,19 +241,17 @@ const getForm = () => {
       storeId: new FormControl<number | null>(null),
       id: new FormControl<number | null>(null),
       street: new FormControl("", {
-          validators: [Validators.required, Validators.pattern(esCharsRegex)],
           nonNullable: true,
           updateOn: "blur"
         }
       ),
       number: new FormControl("", {
-          validators: [Validators.required, Validators.minLength(1), Validators.maxLength(9), Validators.pattern(numbersRegex)],
           nonNullable: true,
           updateOn: "blur"
         }
       ),
-      details: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-    }),
+      details: new FormControl(""),
+    }, {validators: [validateWhere]}),
     when: new FormGroup({
       deliveryTime: new FormControl("Lo antes posible", {
         validators: [Validators.required],
@@ -274,6 +277,47 @@ const getForm = () => {
     })
   }, {validators: [validateChangeToGive]});
 };
+
+const validateWhere: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const storeId = control.get("storeId");
+  const id = control.get("id");
+  console.log(storeId?.value);
+  console.log(id?.value);
+  // if pick up store is selected
+  if (storeId && storeId.value !== null) {
+    return null;
+  }
+
+  // if user selected home address
+  if (id && id.value !== null) {
+    return null;
+  }
+
+  const street = control.get("street");
+  const number = control.get("number");
+  const details = control.get("details");
+
+  const isStreetValid = street && street.value.length > 0 && esCharsRegex.test(street.value);
+  const isNumberValid = number && number.value.length > 0 && number.value.length <= 9 && numbersRegex.test(number.value);
+  const isDetailsValid = details && details.value.length <= 25 && esCharsAndNumbersRegex.test(details.value);
+
+  if (!isStreetValid) {
+    return {streetValid: false};
+  }
+
+  if (!isNumberValid) {
+
+    return {isNumberValid: false};
+  }
+
+  if (!isDetailsValid) {
+    console.log("regex", esCharsAndNumbersRegex.test(details!.value));
+    return {isDetailsValid: false};
+  }
+
+  return {valid: false};
+};
+
 
 const validateDeliveryTime: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const deliverNow = control.get("deliverNow");

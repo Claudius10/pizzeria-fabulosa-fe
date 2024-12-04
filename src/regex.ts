@@ -5,7 +5,7 @@ export const esCharsRegex = /^[a-z\sÁÉÍÓÚáéíóúÑñ]+$/i;
 export const esCharsAndNumbersRegex = /^[a-z0-9\sÁÉÍÓÚáéíóúÑñ]+$/i;
 
 // 1-9 no whitespaces
-export const numbersRegex = /^[0-9]+$/
+export const numbersRegex = /^[0-9]+$/;
 // a/A to z/Z + 0-9 + basic symbols + whitespace allowed
 export const charsAndNumbersRegex = /^[a-z0-9.,:;\s]+$/i;
 // title
