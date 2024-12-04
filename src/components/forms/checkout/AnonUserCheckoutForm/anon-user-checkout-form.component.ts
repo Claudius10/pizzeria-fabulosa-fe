@@ -32,6 +32,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
+import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -52,7 +53,8 @@ import {InputIconModule} from 'primeng/inputicon';
     InputNumberModule,
     FormsModule,
     IconFieldModule,
-    InputIconModule
+    InputIconModule,
+    CheckoutCartComponent
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
@@ -83,6 +85,8 @@ export class AnonUserCheckoutFormComponent {
           const control = this.form.get(`who.${controlName}`);
           if (!control!.valid) {
             control!.markAsTouched();
+          } else {
+            control!.markAsUntouched();
           }
         });
       }
@@ -168,12 +172,12 @@ export class AnonUserCheckoutFormComponent {
         anonCustomerEmail: this.form.get("who.email")!.value,
         address: {
           id: this.form.get("where.storeId")!.value === null ? null : this.form.get("where.storeId")!.value,
-          street: this.form.get("where.address.street")!.value,
-          streetNr: Number(this.form.get("where.address.number")!.value),
-          gate: this.form.get("where.address.gate")!.value === null ? null : this.form.get("where.address.gate")!.value,
-          staircase: this.form.get("where.address.staircase")!.value === null ? null : this.form.get("where.address.staircase")!.value,
-          floor: this.form.get("where.address.floor")!.value === null ? null : this.form.get("where.address.floor")!.value,
-          door: this.form.get("where.address.door")!.value === null ? null : this.form.get("where.address.door")!.value,
+          street: this.form.get("where.street")!.value,
+          streetNr: Number(this.form.get("where.number")!.value),
+          gate: null,
+          staircase: null,
+          floor: null,
+          door: this.form.get("where.door")!.value === null ? null : this.form.get("where.door")!.value,
         },
         orderDetails: {
           id: null,
@@ -217,32 +221,27 @@ const getForm = () => {
         updateOn: "blur"
       }),
       contactNumber: new FormControl("", {
-        validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
+        validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)],
         nonNullable: true,
         updateOn: "blur"
       }),
     }),
     where: new FormGroup({
       storeId: new FormControl<number | null>(null),
-      address: new FormGroup({
-        id: new FormControl<number | null>(null),
-        street: new FormControl("", {
-            validators: [Validators.required, Validators.pattern(esCharsRegex)],
-            nonNullable: true,
-            updateOn: "blur"
-          }
-        ),
-        number: new FormControl("", {
-            validators: [Validators.required, Validators.pattern(numbersRegex)],
-            nonNullable: true,
-            updateOn: "blur"
-          }
-        ),
-        gate: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-        staircase: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-        floor: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-        door: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
-      }),
+      id: new FormControl<number | null>(null),
+      street: new FormControl("", {
+          validators: [Validators.required, Validators.pattern(esCharsRegex)],
+          nonNullable: true,
+          updateOn: "blur"
+        }
+      ),
+      number: new FormControl("", {
+          validators: [Validators.required, Validators.minLength(1), Validators.maxLength(9), Validators.pattern(numbersRegex)],
+          nonNullable: true,
+          updateOn: "blur"
+        }
+      ),
+      details: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersRegex), Validators.maxLength(25)]),
     }),
     when: new FormGroup({
       deliveryTime: new FormControl("Lo antes posible", {
@@ -267,19 +266,7 @@ const getForm = () => {
       }),
       comment: new FormControl<string | null>(null, [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx), Validators.maxLength(250)])
     })
-  }, {validators: [validateStreet, validateStreetNumber, validateChangeToGive]});
-};
-
-const validateStreet: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  return null;
-};
-
-const validateStreetNumber: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  return null;
-};
-
-const validateContactNumber: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  return null;
+  }, {validators: [validateChangeToGive]});
 };
 
 const validateDeliveryTime: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

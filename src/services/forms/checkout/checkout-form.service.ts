@@ -5,7 +5,7 @@ import {FormControl} from '@angular/forms';
   providedIn: 'root'
 })
 export class CheckoutFormService {
-  step = signal(0);
+  step = signal(1);
   homeDelivery = signal(true);
   programmedDelivery = signal(false);
   changeRequested = signal(false);

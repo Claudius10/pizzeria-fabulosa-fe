@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
-import {CartService} from '../../services/cart/cart.service';
-import {CartItemComponent} from './cart-item/cart-item.component';
+import {CartService} from '../../../services/cart/cart.service';
+import {CartItemComponent} from '../cart-item/cart-item.component';
 import {Router} from '@angular/router';
-import {OrderService} from '../../services/http/order/order.service';
-import {TotalsComponent} from './totals/totals.component';
+import {OrderService} from '../../../services/http/order/order.service';
+import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
 
 @Component({

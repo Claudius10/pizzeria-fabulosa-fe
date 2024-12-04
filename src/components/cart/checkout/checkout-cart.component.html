@@ -1,0 +1,21 @@
+<div class="flex flex-column gap-4 card">
+  <div class="flex flex-column gap-5 overflow-y-scroll overflow-x-hidden h-30rem">
+    @if (quantity() === 0) {
+      <span>Nothing here yet</span>
+    } @else {
+
+
+      @for (item of items(); track item.id) {
+        <app-cart-item [item]="item"/>
+      }
+    }
+  </div>
+  <div class="flex flex-column gap-3">
+    <app-cart-totals
+      [total]="total()"
+      [threeForTwoOffers]="threeForTwoOffers()"
+      [secondForHalfPriceOffer]="secondForHalfPriceOffer()"
+      [totalAfterOffers]="totalAfterOffers()"
+    />
+  </div>
+</div>

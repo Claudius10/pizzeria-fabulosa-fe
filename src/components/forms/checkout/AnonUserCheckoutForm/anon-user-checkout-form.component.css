@@ -14,9 +14,13 @@
   width: 10rem;
 }
 
-.form {
-  width: 55vw;
+.form-container {
+  width: 45vw;
   min-width: 15rem;
+}
+
+.form {
+  min-height: 26.5rem;
 }
 
 .steps {
@@ -34,8 +38,8 @@
 }
 
 @media (max-width: 1185px) {
-  .form {
-    width: 80vw;
+  .form-container {
+    width: 45vw;
   }
 
   .steps {
@@ -48,6 +52,16 @@
   }
 }
 
+@media (max-width: 992px) {
+  .sm-cart {
+    display: none;
+  }
+
+  .form-container {
+    width: 80vw;
+  }
+}
+
 @media (max-width: 578px) {
   :host ::ng-deep .p-button {
     width: 100%;
@@ -57,5 +71,9 @@
     flex-direction: column-reverse;
     gap: 1.5rem;
     width: 100%;
+  }
+
+  .form {
+    min-height: 0;
   }
 }

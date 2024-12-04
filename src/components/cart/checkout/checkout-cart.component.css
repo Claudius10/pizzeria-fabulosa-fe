@@ -1,0 +1,11 @@
+:host ::ng-deep .p-button {
+  width: 100%;
+}
+
+.card {
+  background: var(--surface-card);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}

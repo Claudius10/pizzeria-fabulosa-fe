@@ -10,7 +10,7 @@ import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.compon
 import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.component';
 import {ToastModule} from 'primeng/toast';
 import {SidebarModule} from 'primeng/sidebar';
-import {CartComponent} from '../../../cart/cart.component';
+import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {NavigationService} from '../../../../services/navigation/navigation.service';
 import {CartService} from '../../../../services/cart/cart.service';

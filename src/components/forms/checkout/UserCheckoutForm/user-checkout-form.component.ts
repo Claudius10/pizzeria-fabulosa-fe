@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {CartComponent} from '../../../cart/cart.component';
+import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
