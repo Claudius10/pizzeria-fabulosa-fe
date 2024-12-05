@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -24,7 +24,6 @@ import {MenuItem} from 'primeng/api';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
-import {Button} from 'primeng/button';
 import {SmallScreenStepsComponent} from '../../../layout/steps/small-screen-steps.component';
 import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
@@ -33,10 +32,8 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
-import {ResourceService} from '../../../../services/http/resources/resource.service';
-import {StoresQueryResult} from '../../../../interfaces/query';
-import {RESOURCE_STORES} from '../../../../utils/query-keys';
-import {StoreCheckoutComponent} from '../store/store-checkout.component';
+import {StepOneWhoComponent} from '../step-one-who/steponewho.component';
+import {StepTwoWhereComponent} from '../step-two-where/steptwowhere.component';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -49,7 +46,6 @@ import {StoreCheckoutComponent} from '../store/store-checkout.component';
     StepsModule,
     CardModule,
     PanelModule,
-    Button,
     SmallScreenStepsComponent,
     InputGroupModule,
     InputGroupAddonModule,
@@ -59,7 +55,8 @@ import {StoreCheckoutComponent} from '../store/store-checkout.component';
     IconFieldModule,
     InputIconModule,
     CheckoutCartComponent,
-    StoreCheckoutComponent
+    StepOneWhoComponent,
+    StepTwoWhereComponent
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
@@ -70,9 +67,6 @@ export class AnonUserCheckoutFormComponent {
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private createAnonOrder = this.orderService.createAnonOrder();
-  private resourceService = inject(ResourceService);
-  stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-  selectedStore = signal<number | null>(null);
   steps: MenuItem[] = [
     {label: "Mis datos",},
     {label: "Dirección de entrega"},
@@ -81,98 +75,6 @@ export class AnonUserCheckoutFormComponent {
   ];
 
   form = getForm();
-
-  selectDelivery(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    if (selectElement.value === "home") {
-      this.checkoutFormService.homeDelivery.set(true);
-      this.selectedStore.set(null);
-      this.form.controls.where.controls.storeId.setValue(null);
-    } else {
-      this.checkoutFormService.homeDelivery.set(false);
-    }
-  }
-
-  isStepValid(stepNumber: number) {
-    console.log(stepNumber);
-    if (stepNumber === 0) {
-      const validOne = this.form.controls.who.valid;
-
-      if (!validOne) {
-        Object.keys(this.form.controls.who.controls).forEach(controlName => {
-          const control = this.form.get(`who.${controlName}`);
-          if (!control!.valid) {
-            control!.markAsTouched();
-          } else {
-            control!.markAsUntouched();
-          }
-        });
-      }
-
-      return validOne;
-    }
-
-    if (stepNumber === 1) {
-      const validTwo = this.form.controls.where.valid;
-      console.log(validTwo);
-      console.log(this.form.controls.where.errors);
-
-      if (!validTwo) {
-        Object.keys(this.form.controls.where.controls).forEach(controlName => {
-          const control = this.form.get(`where.${controlName}`);
-          console.log(control?.valid);
-          if (!control!.valid) {
-            console.log(control?.errors);
-            control!.markAsTouched();
-          }
-        });
-      }
-
-      return validTwo;
-    }
-
-    if (stepNumber === 2) {
-      const validThree = this.form.controls.when.valid;
-
-      if (!validThree) {
-        Object.keys(this.form.controls.when.controls).forEach(controlName => {
-          const control = this.form.get(`when.${controlName}`);
-          if (!control!.valid) {
-            control!.markAsTouched();
-          }
-        });
-      }
-
-      return validThree;
-    }
-
-    if (stepNumber === 3) {
-      const validFour = this.form.controls.how.valid;
-
-      if (!validFour) {
-        Object.keys(this.form.controls.how.controls).forEach(controlName => {
-          const control = this.form.get(`how.${controlName}`);
-          if (!control!.valid) {
-            control!.markAsTouched();
-          }
-        });
-      }
-
-      return validFour;
-    }
-    return false;
-  }
-
-  nextStep() {
-    if (this.isStepValid(this.checkoutFormService.step())) {
-      this.checkoutFormService.nextStep();
-    }
-  }
-
-  setSelectedStoreId(id: number) {
-    this.form.controls.where.controls.storeId.setValue(id);
-    this.selectedStore.set(id);
-  }
 
   onSubmit(): void {
     console.log(this.form.value);
@@ -250,7 +152,10 @@ const getForm = () => {
           updateOn: "blur"
         }
       ),
-      details: new FormControl(""),
+      details: new FormControl("", {
+        nonNullable: false,
+        updateOn: "blur"
+      }),
     }, {validators: [validateWhere]}),
     when: new FormGroup({
       deliveryTime: new FormControl("Lo antes posible", {
@@ -281,8 +186,7 @@ const getForm = () => {
 const validateWhere: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const storeId = control.get("storeId");
   const id = control.get("id");
-  console.log(storeId?.value);
-  console.log(id?.value);
+
   // if pick up store is selected
   if (storeId && storeId.value !== null) {
     return null;
@@ -299,23 +203,22 @@ const validateWhere: ValidatorFn = (control: AbstractControl): ValidationErrors 
 
   const isStreetValid = street && street.value.length > 0 && esCharsRegex.test(street.value);
   const isNumberValid = number && number.value.length > 0 && number.value.length <= 9 && numbersRegex.test(number.value);
-  const isDetailsValid = details && details.value.length <= 25 && esCharsAndNumbersRegex.test(details.value);
 
   if (!isStreetValid) {
     return {streetValid: false};
   }
 
   if (!isNumberValid) {
-
     return {isNumberValid: false};
   }
 
-  if (!isDetailsValid) {
-    console.log("regex", esCharsAndNumbersRegex.test(details!.value));
-    return {isDetailsValid: false};
+  if (details && details.value.length > 0) {
+    if (!esCharsAndNumbersRegex.test(details.value)) {
+      return {isDetailsValid: false};
+    }
   }
 
-  return {valid: false};
+  return null;
 };
 
 

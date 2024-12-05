@@ -1,8 +1,8 @@
 // a/A to z/Z whitespace allowed
 export const esCharsRegex = /^[a-z\sÁÉÍÓÚáéíóúÑñ]+$/i;
 
-// a/A to z/Z and numbers whitespace allowed ES
-export const esCharsAndNumbersRegex = /^[a-z0-9\sÁÉÍÓÚáéíóúÑñ]+$/i;
+// a/A to z/Z and numbers whitespace allowed ES, empty string allowed
+export const esCharsAndNumbersRegex = /^$|^[a-z0-9\sÁÉÍÓÚáéíóúÑñ]+$/i;
 
 // 1-9 no whitespaces
 export const numbersRegex = /^[0-9]+$/;

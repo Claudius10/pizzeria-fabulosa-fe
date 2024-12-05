@@ -1,0 +1,32 @@
+input.ng-invalid.ng-touched {
+  border: 1px solid #f87171;
+}
+
+.invalid-text {
+  color: #f87171;
+}
+
+.form {
+  min-height: 31rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 578px) {
+  .form {
+    min-height: 22rem;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    width: 100%;
+  }
+}

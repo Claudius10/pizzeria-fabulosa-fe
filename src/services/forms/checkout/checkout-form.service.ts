@@ -6,6 +6,7 @@ import {FormControl} from '@angular/forms';
 })
 export class CheckoutFormService {
   step = signal(1);
+  selectedStore = signal<number | null>(null);
   homeDelivery = signal(true);
   programmedDelivery = signal(false);
   changeRequested = signal(false);

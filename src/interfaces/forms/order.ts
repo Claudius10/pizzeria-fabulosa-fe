@@ -2,8 +2,8 @@ import {CartItemDTO} from '../dto/order';
 
 export type AddressFormData = {
   id: number | null;
-  street: string
-  streetNr: number;
+  street: string | null
+  streetNr: number | null;
   gate: string | null;
   staircase: string | null;
   door: string | null;
@@ -24,6 +24,12 @@ type CartFormData = {
   totalCost: number;
   totalCostOffers: number | null;
   cartItems: CartItemDTO[];
+}
+
+export type AnonCustomerData = {
+  anonCustomerName: string;
+  anonCustomerContactNumber: number;
+  anonCustomerEmail: string;
 }
 
 export type AnonOrderFormData = {
