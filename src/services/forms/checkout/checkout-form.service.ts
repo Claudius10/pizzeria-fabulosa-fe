@@ -16,4 +16,13 @@ export class CheckoutFormService {
   when = signal<when | null>(null);
   how = signal<how | null>(null);
   summary = signal<summary | null>(null);
+
+  cancel() {
+    this.who.set(null);
+    this.where.set(null);
+    this.when.set(null);
+    this.how.set(null);
+    this.summary.set(null);
+    this.selectedStore.set(null);
+  }
 }

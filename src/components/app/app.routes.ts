@@ -7,15 +7,16 @@ import {ForbiddenComponent} from './wildcard-routes/forbidden/forbidden.componen
 import {UserHomeComponent} from '../user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';
-import {OrderSummaryListComponent} from '../user/order-summary-list/order-summary-list.component';
+import {OrderSummaryListComponent} from '../order/summary/list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
-import {OrderComponent} from '../user/order/order.component';
+import {OrderComponent} from '../order/item/order.component';
 import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
 import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
-import {StepOneWhoComponent} from '../forms/checkout/step-one-who/steponewho.component';
-import {StepTwoWhereComponent} from '../forms/checkout/step-two-where/steptwowhere.component';
-import {StepThreeWhenComponent} from '../forms/checkout/step-three-when/stepthreewhen.component';
-import {StepFourHowComponent} from '../forms/checkout/step-four-how/stepfourhow.component';
+import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';
+import {StepTwoWhereComponent} from '../forms/checkout/steps/2-step-two-where/step-two-where.component';
+import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/step-three-when.component';
+import {StepFourHowComponent} from '../forms/checkout/steps/4-step-four-how/step-four-how.component';
+import {StepFiveSummaryComponent} from '../forms/checkout/steps/5-step-five-summary/step-five-summary.component';
 
 export const routes: Routes = [
   {
@@ -73,17 +74,22 @@ export const routes: Routes = [
       {
         path: "step-two",
         component: StepTwoWhereComponent,
-        title: "Customer details",
+        title: "Delivery location details",
       },
       {
         path: "step-three",
         component: StepThreeWhenComponent,
-        title: "Customer details",
+        title: "Delivery time details",
       },
       {
         path: "step-four",
         component: StepFourHowComponent,
-        title: "Customer details",
+        title: "Payment details",
+      },
+      {
+        path: "step-five",
+        component: StepFiveSummaryComponent,
+        title: "New Order Summary",
       }
     ]
   },

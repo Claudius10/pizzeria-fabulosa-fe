@@ -1,0 +1,75 @@
+<form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+  <div class="flex flex-column gap-4">
+
+    <div class="flex flex-column gap-3">
+      <label for="paymentMethod">Método de pago</label>
+      <p-iconField iconPosition="right">
+        <p-inputIcon styleClass="pi pi-angle-down"/>
+        <select
+          class="w-full"
+          pInputText
+          id="paymentMethod"
+          formControlName="paymentMethod"
+          (change)="togglePaymentOption($event.target!)">
+          <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description }}</option>
+        </select>
+      </p-iconField>
+
+      @if (checkoutFormService.cashPayment()) {
+
+        <label for="changeRequestChoice">¿Necesita cambio?</label>
+        <p-iconField iconPosition="right">
+          <p-inputIcon styleClass="pi pi-angle-down"/>
+          <select
+            [ngModel]="selectedChangeOption.code"
+            [ngModelOptions]="{standalone: true}"
+            class="w-full"
+            pInputText
+            id="changeRequestChoice"
+            (change)="toggleChangeRequest($event.target!)">
+            <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description }}</option>
+          </select>
+        </p-iconField>
+
+      }
+
+      @if (checkoutFormService.changeRequested()) {
+        <label for="billToChange">Cambio de</label>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-euro"/>
+          <input
+            class="w-full invalid-border"
+            pInputText
+            placeholder="10"
+            id="billToChange"
+            type="text"
+            formControlName="billToChange">
+        </p-iconField>
+        @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
+          <small id="fullName-help" class="invalid-text">
+            Bill to change is required.
+          </small>
+        }
+      }
+    </div>
+
+  </div>
+  <!-- STEP NAVIGATION BUTTONS -->
+  <div class="buttons">
+    <p-button
+      type="button"
+      (onClick)="previousStep()"
+      [disabled]="checkoutFormService.step() === 0"
+      label="VOLVER"/>
+    <p-button
+      severity="danger"
+      type="button"
+      (onClick)="cancel()"
+      label="CANCELAR"/>
+    <p-button
+      type="button"
+      (onClick)="nextStep()"
+      [disabled]="checkoutFormService.step() === 4"
+      label="CONTINUAR"/>
+  </div>
+</form>

@@ -32,10 +32,12 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
-import {StepOneWhoComponent} from '../step-one-who/steponewho.component';
-import {StepTwoWhereComponent} from '../step-two-where/steptwowhere.component';
-import {StepThreeWhenComponent} from '../step-three-when/stepthreewhen.component';
-import {StepFourHowComponent} from '../step-four-how/stepfourhow.component';
+import {StepOneWhoComponent} from '../steps/1-step-one-who/step-one-who.component';
+import {StepTwoWhereComponent} from '../steps/2-step-two-where/step-two-where.component';
+import {StepThreeWhenComponent} from '../steps/3-step-three-when/step-three-when.component';
+import {StepFourHowComponent} from '../steps/4-step-four-how/step-four-how.component';
+import {Button} from 'primeng/button';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -60,13 +62,15 @@ import {StepFourHowComponent} from '../step-four-how/stepfourhow.component';
     StepOneWhoComponent,
     StepTwoWhereComponent,
     StepThreeWhenComponent,
-    StepFourHowComponent
+    StepFourHowComponent,
+    Button
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnonUserCheckoutFormComponent {
+  private router = inject(Router);
   protected checkoutFormService = inject(CheckoutFormService);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
@@ -77,6 +81,11 @@ export class AnonUserCheckoutFormComponent {
     {label: "Plazo de entrega"},
     {label: "Método de pago"}, {label: "Resumen"},
   ];
+
+  cancel() {
+    this.checkoutFormService.cancel();
+    this.router.navigate(['/']);
+  }
 
   onSubmit(): void {
     //   console.log(this.form.value);

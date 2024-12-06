@@ -23,3 +23,8 @@ export interface how {
 export interface summary {
   comment: string;
 }
+
+export interface Option {
+  code: string;
+  description: string;
+}

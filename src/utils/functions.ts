@@ -31,6 +31,7 @@ export function isStepValid(form: FormGroup) {
     Object.keys(form.controls).forEach(controlName => {
       const control = form.get(`${controlName}`);
       if (!control!.valid) {
+        console.log(controlName);
         console.log(control?.errors);
         control!.markAsTouched();
       } else {
