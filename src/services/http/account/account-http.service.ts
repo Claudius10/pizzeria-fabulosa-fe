@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/forms/account';
+import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/http/account';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/forms/order';
+import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/http/order';
 import {AnonOrderDTO, OrderDTO, OrderSummaryListDTO} from '../../../interfaces/dto/order';
 import {UserOrderQueryOptions} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';

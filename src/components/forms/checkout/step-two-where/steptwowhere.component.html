@@ -7,12 +7,15 @@
       <p-iconField iconPosition="right">
         <p-inputIcon styleClass="pi pi-angle-down"/>
         <select
+          [(ngModel)]="option.code"
+          [ngModelOptions]="{standalone: true}"
           (change)="selectDelivery($event)"
           pInputText
           class="w-full"
           id="deliveryOption">
-          <option value="home">A domicilio</option>
-          <option value="store">Recoger</option>
+          @for (option of options; track option.code) {
+            <option [value]="option.code">{{ option.description }}</option>
+          }
         </select>
       </p-iconField>
     </div>

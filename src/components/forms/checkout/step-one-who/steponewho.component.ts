@@ -1,12 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, numbersRegex} from '../../../../regex';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
-import {AnonCustomerData} from '../../../../interfaces/forms/order';
 import {Button} from 'primeng/button';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
+import {Router} from '@angular/router';
+import {isStepValid} from '../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -22,9 +23,9 @@ import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-
   styleUrl: './steponewho.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StepOneWhoComponent {
+export class StepOneWhoComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
-  formValues = output<AnonCustomerData>();
+  private router = inject(Router);
 
   form = new FormGroup({
     fullName: new FormControl("", {
@@ -44,31 +45,25 @@ export class StepOneWhoComponent {
     }),
   });
 
-  isStepValid() {
-    const valid = this.form.valid;
-
-    if (!valid) {
-      Object.keys(this.form.controls).forEach(controlName => {
-        const control = this.form.get(`${controlName}`);
-        if (!control!.valid) {
-          control!.markAsTouched();
-        } else {
-          control!.markAsUntouched();
-        }
+  ngOnInit(): void {
+    this.checkoutFormService.step.set(0);
+    if (this.checkoutFormService.who() !== null) {
+      this.form.setValue({
+        fullName: this.checkoutFormService.who()!.anonCustomerName,
+        email: this.checkoutFormService.who()!.anonCustomerEmail,
+        contactNumber: this.checkoutFormService.who()!.anonCustomerContactNumber.toString()
       });
     }
-
-    return valid;
   }
 
   nextStep() {
-    if (this.isStepValid()) {
-      this.checkoutFormService.nextStep();
-      this.formValues.emit({
+    if (isStepValid(this.form)) {
+      this.checkoutFormService.who.set({
         anonCustomerName: this.form.get("fullName")!.value,
         anonCustomerContactNumber: Number(this.form.get("contactNumber")!.value),
         anonCustomerEmail: this.form.get("email")!.value,
       });
+      this.router.navigate(['/new-order/step-two']);
     }
   }
 }

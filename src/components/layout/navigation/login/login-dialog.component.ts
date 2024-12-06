@@ -5,7 +5,7 @@ import {Router, RouterLink} from '@angular/router';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../../regex';
-import {LoginForm} from '../../../../interfaces/forms/account';
+import {LoginForm} from '../../../../interfaces/http/account';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {LoginMutation} from '../../../../interfaces/mutation';

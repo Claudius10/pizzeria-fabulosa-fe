@@ -55,6 +55,7 @@ export class NavigationBarComponent {
   bump = signal(false);
 
   constructor() {
+    // cart bump animation whenever quantity changes
     effect((onCleanup) => {
       if (this.cartQuantity() === 0) {
         return;

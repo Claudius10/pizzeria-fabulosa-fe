@@ -32,7 +32,7 @@ export class CartComponent {
   secondForHalfPriceOffer = this.cartService.cartSecondHalfPriceOffer;
 
   newOrderOnLick() {
-    this.router.navigate(['new-order']);
+    this.router.navigate(['new-order/step-one']);
     this.onNewOrderClick.emit(false);
   }
 }

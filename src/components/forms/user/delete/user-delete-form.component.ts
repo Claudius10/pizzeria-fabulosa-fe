@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {passwordRegex} from '../../../../regex';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {DeleteAccountForm} from '../../../../interfaces/forms/account';
+import {DeleteAccountForm} from '../../../../interfaces/http/account';
 import {PaginatorModule} from 'primeng/paginator';
 import {Router} from '@angular/router';
 

@@ -12,6 +12,10 @@ import {SettingsComponent} from '../user/settings/settings.component';
 import {OrderComponent} from '../user/order/order.component';
 import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
 import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
+import {StepOneWhoComponent} from '../forms/checkout/step-one-who/steponewho.component';
+import {StepTwoWhereComponent} from '../forms/checkout/step-two-where/steptwowhere.component';
+import {StepThreeWhenComponent} from '../forms/checkout/step-three-when/stepthreewhen.component';
+import {StepFourHowComponent} from '../forms/checkout/step-four-how/stepfourhow.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +64,28 @@ export const routes: Routes = [
     path: "new-order",
     component: AnonUserCheckoutFormComponent,
     title: "New Order",
+    children: [
+      {
+        path: "step-one",
+        component: StepOneWhoComponent,
+        title: "Customer details",
+      },
+      {
+        path: "step-two",
+        component: StepTwoWhereComponent,
+        title: "Customer details",
+      },
+      {
+        path: "step-three",
+        component: StepThreeWhenComponent,
+        title: "Customer details",
+      },
+      {
+        path: "step-four",
+        component: StepFourHowComponent,
+        title: "Customer details",
+      }
+    ]
   },
   {
     path: "new-user",

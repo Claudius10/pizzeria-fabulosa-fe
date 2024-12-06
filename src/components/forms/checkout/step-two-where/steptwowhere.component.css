@@ -21,7 +21,7 @@ input.ng-invalid.ng-touched {
 
 @media (max-width: 578px) {
   .form {
-    min-height: 22rem;
+    min-height: 29rem;
   }
 
   .buttons {

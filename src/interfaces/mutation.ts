@@ -1,7 +1,7 @@
 import {Signal} from '@angular/core';
-import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from './forms/order';
+import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from './http/order';
 import {AnonOrderDTO} from './dto/order';
-import {DeleteAccountForm, LoginForm, RegisterForm} from './forms/account';
+import {DeleteAccountForm, LoginForm, RegisterForm} from './http/account';
 import {BaseUserMutationOptions} from './base';
 import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
 

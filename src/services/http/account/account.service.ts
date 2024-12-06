@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {injectMutation} from '@tanstack/angular-query-experimental';
-import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/forms/account';
+import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/http/account';
 import {lastValueFrom} from 'rxjs';
 import {DeleteMutation, LoginMutation, LogoutMutation, RegisterMutation} from '../../../interfaces/mutation';
 import {AuthService} from '../../auth/auth.service';

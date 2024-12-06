@@ -1,0 +1,57 @@
+<form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+  <div class="flex flex-column gap-4">
+
+    <div class="flex flex-column gap-3">
+      <label for="deliveryChoice">Seleccione la hora de entrega</label>
+      <p-iconField iconPosition="right">
+        <p-inputIcon styleClass="pi pi-angle-down"/>
+        <select
+          (change)="selectDeliveryChoice($event)"
+          pInputText
+          class="w-full"
+          id="deliveryChoice">
+          <option value="Lo antes posible">Lo antes posible</option>
+          <option value="Hora programada">Hora programada</option>
+        </select>
+      </p-iconField>
+      @if (programmedDelivery()) {
+        <label for="deliveryTime">Selecciona la hora de entrega</label>
+        <p-iconField iconPosition="right">
+          <p-inputIcon styleClass="pi pi-angle-down"/>
+          <select
+            class="w-full"
+            pInputText
+            id="deliveryTime"
+            formControlName="deliveryTime">
+            @for (deliveryHour of deliveryHours(); track deliveryHour) {
+              <option value="{{deliveryHour}}">{{ deliveryHour }}</option>
+            }
+          </select>
+        </p-iconField>
+        @if (!this.form.controls.deliveryTime.untouched && !this.form.controls.deliveryTime.valid) {
+          <small id="deliveryTime-help" class="invalid-text">
+            Hour is required.
+          </small>
+        }
+      }
+    </div>
+
+  </div>
+  <!-- STEP NAVIGATION BUTTONS -->
+  <div class="buttons">
+    <p-button
+      type="button"
+      (onClick)="previousStep()"
+      [disabled]="checkoutFormService.step() === 0"
+      label="VOLVER"/>
+    <p-button
+      severity="danger"
+      type="button"
+      label="CANCELAR"/>
+    <p-button
+      type="button"
+      (onClick)="nextStep()"
+      [disabled]="checkoutFormService.step() === 4"
+      label="CONTINUAR"/>
+  </div>
+</form>

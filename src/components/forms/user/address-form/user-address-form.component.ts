@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserService} from '../../../../services/http/user/user.service';
-import {AddressFormData} from '../../../../interfaces/forms/order';
+import {AddressFormData} from '../../../../interfaces/http/order';
 
 @Component({
   selector: 'app-user-address-form',
