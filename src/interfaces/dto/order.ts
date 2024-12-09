@@ -1,11 +1,8 @@
 export type AddressDTO = {
   id: number;
   street: string;
-  streetNr: number;
-  gate: string;
-  staircase: string;
-  door: string;
-  floor: string;
+  number: number;
+  details: string | null;
 }
 
 export type OrderDetailsDTO = {

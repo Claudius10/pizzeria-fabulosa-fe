@@ -1,0 +1,13 @@
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 578px) {
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    width: 100%;
+  }
+}

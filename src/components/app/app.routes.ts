@@ -9,7 +9,7 @@ import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.gu
 import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderSummaryListComponent} from '../order/summary/list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
-import {OrderComponent} from '../order/item/order.component';
+import {OrderComponent} from '../order/update/order.component';
 import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
 import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
 import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';

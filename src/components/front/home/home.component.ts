@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.status.pipe().subscribe({
       next: status => {
+        console.log(status);
         if (status === "pending") {
           this.navigationService.setIsLoading(true);
         }
@@ -50,6 +51,9 @@ export class HomeComponent implements OnInit {
         if (status === "error") {
           this.navigationService.setIsLoading(false);
         }
+      },
+      complete: () => {
+        this.navigationService.setIsLoading(false);
       }
     });
 

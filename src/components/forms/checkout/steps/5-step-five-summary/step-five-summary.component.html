@@ -1,1 +1,82 @@
-<p>step-five-summary works!</p>
+<div class="flex flex-column gap-5">
+  @if (!checkoutFormService.isFormFilled()) {
+    <span>Unable to load new order form summary: steps one through four must be completed</span>
+  } @else {
+    <div class="flex flex-column gap-5">
+      <p-card>
+        <div class="flex flex-column gap-4">
+          <span class="text-2xl text-primary">Customer details</span>
+          <div class="flex flex-column gap-3">
+            <span>Nombre completo: {{ checkoutFormService.who()!.anonCustomerName }}</span>
+            <span>Correo electrónico: {{ checkoutFormService.who()!.anonCustomerEmail }}</span>
+            <span>Teléfono de contacto: {{ checkoutFormService.who()!.anonCustomerContactNumber }}</span>
+          </div>
+        </div>
+      </p-card>
+
+      <p-card>
+        <div class="flex flex-column gap-4">
+          <span class="text-2xl text-primary">Delivery details</span>
+
+          <div class="flex flex-column gap-3">
+            @if (selectedStore === null) {
+              <span>Time of delivery selected: {{ checkoutFormService.when()!.deliveryTime }}</span>
+            } @else {
+              <span>Pick up time selected: {{ checkoutFormService.when()!.deliveryTime }}</span>
+            }
+
+            @if (selectedStore !== null) {
+              <div>
+                <span>Pick up store selected:</span>
+                <app-store-checkout [store]="selectedStore"/>
+              </div>
+            } @else {
+              <span>Dirección: {{ checkoutFormService.where()!.street }}</span>
+              <span>Número: {{ checkoutFormService.where()!.number }}</span>
+
+              @if (checkoutFormService.where()!.details) {
+                <span>Detalles: {{ checkoutFormService.where()!.details }}</span>
+              }
+            }
+          </div>
+        </div>
+      </p-card>
+
+      <p-card>
+        <div class="flex flex-column gap-4">
+          <span class="text-2xl text-primary">Order details</span>
+
+          <div class="flex flex-column gap-3">
+            <span>Payment method: {{ checkoutFormService.how()!.paymentMethod }}</span>
+            @if (checkoutFormService.how()!.billToChange !== null) {
+              <span>Bill to change: {{ checkoutFormService.how()?.billToChange }}</span>
+            }
+          </div>
+
+          <div class="flex flex-column gap-3">
+            <span>You may enter any comments you have regarding the order</span>
+            <textarea pInputTextarea></textarea>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  }
+  <div class="buttons">
+    <p-button
+      type="button"
+      (onClick)="previousStep()"
+      [disabled]="checkoutFormService.step() === 0"
+      label="VOLVER"/>
+    <p-button
+      severity="danger"
+      type="button"
+      (click)="cancel()"
+      label="CANCELAR"/>
+    <p-button
+      [severity]="'success'"
+      type="button"
+      (onClick)="submit()"
+      [disabled]="checkoutFormService.step() !== 4"
+      label="PEDIR"/>
+  </div>
+</div>

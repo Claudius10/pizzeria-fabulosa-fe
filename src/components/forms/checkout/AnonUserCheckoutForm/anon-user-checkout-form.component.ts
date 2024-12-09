@@ -1,25 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
-import {
-  emailRgx,
-  esCharsAndNumbersAndBasicSymbolsRgx,
-  esCharsAndNumbersRegex,
-  esCharsRegex,
-  numbersRegex
-} from '../../../../regex';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
-import {AnonOrderDTO} from '../../../../interfaces/dto/order';
 import {MenuItem} from 'primeng/api';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
@@ -32,11 +15,6 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
-import {StepOneWhoComponent} from '../steps/1-step-one-who/step-one-who.component';
-import {StepTwoWhereComponent} from '../steps/2-step-two-where/step-two-where.component';
-import {StepThreeWhenComponent} from '../steps/3-step-three-when/step-three-when.component';
-import {StepFourHowComponent} from '../steps/4-step-four-how/step-four-how.component';
-import {Button} from 'primeng/button';
 import {Router} from '@angular/router';
 
 @Component({
@@ -58,12 +36,7 @@ import {Router} from '@angular/router';
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    CheckoutCartComponent,
-    StepOneWhoComponent,
-    StepTwoWhereComponent,
-    StepThreeWhenComponent,
-    StepFourHowComponent,
-    Button
+    CheckoutCartComponent
   ],
   templateUrl: './anon-user-checkout-form.component.html',
   styleUrl: './anon-user-checkout-form.component.css',

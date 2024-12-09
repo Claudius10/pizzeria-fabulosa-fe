@@ -138,12 +138,9 @@ export function getEmptyOrder() {
     id: 0,
     address: {
       id: 0,
-      streetNr: 0,
+      number: 0,
       street: "",
-      staircase: "",
-      gate: "",
-      door: "",
-      floor: ""
+      details: "",
     },
     cart: {
       cartItems: [],

@@ -43,12 +43,12 @@ export class StepTwoWhereComponent implements OnInit {
   form = new FormGroup({
     id: new FormControl<number | null>(null),
     street: new FormControl("", {
-        nonNullable: false,
+        nonNullable: true,
         updateOn: "blur"
       }
     ),
     number: new FormControl("", {
-        nonNullable: false,
+        nonNullable: true,
         updateOn: "blur"
       }
     ),
@@ -76,7 +76,7 @@ export class StepTwoWhereComponent implements OnInit {
     } else {
       if (this.checkoutFormService.where() !== null) {
         this.form.patchValue({
-          street: this.checkoutFormService.where()!.street,
+          street: this.checkoutFormService.where()!.street!,
           number: this.checkoutFormService.where()!.number!.toString(),
           details: this.checkoutFormService.where()!.details
         });
@@ -124,12 +124,31 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   saveFormValues() {
-    this.checkoutFormService.where.set({
-      id: this.form.get("id")!.value === null ? null : this.form.get("id")!.value,
-      street: this.form.get("street")!.value === null ? null : this.form.get("street")!.value,
-      number: Number(this.form.get("number")!.value),
-      details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
-    });
+    if (this.checkoutFormService.selectedStore() !== null) {
+
+      // set store as where values if customer selected store pickup
+      const selectedStoreId = this.stores.data()!.findIndex(store => store.id === this.checkoutFormService.selectedStore());
+      const selectedStore = this.stores.data()![selectedStoreId];
+
+      this.checkoutFormService.where.set({
+        id: selectedStore.id,
+        street: selectedStore.address.street,
+        number: selectedStore.address.number,
+        details: selectedStore.address.details
+      });
+
+    } else {
+
+      // else set home delivery values
+      this.checkoutFormService.where.set({
+        id: null,
+        street: this.form.get("street")!.value,
+        number: Number(this.form.get("number")!.value),
+        details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
+      });
+    }
+
+    console.log(this.form.value);
   }
 
   previousStep() {

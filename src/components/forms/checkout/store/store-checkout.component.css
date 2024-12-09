@@ -1,0 +1,11 @@
+.store {
+  display: flex;
+  gap: 3rem;
+}
+
+@media (max-width: 578px) {
+  .store {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

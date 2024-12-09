@@ -5,7 +5,7 @@ import {how, summary, when, where, who} from '../../../interfaces/forms/steps';
   providedIn: 'root'
 })
 export class CheckoutFormService {
-  step = signal(0);
+  step = signal(4);
   selectedStore = signal<number | null>(null);
   homeDelivery = signal(true);
   programmedDelivery = signal(false);
@@ -16,6 +16,10 @@ export class CheckoutFormService {
   when = signal<when | null>(null);
   how = signal<how | null>(null);
   summary = signal<summary | null>(null);
+
+  isFormFilled() {
+    return this.who() !== null && this.where() !== null && this.when() !== null && this.how() !== null;
+  }
 
   cancel() {
     this.who.set(null);

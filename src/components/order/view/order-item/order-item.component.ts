@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-address-details',
+  selector: 'app-order-update',
   standalone: true,
   imports: [],
-  templateUrl: './address-details.component.html',
-  styleUrl: './address-details.component.css',
+  templateUrl: './order-item.component.html',
+  styleUrl: './order-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressDetailsComponent {
+export class OrderItemComponent {
 
 }
