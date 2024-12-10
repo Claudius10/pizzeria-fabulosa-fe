@@ -42,12 +42,12 @@
             pInputText
             placeholder="10"
             id="billToChange"
-            type="text"
+            type="tel"
             formControlName="billToChange">
         </p-iconField>
         @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
           <small id="fullName-help" class="invalid-text">
-            Bill to change is required.
+            Bill to change must be greater than total or total after offers.
           </small>
         }
       }

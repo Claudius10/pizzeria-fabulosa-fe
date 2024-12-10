@@ -47,6 +47,7 @@ export class StepOneWhoComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkoutFormService.step.set(0);
+
     if (this.checkoutFormService.who() !== null) {
       this.form.setValue({
         fullName: this.checkoutFormService.who()!.anonCustomerName,
@@ -58,11 +59,13 @@ export class StepOneWhoComponent implements OnInit {
 
   nextStep() {
     if (isStepValid(this.form)) {
+
       this.checkoutFormService.who.set({
         anonCustomerName: this.form.get("fullName")!.value,
         anonCustomerContactNumber: Number(this.form.get("contactNumber")!.value),
         anonCustomerEmail: this.form.get("email")!.value,
       });
+
       this.router.navigate(['/new-order/step-two']);
     }
   }

@@ -1,14 +1,15 @@
 <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
-  <div class="flex flex-column gap-3">
+  <div class="flex flex-column gap-4">
 
     <span>Please fill in the fields</span>
 
-    <div class="flex flex-column gap-5">
-      <div class="flex flex-column gap-2">
+    <div class="flex flex-column gap-3">
+
+      <div class="flex flex-column gap-2 h-4rem">
         <p-iconField iconPosition="left">
           <p-inputIcon styleClass="pi pi-user"/>
           <input
-            class="w-full invalid-border"
+            class="w-full"
             pInputText
             id="fullName"
             type="text"
@@ -22,11 +23,11 @@
         }
       </div>
 
-      <div class="flex flex-column gap-2">
+      <div class="flex flex-column gap-2 h-4rem">
         <p-iconField iconPosition="left">
           <p-inputIcon styleClass="pi pi-envelope"/>
           <input
-            class="w-full invalid-border"
+            class="w-full"
             pInputText
             id="email"
             type="email"
@@ -35,18 +36,18 @@
         </p-iconField>
         @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
           <small id="email-help" class="invalid-text">
-            Email is required.
+            Email address is required.
           </small>
         }
       </div>
 
-      <div class="flex flex-column gap-2">
+      <div class="flex flex-column gap-2 h-4rem">
         <p-iconField iconPosition="left">
           <p-inputIcon styleClass="pi pi-phone"/>
-          <input class="w-full invalid-border"
+          <input class="w-full"
                  pInputText
                  id="contactNumber"
-                 type="text"
+                 type="tel"
                  placeholder="Contact Number"
                  formControlName="contactNumber">
         </p-iconField>

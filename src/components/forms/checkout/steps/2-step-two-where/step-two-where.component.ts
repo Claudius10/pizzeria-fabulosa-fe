@@ -39,6 +39,7 @@ export class StepTwoWhereComponent implements OnInit {
   stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   options: Option[] = [{code: "0", description: "Home delivery"}, {code: "1", description: "Store pickup"}];
   selectedOption: Option = this.options[0];
+  validStoreSelection = true;
 
   form = new FormGroup({
     id: new FormControl<number | null>(null),
@@ -110,6 +111,7 @@ export class StepTwoWhereComponent implements OnInit {
       this.checkoutFormService.homeDelivery.set(true);
       this.checkoutFormService.selectedStore.set(null);
     } else {
+      this.validStoreSelection = true;
       this.setHomeDeliveryValidators(false);
       this.setPickUpValidators(true);
       this.checkoutFormService.homeDelivery.set(false);
@@ -119,8 +121,9 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   setSelectedStoreId(id: number) {
-    this.checkoutFormService.selectedStore.set(id); // for border color change on select
+    this.checkoutFormService.selectedStore.set(id);
     this.form.controls.id.setValue(id);
+    this.validStoreSelection = true;
   }
 
   saveFormValues() {
@@ -147,8 +150,6 @@ export class StepTwoWhereComponent implements OnInit {
         details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
       });
     }
-
-    console.log(this.form.value);
   }
 
   previousStep() {
@@ -159,6 +160,8 @@ export class StepTwoWhereComponent implements OnInit {
     if (isStepValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['/new-order/step-three']);
+    } else {
+      this.validStoreSelection = false;
     }
   }
 

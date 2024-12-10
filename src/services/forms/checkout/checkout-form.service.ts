@@ -9,8 +9,8 @@ export class CheckoutFormService {
   selectedStore = signal<number | null>(null);
   homeDelivery = signal(true);
   programmedDelivery = signal(false);
-  cashPayment = signal(false);
-  changeRequested = signal(false);
+  cashPayment = signal(false); // true shows Do you need change? select
+  changeRequested = signal(false); // true shows Bill to change input
   who = signal<who | null>(null);
   where = signal<where | null>(null);
   when = signal<when | null>(null);

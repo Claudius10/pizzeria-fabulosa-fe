@@ -1,9 +1,11 @@
-<p-card
-  [ngClass]="selected() === store().id ?
-  'flex border-2 border-primary border-round-xl transition-all transition-duration-300 ' :
-  'flex border-2 border-round-xl border-transparent'"
-  (click)="selectStore()"
-  header="{{store().name}}">
+<div
+  [ngClass]="[
+  'card flex flex-column gap-3 border-2 border-transparent border-round-xl',
+  selected() === store().id ? 'border-primary transition-all transition-duration-300' : '',
+  valid() ? '' : 'border-red-300 border-round-xl transition-all transition-duration-300'
+  ]"
+  (click)="selectStore()">
+  <span class="text-xl">{{ store().name }}</span>
   <div class="store">
     <div class="flex gap-2">
       <i class="pi pi-map"></i>
@@ -18,4 +20,4 @@
       <span>{{ store().schedule }}</span>
     </div>
   </div>
-</p-card>
+</div>

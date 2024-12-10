@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {CartService} from '../../../services/cart/cart.service';
-import {CartItemComponent} from '../cart-item/cart-item.component';
-import {TotalsComponent} from '../totals/totals.component';
+import {CartService} from '../../../../services/cart/cart.service';
+import {CartItemComponent} from '../../../cart/cart-item/cart-item.component';
+import {TotalsComponent} from '../../../cart/totals/totals.component';
 import {CardModule} from 'primeng/card';
 
 @Component({

@@ -17,11 +17,12 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent {
+  onStoreSelect = output<number>();
   store = input.required<StoreDTO>();
-  storeId = output<number>();
   selected = input<number | null>(null);
+  valid = input<boolean>();
 
   selectStore() {
-    this.storeId.emit(this.store().id);
+    this.onStoreSelect.emit(this.store().id);
   }
 }

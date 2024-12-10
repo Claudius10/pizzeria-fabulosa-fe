@@ -14,7 +14,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
-import {CheckoutCartComponent} from '../../../cart/checkout/checkout-cart.component';
+import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {Router} from '@angular/router';
 
 @Component({

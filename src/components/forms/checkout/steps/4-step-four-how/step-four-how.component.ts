@@ -2,7 +2,16 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../../regex';
 import {Router} from '@angular/router';
@@ -10,6 +19,7 @@ import {isStepValid} from '../../../../../utils/functions';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf} from '@angular/common';
+import {CartService} from '../../../../../services/cart/cart.service';
 
 @Component({
   selector: 'app-checkout-step-four-how',
@@ -29,10 +39,12 @@ import {NgForOf} from '@angular/common';
 })
 export class StepFourHowComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
+  private cartService = inject(CartService);
   private router = inject(Router);
   paymentOptions: Option[] = [{code: "0", description: "Card"}, {code: "1", description: "Cash"}];
   changeOptions: Option[] = [{code: "0", description: "No"}, {code: "1", description: "Yes"}];
   selectedChangeOption: Option = this.changeOptions[0];
+
 
   ngOnInit(): void {
     this.checkoutFormService.step.set(3);
@@ -62,7 +74,8 @@ export class StepFourHowComponent implements OnInit {
       updateOn: "blur"
     }),
     billToChange: new FormControl<string | null>(null, {
-      updateOn: "blur"
+      updateOn: "blur",
+      validators: [billValidator(this.cartService.cartTotal(), this.cartService.cartTotalAfterOffers())]
     }),
   });
 
@@ -103,6 +116,8 @@ export class StepFourHowComponent implements OnInit {
 
   previousStep() {
     this.router.navigate(['/new-order/step-three']);
+    this.checkoutFormService.cashPayment.set(false);
+    this.checkoutFormService.changeRequested.set(false);
   }
 
   nextStep() {
@@ -116,6 +131,25 @@ export class StepFourHowComponent implements OnInit {
     this.checkoutFormService.cancel();
     this.router.navigate(['/']);
   }
+}
+
+function billValidator(total: number, totalWithOffers: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+
+    if (control.value !== null) {
+      let invalid;
+
+      if (totalWithOffers !== 0) {
+        invalid = control.value <= totalWithOffers;
+      } else {
+        invalid = control.value <= total;
+      }
+
+      return invalid ? {valid: {value: control.value}} : null;
+    }
+
+    return null;
+  };
 }
 
 function getPaymentOption(code: string, options: Option[]): string {
