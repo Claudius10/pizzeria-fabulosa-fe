@@ -21,7 +21,7 @@ export interface how {
 }
 
 export interface summary {
-  comment: string;
+  comment: string | null;
 }
 
 export interface Option {

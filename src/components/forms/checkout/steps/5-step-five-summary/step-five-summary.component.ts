@@ -9,6 +9,13 @@ import {StoreCheckoutComponent} from '../../store/store-checkout.component';
 import {CardModule} from 'primeng/card';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {Button} from 'primeng/button';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../../regex';
+import {CartService} from '../../../../../services/cart/cart.service';
+import {OrderService} from '../../../../../services/http/order/order.service';
+import {AnonOrderMutation} from '../../../../../interfaces/mutation';
+import {AnonOrderDTO} from '../../../../../interfaces/dto/order';
+import {isStepValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -17,22 +24,25 @@ import {Button} from 'primeng/button';
     StoreCheckoutComponent,
     CardModule,
     InputTextareaModule,
-    Button
+    Button,
+    ReactiveFormsModule
   ],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent {
-  protected checkoutFormService = inject(CheckoutFormService);
   private resourceService = inject(ResourceService);
+  protected checkoutFormService = inject(CheckoutFormService);
+  private orderService = inject(OrderService);
+  private cartService = inject(CartService);
+  private createAnonOrder: AnonOrderMutation = this.orderService.createAnonOrder();
   private router = inject(Router);
   selectedStore: StoreDTO | null;
 
   constructor() {
     this.checkoutFormService.step.set(4);
     if (this.checkoutFormService.isFormFilled() && this.checkoutFormService.where()!.id !== null) {
-      console.log(this.checkoutFormService.where()!.id);
 
       const stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
       const selectedStoreIndex = stores.data()!.findIndex(store => store.id === this.checkoutFormService.where()!.id);
@@ -43,15 +53,65 @@ export class StepFiveSummaryComponent {
     }
   }
 
+  form = new FormGroup({
+    comment: new FormControl("", {
+      validators: [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
+      nonNullable: false,
+      updateOn: "blur"
+    }),
+  });
+
   previousStep() {
     this.router.navigate(['/new-order/step-four']);
   }
 
   cancel() {
-    this.checkoutFormService.cancel();
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 
-  submit() {
+  onSubmit(): void {
+    console.log(this.form.value);
+    if (isStepValid(this.form)) {
+      this.createOrder();
+    }
+  }
+
+  createOrder() {
+    this.createAnonOrder.mutate({
+      anonCustomerName: this.checkoutFormService.who()!.anonCustomerName,
+      anonCustomerContactNumber: this.checkoutFormService.who()!.anonCustomerContactNumber,
+      anonCustomerEmail: this.checkoutFormService.who()!.anonCustomerEmail,
+      address: {
+        id: this.checkoutFormService.where()!.id,
+        street: this.checkoutFormService.where()!.street,
+        number: this.checkoutFormService.where()!.number,
+        details: this.checkoutFormService.where()!.details
+      },
+      orderDetails: {
+        id: null,
+        deliveryTime: this.checkoutFormService.when()!.deliveryTime,
+        paymentMethod: this.checkoutFormService.how()!.paymentMethod,
+        billToChange: this.checkoutFormService.how()!.billToChange,
+        comment: this.form.get("comment")!.value,
+      },
+      cart: {
+        id: null,
+        cartItems: this.cartService.cartItems(),
+        totalCost: this.cartService.cartTotal(),
+        totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
+        totalQuantity: Number(this.cartService.cartQuantity().toFixed(2)),
+      }
+    }, {
+      onSuccess: (response: AnonOrderDTO) => {
+        console.log(response);
+        console.log("success");
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+      },
+      onError: (error, variables, context) => {
+        console.log(error);
+      }
+    });
   }
 }

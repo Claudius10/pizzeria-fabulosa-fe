@@ -56,11 +56,8 @@ export class UserAddressFormComponent {
     const data: AddressFormData = {
       id: null,
       street: this.form.get("street")!.value,
-      streetNr: Number(this.form.get("number")!.value),
-      gate: this.form.get("gate")!.value === null ? null : this.form.get("gate")!.value,
-      staircase: this.form.get("staircase")!.value === null ? null : this.form.get("staircase")!.value,
-      floor: this.form.get("floor")!.value === null ? null : this.form.get("floor")!.value,
-      door: this.form.get("door")!.value === null ? null : this.form.get("door")!.value,
+      number: Number(this.form.get("number")!.value),
+      details: ""
     };
 
     this.createAddress.mutate({userId: this.authService.getUserId(), data: data}, {

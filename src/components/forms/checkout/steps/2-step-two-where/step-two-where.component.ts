@@ -65,15 +65,15 @@ export class StepTwoWhereComponent implements OnInit {
     this.checkoutFormService.step.set(1);
     // if store was selected
     if (this.checkoutFormService.selectedStore() !== null) {
-      // set store id
-      this.form.patchValue({id: this.checkoutFormService.selectedStore()});
       // display stores
       this.checkoutFormService.homeDelivery.set(false);
-      // select pickup option of HTMLSelectElement
-      this.selectedOption = this.options[1];
-      // remove validators
+      // set validators
       this.setHomeDeliveryValidators(false);
       this.setPickUpValidators(true);
+      // set store id
+      this.form.patchValue({id: this.checkoutFormService.selectedStore()});
+      // select pickup option of HTMLSelectElement
+      this.selectedOption = this.options[1];
     } else {
       if (this.checkoutFormService.where() !== null) {
         this.form.patchValue({
@@ -129,15 +129,15 @@ export class StepTwoWhereComponent implements OnInit {
   saveFormValues() {
     if (this.checkoutFormService.selectedStore() !== null) {
 
-      // set store as where values if customer selected store pickup
+      // set store id on 'where' if customer selected store pickup
       const selectedStoreId = this.stores.data()!.findIndex(store => store.id === this.checkoutFormService.selectedStore());
       const selectedStore = this.stores.data()![selectedStoreId];
 
       this.checkoutFormService.where.set({
         id: selectedStore.id,
-        street: selectedStore.address.street,
-        number: selectedStore.address.number,
-        details: selectedStore.address.details
+        street: null,
+        number: null,
+        details: null
       });
 
     } else {
@@ -166,7 +166,7 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   cancel() {
-    this.checkoutFormService.cancel();
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 }

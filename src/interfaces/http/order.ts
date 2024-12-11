@@ -3,11 +3,8 @@ import {CartItemDTO} from '../dto/order';
 export type AddressFormData = {
   id: number | null;
   street: string | null
-  streetNr: number | null;
-  gate: string | null;
-  staircase: string | null;
-  door: string | null;
-  floor: string | null;
+  number: number | null;
+  details: string | null;
 }
 
 export type OrderDetailsFormData = {

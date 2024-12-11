@@ -101,7 +101,7 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   cancel() {
-    this.checkoutFormService.cancel();
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 }

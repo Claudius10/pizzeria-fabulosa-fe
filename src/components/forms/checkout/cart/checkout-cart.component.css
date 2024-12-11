@@ -10,3 +10,7 @@
   flex-direction: column;
   padding: 1rem;
 }
+
+.cart {
+  min-height: 34rem;
+}

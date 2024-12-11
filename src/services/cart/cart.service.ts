@@ -135,6 +135,10 @@ export class CartService {
     this.updateLocalStorage();
   }
 
+  public isEmpty() {
+    return this.items().length !== 0;
+  }
+
   private updateLocalStorage() {
     const cart = new Cart()
       .withItems(this.items())

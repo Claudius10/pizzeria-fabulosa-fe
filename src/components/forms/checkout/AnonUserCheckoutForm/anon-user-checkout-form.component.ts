@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
-import {CartService} from '../../../../services/cart/cart.service';
-import {OrderService} from '../../../../services/http/order/order.service';
 import {MenuItem} from 'primeng/api';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
@@ -15,7 +13,6 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../cart/checkout-cart.component';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-anon-user-checkout-form',
@@ -43,64 +40,12 @@ import {Router} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnonUserCheckoutFormComponent {
-  private router = inject(Router);
   protected checkoutFormService = inject(CheckoutFormService);
-  private orderService = inject(OrderService);
-  private cartService = inject(CartService);
-  private createAnonOrder = this.orderService.createAnonOrder();
   steps: MenuItem[] = [
     {label: "Mis datos",},
     {label: "Dirección de entrega"},
     {label: "Plazo de entrega"},
-    {label: "Método de pago"}, {label: "Resumen"},
+    {label: "Método de pago"},
+    {label: "Resumen"},
   ];
-
-  cancel() {
-    this.checkoutFormService.cancel();
-    this.router.navigate(['/']);
-  }
-
-  onSubmit(): void {
-    //   console.log(this.form.value);
-    //   if (this.form.invalid) {
-    //     this.createAnonOrder.mutate({
-    //       anonCustomerName: this.form.get("who.fullName")!.value,
-    //       anonCustomerContactNumber: Number(this.form.get("who.contactNumber")!.value),
-    //       anonCustomerEmail: this.form.get("who.email")!.value,
-    //       address: {
-    //         id: this.form.get("where.storeId")!.value === null ? null : this.form.get("where.storeId")!.value,
-    //         street: this.form.get("where.street")!.value,
-    //         streetNr: Number(this.form.get("where.number")!.value),
-    //         gate: null,
-    //         staircase: null,
-    //         floor: null,
-    //         door: this.form.get("where.door")!.value === null ? null : this.form.get("where.door")!.value,
-    //       },
-    //       orderDetails: {
-    //         id: null,
-    //         deliveryTime: this.form.get("when.deliveryTime")!.value,
-    //         paymentMethod: this.form.get("how.paymentMethod")!.value,
-    //         billToChange: this.form.get("how.billToChange")!.value === null ? null : this.form.get("how.billToChange")!.value,
-    //         comment: this.form.get("how.comment")!.value === null ? null : this.form.get("how.comment")!.value,
-    //       },
-    //       cart: {
-    //         id: null,
-    //         cartItems: this.cartService.cartItems(),
-    //         totalCost: this.cartService.cartTotal(),
-    //         totalCostOffers: this.cartService.cartTotalAfterOffers(),
-    //         totalQuantity: this.cartService.cartQuantity(),
-    //       }
-    //     }, {
-    //       onSuccess: (response: AnonOrderDTO) => {
-    //         console.log(response);
-    //         console.log("success");
-    //         this.cartService.clear();
-    //       },
-    //       onError: (error, variables, context) => {
-    //         console.log(error);
-    //       }
-    //     });
-    //   }
-    // }
-  }
 }

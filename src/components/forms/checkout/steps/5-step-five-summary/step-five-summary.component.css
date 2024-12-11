@@ -4,10 +4,18 @@
   width: 100%;
 }
 
+.form {
+  min-height: 27rem;
+}
+
 @media (max-width: 578px) {
   .buttons {
     flex-direction: column-reverse;
     gap: 1.5rem;
     width: 100%;
+  }
+
+  .form {
+    min-height: 31.2rem;
   }
 }

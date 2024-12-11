@@ -11,7 +11,7 @@ input.ng-invalid.ng-touched {
 }
 
 .form {
-  min-height: 31rem;
+  min-height: 35rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
