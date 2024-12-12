@@ -17,6 +17,7 @@ import {StepTwoWhereComponent} from '../forms/checkout/steps/2-step-two-where/st
 import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/step-three-when.component';
 import {StepFourHowComponent} from '../forms/checkout/steps/4-step-four-how/step-four-how.component';
 import {StepFiveSummaryComponent} from '../forms/checkout/steps/5-step-five-summary/step-five-summary.component';
+import {NewOrderSuccessComponent} from '../forms/checkout/success/new-order-success.component';
 
 export const routes: Routes = [
   {
@@ -92,6 +93,11 @@ export const routes: Routes = [
         title: "New Order Summary",
       }
     ]
+  },
+  {
+    path: "new-order-success",
+    component: NewOrderSuccessComponent,
+    title: "New Order Success",
   },
   {
     path: "new-user",

@@ -18,6 +18,7 @@ import {NgClass} from '@angular/common';
 })
 export class StoreCheckoutComponent {
   onStoreSelect = output<number>();
+  orientation = input<"horizontal" | "vertical">('horizontal');
   store = input.required<StoreDTO>();
   selected = input<number | null>(null);
   valid = input<boolean>();

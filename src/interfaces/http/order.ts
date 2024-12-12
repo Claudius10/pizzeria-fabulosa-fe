@@ -23,16 +23,14 @@ type CartFormData = {
   cartItems: CartItemDTO[];
 }
 
-export type AnonCustomerData = {
-  anonCustomerName: string;
-  anonCustomerContactNumber: number;
-  anonCustomerEmail: string;
+export type AnonCustomerFormData = {
+  name: string;
+  contactNumber: number;
+  email: string;
 }
 
 export type AnonOrderFormData = {
-  anonCustomerName: string;
-  anonCustomerContactNumber: number;
-  anonCustomerEmail: string;
+  customer: AnonCustomerFormData;
   address: AddressFormData;
   orderDetails: OrderDetailsFormData;
   cart: CartFormData;

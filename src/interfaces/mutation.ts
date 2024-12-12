@@ -1,9 +1,9 @@
 import {Signal} from '@angular/core';
 import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from './http/order';
-import {AnonOrderDTO} from './dto/order';
 import {DeleteAccountForm, LoginForm, RegisterForm} from './http/account';
 import {BaseUserMutationOptions} from './base';
 import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
+import {AnonOrderDTO} from './dto/order';
 
 // ---------- BASE MUTATION ----------
 
@@ -17,6 +17,7 @@ export interface BaseMutationResult {
 
 export interface AnonOrderMutation extends BaseMutationResult {
   mutate: CreateMutateFunction<AnonOrderDTO, Error, AnonOrderFormData>;
+  // <Response, Error, Request>
 }
 
 // ---------- ACCOUNT MUTATION ----------

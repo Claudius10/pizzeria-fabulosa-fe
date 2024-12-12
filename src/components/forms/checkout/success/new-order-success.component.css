@@ -1,0 +1,9 @@
+.cart {
+  height: 100%;
+}
+
+@media (max-width: 992px) {
+  .cart {
+    display: none;
+  }
+}

@@ -50,9 +50,9 @@ export class StepOneWhoComponent implements OnInit {
 
     if (this.checkoutFormService.who() !== null) {
       this.form.setValue({
-        fullName: this.checkoutFormService.who()!.anonCustomerName,
-        email: this.checkoutFormService.who()!.anonCustomerEmail,
-        contactNumber: this.checkoutFormService.who()!.anonCustomerContactNumber.toString()
+        fullName: this.checkoutFormService.who()!.name,
+        email: this.checkoutFormService.who()!.email,
+        contactNumber: this.checkoutFormService.who()!.contactNumber.toString()
       });
     }
   }
@@ -61,9 +61,9 @@ export class StepOneWhoComponent implements OnInit {
     if (isStepValid(this.form)) {
 
       this.checkoutFormService.who.set({
-        anonCustomerName: this.form.get("fullName")!.value,
-        anonCustomerContactNumber: Number(this.form.get("contactNumber")!.value),
-        anonCustomerEmail: this.form.get("email")!.value,
+        name: this.form.get("fullName")!.value,
+        contactNumber: Number(this.form.get("contactNumber")!.value),
+        email: this.form.get("email")!.value,
       });
 
       this.router.navigate(['/new-order/step-two']);

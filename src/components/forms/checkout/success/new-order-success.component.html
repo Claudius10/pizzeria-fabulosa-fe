@@ -1,0 +1,35 @@
+@if (checkoutFormService.anonOrderSuccess() === null) {
+  <div class="flex flex-column gap-5 justify-content-between align-items-center">
+    <span class="text-center text-4xl font-italic">Nothing to do here... yet!</span>
+    <p-button
+      type="button"
+      (onClick)="goBack()"
+      label="VOLVER"/>
+  </div>
+} @else {
+  <div class="flex flex-column align-items-center gap-5">
+    <span class="text-4xl text-center">Order {{ checkoutFormService.anonOrderSuccess()!.id }}
+      successfully created</span>
+    <span
+      class="text-2xl text-center">Date of creation {{ checkoutFormService.anonOrderSuccess()!.formattedCreatedOn }}</span>
+
+    <div class="flex gap-5">
+
+      <div class="flex flex-column gap-5">
+        <app-customer-details [customer]="checkoutFormService.anonOrderSuccess()!.customer"/>
+        <app-address-details
+          [address]="checkoutFormService.anonOrderSuccess()!.address"
+          [orderDetails]="checkoutFormService.anonOrderSuccess()!.orderDetails"
+
+        />
+        <app-order-details
+          [orderDetails]="checkoutFormService.anonOrderSuccess()!.orderDetails"/>
+      </div>
+
+      <div class="cart">
+        <app-cart-checkout/>
+      </div>
+
+    </div>
+  </div>
+}

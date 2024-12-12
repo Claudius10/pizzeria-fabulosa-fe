@@ -1,5 +1,6 @@
 import {Injectable, signal} from '@angular/core';
 import {how, when, where, who} from '../../../interfaces/forms/steps';
+import {AnonOrderDTO} from '../../../interfaces/dto/order';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class CheckoutFormService {
   where = signal<where | null>(null);
   when = signal<when | null>(null);
   how = signal<how | null>(null);
+  anonOrderSuccess = signal<AnonOrderDTO | null>(null);
 
   isStepFilled(step: number) {
     switch (step) {

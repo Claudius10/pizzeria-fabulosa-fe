@@ -1,7 +1,7 @@
 export interface who {
-  anonCustomerName: string;
-  anonCustomerContactNumber: number;
-  anonCustomerEmail: string;
+  name: string;
+  contactNumber: number;
+  email: string;
 }
 
 export interface where {

@@ -14,9 +14,9 @@
         <div class="flex flex-column gap-3">
           <span class="text-2xl text-primary">Customer details</span>
           <div class="flex flex-column gap-3">
-            <span>Nombre completo: {{ checkoutFormService.who()!.anonCustomerName }}</span>
-            <span>Correo electrónico: {{ checkoutFormService.who()!.anonCustomerEmail }}</span>
-            <span>Teléfono de contacto: {{ checkoutFormService.who()!.anonCustomerContactNumber }}</span>
+            <span>Nombre completo: {{ checkoutFormService.who()!.name }}</span>
+            <span>Correo electrónico: {{ checkoutFormService.who()!.email }}</span>
+            <span>Teléfono de contacto: {{ checkoutFormService.who()!.contactNumber }}</span>
           </div>
         </div>
       </p-card>
@@ -33,7 +33,7 @@
             }
 
             @if (selectedStore !== null) {
-              <div>
+              <div class="flex flex-column gap-3">
                 <span>Pick up store selected:</span>
                 <app-store-checkout [valid]="true" [store]="selectedStore"/>
               </div>

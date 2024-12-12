@@ -6,7 +6,7 @@
   ]"
   (click)="selectStore()">
   <span class="text-xl">{{ store().name }}</span>
-  <div class="store">
+  <div [ngClass]="['store', orientation() === 'horizontal' ? '' : 'flex-column gap-3']">
     <div class="flex gap-2">
       <i class="pi pi-map"></i>
       {{ store().address.street }} {{ store().address.number }}

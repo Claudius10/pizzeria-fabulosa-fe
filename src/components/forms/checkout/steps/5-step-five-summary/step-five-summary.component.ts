@@ -54,7 +54,7 @@ export class StepFiveSummaryComponent {
   }
 
   form = new FormGroup({
-    comment: new FormControl("", {
+    comment: new FormControl<string | null>(null, {
       validators: [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
       nonNullable: false,
       updateOn: "blur"
@@ -75,7 +75,6 @@ export class StepFiveSummaryComponent {
   }
 
   onSubmit(): void {
-    console.log(this.form.value);
     if (isStepValid(this.form)) {
       this.createOrder();
     }
@@ -83,9 +82,11 @@ export class StepFiveSummaryComponent {
 
   createOrder() {
     this.createAnonOrder.mutate({
-      anonCustomerName: this.checkoutFormService.who()!.anonCustomerName,
-      anonCustomerContactNumber: this.checkoutFormService.who()!.anonCustomerContactNumber,
-      anonCustomerEmail: this.checkoutFormService.who()!.anonCustomerEmail,
+      customer: {
+        name: this.checkoutFormService.who()!.name,
+        contactNumber: this.checkoutFormService.who()!.contactNumber,
+        email: this.checkoutFormService.who()!.email,
+      },
       address: {
         id: this.checkoutFormService.where()!.id,
         street: this.checkoutFormService.where()!.street,
@@ -108,10 +109,11 @@ export class StepFiveSummaryComponent {
       }
     }, {
       onSuccess: (response: AnonOrderDTO) => {
-        console.log(response);
-        console.log("success");
         this.cartService.clear();
         this.checkoutFormService.clear();
+        this.cartService.set(response.cart.cartItems, response.cart.totalQuantity, response.cart.totalCost);
+        this.checkoutFormService.anonOrderSuccess.set(response);
+        this.router.navigate(['/new-order-success']);
       },
       onError: (error, variables, context) => {
         console.log(error);

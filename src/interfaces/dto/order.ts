@@ -43,12 +43,16 @@ export type OrderDTO = {
   cart: CartDTO;
 }
 
-export type AnonOrderDTO = {
+export type CustomerDTO = {
+  name: string;
+  contactNumber: number;
+  email: string;
+}
+
+export interface AnonOrderDTO {
   id: number;
-  formattedCreatedOn: string,
-  anonCustomerName: string;
-  anonCustomerContactNumber: number;
-  anonCustomerEmail: string;
+  formattedCreatedOn: string;
+  customer: CustomerDTO;
   address: AddressDTO;
   orderDetails: OrderDetailsDTO;
   cart: CartDTO;

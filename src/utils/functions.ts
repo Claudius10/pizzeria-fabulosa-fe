@@ -25,7 +25,6 @@ export function getDeliveryHours(): string[] {
 
 export function isStepValid(form: FormGroup) {
   const valid = form.valid;
-  console.log(valid);
 
   if (!valid) {
     Object.keys(form.controls).forEach(controlName => {
