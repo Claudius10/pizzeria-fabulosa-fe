@@ -66,7 +66,7 @@ export class StepOneWhoComponent implements OnInit {
         email: this.form.get("email")!.value,
       });
 
-      this.router.navigate(['/new-order/step-two']);
+      this.router.navigate(['order', 'new', 'step-two']);
     }
   }
 

@@ -6,7 +6,7 @@
 
 
       @for (item of items(); track item.id) {
-        <app-cart-item [item]="item"/>
+        <app-cart-item [readOnly]="false" [item]="item"/>
       }
     }
   </div>

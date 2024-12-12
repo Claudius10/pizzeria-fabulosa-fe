@@ -115,7 +115,7 @@ export class StepFourHowComponent implements OnInit {
   }
 
   previousStep() {
-    this.router.navigate(['/new-order/step-three']);
+    this.router.navigate(['order', 'new', 'step-three']);
     this.checkoutFormService.cashPayment.set(false);
     this.checkoutFormService.changeRequested.set(false);
   }
@@ -123,14 +123,14 @@ export class StepFourHowComponent implements OnInit {
   nextStep() {
     if (isStepValid(this.form)) {
       this.saveFormValues();
-      this.router.navigate(['/new-order/step-five']);
+      this.router.navigate(['order', 'new', 'step-five']);
     }
   }
 
   goBack(start: boolean) {
     this.checkoutFormService.clear();
     if (start) {
-      this.router.navigate(['/new-order', 'step-one']);
+      this.router.navigate(['order', 'new', 'step-one']);
     } else {
       this.router.navigate(['/']);
     }

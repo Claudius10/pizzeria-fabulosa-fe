@@ -90,20 +90,20 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   previousStep() {
-    this.router.navigate(['/new-order/step-two']);
+    this.router.navigate(['order', 'new', 'step-two']);
   }
 
   nextStep() {
     if (isStepValid(this.form)) {
       this.saveFormValues();
-      this.router.navigate(['/new-order/step-four']);
+      this.router.navigate(['order', 'new', 'step-four']);
     }
   }
 
   goBack(start: boolean) {
     this.checkoutFormService.clear();
     if (start) {
-      this.router.navigate(['/new-order', 'step-one']);
+      this.router.navigate(['order', 'new', 'step-one']);
     } else {
       this.router.navigate(['/']);
     }

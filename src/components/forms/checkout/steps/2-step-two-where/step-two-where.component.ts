@@ -53,7 +53,7 @@ export class StepTwoWhereComponent implements OnInit {
         updateOn: "blur"
       }
     ),
-    details: new FormControl("", {
+    details: new FormControl<string | null>(null, {
       validators: [Validators.pattern(esCharsAndNumbersRegex)],
       nonNullable: false,
       updateOn: "blur"
@@ -153,13 +153,13 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   previousStep() {
-    this.router.navigate(['/new-order/step-one']);
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 
   nextStep() {
     if (isStepValid(this.form)) {
       this.saveFormValues();
-      this.router.navigate(['/new-order/step-three']);
+      this.router.navigate(['order', 'new', 'step-three']);
     } else {
       this.validStoreSelection = false;
     }
@@ -168,7 +168,7 @@ export class StepTwoWhereComponent implements OnInit {
   goBack(start: boolean) {
     this.checkoutFormService.clear();
     if (start) {
-      this.router.navigate(['/new-order', 'step-one']);
+      this.router.navigate(['order', 'new', 'step-one']);
     } else {
       this.router.navigate(['/']);
     }

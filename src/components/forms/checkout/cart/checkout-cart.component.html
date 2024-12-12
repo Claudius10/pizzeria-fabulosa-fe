@@ -4,7 +4,7 @@
       <span>Nothing here yet</span>
     } @else {
       @for (item of items(); track item.id) {
-        <app-cart-item [item]="item"/>
+        <app-cart-item [readOnly]="true" [item]="item"/>
       }
     }
   </div>

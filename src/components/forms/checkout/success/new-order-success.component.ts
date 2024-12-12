@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router} from '@angular/router';
@@ -24,11 +24,16 @@ import {CheckoutCartComponent} from '../cart/checkout-cart.component';
   styleUrl: './new-order-success.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewOrderSuccessComponent {
+export class NewOrderSuccessComponent implements OnDestroy {
   protected checkoutFormService = inject(CheckoutFormService);
+  private cartService = inject(CheckoutFormService);
   private router = inject(Router);
 
   goBack() {
     this.router.navigate(['/']);
+  }
+
+  ngOnDestroy(): void {
+    this.cartService.clear();
   }
 }

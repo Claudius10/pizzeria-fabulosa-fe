@@ -62,13 +62,13 @@ export class StepFiveSummaryComponent {
   });
 
   previousStep() {
-    this.router.navigate(['/new-order/step-four']);
+    this.router.navigate(['order', 'new', 'step-four']);
   }
 
   goBack(start: boolean) {
     this.checkoutFormService.clear();
     if (start) {
-      this.router.navigate(['/new-order', 'step-one']);
+      this.router.navigate(['order', 'new', 'step-one']);
     } else {
       this.router.navigate(['/']);
     }
@@ -113,7 +113,7 @@ export class StepFiveSummaryComponent {
         this.checkoutFormService.clear();
         this.cartService.set(response.cart.cartItems, response.cart.totalQuantity, response.cart.totalCost);
         this.checkoutFormService.anonOrderSuccess.set(response);
-        this.router.navigate(['/new-order-success']);
+        this.router.navigate(['order', 'success']);
       },
       onError: (error, variables, context) => {
         console.log(error);
