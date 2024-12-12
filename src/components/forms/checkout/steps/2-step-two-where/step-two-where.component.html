@@ -1,116 +1,127 @@
-<form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
-  <!-- ADDRESS SELECT -->
-  <div class="flex flex-column gap-5">
-
-    <div class="flex flex-column gap-4">
-      <label for="deliveryOption">Seleccione la opción de entrega</label>
-      <p-iconField iconPosition="right">
-        <p-inputIcon styleClass="pi pi-angle-down"/>
-        <select
-          [ngModel]="selectedOption.code"
-          [ngModelOptions]="{standalone: true}"
-          (change)="selectDelivery($event)"
-          pInputText
-          class="w-full"
-          id="deliveryOption">
-          <option *ngFor="let option of options" [value]="option.code">{{ option.description }}</option>
-        </select>
-      </p-iconField>
-    </div>
-
-    @if (checkoutFormService.homeDelivery()) {
-      <div class="flex flex-column gap-3">
-
-        <div class="flex flex-column gap-2 h-4rem">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-home"/>
-            <input
-              class="w-full"
-              pInputText
-              id="street"
-              type="text"
-              placeholder="Home address"
-              formControlName="street">
-          </p-iconField>
-          @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-            <small id="street-help" class="invalid-text">
-              Home address is required.
-            </small>
-          }
-        </div>
-
-        <div class="flex flex-column gap-2 h-4rem">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-key"/>
-            <input
-              class="w-full"
-              pInputText
-              id="streetNumber"
-              type="tel"
-              placeholder="Address number"
-              formControlName="number">
-          </p-iconField>
-          @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-            <small id="number-help" class="invalid-text">
-              Home address number is required.
-            </small>
-          }
-        </div>
-
-        <div class="flex flex-column gap-2 h-4rem">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-map-marker"/>
-            <input
-              class="w-full"
-              pInputText
-              id="details"
-              type="text"
-              placeholder="Details"
-              formControlName="details">
-          </p-iconField>
-          @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-            <small id="details-help" class="invalid-text">
-              Invalid details input.
-            </small>
-          }
-        </div>
-      </div>
-    } @else {
-      <!-- STORE SELECT -->
-      <div class="flex flex-column gap-5 mb-4">
-        @if (stores.status() === "pending") {
-          <span>Loading stores...</span>
-        } @else if (stores.status() === "error") {
-          <span>Error loading stores {{ stores.error()?.message }}</span>
-        } @else {
-          @for (store of stores.data(); track store.id) {
-            <app-store-checkout
-              (onStoreSelect)="setSelectedStoreId($event)"
-              [selected]="this.checkoutFormService.selectedStore()"
-              [store]="store"
-              [valid]="validStoreSelection"
-            />
-          }
-        }
-      </div>
-    }
-  </div>
-  <!-- STEP NAVIGATION BUTTONS -->
-  <div class="buttons">
+@if (!checkoutFormService.isStepFilled(1)) {
+  <div class="form flex flex-column justify-content-between align-items-center">
+    <span class="text-center">Unable to load step two: step one must be completed.</span>
     <p-button
       type="button"
-      (onClick)="previousStep()"
+      (onClick)="goBack(true)"
       [disabled]="checkoutFormService.step() === 0"
       label="VOLVER"/>
-    <p-button
-      severity="danger"
-      type="button"
-      (click)="cancel()"
-      label="CANCELAR"/>
-    <p-button
-      type="button"
-      (onClick)="nextStep()"
-      [disabled]="checkoutFormService.step() === 4"
-      label="CONTINUAR"/>
   </div>
-</form>
+} @else {
+  <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+    <!-- ADDRESS SELECT -->
+    <div class="flex flex-column gap-5">
+
+      <div class="flex flex-column gap-4">
+        <label for="deliveryOption">Seleccione la opción de entrega</label>
+        <p-iconField iconPosition="right">
+          <p-inputIcon styleClass="pi pi-angle-down"/>
+          <select
+            [ngModel]="selectedOption.code"
+            [ngModelOptions]="{standalone: true}"
+            (change)="selectDelivery($event)"
+            pInputText
+            class="w-full"
+            id="deliveryOption">
+            <option *ngFor="let option of options" [value]="option.code">{{ option.description }}</option>
+          </select>
+        </p-iconField>
+      </div>
+
+      @if (checkoutFormService.homeDelivery()) {
+        <div class="flex flex-column gap-3">
+
+          <div class="flex flex-column gap-2 h-4rem">
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-home"/>
+              <input
+                class="w-full"
+                pInputText
+                id="street"
+                type="text"
+                placeholder="Home address"
+                formControlName="street">
+            </p-iconField>
+            @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+              <small id="street-help" class="invalid-text">
+                Home address is required.
+              </small>
+            }
+          </div>
+
+          <div class="flex flex-column gap-2 h-4rem">
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-key"/>
+              <input
+                class="w-full"
+                pInputText
+                id="streetNumber"
+                type="tel"
+                placeholder="Address number"
+                formControlName="number">
+            </p-iconField>
+            @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+              <small id="number-help" class="invalid-text">
+                Home address number is required.
+              </small>
+            }
+          </div>
+
+          <div class="flex flex-column gap-2 h-4rem">
+            <p-iconField iconPosition="left">
+              <p-inputIcon styleClass="pi pi-map-marker"/>
+              <input
+                class="w-full"
+                pInputText
+                id="details"
+                type="text"
+                placeholder="Details"
+                formControlName="details">
+            </p-iconField>
+            @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+              <small id="details-help" class="invalid-text">
+                Invalid details input.
+              </small>
+            }
+          </div>
+        </div>
+      } @else {
+        <!-- STORE SELECT -->
+        <div class="flex flex-column gap-5 mb-4">
+          @if (stores.status() === "pending") {
+            <span>Loading stores...</span>
+          } @else if (stores.status() === "error") {
+            <span>Error loading stores {{ stores.error()?.message }}</span>
+          } @else {
+            @for (store of stores.data(); track store.id) {
+              <app-store-checkout
+                (onStoreSelect)="setSelectedStoreId($event)"
+                [selected]="this.checkoutFormService.selectedStore()"
+                [store]="store"
+                [valid]="validStoreSelection"
+              />
+            }
+          }
+        </div>
+      }
+    </div>
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        type="button"
+        (onClick)="previousStep()"
+        [disabled]="checkoutFormService.step() === 0"
+        label="VOLVER"/>
+      <p-button
+        severity="danger"
+        type="button"
+        (click)="goBack(false)"
+        label="CANCELAR"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step() === 4"
+        label="CONTINUAR"/>
+    </div>
+  </form>
+}

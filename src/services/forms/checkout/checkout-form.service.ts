@@ -16,8 +16,19 @@ export class CheckoutFormService {
   when = signal<when | null>(null);
   how = signal<how | null>(null);
 
-  isFormFilled() {
-    return this.who() !== null && this.where() !== null && this.when() !== null && this.how() !== null;
+  isStepFilled(step: number) {
+    switch (step) {
+      case 1:
+        return this.who() !== null;
+      case 2:
+        return this.who() !== null && this.where() !== null;
+      case 3:
+        return this.who() !== null && this.where() !== null && this.when() !== null;
+      case 4:
+        return this.who() !== null && this.where() !== null && this.when() !== null && this.how() !== null;
+      default:
+        return false;
+    }
   }
 
   clear() {

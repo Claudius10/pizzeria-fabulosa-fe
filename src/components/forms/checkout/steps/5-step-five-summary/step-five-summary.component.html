@@ -1,6 +1,13 @@
 <div class="form flex flex-column justify-content-between gap-5">
-  @if (!checkoutFormService.isFormFilled()) {
-    <span class="text-center">Unable to load new order form summary: steps one through four must be completed.</span>
+  @if (!checkoutFormService.isStepFilled(4)) {
+    <div class="form flex flex-column justify-content-between align-items-center">
+      <span class="text-center">Unable to load step five: step one through four be completed.</span>
+      <p-button
+        type="button"
+        (onClick)="goBack(true)"
+        [disabled]="checkoutFormService.step() === 0"
+        label="VOLVER"/>
+    </div>
   } @else {
     <div class="flex flex-column gap-5">
       <p-card>
@@ -62,23 +69,24 @@
         </div>
       </p-card>
     </div>
+
+    <div class="buttons">
+      <p-button
+        type="button"
+        (onClick)="previousStep()"
+        [disabled]="checkoutFormService.step() === 0"
+        label="VOLVER"/>
+      <p-button
+        severity="danger"
+        type="button"
+        (click)="goBack(false)"
+        label="CANCELAR"/>
+      <p-button
+        [severity]="'success'"
+        type="button"
+        (onClick)="onSubmit()"
+        [disabled]="checkoutFormService.step() !== 4"
+        label="PEDIR"/>
+    </div>
   }
-  <div class="buttons">
-    <p-button
-      type="button"
-      (onClick)="previousStep()"
-      [disabled]="checkoutFormService.step() === 0"
-      label="VOLVER"/>
-    <p-button
-      severity="danger"
-      type="button"
-      (click)="cancel()"
-      label="CANCELAR"/>
-    <p-button
-      [severity]="'success'"
-      type="button"
-      (onClick)="onSubmit()"
-      [disabled]="checkoutFormService.step() !== 4"
-      label="PEDIR"/>
-  </div>
 </div>

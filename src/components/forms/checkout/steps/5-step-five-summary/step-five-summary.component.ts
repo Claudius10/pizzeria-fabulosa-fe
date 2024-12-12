@@ -42,7 +42,7 @@ export class StepFiveSummaryComponent {
 
   constructor() {
     this.checkoutFormService.step.set(4);
-    if (this.checkoutFormService.isFormFilled() && this.checkoutFormService.where()!.id !== null) {
+    if (this.checkoutFormService.isStepFilled(4) && this.checkoutFormService.where()!.id !== null) {
 
       const stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
       const selectedStoreIndex = stores.data()!.findIndex(store => store.id === this.checkoutFormService.where()!.id);
@@ -65,9 +65,13 @@ export class StepFiveSummaryComponent {
     this.router.navigate(['/new-order/step-four']);
   }
 
-  cancel() {
+  goBack(start: boolean) {
     this.checkoutFormService.clear();
-    this.router.navigate(['/']);
+    if (start) {
+      this.router.navigate(['/new-order', 'step-one']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   onSubmit(): void {

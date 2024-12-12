@@ -127,9 +127,13 @@ export class StepFourHowComponent implements OnInit {
     }
   }
 
-  cancel() {
+  goBack(start: boolean) {
     this.checkoutFormService.clear();
-    this.router.navigate(['/']);
+    if (start) {
+      this.router.navigate(['/new-order', 'step-one']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 }
 
