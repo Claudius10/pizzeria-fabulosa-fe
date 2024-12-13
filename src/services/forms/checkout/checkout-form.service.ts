@@ -16,7 +16,7 @@ export class CheckoutFormService {
   where = signal<where | null>(null);
   when = signal<when | null>(null);
   how = signal<how | null>(null);
-  anonOrderSuccess = signal<AnonOrderDTO | null>(null);
+  anonOrderSuccess = signal<AnonOrderDTO | null>(getTestOrderSuccess());
 
   isStepFilled(step: number) {
     switch (step) {

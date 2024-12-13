@@ -11,9 +11,9 @@ import {ResourceService} from '../../../../../services/http/resources/resource.s
 import {StoresQueryResult} from '../../../../../interfaces/query';
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';
 import {Router} from '@angular/router';
-import {isStepValid} from '../../../../../utils/functions';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {NgForOf} from '@angular/common';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -157,7 +157,7 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   nextStep() {
-    if (isStepValid(this.form)) {
+    if (isFormValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['order', 'new', 'step-three']);
     } else {

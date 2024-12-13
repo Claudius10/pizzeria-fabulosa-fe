@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {CustomerDetailsComponent} from '../../../order/view/customer-details/customer-details.component';
 import {AddressDetailsComponent} from '../../../order/view/address-details/address-details.component';
 import {OrderDetailsComponent} from '../../../order/view/order-details/order-details.component';
@@ -18,7 +18,8 @@ import {CheckoutCartComponent} from '../cart/checkout-cart.component';
     CustomerDetailsComponent,
     AddressDetailsComponent,
     OrderDetailsComponent,
-    CheckoutCartComponent
+    CheckoutCartComponent,
+    RouterLink
   ],
   templateUrl: './new-order-success.component.html',
   styleUrl: './new-order-success.component.css',

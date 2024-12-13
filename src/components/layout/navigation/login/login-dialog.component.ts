@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {Button} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../../regex';
@@ -20,8 +20,7 @@ import {TranslateService} from '@ngx-translate/core';
     DialogModule,
     FormsModule,
     ReactiveFormsModule,
-    InputTextModule,
-    RouterLink
+    InputTextModule
   ],
   templateUrl: './login-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -82,8 +81,13 @@ export class LoginDialogComponent implements OnDestroy {
     });
   }
 
-  closeDialog() {
+  closeDialog(): void {
     this.authService.setLoginDialog(false);
     this.visible = false;
+  }
+
+  goToRegister(): void {
+    this.closeDialog();
+    this.router.navigate(["/registration"]);
   }
 }

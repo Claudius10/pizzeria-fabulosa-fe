@@ -5,7 +5,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
-import {getDeliveryHours, isStepValid} from '../../../../../utils/functions';
+import {getDeliveryHours, isFormValid} from '../../../../../utils/functions';
 import {timer} from 'rxjs';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
@@ -94,7 +94,7 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   nextStep() {
-    if (isStepValid(this.form)) {
+    if (isFormValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['order', 'new', 'step-four']);
     }

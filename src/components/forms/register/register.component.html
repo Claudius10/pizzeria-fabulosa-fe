@@ -1,27 +1,115 @@
-<div>
-  <p>Crear cuenta</p>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="flex flex-column gap-6">
 
-    <label>Nombre completo</label>
-    <input id="name" type="text" formControlName="name"/>
+    <span class="text-center text-4xl">Create your account!</span>
 
-    <label>Correo electrónico</label>
-    <input id="email" type="email" formControlName="email"/>
+    <div class="flex flex-column gap-3">
 
-    <label>Reintroduzca correo electrónico</label>
-    <input id="matchingEmail" type="email" formControlName="matchingEmail"/>
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-user"/>
+          <input
+            class="w-full"
+            pInputText
+            id="name"
+            type="text"
+            placeholder="Your full name"
+            formControlName="name">
+        </p-iconField>
+        @if (!this.form.controls.name.untouched && !this.form.controls.name.valid) {
+          <small id="name-help" class="invalid-text">
+            Full name is required.
+          </small>
+        }
+      </div>
 
-    <label>Contraseña</label>
-    <input id="password" type="email" formControlName="password"/>
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-envelope"/>
+          <input
+            class="w-full"
+            pInputText
+            id="email"
+            type="email"
+            placeholder="Email"
+            formControlName="email">
+        </p-iconField>
+        @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
+          <small id="email-help" class="invalid-text">
+            Email address is required.
+          </small>
+        }
+      </div>
 
-    <label>Reintroduzca contraseña</label>
-    <input id="matchingPassword" type="email" formControlName="matchingPassword"/>
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-envelope"/>
+          <input
+            class="w-full"
+            pInputText
+            id="matchingEmail"
+            type="email"
+            placeholder="Re-enter your email"
+            formControlName="matchingEmail">
+        </p-iconField>
+        @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
+          <small id="matchingEmail-help" class="invalid-text">
+            Please make sure your email address matches.
+          </small>
+        }
+      </div>
 
-    <button type="submit">Continuar</button>
-  </form>
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-key"/>
+          <input class="w-full"
+                 pInputText
+                 id="password"
+                 type="tel"
+                 placeholder="Password"
+                 formControlName="password">
+        </p-iconField>
+        @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
+          <small id="passowrd-help" class="invalid-text">
+            Password is requiered.
+          </small>
+        }
+      </div>
 
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-key"/>
+          <input class="w-full"
+                 pInputText
+                 id="matchingPassword"
+                 type="tel"
+                 placeholder="Re-enter your password"
+                 formControlName="matchingPassword">
+        </p-iconField>
+        @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
+          <small id="contactNumber-help" class="invalid-text">
+            Please make sure your password matches.
+          </small>
+        }
+      </div>
+    </div>
 
-  <p>¿Ya tienes una cuenta?</p>
+  </div>
 
-  <button routerLink="/iniciar-sesion">Inicia sesión</button>
-</div>
+  <!-- STEP NAVIGATION BUTTONS -->
+  <div class="buttons">
+    <p-button
+      severity="danger"
+      type="button"
+      (onClick)="cancel()"
+      label="CANCELAR"/>
+    <p-button
+      type="submit"
+      label="CONTINUAR"/>
+  </div>
+
+  <div class="flex flex-column align-items-center gap-3">
+    <span>¿Ya tienes una cuenta?</span>
+    <span class="text-primary" (click)="authService.setLoginDialog(true)">Inicia sesión</span>
+  </div>
+</form>

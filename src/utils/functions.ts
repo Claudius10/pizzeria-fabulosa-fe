@@ -23,15 +23,13 @@ export function getDeliveryHours(): string[] {
   return hourIntervals;
 }
 
-export function isStepValid(form: FormGroup) {
+export function isFormValid(form: FormGroup) {
   const valid = form.valid;
 
   if (!valid) {
     Object.keys(form.controls).forEach(controlName => {
       const control = form.get(`${controlName}`);
       if (!control!.valid) {
-        console.log(controlName);
-        console.log(control?.errors);
         control!.markAsTouched();
       } else {
         control!.markAsUntouched();

@@ -9,7 +9,7 @@ export const userCredentialsGuardGuard: CanMatchFn = (route, segments) => {
   console.log("user auth guard: is user user authed ?", isAuthenticated());
 
   if (!isAuthenticated()) {
-    return router.parseUrl("/access-denied");
+    return router.parseUrl("/forbidden");
   }
 
   if (segments.length === 1 && segments[0].path === "user") {

@@ -111,12 +111,12 @@ export const routes: Routes = [
     ]
   },
   {
-    path: "new-user",
+    path: "registration",
     component: RegisterComponent,
     title: "Create your account"
   },
   {
-    path: "access-denied",
+    path: "forbidden",
     component: ForbiddenComponent,
     title: "403 Access forbidden",
   },

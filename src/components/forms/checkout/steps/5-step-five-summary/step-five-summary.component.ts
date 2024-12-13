@@ -15,7 +15,8 @@ import {CartService} from '../../../../../services/cart/cart.service';
 import {OrderService} from '../../../../../services/http/order/order.service';
 import {AnonOrderMutation} from '../../../../../interfaces/mutation';
 import {AnonOrderDTO} from '../../../../../interfaces/dto/order';
-import {isStepValid} from '../../../../../utils/functions';
+import {isFormValid} from '../../../../../utils/functions';
+
 
 @Component({
   selector: 'app-step-five-summary',
@@ -75,7 +76,7 @@ export class StepFiveSummaryComponent {
   }
 
   onSubmit(): void {
-    if (isStepValid(this.form)) {
+    if (isFormValid(this.form)) {
       this.createOrder();
     }
   }

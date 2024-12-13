@@ -7,7 +7,7 @@ import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {Router} from '@angular/router';
-import {isStepValid} from '../../../../../utils/functions';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -58,8 +58,7 @@ export class StepOneWhoComponent implements OnInit {
   }
 
   nextStep() {
-    if (isStepValid(this.form)) {
-
+    if (isFormValid(this.form)) {
       this.checkoutFormService.who.set({
         name: this.form.get("fullName")!.value,
         contactNumber: Number(this.form.get("contactNumber")!.value),

@@ -15,11 +15,11 @@ import {
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../../regex';
 import {Router} from '@angular/router';
-import {isStepValid} from '../../../../../utils/functions';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf} from '@angular/common';
 import {CartService} from '../../../../../services/cart/cart.service';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-four-how',
@@ -121,7 +121,7 @@ export class StepFourHowComponent implements OnInit {
   }
 
   nextStep() {
-    if (isStepValid(this.form)) {
+    if (isFormValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['order', 'new', 'step-five']);
     }

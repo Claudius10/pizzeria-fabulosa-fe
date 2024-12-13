@@ -1,0 +1,42 @@
+:host ::ng-deep .p-button {
+  width: 10rem;
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid #f87171;
+}
+
+.invalid-text {
+  color: #f87171;
+}
+
+.form {
+  min-height: 35rem;
+  width: 60%;
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 578px) {
+  .form {
+    width: 90%;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+}
