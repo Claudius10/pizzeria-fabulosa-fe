@@ -1,15 +1,16 @@
-@if (addressList.status() === SUCCESS && addressList.data()!.length === 0) {
-  <p>No tiene ningún domicilio </p>
-} @else {
-  @for (address of addressList.data(); track address.id) {
-    <app-user-address-item [address]="address"/>
+<div>
+
+  @if (addressList.data()!.length === 0) {
+    <p>No tiene ningún domicilio </p>
+  } @else {
+    @for (address of addressList.data(); track address.id) {
+      <app-user-address-item [address]="address"/>
+    }
   }
-}
 
-<button (click)="toggleAddressForm()">Añadir</button>
+  <button (click)="toggleAddressForm()">Añadir</button>
 
-@if (showAddressForm()) {
-  <app-user-address-form/>
-}
-
-
+  @if (showAddressForm()) {
+    <app-user-address-form/>
+  }
+</div>

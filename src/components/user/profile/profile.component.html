@@ -1,9 +1,15 @@
-<div>
-  <p>Nombre completo:</p><span>{{ userName() }}</span>
-  <p>Correo electrónico:</p><span>{{ userEmail() }}</span>
-  <button (click)="toggleAddressList()">Show address List</button>
+<p-card>
+  <div class="flex flex-column gap-5">
+    <div class="flex flex-column gap-3">
+      <span>Profile name: {{ userName() }}</span>
+      <span>Correo electrónico: {{ userEmail() }}</span>
+    </div>
+    <div>
+      <p-button (click)="toggleAddressList()" label="Address list" icon="pi pi-chevron-down" iconPos="right"/>
 
-  @if (showAddressList()) {
-    <app-user-address-list/>
-  }
-</div>
+      @if (showAddressList()) {
+        <app-user-address-list/>
+      }
+    </div>
+  </div>
+</p-card>

@@ -1,5 +1,10 @@
-<div>
-  <button routerLink="profile">Perfil</button>
-  <button [routerLink]="['orders']">Pedidos</button>
-  <button routerLink="settings">Configuración</button>
-</div>
+<p-menubar [model]="menu">
+  <ng-template pTemplate="item" let-item>
+    <ng-container>
+      <a routerLinkActive="color" [routerLink]="item.route" class="p-menuitem-link">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label }}</span>
+      </a>
+    </ng-container>
+  </ng-template>
+</p-menubar>

@@ -25,6 +25,7 @@ export class UserAddressListComponent {
     queryKey: USER_ADDRESS_LIST,
     userId: this.authService.getUserId()
   });
+
   showAddressForm = signal(false);
 
   public toggleAddressForm() {
