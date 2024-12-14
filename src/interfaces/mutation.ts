@@ -3,7 +3,7 @@ import {AddressFormData, AnonOrderFormData, NewUserOrderFormData, UpdateUserOrde
 import {DeleteAccountForm, LoginForm, RegisterForm} from './http/account';
 import {BaseUserMutationOptions} from './base';
 import {CreateMutateFunction} from '@tanstack/angular-query-experimental';
-import {AnonOrderDTO} from './dto/order';
+import {ResponseDTO} from './http/api';
 
 // ---------- BASE MUTATION ----------
 
@@ -16,7 +16,7 @@ export interface BaseMutationResult {
 // ---------- ANON MUTATION ----------
 
 export interface AnonOrderMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<AnonOrderDTO, Error, AnonOrderFormData>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, AnonOrderFormData>;
   // <Response, Error, Request>
 }
 
@@ -31,25 +31,25 @@ export interface LogoutMutation extends BaseMutationResult {
 }
 
 export interface RegisterMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, RegisterForm>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, RegisterForm>;
 }
 
 export interface DeleteMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<Object, Error, DeleteAccountForm>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, DeleteAccountForm>;
 }
 
 // ---------- ORDER MUTATION ----------
 
 export interface UserOrderMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, NewUserOrderFormData>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, NewUserOrderFormData>;
 }
 
 export interface UserOrderUpdateMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, UpdateUserOrderFormData>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, UpdateUserOrderFormData>;
 }
 
 export interface UserOrderDeleteMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, UserOrderDeleteMutationOptions>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, UserOrderDeleteMutationOptions>;
 }
 
 export interface UserOrderDeleteMutationOptions extends BaseUserMutationOptions {
@@ -59,7 +59,7 @@ export interface UserOrderDeleteMutationOptions extends BaseUserMutationOptions 
 // ---------- ADDRESS MUTATION ----------
 
 export interface UserAddressMutation extends BaseMutationResult {
-  mutate: CreateMutateFunction<string, Error, UserAddressMutationOptions>;
+  mutate: CreateMutateFunction<ResponseDTO, Error, UserAddressMutationOptions>;
 }
 
 export interface UserAddressMutationOptions extends BaseUserMutationOptions {

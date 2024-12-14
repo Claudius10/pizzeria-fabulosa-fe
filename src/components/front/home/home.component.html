@@ -16,7 +16,7 @@
       <p>Error {{ offers.error()?.message }}</p>
     } @else {
       <div class="flex flex-wrap justify-content-center gap-5">
-        @for (offer of offers.data(); track offer.id) {
+        @for (offer of offers.data()!.payload; track offer.id) {
           <app-offer-item [offer]="offer"/>
         }
       </div>
@@ -32,7 +32,7 @@
       <p>Error {{ stores.error()?.message }}</p>
     } @else {
       <div class="flex flex-wrap justify-content-center gap-5">
-        @for (store of stores.data(); track store.id) {
+        @for (store of stores.data()!.payload; track store.id) {
           <app-store-item [store]="store"/>
         }
       </div>

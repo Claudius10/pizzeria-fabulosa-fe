@@ -8,7 +8,6 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
 import {esCharsAndNumbersAndBasicSymbolsRgx, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
@@ -18,6 +17,7 @@ import {NewUserOrderFormData, UpdateUserOrderFormData} from '../../../../interfa
 import {USER_ADDRESS_LIST} from '../../../../utils/query-keys';
 import {UserService} from '../../../../services/http/user/user.service';
 import {MenuItem} from 'primeng/api';
+import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-user-checkout-form',
@@ -26,8 +26,7 @@ import {MenuItem} from 'primeng/api';
   },
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    CartComponent
+    ReactiveFormsModule
   ],
   templateUrl: './user-checkout-form.component.html',
   styleUrl: './user-checkout-form.component.css',
@@ -121,7 +120,7 @@ export class UserCheckoutFormComponent {
     if (this.orderToUpdateId() === null) {
       // create new order
       this.createUserOrder.mutate(data, {
-        onSuccess: (response: string) => {
+        onSuccess: (response: ResponseDTO) => {
           console.log(response);
           console.log("success");
           this.cartService.clear();
@@ -152,7 +151,7 @@ export class UserCheckoutFormComponent {
       };
 
       this.updateUserOrder.mutate(updateData, {
-        onSuccess: (response: string) => {
+        onSuccess: (response: ResponseDTO) => {
           console.log(response);
           console.log("success");
           this.cartService.clear();

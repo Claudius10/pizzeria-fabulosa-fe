@@ -1,9 +1,9 @@
 <div>
 
-  @if (addressList.data()!.length === 0) {
+  @if (addressList.data()!.errorClass === "UserAddressListEmpty") {
     <p>No tiene ningún domicilio </p>
   } @else {
-    @for (address of addressList.data(); track address.id) {
+    @for (address of addressList.data()!.payload; track address.id) {
       <app-user-address-item [address]="address"/>
     }
   }

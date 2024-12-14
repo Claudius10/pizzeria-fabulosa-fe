@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {NgForOf} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
+import {StoreDTO} from '../../../../../interfaces/dto/resources';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -130,8 +131,9 @@ export class StepTwoWhereComponent implements OnInit {
     if (this.checkoutFormService.selectedStore() !== null) {
 
       // set store id on 'where' if customer selected store pickup
-      const selectedStoreId = this.stores.data()!.findIndex(store => store.id === this.checkoutFormService.selectedStore());
-      const selectedStore = this.stores.data()![selectedStoreId];
+      const payload = this.stores.data()!.payload as StoreDTO[];
+      const selectedStoreId = payload.findIndex(store => store.id === this.checkoutFormService.selectedStore());
+      const selectedStore = payload[selectedStoreId];
 
       this.checkoutFormService.where.set({
         id: selectedStore.id,

@@ -13,6 +13,7 @@ import {
 } from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
+import {ResponseDTO} from '../../../interfaces/http/api';
 
 @Injectable({
   providedIn: 'root'
@@ -99,9 +100,9 @@ export class OrderService {
   public updateUserOrder(): UserOrderUpdateMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: UpdateUserOrderFormData) => lastValueFrom(this.orderHttpService.updateUserOrder(data)),
-      onSuccess: (orderId: string) => {
+      onSuccess: (response: ResponseDTO) => {
         // mark user order as stale
-        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(orderId)});
+        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(response.payload)});
         // mark user order summary list as stale
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }
@@ -118,7 +119,7 @@ export class OrderService {
   public deleteUserOrder(): UserOrderDeleteMutation {
     const mutation = injectMutation(() => ({
       mutationFn: (data: UserOrderDeleteMutationOptions) => lastValueFrom(this.orderHttpService.deleteUserOrder(data)),
-      onSuccess: (orderId: string) => {
+      onSuccess: () => {
         // mark user order summary list as stale
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }

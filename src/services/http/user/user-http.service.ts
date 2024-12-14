@@ -1,7 +1,8 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {AddressDTO} from '../../../interfaces/dto/order';
 import {UserAddressMutationOptions} from '../../../interfaces/mutation';
+import {ResponseDTO} from '../../../interfaces/http/api';
+import {BASE, PATH, USER_ADDRESS, USER_BASE, V1} from '../../../utils/apiRoutes';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,14 @@ export class UserHttpService {
   private httpClient = inject(HttpClient);
 
   public findUserAddressList(userId: string) {
-    return this.httpClient.get<AddressDTO[]>(`http://192.168.1.128:8080/api/user/${userId}/address`, {withCredentials: true});
+    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + userId + USER_ADDRESS}`, {
+      withCredentials: true
+    });
   }
 
   public createUserAddress(options: UserAddressMutationOptions) {
-    return this.httpClient.post(`http://192.168.1.128:8080/api/user/${options.userId}/address`, options.data, {
-      withCredentials: true,
-      responseType: "text"
+    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + options.userId + USER_ADDRESS}`, options.data, {
+      withCredentials: true
     });
   }
 }

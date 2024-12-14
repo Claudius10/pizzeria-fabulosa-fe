@@ -93,7 +93,7 @@
           } @else if (stores.status() === "error") {
             <span>Error loading stores {{ stores.error()?.message }}</span>
           } @else {
-            @for (store of stores.data(); track store.id) {
+            @for (store of stores.data()!.payload; track store.id) {
               <app-store-checkout
                 (onStoreSelect)="setSelectedStoreId($event)"
                 [selected]="this.checkoutFormService.selectedStore()"

@@ -4,7 +4,7 @@
   } @else if (query.status() === "error") {
     <p>Error {{ query.error()?.message }}</p>
   } @else {
-    @for (product of query.data(); track product.id) {
+    @for (product of query.data()!.payload; track product.id) {
       <app-product [product]="product"/>
     }
   }

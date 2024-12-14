@@ -1,6 +1,6 @@
 @if (order.status() === SUCCESS) {
   <div>
-    @if (order.data(); as order) {
+    @if (order.data()!.payload; as order) {
       <div>
         <p>Order id: {{ order.id }}</p>
         <p>Fecha creación: {{ order.createdOn }}</p>

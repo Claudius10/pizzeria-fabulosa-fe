@@ -53,10 +53,10 @@ export class OrderComponent {
   userContactNumber = this.authService.getUserContactNumber();
 
   beginUpdate() {
-    const isUpdateAllowed = isOrderMutationAllowed(this.order.data()!.createdOn, 10);
+    const isUpdateAllowed = isOrderMutationAllowed(this.order.data()!.payload.createdOn, 10);
     if (isUpdateAllowed) {
-      const cart = this.order.data()!.cart;
-      this.orderService.setId(this.order.data()!.id.toString());
+      const cart = this.order.data()!.payload.cart;
+      this.orderService.setId(this.order.data()!.payload.id.toString());
       this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
     } else {
       this.messageService.add({
@@ -73,7 +73,7 @@ export class OrderComponent {
   }
 
   beginDelete(event: Event) {
-    const isDeleteAllowed = isOrderMutationAllowed(this.order.data()!.createdOn, 10);
+    const isDeleteAllowed = isOrderMutationAllowed(this.order.data()!.payload.createdOn, 10);
     if (isDeleteAllowed) {
       this.confirmationService.confirm({
         target: event.target as EventTarget,
@@ -85,7 +85,7 @@ export class OrderComponent {
         rejectButtonStyleClass: "p-button-text",
         accept: () => {
           // if user accepts, send delete
-          this.delete.mutate({userId: this.authService.getUserId(), orderId: this.order.data()!.id}, {
+          this.delete.mutate({userId: this.authService.getUserId(), orderId: this.order.data()!.payload.id}, {
             onSuccess: (orderId) => {
               // trigger toast
               this.messageService.add({

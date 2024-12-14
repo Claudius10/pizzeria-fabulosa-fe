@@ -26,10 +26,11 @@ export class AddressDetailsComponent implements OnInit {
   selectedStore: StoreDTO | null = null;
 
   ngOnInit(): void {
-    const selectedStoreIndex = this.stores.data()!.findIndex(store => store.id === this.address().id);
+    const payload = this.stores.data()!.payload as StoreDTO[];
+    const selectedStoreIndex = payload.findIndex(store => store.id === this.address().id);
 
     if (selectedStoreIndex !== -1) {
-      this.selectedStore = this.stores.data()![selectedStoreIndex];
+      this.selectedStore = payload[selectedStoreIndex];
     }
   }
 }

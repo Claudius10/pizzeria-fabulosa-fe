@@ -3,6 +3,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {OrderSummaryComponent} from '../item/order-summary.component';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
 import {OrderService} from '../../../../services/http/order/order.service';
+import {OrderSummaryListDTO} from '../../../../interfaces/dto/order';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -19,7 +20,8 @@ export class OrderSummaryListComponent {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   currentElements = 0;
-  orderSummaryList = this.orderService.findOrderSummaryList(this.authService.getUserId());
+  orderSummaryListQueryResult = this.orderService.findOrderSummaryList(this.authService.getUserId());
+  orderSummaryList = this.orderSummaryListQueryResult.data()?.payload as OrderSummaryListDTO;
 
   onPageChange(event: PaginatorState) {
     const page = event.page === undefined ? 1 : event.page + 1;

@@ -14,8 +14,8 @@ import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../../regex';
 import {CartService} from '../../../../../services/cart/cart.service';
 import {OrderService} from '../../../../../services/http/order/order.service';
 import {AnonOrderMutation} from '../../../../../interfaces/mutation';
-import {AnonOrderDTO} from '../../../../../interfaces/dto/order';
 import {isFormValid} from '../../../../../utils/functions';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 
 @Component({
@@ -46,8 +46,9 @@ export class StepFiveSummaryComponent {
     if (this.checkoutFormService.isStepFilled(4) && this.checkoutFormService.where()!.id !== null) {
 
       const stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-      const selectedStoreIndex = stores.data()!.findIndex(store => store.id === this.checkoutFormService.where()!.id);
-      this.selectedStore = stores.data()![selectedStoreIndex];
+      const payload = stores.data()!.payload as StoreDTO[];
+      const selectedStoreIndex = payload.findIndex(store => store.id === this.checkoutFormService.where()!.id);
+      this.selectedStore = payload[selectedStoreIndex];
 
     } else {
       this.selectedStore = null;
@@ -109,11 +110,11 @@ export class StepFiveSummaryComponent {
         totalQuantity: Number(this.cartService.cartQuantity().toFixed(2)),
       }
     }, {
-      onSuccess: (response: AnonOrderDTO) => {
+      onSuccess: (response: ResponseDTO) => {
         this.cartService.clear();
         this.checkoutFormService.clear();
-        this.cartService.set(response.cart.cartItems, response.cart.totalQuantity, response.cart.totalCost);
-        this.checkoutFormService.anonOrderSuccess.set(response);
+        this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost);
+        this.checkoutFormService.anonOrderSuccess.set(response.payload);
         this.router.navigate(['order', 'success']);
       },
       onError: (error, variables, context) => {
