@@ -1,9 +1,18 @@
 export interface ResponseDTO {
   timeStamp: string;
-  statusCode: number;
-  statusDescription: string;
-  errorClass: string | null;
-  errorMessage: string | null;
-  errorOrigin: string | null;
+  status: StatusDTO;
+  error: ErrorDTO;
   payload: any | null;
+}
+
+interface StatusDTO {
+  description: string;
+  code: number;
+}
+
+interface ErrorDTO {
+  cause: string;
+  message: string;
+  origin: string;
+  logged: boolean;
 }

@@ -1,6 +1,6 @@
 <div>
 
-  @if (addressList.data()!.errorClass === "UserAddressListEmpty") {
+  @if (addressList.data()!.error.cause === "UserAddressListEmpty") {
     <p>No tiene ningún domicilio </p>
   } @else {
     @for (address of addressList.data()!.payload; track address.id) {
