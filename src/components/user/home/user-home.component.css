@@ -4,3 +4,9 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+@media (max-width: 578px) {
+  .page {
+    width: 90vw;
+  }
+}

@@ -1,26 +1,68 @@
-<div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="street">Dirección*</label>
-      <input id="street" type="text" formControlName="street">
-
-      <label for="streetNumber">Número*</label>
-      <input id="streetNumber" type="number" formControlName="number">
-
-      <p>Interior</p>
-
-      <label for="gate">Portal</label>
-      <input id="gate" type="text" formControlName="gate">
-
-      <label for="staircase">Escalera</label>
-      <input id="staircase" type="text" formControlName="staircase">
-
-      <label for="floor">Piso</label>
-      <input id="floor" type="text" formControlName="floor">
-
-      <label for="door">Puerta</label>
-      <input id="door" type="text" formControlName="door">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="flex flex-column gap-3">
+    <div class="flex flex-column gap-2 h-4rem">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-directions"/>
+        <input
+          class="w-full"
+          pInputText
+          id="street"
+          type="text"
+          placeholder="Home address"
+          formControlName="street">
+      </p-iconField>
+      @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+        <small id="street-help" class="invalid-text">
+          Home address is required.
+        </small>
+      }
     </div>
-    <button type="submit">REALIZAR PEDIDO</button>
-  </form>
-</div>
+
+    <div class="flex flex-column gap-2 h-4rem">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-home"/>
+        <input
+          class="w-full"
+          pInputText
+          id="streetNumber"
+          type="tel"
+          placeholder="Address number"
+          formControlName="number">
+      </p-iconField>
+      @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+        <small id="number-help" class="invalid-text">
+          Home address number is required.
+        </small>
+      }
+    </div>
+
+    <div class="flex flex-column gap-2 h-4rem">
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-info-circle"/>
+        <input
+          class="w-full"
+          pInputText
+          id="details"
+          type="text"
+          placeholder="Details"
+          formControlName="details">
+      </p-iconField>
+      @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+        <small id="details-help" class="invalid-text">
+          Invalid details input.
+        </small>
+      }
+    </div>
+  </div>
+
+  <div class="buttons">
+    <p-button
+      severity="danger"
+      type="button"
+      (click)="cancel()"
+      label="CANCELAR"/>
+    <p-button
+      type="submit"
+      label="CONTINUAR"/>
+  </div>
+</form>

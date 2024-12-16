@@ -1,0 +1,34 @@
+:host ::ng-deep .p-input-icon {
+  color: var(--primary-color);
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid #f87171;
+}
+
+.invalid-border {
+  border: 1px solid #f87171;
+}
+
+.invalid-text {
+  color: #f87171;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (max-width: 578px) {
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+
+  .buttons {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+    width: 100%;
+  }
+}
+

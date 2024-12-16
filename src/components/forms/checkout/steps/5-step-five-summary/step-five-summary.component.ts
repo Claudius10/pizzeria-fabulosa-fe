@@ -16,7 +16,7 @@ import {MutationResult} from '../../../../../interfaces/mutation';
 import {isFormValid} from '../../../../../utils/functions';
 import {QueryResult} from '../../../../../interfaces/query';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
-
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -33,12 +33,13 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent {
-  private resourceService = inject(ResourceService);
   protected checkoutFormService = inject(CheckoutFormService);
+  private loadingAnimationService = inject(LoadingAnimationService);
+  private resourceService = inject(ResourceService);
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
-  private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private router = inject(Router);
+  private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   selectedStore: StoreDTO | null;
 
   constructor() {
@@ -83,6 +84,7 @@ export class StepFiveSummaryComponent {
   }
 
   createOrder() {
+    this.loadingAnimationService.startLoading();
     this.createAnonOrder.mutate({
       payload: {
         customer: {
@@ -121,6 +123,9 @@ export class StepFiveSummaryComponent {
       },
       onError: (error, variables, context) => {
         console.log(error);
+      },
+      onSettled: () => {
+        this.loadingAnimationService.stopLoading();
       }
     });
   }

@@ -22,6 +22,10 @@ export interface UserOrderDeleteMutationOptions extends BaseUserMutationOptions 
   orderId: string | undefined;
 }
 
+export interface UserAddressDeleteMutationOptions extends BaseUserMutationOptions {
+  addressId: string | undefined;
+}
+
 export interface UserAddressMutationOptions extends BaseUserMutationOptions {
   data: AddressFormData;
 }

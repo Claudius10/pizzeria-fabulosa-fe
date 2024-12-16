@@ -12,7 +12,7 @@ import {ToastModule} from 'primeng/toast';
 import {SidebarModule} from 'primeng/sidebar';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {ProgressBarModule} from 'primeng/progressbar';
-import {NavigationService} from '../../../../services/navigation/navigation.service';
+import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {BadgeModule} from 'primeng/badge';
 
@@ -43,10 +43,10 @@ import {BadgeModule} from 'primeng/badge';
 })
 export class NavigationBarComponent {
   private authService = inject(AuthService);
-  private navigationService = inject(NavigationService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private cartService = inject(CartService);
   cartQuantity = this.cartService.cartQuantity;
-  isLoading: Signal<boolean> = this.navigationService.getIsLoading();
+  isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();

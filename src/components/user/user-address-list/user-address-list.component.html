@@ -1,16 +1,32 @@
-<div>
+<div class="flex flex-column gap-4">
 
-  @if (addressList.data()!.error.cause === "UserAddressListEmpty") {
-    <p>No tiene ningún domicilio </p>
+  <div class="flex align-items-center justify-content-between">
+    <span>Your home address list</span>
+    <p-button type="button" size="small" icon="pi pi-plus" label="Add" iconPos="right" [raised]="true"
+              (click)="toggleAddressForm()"/>
+  </div>
+
+  @if (addressList.status() === "pending") {
+    <span>Loading</span>
+
+  } @else if (addressList.status() === "error") {
+    <span>Error: {{ addressList.error()!.message }}</span>
+
   } @else {
-    @for (address of addressList.data()!.payload; track address.id) {
-      <app-user-address-item [address]="address"/>
+
+    @if (addressList.data()!.payload === null) {
+      <div class="flex flex-column gap-4">
+        <span>No tiene ningún domicilio </span>
+      </div>
+    } @else {
+
+      @for (address of addressList.data()!.payload; track address.id) {
+        <app-user-address-item [address]="address"/>
+      }
     }
   }
 
-  <button (click)="toggleAddressForm()">Añadir</button>
-
   @if (showAddressForm()) {
-    <app-user-address-form/>
+    <app-user-address-form (hideForm)="hideFormOnCancel()"/>
   }
 </div>

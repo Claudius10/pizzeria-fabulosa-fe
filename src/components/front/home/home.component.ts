@@ -7,7 +7,7 @@ import {OfferItemComponent} from '../offer/offer-item.component';
 import {StoreItemComponent} from '../store/store-item.component';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {merge} from 'rxjs';
-import {NavigationService} from '../../../services/navigation/navigation.service';
+import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {QueryResult} from '../../../interfaces/query';
 
 @Component({
@@ -28,7 +28,7 @@ import {QueryResult} from '../../../interfaces/query';
 })
 export class HomeComponent implements OnInit {
   private resourceService = inject(ResourceService);
-  private navigationService = inject(NavigationService);
+  private navigationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   offers: QueryResult = this.resourceService.findOffers({queryKey: RESOURCE_OFFERS});
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -41,19 +41,19 @@ export class HomeComponent implements OnInit {
       next: status => {
         console.log(status);
         if (status === "pending") {
-          this.navigationService.setIsLoading(true);
+          this.navigationService.startLoading();
         }
 
         if (status === "success" && this.offers.status() === "success" && this.stores.status() === "success") {
-          this.navigationService.setIsLoading(false);
+          this.navigationService.stopLoading();
         }
 
         if (status === "error") {
-          this.navigationService.setIsLoading(false);
+          this.navigationService.stopLoading();
         }
       },
       complete: () => {
-        this.navigationService.setIsLoading(false);
+        this.navigationService.stopLoading();
       }
     });
 

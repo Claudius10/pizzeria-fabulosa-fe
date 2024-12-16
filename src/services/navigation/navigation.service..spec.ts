@@ -1,13 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
-import {NavigationService} from './navigation.service';
+import {LoadingAnimationService} from './loading-animation.service';
 
-describe('NavigationService', () => {
-  let service: NavigationService;
+describe('LoadingAnimationService', () => {
+  let service: LoadingAnimationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(NavigationService);
+    service = TestBed.inject(LoadingAnimationService);
   });
 
   it('should be created', () => {

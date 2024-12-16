@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {ProductItemComponent} from '../product-item/product-item.component';
-import {NavigationService} from '../../../../services/navigation/navigation.service';
+import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {RESOURCE_PRODUCT_PIZZA} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
@@ -20,7 +20,7 @@ import {QueryResult} from '../../../../interfaces/query';
 })
 export class PizzaListComponent implements OnInit {
   private resourceService = inject(ResourceService);
-  private navigationService = inject(NavigationService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
@@ -29,9 +29,9 @@ export class PizzaListComponent implements OnInit {
     const subscription = this.statusObservable.subscribe({
       next: result => {
         if (result === "pending") {
-          this.navigationService.setIsLoading(true);
+          this.loadingAnimationService.startLoading();
         } else {
-          this.navigationService.setIsLoading(false);
+          this.loadingAnimationService.stopLoading();
         }
       }
     });
