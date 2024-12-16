@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {OrderDTO} from '../../../interfaces/dto/order';
+import {OrderDTO, OrderSummaryListDTO} from '../../../interfaces/dto/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';

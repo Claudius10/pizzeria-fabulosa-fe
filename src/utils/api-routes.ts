@@ -52,7 +52,7 @@ export const USER_PASSWORD = "/password";
 
 // ORDER
 
-export const ORDER_BASE = "/order/";
+export const ORDER_BASE = "/order";
 
 export const ORDER_SUMMARY = "/summary";
 export const ORDER_SUMMARY_PAGE_NUMBER = "pageNumber";

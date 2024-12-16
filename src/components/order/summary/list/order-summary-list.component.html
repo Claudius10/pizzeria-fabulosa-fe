@@ -1,23 +1,23 @@
-@if (orderSummaryListQueryResult.status() === "pending") {
+@if (orderList.status() === "pending") {
   <div>Loading...</div>
-} @else if (orderSummaryListQueryResult.status() === 'error') {
+} @else if (orderList.status() === 'error') {
   <div>
-    Error: {{ orderSummaryListQueryResult.error()?.message }}
+    Error: {{ orderList.error()?.message }}
   </div>
 } @else {
-  @for (orderSummary of orderSummaryList.orderList; track orderSummary.id) {
+  @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
     <app-order-summary [orderSummary]="orderSummary"/>
   }
-  <p>Total pages: {{ orderSummaryList.totalPages }}</p>
-  <p>Page Size: {{ orderSummaryList.pageSize }}</p>
-  <p>Page Elements: {{ orderSummaryList.totalElements }}</p>
+  <p>Total pages: {{ orderList.data()!.payload.totalPages }}</p>
+  <p>Page Size: {{ orderList.data()!.payload.pageSize }}</p>
+  <p>Page Elements: {{ orderList.data()!.payload.totalElements }}</p>
 
 
   <p-paginator
     (onPageChange)="onPageChange($event)"
     [first]="currentElements"
     [rows]="5"
-    [totalRecords]="this.orderSummaryList.totalElements"
+    [totalRecords]="orderList.data()!.payload.totalElements"
     [showCurrentPageReport]="true"
     [showPageLinks]="false"
     [showJumpToPageDropdown]="false"

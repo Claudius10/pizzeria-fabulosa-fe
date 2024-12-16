@@ -26,18 +26,18 @@ export class OrderHttpService {
   }
 
   public findUserOrder(options: UserOrderQueryOptions) {
-    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + options.userId + ORDER_BASE + options.orderId}`,
+    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + options.userId + ORDER_BASE}${options.orderId}`,
       {withCredentials: true});
 
   }
 
   public updateUserOrder(data: UpdateUserOrderFormData) {
-    return this.httpClient.put<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + data.userId + ORDER_BASE + data.orderId}`, data.order,
+    return this.httpClient.put<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + data.userId + ORDER_BASE}${data.orderId}`, data.order,
       {withCredentials: true});
   }
 
   public deleteUserOrder(data: UserOrderDeleteMutationOptions) {
-    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + data.userId + ORDER_BASE + data.orderId}`,
+    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + data.userId + ORDER_BASE}${data.orderId}`,
       {withCredentials: true});
   }
 }
