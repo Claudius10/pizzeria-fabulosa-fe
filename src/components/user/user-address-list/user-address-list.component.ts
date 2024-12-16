@@ -5,6 +5,7 @@ import {UserService} from '../../../services/http/user/user.service';
 import {Button} from 'primeng/button';
 import {UserAddressFormComponent} from '../../forms/user/address-form/user-address-form.component';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-user-address-list',
@@ -12,7 +13,8 @@ import {UserAddressItemComponent} from '../user-address-item/user-address-item.c
   imports: [
     Button,
     UserAddressFormComponent,
-    UserAddressItemComponent
+    UserAddressItemComponent,
+    CardModule
   ],
   templateUrl: './user-address-list.component.html',
   styleUrl: './user-address-list.component.css',
