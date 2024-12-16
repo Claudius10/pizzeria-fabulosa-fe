@@ -1,10 +1,9 @@
 import {inject, Injectable} from '@angular/core';
-import {BaseUserQueryOptions} from '../../../interfaces/base';
 import {injectMutation, injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {UserAddressListQueryResult} from '../../../interfaces/query';
-import {UserAddressMutation, UserAddressMutationOptions} from '../../../interfaces/mutation';
 import {UserHttpService} from './user-http.service';
+import {BaseUserQueryOptions, QueryResult} from '../../../interfaces/query';
+import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +11,7 @@ import {UserHttpService} from './user-http.service';
 export class UserService {
   private userHttpService = inject(UserHttpService);
 
-  public findUserAddressList(options: BaseUserQueryOptions): UserAddressListQueryResult {
+  public findUserAddressList(options: BaseUserQueryOptions): QueryResult {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,
       queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.userId!))
@@ -25,9 +24,9 @@ export class UserService {
     };
   }
 
-  public createUserAddress(): UserAddressMutation {
+  public createUserAddress(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (options: UserAddressMutationOptions) => lastValueFrom(this.userHttpService.createUserAddress(options)),
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.createUserAddress(request.payload)),
     }));
 
     return {

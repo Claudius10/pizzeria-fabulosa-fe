@@ -1,10 +1,10 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/http/order';
-import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
 import {ResponseDTO} from '../../../interfaces/http/api';
-import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, PATH, USER_BASE, V1} from '../../../utils/apiRoutes';
+import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, PATH, USER_BASE, V1} from '../../../utils/api-routes';
 import {UserOrderQueryOptions} from '../../../interfaces/query';
+import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
 
 @Injectable({
   providedIn: 'root'

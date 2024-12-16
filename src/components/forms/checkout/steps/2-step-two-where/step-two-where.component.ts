@@ -8,13 +8,13 @@ import {StoreCheckoutComponent} from '../../store/store-checkout.component';
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
 import {ResourceService} from '../../../../../services/http/resources/resource.service';
-import {StoresQueryResult} from '../../../../../interfaces/query';
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {NgForOf} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
+import {QueryResult} from '../../../../../interfaces/query';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -37,7 +37,7 @@ export class StepTwoWhereComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private resourceService = inject(ResourceService);
   private router = inject(Router);
-  stores: StoresQueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   options: Option[] = [{code: "0", description: "Home delivery"}, {code: "1", description: "Store pickup"}];
   selectedOption: Option = this.options[0];
   validStoreSelection = true;

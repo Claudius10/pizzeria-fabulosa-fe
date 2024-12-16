@@ -9,7 +9,7 @@ import {
   RESOURCE_PRODUCT,
   RESOURCE_STORE,
   V1
-} from '../../../utils/apiRoutes';
+} from '../../../utils/api-routes';
 
 @Injectable({
   providedIn: 'root'

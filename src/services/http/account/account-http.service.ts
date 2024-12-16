@@ -12,7 +12,7 @@ import {
   PATH,
   USER_BASE,
   V1
-} from '../../../utils/apiRoutes';
+} from '../../../utils/api-routes';
 
 @Injectable({
   providedIn: 'root'
@@ -21,13 +21,13 @@ export class AccountHttpService {
   private httpClient = inject(HttpClient);
 
   public login(data: LoginForm) {
-    return this.httpClient.post(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=${data.email}&password=${data.password}`,
+    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=${data.email}&password=${data.password}`,
       {responseType: "text"}, // -> without this, cookies won't be set
       {withCredentials: true});
   }
 
   public logout() {
-    return this.httpClient.post(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
+    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
       {responseType: "text"}, // -> without this, cookies won't be set
       {withCredentials: true});
   }

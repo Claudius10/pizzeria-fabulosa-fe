@@ -8,7 +8,7 @@ import {emailRgx, passwordRegex} from '../../../../regex';
 import {LoginForm} from '../../../../interfaces/http/account';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {LoginMutation} from '../../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
 
@@ -31,7 +31,7 @@ export class LoginDialogComponent implements OnDestroy {
   private translateService = inject(TranslateService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
-  private login: LoginMutation = this.accountService.login();
+  private login: MutationResult = this.accountService.login();
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.getIsLoginDialogVisible();
 
@@ -69,7 +69,10 @@ export class LoginDialogComponent implements OnDestroy {
     const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful" : "Error al iniciar la session";
     const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
 
-    this.login.mutate(data, {
+    const request: MutationRequest = {
+      payload: data
+    };
+    this.login.mutate(request, {
       onSuccess: () => {
         this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
         this.closeDialog();

@@ -4,6 +4,7 @@ import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../re
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserService} from '../../../../services/http/user/user.service';
 import {AddressFormData} from '../../../../interfaces/http/order';
+import {MutationResult} from '../../../../interfaces/mutation';
 
 @Component({
   selector: 'app-user-address-form',
@@ -18,7 +19,7 @@ import {AddressFormData} from '../../../../interfaces/http/order';
 export class UserAddressFormComponent {
   private authService = inject(AuthService);
   private userService = inject(UserService);
-  private createAddress = this.userService.createUserAddress();
+  private createAddress: MutationResult = this.userService.createUserAddress();
 
   form = new FormGroup({
     id: new FormControl<null>(null),
@@ -60,10 +61,15 @@ export class UserAddressFormComponent {
       details: ""
     };
 
-    this.createAddress.mutate({userId: this.authService.getUserId(), data: data}, {
-      onSuccess: () => {
+    this.createAddress.mutate({
+      payload: {
+        userId: this.authService.getUserId(),
+        data: data
+      }
+    }, {
+      onSuccess: (response) => {
       },
-      onError: () => {
+      onError: (error) => {
       }
     });
   }

@@ -12,6 +12,7 @@ import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
+import {QueryResult} from '../../../interfaces/query';
 
 @Component({
   selector: 'app-order',
@@ -41,7 +42,7 @@ export class OrderComponent {
   private confirmationService = inject(ConfirmationService);
   private router = inject(Router);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
-  order = this.orderService.findUserOrder({
+  order: QueryResult = this.orderService.findUserOrder({
     orderId: this.orderId,
     userId: this.authService.getUserId(),
     queryKey: userOrderQueryKey(this.orderId)
@@ -85,7 +86,12 @@ export class OrderComponent {
         rejectButtonStyleClass: "p-button-text",
         accept: () => {
           // if user accepts, send delete
-          this.delete.mutate({userId: this.authService.getUserId(), orderId: this.order.data()!.payload.id}, {
+          this.delete.mutate({
+            payload: {
+              userId: this.authService.getUserId(),
+              orderId: this.order.data()!.payload.id
+            }
+          }, {
             onSuccess: (orderId) => {
               // trigger toast
               this.messageService.add({

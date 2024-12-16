@@ -119,7 +119,7 @@ export class UserCheckoutFormComponent {
 
     if (this.orderToUpdateId() === null) {
       // create new order
-      this.createUserOrder.mutate(data, {
+      this.createUserOrder.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
           console.log(response);
           console.log("success");
@@ -150,7 +150,7 @@ export class UserCheckoutFormComponent {
         }
       };
 
-      this.updateUserOrder.mutate(updateData, {
+      this.updateUserOrder.mutate({payload: updateData}, {
         onSuccess: (response: ResponseDTO) => {
           console.log(response);
           console.log("success");

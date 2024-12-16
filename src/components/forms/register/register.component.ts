@@ -17,6 +17,8 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../services/auth/auth.service';
+import {ResponseDTO} from '../../../interfaces/http/api';
+import {MutationResult} from '../../../interfaces/mutation';
 
 @Component({
   selector: 'app-register',
@@ -37,7 +39,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 })
 export class RegisterComponent {
   private accountService = inject(AccountService);
-  private register = this.accountService.create();
+  private register: MutationResult = this.accountService.create();
   protected authService = inject(AuthService);
 
   form = new FormGroup({
@@ -82,8 +84,8 @@ export class RegisterComponent {
         matchingPassword: this.form.get("matchingPassword")!.value
       };
 
-      this.register.mutate(data, {
-        onSuccess: (response) => {
+      this.register.mutate({payload: data}, {
+        onSuccess: (response: ResponseDTO) => {
           console.log(response);
         }
       });

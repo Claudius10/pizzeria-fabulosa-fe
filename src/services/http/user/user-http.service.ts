@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {UserAddressMutationOptions} from '../../../interfaces/mutation';
 import {ResponseDTO} from '../../../interfaces/http/api';
-import {BASE, PATH, USER_ADDRESS, USER_BASE, V1} from '../../../utils/apiRoutes';
+import {BASE, PATH, USER_ADDRESS, USER_BASE, V1} from '../../../utils/api-routes';
 
 @Injectable({
   providedIn: 'root'

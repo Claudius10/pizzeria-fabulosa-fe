@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {LogoutMutation} from '../../../../interfaces/mutation';
+import {MutationResult} from '../../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {Router} from '@angular/router';
@@ -24,7 +24,7 @@ export class LogoutDialogComponent {
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private translateService = inject(TranslateService);
-  private logoutUser: LogoutMutation = this.accountService.logout();
+  private logoutUser: MutationResult = this.accountService.logout();
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.getIsLogoutDialogVisible();
 
@@ -32,7 +32,7 @@ export class LogoutDialogComponent {
     this.logout();
   }
 
-  rejectLogout() {
+  hideLogoutDialog() {
     this.authService.setLogoutDialog(false);
     this.visible = false;
   }
@@ -43,10 +43,10 @@ export class LogoutDialogComponent {
     const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-out unsuccessful" : "Error al cerrar la session";
     const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
 
-    this.logoutUser.mutate(undefined, {
+    this.logoutUser.mutate({payload: null}, {
       onSuccess: () => {
         this.authService.logout();
-        this.rejectLogout();
+        this.hideLogoutDialog();
         this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
         this.router.navigate(["/"]);
       },

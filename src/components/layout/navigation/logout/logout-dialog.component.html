@@ -4,7 +4,7 @@
   [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
   [(visible)]="visible"
   [modal]="true"
-  (onHide)="rejectLogout()"
+  (onHide)="hideLogoutDialog();"
   [dismissableMask]="true"
   [position]="'topright'">
   <ng-template pTemplate="headless">
@@ -23,7 +23,7 @@
         <button
           pButton
           label="No"
-          (click)="rejectLogout()"
+          (click)="hideLogoutDialog();"
           class="p-button-outlined w-8rem ">
         </button>
       </div>

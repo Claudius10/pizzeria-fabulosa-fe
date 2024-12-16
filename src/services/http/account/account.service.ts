@@ -1,8 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {injectMutation} from '@tanstack/angular-query-experimental';
-import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/http/account';
 import {lastValueFrom} from 'rxjs';
-import {DeleteMutation, LoginMutation, LogoutMutation, RegisterMutation} from '../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {AuthService} from '../../auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
 import {AccountHttpService} from './account-http.service';
@@ -15,9 +14,10 @@ export class AccountService {
   private authService = inject(AuthService);
   private cookieService = inject(CookieService);
 
-  public login(): LoginMutation {
+  public login(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: LoginForm) => lastValueFrom(this.accountHttpService.login(data)), onSuccess: () => {
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload)),
+      onSuccess: () => {
         this.authService.setUserCredentials(this.cookieService.get("idToken"));
       }
     }));
@@ -30,9 +30,9 @@ export class AccountService {
     };
   }
 
-  public logout(): LogoutMutation {
+  public logout(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: () => lastValueFrom(this.accountHttpService.logout())
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.logout())
     }));
 
     return {
@@ -43,9 +43,9 @@ export class AccountService {
     };
   }
 
-  public create(): RegisterMutation {
+  public create(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: RegisterForm) => lastValueFrom(this.accountHttpService.create(data))
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.create(request.payload))
     }));
 
     return {
@@ -56,9 +56,9 @@ export class AccountService {
     };
   }
 
-  public delete(): DeleteMutation {
+  public delete(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: DeleteAccountForm) => lastValueFrom(this.accountHttpService.delete(data))
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
     }));
 
     return {

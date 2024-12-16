@@ -1,37 +1,20 @@
 import {Signal} from '@angular/core';
-import {BaseQueryResult, BaseUserQueryOptions} from './base';
 import {ResponseDTO} from './http/api';
 
-// ---------- USER QUERY ----------
-
-export interface UserOrderQueryResult extends BaseQueryResult {
+export interface QueryResult {
+  status: Signal<"error" | "success" | "pending">;
+  error: Signal<Error | null>;
   data: Signal<ResponseDTO | undefined>;
 }
 
-export interface OrderSummaryListQueryResult extends BaseQueryResult {
-  data: Signal<ResponseDTO | undefined>;
+export interface BaseQueryOptions {
+  queryKey: string[];
+}
+
+export interface BaseUserQueryOptions extends BaseQueryOptions {
+  userId: string | undefined;
 }
 
 export interface UserOrderQueryOptions extends BaseUserQueryOptions {
   orderId: string;
-}
-
-// ---------- ADDRESS QUERY ----------
-
-export interface UserAddressListQueryResult extends BaseQueryResult {
-  data: Signal<ResponseDTO | undefined>;
-}
-
-// ---------- RESOURCES QUERY ----------
-
-export interface ProductsQueryResult extends BaseQueryResult {
-  data: Signal<ResponseDTO | undefined>;
-}
-
-export interface OffersQueryResult extends BaseQueryResult {
-  data: Signal<ResponseDTO | undefined>;
-}
-
-export interface StoresQueryResult extends BaseQueryResult {
-  data: Signal<ResponseDTO | undefined>;
 }

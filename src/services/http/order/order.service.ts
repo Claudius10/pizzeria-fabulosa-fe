@@ -1,19 +1,12 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {OrderDTO} from '../../../interfaces/dto/order';
-import {AnonOrderFormData, NewUserOrderFormData, UpdateUserOrderFormData} from '../../../interfaces/http/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../utils/query-keys';
-import {OrderSummaryListQueryResult, UserOrderQueryOptions, UserOrderQueryResult} from '../../../interfaces/query';
-import {
-  AnonOrderMutation,
-  UserOrderDeleteMutation,
-  UserOrderDeleteMutationOptions,
-  UserOrderMutation,
-  UserOrderUpdateMutation
-} from '../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
 import {ResponseDTO} from '../../../interfaces/http/api';
+import {QueryResult, UserOrderQueryOptions} from '../../../interfaces/query';
 
 @Injectable({
   providedIn: 'root'
@@ -40,9 +33,9 @@ export class OrderService {
     return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
   }
 
-  public createUserOrder(): UserOrderMutation {
+  public createUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: NewUserOrderFormData) => lastValueFrom(this.orderHttpService.createUserOrder(data)),
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createUserOrder(request.payload)),
       onSuccess: () => {
         // mark order summary list as stale to be re-fetched on next mount
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
@@ -57,9 +50,9 @@ export class OrderService {
     };
   }
 
-  public createAnonOrder(): AnonOrderMutation {
+  public createAnonOrder(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: AnonOrderFormData) => lastValueFrom(this.orderHttpService.createAnonOrder(data))
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createAnonOrder(request.payload))
     }));
 
     return {
@@ -70,7 +63,7 @@ export class OrderService {
     };
   }
 
-  public findOrderSummaryList(userId: string): OrderSummaryListQueryResult {
+  public findOrderSummaryList(userId: string): QueryResult {
     const query = injectQuery(() => ({
       queryKey: ["user", "order", "summary", this.pageNumber() - 1],
       queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 5)),
@@ -83,7 +76,7 @@ export class OrderService {
     };
   }
 
-  public findUserOrder(options: UserOrderQueryOptions): UserOrderQueryResult {
+  public findUserOrder(options: UserOrderQueryOptions): QueryResult {
     const query = injectQuery(() => ({
       // enabled: options.userId !== undefined,
       queryKey: options.queryKey,
@@ -97,9 +90,9 @@ export class OrderService {
     };
   }
 
-  public updateUserOrder(): UserOrderUpdateMutation {
+  public updateUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: UpdateUserOrderFormData) => lastValueFrom(this.orderHttpService.updateUserOrder(data)),
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.updateUserOrder(request.payload)),
       onSuccess: (response: ResponseDTO) => {
         // mark user order as stale
         this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(response.payload)});
@@ -116,9 +109,9 @@ export class OrderService {
     };
   }
 
-  public deleteUserOrder(): UserOrderDeleteMutation {
+  public deleteUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (data: UserOrderDeleteMutationOptions) => lastValueFrom(this.orderHttpService.deleteUserOrder(data)),
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.deleteUserOrder(request.payload)),
       onSuccess: () => {
         // mark user order summary list as stale
         this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});

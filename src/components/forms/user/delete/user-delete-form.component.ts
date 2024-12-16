@@ -6,6 +6,8 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {DeleteAccountForm} from '../../../../interfaces/http/account';
 import {PaginatorModule} from 'primeng/paginator';
 import {Router} from '@angular/router';
+import {MutationResult} from '../../../../interfaces/mutation';
+import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -22,7 +24,7 @@ export class UserDeleteFormComponent {
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private router = inject(Router);
-  private delete = this.accountService.delete();
+  private delete: MutationResult = this.accountService.delete();
 
   form = new FormGroup({
     password: new FormControl<string>("", {
@@ -44,8 +46,8 @@ export class UserDeleteFormComponent {
       password: this.form.get("password")!.value
     };
 
-    this.delete.mutate(data, {
-      onSuccess: () => {
+    this.delete.mutate({payload: data}, {
+      onSuccess: (response: ResponseDTO) => {
         // notification
         this.authService.logout();
         this.router.navigate(["/"]).catch(reason => {
