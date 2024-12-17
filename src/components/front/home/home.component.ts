@@ -28,7 +28,7 @@ import {StoreItemComponent} from '../store/store-item.component';
 })
 export class HomeComponent implements OnInit {
   private resourceService = inject(ResourceService);
-  private navigationService = inject(LoadingAnimationService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   offers: QueryResult = this.resourceService.findOffers({queryKey: RESOURCE_OFFERS});
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -39,26 +39,26 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.status.pipe().subscribe({
       next: status => {
-        console.log(status);
         if (status === "pending") {
-          this.navigationService.startLoading();
+          this.loadingAnimationService.startLoading();
         }
 
         if (status === "success" && this.offers.status() === "success" && this.stores.status() === "success") {
-          this.navigationService.stopLoading();
+          this.loadingAnimationService.stopLoading();
         }
 
         if (status === "error") {
-          this.navigationService.stopLoading();
+          this.loadingAnimationService.stopLoading();
         }
       },
       complete: () => {
-        this.navigationService.stopLoading();
+        this.loadingAnimationService.stopLoading();
       }
     });
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
+      this.loadingAnimationService.stopLoading();
     });
   }
 }

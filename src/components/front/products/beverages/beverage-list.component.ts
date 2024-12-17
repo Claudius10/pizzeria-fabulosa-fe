@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {RESOURCE_PRODUCT_BEVERAGES} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -18,9 +18,9 @@ import {QueryResult} from '../../../../interfaces/query';
   templateUrl: './beverage-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BeverageListComponent implements OnInit {
+export class BeverageListComponent implements OnInit, OnDestroy {
   private resourceService = inject(ResourceService);
-  private navigationService = inject(LoadingAnimationService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
@@ -29,9 +29,9 @@ export class BeverageListComponent implements OnInit {
     const subscription = this.statusObservable.subscribe({
       next: result => {
         if (result === "pending") {
-          this.navigationService.startLoading();
+          this.loadingAnimationService.startLoading();
         } else {
-          this.navigationService.stopLoading();
+          this.loadingAnimationService.stopLoading();
         }
       }
     });
@@ -39,5 +39,9 @@ export class BeverageListComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
   }
 }

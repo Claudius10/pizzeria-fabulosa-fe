@@ -10,11 +10,9 @@
   <!-- OFFERS  -->
   <div class="flex flex-column align-items-center gap-5">
     <span class="text-center uppercase font-bold cart-header">Descubre nuestras ofertas</span>
-    @if (offers.status() === "pending") {
-      <p>Loading...</p>
-    } @else if (offers.status() === "error") {
+    @if (offers.status() === "error") {
       <p>Error {{ offers.error()?.message }}</p>
-    } @else {
+    } @else if (offers.status() === "success") {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (offer of offers.data()!.payload; track offer.id) {
           <app-offer-item [offer]="offer"/>
@@ -26,11 +24,9 @@
   <!-- STORES -->
   <div class="flex flex-column align-items-center gap-5">
     <span class="text-center uppercase font-bold cart-header">Acercate a la tienda</span>
-    @if (stores.status() === "pending") {
-      <p>Loading...</p>
-    } @else if (stores.status() === "error") {
+    @if (stores.status() === "error") {
       <p>Error {{ stores.error()?.message }}</p>
-    } @else {
+    } @else if (stores.status() === "success") {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (store of stores.data()!.payload; track store.id) {
           <app-store-item [store]="store"/>

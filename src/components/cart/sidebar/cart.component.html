@@ -3,8 +3,6 @@
     @if (quantity() === 0) {
       <span>Nothing here yet</span>
     } @else {
-
-
       @for (item of items(); track item.id) {
         <app-cart-item [readOnly]="false" [item]="item"/>
       }
@@ -18,6 +16,9 @@
       [totalAfterOffers]="totalAfterOffers()"
     />
 
-    <p-button type="button" label="EMPEZAR PEDIDO" [raised]="true" (click)="newOrderOnLick()"/>
+    @if (this.cartService.cartQuantity() !== 0) {
+      <p-button type="button" label="EMPEZAR PEDIDO" [raised]="true" (click)="newOrderOnLick()"/>
+    }
+
   </div>
 </div>

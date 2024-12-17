@@ -1,9 +1,7 @@
 <div class="flex justify-content-center flex-wrap row-gap-6 column-gap-6 lg:w-9">
-  @if (query.status() === "pending") {
-    <p>Loading</p>
-  } @else if (query.status() === "error") {
+  @if (query.status() === "error") {
     <p>Error {{ query.error()?.message }}</p>
-  } @else {
+  } @else if (query.status() === "success") {
     @for (product of query.data()!.payload; track product.id) {
       <app-product [product]="product"/>
     }

@@ -19,7 +19,7 @@ import {Button} from 'primeng/button';
 })
 export class CartComponent {
   onNewOrderClick = output<boolean>();
-  private cartService: CartService = inject(CartService);
+  protected cartService: CartService = inject(CartService);
   private router = inject(Router);
   private activeRoute = inject(ActivatedRoute);
   items = this.cartService.cartItems;
