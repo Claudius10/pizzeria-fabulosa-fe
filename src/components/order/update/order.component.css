@@ -1,0 +1,13 @@
+.cart {
+  height: 100%;
+}
+
+@media (max-width: 992px) {
+  .cart {
+    display: none;
+  }
+
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+}

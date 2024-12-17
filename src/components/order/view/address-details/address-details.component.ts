@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input} from '@angular/core';
 import {StoreDTO} from '../../../../interfaces/dto/resources';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
@@ -6,6 +6,7 @@ import {CardModule} from 'primeng/card';
 import {StoreCheckoutComponent} from '../../../forms/checkout/steps/2-step-two-where/store/store-checkout.component';
 import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
 import {QueryResult} from '../../../../interfaces/query';
+import {SUCCESS} from '../../../../utils/constants';
 
 @Component({
   selector: 'app-address-details',
@@ -18,19 +19,23 @@ import {QueryResult} from '../../../../interfaces/query';
   styleUrl: './address-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressDetailsComponent implements OnInit {
+export class AddressDetailsComponent {
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private resourceService = inject(ResourceService);
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   selectedStore: StoreDTO | null = null;
 
-  ngOnInit(): void {
-    const payload = this.stores.data()!.payload as StoreDTO[];
-    const selectedStoreIndex = payload.findIndex(store => store.id === this.address().id);
+  constructor() {
+    effect(() => {
+      if (this.stores.status() === SUCCESS) {
+        const payload = this.stores.data()!.payload as StoreDTO[];
+        const selectedStoreIndex = payload.findIndex(store => store.id === this.address().id);
 
-    if (selectedStoreIndex !== -1) {
-      this.selectedStore = payload[selectedStoreIndex];
-    }
+        if (selectedStoreIndex !== -1) {
+          this.selectedStore = payload[selectedStoreIndex];
+        }
+      }
+    });
   }
 }

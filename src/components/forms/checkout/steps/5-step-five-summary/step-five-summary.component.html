@@ -15,8 +15,8 @@
           <span class="text-2xl text-primary">Customer details</span>
           <div class="flex flex-column gap-3">
             @if (this.isAuthenticated()) {
-              <span>Nombre completo: {{ userName() }}</span>
-              <span>Correo electrónico: {{ userEmail() }}</span>
+              <span>Nombre completo: {{ userName }}</span>
+              <span>Correo electrónico: {{ userEmail }}</span>
             } @else {
               <span>Nombre completo: {{ checkoutFormService.who()!.name }}</span>
               <span>Correo electrónico: {{ checkoutFormService.who()!.email }}</span>

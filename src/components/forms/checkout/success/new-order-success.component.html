@@ -14,7 +14,6 @@
       class="text-2xl text-center">Date of creation {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
 
     <div class="flex gap-5">
-
       <div class="flex flex-column gap-5">
         <app-customer-details [customer]="checkoutFormService.orderSuccess()!.customer"/>
         <app-address-details
@@ -29,7 +28,6 @@
       <div class="cart">
         <app-cart-checkout/>
       </div>
-
     </div>
     <div class="flex flex-column align-items-center gap-3">
       @if (isAuthenticated()) {

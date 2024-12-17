@@ -1,74 +1,78 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
 import {OrderService} from '../../../services/http/order/order.service';
-import {UserAddressItemComponent} from '../../user/user-address-item/user-address-item.component';
-import {UserDetailsComponent} from '../../user/user-details/user-details.component';
-import {OrderDetailsComponent} from '../../user/order-summary-details/order-details.component';
 import {userOrderQueryKey} from '../../../utils/query-keys';
-import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
+import {PENDING, SUCCESS} from '../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../interfaces/query';
+import {AddressDetailsComponent} from '../view/address-details/address-details.component';
+import {CustomerDetailsComponent} from '../view/customer-details/customer-details.component';
+import {OrderDetailsComponent} from '../view/order-details/order-details.component';
+import {CartDTO, CustomerDTO} from '../../../interfaces/dto/order';
+import {CheckoutCartComponent} from '../../forms/checkout/cart/checkout-cart.component';
+import {CardModule} from 'primeng/card';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-order',
   standalone: true,
   imports: [
     ToastModule,
-    UserAddressItemComponent,
-    UserDetailsComponent,
     OrderDetailsComponent,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    AddressDetailsComponent,
+    CustomerDetailsComponent,
+    OrderDetailsComponent,
+    CheckoutCartComponent,
+    CardModule,
+    RouterLink
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderComponent {
+export class OrderComponent implements OnInit {
   protected readonly PENDING = PENDING;
-  protected readonly ERROR = ERROR;
   protected readonly SUCCESS = SUCCESS;
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
   private confirmationService = inject(ConfirmationService);
-  private router = inject(Router);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
     orderId: this.orderId,
     userId: this.authService.getUserId(),
     queryKey: userOrderQueryKey(this.orderId)
   });
+  orderStatus = toObservable(this.order.status);
   delete = this.orderService.deleteUserOrder();
   orderToUpdateId = this.orderService.getId();
-  userName = this.authService.getUserName();
-  userEmail = this.authService.getUserEmail();
-  userContactNumber = this.authService.getUserContactNumber();
+  customer: CustomerDTO = {
+    name: this.authService.getUserName()!,
+    email: this.authService.getUserEmail()!,
+    contactNumber: Number(this.authService.getUserContactNumber()!)
+  };
 
-  beginUpdate() {
-    const isUpdateAllowed = isOrderMutationAllowed(this.order.data()!.payload.createdOn, 10);
-    if (isUpdateAllowed) {
-      const cart = this.order.data()!.payload.cart;
-      this.orderService.setId(this.order.data()!.payload.id.toString());
-      this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
-    } else {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Política de actualización',
-        detail: 'EL pedido no se puede modificar transcurrido 10 minutos'
-      });
-    }
-  }
+  ngOnInit(): void {
+    const subscription = this.orderStatus.subscribe(status => {
+      if (status === SUCCESS) {
+        const cart = this.order.data()!.payload.cart as CartDTO;
+        this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+      }
+    });
 
-  cancelUpdate() {
-    this.orderService.setId(null);
-    this.cartService.clear();
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   beginDelete(event: Event) {

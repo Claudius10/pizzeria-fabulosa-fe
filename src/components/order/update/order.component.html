@@ -1,30 +1,53 @@
 @if (order.status() === SUCCESS) {
-  <div>
-    @if (order.data()!.payload; as order) {
-      <div>
-        <p>Order id: {{ order.id }}</p>
-        <p>Fecha creación: {{ order.createdOn }}</p>
-        <app-user-details data-test-key="userDetails" [name]="userName()!" [email]="userEmail()!"
-                          [contactNumber]="userContactNumber()!"/>
-        <app-user-address-item [address]="order.address"/>
-        <app-order-details [orderDetails]="order.orderDetails"/>
+  @if (order.data()!.payload; as order) {
+    <div class="flex flex-column gap-3 h-full">
+      <div class="flex gap-3">
+        <div class="flex flex-column gap-5 w-full">
+
+          <p-card [style]="{ width: '100%' }">
+            <div class="flex flex-column align-items-center gap-3" routerLink="/user/orders">
+              <div class="flex align-items-center gap-2">
+                <span class="text-xl text-primary">{{ order.id }}</span>
+                <i class="pi pi-arrow-up-right-and-arrow-down-left-from-center" style="color: var(--primary-color)"></i>
+              </div>
+              <span>Created on: {{ order.formattedCreatedOn }}</span>
+              @if (order.formattedUpdatedOn) {
+                <span>Created on: {{ order.formattedUpdateddOn }}</span>
+              }
+            </div>
+          </p-card>
+
+          <div class="flex flex-column gap-5">
+            <app-customer-details [customer]="customer"/>
+            <app-address-details
+              [address]="order.address"
+              [orderDetails]="order.orderDetails"
+
+            />
+            <app-order-details
+              [orderDetails]="order.orderDetails"/>
+          </div>
+        </div>
+
+        <div class="cart">
+          <app-cart-checkout/>
+        </div>
       </div>
-    }
-  </div>
 
-  @if (orderToUpdateId() === null) {
-    <button data-test-key="updateButton" (click)="beginUpdate()" type="button">Actualizar pedido</button>
-    <button data-test-key="deleteButton" (click)="beginDelete($event)" type="button">Cancelar pedido</button>
+      <div class="flex align-items-center gap-3">
+        <p-button
+          severity="danger"
+          type="button"
+          (click)="beginDelete($event)"
+          label="CANCEL ORDER"/>
+        <span class="text-center"><span class="text-primary">Important note:</span> the order may only be cancelled within the first 10 minutes of creation.</span>
+      </div>
+    </div>
   }
-
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
   <p-confirmDialog/>
-}
-
-@if (order.status() === PENDING) {
-  <div>Cargando...</div>
-}
-
-@if (order.status() === ERROR) {
+} @else if (order.status() === PENDING) {
+  <div>Loading...</div>
+} @else {
   <div>Error..</div>
 }

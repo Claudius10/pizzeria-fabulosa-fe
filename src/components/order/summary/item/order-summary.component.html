@@ -1,9 +1,23 @@
-<div routerLink="{{orderSummary().id}}">
-  <p>Pedido: {{ orderSummary().id }}</p>
-  <p>Fecha creación: {{ orderSummary().formattedCreatedOn }}</p>
-  <p>Fecha actualización: {{ orderSummary().formattedUpdatedOn }}</p>
-  <p>Método de pago: {{ orderSummary().orderDetails.paymentMethod }}</p>
-  <p>Artículos: {{ orderSummary().cart.totalQuantity }}</p>
-  <p>Total: {{ orderSummary().cart.totalCost }}</p>
-  <p>Total con ofertas: {{ orderSummary().cart.totalCostOffers }}</p>
-</div>
+<p-card>
+  <div class="flex flex-column align-items-center gap-3" routerLink="{{orderSummary().id}}">
+    <div class="flex align-items-center gap-2">
+      <span class="text-xl text-primary">{{ orderSummary().id }}</span>
+      <i class="pi pi-arrow-down-left-and-arrow-up-right-to-center" style="color: var(--primary-color)"></i>
+    </div>
+
+    <div class="flex flex-column gap-3">
+      <span>Created on {{ orderSummary().formattedCreatedOn }}</span>
+      @if (orderSummary().formattedUpdatedOn) {
+        <span>Updated on: {{ orderSummary().formattedCreatedOn }}</span>
+      }
+    </div>
+
+    <div class="flex gap-3">
+
+      @if (orderSummary().cart.totalCostOffers) {
+        <span>Total with offers: {{ orderSummary().cart.totalCostOffers }}€</span>
+      }
+      <span>Total: {{ orderSummary().cart.totalCost }}€</span>
+    </div>
+  </div>
+</p-card>

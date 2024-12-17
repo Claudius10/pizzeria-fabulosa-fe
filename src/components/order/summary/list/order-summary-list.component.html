@@ -1,25 +1,30 @@
-@if (orderList.status() === "pending") {
-  <div>Loading...</div>
-} @else if (orderList.status() === 'error') {
-  <div>
-    Error: {{ orderList.error()?.message }}
-  </div>
-} @else {
-  @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
-    <app-order-summary [orderSummary]="orderSummary"/>
-  }
-  <p>Total pages: {{ orderList.data()!.payload.totalPages }}</p>
-  <p>Page Size: {{ orderList.data()!.payload.pageSize }}</p>
-  <p>Page Elements: {{ orderList.data()!.payload.totalElements }}</p>
+<div class="flex flex-column align-items-center">
+  @if (orderList.status() === "pending") {
+    <div>Loading...</div>
+  } @else if (orderList.status() === 'error') {
+    <div>
+      Error: {{ orderList.error()?.message }}
+    </div>
+  } @else {
 
+    <div class="list w-full">
+      @if (orderList.data()!.payload.totalElements !== 0) {
+        @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
+          <app-order-summary [orderSummary]="orderSummary"/>
+        }
+      } @else {
+        <span class="text-center">Place your first order and it will appear here!</span>
+      }
+    </div>
+  }
 
   <p-paginator
     (onPageChange)="onPageChange($event)"
     [first]="currentElements"
     [rows]="5"
-    [totalRecords]="orderList.data()!.payload.totalElements"
+    [totalRecords]="orderList.status() === 'success' ? orderList.data()!.payload.totalElements : 0"
     [showCurrentPageReport]="true"
     [showPageLinks]="false"
     [showJumpToPageDropdown]="false"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}"/>
-}
+</div>
