@@ -138,7 +138,11 @@ export class StepFiveSummaryComponent {
 
       this.createUserOrder.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
-          console.log(response);
+          this.cartService.clear();
+          this.checkoutFormService.clear();
+          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost);
+          this.checkoutFormService.orderSuccess.set(response.payload);
+          this.router.navigate(['order', 'success']);
         },
         onError: (error) => {
           console.log(error);
@@ -182,7 +186,7 @@ export class StepFiveSummaryComponent {
           this.cartService.clear();
           this.checkoutFormService.clear();
           this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost);
-          this.checkoutFormService.anonOrderSuccess.set(response.payload);
+          this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },
         onError: (error, variables, context) => {
