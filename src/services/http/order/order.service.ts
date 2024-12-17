@@ -1,11 +1,10 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {OrderDTO} from '../../../interfaces/dto/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
-import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../utils/query-keys';
+import {USER_ORDER_SUMMARY_LIST} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
-import {ResponseDTO} from '../../../interfaces/http/api';
 import {QueryResult, UserOrderQueryOptions} from '../../../interfaces/query';
 
 @Injectable({
@@ -14,24 +13,11 @@ import {QueryResult, UserOrderQueryOptions} from '../../../interfaces/query';
 export class OrderService {
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
-  private id = signal<string | null>(null);
   private pageNumber = signal(1);
 
   public setPageNumber = (pageNumber: number): void => {
     this.pageNumber.set(pageNumber);
   };
-
-  public getId() {
-    return this.id.asReadonly();
-  }
-
-  public setId(id: string | null) {
-    this.id.set(id);
-  }
-
-  public getOrder(orderId: string | null) {
-    return orderId === null ? getEmptyOrder() : this.queryClient.getQueryData(userOrderQueryKey(orderId)) as OrderDTO;
-  }
 
   public createUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
@@ -87,25 +73,6 @@ export class OrderService {
       data: query.data,
       status: query.status,
       error: query.error
-    };
-  }
-
-  public updateUserOrder(): MutationResult {
-    const mutation = injectMutation(() => ({
-      mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.updateUserOrder(request.payload)),
-      onSuccess: (response: ResponseDTO) => {
-        // mark user order as stale
-        this.queryClient.invalidateQueries({queryKey: userOrderQueryKey(response.payload)});
-        // mark user order summary list as stale
-        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
-      }
-    }));
-
-    return {
-      mutate: mutation.mutate,
-      isSuccess: mutation.isSuccess,
-      isError: mutation.isError,
-      isPending: mutation.isPending
     };
   }
 

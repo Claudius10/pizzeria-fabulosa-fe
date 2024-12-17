@@ -18,10 +18,6 @@
       [totalAfterOffers]="totalAfterOffers()"
     />
 
-    @if (orderToUpdateId() === null) {
-      <p-button type="button" label="EMPEZAR PEDIDO" [raised]="true" (click)="newOrderOnLick()"/>
-    } @else {
-      <button>Volver a mi Pedido</button>
-    }
+    <p-button type="button" label="EMPEZAR PEDIDO" [raised]="true" (click)="newOrderOnLick()"/>
   </div>
 </div>

@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core'
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemComponent} from '../cart-item/cart-item.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {OrderService} from '../../../services/http/order/order.service';
 import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
 
@@ -21,10 +20,8 @@ import {Button} from 'primeng/button';
 export class CartComponent {
   onNewOrderClick = output<boolean>();
   private cartService: CartService = inject(CartService);
-  private orderService: OrderService = inject(OrderService);
   private router = inject(Router);
   private activeRoute = inject(ActivatedRoute);
-  orderToUpdateId = this.orderService.getId();
   items = this.cartService.cartItems;
   quantity = this.cartService.cartQuantity;
   total = this.cartService.cartTotal;

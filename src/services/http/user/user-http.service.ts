@@ -11,19 +11,19 @@ export class UserHttpService {
   private httpClient = inject(HttpClient);
 
   public findUserAddressList(userId: string) {
-    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + userId + USER_ADDRESS}`, {
+    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${userId + USER_ADDRESS}`, {
       withCredentials: true
     });
   }
 
   public createUserAddress(options: UserAddressMutationOptions) {
-    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + options.userId + USER_ADDRESS}`, options.data, {
+    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${options.userId + USER_ADDRESS}`, options.data, {
       withCredentials: true
     });
   }
 
   public deleteUserAddress(options: UserAddressDeleteMutationOptions) {
-    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + options.userId + USER_ADDRESS}/${options.addressId}`, {
+    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${options.userId + USER_ADDRESS}/${options.addressId}`, {
       withCredentials: true
     });
   }

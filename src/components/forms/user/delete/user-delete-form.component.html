@@ -1,8 +1,30 @@
-<div>
-  <p>Borra tu cuenta</p>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <label for="password">Contraseña*</label>
-    <input id="password" type="password" formControlName="password">
-    <button type="submit">Continuar</button>
-  </form>
-</div>
+<p-card>
+  <div class="flex flex-column gap-3">
+    <span>Delete account</span>
+
+    <form class="flex gap-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="flex flex-column gap-2 h-4rem">
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-key"/>
+          <input
+            class="w-full"
+            pInputText
+            id="fullName"
+            type="text"
+            placeholder="Password"
+            formControlName="password">
+        </p-iconField>
+        @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
+          <small id="fullName-help" class="invalid-text">
+            Password is required.
+          </small>
+        }
+      </div>
+
+      <p-button
+        type="submit"
+        severity="danger"
+        label="DELETE"/>
+    </form>
+  </div>
+</p-card>

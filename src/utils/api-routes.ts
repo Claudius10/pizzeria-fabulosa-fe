@@ -42,7 +42,7 @@ export const RESOURCE_OFFER = "/offer";
 
 // USER
 
-export const USER_BASE = "/user/";
+export const USER_BASE = "/user";
 
 export const USER_ADDRESS = "/address";
 export const USER_EMAIL = "/email";

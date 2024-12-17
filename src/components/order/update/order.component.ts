@@ -55,7 +55,6 @@ export class OrderComponent implements OnInit {
   });
   orderStatus = toObservable(this.order.status);
   delete = this.orderService.deleteUserOrder();
-  orderToUpdateId = this.orderService.getId();
   customer: CustomerDTO = {
     name: this.authService.getUserName()!,
     email: this.authService.getUserEmail()!,
