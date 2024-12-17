@@ -1,16 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CartService} from '../../../../services/cart/cart.service';
-import {CartItemComponent} from '../../../cart/cart-item/cart-item.component';
 import {TotalsComponent} from '../../../cart/totals/totals.component';
 import {CardModule} from 'primeng/card';
+import {CartItemComponent} from '../../../cart/cart-item/cart-item.component';
 
 @Component({
   selector: 'app-cart-checkout',
   standalone: true,
   imports: [
-    CartItemComponent,
     TotalsComponent,
-    CardModule
+    CardModule,
+    CartItemComponent
   ],
   templateUrl: './checkout-cart.component.html',
   styleUrl: './checkout-cart.component.css',

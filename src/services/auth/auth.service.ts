@@ -9,7 +9,7 @@ export class AuthService {
   private userEmail = signal<string | null>(null);
   private userName = signal<string | null>(null);
   private userContactNumber = signal<string | null>(null);
-  private isAuthenticated = signal(false);
+  public isAuthenticated = signal(false);
   private loginDialog = signal(false);
   private logoutDialog = signal(false);
 

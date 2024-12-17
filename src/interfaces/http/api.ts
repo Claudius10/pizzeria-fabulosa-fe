@@ -1,7 +1,7 @@
 export interface ResponseDTO {
   timeStamp: string;
   status: StatusDTO;
-  error: ErrorDTO;
+  error: ErrorDTO | null;
   payload: any | null;
 }
 
@@ -12,7 +12,7 @@ interface StatusDTO {
 
 interface ErrorDTO {
   cause: string;
-  message: string;
+  message: string | null;
   origin: string;
   logged: boolean;
 }

@@ -23,9 +23,9 @@ describe('AuthService', () => {
     const isAuthenticated = service.getIsAuthenticated();
 
     expect(service.getUserId()).toBe("1");
-    expect(userEmail()).toBe("john@email.com");
-    expect(userName()).toBe("John Doe");
-    expect(userContactNumber()).toBe("123123123");
+    expect(userEmail).toBe("john@email.com");
+    expect(userName).toBe("John Doe");
+    expect(userContactNumber).toBe("123123123");
     expect(isAuthenticated()).toBeTrue();
   });
 
@@ -38,9 +38,9 @@ describe('AuthService', () => {
     const isAuthenticated = service.getIsAuthenticated();
 
     expect(service.getUserId()).toBe("0");
-    expect(userEmail()).toBe("quijote@gmail.com");
-    expect(userName()).toBe("Cervantes");
-    expect(userContactNumber()).toBe("000 000 000");
+    expect(userEmail).toBe("quijote@gmail.com");
+    expect(userName).toBe("Cervantes");
+    expect(userContactNumber).toBe("000 000 000");
     expect(isAuthenticated()).toBeFalse();
   });
 });

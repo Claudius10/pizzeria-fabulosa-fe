@@ -15,7 +15,7 @@ import {InputIconModule} from 'primeng/inputicon';
 import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 
 @Component({
-  selector: 'app-anon-user-checkout-form',
+  selector: 'app-checkout-form',
   host: {
     class: 'upper-layout',
   },

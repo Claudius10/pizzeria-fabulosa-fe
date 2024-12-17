@@ -3,7 +3,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
 import {OrderService} from '../../../../services/http/order/order.service';
 import {QueryResult} from '../../../../interfaces/query';
-import {OrderSummaryComponent} from '../item/order-summary.component';
+import {OrderSummaryComponent} from '../list-item/order-summary.component';
 
 @Component({
   selector: 'app-order-summary-list',
