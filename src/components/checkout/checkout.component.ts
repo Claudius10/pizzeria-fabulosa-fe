@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
-import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
+import {CheckoutFormComponent} from '../forms/checkout/CheckoutForm/checkout-form.component';
 import {UserCheckoutFormComponent} from '../forms/checkout/UserCheckoutForm/user-checkout-form.component';
 
 @Component({
@@ -10,7 +10,7 @@ import {UserCheckoutFormComponent} from '../forms/checkout/UserCheckoutForm/user
   },
   standalone: true,
   imports: [
-    AnonUserCheckoutFormComponent,
+    CheckoutFormComponent,
     UserCheckoutFormComponent
   ],
   templateUrl: './checkout.component.html',

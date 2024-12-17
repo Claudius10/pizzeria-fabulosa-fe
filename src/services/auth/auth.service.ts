@@ -5,10 +5,10 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
   providedIn: 'root'
 })
 export class AuthService {
-  private userId = "0";
-  private userEmail = signal<string>("quijote@gmail.com");
-  private userName = signal<string>("Cervantes");
-  private userContactNumber = signal<string>("000 000 000");
+  private userId: string | null = null;
+  private userEmail = signal<string | null>(null);
+  private userName = signal<string | null>(null);
+  private userContactNumber = signal<string | null>(null);
   private isAuthenticated = signal(false);
   private loginDialog = signal(false);
   private logoutDialog = signal(false);

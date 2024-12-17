@@ -17,11 +17,6 @@
     <button data-test-key="deleteButton" (click)="beginDelete($event)" type="button">Cancelar pedido</button>
   }
 
-  @if (orderToUpdateId() !== null) {
-    <app-user-checkout-form data-test-key="userCheckOutForm"/>
-    <button data-test-key="cancelUpdateButton" (click)="cancelUpdate()" type="button">Cancelar actualización</button>
-  }
-
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
   <p-confirmDialog/>
 }

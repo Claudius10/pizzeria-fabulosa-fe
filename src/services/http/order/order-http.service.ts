@@ -20,7 +20,7 @@ export class OrderHttpService {
     return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + ANON_BASE + ANON_ORDER}`, data);
   }
 
-  public findOrderSummaryList(userId: string | undefined, pageNumber: number, pageSize: number) {
+  public findOrderSummaryList(userId: string | null, pageNumber: number, pageSize: number) {
     return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE + userId + ORDER_BASE + ORDER_SUMMARY}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       {withCredentials: true});
   }

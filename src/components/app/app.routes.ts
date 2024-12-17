@@ -11,7 +11,7 @@ import {OrderSummaryListComponent} from '../order/summary/list/order-summary-lis
 import {SettingsComponent} from '../user/settings/settings.component';
 import {OrderComponent} from '../order/update/order.component';
 import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
-import {AnonUserCheckoutFormComponent} from '../forms/checkout/AnonUserCheckoutForm/anon-user-checkout-form.component';
+import {CheckoutFormComponent} from '../forms/checkout/CheckoutForm/checkout-form.component';
 import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../forms/checkout/steps/2-step-two-where/step-two-where.component';
 import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/step-three-when.component';
@@ -68,7 +68,7 @@ export const routes: Routes = [
     children: [
       {
         path: "new",
-        component: AnonUserCheckoutFormComponent,
+        component: CheckoutFormComponent,
         title: "New Order",
         children: [
           {

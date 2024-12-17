@@ -42,7 +42,7 @@ export class UserDeleteFormComponent {
     }
 
     const data: DeleteAccountForm = {
-      userId: this.authService.getUserId(),
+      userId: this.authService.getUserId()!,
       password: this.form.get("password")!.value
     };
 

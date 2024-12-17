@@ -3,7 +3,7 @@ import {StoreDTO} from '../../../../interfaces/dto/resources';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {CardModule} from 'primeng/card';
-import {StoreCheckoutComponent} from '../../../forms/checkout/store/store-checkout.component';
+import {StoreCheckoutComponent} from '../../../forms/checkout/steps/2-step-two-where/store/store-checkout.component';
 import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
 import {QueryResult} from '../../../../interfaces/query';
 

@@ -5,10 +5,8 @@ import {AuthService} from "../../../services/auth/auth.service";
 export const userCredentialsGuardGuard: CanMatchFn = (route, segments) => {
   const router = inject(Router);
   const authService = inject(AuthService);
-  const isAuthenticated = authService.getIsAuthenticated();
-  console.log("user auth guard: is user user authed ?", isAuthenticated());
 
-  if (!isAuthenticated()) {
+  if (!authService.getIsAuthenticated()) {
     return router.parseUrl("/forbidden");
   }
 

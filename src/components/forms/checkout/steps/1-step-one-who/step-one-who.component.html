@@ -1,75 +1,100 @@
-<form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
-  <div class="flex flex-column gap-4">
-
-    <span>Please fill in the fields</span>
-
-    <div class="flex flex-column gap-3">
-
-      <div class="flex flex-column gap-2 h-4rem">
-        <p-iconField iconPosition="left">
-          <p-inputIcon styleClass="pi pi-user"/>
-          <input
-            class="w-full"
-            pInputText
-            id="fullName"
-            type="text"
-            placeholder="Name"
-            formControlName="fullName">
-        </p-iconField>
-        @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
-          <small id="fullName-help" class="invalid-text">
-            Customer name is required.
-          </small>
-        }
+@if (isAuthenticated()) {
+  <div class="form w-full">
+    <p-card>
+      <div class="flex flex-column gap-3">
+        <span>Name: {{ userName() }}</span>
+        <span>Correo electrónico: {{ userEmail() }}</span>
       </div>
+    </p-card>
 
-      <div class="flex flex-column gap-2 h-4rem">
-        <p-iconField iconPosition="left">
-          <p-inputIcon styleClass="pi pi-envelope"/>
-          <input
-            class="w-full"
-            pInputText
-            id="email"
-            type="email"
-            placeholder="Email"
-            formControlName="email">
-        </p-iconField>
-        @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
-          <small id="email-help" class="invalid-text">
-            Email address is required.
-          </small>
-        }
-      </div>
-
-      <div class="flex flex-column gap-2 h-4rem">
-        <p-iconField iconPosition="left">
-          <p-inputIcon styleClass="pi pi-phone"/>
-          <input class="w-full"
-                 pInputText
-                 id="contactNumber"
-                 type="tel"
-                 placeholder="Contact Number"
-                 formControlName="contactNumber">
-        </p-iconField>
-        @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
-          <small id="contactNumber-help" class="invalid-text">
-            Contact number is required.
-          </small>
-        }
-      </div>
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        severity="danger"
+        type="button"
+        (onClick)="cancel()"
+        label="CANCELAR"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step() === 4"
+        label="CONTINUAR"/>
     </div>
   </div>
-  <!-- STEP NAVIGATION BUTTONS -->
-  <div class="buttons">
-    <p-button
-      severity="danger"
-      type="button"
-      (onClick)="cancel()"
-      label="CANCELAR"/>
-    <p-button
-      type="button"
-      (onClick)="nextStep()"
-      [disabled]="checkoutFormService.step() === 4"
-      label="CONTINUAR"/>
-  </div>
-</form>
+} @else {
+  <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+    <div class="flex flex-column gap-4">
+
+      <span>Please fill in the fields</span>
+
+      <div class="flex flex-column gap-3">
+
+        <div class="flex flex-column gap-2 h-4rem">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-user"/>
+            <input
+              class="w-full"
+              pInputText
+              id="fullName"
+              type="text"
+              placeholder="Name"
+              formControlName="fullName">
+          </p-iconField>
+          @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
+            <small id="fullName-help" class="invalid-text">
+              Customer name is required.
+            </small>
+          }
+        </div>
+
+        <div class="flex flex-column gap-2 h-4rem">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-envelope"/>
+            <input
+              class="w-full"
+              pInputText
+              id="email"
+              type="email"
+              placeholder="Email"
+              formControlName="email">
+          </p-iconField>
+          @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
+            <small id="email-help" class="invalid-text">
+              Email address is required.
+            </small>
+          }
+        </div>
+
+        <div class="flex flex-column gap-2 h-4rem">
+          <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-phone"/>
+            <input class="w-full"
+                   pInputText
+                   id="contactNumber"
+                   type="tel"
+                   placeholder="Contact Number"
+                   formControlName="contactNumber">
+          </p-iconField>
+          @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
+            <small id="contactNumber-help" class="invalid-text">
+              Contact number is required.
+            </small>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        severity="danger"
+        type="button"
+        (onClick)="cancel()"
+        label="CANCELAR"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step() === 4"
+        label="CONTINUAR"/>
+    </div>
+  </form>
+}

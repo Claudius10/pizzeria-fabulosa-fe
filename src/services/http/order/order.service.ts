@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {OrderDTO, OrderSummaryListDTO} from '../../../interfaces/dto/order';
+import {OrderDTO} from '../../../interfaces/dto/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST, userOrderQueryKey} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
@@ -63,7 +63,7 @@ export class OrderService {
     };
   }
 
-  public findOrderSummaryList(userId: string): QueryResult {
+  public findOrderSummaryList(userId: string | null): QueryResult {
     const query = injectQuery(() => ({
       queryKey: ["user", "order", "summary", this.pageNumber() - 1],
       queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 5)),

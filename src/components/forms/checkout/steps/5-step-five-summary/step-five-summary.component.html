@@ -14,9 +14,14 @@
         <div class="flex flex-column gap-3">
           <span class="text-2xl text-primary">Customer details</span>
           <div class="flex flex-column gap-3">
-            <span>Nombre completo: {{ checkoutFormService.who()!.name }}</span>
-            <span>Correo electrónico: {{ checkoutFormService.who()!.email }}</span>
-            <span>Teléfono de contacto: {{ checkoutFormService.who()!.contactNumber }}</span>
+            @if (this.isAuthenticated()) {
+              <span>Nombre completo: {{ userName() }}</span>
+              <span>Correo electrónico: {{ userEmail() }}</span>
+            } @else {
+              <span>Nombre completo: {{ checkoutFormService.who()!.name }}</span>
+              <span>Correo electrónico: {{ checkoutFormService.who()!.email }}</span>
+              <span>Teléfono de contacto: {{ checkoutFormService.who()!.contactNumber }}</span>
+            }
           </div>
         </div>
       </p-card>
@@ -38,11 +43,21 @@
                 <app-store-checkout [valid]="true" [store]="selectedStore"/>
               </div>
             } @else {
-              <span>Dirección: {{ checkoutFormService.where()!.street }}</span>
-              <span>Número: {{ checkoutFormService.where()!.number }}</span>
 
-              @if (checkoutFormService.where()!.details) {
-                <span>Detalles: {{ checkoutFormService.where()!.details }}</span>
+              @if (this.isAuthenticated() && selectedAddress !== null) {
+                <span>Dirección: {{ selectedAddress.street }}</span>
+                <span>Número: {{ selectedAddress.number }}</span>
+
+                @if (selectedAddress.details) {
+                  <span>Detalles: {{ selectedAddress.details }}</span>
+                }
+              } @else {
+                <span>Dirección: {{ checkoutFormService.where()!.street }}</span>
+                <span>Número: {{ checkoutFormService.where()!.number }}</span>
+
+                @if (checkoutFormService.where()!.details) {
+                  <span>Detalles: {{ checkoutFormService.where()!.details }}</span>
+                }
               }
             }
           </div>

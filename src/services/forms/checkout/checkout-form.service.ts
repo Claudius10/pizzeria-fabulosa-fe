@@ -2,12 +2,17 @@ import {Injectable, signal} from '@angular/core';
 import {how, when, where, who} from '../../../interfaces/forms/steps';
 import {AnonOrderDTO} from '../../../interfaces/dto/order';
 
+export type AddressId = {
+  id: number | null;
+  isStore: boolean | null;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CheckoutFormService {
   step = signal(0);
-  selectedStore = signal<number | null>(null);
+  selectedId = signal<AddressId>({id: null, isStore: null});
   homeDelivery = signal(true);
   programmedDelivery = signal(false);
   cashPayment = signal(false); // true shows Do you need change? select
@@ -36,7 +41,7 @@ export class CheckoutFormService {
   clear() {
     this.step.set(0);
 
-    this.selectedStore.set(null);
+    this.selectedId.set({id: null, isStore: null});
     this.homeDelivery.set(true);
     this.programmedDelivery.set(false);
     this.cashPayment.set(false);

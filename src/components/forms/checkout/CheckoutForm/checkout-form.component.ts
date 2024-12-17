@@ -35,11 +35,11 @@ import {CheckoutCartComponent} from '../cart/checkout-cart.component';
     InputIconModule,
     CheckoutCartComponent
   ],
-  templateUrl: './anon-user-checkout-form.component.html',
-  styleUrl: './anon-user-checkout-form.component.css',
+  templateUrl: './checkout-form.component.html',
+  styleUrl: './checkout-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AnonUserCheckoutFormComponent {
+export class CheckoutFormComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   steps: MenuItem[] = [
     {label: "Mis datos",},

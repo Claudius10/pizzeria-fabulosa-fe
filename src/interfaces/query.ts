@@ -12,7 +12,7 @@ export interface BaseQueryOptions {
 }
 
 export interface BaseUserQueryOptions extends BaseQueryOptions {
-  userId: string | undefined;
+  userId: string | null;
 }
 
 export interface UserOrderQueryOptions extends BaseUserQueryOptions {

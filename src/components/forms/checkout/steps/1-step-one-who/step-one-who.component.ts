@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, Signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, numbersRegex} from '../../../../../regex';
 import {IconFieldModule} from 'primeng/iconfield';
@@ -8,6 +8,8 @@ import {Button} from 'primeng/button';
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {isFormValid} from '../../../../../utils/functions';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -17,29 +19,31 @@ import {isFormValid} from '../../../../../utils/functions';
     InputIconModule,
     InputTextModule,
     ReactiveFormsModule,
-    Button
+    Button,
+    CardModule
   ],
   templateUrl: './step-one-who.component.html',
   styleUrl: './step-one-who.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
-  protected checkoutFormService = inject(CheckoutFormService);
   private router = inject(Router);
+  private authService = inject(AuthService);
+  protected checkoutFormService = inject(CheckoutFormService);
+  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
+  userName = this.authService.getUserName();
+  userEmail = this.authService.getUserEmail();
 
   form = new FormGroup({
     fullName: new FormControl("", {
-      validators: [Validators.required, Validators.minLength(2), Validators.maxLength(50)],
       nonNullable: true,
       updateOn: "blur"
     }),
     email: new FormControl("", {
-      validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
       updateOn: "blur"
     }),
     contactNumber: new FormControl("", {
-      validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)],
       nonNullable: true,
       updateOn: "blur"
     }),
@@ -54,6 +58,12 @@ export class StepOneWhoComponent implements OnInit {
         email: this.checkoutFormService.who()!.email,
         contactNumber: this.checkoutFormService.who()!.contactNumber.toString()
       });
+    }
+
+    if (!this.isAuthenticated()) {
+      this.form.controls.fullName.addValidators([Validators.required, Validators.minLength(2), Validators.maxLength(50)]);
+      this.form.controls.email.addValidators([Validators.required, Validators.pattern(emailRgx)]);
+      this.form.controls.contactNumber.addValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)]);
     }
   }
 

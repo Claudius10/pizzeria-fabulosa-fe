@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CartService} from '../../../services/cart/cart.service';
-import {UserCheckoutFormComponent} from '../../forms/checkout/UserCheckoutForm/user-checkout-form.component';
 import {OrderService} from '../../../services/http/order/order.service';
 import {UserAddressItemComponent} from '../../user/user-address-item/user-address-item.component';
 import {UserDetailsComponent} from '../../user/user-details/user-details.component';
@@ -19,7 +18,6 @@ import {QueryResult} from '../../../interfaces/query';
   standalone: true,
   imports: [
     ToastModule,
-    UserCheckoutFormComponent,
     UserAddressItemComponent,
     UserDetailsComponent,
     OrderDetailsComponent,

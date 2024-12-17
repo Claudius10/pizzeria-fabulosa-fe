@@ -1,18 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {AnonUserCheckoutFormComponent} from './anon-user-checkout-form.component';
+import {CheckoutFormComponent} from './checkout-form.component';
 
 describe('AnonUserCheckoutFormComponent', () => {
-  let component: AnonUserCheckoutFormComponent;
-  let fixture: ComponentFixture<AnonUserCheckoutFormComponent>;
+  let component: CheckoutFormComponent;
+  let fixture: ComponentFixture<CheckoutFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AnonUserCheckoutFormComponent]
+      imports: [CheckoutFormComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AnonUserCheckoutFormComponent);
+    fixture = TestBed.createComponent(CheckoutFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -29,62 +29,70 @@
       </div>
 
       @if (checkoutFormService.homeDelivery()) {
-        <div class="flex flex-column gap-3">
+        @if (isAuthenticated()) {
+          <app-user-address-list-view
+            (onAddressSelect)="setSelectedId($event)"
+            [selected]="this.checkoutFormService.selectedId().id"
+            [valid]="validSelection"
+          />
+        } @else {
+          <div class="flex flex-column gap-3">
 
-          <div class="flex flex-column gap-2 h-4rem">
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-directions"/>
-              <input
-                class="w-full"
-                pInputText
-                id="street"
-                type="text"
-                placeholder="Home address"
-                formControlName="street">
-            </p-iconField>
-            @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-              <small id="street-help" class="invalid-text">
-                Home address is required.
-              </small>
-            }
-          </div>
+            <div class="flex flex-column gap-2 h-4rem">
+              <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-directions"/>
+                <input
+                  class="w-full"
+                  pInputText
+                  id="street"
+                  type="text"
+                  placeholder="Home address"
+                  formControlName="street">
+              </p-iconField>
+              @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+                <small id="street-help" class="invalid-text">
+                  Home address is required.
+                </small>
+              }
+            </div>
 
-          <div class="flex flex-column gap-2 h-4rem">
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-home"/>
-              <input
-                class="w-full"
-                pInputText
-                id="streetNumber"
-                type="tel"
-                placeholder="Address number"
-                formControlName="number">
-            </p-iconField>
-            @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-              <small id="number-help" class="invalid-text">
-                Home address number is required.
-              </small>
-            }
-          </div>
+            <div class="flex flex-column gap-2 h-4rem">
+              <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-home"/>
+                <input
+                  class="w-full"
+                  pInputText
+                  id="streetNumber"
+                  type="tel"
+                  placeholder="Address number"
+                  formControlName="number">
+              </p-iconField>
+              @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+                <small id="number-help" class="invalid-text">
+                  Home address number is required.
+                </small>
+              }
+            </div>
 
-          <div class="flex flex-column gap-2 h-4rem">
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-info-circle"/>
-              <input
-                class="w-full"
-                pInputText
-                id="details"
-                type="text"
-                placeholder="Details"
-                formControlName="details">
-            </p-iconField>
-            @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-              <small id="details-help" class="invalid-text">
-                Invalid details input.
-              </small>
-            }
+            <div class="flex flex-column gap-2 h-4rem">
+              <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-info-circle"/>
+                <input
+                  class="w-full"
+                  pInputText
+                  id="details"
+                  type="text"
+                  placeholder="Details"
+                  formControlName="details">
+              </p-iconField>
+              @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+                <small id="details-help" class="invalid-text">
+                  Invalid details input.
+                </small>
+              }
+            </div>
           </div>
-        </div>
+        }
       } @else {
         <!-- STORE SELECT -->
         <div class="flex flex-column gap-5 mb-4">
@@ -95,10 +103,10 @@
           } @else {
             @for (store of stores.data()!.payload; track store.id) {
               <app-store-checkout
-                (onStoreSelect)="setSelectedStoreId($event)"
-                [selected]="this.checkoutFormService.selectedStore()"
                 [store]="store"
-                [valid]="validStoreSelection"
+                (onStoreSelect)="setSelectedId($event)"
+                [selected]="this.checkoutFormService.selectedId().id"
+                [valid]="validSelection"
               />
             }
           }
