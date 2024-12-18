@@ -19,8 +19,13 @@ import {OrderSummaryComponent} from '../list-item/order-summary.component';
 export class OrderSummaryListComponent {
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
+  private pageNumber = this.orderService.getPageNumber();
   currentElements = 0;
   orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.getUserId());
+
+  constructor() {
+    this.currentElements = (this.pageNumber() * 4) - 4;
+  }
 
   onPageChange(event: PaginatorState) {
     const page = event.page === undefined ? 1 : event.page + 1;

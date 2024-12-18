@@ -15,11 +15,15 @@ export class OrderService {
   private queryClient = injectQueryClient();
   private pageNumber = signal(1);
 
-  public setPageNumber = (pageNumber: number): void => {
+  setPageNumber = (pageNumber: number): void => {
     this.pageNumber.set(pageNumber);
   };
 
-  public createUserOrder(): MutationResult {
+  getPageNumber() {
+    return this.pageNumber.asReadonly();
+  }
+
+  createUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createUserOrder(request.payload)),
       onSuccess: () => {
@@ -36,7 +40,7 @@ export class OrderService {
     };
   }
 
-  public createAnonOrder(): MutationResult {
+  createAnonOrder(): MutationResult {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createAnonOrder(request.payload))
     }));
@@ -49,7 +53,7 @@ export class OrderService {
     };
   }
 
-  public findOrderSummaryList(userId: string | null): QueryResult {
+  findOrderSummaryList(userId: string | null): QueryResult {
     const query = injectQuery(() => ({
       queryKey: ["user", "order", "summary", this.pageNumber() - 1],
       queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 4)),
@@ -62,7 +66,7 @@ export class OrderService {
     };
   }
 
-  public findUserOrder(options: UserOrderQueryOptions): QueryResult {
+  findUserOrder(options: UserOrderQueryOptions): QueryResult {
     const query = injectQuery(() => ({
       // enabled: options.userId !== undefined,
       queryKey: options.queryKey,
@@ -76,7 +80,7 @@ export class OrderService {
     };
   }
 
-  public deleteUserOrder(): MutationResult {
+  deleteUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.deleteUserOrder(request.payload)),
       onSuccess: () => {
