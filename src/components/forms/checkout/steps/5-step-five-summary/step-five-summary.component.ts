@@ -175,9 +175,9 @@ export class StepFiveSummaryComponent {
         cart: {
           id: null,
           cartItems: this.cartService.cartItems(),
-          totalCost: this.cartService.cartTotal(),
+          totalQuantity: this.cartService.cartQuantity(),
+          totalCost: Number(this.cartService.cartTotal().toFixed(2)),
           totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
-          totalQuantity: Number(this.cartService.cartQuantity().toFixed(2)),
         }
       };
 

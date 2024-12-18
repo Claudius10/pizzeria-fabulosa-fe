@@ -4,7 +4,7 @@
       <span>Nothing here yet</span>
     } @else {
       @for (item of items(); track item.id) {
-        <app-cart-item [readOnly]="false" [item]="item"/>
+        <app-cart-item [readOnly]="viewOnly()" [item]="item"/>
       }
     }
   </div>
@@ -16,7 +16,7 @@
       [totalAfterOffers]="totalAfterOffers()"
     />
 
-    @if (this.cartService.cartQuantity() !== 0) {
+    @if (this.cartService.cartQuantity() !== 0 && !viewOnly()) {
       <p-button type="button" label="EMPEZAR PEDIDO" [raised]="true" (click)="newOrderOnLick()"/>
     }
 

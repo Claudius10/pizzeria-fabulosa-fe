@@ -1,6 +1,6 @@
 import {Injectable, signal} from '@angular/core';
 import {how, when, where, who} from '../../../interfaces/forms/steps';
-import {AnonOrderDTO} from '../../../interfaces/dto/order';
+import {CreatedOrderDTO} from '../../../interfaces/dto/order';
 
 export type AddressId = {
   id: number | null;
@@ -21,7 +21,7 @@ export class CheckoutFormService {
   where = signal<where | null>(null);
   when = signal<when | null>(null);
   how = signal<how | null>(null);
-  orderSuccess = signal<AnonOrderDTO | null>(getTestOrderSuccess());
+  orderSuccess = signal<CreatedOrderDTO | null>(null);
 
   isStepFilled(step: number) {
     switch (step) {
@@ -54,7 +54,7 @@ export class CheckoutFormService {
   }
 }
 
-function getTestOrderSuccess(): AnonOrderDTO {
+function getTestOrderSuccess(): CreatedOrderDTO {
   return {
     id: 1,
     formattedCreatedOn: "12/12/2024",

@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, output, signal} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemComponent} from '../cart-item/cart-item.component';
-import {ActivatedRoute, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
+import {filter} from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -21,17 +22,26 @@ export class CartComponent {
   onNewOrderClick = output<boolean>();
   protected cartService: CartService = inject(CartService);
   private router = inject(Router);
-  private activeRoute = inject(ActivatedRoute);
   items = this.cartService.cartItems;
   quantity = this.cartService.cartQuantity;
   total = this.cartService.cartTotal;
   totalAfterOffers = this.cartService.cartTotalAfterOffers;
   threeForTwoOffers = this.cartService.cartThreeForTwoOffers;
   secondForHalfPriceOffer = this.cartService.cartSecondHalfPriceOffer;
+  viewOnly = signal(false);
+
+  constructor() {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
+      if (event.url.includes("/order/new/") || event.url === "/order/success") {
+        this.viewOnly.set(true);
+      } else {
+        this.viewOnly.set(false);
+      }
+    });
+  }
 
   newOrderOnLick() {
     this.router.navigate(['order', 'new', 'step-one']);
-    console.log(this.activeRoute.snapshot.url);
-    this.onNewOrderClick.emit(false);
+    this.onNewOrderClick.emit(false); // hides de cart side panel
   }
 }

@@ -7,6 +7,7 @@ import {AddressDetailsComponent} from '../../../order/view/address-details/addre
 import {OrderDetailsComponent} from '../../../order/view/order-details/order-details.component';
 import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {AuthService} from '../../../../services/auth/auth.service';
+import {CartService} from '../../../../services/cart/cart.service';
 
 @Component({
   selector: 'app-new-order-success',
@@ -29,9 +30,9 @@ import {AuthService} from '../../../../services/auth/auth.service';
 export class NewOrderSuccessComponent implements OnDestroy {
   protected checkoutFormService = inject(CheckoutFormService);
   private authService = inject(AuthService);
-  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
-  private cartService = inject(CheckoutFormService);
+  private cartService = inject(CartService);
   private router = inject(Router);
+  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
 
   goBack() {
     this.router.navigate(['/']);

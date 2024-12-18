@@ -56,12 +56,17 @@ export class StepFourHowComponent implements OnInit {
         // selected option is 'Cash'
         this.form.controls.paymentMethod.patchValue(this.paymentOptions[1].code);
 
+        // show select for bill to change request
+        this.checkoutFormService.cashPayment.set(true);
+
         // if bill to change was selected
         if (this.checkoutFormService.how()!.billToChange !== null) {
           // selected option is 'Yes'
           this.selectedChangeOption = this.changeOptions[1];
           // set the previously selected bill to change
           this.form.controls.billToChange.patchValue(this.checkoutFormService.how()!.billToChange!.toString());
+          // show input
+          this.checkoutFormService.changeRequested.set(true);
         }
       }
     }

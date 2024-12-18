@@ -49,7 +49,7 @@ export type CustomerDTO = {
   email: string;
 }
 
-export interface AnonOrderDTO {
+export interface CreatedOrderDTO {
   id: number;
   formattedCreatedOn: string;
   customer: CustomerDTO;
