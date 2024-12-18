@@ -32,7 +32,7 @@ export class OrderHttpService {
   }
 
   public deleteUserOrder(data: UserOrderDeleteMutationOptions) {
-    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}}/${data.orderId}`,
+    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}/${data.orderId}`,
       {withCredentials: true});
   }
 }

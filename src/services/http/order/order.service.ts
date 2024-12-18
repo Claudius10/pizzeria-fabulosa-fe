@@ -52,7 +52,7 @@ export class OrderService {
   public findOrderSummaryList(userId: string | null): QueryResult {
     const query = injectQuery(() => ({
       queryKey: ["user", "order", "summary", this.pageNumber() - 1],
-      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 5)),
+      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 4)),
     }));
 
     return {

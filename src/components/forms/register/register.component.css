@@ -1,3 +1,7 @@
+:host ::ng-deep .p-input-icon {
+  color: var(--primary-color);
+}
+
 :host ::ng-deep .p-button {
   width: 10rem;
 }

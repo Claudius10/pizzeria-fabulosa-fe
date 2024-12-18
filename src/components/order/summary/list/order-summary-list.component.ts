@@ -25,6 +25,6 @@ export class OrderSummaryListComponent {
   onPageChange(event: PaginatorState) {
     const page = event.page === undefined ? 1 : event.page + 1;
     this.orderService.setPageNumber(page);
-    this.currentElements = (page * 5) - 5;
+    this.currentElements = (page * 4) - 4;
   }
 }

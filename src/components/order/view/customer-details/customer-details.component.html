@@ -4,7 +4,9 @@
     <div class="flex flex-column gap-3">
       <span>Nombre completo: {{ customer().name }}</span>
       <span>Correo electrónico: {{ customer().email }}</span>
-      <span>Teléfono de contacto: {{ customer().contactNumber }}</span>
+      @if (customer().contactNumber) {
+        <span>Teléfono de contacto: {{ customer().contactNumber }}</span>
+      }
     </div>
   </div>
 </p-card>

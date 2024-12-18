@@ -1,13 +1,7 @@
-<div class="flex flex-column align-items-center">
-  @if (orderList.status() === "pending") {
-    <div>Loading...</div>
-  } @else if (orderList.status() === 'error') {
-    <div>
-      Error: {{ orderList.error()?.message }}
-    </div>
-  } @else {
+<div class="flex flex-column gap-5 align-items-center h-full">
 
-    <div class="list w-full">
+  @if (orderList.status() === "success") {
+    <div class="list flex flex-column gap-4 w-full">
       @if (orderList.data()!.payload.totalElements !== 0) {
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
           <app-order-summary [orderSummary]="orderSummary"/>
@@ -16,12 +10,14 @@
         <span class="text-center">Place your first order and it will appear here!</span>
       }
     </div>
+  } @else if (orderList.status() === 'error') {
+    <div>Error: {{ orderList.error()?.message }}</div>
   }
 
   <p-paginator
     (onPageChange)="onPageChange($event)"
     [first]="currentElements"
-    [rows]="5"
+    [rows]="4"
     [totalRecords]="orderList.status() === 'success' ? orderList.data()!.payload.totalElements : 0"
     [showCurrentPageReport]="true"
     [showPageLinks]="false"

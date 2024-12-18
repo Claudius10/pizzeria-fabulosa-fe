@@ -1,9 +1,9 @@
 .list {
-  height: 46rem;
+  height: 40rem;
 }
 
 @media (max-width: 578px) {
   .list {
-    height: 30rem;
+    height: 42.5rem;
   }
 }

@@ -16,6 +16,7 @@ import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
 import {CheckoutCartComponent} from '../../../forms/checkout/cart/checkout-cart.component';
 import {CardModule} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
+import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-order',
@@ -71,6 +72,7 @@ export class OrderComponent implements OnInit {
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
+      this.cartService.clear();
     });
   }
 
@@ -93,12 +95,12 @@ export class OrderComponent implements OnInit {
               orderId: this.order.data()!.payload.id
             }
           }, {
-            onSuccess: (orderId) => {
+            onSuccess: (response: ResponseDTO) => {
               // trigger toast
               this.messageService.add({
                 severity: 'info',
                 summary: 'Confirmado',
-                detail: `Pedido ${orderId} eliminado. Redirigiendo en 2 segundos...`,
+                detail: `Pedido ${response.payload} eliminado. Redirigiendo en 2 segundos...`,
                 life: 2000
               });
               // nav to order summary list after two seconds

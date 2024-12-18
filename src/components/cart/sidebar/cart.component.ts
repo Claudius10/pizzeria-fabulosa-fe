@@ -22,6 +22,7 @@ export class CartComponent {
   onNewOrderClick = output<boolean>();
   protected cartService: CartService = inject(CartService);
   private router = inject(Router);
+  private viewOnlyRoutes = ["/order/new/", "/order/success", "/user/orders/"];
   items = this.cartService.cartItems;
   quantity = this.cartService.cartQuantity;
   total = this.cartService.cartTotal;
@@ -32,11 +33,13 @@ export class CartComponent {
 
   constructor() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      if (event.url.includes("/order/new/") || event.url === "/order/success") {
-        this.viewOnly.set(true);
-      } else {
-        this.viewOnly.set(false);
-      }
+      this.viewOnlyRoutes.forEach(route => {
+        if (event.url.includes(route) || event.url === route) {
+          this.viewOnly.set(true);
+        } else {
+          this.viewOnly.set(false);
+        }
+      });
     });
   }
 
