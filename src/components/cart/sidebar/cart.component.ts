@@ -33,13 +33,12 @@ export class CartComponent {
 
   constructor() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      this.viewOnlyRoutes.forEach(route => {
-        if (event.url.includes(route) || event.url === route) {
-          this.viewOnly.set(true);
-        } else {
-          this.viewOnly.set(false);
-        }
-      });
+      const isViewOnlyRoute = this.viewOnlyRoutes.findIndex(value => event.url.includes(value) || event.url === value);
+      if (isViewOnlyRoute !== -1) {
+        this.viewOnly.set(true);
+      } else {
+        this.viewOnly.set(false);
+      }
     });
   }
 

@@ -1,9 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, OnDestroy} from '@angular/core';
 import {AddressDTO} from '../../../interfaces/dto/order';
 import {Button} from 'primeng/button';
 import {UserService} from '../../../services/http/user/user.service';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {AuthService} from '../../../services/auth/auth.service';
+import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {MutationResult, UserAddressDeleteMutationOptions} from '../../../interfaces/mutation';
 
 @Component({
   selector: 'app-user-address-item',
@@ -15,18 +17,27 @@ import {AuthService} from '../../../services/auth/auth.service';
   styleUrl: './user-address-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserAddressItemComponent {
+export class UserAddressItemComponent implements OnDestroy {
   private userService = inject(UserService);
   private authService = inject(AuthService);
-  private deleteUserAddress = this.userService.deleteUserAddress();
+  private deleteUserAddress: MutationResult = this.userService.deleteUserAddress();
+  private loadingAnimationService = inject(LoadingAnimationService);
   address = input.required<AddressDTO>();
 
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
+  }
+
   deleteAddress(id: number) {
+    this.loadingAnimationService.startLoading();
+
+    const payload: UserAddressDeleteMutationOptions = {
+      userId: this.authService.getUserId()!,
+      addressId: id.toString()
+    };
+
     this.deleteUserAddress.mutate({
-      payload: {
-        userId: this.authService.getUserId(),
-        addressId: id
-      }
+      payload: payload
     }, {
       onSuccess: (response: ResponseDTO) => {
         console.log(response);
@@ -34,6 +45,7 @@ export class UserAddressItemComponent {
       onError: () => {
       },
       onSettled: () => {
+        this.loadingAnimationService.stopLoading();
       }
     });
   }

@@ -15,14 +15,6 @@ export class OrderService {
   private queryClient = injectQueryClient();
   private pageNumber = signal(1);
 
-  setPageNumber = (pageNumber: number): void => {
-    this.pageNumber.set(pageNumber);
-  };
-
-  getPageNumber() {
-    return this.pageNumber.asReadonly();
-  }
-
   createUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createUserOrder(request.payload)),
@@ -95,6 +87,14 @@ export class OrderService {
       isError: mutation.isError,
       isPending: mutation.isPending
     };
+  }
+
+  setPageNumber = (pageNumber: number): void => {
+    this.pageNumber.set(pageNumber);
+  };
+
+  getPageNumber() {
+    return this.pageNumber.asReadonly();
   }
 }
 

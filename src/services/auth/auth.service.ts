@@ -25,10 +25,10 @@ export class AuthService {
   }
 
   public logout() {
-    this.userId = "0";
-    this.userEmail.set("quijote@gmail.com");
-    this.userName.set("Cervantes");
-    this.userContactNumber.set("000 000 000");
+    this.userId = null;
+    this.userEmail.set(null);
+    this.userName.set(null);
+    this.userContactNumber.set(null);
     this.isAuthenticated.set(false);
   }
 

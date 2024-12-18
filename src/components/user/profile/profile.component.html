@@ -4,6 +4,15 @@
       <span>Profile name: {{ userName }}</span>
       <span>Correo electrónico: {{ userEmail }}</span>
     </div>
-    <app-user-address-list/>
+    <p-button
+      (click)="toggleAddressList()"
+      label="View my address list"
+      icon="{{viewAddressList() ? 'pi pi-angle-down' : 'pi pi-angle-right'}}"
+      iconPos="right"
+      [text]="true"
+      [raised]="true"/>
+    @if (viewAddressList()) {
+      <app-user-address-list/>
+    }
   </div>
 </p-card>

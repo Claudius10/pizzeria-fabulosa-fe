@@ -3,13 +3,15 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserService} from '../../../../services/http/user/user.service';
-import {MutationResult} from '../../../../interfaces/mutation';
+import {MutationResult, UserAddressMutationOptions} from '../../../../interfaces/mutation';
 import {isFormValid} from '../../../../utils/functions';
 import {AddressFormData} from '../../../../interfaces/http/order';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
+import {ResponseDTO} from '../../../../interfaces/http/api';
+import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 
 @Component({
   selector: 'app-user-address-form',
@@ -29,6 +31,7 @@ export class UserAddressFormComponent {
   hideForm = output();
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private createAddress: MutationResult = this.userService.createUserAddress();
 
   form = new FormGroup({
@@ -40,7 +43,7 @@ export class UserAddressFormComponent {
       }
     ),
     number: new FormControl("", {
-        validators: [Validators.required, Validators.maxLength(10), Validators.pattern(numbersRegex)],
+        validators: [Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)],
         nonNullable: true,
         updateOn: "blur"
       }
@@ -58,25 +61,29 @@ export class UserAddressFormComponent {
 
   onSubmit() {
     const userId = this.authService.getUserId();
-    if (isFormValid(this.form) && userId !== undefined) {
-      const data: AddressFormData = {
+    if (isFormValid(this.form) && userId) {
+      this.loadingAnimationService.startLoading();
+
+      const form: AddressFormData = {
         id: null,
         street: this.form.get("street")!.value,
         number: Number(this.form.get("number")!.value),
         details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
       };
 
-      this.createAddress.mutate({
-        payload: {
-          userId: this.authService.getUserId(),
-          data: data
-        }
-      }, {
-        onSuccess: (response) => {
-          console.log(response);
+      const payload: UserAddressMutationOptions = {
+        userId: this.authService.getUserId()!,
+        data: form
+      };
+
+      this.createAddress.mutate({payload: payload}, {
+        onSuccess: (response: ResponseDTO) => {
           this.hideForm.emit();
         },
         onError: (error) => {
+        },
+        onSettled: () => {
+          this.loadingAnimationService.stopLoading();
         }
       });
     }

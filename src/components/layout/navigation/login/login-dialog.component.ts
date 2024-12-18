@@ -8,9 +8,12 @@ import {emailRgx, passwordRegex} from '../../../../regex';
 import {LoginForm} from '../../../../interfaces/http/account';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {MutationRequest, MutationResult} from '../../../../interfaces/mutation';
+import {MutationResult} from '../../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
+import {isFormValid} from '../../../../utils/functions';
+import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {CartService} from '../../../../services/cart/cart.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -27,10 +30,12 @@ import {TranslateService} from '@ngx-translate/core';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
+  private cartService = inject(CartService);
   private login: MutationResult = this.accountService.login();
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.getIsLoginDialogVisible();
@@ -49,39 +54,38 @@ export class LoginDialogComponent implements OnDestroy {
   });
 
   ngOnDestroy(): void {
-    this.form.reset();
+    this.loadingAnimationService.stopLoading();
   }
 
   public onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      console.log(this.form.controls);
-      return;
+    if (isFormValid(this.form)) {
+      this.loadingAnimationService.startLoading();
+
+      const currentLang = this.translateService.currentLang;
+      const successFeedbackMessage: string = currentLang === 'en' ? "Sign-in successful" : "Sesión iniciada con éxito";
+      const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful" : "Error al iniciar la session";
+      const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
+
+      const data: LoginForm = {
+        email: this.form.get("email")!.value,
+        password: this.form.get("password")!.value,
+      };
+
+      this.login.mutate({payload: data}, {
+        onSuccess: () => {
+          this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
+          this.closeDialog();
+          this.cartService.clear();
+          this.router.navigate(["/pizzas"]);
+        },
+        onError: () => {
+          this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});
+        },
+        onSettled: () => {
+          this.loadingAnimationService.stopLoading();
+        }
+      });
     }
-
-    const data: LoginForm = {
-      email: this.form.get("email")!.value,
-      password: this.form.get("password")!.value,
-    };
-
-    const currentLang = this.translateService.currentLang;
-    const successFeedbackMessage: string = currentLang === 'en' ? "Sign-in successful" : "Sesión iniciada con éxito";
-    const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful" : "Error al iniciar la session";
-    const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
-
-    const request: MutationRequest = {
-      payload: data
-    };
-    this.login.mutate(request, {
-      onSuccess: () => {
-        this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
-        this.closeDialog();
-        this.router.navigate(["/pizzas"]);
-      },
-      onError: () => {
-        this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});
-      }
-    });
   }
 
   closeDialog(): void {

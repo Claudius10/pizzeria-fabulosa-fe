@@ -6,24 +6,20 @@
               (click)="toggleAddressForm()"/>
   </div>
 
-  @if (addressList.status() === "pending") {
-    <span>Loading</span>
-
-  } @else if (addressList.status() === "error") {
-    <span>Error: {{ addressList.error()!.message }}</span>
-
-  } @else {
+  @if (addressList.status() === "success") {
 
     @if (addressList.data()!.payload === null) {
       <div class="flex flex-column gap-4">
         <span>No tiene ningún domicilio </span>
       </div>
     } @else {
-
       @for (address of addressList.data()!.payload; track address.id) {
         <app-user-address-item [address]="address"/>
       }
     }
+
+  } @else if (addressList.status() === "error") {
+    <span>Error: {{ addressList.error()!.message }}</span>
   }
 
   @if (showAddressForm()) {

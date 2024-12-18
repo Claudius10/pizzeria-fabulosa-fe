@@ -18,7 +18,6 @@ import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/
 import {StepFourHowComponent} from '../forms/checkout/steps/4-step-four-how/step-four-how.component';
 import {StepFiveSummaryComponent} from '../forms/checkout/steps/5-step-five-summary/step-five-summary.component';
 import {NewOrderSuccessComponent} from '../forms/checkout/success/new-order-success.component';
-import {NewOrderErrorComponent} from '../forms/checkout/error/new-order-error.component';
 
 export const routes: Routes = [
   {
@@ -102,11 +101,6 @@ export const routes: Routes = [
         path: "success",
         component: NewOrderSuccessComponent,
         title: "New Order Success",
-      },
-      {
-        path: "error",
-        component: NewOrderErrorComponent,
-        title: "New Order Error",
       }
     ]
   },

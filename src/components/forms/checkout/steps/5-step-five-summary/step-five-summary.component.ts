@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
 import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
@@ -36,7 +36,7 @@ import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces
   styleUrl: './step-five-summary.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StepFiveSummaryComponent {
+export class StepFiveSummaryComponent implements OnDestroy {
   protected checkoutFormService = inject(CheckoutFormService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
@@ -52,6 +52,10 @@ export class StepFiveSummaryComponent {
   userEmail = this.authService.getUserEmail();
   selectedStore: StoreDTO | null;
   selectedAddress: AddressDTO | null;
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
+  }
 
   constructor() {
     this.checkoutFormService.step.set(4);

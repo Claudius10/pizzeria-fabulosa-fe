@@ -1,4 +1,4 @@
-@if (order.status() === SUCCESS) {
+@if (order.status() === "success") {
   @if (order.data()!.payload; as order) {
     <div class="flex flex-column gap-3 h-full">
       <div class="flex gap-3">
@@ -46,8 +46,6 @@
   }
   <p-toast [breakpoints]="{ '920px': { width: '100%', right: '0', left: '0' } }"/>
   <p-confirmDialog/>
-} @else if (order.status() === PENDING) {
-  <div>Loading...</div>
-} @else {
+} @else if (order.status() === "error") {
   <div>Error..</div>
 }

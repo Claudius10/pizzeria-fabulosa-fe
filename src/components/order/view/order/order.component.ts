@@ -17,6 +17,8 @@ import {CheckoutCartComponent} from '../../../forms/checkout/cart/checkout-cart.
 import {CardModule} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResponseDTO} from '../../../../interfaces/http/api';
+import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {MutationResult} from '../../../../interfaces/mutation';
 
 @Component({
   selector: 'app-order',
@@ -38,8 +40,6 @@ import {ResponseDTO} from '../../../../interfaces/http/api';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
-  protected readonly PENDING = PENDING;
-  protected readonly SUCCESS = SUCCESS;
   private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private orderService = inject(OrderService);
@@ -47,6 +47,7 @@ export class OrderComponent implements OnInit {
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
@@ -55,7 +56,7 @@ export class OrderComponent implements OnInit {
     queryKey: userOrderQueryKey(this.orderId)
   });
   orderStatus = toObservable(this.order.status);
-  delete = this.orderService.deleteUserOrder();
+  delete: MutationResult = this.orderService.deleteUserOrder();
   customer: CustomerDTO = {
     name: this.authService.getUserName()!,
     email: this.authService.getUserEmail()!,
@@ -63,16 +64,27 @@ export class OrderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    const subscription = this.orderStatus.subscribe(status => {
-      if (status === SUCCESS) {
-        const cart = this.order.data()!.payload.cart as CartDTO;
-        this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+    const subscription = this.orderStatus.subscribe({
+      next: status => {
+
+        if (status === PENDING) {
+          this.loadingAnimationService.startLoading();
+        }
+
+        if (status === SUCCESS) {
+          this.loadingAnimationService.stopLoading();
+          const cart = this.order.data()!.payload.cart as CartDTO;
+          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+        }
+      }, complete: () => {
+        this.loadingAnimationService.stopLoading();
       }
     });
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
       this.cartService.clear();
+      this.loadingAnimationService.stopLoading();
     });
   }
 
@@ -89,6 +101,7 @@ export class OrderComponent implements OnInit {
         rejectButtonStyleClass: "p-button-text",
         accept: () => {
           // if user accepts, send delete
+          this.loadingAnimationService.startLoading();
           this.delete.mutate({
             payload: {
               userId: this.authService.getUserId(),
@@ -118,6 +131,9 @@ export class OrderComponent implements OnInit {
                 detail: `Error al eliminar el pedido`,
                 life: 2000
               });
+            },
+            onSettled: () => {
+              this.loadingAnimationService.stopLoading();
             }
           });
         },

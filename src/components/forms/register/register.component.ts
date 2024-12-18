@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -19,6 +19,8 @@ import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../services/auth/auth.service';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {MutationResult} from '../../../interfaces/mutation';
+import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -37,10 +39,16 @@ import {MutationResult} from '../../../interfaces/mutation';
   styleUrl: './register.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
+  private router = inject(Router);
+  private loadingAnimationService = inject(LoadingAnimationService);
   private accountService = inject(AccountService);
   private register: MutationResult = this.accountService.create();
   protected authService = inject(AuthService);
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
+  }
 
   form = new FormGroup({
     name: new FormControl<string>("", {
@@ -71,11 +79,13 @@ export class RegisterComponent {
   }, {validators: [validateEmailMatching, validatePasswordMatching]});
 
   cancel() {
-
+    this.router.navigate(['/']);
   }
 
   public onSubmit(): void {
     if (isFormValid(this.form)) {
+      this.loadingAnimationService.startLoading();
+
       const data: RegisterForm = {
         name: this.form.get("name")!.value,
         email: this.form.get("email")!.value,
@@ -86,7 +96,11 @@ export class RegisterComponent {
 
       this.register.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
-          console.log(response);
+
+        }, onError: () => {
+
+        }, onSettled: () => {
+          this.loadingAnimationService.stopLoading();
         }
       });
     }

@@ -20,6 +20,9 @@ import {CartService} from '../../../services/cart/cart.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+
+  // TODO - check data type consistency and coherency of arguments passed to http requests
+
   private translateService = inject(TranslateService);
   private cartLocalStorageService = inject(CartLocalstorageService);
   private cartService = inject(CartService);
