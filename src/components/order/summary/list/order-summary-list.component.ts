@@ -29,6 +29,8 @@ export class OrderSummaryListComponent {
   orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.getUserId());
   orderListStatus = toObservable(this.orderList.status);
 
+  // TODO - prefetch next page
+
   constructor() {
     this.currentElements = (this.pageNumber() * 4) - 4;
 
