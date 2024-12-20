@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
           if (this.offers.data() || this.stores.data()) {
 
             // offers error
-            if (this.offers.data()!.error!.fatal) {
+            if (this.offers.data() && this.offers.data()!.error!.fatal) {
 
             } else {
               // non fatal error
@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
             }
 
             // stores error
-            if (this.stores.data()!.error!.fatal) {
+            if (this.stores.data() && this.stores.data()!.error!.fatal) {
 
             } else {
               // non fatal error
