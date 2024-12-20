@@ -15,3 +15,18 @@ export class ErrorService {
     this.error.set(error);
   }
 }
+
+function getTestError(): ErrorDTO {
+  return {
+    logged: true,
+    fatal: true,
+    path: "api/v1/auth/login",
+    cause: "UnknownException",
+    origin: "G.E.H.unknownException",
+    message: "Unknown Exception Message Unknown Exception Message Unknown Exception Message Unknown " +
+      "Exception Message Unknown Exception Message Unknown Exception Message Unknown Exception Message " +
+      "Unknown Exception Message Unknown Exception Message Unknown Exception Message Unknown Exception " +
+      "Message Unknown Exception Message Unknown Exception Message Unknown Exception Message Unknown " +
+      "Exception Message Unknown Exception Message"
+  };
+}

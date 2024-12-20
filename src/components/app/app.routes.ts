@@ -2,8 +2,8 @@ import {Routes} from '@angular/router';
 import {PizzaListComponent} from '../front/products/pizzas/pizza-list.component';
 import {HomeComponent} from '../front/home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
-import {NotFoundComponent} from './wildcard-routes/not-found/not-found.component';
-import {ForbiddenComponent} from './wildcard-routes/forbidden/forbidden.component';
+import {NotFoundComponent} from './not-found/not-found.component';
+import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UserHomeComponent} from '../user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';
@@ -18,6 +18,7 @@ import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/
 import {StepFourHowComponent} from '../forms/checkout/steps/4-step-four-how/step-four-how.component';
 import {StepFiveSummaryComponent} from '../forms/checkout/steps/5-step-five-summary/step-five-summary.component';
 import {NewOrderSuccessComponent} from '../forms/checkout/success/new-order-success.component';
+import {ErrorComponent} from './error/error.component';
 
 export const routes: Routes = [
   {
@@ -112,11 +113,16 @@ export const routes: Routes = [
   {
     path: "forbidden",
     component: ForbiddenComponent,
-    title: "403 Access forbidden",
+    title: "Access forbidden",
+  },
+  {
+    path: "error",
+    component: ErrorComponent,
+    title: "Unexpected Error",
   },
   {
     path: "**",
     component: NotFoundComponent,
-    title: "404 Not Found",
+    title: "Not Found",
   }
 ];
