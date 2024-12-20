@@ -1,10 +1,23 @@
 {
   "component.title.beverages": "Beverages",
   "component.title.pizzas": "Pizzas",
+
   "navigation.button.logout.title": "Proceed with sign-out?",
   "navigation.button.logout.accept": "Yes",
   "navigation.button.logout.reject": "No",
   "navigation.quick.link.home": "Home",
   "navigation.quick.link.beverages": "Beverages",
-  "navigation.quick.link.about": "About"
+  "navigation.quick.link.about": "About",
+
+  "form.login.title": "Sign In",
+  "form.login.label.email": "Email",
+  "form.login.label.password": "Password",
+  "form.login.button.enter": "Sign In",
+  "form.login.button.cancel": "Cancel",
+  "form.login.footer.question": "Are you new to Pizzeria Fabulosa?",
+  "form.login.footer.action": "Create an account",
+  "form.login.success.summary": "Account Information",
+  "form.login.success.detail": "You have successfully signed-in",
+  "form.login.error.summary": "Account Information",
+  "form.login.error.detail": "Sign-in failed: wrong email or password"
 }

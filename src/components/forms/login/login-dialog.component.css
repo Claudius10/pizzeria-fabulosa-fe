@@ -1,0 +1,10 @@
+:host ::ng-deep .p-input-icon {
+  color: var(--primary-50);
+}
+
+@media (max-width: 576px) {
+  .buttons {
+    display: flex;
+    flex-direction: column;
+  }
+}

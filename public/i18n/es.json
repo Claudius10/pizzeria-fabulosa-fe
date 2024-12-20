@@ -6,5 +6,16 @@
   "navigation.button.logout.reject": "No",
   "navigation.quick.link.home": "Inicio",
   "navigation.quick.link.beverages": "Bebidas",
-  "navigation.quick.link.about": "Acerca de Pizzeria Fabulosa"
+  "navigation.quick.link.about": "Acerca de Pizzeria Fabulosa",
+  "form.login.title": "Iniciar Sesión",
+  "form.login.label.email": "Correo electrónico",
+  "form.login.label.password": "Contraseña",
+  "form.login.button.enter": "Entrar",
+  "form.login.button.cancel": "Cancelar",
+  "form.login.footer.question": "¿Eres nuevo/a en Pizzeria Fabulosa?",
+  "form.login.footer.action": "Crea una cuenta",
+  "form.login.success.summary": "Información acerca de su cuenta",
+  "form.login.success.detail": "Sesión iniciada con éxito",
+  "form.login.error.summary": "Información acerca de su cuenta",
+  "form.login.error.detail": "Intento de iniciar sesión fallida: email o contraseña errónea"
 }

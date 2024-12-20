@@ -1,60 +1,65 @@
 <p-dialog
   [draggable]="false"
   [resizable]="false"
-  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
-  [style]="{ width: '22.5vw' }"
+  [breakpoints]="{ '576px': '90vw' }"
+  [style]="{ width: '30rem' }"
   [modal]="true"
   (onHide)="closeLoginDialog()"
   [dismissableMask]="true"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div
-        class="flex flex-column px-6 py-4 gap-4"
-        style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700))"
-      >
-
-        <span class="text-primary-50 text-center text-2xl font-bold">Sign in</span>
+      <div class="flex flex-column px-6 py-4 gap-4"
+           style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700))">
+        <span class="text-primary-50 text-center text-2xl font-bold">{{ "form.login.title" | translate }}</span>
 
         <div class="inline-flex flex-column gap-2">
-          <label for="email" class="text-primary-50 font-semibold">Email</label>
+          <label for="email" class="text-primary-50 font-semibold">{{ "form.login.label.email" | translate }}</label>
           <input
             formControlName="email"
             type="email"
             id="email"
+            name="email"
             class="bg-white-alpha-20 border-none p-3 text-primary-50"/>
         </div>
 
-        <div class="inline-flex flex-column gap-2">
-          <label for="password" class="text-primary-50 font-semibold">Password</label>
-          <input
-            formControlName="password"
-            id="password"
-            class="bg-white-alpha-20 border-none p-3 text-primary-50"
-            type="password"/>
+        <div class="inline-flex flex-column gap-2 w-full">
+          <label for="password"
+                 class="text-primary-50 font-semibold">{{ "form.login.label.password" | translate }}</label>
+          <p-iconField iconPosition="right">
+            <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+            <input
+              formControlName="password"
+              id="password"
+              name="password"
+              class="bg-white-alpha-20 border-none p-3 text-primary-50 w-full"
+              type="{{showPassword() ? 'text' : 'password'}}"/>
+          </p-iconField>
         </div>
 
-        <div class="flex align-items-center gap-2">
-          <p-button
-            type="submit"
-            label="Sign-In"
-            [text]="true"
-            styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
-            class="w-full"/>
+        <div class="flex align-items-center buttons gap-2">
           <p-button
             type="button"
-            label="Cancel"
+            label="{{ 'form.login.button.cancel' | translate }}"
             (onClick)="closeLoginDialog()"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
-            class="w-full"/>
+            class="w-full"
+          />
+          <p-button
+            type="submit"
+            label="{{ 'form.login.button.enter' | translate }}"
+            [text]="true"
+            styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
+            class="w-full"
+            [disabled]="form.untouched"/> <!-- https://github.com/angular/angular/issues/30616 -->
         </div>
 
         <div class="flex flex-column gap-2">
-          <span class="text-center text-primary-50 font-semibold">New to Pizzeria Fabulosa?</span>
+          <span class="text-center text-primary-50 font-semibold">{{ 'form.login.footer.question' | translate }}</span>
           <span
             (click)="goToRegister()"
-            class="cursor-pointer underline text-center text-primary-50 font-semibold">Create your account</span>
+            class="cursor-pointer underline text-center text-primary-50 font-semibold">{{ 'form.login.footer.action' | translate }}</span>
         </div>
       </div>
     </form>

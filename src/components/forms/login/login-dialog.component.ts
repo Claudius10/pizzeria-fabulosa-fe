@@ -1,32 +1,35 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {Button} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {Router} from '@angular/router';
 import {AccountService} from '../../../services/http/account/account.service';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/http/account';
-import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../services/auth/auth.service';
 import {MutationResult} from '../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {handleError, isFormValid} from '../../../utils/functions';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
+import {IconFieldModule} from 'primeng/iconfield';
+import {InputIconModule} from 'primeng/inputicon';
 
 @Component({
   selector: 'app-login-dialog',
   standalone: true,
   imports: [
-    Button,
     DialogModule,
-    FormsModule,
     ReactiveFormsModule,
-    InputTextModule
+    IconFieldModule,
+    InputIconModule,
+    Button,
+    TranslatePipe
   ],
   templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginDialogComponent implements OnDestroy {
@@ -39,6 +42,7 @@ export class LoginDialogComponent implements OnDestroy {
   private accountService = inject(AccountService);
   private cartService = inject(CartService);
   private login: MutationResult = this.accountService.login();
+  showPassword = signal(false);
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.getIsLoginDialogVisible();
 
@@ -59,35 +63,8 @@ export class LoginDialogComponent implements OnDestroy {
     this.loadingAnimationService.stopLoading();
   }
 
-  public onSubmit(): void {
-    if (isFormValid(this.form)) {
-      this.loadingAnimationService.startLoading();
-
-      const currentLang = this.translateService.currentLang;
-      const successFeedbackMessage: string = currentLang === 'en' ? "Sign-in successful" : "Sesión iniciada con éxito";
-      const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful: incorrect email or password." : "Error al iniciar la session: email o contraseña incorrecta.";
-      const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
-
-      const data: LoginForm = {
-        email: this.form.get("email")!.value,
-        password: this.form.get("password")!.value,
-      };
-
-      this.login.mutate({payload: data}, {
-        onSuccess: () => {
-          this.closeLoginDialog();
-          this.cartService.clear();
-          this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
-          this.router.navigate(["/pizzas"]);
-        },
-        onError: (error) => {
-          handleError(error, summary, errorFeedbackMessage, this.messageService, this.errorService, this.router);
-        },
-        onSettled: () => {
-          this.loadingAnimationService.stopLoading();
-        }
-      });
-    }
+  togglePassword() {
+    this.showPassword.set(!this.showPassword());
   }
 
   closeLoginDialog(): void {
@@ -98,5 +75,41 @@ export class LoginDialogComponent implements OnDestroy {
   goToRegister(): void {
     this.closeLoginDialog();
     this.router.navigate(["/registration"]);
+  }
+
+  public onSubmit(): void {
+    if (isFormValid(this.form)) {
+      this.loadingAnimationService.startLoading();
+
+      const data: LoginForm = {
+        email: this.form.get("email")!.value,
+        password: this.form.get("password")!.value,
+      };
+
+      this.login.mutate({payload: data}, {
+        onSuccess: () => {
+          this.closeLoginDialog();
+          this.cartService.clear();
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("form.login.success.summary"),
+            detail: this.translateService.instant("form.login.success.detail"),
+            life: 3000
+          });
+          this.router.navigate(["/pizzas"]);
+        },
+        onError: (error) => {
+          handleError(error,
+            this.translateService.instant("form.login.error.summary"),
+            this.translateService.instant("form.login.error.detail"),
+            this.messageService,
+            this.errorService,
+            this.router);
+        },
+        onSettled: () => {
+          this.loadingAnimationService.stopLoading();
+        }
+      });
+    }
   }
 }
