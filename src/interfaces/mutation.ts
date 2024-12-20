@@ -29,3 +29,7 @@ export interface UserAddressDeleteMutationOptions extends BaseUserMutationOption
 export interface UserAddressMutationOptions extends BaseUserMutationOptions {
   data: AddressFormData;
 }
+
+export interface ApiError extends Error {
+  error: ResponseDTO;
+}

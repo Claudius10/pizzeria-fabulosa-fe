@@ -4,7 +4,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
-import {LoginDialogComponent} from '../login/login-dialog.component';
+import {LoginDialogComponent} from '../../../forms/login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {ThemeSelectorComponent} from '../../theme-selector/theme-selector.component';
 import {LocaleSelectorComponent} from '../../locale-selector/locale-selector.component';

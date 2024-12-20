@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {UserDeleteFormComponent} from '../../forms/user/delete/user-delete-form.component';
+import {UserDeleteFormComponent} from '../../forms/user/account-delete/user-delete-form.component';
 
 @Component({
   selector: 'app-settings',

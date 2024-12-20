@@ -79,6 +79,11 @@
             <div class="flex flex-column gap-3">
               <span>You may enter any comments you have regarding the order</span>
               <textarea formControlName="comment" pInputTextarea></textarea>
+              @if (!this.form.controls.comment.untouched && !this.form.controls.comment.valid) {
+                <small id="fullName-help" class="invalid-text">
+                  The comment contains forbidden symbols, please review the input.
+                </small>
+              }
             </div>
           </form>
         </div>

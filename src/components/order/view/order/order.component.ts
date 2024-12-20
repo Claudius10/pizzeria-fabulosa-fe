@@ -100,7 +100,7 @@ export class OrderComponent implements OnInit {
         rejectIcon: "none",
         rejectButtonStyleClass: "p-button-text",
         accept: () => {
-          // if user accepts, send delete
+          // if user accepts, send account-delete
           this.loadingAnimationService.startLoading();
           this.delete.mutate({
             payload: {

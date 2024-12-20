@@ -4,7 +4,7 @@
   [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
   [style]="{ width: '22.5vw' }"
   [modal]="true"
-  (onHide)="closeDialog()"
+  (onHide)="closeLoginDialog()"
   [dismissableMask]="true"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
@@ -44,7 +44,7 @@
           <p-button
             type="button"
             label="Cancel"
-            (onClick)="closeDialog()"
+            (onClick)="closeLoginDialog()"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             class="w-full"/>

@@ -10,9 +10,11 @@ interface StatusDTO {
   code: number;
 }
 
-interface ErrorDTO {
+export interface ErrorDTO {
   cause: string;
   message: string | null;
   origin: string;
+  path: string;
   logged: boolean;
+  fatal: boolean;
 }

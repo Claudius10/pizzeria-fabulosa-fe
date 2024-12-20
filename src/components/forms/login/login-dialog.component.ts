@@ -2,18 +2,19 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/co
 import {Button} from 'primeng/button';
 import {DialogModule} from 'primeng/dialog';
 import {Router} from '@angular/router';
-import {AccountService} from '../../../../services/http/account/account.service';
+import {AccountService} from '../../../services/http/account/account.service';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {emailRgx, passwordRegex} from '../../../../regex';
-import {LoginForm} from '../../../../interfaces/http/account';
+import {emailRgx, passwordRegex} from '../../../regex';
+import {LoginForm} from '../../../interfaces/http/account';
 import {InputTextModule} from 'primeng/inputtext';
-import {AuthService} from '../../../../services/auth/auth.service';
-import {MutationResult} from '../../../../interfaces/mutation';
+import {AuthService} from '../../../services/auth/auth.service';
+import {MutationResult} from '../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
-import {isFormValid} from '../../../../utils/functions';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
-import {CartService} from '../../../../services/cart/cart.service';
+import {handleError, isFormValid} from '../../../utils/functions';
+import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {CartService} from '../../../services/cart/cart.service';
+import {ErrorService} from '../../../services/error/error.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -30,6 +31,7 @@ import {CartService} from '../../../../services/cart/cart.service';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
@@ -63,7 +65,7 @@ export class LoginDialogComponent implements OnDestroy {
 
       const currentLang = this.translateService.currentLang;
       const successFeedbackMessage: string = currentLang === 'en' ? "Sign-in successful" : "Sesión iniciada con éxito";
-      const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful" : "Error al iniciar la session";
+      const errorFeedbackMessage: string = currentLang === 'en' ? "Sign-in unsuccessful: incorrect email or password." : "Error al iniciar la session: email o contraseña incorrecta.";
       const summary: string = currentLang === 'en' ? "Account" : "Cuenta";
 
       const data: LoginForm = {
@@ -73,13 +75,13 @@ export class LoginDialogComponent implements OnDestroy {
 
       this.login.mutate({payload: data}, {
         onSuccess: () => {
-          this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
-          this.closeDialog();
+          this.closeLoginDialog();
           this.cartService.clear();
+          this.messageService.add({severity: 'success', summary: summary, detail: successFeedbackMessage, life: 2000});
           this.router.navigate(["/pizzas"]);
         },
-        onError: () => {
-          this.messageService.add({severity: 'error', summary: summary, detail: errorFeedbackMessage, life: 2000});
+        onError: (error) => {
+          handleError(error, summary, errorFeedbackMessage, this.messageService, this.errorService, this.router);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
@@ -88,13 +90,13 @@ export class LoginDialogComponent implements OnDestroy {
     }
   }
 
-  closeDialog(): void {
+  closeLoginDialog(): void {
     this.authService.setLoginDialog(false);
     this.visible = false;
   }
 
   goToRegister(): void {
-    this.closeDialog();
+    this.closeLoginDialog();
     this.router.navigate(["/registration"]);
   }
 }

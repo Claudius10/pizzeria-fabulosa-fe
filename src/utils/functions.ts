@@ -1,4 +1,9 @@
 import {FormGroup} from '@angular/forms';
+import {MessageService} from 'primeng/api';
+import {ApiError} from '../interfaces/mutation';
+import {ErrorDTO, ResponseDTO} from '../interfaces/http/api';
+import {Router} from '@angular/router';
+import {ErrorService} from '../services/error/error.service';
 
 export function getDeliveryHours(): string[] {
   const interval = 5;
@@ -38,4 +43,23 @@ export function isFormValid(form: FormGroup) {
   }
 
   return valid;
+}
+
+export function handleError(error: Error, summary: string, detail: string, messageService: MessageService, errorService: ErrorService, router: Router) {
+  const apiError = error as ApiError;
+  const errorResponse: ResponseDTO = apiError.error;
+
+  if (errorResponse.error === null) {
+    console.log(errorResponse);
+    throw new Error("Expected error is NULL");
+  }
+
+  const errorDTO: ErrorDTO = errorResponse.error;
+
+  if (errorDTO.fatal) {
+    errorService.setError(errorDTO);
+    router.navigate(["/error"]);
+  } else {
+    messageService.add({severity: 'error', summary: summary, detail: detail, life: 3000});
+  }
 }
