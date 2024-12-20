@@ -1,14 +1,12 @@
 {
   "component.title.beverages": "Beverages",
   "component.title.pizzas": "Pizzas",
-
   "navigation.button.logout.title": "Proceed with sign-out?",
   "navigation.button.logout.accept": "Yes",
   "navigation.button.logout.reject": "No",
   "navigation.quick.link.home": "Home",
   "navigation.quick.link.beverages": "Beverages",
   "navigation.quick.link.about": "About",
-
   "form.login.title": "Sign In",
   "form.login.label.email": "Email",
   "form.login.label.password": "Password",

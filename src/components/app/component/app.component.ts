@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {NavigationBarComponent} from '../../layout/navigation/navigation-bar/navigation-bar.component';
-import {FooterComponent} from '../../layout/footer/footer.component';
+import {NavigationBarComponent} from '../../nav/navigation/navigation-bar/navigation-bar.component';
+import {FooterComponent} from '../../footer/footer.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import defaultLanguage from "../../../../public/i18n/en.json";
 import {CartLocalstorageService} from '../../../services/cart/localstorage/cart-localstorage.service';

@@ -5,7 +5,7 @@ import {MenuItem} from 'primeng/api';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
-import {SmallScreenStepsComponent} from '../../../layout/steps/small-screen-steps.component';
+import {SmallScreenStepsComponent} from '../steps/small-screen/small-screen-steps.component';
 import {InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {InputTextModule} from 'primeng/inputtext';

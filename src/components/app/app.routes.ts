@@ -1,6 +1,6 @@
 import {Routes} from '@angular/router';
-import {PizzaListComponent} from '../front/products/pizzas/pizza-list.component';
-import {HomeComponent} from '../front/home/home.component';
+import {PizzaListComponent} from '../resources/products/pizzas/pizza-list.component';
+import {HomeComponent} from '../home/home.component';
 import {RegisterComponent} from '../forms/register/register.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
@@ -10,7 +10,7 @@ import {ProfileComponent} from '../user/profile/profile.component';
 import {OrderSummaryListComponent} from '../order/summary/list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
 import {OrderComponent} from '../order/view/order/order.component';
-import {BeverageListComponent} from '../front/products/beverages/beverage-list.component';
+import {BeverageListComponent} from '../resources/products/beverages/beverage-list.component';
 import {CheckoutFormComponent} from '../forms/checkout/CheckoutForm/checkout-form.component';
 import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../forms/checkout/steps/2-step-two-where/step-two-where.component';

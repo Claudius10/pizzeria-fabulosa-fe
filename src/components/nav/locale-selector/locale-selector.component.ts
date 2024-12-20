@@ -5,16 +5,19 @@ import primeNgEs from "../../../../public/i18n/primeng-es.json";
 import primeNgEn from "../../../../public/i18n/primeng-en.json";
 import {ToastModule} from 'primeng/toast';
 import {NgClass} from '@angular/common';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-locale-selector',
   standalone: true,
   imports: [
     ToastModule,
-    NgClass
+    NgClass,
+    Button
   ],
   providers: [MessageService],
   templateUrl: './locale-selector.component.html',
+  styleUrls: ['./locale-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
@@ -37,24 +40,13 @@ export class LocaleSelectorComponent {
     this.visible = !this.visible;
   }
 
-  spanish() {
-    this.useLanguage('es');
+  changeLanguage(lang: string): void {
+    this.useLanguage(lang);
     this.visible = false;
     this.messageService.add({
       severity: 'info',
-      summary: 'Información',
-      detail: 'Usted seleccionó Español',
-      life: 2000
-    });
-  }
-
-  english() {
-    this.useLanguage('en');
-    this.visible = false;
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Information',
-      detail: 'You selected English',
+      summary: lang === 'es' ? 'Información sobre localización' : 'Locale Information', // can't use this.translateService.instant here, first time calling won't have an effect
+      detail: lang === 'es' ? 'Castellano seleccionado' : 'English selected',
       life: 2000
     });
   }

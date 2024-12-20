@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
-import {ResourceService} from '../../../services/http/resources/resource.service';
-import {RESOURCE_OFFERS, RESOURCE_STORES} from '../../../utils/query-keys';
+import {ResourceService} from '../../services/http/resources/resource.service';
+import {RESOURCE_OFFERS, RESOURCE_STORES} from '../../utils/query-keys';
 import {CardModule} from 'primeng/card';
 import {AccordionModule} from 'primeng/accordion';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {merge} from 'rxjs';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
-import {QueryResult} from '../../../interfaces/query';
-import {OfferItemComponent} from '../offer/offer-item.component';
-import {StoreItemComponent} from '../store/store-item.component';
+import {LoadingAnimationService} from '../../services/navigation/loading-animation.service';
+import {QueryResult} from '../../interfaces/query';
+import {OfferItemComponent} from '../resources/offers/offer-item.component';
+import {StoreItemComponent} from '../resources/stores/store-item.component';
 
 @Component({
   selector: 'app-home',
