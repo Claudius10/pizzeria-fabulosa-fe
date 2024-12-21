@@ -2,14 +2,14 @@
 
   <!-- WELCOME MESSAGE  -->
   <div class="flex flex-column align-items-center">
-    <span class="text-center font-bold font-italic text-primary font-size">Bienvenidos</span>
-    <span class="text-center font-bold font-italic text-primary font-size">a la</span>
+    <span
+      class="text-center font-bold font-italic text-primary font-size">{{ "home.welcome.part.one" | translate }}</span>
     <span class="text-center font-bold font-italic text-primary font-size">Pizzeria Fabulosa</span>
   </div>
 
   <!-- OFFERS  -->
   <div class="flex flex-column align-items-center gap-5">
-    <span class="text-center uppercase font-bold cart-header">Descubre nuestras ofertas</span>
+    <span class="text-center uppercase font-bold cart-header">{{ "home.welcome.offers" | translate }}</span>
     @if (offers.status() === "error") {
       <app-server-error/>
     } @else if (offers.status() === "success") {
@@ -23,7 +23,7 @@
 
   <!-- STORES -->
   <div class="flex flex-column align-items-center gap-5">
-    <span class="text-center uppercase font-bold cart-header">Acercate a la tienda</span>
+    <span class="text-center uppercase font-bold cart-header">{{ "home.welcome.stores" | translate }}</span>
     @if (stores.status() === "error") {
       <app-server-error/>
     } @else if (stores.status() === "success") {

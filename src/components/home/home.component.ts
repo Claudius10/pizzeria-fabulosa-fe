@@ -10,6 +10,7 @@ import {StoreItemComponent} from '../resources/stores/store-item.component';
 import {ErrorService} from '../../services/error/error.service';
 import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
 import {Router} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ import {Router} from '@angular/router';
   imports: [
     OfferItemComponent,
     StoreItemComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    TranslatePipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',

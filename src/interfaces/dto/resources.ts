@@ -3,9 +3,18 @@ import {AddressDTO} from "./order";
 export type OfferDTO = {
   id: number;
   image: string;
-  name: string;
-  description: string;
-  caveat: string;
+  name: {
+    en: string;
+    es: string;
+  };
+  description: {
+    en: string;
+    es: string;
+  };
+  caveat: {
+    en: string;
+    es: string;
+  };
 }
 
 export type StoreDTO = {

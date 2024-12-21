@@ -1,8 +1,9 @@
-import {ChangeDetectionStrategy, Component, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
 import {OfferDTO} from '../../../interfaces/dto/resources';
 import {NgOptimizedImage} from '@angular/common';
 import {AccordionModule} from 'primeng/accordion';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-offer-item',
@@ -10,12 +11,24 @@ import {AccordionModule} from 'primeng/accordion';
   imports: [
     CardModule,
     NgOptimizedImage,
-    AccordionModule
+    AccordionModule,
+    TranslatePipe
   ],
   templateUrl: './offer-item.component.html',
   styleUrl: './offer-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OfferItemComponent {
+export class OfferItemComponent implements OnInit {
+  private translateService = inject(TranslateService);
+  private destroyRef = inject(DestroyRef);
   offer = input.required<OfferDTO>();
+  currentLang = signal(this.translateService.currentLang);
+
+  ngOnInit(): void {
+    const subscription = this.translateService.onLangChange.subscribe(langEvent => {
+      this.currentLang.set(langEvent.lang);
+    });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 }

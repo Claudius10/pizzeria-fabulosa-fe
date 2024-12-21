@@ -1,13 +1,18 @@
-<p-card header="{{offer().name}}" [style]="{ width: '320px' }">
+<p-card header="{{currentLang() === 'en' ? offer().name.en : offer().name.es}}" [style]="{ width: '320px' }">
+
   <ng-template pTemplate="header">
     <img class="border-round" [ngSrc]="offer().image" width="50" height="200" alt="Product image">
   </ng-template>
-  <span>{{ offer().description }}</span>
+
+  <span>{{ currentLang() === 'en' ? offer().description.en : offer().description.es }}</span>
+
   <ng-template pTemplate="footer">
     <p-accordion>
-      <p-accordionTab header="Condiciones">
-        <span>{{ offer().caveat }}</span>
+
+      <p-accordionTab header="{{'offer.item.conditions' | translate}}">
+        <span>{{ currentLang() === 'en' ? offer().caveat.en : offer().caveat.es }}</span>
       </p-accordionTab>
+
     </p-accordion>
   </ng-template>
 </p-card>
