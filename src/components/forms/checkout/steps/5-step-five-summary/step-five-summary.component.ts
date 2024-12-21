@@ -17,7 +17,7 @@ import {isFormValid} from '../../../../../utils/functions';
 import {QueryResult} from '../../../../../interfaces/query';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
-import {AddressDTO} from '../../../../../interfaces/dto/order';
+import {AddressDTO, CartItemDTO} from '../../../../../interfaces/dto/order';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces/http/order';
@@ -132,7 +132,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           },
           cart: {
             id: null,
-            cartItems: this.cartService.cartItems(),
+            cartItems: removeIdsFromCartItems(this.cartService.cartItems()),
             totalQuantity: this.cartService.cartQuantity(),
             totalCost: Number(this.cartService.cartTotal().toFixed(2)),
             totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
@@ -178,7 +178,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         },
         cart: {
           id: null,
-          cartItems: this.cartService.cartItems(),
+          cartItems: removeIdsFromCartItems(this.cartService.cartItems()),
           totalQuantity: this.cartService.cartQuantity(),
           totalCost: Number(this.cartService.cartTotal().toFixed(2)),
           totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
@@ -202,4 +202,13 @@ export class StepFiveSummaryComponent implements OnDestroy {
       });
     }
   }
+}
+
+function removeIdsFromCartItems(items: CartItemDTO[]) {
+  const newItems: CartItemDTO[] = [];
+  items.forEach((item) => {
+    item.id = null;
+    newItems.push(item);
+  });
+  return newItems;
 }

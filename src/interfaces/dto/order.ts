@@ -15,7 +15,7 @@ export type OrderDetailsDTO = {
 }
 
 export type CartItemDTO = {
-  id: number;
+  id: string | null;
   productType: string;
   name: string;
   format: string | null;

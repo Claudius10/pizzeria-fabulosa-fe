@@ -33,8 +33,31 @@ export type ProductDTO = {
   id: number;
   productType: string;
   image: string;
-  name: string;
-  description: string;
-  price: number;
-  format: string;
+  name: {
+    en: string;
+    es: string;
+  };
+  description: {
+    en: string;
+    es: string;
+  };
+  price: {
+    s: number;
+    m: number;
+    l: number;
+  };
+  format: {
+    s: {
+      en: string;
+      es: string;
+    };
+    m: {
+      en: string;
+      es: string;
+    };
+    l: {
+      en: string;
+      es: string;
+    };
+  };
 }

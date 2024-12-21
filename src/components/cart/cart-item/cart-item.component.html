@@ -11,7 +11,11 @@
     <!-- 1ST ROW -> NAME + FORMAT -->
     <div class="flex gap-3">
       <span>{{ item().name }}</span>
-      <span>{{ item().format }}</span>
+      @if (item().format !== null) {
+        <div class="flex gap-2">
+          <span>{{ item().format }}</span>
+        </div>
+      }
     </div>
 
     <!-- 2ND ROW -> PRICE AND BUTTON WITH Q -->

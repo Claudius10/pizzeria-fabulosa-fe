@@ -19,11 +19,11 @@ export class CartItemComponent {
   item = input.required<CartItemDTO>();
   private cartService: CartService = inject(CartService);
 
-  decreaseItemQuantity(id: number) {
+  decreaseItemQuantity(id: string) {
     this.cartService.decreaseQuantity(id);
   }
 
-  increaseItemQuantity(id: number) {
+  increaseItemQuantity(id: string) {
     this.cartService.increaseQuantity(id);
   }
 }

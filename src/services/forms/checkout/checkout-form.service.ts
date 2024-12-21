@@ -54,45 +54,61 @@ export class CheckoutFormService {
   }
 }
 
-function getTestOrderSuccess(): CreatedOrderDTO {
-  return {
-    id: 1,
-    formattedCreatedOn: "12/12/2024",
-    customer: {
-      name: "Clau",
-      email: "email@gmail.com",
-      contactNumber: 123123123
-    },
-    address: {
-      id: 1,
-      street: "Calle Alustre",
-      number: 15,
-      details: null
-    },
-    orderDetails: {
-      id: 1,
-      paymentMethod: "Card",
-      deliveryTime: "ASAP",
-      billToChange: null,
-      comment: "this is a comment please ensure the pizza is hot and good and well cut and you know to give me superpowers",
-      changeToGive: null
-    },
-    cart: {
-      cartItems: [
-        {
-          id: 1,
-          format: "Mediana",
-          image: "",
-          name: "Cuatro Quesos",
-          price: 13.30,
-          productType: "Pizza",
-          quantity: 1
-        }
-      ],
-      id: 1,
-      totalCost: 0,
-      totalCostOffers: 0,
-      totalQuantity: 0
-    },
-  };
-}
+// function getTestOrderSuccess(): CreatedOrderDTO {
+//   return {
+//     id: 1,
+//     formattedCreatedOn: "12/12/2024",
+//     customer: {
+//       name: "Clau",
+//       email: "email@gmail.com",
+//       contactNumber: 123123123
+//     },
+//     address: {
+//       id: 1,
+//       street: "Calle Alustre",
+//       number: 15,
+//       details: null
+//     },
+//     orderDetails: {
+//       id: 1,
+//       paymentMethod: "Card",
+//       deliveryTime: "ASAP",
+//       billToChange: null,
+//       comment: "this is a comment please ensure the pizza is hot and good and well cut and you know to give me superpowers",
+//       changeToGive: null
+//     },
+//     cart: {
+//       cartItems: [
+//         {
+//           id: "1",
+//           format: {
+//             m: {
+//               en: "Mediana",
+//               es: "Mediana"
+//             },
+//             l: {
+//               en: "Mediana",
+//               es: "Mediana"
+//             },
+//             s: {
+//               en: "Mediana",
+//               es: "Mediana"
+//             },
+//           },
+//           image: "",
+//           name: {
+//             en: "Cuatro Quesos",
+//             es: "Cuatro Quesos"
+//           },
+//           price: 13.30,
+//           productType: "Pizza",
+//           quantity: 1
+//         }
+//       ],
+//       id: 1,
+//       totalCost: 0,
+//       totalCostOffers: 0,
+//       totalQuantity: 0
+//     },
+//   };
+// }

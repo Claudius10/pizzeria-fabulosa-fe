@@ -33,7 +33,7 @@ export class CartService {
   }
 
   public add(item: CartItemDTO) {
-    const itemIndex = this.items().findIndex(existingItem => existingItem.id === item.id);
+    const itemIndex = this.items().findIndex((existingItem) => existingItem.id === item.id);
 
     if (itemIndex !== -1) {
       this.items()[itemIndex].quantity++;
@@ -49,7 +49,7 @@ export class CartService {
     this.updateLocalStorage();
   }
 
-  public decreaseQuantity(id: number) {
+  public decreaseQuantity(id: string) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
     const theItem = this.items()[itemIndex];
 
@@ -69,7 +69,7 @@ export class CartService {
     this.updateLocalStorage();
   }
 
-  public increaseQuantity(id: number) {
+  public increaseQuantity(id: string) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
 
     this.items()[itemIndex].quantity++;
