@@ -57,7 +57,7 @@ export function handleError(error: Error, summary: string, detail: string, messa
   const errorDTO: ErrorDTO = errorResponse.error;
 
   if (errorDTO.fatal) {
-    errorService.setError(errorDTO);
+    errorService.addError(errorDTO);
     router.navigate(["/error"]);
   } else {
     messageService.add({severity: 'error', summary: summary, detail: detail, life: 3000});

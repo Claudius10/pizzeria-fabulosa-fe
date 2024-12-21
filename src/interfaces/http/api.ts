@@ -8,9 +8,11 @@ export interface ResponseDTO {
 interface StatusDTO {
   description: string;
   code: number;
+  isError: boolean;
 }
 
 export interface ErrorDTO {
+  id: number;
   path: string;
   origin: string;
   cause: string;

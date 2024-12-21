@@ -17,5 +17,7 @@
   "form.login.success.summary": "Account Information",
   "form.login.success.detail": "You have successfully signed-in",
   "form.login.error.summary": "Account Information",
-  "form.login.error.detail": "Sign-in failed: wrong email or password"
+  "form.login.error.detail": "Sign-in failed: wrong email or password",
+  "error.server.header": "We've received no response from the resource server",
+  "error.server.footer": "Please try again later. We apologize for any inconvenience."
 }

@@ -7,6 +7,9 @@ import {LoadingAnimationService} from '../../services/navigation/loading-animati
 import {QueryResult} from '../../interfaces/query';
 import {OfferItemComponent} from '../resources/offers/offer-item.component';
 import {StoreItemComponent} from '../resources/stores/store-item.component';
+import {ErrorService} from '../../services/error/error.service';
+import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,15 +19,18 @@ import {StoreItemComponent} from '../resources/stores/store-item.component';
   standalone: true,
   imports: [
     OfferItemComponent,
-    StoreItemComponent
+    StoreItemComponent,
+    ServerErrorComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
+  private router = inject(Router);
   private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   offers: QueryResult = this.resourceService.findOffers({queryKey: RESOURCE_OFFERS});
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -46,28 +52,22 @@ export class HomeComponent implements OnInit {
         if (status === "error") {
           this.loadingAnimationService.stopLoading();
           // did server respond?
-          if (this.offers.data() || this.stores.data()) {
+          if (this.offers.data() !== undefined || this.stores.data() !== undefined) {
+            // note: there are no non-fatal errors for offers/stores GET requests
 
             // offers error
-            if (this.offers.data() && this.offers.data()!.error!.fatal) {
-
-            } else {
-              // non fatal error
-
+            if (this.offers.data() !== undefined && this.offers.data()!.status.isError) {
+              this.errorService.addError(this.offers.data()!.error!);
             }
 
             // stores error
-            if (this.stores.data() && this.stores.data()!.error!.fatal) {
-
-            } else {
-              // non fatal error
-
+            if (this.stores.data() !== undefined) {
+              this.errorService.addError(this.stores.data()!.error!);
             }
-          } else {
-            // unable to communicate with server
+
+            this.router.navigate(["/error"]);
           }
         }
-
       },
       complete: () => {
         this.loadingAnimationService.stopLoading();

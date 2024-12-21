@@ -17,5 +17,7 @@
   "form.login.success.summary": "Información acerca de su cuenta",
   "form.login.success.detail": "Sesión iniciada con éxito",
   "form.login.error.summary": "Información acerca de su cuenta",
-  "form.login.error.detail": "Intento de iniciar sesión fallida: email o contraseña errónea"
+  "form.login.error.detail": "Intento de iniciar sesión fallida: email o contraseña errónea",
+  "error.server.header": "No hemos recibido respuesta del servidor de recursos",
+  "error.server.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas."
 }

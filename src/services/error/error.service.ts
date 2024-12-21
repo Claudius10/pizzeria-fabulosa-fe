@@ -5,19 +5,28 @@ import {ErrorDTO} from '../../interfaces/http/api';
   providedIn: 'root'
 })
 export class ErrorService {
-  error = signal<ErrorDTO | null>(null);
+  errors = signal<ErrorDTO[]>([]);
 
-  getError() {
-    return this.error.asReadonly();
+  isEmpty() {
+    return this.errors().length === 0;
   }
 
-  setError(error: ErrorDTO) {
-    this.error.set(error);
+  getErrors() {
+    return this.errors.asReadonly();
+  }
+
+  addError(error: ErrorDTO) {
+    this.errors.update(errors => [...errors, error]);
+  }
+
+  clear() {
+    this.errors.set([]);
   }
 }
 
 function getTestError(): ErrorDTO {
   return {
+    id: 1,
     logged: true,
     fatal: true,
     path: "api/v1/auth/login",

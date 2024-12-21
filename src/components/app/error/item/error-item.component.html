@@ -1,0 +1,61 @@
+<p-card>
+  <div class="flex flex-column align-items-center gap-3">
+    <span class="text-2xl">Error {{ error().id }}</span>
+
+    <div class="flex flex-column gap-2">
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Path</span>
+        <p-button
+          label="{{ error().path }}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Origin</span>
+        <p-button
+          label="{{ error().origin }}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Cause</span>
+        <p-button
+          label="{{ error().cause}}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Message</span>
+        <p-button
+          label="{{ error().message}}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Logged</span>
+        <p-button
+          label="{{ error().logged}}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+
+      <div class="flex align-items-center gap-2">
+        <span class="font-bold">Fatal</span>
+        <p-button
+          label="{{ error().fatal}}"
+          [text]="true"
+          [raised]="true"
+          severity="danger"/>
+      </div>
+    </div>
+  </div>
+</p-card>

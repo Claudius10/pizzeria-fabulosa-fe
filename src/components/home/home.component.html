@@ -2,16 +2,16 @@
 
   <!-- WELCOME MESSAGE  -->
   <div class="flex flex-column align-items-center">
-    <span class="font-bold font-italic text-primary font-size">Bienvenidos</span>
-    <span class="font-bold font-italic text-primary font-size">a la</span>
-    <span class="font-bold font-italic text-primary font-size">Pizzeria Fabulosa</span>
+    <span class="text-center font-bold font-italic text-primary font-size">Bienvenidos</span>
+    <span class="text-center font-bold font-italic text-primary font-size">a la</span>
+    <span class="text-center font-bold font-italic text-primary font-size">Pizzeria Fabulosa</span>
   </div>
 
   <!-- OFFERS  -->
   <div class="flex flex-column align-items-center gap-5">
     <span class="text-center uppercase font-bold cart-header">Descubre nuestras ofertas</span>
     @if (offers.status() === "error") {
-      <p>Error {{ offers.error()?.message }}</p>
+      <app-server-error/>
     } @else if (offers.status() === "success") {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (offer of offers.data()!.payload; track offer.id) {
@@ -25,7 +25,7 @@
   <div class="flex flex-column align-items-center gap-5">
     <span class="text-center uppercase font-bold cart-header">Acercate a la tienda</span>
     @if (stores.status() === "error") {
-      <p>Error {{ stores.error()?.message }}</p>
+      <app-server-error/>
     } @else if (stores.status() === "success") {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (store of stores.data()!.payload; track store.id) {

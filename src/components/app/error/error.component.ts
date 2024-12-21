@@ -1,8 +1,7 @@
-import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
 import {ErrorService} from '../../../services/error/error.service';
 import {ErrorDTO} from '../../../interfaces/http/api';
-import {CardModule} from 'primeng/card';
-import {Button} from 'primeng/button';
+import {ErrorItemComponent} from './item/error-item.component';
 
 @Component({
   selector: 'app-error',
@@ -11,14 +10,17 @@ import {Button} from 'primeng/button';
   },
   standalone: true,
   imports: [
-    CardModule,
-    Button
+    ErrorItemComponent
   ],
   templateUrl: './error.component.html',
   styleUrl: './error.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ErrorComponent {
-  private errorService = inject(ErrorService);
-  error: Signal<ErrorDTO | null> = this.errorService.getError();
+export class ErrorComponent implements OnDestroy {
+  errorService = inject(ErrorService);
+  errors: Signal<ErrorDTO[]> = this.errorService.getErrors();
+
+  ngOnDestroy(): void {
+    this.errorService.clear();
+  }
 }
