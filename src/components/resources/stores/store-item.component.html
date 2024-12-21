@@ -14,8 +14,8 @@
   </div>
   <ng-template pTemplate="footer">
     <p-accordion>
-      <p-accordionTab header="Horario">
-        <span>{{ store().schedule }}</span>
+      <p-accordionTab header="{{ 'store.item.schedule' | translate}}">
+        <span>{{ currentLang() === "en" ? store().schedule.en : store().schedule.es }}</span>
       </p-accordionTab>
     </p-accordion>
   </ng-template>

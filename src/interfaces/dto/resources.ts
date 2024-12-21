@@ -22,7 +22,10 @@ export type StoreDTO = {
   name: string;
   address: AddressDTO;
   phoneNumber: number;
-  schedule: string;
+  schedule: {
+    en: string;
+    es: string;
+  };
   image: string;
 }
 

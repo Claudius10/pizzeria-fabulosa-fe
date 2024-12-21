@@ -19,9 +19,9 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {
+  offer = input.required<OfferDTO>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
-  offer = input.required<OfferDTO>();
   currentLang = signal(this.translateService.currentLang);
 
   ngOnInit(): void {
