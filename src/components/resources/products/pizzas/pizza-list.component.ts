@@ -45,7 +45,7 @@ export class PizzaListComponent implements OnInit {
           if (result === "error") {
             this.loadingAnimationService.stopLoading();
             // did server respond?
-            if (this.query.data() !== undefined) {
+            if (this.query.data() !== undefined && this.query.data()!.status.isError) {
               // note: there are no non-fatal errors for product GET request
               this.errorService.addError(this.query.data()!.error!);
               this.router.navigate(["/error"]);

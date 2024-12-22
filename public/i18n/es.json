@@ -27,8 +27,18 @@
   "form.login.footer.action": "Crea una cuenta",
   "form.login.success.summary": "Información acerca de su cuenta",
   "form.login.success.detail": "Sesión iniciada con éxito",
-  "form.login.error.summary": "Información acerca de su cuenta",
-  "form.login.error.detail": "Intento de iniciar sesión fallida: email o contraseña errónea",
   "error.server.header": "No hemos recibido respuesta del servidor de recursos",
-  "error.server.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas."
+  "error.server.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas.",
+  "error.api.user.id.no.match.summary": "Error al autenticar el usuario",
+  "error.api.user.id.no.match.detail": "Por favor reinicie la sesión. Si el problema persiste, contáctenos",
+  "error.api.user.not.found.summary": "Información acerca de su cuenta",
+  "error.api.user.not.found.detail": "El email o contraseña proporcionada no figura en los registros",
+  "error.api.user.email.unique.summary": "Cuenta nueva",
+  "error.api.user.email.unique.detail": "El correo electrónico proporcionado ya ha sido registrado",
+  "error.api.user.address.list.full.summary": "Lista de domicilios",
+  "error.api.user.address.list.full.detail": "Ha excedido el máximo permitido (3) de domicilios",
+  "error.api.user.order.not.found.summary": "Información acerca del pedido",
+  "error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos",
+  "error.api.unknown.summary": "Error desconocido",
+  "error.api.unknown.detail": "Por favor informános qué pasó"
 }

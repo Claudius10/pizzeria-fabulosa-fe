@@ -97,7 +97,7 @@ export class RegisterComponent implements OnDestroy {
       this.register.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
 
-        }, onError: () => {
+        }, onError: (error: Error) => {
 
         }, onSettled: () => {
           this.loadingAnimationService.stopLoading();

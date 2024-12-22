@@ -27,8 +27,18 @@
   "form.login.footer.action": "Create an account",
   "form.login.success.summary": "Account Information",
   "form.login.success.detail": "You have successfully signed-in",
-  "form.login.error.summary": "Account Information",
-  "form.login.error.detail": "Sign-in failed: wrong email or password",
   "error.server.header": "We've received no response from the resource server",
-  "error.server.footer": "Please try again later. We apologize for any inconvenience."
+  "error.server.footer": "Please try again later. We apologize for any inconvenience.",
+  "error.api.user.id.no.match.summary": "User authentication error",
+  "error.api.user.id.no.match.detail": "Please re-login into your account. If the problem persists, contact us",
+  "error.api.user.not.found.summary": "Account Information",
+  "error.api.user.not.found.detail": "The provided email or password does not match any records",
+  "error.api.user.email.unique.summary": "New account",
+  "error.api.user.email.unique.detail": "The provided email has already been registered",
+  "error.api.user.address.list.full.summary": "Address list",
+  "error.api.user.address.list.full.detail": "You have exceded the maximum size (3) of your address list",
+  "error.api.user.order.not.found.summary": "Order information",
+  "error.api.user.order.not.found.detail": "Unable to find order. If the problem persists, contact us",
+  "error.api.unknown.summary": "Unknown error",
+  "error.api.unknown.detail": "Please let us know what happened"
 }

@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
             }
 
             // stores error
-            if (this.stores.data() !== undefined) {
+            if (this.stores.data() !== undefined && this.stores.data()!.status.isError) {
               this.errorService.addError(this.stores.data()!.error!);
             }
 

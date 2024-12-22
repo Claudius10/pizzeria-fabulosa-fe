@@ -7,15 +7,16 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
-import {MutationResult} from '../../../interfaces/mutation';
+import {ApiError, MutationResult} from '../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {handleError, isFormValid} from '../../../utils/functions';
+import {handleError, handleFatalError, isFormValid} from '../../../utils/functions';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
+import {ResponseDTO} from '../../../interfaces/http/api';
 
 @Component({
   selector: 'app-login-dialog',
@@ -99,12 +100,16 @@ export class LoginDialogComponent implements OnDestroy {
           this.router.navigate(["/pizzas"]);
         },
         onError: (error) => {
-          handleError(error,
-            this.translateService.instant("form.login.error.summary"),
-            this.translateService.instant("form.login.error.detail"),
-            this.messageService,
-            this.errorService,
-            this.router);
+          const apiError = error as ApiError;
+          const response: ResponseDTO = apiError.error;
+
+          if (response.status.isError) {
+            if (response.error!.fatal) {
+              handleFatalError(response, this.errorService, this.router);
+            } else
+              handleError(response, this.messageService, this.translateService);
+          }
+
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
