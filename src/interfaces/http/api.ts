@@ -8,7 +8,7 @@ export interface ResponseDTO {
 interface StatusDTO {
   description: string;
   code: number;
-  isError: boolean;
+  error: boolean; // isError on the BE somehow ends up as error here
 }
 
 export interface ErrorDTO {

@@ -63,7 +63,7 @@ export function handleError(response: ResponseDTO, messageService: MessageServic
   const summary = getErrorSummary(cause, translateService);
   const details = getErrorDetails(cause, translateService);
 
-  messageService.add({severity: 'error', summary: summary, detail: details, life: 3000});
+  messageService.add({severity: getSeverity(summary), summary: summary, detail: details, life: 3000});
 }
 
 export function handleFatalError(response: ResponseDTO, errorService: ErrorService, router: Router) {
@@ -113,5 +113,22 @@ export function getErrorDetails(cause: string, translateService: TranslateServic
     default:
       console.log("getErrorDetails: unknown cause received from BE ", cause);
       return translateService.instant("error.api.unknown.detail");
+  }
+}
+
+export function getSeverity(summary: string) {
+  switch (summary) {
+    case "INFORMACIÓN":
+      return "info";
+    case "INFORMATION":
+      return "info";
+    case "ADVERTENCIA":
+      return "warn";
+    case "WARNING":
+      return "warn";
+    case "ERROR":
+      return "error";
+    default:
+      return "error";
   }
 }

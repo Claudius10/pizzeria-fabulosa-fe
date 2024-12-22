@@ -11,16 +11,20 @@ import {
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RegisterForm} from '../../../interfaces/http/account';
 import {AccountService} from '../../../services/http/account/account.service';
-import {isFormValid} from '../../../utils/functions';
+import {handleError, handleFatalError, isFormValid} from '../../../utils/functions';
 import {Button} from 'primeng/button';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ResponseDTO} from '../../../interfaces/http/api';
-import {MutationResult} from '../../../interfaces/mutation';
+import {ApiError, MutationResult} from '../../../interfaces/mutation';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {Router} from '@angular/router';
+import {MessageService} from 'primeng/api';
+import {TranslateService} from '@ngx-translate/core';
+import {ResponseDTO} from '../../../interfaces/http/api';
+import {ErrorService} from '../../../services/error/error.service';
+import {ToastModule} from 'primeng/toast';
 
 @Component({
   selector: 'app-register',
@@ -33,18 +37,23 @@ import {Router} from '@angular/router';
     Button,
     IconFieldModule,
     InputIconModule,
-    InputTextModule
+    InputTextModule,
+    ToastModule
   ],
+  providers: [MessageService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
   private router = inject(Router);
+  protected authService = inject(AuthService);
+  private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
+  private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private accountService = inject(AccountService);
   private register: MutationResult = this.accountService.create();
-  protected authService = inject(AuthService);
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
@@ -95,10 +104,34 @@ export class RegisterComponent implements OnDestroy {
       };
 
       this.register.mutate({payload: data}, {
-        onSuccess: (response: ResponseDTO) => {
-
+        onSuccess: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("form.register.success.summary"),
+            detail: this.translateService.instant("form.register.success.detail"),
+            life: 3000
+          });
+          this.router.navigate(["/"]);
         }, onError: (error: Error) => {
+          const apiError = error as ApiError;
+          const response: ResponseDTO = apiError.error;
 
+          // did server respond?
+          if (response.status !== undefined) {
+            if (response.status.error) {
+              if (response.error!.fatal) {
+                handleFatalError(response, this.errorService, this.router);
+              } else
+                handleError(response, this.messageService, this.translateService);
+            }
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant("error.server.summary"),
+              detail: this.translateService.instant("error.server.detail"),
+              life: 3000
+            });
+          }
         }, onSettled: () => {
           this.loadingAnimationService.stopLoading();
         }

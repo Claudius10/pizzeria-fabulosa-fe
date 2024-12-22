@@ -58,12 +58,12 @@ export class HomeComponent implements OnInit {
             // note: there are no non-fatal errors for offers/stores GET requests
 
             // offers error
-            if (this.offers.data() !== undefined && this.offers.data()!.status.isError) {
+            if (this.offers.data() !== undefined && this.offers.data()!.status.error) {
               this.errorService.addError(this.offers.data()!.error!);
             }
 
             // stores error
-            if (this.stores.data() !== undefined && this.stores.data()!.status.isError) {
+            if (this.stores.data() !== undefined && this.stores.data()!.status.error) {
               this.errorService.addError(this.stores.data()!.error!);
             }
 
