@@ -5,6 +5,7 @@ import {NavigationEnd, Router} from '@angular/router';
 import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
 import {filter} from 'rxjs';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart',
@@ -13,6 +14,7 @@ import {filter} from 'rxjs';
     CartItemComponent,
     TotalsComponent,
     Button,
+    TranslatePipe,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',

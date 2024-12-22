@@ -5,6 +5,9 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {QueryResult} from '../../../../interfaces/query';
+import {ErrorService} from '../../../../services/error/error.service';
+import {Router} from '@angular/router';
+import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
 
 @Component({
   selector: 'app-beverage-list',
@@ -13,7 +16,8 @@ import {QueryResult} from '../../../../interfaces/query';
   },
   standalone: true,
   imports: [
-    ProductItemComponent
+    ProductItemComponent,
+    ServerErrorComponent
   ],
   templateUrl: './beverage-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -22,22 +26,38 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
-  protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+  query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
 
   ngOnInit(): void {
     const subscription = this.statusObservable.subscribe({
-      next: result => {
-        if (result === "pending") {
-          this.loadingAnimationService.startLoading();
-        } else {
-          this.loadingAnimationService.stopLoading();
+        next: result => {
+          if (result === "pending") {
+            this.loadingAnimationService.startLoading();
+          }
+
+          if (result === "success") {
+            this.loadingAnimationService.stopLoading();
+          }
+
+          if (result === "error") {
+            this.loadingAnimationService.stopLoading();
+            // did server respond?
+            if (this.query.data() !== undefined) {
+              // note: there are no non-fatal errors for product GET request
+              this.errorService.addError(this.query.data()!.error!);
+              this.router.navigate(["/error"]);
+            }
+          }
         }
-      }
-    });
+      },
+    );
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
+      this.loadingAnimationService.stopLoading();
     });
   }
 

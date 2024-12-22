@@ -13,18 +13,21 @@
 
       <!-- TOTAL WITH OFFERS -->
       <div class="flex align-items-center gap-2">
-        <span>Total con ofertas</span>
+        <span>{{ "cart.total.offers" | translate }}</span>
         <p-button type="button" size="large" [text]="true" label="{{ totalAfterOffers().toFixed(2) }}€"
                   severity="success"/>
       </div>
 
       <!-- APPLIED OFFERS -->
-      <div class="flex gap-4">
-        <span>Ofertas aplicadas</span>
+      <div class="flex gap-2">
+        <span>{{ "cart.total.offers.applied" | translate }}</span>
 
         <div class="flex gap-3">
           @if (secondForHalfPriceOffer() != 0) {
-            <p-button type="button" [text]="true" label="2&#7491; 50%"/>
+            <p-button type="button" [text]="true">
+              2<sup>{{ "cart.total.offers.second.part.one" | translate }}</sup> <span
+              class="ml-1">{{ "cart.total.offers.second.part.two" | translate }}</span>
+            </p-button>
           }
 
           @if (threeForTwoOffers() != 0) {
