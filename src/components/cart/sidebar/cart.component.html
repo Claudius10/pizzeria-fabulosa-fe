@@ -17,7 +17,7 @@
     />
 
     @if (this.cartService.cartQuantity() !== 0 && !viewOnly()) {
-      <p-button type="button" label="{{'button.start.order' | translate }}" [raised]="true" (click)="newOrderOnLick()"/>
+      <p-button type="button" label="{{'button.start.order' | translate | uppercase }}" [raised]="true" (click)="newOrderOnLick()"/>
     }
 
   </div>

@@ -40,7 +40,7 @@
         <div class="flex align-items-center buttons gap-2">
           <p-button
             type="button"
-            label="{{ 'button.cancel' | translate }}"
+            label="{{ 'button.cancel' | translate | uppercase }}"
             (onClick)="closeLoginDialog()"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
@@ -48,7 +48,7 @@
           />
           <p-button
             type="submit"
-            label="{{ 'button.enter' | translate }}"
+            label="{{ 'button.enter' | translate | uppercase }}"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             class="w-full"

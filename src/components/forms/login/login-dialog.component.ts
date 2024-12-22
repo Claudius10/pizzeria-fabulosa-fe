@@ -17,6 +17,7 @@ import {ErrorService} from '../../../services/error/error.service';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {ResponseDTO} from '../../../interfaces/http/api';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-login-dialog',
@@ -27,7 +28,8 @@ import {ResponseDTO} from '../../../interfaces/http/api';
     IconFieldModule,
     InputIconModule,
     Button,
-    TranslatePipe
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.css'],

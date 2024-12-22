@@ -6,6 +6,7 @@ import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
 import {filter} from 'rxjs';
 import {TranslatePipe} from '@ngx-translate/core';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-cart',
@@ -15,6 +16,7 @@ import {TranslatePipe} from '@ngx-translate/core';
     TotalsComponent,
     Button,
     TranslatePipe,
+    UpperCasePipe,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',

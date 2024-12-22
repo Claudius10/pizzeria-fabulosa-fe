@@ -21,10 +21,12 @@ import {ApiError, MutationResult} from '../../../interfaces/mutation';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {ToastModule} from 'primeng/toast';
+import {UpperCasePipe} from '@angular/common';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-register',
@@ -38,7 +40,10 @@ import {ToastModule} from 'primeng/toast';
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    ToastModule
+    ToastModule,
+    TranslatePipe,
+    UpperCasePipe,
+    CardModule
   ],
   providers: [MessageService],
   templateUrl: './register.component.html',
