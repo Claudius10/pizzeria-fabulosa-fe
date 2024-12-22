@@ -30,7 +30,8 @@ export type StoreDTO = {
 }
 
 export type ProductDTO = {
-  id: number;
+  id: string;
+  code: string;
   productType: string;
   image: string;
   name: {
@@ -41,12 +42,12 @@ export type ProductDTO = {
     en: string;
     es: string;
   };
-  price: {
+  prices: {
     s: number;
     m: number;
     l: number;
   };
-  format: {
+  formats: {
     s: {
       en: string;
       es: string;

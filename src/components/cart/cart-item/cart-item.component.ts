@@ -1,8 +1,9 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemDTO} from '../../../interfaces/dto/order';
 import {NgOptimizedImage} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-item',
@@ -14,10 +15,21 @@ import {Button, ButtonDirective} from 'primeng/button';
   ],
   templateUrl: './cart-item.component.html',
 })
-export class CartItemComponent {
+export class CartItemComponent implements OnInit {
   readOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   private cartService: CartService = inject(CartService);
+  private translateService = inject(TranslateService);
+  private destroyRef = inject(DestroyRef);
+  currentLang = signal(this.translateService.currentLang);
+
+  ngOnInit(): void {
+    const subscription = this.translateService.onLangChange.subscribe(langEvent => {
+      this.currentLang.set(langEvent.lang);
+    });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
 
   decreaseItemQuantity(id: string) {
     this.cartService.decreaseQuantity(id);

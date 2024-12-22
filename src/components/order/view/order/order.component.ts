@@ -19,6 +19,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {MutationResult} from '../../../../interfaces/mutation';
+import {ResourceService} from '../../../../services/http/resources/resource.service';
 
 @Component({
   selector: 'app-order',
@@ -45,10 +46,12 @@ export class OrderComponent implements OnInit {
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
+  private resourceService = inject(ResourceService);
   private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
+  allProducts = this.resourceService.findAllProducts(); // first checks Cache
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
     orderId: this.orderId,
@@ -74,7 +77,7 @@ export class OrderComponent implements OnInit {
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const cart = this.order.data()!.payload.cart as CartDTO;
-          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, this.allProducts);
         }
       }, complete: () => {
         this.loadingAnimationService.stopLoading();

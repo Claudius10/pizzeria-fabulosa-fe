@@ -12,33 +12,33 @@
         <span class="font-semibold">{{ currentLang() === 'en' ? product().name.en : product().name.es }}</span>
 
         <div class="flex gap-2">
-          @if (product().format.s) {
+          @if (product().formats.s) {
             <p-button
-              (click)="setFormat('s')"
+              (click)="setFormat('S')"
               type="button"
               size="small"
-              label="{{ currentLang() === 'en' ? product().format.s.en : product().format.s.es  }}"
-              [outlined]="this.productFormat()!=='s'"
+              label="{{ currentLang() === 'en' ? product().formats.s.en : product().formats.s.es  }}"
+              [outlined]="this.productFormat()!=='S'"
               [raised]="true"/>
           }
 
-          @if (product().format.m) {
+          @if (product().formats.m) {
             <p-button
-              (click)="setFormat('m')"
+              (click)="setFormat('M')"
               type="button"
               size="small"
-              label="{{ currentLang() === 'en' ? product().format.m.en : product().format.m.es  }}"
-              [outlined]="this.productFormat()!=='m'"
+              label="{{ currentLang() === 'en' ? product().formats.m.en : product().formats.m.es  }}"
+              [outlined]="this.productFormat()!=='M'"
               [raised]="true"/>
           }
 
-          @if (product().format.l) {
+          @if (product().formats.l) {
             <p-button
-              (click)="setFormat('l')"
+              (click)="setFormat('L')"
               type="button"
               size="small"
-              label="{{ currentLang() === 'en' ? product().format.l.en : product().format.l.es  }}"
-              [outlined]="this.productFormat()!=='l'"
+              label="{{ currentLang() === 'en' ? product().formats.l.en : product().formats.l.es  }}"
+              [outlined]="this.productFormat()!=='L'"
               [raised]="true"/>
           }
 

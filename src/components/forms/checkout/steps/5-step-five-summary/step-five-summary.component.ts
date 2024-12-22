@@ -47,6 +47,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private router = inject(Router);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
+  allProducts = this.resourceService.findAllProducts(); // first checks Cache
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
@@ -132,7 +133,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           },
           cart: {
             id: null,
-            cartItems: removeIdsFromCartItems(this.cartService.cartItems()),
+            cartItems: cleanIds(this.cartService.cartItems()),
             totalQuantity: this.cartService.cartQuantity(),
             totalCost: Number(this.cartService.cartTotal().toFixed(2)),
             totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
@@ -144,7 +145,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         onSuccess: (response: ResponseDTO) => {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost);
+          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost, true, this.allProducts);
           this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },
@@ -178,7 +179,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         },
         cart: {
           id: null,
-          cartItems: removeIdsFromCartItems(this.cartService.cartItems()),
+          cartItems: cleanIds(this.cartService.cartItems()),
           totalQuantity: this.cartService.cartQuantity(),
           totalCost: Number(this.cartService.cartTotal().toFixed(2)),
           totalCostOffers: Number(this.cartService.cartTotalAfterOffers().toFixed(2)),
@@ -189,7 +190,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         onSuccess: (response: ResponseDTO) => {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost);
+          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost, true, this.allProducts);
           this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },
@@ -204,10 +205,10 @@ export class StepFiveSummaryComponent implements OnDestroy {
   }
 }
 
-function removeIdsFromCartItems(items: CartItemDTO[]) {
+function cleanIds(items: CartItemDTO[]) {
   const newItems: CartItemDTO[] = [];
   items.forEach((item) => {
-    item.id = null;
+    item.id = "1"; // will be set to NULL when serializing to POJO
     newItems.push(item);
   });
   return newItems;

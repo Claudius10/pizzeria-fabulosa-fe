@@ -2,6 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
 import {Cart} from './localstorage/Cart';
 import {CartLocalstorageService} from './localstorage/cart-localstorage.service';
+import {ProductDTO} from '../../interfaces/dto/resources';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,49 @@ export class CartService {
   public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
   public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
 
-  public set(items: CartItemDTO[], quantity: number, total: number) {
+  public set(items: CartItemDTO[], quantity: number, total: number, enrichment: boolean, products?: ProductDTO[]) {
+    if (enrichment && (!products || products.length === 0)) {
+      throw new Error("CartService.set: products for enrichment process not provided!");
+    }
+
     this.clear();
-    this.items.set(items);
     this.quantity.set(quantity);
     this.total.set(total);
-    this.calculateCostWithOffers(items, total);
+
+    if (enrichment) {
+      const enrichedItems = this.enrichItems(items, products!);
+      this.items.set(enrichedItems);
+      this.calculateCostWithOffers(enrichedItems, total);
+    } else {
+      this.items.set(items);
+      this.calculateCostWithOffers(items, total);
+    }
+
     this.updateLocalStorage();
+  }
+
+  enrichItems(items: CartItemDTO[], products: ProductDTO[]) {
+    const enrichedItems: CartItemDTO[] = [];
+    items.map((item) => {
+      // note: CartItemDTO's code is guaranteed to exist in ProductDTO array
+      const productIndex = products.findIndex(product => product.code === item.code);
+      const product = products[productIndex];
+      enrichedItems.push({
+        id: product.id,
+        image: product.image,
+        description: product.description,
+        name: product.name,
+        formats: product.formats,
+        productType: product.productType,
+        prices: product.prices,
+        price: item.price,
+        code: item.code,
+        format: item.format,
+        quantity: item.quantity
+      });
+    });
+
+    return enrichedItems;
   }
 
   public add(item: CartItemDTO) {

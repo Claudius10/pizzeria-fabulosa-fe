@@ -32,41 +32,43 @@ export class ProductItemComponent implements OnInit {
   productFormat = signal<string>("");
   productPrice = signal<number>(0);
 
-  public addProductToCart() {
-    this.cartService.add({
-      id: this.product().id.toString() + this.productPrice().toString() + this.productFormat(),
-      name: this.currentLang() === 'en' ? this.product().name.en : this.product().name.es,
-      format: this.getFormat(this.productFormat()),
-      price: this.productPrice(),
-      productType: this.product().productType,
-      image: this.product().image,
-      quantity: 1,
+  ngOnInit(): void {
+    this.productFormat.set(this.product().formats.m === undefined ? "S" : "M");
+    this.productPrice.set(this.product().prices.m === undefined ? this.product().prices.s : this.product().prices.m);
+
+    const subscription = this.translateService.onLangChange.subscribe(langEvent => {
+      this.currentLang.set(langEvent.lang);
     });
+
+    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  getFormat(format: string) {
-    switch (format) {
-      case 's':
-        return this.currentLang() === 'en' ? this.product().format.s.en : this.product().format.s.es;
-      case 'm':
-        return this.currentLang() === 'en' ? this.product().format.m.en : this.product().format.m.es;
-      case 'l':
-        return this.currentLang() === 'en' ? this.product().format.l.en : this.product().format.l.es;
-      default:
-        return '';
-    }
+  public addProductToCart() {
+    this.cartService.add({
+      id: this.product().id + this.product().code + this.productFormat(),
+      code: this.product().code,
+      image: this.product().image,
+      productType: this.product().productType,
+      name: this.product().name,
+      description: this.product().description,
+      prices: this.product().prices,
+      formats: this.product().formats,
+      quantity: 1,
+      price: this.productPrice(),
+      format: this.productFormat(),
+    });
   }
 
   updatePrice(format: string) {
     switch (format) {
-      case 's':
-        this.productPrice.set(this.product().price.s);
+      case 'S':
+        this.productPrice.set(this.product().prices.s);
         break;
-      case 'm':
-        this.productPrice.set(this.product().price.m);
+      case 'M':
+        this.productPrice.set(this.product().prices.m);
         break;
-      case 'l':
-        this.productPrice.set(this.product().price.l);
+      case 'L':
+        this.productPrice.set(this.product().prices.l);
         break;
     }
   }
@@ -74,16 +76,5 @@ export class ProductItemComponent implements OnInit {
   setFormat(format: string) {
     this.productFormat.set(format);
     this.updatePrice(format);
-  }
-
-  ngOnInit(): void {
-    this.productFormat.set(this.product().format.m === undefined ? "s" : "m");
-    this.productPrice.set(this.product().price.m === undefined ? this.product().price.s : this.product().price.m);
-
-    const subscription = this.translateService.onLangChange.subscribe(langEvent => {
-      this.currentLang.set(langEvent.lang);
-    });
-
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }

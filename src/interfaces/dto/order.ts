@@ -1,3 +1,5 @@
+import {ProductDTO} from './resources';
+
 export type AddressDTO = {
   id: number;
   street: string;
@@ -14,14 +16,11 @@ export type OrderDetailsDTO = {
   comment: string | null;
 }
 
-export type CartItemDTO = {
-  id: string | null;
-  productType: string;
-  name: string;
-  format: string | null;
-  price: number;
+export interface CartItemDTO extends ProductDTO {
+  code: string;
   quantity: number;
-  image: string;
+  price: number;
+  format: string;
 }
 
 export type CartDTO = {
