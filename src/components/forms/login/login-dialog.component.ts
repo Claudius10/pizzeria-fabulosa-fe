@@ -10,7 +10,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {ApiError, MutationResult} from '../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {handleError, handleFatalError, isFormValid} from '../../../utils/functions';
+import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../utils/functions';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
@@ -93,8 +93,8 @@ export class LoginDialogComponent implements OnDestroy {
           this.cartService.clear();
           this.messageService.add({
             severity: 'success',
-            summary: this.translateService.instant("form.login.success.summary"),
-            detail: this.translateService.instant("form.login.success.detail"),
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.login.success.detail"),
             life: 3000
           });
           this.router.navigate(["/pizzas"]);
@@ -110,12 +110,7 @@ export class LoginDialogComponent implements OnDestroy {
             } else
               handleError(response, this.messageService, this.translateService);
           } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant("error.server.summary"),
-              detail: this.translateService.instant("error.server.detail"),
-              life: 3000
-            });
+            handleServerNoResponse(this.messageService, this.translateService);
           }
         },
         onSettled: () => {

@@ -76,43 +76,52 @@ export function handleFatalError(response: ResponseDTO, errorService: ErrorServi
   router.navigate(["/error"]);
 }
 
+export function handleServerNoResponse(messageService: MessageService, translateService: TranslateService) {
+  messageService.add({
+    severity: 'warn',
+    summary: translateService.instant("toast.severity.warning"),
+    detail: translateService.instant("toast.error.server.detail"),
+    life: 3000
+  });
+}
+
 export function getErrorSummary(cause: string, translateService: TranslateService) {
   switch (cause) {
     case USER_ID_NO_MATCH:
-      return translateService.instant("error.api.user.id.no.match.summary");
+      return translateService.instant("toast.severity.error");
     case USER_NOT_FOUND:
-      return translateService.instant("error.api.user.not.found.summary");
+      return translateService.instant("toast.severity.warning");
     case BAD_CREDENTIALS:
-      return translateService.instant("error.api.user.not.found.summary");
+      return translateService.instant("toast.severity.warning");
     case USER_EMAIL_ALREADY_EXISTS:
-      return translateService.instant("error.api.user.email.unique.summary");
+      return translateService.instant("toast.severity.warning");
     case ADDRESS_MAX_SIZE:
-      return translateService.instant("error.api.user.address.list.full.summary");
+      return translateService.instant("toast.severity.warning");
     case ORDER_NOT_FOUND:
-      return translateService.instant("error.api.user.order.not.found.summary");
+      return translateService.instant("toast.severity.error");
     default:
       console.log("getErrorSummary: unknown cause received from BE ", cause);
-      return translateService.instant("error.api.unknown.summary");
+      return translateService.instant("toast.severity.error");
   }
 }
 
 export function getErrorDetails(cause: string, translateService: TranslateService) {
   switch (cause) {
     case USER_ID_NO_MATCH:
-      return translateService.instant("error.api.user.id.no.match.detail");
+      return translateService.instant("toast.error.api.user.id.no.match.detail");
     case USER_NOT_FOUND:
-      return translateService.instant("error.api.user.not.found.detail");
+      return translateService.instant("toast.error.api.user.not.found.detail");
     case BAD_CREDENTIALS:
-      return translateService.instant("error.api.user.not.found.detail");
+      return translateService.instant("toast.error.api.user.not.found.detail");
     case USER_EMAIL_ALREADY_EXISTS:
-      return translateService.instant("error.api.user.email.unique.detail");
+      return translateService.instant("toast.error.api.user.email.unique.detail");
     case ADDRESS_MAX_SIZE:
-      return translateService.instant("error.api.user.address.list.full.detail");
+      return translateService.instant("toast.error.api.user.address.list.full.detail");
     case ORDER_NOT_FOUND:
-      return translateService.instant("error.api.user.order.not.found.detail");
+      return translateService.instant("toast.error.api.user.order.not.found.detail");
     default:
       console.log("getErrorDetails: unknown cause received from BE ", cause);
-      return translateService.instant("error.api.unknown.detail");
+      return translateService.instant("toast.error.api.unknown");
   }
 }
 

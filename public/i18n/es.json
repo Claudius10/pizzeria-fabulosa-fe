@@ -36,11 +36,11 @@
   "toast.severity.info": "INFORMACIÓN",
   "toast.form.login.success.detail": "Sesión iniciada con éxito",
   "toast.form.register.success.detail": "Registración completa! Ya puede entrar en su cuenta.",
-  "toast.error.server.detail": "El servidor no está disponible ahora mismo. Por favor, inténtelo más tarde.",
+  "toast.error.server.detail": "El servidor no está disponible en estos momentos. Por favor, inténtelo más tarde.",
   "toast.error.api.user.id.no.match.detail": "Por favor reinicie la sesión. Si el problema persiste, contáctenos.",
   "toast.error.api.user.not.found.detail": "El email o contraseña proporcionada no figura en los registros",
   "toast.error.api.user.email.unique.detail": "El correo electrónico proporcionado ya ha sido registrado",
   "toast.error.api.user.address.list.full.detail": "Ha excedido el máximo permitido (3) de domicilios",
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",
-  "toast.error.api.unknown.detail": "Error desconocido. Por favor informános de qué pasó."
+  "toast.error.api.unknown": "Error desconocido. Por favor informános de qué pasó."
 }

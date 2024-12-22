@@ -11,10 +11,10 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-column px-6 py-4 gap-4"
            style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700))">
-        <span class="text-primary-50 text-center text-2xl font-bold">{{ "form.login.title" | translate }}</span>
+        <span class="text-primary-50 text-center text-2xl font-bold">{{ "component.form.login.title" | translate }}</span>
 
         <div class="inline-flex flex-column gap-2">
-          <label for="email" class="text-primary-50 font-semibold">{{ "form.login.label.email" | translate }}</label>
+          <label for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
           <input
             formControlName="email"
             type="email"
@@ -25,7 +25,7 @@
 
         <div class="inline-flex flex-column gap-2 w-full">
           <label for="password"
-                 class="text-primary-50 font-semibold">{{ "form.login.label.password" | translate }}</label>
+                 class="text-primary-50 font-semibold">{{ "form.label.password" | translate }}</label>
           <p-iconField iconPosition="right">
             <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input
@@ -40,7 +40,7 @@
         <div class="flex align-items-center buttons gap-2">
           <p-button
             type="button"
-            label="{{ 'form.login.button.cancel' | translate }}"
+            label="{{ 'button.cancel' | translate }}"
             (onClick)="closeLoginDialog()"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
@@ -48,7 +48,7 @@
           />
           <p-button
             type="submit"
-            label="{{ 'form.login.button.enter' | translate }}"
+            label="{{ 'button.enter' | translate }}"
             [text]="true"
             styleClass="p-3 w-full text-primary-50 border-1 border-white-alpha-30 hover:bg-white-alpha-10"
             class="w-full"
@@ -56,10 +56,10 @@
         </div>
 
         <div class="flex flex-column gap-2">
-          <span class="text-center text-primary-50 font-semibold">{{ 'form.login.footer.question' | translate }}</span>
+          <span class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
           <span
             (click)="goToRegister()"
-            class="cursor-pointer underline text-center text-primary-50 font-semibold">{{ 'form.login.footer.action' | translate }}</span>
+            class="cursor-pointer underline text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.action' | translate }}</span>
         </div>
       </div>
     </form>

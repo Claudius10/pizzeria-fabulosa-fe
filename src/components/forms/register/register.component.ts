@@ -11,7 +11,7 @@ import {
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RegisterForm} from '../../../interfaces/http/account';
 import {AccountService} from '../../../services/http/account/account.service';
-import {handleError, handleFatalError, isFormValid} from '../../../utils/functions';
+import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../utils/functions';
 import {Button} from 'primeng/button';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
@@ -107,8 +107,8 @@ export class RegisterComponent implements OnDestroy {
         onSuccess: () => {
           this.messageService.add({
             severity: 'success',
-            summary: this.translateService.instant("form.register.success.summary"),
-            detail: this.translateService.instant("form.register.success.detail"),
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.register.success.detail"),
             life: 3000
           });
           this.router.navigate(["/"]);
@@ -123,12 +123,7 @@ export class RegisterComponent implements OnDestroy {
             } else
               handleError(response, this.messageService, this.translateService);
           } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant("error.server.summary"),
-              detail: this.translateService.instant("error.server.detail"),
-              life: 3000
-            });
+            handleServerNoResponse(this.messageService, this.translateService);
           }
         }, onSettled: () => {
           this.loadingAnimationService.stopLoading();
