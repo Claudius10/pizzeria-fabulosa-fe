@@ -117,13 +117,11 @@ export class RegisterComponent implements OnDestroy {
           const response: ResponseDTO = apiError.error;
 
           // did server respond?
-          if (response.status !== undefined) {
-            if (response.status.error) {
-              if (response.error!.fatal) {
-                handleFatalError(response, this.errorService, this.router);
-              } else
-                handleError(response, this.messageService, this.translateService);
-            }
+          if (response.status !== undefined && response.status.error) {
+            if (response.error!.fatal) {
+              handleFatalError(response, this.errorService, this.router);
+            } else
+              handleError(response, this.messageService, this.translateService);
           } else {
             this.messageService.add({
               severity: 'error',

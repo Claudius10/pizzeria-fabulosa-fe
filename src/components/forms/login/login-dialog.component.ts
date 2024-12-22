@@ -103,13 +103,20 @@ export class LoginDialogComponent implements OnDestroy {
           const apiError = error as ApiError;
           const response: ResponseDTO = apiError.error;
 
-          if (response.status.error) {
+          // did server respond?
+          if (response.status !== undefined && response.status.error) {
             if (response.error!.fatal) {
               handleFatalError(response, this.errorService, this.router);
             } else
               handleError(response, this.messageService, this.translateService);
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant("error.server.summary"),
+              detail: this.translateService.instant("error.server.detail"),
+              life: 3000
+            });
           }
-
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
