@@ -1,18 +1,18 @@
 @if (!this.checkoutFormService.isStepFilled(2)) {
   <div class="form flex flex-column justify-content-between align-items-center">
-    <span class="text-center">Unable to load step three: step one and two must be completed.</span>
+    <span class="text-center">{{ "component.form.step.three.warning" | translate }}</span>
     <p-button
       type="button"
-      (onClick)="goBack(true)"
+      (onClick)="firstStep()"
       [disabled]="checkoutFormService.step() === 0"
-      label="VOLVER"/>
+      label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
   <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <div class="flex flex-column gap-5">
 
       <div class="flex flex-column gap-4">
-        <label for="deliveryChoice">Seleccione la hora de entrega</label>
+        <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
         <p-iconField iconPosition="right">
           <p-inputIcon styleClass="pi pi-angle-down"/>
           <select
@@ -23,7 +23,7 @@
             pInputText
             class="w-full"
             id="deliveryChoice">
-            <option *ngFor="let option of options" [value]="option.code">{{ option.description }}</option>
+            <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
         </p-iconField>
         @if (programmedDelivery()) {
@@ -59,7 +59,7 @@
       <p-button
         severity="danger"
         type="button"
-        (onClick)="goBack(false)"
+        (onClick)="cancel()"
         label="CANCELAR"/>
       <p-button
         type="button"

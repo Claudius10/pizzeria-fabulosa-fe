@@ -3,6 +3,7 @@ import {CartService} from '../../../../services/cart/cart.service';
 import {TotalsComponent} from '../../../cart/totals/totals.component';
 import {CardModule} from 'primeng/card';
 import {CartItemComponent} from '../../../cart/cart-item/cart-item.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-checkout',
@@ -10,7 +11,8 @@ import {CartItemComponent} from '../../../cart/cart-item/cart-item.component';
   imports: [
     TotalsComponent,
     CardModule,
-    CartItemComponent
+    CartItemComponent,
+    TranslatePipe
   ],
   templateUrl: './checkout-cart.component.html',
   styleUrl: './checkout-cart.component.css',

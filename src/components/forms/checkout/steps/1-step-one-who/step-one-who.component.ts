@@ -10,6 +10,8 @@ import {Router} from '@angular/router';
 import {isFormValid} from '../../../../../utils/functions';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {CardModule} from 'primeng/card';
+import {TranslatePipe} from '@ngx-translate/core';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -20,7 +22,9 @@ import {CardModule} from 'primeng/card';
     InputTextModule,
     ReactiveFormsModule,
     Button,
-    CardModule
+    CardModule,
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './step-one-who.component.html',
   styleUrl: './step-one-who.component.css',

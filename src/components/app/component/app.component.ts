@@ -7,6 +7,7 @@ import defaultLanguage from "../../../../public/i18n/en.json";
 import {CartLocalstorageService} from '../../../services/cart/localstorage/cart-localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ResourceService} from '../../../services/http/resources/resource.service';
+import {ToastModule} from "primeng/toast";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ import {ResourceService} from '../../../services/http/resources/resource.service
     NavigationBarComponent,
     RouterOutlet,
     FooterComponent,
-    TranslateModule
+    TranslateModule,
+    ToastModule
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -1,11 +1,11 @@
 @if (!checkoutFormService.isStepFilled(1)) {
   <div class="form flex flex-column justify-content-between align-items-center">
-    <span class="text-center">Unable to load step two: step one must be completed.</span>
+    <span class="text-center">{{ "component.form.step.two.warning" | translate }}</span>
     <p-button
       type="button"
-      (onClick)="goBack(true)"
+      (onClick)="previousStep()"
       [disabled]="checkoutFormService.step() === 0"
-      label="VOLVER"/>
+      label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
   <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
@@ -13,7 +13,7 @@
     <div class="flex flex-column gap-5">
 
       <div class="flex flex-column gap-4">
-        <label for="deliveryOption">Seleccione la opción de entrega</label>
+        <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
         <p-iconField iconPosition="right">
           <p-inputIcon styleClass="pi pi-angle-down"/>
           <select
@@ -23,7 +23,7 @@
             pInputText
             class="w-full"
             id="deliveryOption">
-            <option *ngFor="let option of options" [value]="option.code">{{ option.description }}</option>
+            <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
         </p-iconField>
       </div>
@@ -46,12 +46,12 @@
                   pInputText
                   id="street"
                   type="text"
-                  placeholder="Home address"
+                  placeholder="{{ 'form.label.delivery.address' | translate }}"
                   formControlName="street">
               </p-iconField>
               @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
                 <small id="street-help" class="invalid-text">
-                  Home address is required.
+                  {{ "form.invalid.delivery.address" | translate }}
                 </small>
               }
             </div>
@@ -64,12 +64,12 @@
                   pInputText
                   id="streetNumber"
                   type="tel"
-                  placeholder="Address number"
+                  placeholder="{{ 'form.label.delivery.number' | translate }}"
                   formControlName="number">
               </p-iconField>
               @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
                 <small id="number-help" class="invalid-text">
-                  Home address number is required.
+                  {{ "form.invalid.delivery.number" | translate }}
                 </small>
               }
             </div>
@@ -82,12 +82,12 @@
                   pInputText
                   id="details"
                   type="text"
-                  placeholder="Details"
+                  placeholder="{{ 'form.label.delivery.details' | translate }}"
                   formControlName="details">
               </p-iconField>
               @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
                 <small id="details-help" class="invalid-text">
-                  Invalid details input.
+                  {{ "form.invalid.delivery.details" | translate }}
                 </small>
               }
             </div>
@@ -97,9 +97,9 @@
         <!-- STORE SELECT -->
         <div class="flex flex-column gap-5 mb-4">
           @if (stores.status() === "pending") {
-            <span>Loading stores...</span>
+            <span class="text-primary">{{ "loading.stores" | translate }}</span>
           } @else if (stores.status() === "error") {
-            <span>Error loading stores {{ stores.error()?.message }}</span>
+            <app-server-error/>
           } @else {
             @for (store of stores.data()!.payload; track store.id) {
               <app-store-checkout
@@ -119,17 +119,17 @@
         type="button"
         (onClick)="previousStep()"
         [disabled]="checkoutFormService.step() === 0"
-        label="VOLVER"/>
+        label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
         severity="danger"
         type="button"
-        (click)="goBack(false)"
-        label="CANCELAR"/>
+        (click)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step() === 4"
-        label="CONTINUAR"/>
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>
 }

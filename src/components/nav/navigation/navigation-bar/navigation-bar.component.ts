@@ -36,7 +36,7 @@ import {BadgeModule} from 'primeng/badge';
     SidebarModule,
     CartComponent
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [ConfirmationService, MessageService], // used in child components
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush

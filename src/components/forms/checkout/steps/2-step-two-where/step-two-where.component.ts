@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, Signal} from '@angular/core';
 import {Button} from "primeng/button";
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
@@ -11,12 +11,16 @@ import {ResourceService} from '../../../../../services/http/resources/resource.s
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
-import {NgForOf} from '@angular/common';
+import {NgForOf, UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {QueryResult} from '../../../../../interfaces/query';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
+import {TranslatePipe} from '@ngx-translate/core';
+import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
+import {toObservable} from '@angular/core/rxjs-interop';
+import {ErrorService} from '../../../../../services/error/error.service';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -30,20 +34,29 @@ import {UserAddressListViewComponent} from './user-address-list/user-address-lis
     StoreCheckoutComponent,
     FormsModule,
     NgForOf,
-    UserAddressListViewComponent
+    UserAddressListViewComponent,
+    TranslatePipe,
+    UpperCasePipe,
+    ServerErrorComponent
   ],
   templateUrl: './step-two-where.component.html',
   styleUrl: './step-two-where.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
+  private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
   protected checkoutFormService = inject(CheckoutFormService);
   private authService = inject(AuthService);
   private resourceService = inject(ResourceService);
-  private router = inject(Router);
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-  options: Option[] = [{code: "0", description: "Home delivery"}, {code: "1", description: "Store pickup"}];
+  status = toObservable(this.stores.status);
+  options: Option[] = [
+    {code: "0", description: "form.select.address.home"},
+    {code: "1", description: "form.select.address.pickup"}
+  ];
   selectedOption: Option = this.options[0];
   validSelection = true;
 
@@ -67,11 +80,37 @@ export class StepTwoWhereComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    // --> validate store fetch query
+    const subscription = this.status.pipe().subscribe({
+      next: status => {
+        if (status === "error") {
+          // did server respond?
+          if (this.stores.data() !== undefined) {
+            // note: there are no non-fatal errors for store GET request
+
+            // stores error
+            if (this.stores.data() !== undefined && this.stores.data()!.status.error) {
+              this.errorService.addError(this.stores.data()!.error!);
+            }
+
+            this.router.navigate(["/error"]);
+          }
+        }
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+
+    // --> set up component
     this.checkoutFormService.step.set(1);
 
     if (!this.isAuthenticated()) {
       this.setHomeDeliveryValidators(true);
     } else {
+      // authed user has home address list to pick from
+      // same validators has store pick up
       this.setPickUpValidators(true);
     }
 
@@ -206,12 +245,7 @@ export class StepTwoWhereComponent implements OnInit {
     }
   }
 
-  goBack(start: boolean) {
-    this.checkoutFormService.clear();
-    if (start) {
-      this.router.navigate(['order', 'new', 'step-one']);
-    } else {
-      this.router.navigate(['/']);
-    }
+  cancel() {
+    this.router.navigate(['/']);
   }
 }

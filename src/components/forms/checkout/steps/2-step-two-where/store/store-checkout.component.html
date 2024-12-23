@@ -17,7 +17,7 @@
     </div>
     <div class="flex gap-2">
       <i class="pi pi-calendar-clock"></i>
-      <span>{{ store().schedule }}</span>
+      <span>{{ currentLang() === 'en' ? store().schedule.en : store().schedule.es }}</span>
     </div>
   </div>
 </div>

@@ -10,7 +10,8 @@ import {timer} from 'rxjs';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
-import {NgForOf} from '@angular/common';
+import {NgForOf, UpperCasePipe} from '@angular/common';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -22,7 +23,9 @@ import {NgForOf} from '@angular/common';
     PaginatorModule,
     ReactiveFormsModule,
     Button,
-    NgForOf
+    NgForOf,
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './step-three-when.component.html',
   styleUrl: './step-three-when.component.css',
@@ -100,12 +103,11 @@ export class StepThreeWhenComponent implements OnInit {
     }
   }
 
-  goBack(start: boolean) {
-    this.checkoutFormService.clear();
-    if (start) {
-      this.router.navigate(['order', 'new', 'step-one']);
-    } else {
-      this.router.navigate(['/']);
-    }
+  cancel() {
+    this.router.navigate(['/']);
+  }
+
+  firstStep() {
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 }

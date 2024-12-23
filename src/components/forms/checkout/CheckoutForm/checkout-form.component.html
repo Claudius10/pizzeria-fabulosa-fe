@@ -2,13 +2,13 @@
   <div class="flex flex-column gap-5">
     <div class="steps">
       <p-card>
-        <p-steps [activeIndex]="checkoutFormService.step()" [model]="steps"/>
+        <p-steps [activeIndex]="checkoutFormService.step()" [model]="steps()"/>
       </p-card>
     </div>
 
     <div class="small-steps">
       <p-card>
-        <app-small-screen-steps [activeIndex]="checkoutFormService.step()" [items]="steps"/>
+        <app-small-screen-steps [activeIndex]="checkoutFormService.step()" [items]="steps()"/>
       </p-card>
     </div>
 

@@ -1,7 +1,7 @@
 <div class="flex flex-column gap-4 card h-full w-full">
   <div class="flex flex-column gap-5 overflow-y-scroll overflow-x-hidden h-full w-full">
     @if (quantity() === 0) {
-      <span>Nothing here yet</span>
+      <span>{{ "component.cart.empty.text" | translate }}</span>
     } @else {
       @for (item of items(); track item.id) {
         <app-cart-item [readOnly]="true" [item]="item"/>
