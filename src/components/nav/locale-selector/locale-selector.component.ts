@@ -45,7 +45,7 @@ export class LocaleSelectorComponent {
     this.visible = false;
     this.messageService.add({
       severity: 'info',
-      summary: lang === 'es' ? 'Información sobre localización' : 'Locale Information', // can't use this.translateService.instant here, first time calling won't have an effect
+      summary: lang === 'es' ? 'INFORMACIÓN' : 'INFORMATION', // can't use this.translateService.instant here, first time calling won't have an effect
       detail: lang === 'es' ? 'Castellano seleccionado' : 'English selected',
       life: 2000
     });

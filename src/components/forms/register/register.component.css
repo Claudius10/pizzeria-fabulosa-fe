@@ -16,7 +16,7 @@ input.ng-invalid.ng-touched {
 
 .form {
   min-height: 35rem;
-  width: 60%;
+  width: 25rem;
   display: flex;
   gap: 2rem;
   flex-direction: column;
@@ -29,9 +29,9 @@ input.ng-invalid.ng-touched {
   width: 100%;
 }
 
-@media (max-width: 578px) {
+@media (max-width: 992px) {
   .form {
-    width: 90%;
+    width: 80vw;
   }
 
   .buttons {
