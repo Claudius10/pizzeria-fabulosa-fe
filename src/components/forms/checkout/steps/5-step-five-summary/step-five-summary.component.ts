@@ -25,7 +25,6 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
-import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -77,7 +76,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       // selected store, either by user or anon
       if (this.checkoutFormService.selectedId().isStore) {
-        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // guaranteed to be here
+        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - guaranteed to be here
         const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where()!.id);
         this.selectedStore.set(fetchedStores[selectedStoreIndex]);
       } else {
@@ -87,21 +86,10 @@ export class StepFiveSummaryComponent implements OnDestroy {
           const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
             id: this.authService.getUserId()!
-          });
-
-          const userAddressListStatus = toObservable(userAddressList.status);
-
-          const subscription = userAddressListStatus.subscribe(status => {
-            if (status === "success") {
-              const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
-              const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where()!.id);
-              this.selectedAddress.set(fetchedUserAddressList[selectedAddressIndex]);
-            }
-          });
-
-          this.destroyRef.onDestroy(() => {
-            subscription.unsubscribe();
-          });
+          }); // NOTE - guaranteed to be here because it will load in step two when user is logged in
+          const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
+          const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where()!.id);
+          this.selectedAddress.set(fetchedUserAddressList[selectedAddressIndex]);
         }
       }
     }
