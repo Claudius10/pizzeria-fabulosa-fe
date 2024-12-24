@@ -101,5 +101,5 @@
   "toast.error.api.user.address.list.full.detail": "You have exceded the maximum size (3) of your address list",
   "toast.error.api.user.order.not.found.detail": "Unable to find order. If the problem persists, contact us.",
   "toast.error.api.unknown": "Unknown error. Please let us know what happened.",
-  "loading.stores": "Loading our stores..."
+  "loading": "Loading..."
 }

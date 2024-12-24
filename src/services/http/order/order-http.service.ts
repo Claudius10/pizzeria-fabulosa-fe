@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../interfaces/http/order';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, PATH, USER_BASE, V1} from '../../../utils/api-routes';
-import {UserOrderQueryOptions} from '../../../interfaces/query';
+import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
 
 @Injectable({
@@ -25,8 +25,8 @@ export class OrderHttpService {
       {withCredentials: true});
   }
 
-  public findUserOrder(options: UserOrderQueryOptions) {
-    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${options.userId + ORDER_BASE}/${options.orderId}`,
+  public findUserOrder(options: BaseQueryOptionsIdAndUser) {
+    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${options.userId + ORDER_BASE}/${options.id}`,
       {withCredentials: true});
 
   }

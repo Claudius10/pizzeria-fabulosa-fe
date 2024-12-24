@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
 import {AccordionModule} from "primeng/accordion";
 import {CardModule} from "primeng/card";
-import {StoreDTO} from '../../../../../../interfaces/dto/resources';
+import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {NgClass} from '@angular/common';
-import {AddressId} from '../../../../../../services/checkout/checkout-form.service';
+import {AddressId} from '../../../../../services/checkout/checkout-form.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
@@ -19,14 +19,14 @@ import {TranslateService} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
-  onStoreSelect = output<AddressId>();
-  private translateService = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
-  orientation = input<"horizontal" | "vertical">('horizontal');
   store = input.required<StoreDTO>();
+  orientation = input<"horizontal" | "vertical">('horizontal');
   selected = input<number | null>(null);
   valid = input<boolean>();
   highlight = input<boolean>();
+  onStoreSelect = output<AddressId>();
+  private translateService = inject(TranslateService);
+  private destroyRef = inject(DestroyRef);
   currentLang = signal(this.translateService.currentLang);
 
   ngOnInit(): void {

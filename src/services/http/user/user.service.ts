@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {injectMutation, injectQuery, injectQueryClient, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {UserHttpService} from './user-http.service';
-import {BaseUserQueryOptions, QueryResult} from '../../../interfaces/query';
+import {BaseQueryOptionsId, QueryResult} from '../../../interfaces/query';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {USER_ADDRESS_LIST} from '../../../utils/query-keys';
 
@@ -13,10 +13,10 @@ export class UserService {
   private userHttpService = inject(UserHttpService);
   private queryClient: QueryClient = injectQueryClient();
 
-  public findUserAddressList(options: BaseUserQueryOptions): QueryResult {
+  public findUserAddressList(options: BaseQueryOptionsId): QueryResult {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,
-      queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.userId!))
+      queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.id))
     }));
 
     return {

@@ -5,7 +5,7 @@ import {USER_ORDER_SUMMARY_LIST} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
-import {QueryResult, UserOrderQueryOptions} from '../../../interfaces/query';
+import {BaseQueryOptionsIdAndUser, QueryResult} from '../../../interfaces/query';
 
 @Injectable({
   providedIn: 'root'
@@ -58,7 +58,7 @@ export class OrderService {
     };
   }
 
-  findUserOrder(options: UserOrderQueryOptions): QueryResult {
+  findUserOrder(options: BaseQueryOptionsIdAndUser): QueryResult {
     const query = injectQuery(() => ({
       // enabled: options.userId !== undefined,
       queryKey: options.queryKey,

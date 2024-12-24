@@ -102,5 +102,5 @@
   "toast.error.api.user.address.list.full.detail": "Ha excedido el máximo permitido (3) de domicilios",
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",
   "toast.error.api.unknown": "Error desconocido. Por favor informános de qué pasó.",
-  "loading.stores": "Cargando nuestras tiendas..."
+  "loading": "Cargando..."
 }

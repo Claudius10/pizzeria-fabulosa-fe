@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal, Signal} from '@angular/core';
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {ResourceService} from '../../../../../services/http/resources/resource.service';
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
-import {StoreCheckoutComponent} from '../2-step-two-where/store/store-checkout.component';
+import {StoreCheckoutComponent} from '../store/store-checkout.component';
 import {CardModule} from 'primeng/card';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {Button} from 'primeng/button';
@@ -25,6 +25,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -55,13 +56,16 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private errorService = inject(ErrorService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
+  private destroyRef = inject(DestroyRef);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
+  stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  storesStatus = toObservable(this.stores.status);
+  selectedStore = signal<StoreDTO | null>(null);
+  selectedAddress = signal<AddressDTO | null>(null);
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  selectedStore: StoreDTO | null = null;
-  selectedAddress: AddressDTO | null = null;
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
@@ -74,22 +78,40 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       // selected store, either by user or anon
       if (this.checkoutFormService.selectedId().isStore) {
-        const stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-        const payload = stores.data()!.payload as StoreDTO[]; // will be present since it's fetched when customer selects store-pickup
-        const selectedStoreIndex = payload.findIndex(store => store.id === this.checkoutFormService.where()!.id);
-        this.selectedStore = payload[selectedStoreIndex];
+        const subscription = this.storesStatus.subscribe(status => {
+          if (status === "success") {
+            const fetchedStores = this.stores.data()!.payload as StoreDTO[];
+            const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where()!.id);
+            this.selectedStore.set(fetchedStores[selectedStoreIndex]);
+          }
+        });
+
+        this.destroyRef.onDestroy(() => {
+          subscription.unsubscribe();
+        });
 
       } else {
         // if user is authed
         if (this.isAuthenticated()) {
-          const addressList = this.userService.findUserAddressList({
+
+          const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
-            userId: this.authService.getUserId()
+            id: this.authService.getUserId()!
           });
 
-          const payload = addressList.data()!.payload as AddressDTO[];
-          const selectedAddressIndex = payload.findIndex(address => address.id === this.checkoutFormService.where()!.id);
-          this.selectedAddress = payload[selectedAddressIndex];
+          const userAddressListStatus = toObservable(userAddressList.status);
+
+          const subscription = userAddressListStatus.subscribe(status => {
+            if (status === "success") {
+              const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
+              const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where()!.id);
+              this.selectedAddress.set(fetchedUserAddressList[selectedAddressIndex]);
+            }
+          });
+
+          this.destroyRef.onDestroy(() => {
+            subscription.unsubscribe();
+          });
         }
       }
     }

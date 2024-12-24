@@ -36,7 +36,7 @@
           <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
 
           <div class="flex flex-column gap-3">
-            @if (selectedStore === null) {
+            @if (selectedStore() === null) {
               <span>{{ "view.delivery.time.selected" | translate }}:
                 <span
                   class="text-primary uppercase">{{ checkoutFormService.when()!.deliveryTime | translate }}</span></span>
@@ -46,22 +46,22 @@
                   class="text-primary uppercase">{{ checkoutFormService.when()!.deliveryTime | translate }}</span></span>
             }
 
-            @if (selectedStore !== null) {
+            @if (selectedStore() !== null) {
               <div class="flex flex-column gap-3">
                 <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
-                <app-store-checkout [valid]="true" [store]="selectedStore" [highlight]="true"/>
+                <app-store-checkout [valid]="true" [store]="selectedStore()!" [highlight]="true"/>
               </div>
             } @else {
               <span>{{ "form.label.delivery.address" | translate }}:
                 <span
-                  class="text-primary uppercase">{{ (this.isAuthenticated() && selectedAddress !== null) ? selectedAddress!.street : checkoutFormService.where()!.street }}</span></span>
+                  class="text-primary uppercase">{{ (this.isAuthenticated() && selectedAddress() !== null) ? selectedAddress()!.street : checkoutFormService.where()!.street }}</span></span>
               <span>{{ "form.label.delivery.number" | translate }}:
                 <span
-                  class="text-primary">{{ (this.isAuthenticated() && selectedAddress !== null) ? selectedAddress!.number : checkoutFormService.where()!.number }}</span></span>
+                  class="text-primary">{{ (this.isAuthenticated() && selectedAddress() !== null) ? selectedAddress()!.number : checkoutFormService.where()!.number }}</span></span>
 
-              @if (this.isAuthenticated() && selectedAddress !== null && selectedAddress.details) {
+              @if (this.isAuthenticated() && selectedAddress() !== null && selectedAddress()!.details) {
                 <span>{{ "form.label.delivery.details" | translate }}: <span
-                  class="text-primary uppercase">{{ selectedAddress.details }}</span></span>
+                  class="text-primary uppercase">{{ selectedAddress()!.details }}</span></span>
               } @else if (checkoutFormService.where()!.details) {
                 <span>{{ "form.label.delivery.details" | translate }}: <span
                   class="text-primary uppercase">{{ checkoutFormService.where()!.details }}</span></span>

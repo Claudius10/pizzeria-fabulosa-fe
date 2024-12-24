@@ -9,6 +9,7 @@ import {UserAddressItemComponent} from '../user-address-item/user-address-item.c
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {PENDING, SUCCESS} from '../../../utils/constants';
+import {QueryResult} from '../../../interfaces/query';
 
 @Component({
   selector: 'app-user-address-list',
@@ -28,9 +29,9 @@ export class UserAddressListComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private userService = inject(UserService);
   private authService = inject(AuthService);
-  protected addressList = this.userService.findUserAddressList({
+  protected addressList: QueryResult = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
-    userId: this.authService.getUserId()
+    id: this.authService.getUserId()!
   });
   addressListStatus = toObservable(this.addressList.status);
   showAddressForm = signal(false);

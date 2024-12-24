@@ -1,47 +1,48 @@
-import {ChangeDetectionStrategy, Component, effect, inject, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
+import {CardModule} from 'primeng/card';
+import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
+import {TranslatePipe} from '@ngx-translate/core';
 import {StoreDTO} from '../../../../interfaces/dto/resources';
+import {QueryResult} from '../../../../interfaces/query';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
-import {CardModule} from 'primeng/card';
-import {StoreCheckoutComponent} from '../../../forms/checkout/steps/2-step-two-where/store/store-checkout.component';
-import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
-import {QueryResult} from '../../../../interfaces/query';
-import {SUCCESS} from '../../../../utils/constants';
-import {TranslatePipe} from '@ngx-translate/core';
+import {StoreCheckoutComponent} from '../../../forms/checkout/steps/store/store-checkout.component';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-address-details',
   standalone: true,
   imports: [
     CardModule,
-    StoreCheckoutComponent,
-    TranslatePipe
+    TranslatePipe,
+    StoreCheckoutComponent
   ],
   templateUrl: './address-details.component.html',
   styleUrl: './address-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AddressDetailsComponent {
-
-  // TODO - Send codes for delivery time,payment method, etc., and when back-end returns the codes
-  //  switch them to their corresponding tokens w/ translate
-
+export class AddressDetailsComponent implements OnInit {
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private resourceService = inject(ResourceService);
+  private destroyRef = inject(DestroyRef);
+  selectedStore = signal<StoreDTO | null>(null);
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-  selectedStore: StoreDTO | null = null;
+  status = toObservable(this.stores.status);
 
-  constructor() {
-    effect(() => {
-      if (this.stores.status() === SUCCESS) {
-        const payload = this.stores.data()!.payload as StoreDTO[];
-        const selectedStoreIndex = payload.findIndex(store => store.id === this.address().id);
-
-        if (selectedStoreIndex !== -1) {
-          this.selectedStore = payload[selectedStoreIndex];
+  ngOnInit(): void {
+    if (this.address().id !== null) {
+      const subscription = this.status.subscribe(status => {
+        if (status === "success") {
+          const fetchedStores = this.stores.data()!.payload as StoreDTO[];
+          const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.address().id);
+          this.selectedStore.set(fetchedStores[selectedStoreIndex]);
         }
-      }
-    });
+      });
+
+      this.destroyRef.onDestroy(() => {
+        subscription.unsubscribe();
+      });
+    }
   }
 }

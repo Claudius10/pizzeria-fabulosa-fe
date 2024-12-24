@@ -53,8 +53,8 @@ export class OrderComponent implements OnInit {
   private confirmationService = inject(ConfirmationService);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
-    orderId: this.orderId,
-    userId: this.authService.getUserId(),
+    id: this.orderId,
+    userId: this.authService.getUserId()!,
     queryKey: userOrderQueryKey(this.orderId)
   });
   orderStatus = toObservable(this.order.status);

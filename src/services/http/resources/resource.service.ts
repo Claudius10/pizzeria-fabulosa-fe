@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {ResourcesHttpService} from './resources-http.service';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
-import {BaseQueryOptions, QueryResult} from '../../../interfaces/query';
+import {BaseQueryOptions, BaseQueryOptionsId, QueryResult} from '../../../interfaces/query';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +40,19 @@ export class ResourceService {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,
       queryFn: () => firstValueFrom(this.resourcesHttpService.findStores())
+    }));
+
+    return {
+      data: query.data,
+      status: query.status,
+      error: query.error
+    };
+  }
+
+  findStoreByAddressId(options: BaseQueryOptionsId) {
+    const query = injectQuery(() => ({
+      queryKey: options.queryKey,
+      queryFn: () => firstValueFrom(this.resourcesHttpService.findStoreByAddressId(options.id))
     }));
 
     return {

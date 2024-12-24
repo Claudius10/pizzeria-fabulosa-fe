@@ -9,6 +9,7 @@ import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-new-order-success',
@@ -23,7 +24,8 @@ import {TranslatePipe} from '@ngx-translate/core';
     OrderDetailsComponent,
     CheckoutCartComponent,
     RouterLink,
-    TranslatePipe
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './new-order-success.component.html',
   styleUrl: './new-order-success.component.css',
@@ -37,7 +39,7 @@ export class NewOrderSuccessComponent implements OnDestroy {
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
 
   goBack() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/pizzas']);
   }
 
   ngOnDestroy(): void {
