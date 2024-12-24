@@ -3,7 +3,7 @@ import {AccordionModule} from "primeng/accordion";
 import {CardModule} from "primeng/card";
 import {StoreDTO} from '../../../../../../interfaces/dto/resources';
 import {NgClass} from '@angular/common';
-import {AddressId} from '../../../../../../services/forms/checkout/checkout-form.service';
+import {AddressId} from '../../../../../../services/checkout/checkout-form.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({

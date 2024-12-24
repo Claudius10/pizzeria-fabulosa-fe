@@ -4,7 +4,7 @@ import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {getDeliveryHours, isFormValid} from '../../../../../utils/functions';
 import {timer} from 'rxjs';
 import {Router} from '@angular/router';

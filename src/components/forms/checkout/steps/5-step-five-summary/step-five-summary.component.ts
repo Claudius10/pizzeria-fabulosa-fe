@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
-import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {ResourceService} from '../../../../../services/http/resources/resource.service';

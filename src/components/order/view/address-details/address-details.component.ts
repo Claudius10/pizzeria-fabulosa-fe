@@ -7,19 +7,25 @@ import {StoreCheckoutComponent} from '../../../forms/checkout/steps/2-step-two-w
 import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
 import {QueryResult} from '../../../../interfaces/query';
 import {SUCCESS} from '../../../../utils/constants';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-address-details',
   standalone: true,
   imports: [
     CardModule,
-    StoreCheckoutComponent
+    StoreCheckoutComponent,
+    TranslatePipe
   ],
   templateUrl: './address-details.component.html',
   styleUrl: './address-details.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressDetailsComponent {
+
+  // TODO - Send codes for delivery time,payment method, etc., and when back-end returns the codes
+  //  switch them to their corresponding tokens w/ translate
+
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private resourceService = inject(ResourceService);

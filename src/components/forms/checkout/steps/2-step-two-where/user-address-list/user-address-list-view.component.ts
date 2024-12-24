@@ -4,7 +4,7 @@ import {UserService} from '../../../../../../services/http/user/user.service';
 import {AuthService} from '../../../../../../services/auth/auth.service';
 import {CardModule} from 'primeng/card';
 import {NgClass} from '@angular/common';
-import {AddressId} from '../../../../../../services/forms/checkout/checkout-form.service';
+import {AddressId} from '../../../../../../services/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-user-address-list-view',

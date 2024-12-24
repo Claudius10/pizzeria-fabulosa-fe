@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';

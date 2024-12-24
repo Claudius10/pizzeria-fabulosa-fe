@@ -5,7 +5,7 @@ import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {StoreCheckoutComponent} from './store/store-checkout.component';
-import {AddressId, CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
+import {AddressId, CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
 import {ResourceService} from '../../../../../services/http/resources/resource.service';
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';

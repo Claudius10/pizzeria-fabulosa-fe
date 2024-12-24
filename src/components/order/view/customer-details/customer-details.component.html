@@ -1,12 +1,13 @@
 <p-card>
   <div class="flex flex-column gap-3">
-    <span class="text-2xl text-primary">Customer details</span>
+    <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
     <div class="flex flex-column gap-3">
-      <span>Nombre completo: {{ customer().name }}</span>
-      <span>Correo electrónico: {{ customer().email }}</span>
-      @if (customer().contactNumber) {
-        <span>Teléfono de contacto: {{ customer().contactNumber }}</span>
-      }
+      <span>{{ "form.label.name" | translate }}: <span
+        class="text-primary uppercase">{{ customer().name }}</span></span>
+      <span>{{ "form.label.email" | translate }}: <span
+        class="text-primary uppercase">{{ customer().email }}</span></span>
+      <span>{{ "form.label.contact.number" | translate }}: <span
+        class="text-primary uppercase">{{ customer().contactNumber }}</span></span>
     </div>
   </div>
 </p-card>

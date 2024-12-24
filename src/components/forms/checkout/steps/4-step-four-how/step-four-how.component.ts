@@ -12,7 +12,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../../regex';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';

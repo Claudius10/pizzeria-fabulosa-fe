@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
-import {CheckoutFormService} from '../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
 import {CustomerDetailsComponent} from '../../../order/view/customer-details/customer-details.component';
@@ -8,6 +8,7 @@ import {OrderDetailsComponent} from '../../../order/view/order-details/order-det
 import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-new-order-success',
@@ -21,7 +22,8 @@ import {CartService} from '../../../../services/cart/cart.service';
     AddressDetailsComponent,
     OrderDetailsComponent,
     CheckoutCartComponent,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
   templateUrl: './new-order-success.component.html',
   styleUrl: './new-order-success.component.css',

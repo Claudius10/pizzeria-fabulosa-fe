@@ -1,25 +1,35 @@
 <p-card>
   <div class="flex flex-column gap-3">
-    <span class="text-2xl text-primary">Delivery details</span>
+    <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
 
     <div class="flex flex-column gap-3">
+
       @if (selectedStore === null) {
-        <span>Time of delivery selected: {{ orderDetails().deliveryTime }}</span>
+        <span>{{ "view.delivery.time.selected" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
       } @else {
-        <span>Pick up time selected: {{ orderDetails().deliveryTime }}</span>
+        <span>{{ "view.delivery.pickup.time.selected" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
       }
 
       @if (selectedStore !== null) {
         <div class="flex flex-column gap-3">
-          <span>Pick up store selected:</span>
-          <app-store-checkout [orientation]="'vertical'" [valid]="true" [store]="selectedStore"/>
+          <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
+          <app-store-checkout [orientation]="'vertical'" [highlight]="true" [valid]="true" [store]="selectedStore"/>
         </div>
       } @else {
-        <span>Dirección: {{ address().street }}</span>
-        <span>Número: {{ address().number }}</span>
+        <span>{{ "form.label.delivery.address" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ address().street }}</span></span>
+        <span>{{ "form.label.delivery.number" | translate }}:
+                <span
+                  class="text-primary">{{ address().number }}</span></span>
 
         @if (address().details) {
-          <span>Detalles: {{ address().details }}</span>
+          <span>{{ "form.label.delivery.details" | translate }}: <span
+            class="text-primary uppercase">{{ address().details }}</span></span>
         }
       }
     </div>

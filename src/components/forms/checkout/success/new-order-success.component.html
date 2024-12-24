@@ -1,6 +1,6 @@
 @if (checkoutFormService.orderSuccess() === null) {
   <div class="flex flex-column gap-5 justify-content-between align-items-center">
-    <span class="text-center text-4xl font-italic">Your newly placed order will appear here!</span>
+    <span class="text-center text-4xl font-italic">{{ "component.order.success.no.content" | translate }}</span>
     <p-button
       type="button"
       (onClick)="goBack()"
@@ -8,10 +8,10 @@
   </div>
 } @else {
   <div class="flex flex-column align-items-center gap-5">
-    <span class="text-4xl text-center">Order {{ checkoutFormService.orderSuccess()!.id }}
-      successfully created</span>
     <span
-      class="text-2xl text-center">Date of creation {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
+      class="text-4xl text-center">{{ "view.order" | translate }} {{ checkoutFormService.orderSuccess()!.id }} {{ "view.order.created" | translate }}</span>
+    <span
+      class="text-2xl text-center">{{ "view.order.created.on" | translate }} {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
 
     <div class="flex gap-5">
       <div class="flex flex-column gap-5">
@@ -31,13 +31,10 @@
       </div>
     </div>
     <div class="flex flex-column align-items-center gap-3">
-      @if (isAuthenticated()) {
-        <span class="text-center">Take me to my <span class="text-primary"
-                                                      routerLink="/user/orders">order history!</span></span>
-      } @else {
-        <span class="text-center">Create your account and enjoy the order history, the ability to modify your orders before they arrive, and place orders more conveniently.</span>
-        <span class="text-center">Take me to the <span class="text-primary"
-                                                       routerLink="/registration">register page!</span></span>
+      @if (!isAuthenticated()) {
+        <span class="text-center">{{ "component.order.success.anon.advice" | translate }}</span>
+        <span class="text-center text-primary"
+              routerLink="/registration">{{ "component.order.success.anon.link" | translate }}</span>
       }
     </div>
   </div>

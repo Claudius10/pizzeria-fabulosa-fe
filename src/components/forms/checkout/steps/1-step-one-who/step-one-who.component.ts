@@ -5,7 +5,7 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
-import {CheckoutFormService} from '../../../../../services/forms/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {isFormValid} from '../../../../../utils/functions';
 import {AuthService} from '../../../../../services/auth/auth.service';
