@@ -60,7 +60,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-  storesStatus = toObservable(this.stores.status);
   selectedStore = signal<StoreDTO | null>(null);
   selectedAddress = signal<AddressDTO | null>(null);
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
@@ -78,18 +77,9 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       // selected store, either by user or anon
       if (this.checkoutFormService.selectedId().isStore) {
-        const subscription = this.storesStatus.subscribe(status => {
-          if (status === "success") {
-            const fetchedStores = this.stores.data()!.payload as StoreDTO[];
-            const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where()!.id);
-            this.selectedStore.set(fetchedStores[selectedStoreIndex]);
-          }
-        });
-
-        this.destroyRef.onDestroy(() => {
-          subscription.unsubscribe();
-        });
-
+        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // guaranteed to be here
+        const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where()!.id);
+        this.selectedStore.set(fetchedStores[selectedStoreIndex]);
       } else {
         // if user is authed
         if (this.isAuthenticated()) {
