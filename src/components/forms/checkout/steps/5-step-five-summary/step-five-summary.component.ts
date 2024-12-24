@@ -21,6 +21,8 @@ import {AddressDTO, CartItemDTO} from '../../../../../interfaces/dto/order';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces/http/order';
+import {TranslatePipe} from '@ngx-translate/core';
+import {UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -30,7 +32,9 @@ import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces
     CardModule,
     InputTextareaModule,
     Button,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.css',
@@ -47,12 +51,11 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private router = inject(Router);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
-  allProducts = this.resourceService.findAllProducts(); // first checks Cache
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
-  selectedStore: StoreDTO | null;
-  selectedAddress: AddressDTO | null;
+  selectedStore: StoreDTO | null = null;
+  selectedAddress: AddressDTO | null = null;
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
@@ -63,28 +66,26 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
     if (this.checkoutFormService.isStepFilled(4) && this.checkoutFormService.where()!.id !== null) {
 
+      // selected store, either by user or anon
       if (this.checkoutFormService.selectedId().isStore) {
-
         const stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
-        const payload = stores.data()!.payload as StoreDTO[];
+        const payload = stores.data()!.payload as StoreDTO[]; // will be present since it's fetched when customer selects store-pickup
         const selectedStoreIndex = payload.findIndex(store => store.id === this.checkoutFormService.where()!.id);
         this.selectedStore = payload[selectedStoreIndex];
-        this.selectedAddress = null;
+
       } else {
+        // if user is authed
+        if (this.isAuthenticated()) {
+          const addressList = this.userService.findUserAddressList({
+            queryKey: USER_ADDRESS_LIST,
+            userId: this.authService.getUserId()
+          });
 
-        const addressList = this.userService.findUserAddressList({
-          queryKey: USER_ADDRESS_LIST,
-          userId: this.authService.getUserId()
-        });
-        const payload = addressList.data()!.payload as AddressDTO[];
-        const selectedAddressIndex = payload.findIndex(address => address.id === this.checkoutFormService.where()!.id);
-        this.selectedAddress = payload[selectedAddressIndex];
-        this.selectedStore = null;
+          const payload = addressList.data()!.payload as AddressDTO[];
+          const selectedAddressIndex = payload.findIndex(address => address.id === this.checkoutFormService.where()!.id);
+          this.selectedAddress = payload[selectedAddressIndex];
+        }
       }
-
-    } else {
-      this.selectedAddress = null;
-      this.selectedStore = null;
     }
   }
 
@@ -100,13 +101,12 @@ export class StepFiveSummaryComponent implements OnDestroy {
     this.router.navigate(['order', 'new', 'step-four']);
   }
 
-  goBack(start: boolean) {
-    this.checkoutFormService.clear();
-    if (start) {
-      this.router.navigate(['order', 'new', 'step-one']);
-    } else {
-      this.router.navigate(['/']);
-    }
+  cancel() {
+    this.router.navigate(['/']);
+  }
+
+  firstStep() {
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 
   onSubmit(): void {
@@ -145,7 +145,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
         onSuccess: (response: ResponseDTO) => {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost, true, this.allProducts);
           this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },
@@ -190,7 +189,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
         onSuccess: (response: ResponseDTO) => {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.cartService.set(response.payload.cart.cartItems, response.payload.cart.totalQuantity, response.payload.cart.totalCost, true, this.allProducts);
           this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },

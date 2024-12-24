@@ -17,9 +17,10 @@ import {numbersRegex} from '../../../../../regex';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
-import {NgForOf} from '@angular/common';
+import {NgForOf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../../services/cart/cart.service';
 import {isFormValid} from '../../../../../utils/functions';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-checkout-step-four-how',
@@ -31,7 +32,9 @@ import {isFormValid} from '../../../../../utils/functions';
     ReactiveFormsModule,
     Button,
     NgForOf,
-    FormsModule
+    FormsModule,
+    TranslatePipe,
+    UpperCasePipe
   ],
   templateUrl: './step-four-how.component.html',
   styleUrl: './step-four-how.component.css',
@@ -41,8 +44,14 @@ export class StepFourHowComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  paymentOptions: Option[] = [{code: "0", description: "Card"}, {code: "1", description: "Cash"}];
-  changeOptions: Option[] = [{code: "0", description: "No"}, {code: "1", description: "Yes"}];
+  paymentOptions: Option[] = [
+    {code: "0", description: "form.select.payment.method.card"},
+    {code: "1", description: "form.select.payment.method.cash"}
+  ];
+  changeOptions: Option[] = [
+    {code: "0", description: "prompt.no"},
+    {code: "1", description: "prompt.yes"}
+  ];
   selectedChangeOption: Option = this.changeOptions[0];
 
 
@@ -132,13 +141,12 @@ export class StepFourHowComponent implements OnInit {
     }
   }
 
-  goBack(start: boolean) {
-    this.checkoutFormService.clear();
-    if (start) {
-      this.router.navigate(['order', 'new', 'step-one']);
-    } else {
-      this.router.navigate(['/']);
-    }
+  cancel() {
+    this.router.navigate(['/']);
+  }
+
+  firstStep() {
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 }
 

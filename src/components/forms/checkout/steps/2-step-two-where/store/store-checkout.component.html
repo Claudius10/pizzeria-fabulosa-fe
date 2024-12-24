@@ -5,7 +5,7 @@
   valid() ? '' : 'border-red-300 border-round-xl transition-all transition-duration-300'
   ]"
   (click)="selectStore()">
-  <span class="text-xl">{{ store().name }}</span>
+  <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>
   <div [ngClass]="['store', orientation() === 'horizontal' ? '' : 'flex-column gap-3']">
     <div class="flex gap-2">
       <i class="pi pi-map"></i>

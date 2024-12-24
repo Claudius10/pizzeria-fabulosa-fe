@@ -6,7 +6,6 @@ import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import defaultLanguage from "../../../../public/i18n/en.json";
 import {CartLocalstorageService} from '../../../services/cart/localstorage/cart-localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
-import {ResourceService} from '../../../services/http/resources/resource.service';
 import {ToastModule} from "primeng/toast";
 
 @Component({
@@ -29,10 +28,8 @@ export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private cartLocalStorageService = inject(CartLocalstorageService);
   private cartService = inject(CartService);
-  private resourceService = inject(ResourceService);
 
   ngOnInit() {
-    this.resourceService.findAllProducts(); // fetch products on app start
     this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
     this.translateService.setTranslation('en', defaultLanguage);
     this.translateService.use('en');

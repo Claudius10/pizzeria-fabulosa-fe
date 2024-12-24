@@ -26,6 +26,7 @@ export class StoreCheckoutComponent implements OnInit {
   store = input.required<StoreDTO>();
   selected = input<number | null>(null);
   valid = input<boolean>();
+  highlight = input<boolean>();
   currentLang = signal(this.translateService.currentLang);
 
   ngOnInit(): void {

@@ -51,7 +51,6 @@ export class OrderComponent implements OnInit {
   private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
-  allProducts = this.resourceService.findAllProducts(); // first checks Cache
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
     orderId: this.orderId,
@@ -77,7 +76,7 @@ export class OrderComponent implements OnInit {
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const cart = this.order.data()!.payload.cart as CartDTO;
-          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, this.allProducts);
+          //this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, this.allProducts);
         }
       }, complete: () => {
         this.loadingAnimationService.stopLoading();

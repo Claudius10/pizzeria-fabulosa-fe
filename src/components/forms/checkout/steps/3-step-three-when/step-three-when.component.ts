@@ -37,7 +37,10 @@ export class StepThreeWhenComponent implements OnInit {
   private router = inject(Router);
   programmedDelivery = this.checkoutFormService.programmedDelivery.asReadonly();
   deliveryHours = signal<string[]>(getDeliveryHours());
-  options: Option[] = [{code: "0", description: "As soon as posible"}, {code: "1", description: "Programmed delivery"}];
+  options: Option[] = [
+    {code: "0", description: "form.select.time.asap"},
+    {code: "1", description: "form.select.time.programmed"
+    }];
   selectedOption: Option = this.options[0];
 
   ngOnInit(): void {

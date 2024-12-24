@@ -1,18 +1,18 @@
 @if (!this.checkoutFormService.isStepFilled(3)) {
   <div class="form flex flex-column justify-content-between align-items-center">
-    <span class="text-center">Unable to load step four: step one through three be completed.</span>
+    <span class="text-center">{{ "component.form.step.four.warning" | translate }}</span>
     <p-button
       type="button"
-      (onClick)="goBack(true)"
+      (onClick)="firstStep()"
       [disabled]="checkoutFormService.step() === 0"
-      label="VOLVER"/>
+      label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
   <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <div class="flex flex-column gap-5">
 
-      <div class="flex flex-column gap-4">
-        <label for="paymentMethod">Método de pago</label>
+      <div class="flex flex-column gap-3">
+        <label for="paymentMethod">{{ "component.form.step.four.advice" | translate }}</label>
         <p-iconField iconPosition="right">
           <p-inputIcon styleClass="pi pi-angle-down"/>
           <select
@@ -21,13 +21,14 @@
             id="paymentMethod"
             formControlName="paymentMethod"
             (change)="togglePaymentOption($event.target!)">
-            <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description }}</option>
+            <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description | translate }}
+            </option>
           </select>
         </p-iconField>
 
         @if (checkoutFormService.cashPayment()) {
 
-          <label for="changeRequestChoice">¿Necesita cambio?</label>
+          <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
           <p-iconField iconPosition="right">
             <p-inputIcon styleClass="pi pi-angle-down"/>
             <select
@@ -37,14 +38,14 @@
               pInputText
               id="changeRequestChoice"
               (change)="toggleChangeRequest($event.target!)">
-              <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description }}</option>
+              <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description | translate }}
+              </option>
             </select>
           </p-iconField>
-
         }
 
         @if (checkoutFormService.changeRequested()) {
-          <label for="billToChange">Cambio de</label>
+          <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-euro"/>
             <input
@@ -57,7 +58,7 @@
           </p-iconField>
           @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
             <small id="fullName-help" class="invalid-text">
-              Bill to change must be greater than total or total after offers.
+              {{ "form.invalid.bill.change" | translate }}
             </small>
           }
         }
@@ -70,17 +71,17 @@
         type="button"
         (onClick)="previousStep()"
         [disabled]="checkoutFormService.step() === 0"
-        label="VOLVER"/>
+        label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
         severity="danger"
         type="button"
-        (onClick)="goBack(false)"
-        label="CANCELAR"/>
+        (onClick)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step() === 4"
-        label="CONTINUAR"/>
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>
 }

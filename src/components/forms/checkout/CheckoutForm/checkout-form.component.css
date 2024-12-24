@@ -15,7 +15,7 @@ input.ng-invalid.ng-touched {
 }
 
 .form-container {
-  width: 45vw;
+  width: 40vw;
   min-width: 15rem;
 }
 
@@ -39,7 +39,7 @@ input.ng-invalid.ng-touched {
 
 @media (max-width: 1185px) {
   .form-container {
-    width: 45vw;
+    width: 40vw;
   }
 
   .steps {
