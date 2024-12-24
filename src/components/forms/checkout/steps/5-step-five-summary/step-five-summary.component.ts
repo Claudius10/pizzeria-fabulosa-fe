@@ -12,8 +12,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../../regex';
 import {CartService} from '../../../../../services/cart/cart.service';
 import {OrderService} from '../../../../../services/http/order/order.service';
-import {MutationResult} from '../../../../../interfaces/mutation';
-import {isFormValid} from '../../../../../utils/functions';
+import {ApiError, MutationResult} from '../../../../../interfaces/mutation';
+import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../../../utils/functions';
 import {QueryResult} from '../../../../../interfaces/query';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
@@ -21,8 +21,10 @@ import {AddressDTO, CartItemDTO} from '../../../../../interfaces/dto/order';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces/http/order';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
+import {ErrorService} from '../../../../../services/error/error.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -36,6 +38,7 @@ import {UpperCasePipe} from '@angular/common';
     TranslatePipe,
     UpperCasePipe
   ],
+  providers: [MessageService],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -49,6 +52,9 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private orderService = inject(OrderService);
   private cartService = inject(CartService);
   private router = inject(Router);
+  private errorService = inject(ErrorService);
+  private translateService = inject(TranslateService);
+  private messageService = inject(MessageService);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
@@ -149,7 +155,22 @@ export class StepFiveSummaryComponent implements OnDestroy {
           this.router.navigate(['order', 'success']);
         },
         onError: (error) => {
-          console.log(error);
+          const apiError = error as ApiError;
+          const response: ResponseDTO = apiError.error;
+
+          // server response?
+          if (response.status !== undefined) {
+            // error?
+            if (response.status.error) {
+              // fatal error?
+              if (response.error!.fatal) {
+                handleFatalError(response, this.errorService, this.router);
+              } else
+                handleError(response, this.messageService, this.translateService);
+            }
+          } else {
+            handleServerNoResponse(this.messageService, this.translateService);
+          }
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
@@ -192,8 +213,23 @@ export class StepFiveSummaryComponent implements OnDestroy {
           this.checkoutFormService.orderSuccess.set(response.payload);
           this.router.navigate(['order', 'success']);
         },
-        onError: (error, variables, context) => {
-          console.log(error);
+        onError: (error) => {
+          const apiError = error as ApiError;
+          const response: ResponseDTO = apiError.error;
+
+          // server response?
+          if (response.status !== undefined) {
+            // error?
+            if (response.status.error) {
+              // fatal error?
+              if (response.error!.fatal) {
+                handleFatalError(response, this.errorService, this.router);
+              } else
+                handleError(response, this.messageService, this.translateService);
+            }
+          } else {
+            handleServerNoResponse(this.messageService, this.translateService);
+          }
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
