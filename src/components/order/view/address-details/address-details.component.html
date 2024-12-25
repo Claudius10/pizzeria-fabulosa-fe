@@ -4,7 +4,7 @@
 
     <div class="flex flex-column gap-3">
 
-      @if (address().id === null) {
+      @if (selectedStore() === null) {
         <span>{{ "view.delivery.time.selected" | translate }}:
                 <span
                   class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>

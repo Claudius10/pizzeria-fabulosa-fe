@@ -1,6 +1,7 @@
 {
   "prompt.yes": "Sí",
   "prompt.no": "No",
+  "prompt.loading": "Cargando...",
   "button.start.order": "Tramitar pedido",
   "button.enter": "Entrar",
   "button.cancel": "Cancelar",
@@ -40,7 +41,7 @@
   "form.invalid.delivery.details": "El valor no es válido",
   "form.invalid.delivery.programmed.hour": "La hora es obligatoria",
   "form.invalid.bill.change": "El billete a cambiar debe ser mayor al total o al total con ofertas",
-  "form.invalid.comment": "El comentario contiene símbolos prohibidos",
+  "form.invalid.comment": "El comentario contiene símbolos prohibidos o tiene más de 150 caracteres",
   "view.customer.header": "Datos del cliente",
   "view.delivery.header": "Datos de la entrega",
   "view.order": "Pedido",
@@ -103,5 +104,6 @@
   "toast.error.api.user.address.list.full.detail": "Ha excedido el máximo permitido (3) de domicilios",
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",
   "toast.error.api.unknown": "Error desconocido. Por favor informános de qué pasó.",
-  "loading": "Cargando..."
+  "page.forbidden": "Acceso denegado: asegúrese de tener la sesión abierta y los privilegios suficientes para acceder a esta página",
+  "page.not.found": "Esto es un callejón sin salida. Por favor vuelve a la página principal haciendo click en el icono pizza en la esquina superior izquierda."
 }

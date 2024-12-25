@@ -31,18 +31,19 @@ export class AddressDetailsComponent implements OnInit {
   status = toObservable(this.stores.status);
 
   ngOnInit(): void {
-    if (this.address().id !== null) {
-      const subscription = this.status.subscribe(status => {
-        if (status === "success") {
-          const fetchedStores = this.stores.data()!.payload as StoreDTO[];
-          const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.address().id);
+    const subscription = this.status.subscribe(status => {
+      if (status === "success") {
+        const fetchedStores = this.stores.data()!.payload as StoreDTO[];
+        const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.address().id);
+
+        if (selectedStoreIndex !== -1) {
           this.selectedStore.set(fetchedStores[selectedStoreIndex]);
         }
-      });
+      }
+    });
 
-      this.destroyRef.onDestroy(() => {
-        subscription.unsubscribe();
-      });
-    }
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 }

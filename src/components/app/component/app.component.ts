@@ -24,8 +24,6 @@ import {ToastModule} from "primeng/toast";
 export class AppComponent implements OnInit {
 
   // TODO - check data type consistency and coherency of arguments passed to http requests
-  // TODO - Send codes for delivery time,payment method, etc., and when back-end returns the codes
-  //  switch them to their corresponding tokens w/ translate
 
   private translateService = inject(TranslateService);
   private cartLocalStorageService = inject(CartLocalstorageService);

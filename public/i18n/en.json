@@ -1,6 +1,7 @@
 {
   "prompt.yes": "Yes",
   "prompt.no": "No",
+  "prompt.loading": "Loading...",
   "button.start.order": "Proceed to checkout",
   "button.enter": "Enter",
   "button.cancel": "Cancel",
@@ -40,7 +41,7 @@
   "form.invalid.delivery.details": "Delivery details input is invalid",
   "form.invalid.delivery.programmed.hour": "The hour is requiered",
   "form.invalid.bill.change": "Bill to change must be greater than the total or the total after offers",
-  "form.invalid.comment": "The comment contains forbidden symbols",
+  "form.invalid.comment": "The comment contains forbidden symbols or has more than 150 characters",
   "view.customer.header": "Customer details",
   "view.delivery.header": "Delivery details",
   "view.orderdetails.header": "Order details",
@@ -102,5 +103,6 @@
   "toast.error.api.user.address.list.full.detail": "You have exceded the maximum size (3) of your address list",
   "toast.error.api.user.order.not.found.detail": "Unable to find order. If the problem persists, contact us.",
   "toast.error.api.unknown": "Unknown error. Please let us know what happened.",
-  "loading": "Loading..."
+  "page.forbidden": "Access denied: ensure you are logged-in and have the sufficient privileges to access this page",
+  "page.not.found": "You have reached a dead-end. Please return to the main page by clicking the pizza icon in the left top corner."
 }
