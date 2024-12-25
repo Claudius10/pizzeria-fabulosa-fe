@@ -1,3 +1,7 @@
+:host ::ng-deep .p-button {
+  width: 10rem;
+}
+
 input.ng-invalid.ng-touched {
   border: 1px solid #f87171;
 }
@@ -12,18 +16,14 @@ input.ng-invalid.ng-touched {
   width: 100%;
 }
 
-.form {
-  min-height: 35rem;
-}
-
 @media (max-width: 578px) {
+  :host ::ng-deep .p-button {
+    width: 100%;
+  }
+
   .buttons {
     flex-direction: column-reverse;
     gap: 1.5rem;
     width: 100%;
-  }
-
-  .form {
-    min-height: 31.2rem;
   }
 }

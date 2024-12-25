@@ -1,5 +1,5 @@
-<div class="flex gap-5">
-  <div class="flex flex-column gap-5">
+<div class="form-container flex gap-5">
+  <div class="flex flex-column gap-3">
     <div class="steps">
       <p-card>
         <p-steps [activeIndex]="checkoutFormService.step()" [model]="steps()"/>
@@ -12,13 +12,12 @@
       </p-card>
     </div>
 
-    <div class="form-container flex flex-column gap-6 align-items-center">
-      <div class="form w-full">
-        <router-outlet/>
-      </div>
+    <div class="steps-container h-full">
+      <router-outlet/>
     </div>
   </div>
-  <div class="sm-cart">
-    <app-cart-checkout/>
+
+  <div class="checkout-cart">
+    <app-cart/>
   </div>
 </div>

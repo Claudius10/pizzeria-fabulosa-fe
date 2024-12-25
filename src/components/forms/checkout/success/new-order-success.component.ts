@@ -5,11 +5,11 @@ import {Router, RouterLink} from '@angular/router';
 import {CustomerDetailsComponent} from '../../../order/view/customer-details/customer-details.component';
 import {AddressDetailsComponent} from '../../../order/view/address-details/address-details.component';
 import {OrderDetailsComponent} from '../../../order/view/order-details/order-details.component';
-import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
+import {CartComponent} from '../../../cart/sidebar/cart.component';
 
 @Component({
   selector: 'app-new-order-success',
@@ -22,10 +22,10 @@ import {UpperCasePipe} from '@angular/common';
     CustomerDetailsComponent,
     AddressDetailsComponent,
     OrderDetailsComponent,
-    CheckoutCartComponent,
     RouterLink,
     TranslatePipe,
-    UpperCasePipe
+    UpperCasePipe,
+    CartComponent
   ],
   templateUrl: './new-order-success.component.html',
   styleUrl: './new-order-success.component.css',

@@ -1,3 +1,7 @@
+:host ::ng-deep .p-button {
+  width: 10rem;
+}
+
 input.ng-invalid.ng-touched {
   border: 1px solid #f87171;
 }
@@ -10,13 +14,6 @@ input.ng-invalid.ng-touched {
   color: #f87171;
 }
 
-.form {
-  min-height: 35rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -24,8 +21,8 @@ input.ng-invalid.ng-touched {
 }
 
 @media (max-width: 578px) {
-  .form {
-    min-height: 29rem;
+  :host ::ng-deep .p-button {
+    width: 100%;
   }
 
   .buttons {

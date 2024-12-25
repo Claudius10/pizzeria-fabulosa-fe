@@ -1,5 +1,5 @@
 @if (isAuthenticated()) {
-  <div class="form w-full">
+  <div class="flex flex-column justify-content-between gap-5 h-full w-full">
     <p-card>
       <div class="flex flex-column gap-3">
         <span>{{ "form.label.name" | translate }}: {{ userName }}</span>
@@ -22,7 +22,7 @@
     </div>
   </div>
 } @else {
-  <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+  <form class="flex flex-column justify-content-between gap-8 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <div class="flex flex-column gap-3">
 
       <span>{{ "component.form.step.one.advice" | translate }}</span>

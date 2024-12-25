@@ -13,13 +13,13 @@ import {AddressDetailsComponent} from '../address-details/address-details.compon
 import {CustomerDetailsComponent} from '../customer-details/customer-details.component';
 import {OrderDetailsComponent} from '../order-details/order-details.component';
 import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
-import {CheckoutCartComponent} from '../../../forms/checkout/cart/checkout-cart.component';
 import {CardModule} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {MutationResult} from '../../../../interfaces/mutation';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
+import {CartComponent} from '../../../cart/sidebar/cart.component';
 
 @Component({
   selector: 'app-order',
@@ -31,9 +31,9 @@ import {ResourceService} from '../../../../services/http/resources/resource.serv
     AddressDetailsComponent,
     CustomerDetailsComponent,
     OrderDetailsComponent,
-    CheckoutCartComponent,
     CardModule,
-    RouterLink
+    RouterLink,
+    CartComponent
   ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './order.component.html',

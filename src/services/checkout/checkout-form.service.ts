@@ -21,7 +21,7 @@ export class CheckoutFormService {
   where = signal<where | null>(null);
   when = signal<when | null>(null);
   how = signal<how | null>(null);
-  orderSuccess = signal<CreatedOrderDTO | null>(getTestOrderSuccess());
+  orderSuccess = signal<CreatedOrderDTO | null>(null);
 
   isStepFilled(step: number) {
     switch (step) {

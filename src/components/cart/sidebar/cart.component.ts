@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, output, signal} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemComponent} from '../cart-item/cart-item.component';
 import {NavigationEnd, Router} from '@angular/router';
@@ -6,7 +6,7 @@ import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
 import {filter} from 'rxjs';
 import {TranslatePipe} from '@ngx-translate/core';
-import {UpperCasePipe} from '@angular/common';
+import {NgClass, UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-cart',
@@ -17,6 +17,7 @@ import {UpperCasePipe} from '@angular/common';
     Button,
     TranslatePipe,
     UpperCasePipe,
+    NgClass,
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
@@ -24,6 +25,7 @@ import {UpperCasePipe} from '@angular/common';
 })
 export class CartComponent {
   onNewOrderClick = output<boolean>();
+  inSidebar = input<boolean>(false);
   protected cartService: CartService = inject(CartService);
   private router = inject(Router);
   private viewOnlyRoutes = ["/order/new/", "/order/success", "/user/orders/"];

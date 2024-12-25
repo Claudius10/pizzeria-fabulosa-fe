@@ -10,21 +10,17 @@ input.ng-invalid.ng-touched {
   color: var(--primary-color);
 }
 
-:host ::ng-deep .p-button {
-  width: 10rem;
-}
-
-.form-container {
+.steps-container {
   width: 40vw;
   min-width: 15rem;
 }
 
-.form {
-  min-height: 26.5rem;
-}
-
 .steps {
   width: 100%;
+}
+
+.checkout-cart {
+  height: 55rem;
 }
 
 .small-steps {
@@ -38,7 +34,7 @@ input.ng-invalid.ng-touched {
 }
 
 @media (max-width: 1185px) {
-  .form-container {
+  .steps-container {
     width: 40vw;
   }
 
@@ -53,11 +49,11 @@ input.ng-invalid.ng-touched {
 }
 
 @media (max-width: 992px) {
-  .sm-cart {
+  .checkout-cart {
     display: none;
   }
 
-  .form-container {
+  .steps-container {
     width: 80vw;
   }
 }
@@ -71,9 +67,5 @@ input.ng-invalid.ng-touched {
     flex-direction: column-reverse;
     gap: 1.5rem;
     width: 100%;
-  }
-
-  .form {
-    min-height: 0;
   }
 }

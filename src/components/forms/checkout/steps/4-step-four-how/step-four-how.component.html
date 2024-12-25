@@ -1,5 +1,5 @@
 @if (!this.checkoutFormService.isStepFilled(3)) {
-  <div class="form flex flex-column justify-content-between align-items-center">
+  <div class="flex flex-column justify-content-between align-items-center gap-5 h-full w-full">
     <span class="text-center">{{ "component.form.step.four.warning" | translate }}</span>
     <p-button
       type="button"
@@ -8,7 +8,7 @@
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
-  <form class="form w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+  <form class="flex flex-column justify-content-between gap-8 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <div class="flex flex-column gap-5">
 
       <div class="flex flex-column gap-3">

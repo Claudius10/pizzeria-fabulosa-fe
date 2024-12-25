@@ -11,10 +11,10 @@ import {InputTextModule} from 'primeng/inputtext';
 import {InputNumberModule} from 'primeng/inputnumber';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
-import {CheckoutCartComponent} from '../cart/checkout-cart.component';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {MenuItem} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
+import {CartComponent} from '../../../cart/sidebar/cart.component';
 
 @Component({
   selector: 'app-checkout-form',
@@ -35,8 +35,8 @@ import {ToastModule} from 'primeng/toast';
     FormsModule,
     IconFieldModule,
     InputIconModule,
-    CheckoutCartComponent,
-    ToastModule
+    ToastModule,
+    CartComponent
   ],
   templateUrl: './checkout-form.component.html',
   styleUrl: './checkout-form.component.css',

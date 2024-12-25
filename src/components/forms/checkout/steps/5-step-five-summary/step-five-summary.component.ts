@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, signal, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal, Signal} from '@angular/core';
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
@@ -55,7 +55,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private errorService = inject(ErrorService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
-  private destroyRef = inject(DestroyRef);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -82,11 +81,11 @@ export class StepFiveSummaryComponent implements OnDestroy {
       } else {
         // if user is authed
         if (this.isAuthenticated()) {
-
           const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
             id: this.authService.getUserId()!
           }); // NOTE - guaranteed to be here because it will load in step two when user is logged in
+
           const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
           const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where()!.id);
           this.selectedAddress.set(fetchedUserAddressList[selectedAddressIndex]);
