@@ -3,8 +3,8 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
-import {userOrderQueryKey} from '../../../../utils/query-keys';
-import {PENDING, SUCCESS} from '../../../../utils/constants';
+import {RESOURCE_PRODUCT_ALL, userOrderQueryKey} from '../../../../utils/query-keys';
+import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
@@ -20,6 +20,8 @@ import {LoadingAnimationService} from '../../../../services/navigation/loading-a
 import {MutationResult} from '../../../../interfaces/mutation';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
+import {merge} from 'rxjs';
+import {ProductDTO} from '../../../../interfaces/dto/resources';
 
 @Component({
   selector: 'app-order',
@@ -52,12 +54,15 @@ export class OrderComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
+  allProducts = this.resourceService.findAllProducts({queryKey: RESOURCE_PRODUCT_ALL});
   order: QueryResult = this.orderService.findUserOrder({
     id: this.orderId,
     userId: this.authService.getUserId()!,
     queryKey: userOrderQueryKey(this.orderId)
   });
+  allProductsStatus = toObservable(this.allProducts.status);
   orderStatus = toObservable(this.order.status);
+  status = merge(this.allProductsStatus, this.orderStatus);
   delete: MutationResult = this.orderService.deleteUserOrder();
   customer: CustomerDTO = {
     name: this.authService.getUserName()!,
@@ -66,20 +71,22 @@ export class OrderComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    const subscription = this.orderStatus.subscribe({
+    const subscription = this.status.subscribe({
       next: status => {
-
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
 
-        if (status === SUCCESS) {
+        if (status === SUCCESS && this.order.status() === SUCCESS && this.allProducts.status() === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const cart = this.order.data()!.payload.cart as CartDTO;
-          //this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, this.allProducts);
+          const allProducts = this.allProducts.data()!.payload as ProductDTO[];
+          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
         }
-      }, complete: () => {
-        this.loadingAnimationService.stopLoading();
+
+        if (status === ERROR) {
+          this.loadingAnimationService.stopLoading();
+        }
       }
     });
 

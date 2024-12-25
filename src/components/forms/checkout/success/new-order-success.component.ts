@@ -65,11 +65,9 @@ export class NewOrderSuccessComponent implements OnInit, OnDestroy {
 
         if (status === "success") {
           this.loadingAnimationService.stopLoading();
-          const cartItems = this.checkoutFormService.orderSuccess()!.cart.cartItems!;
-          const totalQuantity = this.checkoutFormService.orderSuccess()!.cart.totalQuantity;
-          const totalCost = this.checkoutFormService.orderSuccess()!.cart.totalCost;
+          const cart = this.checkoutFormService.orderSuccess()!.cart!;
           const allProducts = this.allProducts.data()!.payload as ProductDTO[];
-          this.cartService.set(cartItems, totalQuantity, totalCost, true, allProducts);
+          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
         }
       });
 
