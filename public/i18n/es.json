@@ -88,6 +88,7 @@
   "component.order.success.no.content": "Tu nuevo pedido aparecerá aquí!",
   "component.order.success.anon.advice": "Crea tu cuenta y disfruta del historial de pedidos, la posibilidad de modificar pedidos en preparación, y una tramitación más cómoda!",
   "component.order.success.anon.link": "Página de registración",
+  "component.order.error.loading.cart": "Pedido creado con éxito, pero no es posible cargar la cesta. Perdonad las molestías.",
   "component.server.error.header": "Error en la comunicación con el servidor de recursos",
   "component.server.error.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas.",
   "toast.severity.error": "ERROR",

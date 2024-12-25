@@ -52,7 +52,7 @@ export class CartService {
       const productIndex = products.findIndex(product => product.code === item.code);
       const product = products[productIndex];
       enrichedItems.push({
-        id: product.id,
+        id: item.id,
         image: product.image,
         description: product.description,
         name: product.name,

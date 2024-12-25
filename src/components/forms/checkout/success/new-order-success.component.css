@@ -1,5 +1,9 @@
+.invalid-text {
+  color: #f87171;
+}
+
 .cart {
-  height: 100%;
+  height: 55rem;
 }
 
 @media (max-width: 992px) {

@@ -25,11 +25,16 @@
           [orderDetails]="checkoutFormService.orderSuccess()!.orderDetails"/>
       </div>
 
-      <!-- TODO - Cart max height check screenshot -->
-      <div class="cart">
-        <app-cart/>
-      </div>
+      @if (allProducts.status() === "success") {
+        <div class="cart">
+          <app-cart [viewOnly]="true"/>
+        </div>
+      }
     </div>
+    @if (allProducts.status() === "error") {
+      <span class="text-center invalid-text">{{ "component.order.error.loading.cart" | translate }}</span>
+    }
+
     <div class="flex flex-column align-items-center gap-3">
       @if (!isAuthenticated()) {
         <span class="text-center">{{ "component.order.success.anon.advice" | translate }}</span>

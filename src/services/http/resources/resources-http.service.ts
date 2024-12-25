@@ -17,6 +17,10 @@ import {
 export class ResourcesHttpService {
   private httpClient = inject(HttpClient);
 
+  public findAllProducts() {
+    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}`);
+  }
+
   public findProducts(type: string) {
     return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}?type=${type}`);
   }

@@ -9,7 +9,7 @@ export const numbersRegex = /^[0-9]+$/;
 // a/A to z/Z + 0-9 + basic symbols + whitespace allowed
 export const charsAndNumbersRegex = /^[a-z0-9.,:;\s]+$/i;
 // title
-export const esCharsAndNumbersAndBasicSymbolsRgx = /^$|^[a-z0-9!¡¿?.,:;"'\sÁÉÍÓÚáéíóúÑñ]+$/i;
+export const esCharsAndNumbersAndBasicSymbolsRgx = /^$|^[a-z0-9!¡¿?.,:;"'ªº\sÁÉÍÓÚáéíóúÑñ]+$/i;
 //  RFC2822 email regex
 export const emailRgx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/i;
 

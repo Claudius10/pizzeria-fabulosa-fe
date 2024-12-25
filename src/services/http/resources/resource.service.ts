@@ -10,6 +10,19 @@ import {BaseQueryOptions, BaseQueryOptionsId, QueryResult} from '../../../interf
 export class ResourceService {
   private resourcesHttpService = inject(ResourcesHttpService);
 
+  findAllProducts(options: BaseQueryOptions): QueryResult {
+    const query = injectQuery(() => ({
+      queryKey: options.queryKey,
+      queryFn: () => firstValueFrom(this.resourcesHttpService.findAllProducts())
+    }));
+
+    return {
+      data: query.data,
+      status: query.status,
+      error: query.error
+    };
+  }
+
   findProducts(options: BaseQueryOptions): QueryResult {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,

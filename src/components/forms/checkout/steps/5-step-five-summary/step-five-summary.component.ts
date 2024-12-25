@@ -96,7 +96,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
   form = new FormGroup({
     comment: new FormControl<string | null>(null, {
-      validators: [Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
+      validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
       nonNullable: false,
       updateOn: "blur"
     }),

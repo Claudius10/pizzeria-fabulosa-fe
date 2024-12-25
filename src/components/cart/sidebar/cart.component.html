@@ -4,7 +4,7 @@
       <span class="ml-1">{{ "component.cart.empty.text" | translate }}</span>
     } @else {
       @for (item of items(); track item.id) {
-        <app-cart-item [readOnly]="viewOnly()" [item]="item"/>
+        <app-cart-item [readOnly]="getIsViewOnly()" [item]="item"/>
       }
     }
   </div>
@@ -16,7 +16,7 @@
       [totalAfterOffers]="totalAfterOffers()"
     />
 
-    @if (this.cartService.cartQuantity() !== 0 && !viewOnly()) {
+    @if (this.cartService.cartQuantity() !== 0 && !getIsViewOnly()) {
       <p-button type="button" label="{{'button.start.order' | translate | uppercase }}" [raised]="true"
                 (click)="newOrderOnLick()"/>
     }

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input, output, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemComponent} from '../cart-item/cart-item.component';
 import {NavigationEnd, Router} from '@angular/router';
@@ -23,8 +23,9 @@ import {NgClass, UpperCasePipe} from '@angular/common';
   styleUrl: './cart.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartComponent {
+export class CartComponent implements OnInit {
   onNewOrderClick = output<boolean>();
+  viewOnly = input.required<boolean>();
   inSidebar = input<boolean>(false);
   protected cartService: CartService = inject(CartService);
   private router = inject(Router);
@@ -35,17 +36,22 @@ export class CartComponent {
   totalAfterOffers = this.cartService.cartTotalAfterOffers;
   threeForTwoOffers = this.cartService.cartThreeForTwoOffers;
   secondForHalfPriceOffer = this.cartService.cartSecondHalfPriceOffer;
-  viewOnly = signal(false);
+  viewOnlyRoute = signal(false);
 
-  constructor() {
+  ngOnInit(): void {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      const isViewOnlyRoute = this.viewOnlyRoutes.findIndex(value => event.url.includes(value) || event.url === value);
+      const url = event.url;
+      const isViewOnlyRoute = this.viewOnlyRoutes.findIndex(route => url.includes(route) || url === route);
       if (isViewOnlyRoute !== -1) {
-        this.viewOnly.set(true);
+        this.viewOnlyRoute.set(true);
       } else {
-        this.viewOnly.set(false);
+        this.viewOnlyRoute.set(false);
       }
     });
+  }
+
+  getIsViewOnly() {
+    return this.viewOnly() || this.viewOnlyRoute();
   }
 
   newOrderOnLick() {
