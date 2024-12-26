@@ -8,23 +8,23 @@
   [dismissableMask]="true"
   [position]="'topright'">
   <ng-template pTemplate="headless">
-    <div class="flex flex-column align-items-center p-5 surface-overlay border-round">
+    <div class="flex flex-column align-items-center p-3">
       <span class="font-bold text-2xl block">
-                {{ 'Account' }}
+                {{ 'toast.severity.info' | translate }}
       </span>
-      <p class="mb-0">{{ 'Proceed with sign-out?' }}</p>
+      <p class="mb-0">{{ 'dialog.logout.confirm' | translate }}</p>
       <div class="flex align-items-center gap-2 mt-4">
         <button
           pButton
-          label="Yes"
+          label="{{ 'prompt.yes' | translate | uppercase }}"
           (click)="acceptLogout()"
           class="w-8rem">
         </button>
         <button
           pButton
-          label="No"
+          label="{{ 'prompt.no' | translate | uppercase }}"
           (click)="hideLogoutDialog();"
-          class="p-button-outlined w-8rem ">
+          class="p-button-outlined w-8rem">
         </button>
       </div>
     </div>

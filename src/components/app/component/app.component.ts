@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {NavigationBarComponent} from '../../nav/navigation/navigation-bar/navigation-bar.component';
+import {NavigationBarComponent} from '../../nav/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../../footer/footer.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import defaultLanguage from "../../../../public/i18n/en.json";

@@ -246,6 +246,7 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   cancel() {
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 }

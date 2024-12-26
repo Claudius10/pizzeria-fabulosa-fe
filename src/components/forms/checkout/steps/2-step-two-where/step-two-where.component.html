@@ -10,7 +10,7 @@
 } @else {
   <form class="flex flex-column justify-content-between gap-8 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <!-- ADDRESS SELECT -->
-    <div class="flex flex-column gap-5">
+    <div class="flex flex-column gap-3">
 
       <div class="flex flex-column gap-3">
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
@@ -95,7 +95,7 @@
         }
       } @else {
         <!-- STORE SELECT -->
-        <div class="flex flex-column gap-5 mb-4">
+        <div class="flex flex-column gap-3 mb-4">
           @if (stores.status() === "pending") {
             <span class="text-primary">{{ "loading.stores" | translate }}</span>
           } @else if (stores.status() === "error") {

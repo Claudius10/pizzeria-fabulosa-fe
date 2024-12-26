@@ -30,7 +30,7 @@ export class UserService {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.createUserAddress(request.payload)),
       onSuccess: () => {
-        this.queryClient.invalidateQueries({queryKey: USER_ADDRESS_LIST});
+        this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
       }
     }));
 
@@ -46,7 +46,7 @@ export class UserService {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.deleteUserAddress(request.payload)),
       onSuccess: () => {
-        this.queryClient.invalidateQueries({queryKey: USER_ADDRESS_LIST});
+        this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
       }
 
     }));

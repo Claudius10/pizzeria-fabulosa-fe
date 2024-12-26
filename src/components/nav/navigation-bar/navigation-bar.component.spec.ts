@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {NavigationBarComponent} from './navigation-bar.component';
-import {AuthService} from '../../../../services/auth/auth.service';
+import {AuthService} from '../../../services/auth/auth.service';
 import {Injectable, signal} from '@angular/core';
 import {provideRouter} from '@angular/router';
 import {MockBuilder, MockInstance, MockRender} from 'ng-mocks';

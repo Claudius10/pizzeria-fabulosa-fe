@@ -142,6 +142,7 @@ export class StepFourHowComponent implements OnInit {
   }
 
   cancel() {
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 

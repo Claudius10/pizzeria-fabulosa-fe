@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@an
 import {ErrorService} from '../../../services/error/error.service';
 import {ErrorDTO} from '../../../interfaces/http/api';
 import {ErrorItemComponent} from './item/error-item.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-error',
@@ -10,7 +11,8 @@ import {ErrorItemComponent} from './item/error-item.component';
   },
   standalone: true,
   imports: [
-    ErrorItemComponent
+    ErrorItemComponent,
+    TranslatePipe
   ],
   templateUrl: './error.component.html',
   styleUrl: './error.component.css',

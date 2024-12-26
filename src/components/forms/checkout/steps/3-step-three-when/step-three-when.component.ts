@@ -39,7 +39,8 @@ export class StepThreeWhenComponent implements OnInit {
   deliveryHours = signal<string[]>(getDeliveryHours());
   options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
-    {code: "1", description: "form.select.time.programmed"
+    {
+      code: "1", description: "form.select.time.programmed"
     }];
   selectedOption: Option = this.options[0];
 
@@ -107,6 +108,7 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   cancel() {
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 

@@ -1,11 +1,11 @@
 @if (this.errorService.isEmpty()) {
-  <span class="text-3xl font-semibold text-center">No unexpected error found</span>
+  <span class="text-3xl font-semibold text-center">{{ "component.error.no.error" | translate }}</span>
 } @else {
   <div class="flex flex-column gap-5">
 
     <div class="flex flex-column align-items-center gap-2">
-      <span class="text-3xl font-semibold text-center">An unexpected error(s) has occurred</span>
-      <span class="text-primary text-center">We apologize for any inconvenience. Please try again later.</span>
+      <span class="text-3xl font-semibold text-center">{{ "component.error" | translate }}</span>
+      <span class="text-primary text-center">{{ "component.error.advice" | translate }}</span>
     </div>
 
 

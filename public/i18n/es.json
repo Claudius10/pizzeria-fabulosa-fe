@@ -103,6 +103,9 @@
   "component.user.order.note.text": "el pedido se puede cancelar únicamente en los primeros diez minutos desde su creación.",
   "component.server.error.header": "Error en la comunicación con el servidor de recursos",
   "component.server.error.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas.",
+  "component.error.no.error": "No hay ningún error",
+  "component.error": "Ha ocurrido un error inesperado",
+  "component.error.advice": "Nos disculpamos por las molestías ocasionadas. Por favor inténtelo de nuevo más tarde.",
   "toast.severity.error": "Error",
   "toast.severity.warning": "Advertencia",
   "toast.severity.info": "Información",
@@ -120,6 +123,9 @@
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",
   "toast.error.api.user.order.cancel.not.allowed": "El pedido no se puede cancelar transcurrido 10 minutos desde su creación",
   "toast.error.api.unknown": "Error desconocido. Por favor informános de qué pasó.",
+  "dialog.logout.confirm": "¿Desea terminar la sesión?",
+  "dialog.logout.success.message": "Sesión cerrada con éxito",
+  "dialog.logout.error.message": "Error al cerrar la session. Si el problema persiste, contacta con nosotros.",
   "page.forbidden": "Acceso denegado: asegúrese de tener la sesión abierta y los privilegios suficientes para acceder a esta página",
   "page.not.found": "Esto es un callejón sin salida. Por favor vuelve a la página principal haciendo click en el icono pizza en la esquina superior izquierda."
 }

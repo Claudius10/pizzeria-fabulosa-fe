@@ -102,6 +102,9 @@
   "component.user.order.note.text": "the order may only be cancelled within the first 10 minutes of creation.",
   "component.server.error.header": "We've received no response from the resource server",
   "component.server.error.footer": "Please try again later. We apologize for any inconvenience.",
+  "component.error.no.error": "No unexpected error found",
+  "component.error": "An unexpected error(s) has occurred",
+  "component.error.advice": "We apologize for any inconvenience. Please try again later.",
   "toast.severity.error": "Error",
   "toast.severity.warning": "Warning",
   "toast.severity.info": "Information",
@@ -119,6 +122,9 @@
   "toast.error.api.user.order.not.found.detail": "Unable to find order. If the problem persists, contact us.",
   "toast.error.api.user.order.cancel.not.allowed": "The order cannot be canceled 10 minutes after creation",
   "toast.error.api.unknown": "Unknown error. Please let us know what happened.",
+  "dialog.logout.confirm": "Proceed with sign-out?",
+  "dialog.logout.success.message": "Sign-out successful",
+  "dialog.logout.error.message": "Sign-out unsuccessful. If the problem persists, contact us.",
   "page.forbidden": "Access denied: ensure you are logged-in and have the sufficient privileges to access this page",
   "page.not.found": "You have reached a dead-end. Please return to the main page by clicking the pizza icon in the left top corner."
 }

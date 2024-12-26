@@ -107,6 +107,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
   }
 
   cancel() {
+    this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 
