@@ -16,7 +16,7 @@ import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
 import {CardModule} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
-import {ApiError, MutationResult} from '../../../../interfaces/mutation';
+import {MutationResult} from '../../../../interfaces/mutation';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {merge} from 'rxjs';
@@ -26,7 +26,7 @@ import {ServerErrorComponent} from '../../../app/error/server-no-response/server
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {handleError, handleFatalError, handleServerNoResponse, isDst} from '../../../../utils/functions';
+import {isDst} from '../../../../utils/functions';
 
 @Component({
   selector: 'app-order',
@@ -89,27 +89,28 @@ export class OrderComponent implements OnInit {
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
-          // did server respond?
-          if (this.order.data() !== undefined || this.allProducts.data() !== undefined && this.order.data()!.status.error || this.allProducts.data()!.status.error) {
-            // note: there are no non-fatal errors for offers/stores GET requests
-
-            if (this.order.data() !== undefined) {
-              this.errorService.addError(this.order.data()!.error!);
-            }
-
-            if (this.allProducts.data() !== undefined) {
-              this.errorService.addError(this.allProducts.data()!.error!);
-            }
-
-            this.router.navigate(["/error"]);
-          }
         }
 
         if (status === SUCCESS && this.order.status() === SUCCESS && this.allProducts.status() === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const cart = this.order.data()!.payload.cart as CartDTO;
-          const allProducts = this.allProducts.data()!.payload as ProductDTO[];
-          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
+
+          const orderResponse: ResponseDTO = this.order.data()!;
+          const productsResponse: ResponseDTO = this.allProducts.data()!;
+
+          if (orderResponse.status.error || productsResponse.status.error) {
+            if (orderResponse.status.error) {
+              this.errorService.handleError(orderResponse, this.messageService);
+              return;
+            }
+
+            if (productsResponse.status.error) {
+              this.errorService.handleError(productsResponse, this.messageService);
+            }
+          } else {
+            const cart = this.order.data()!.payload.cart as CartDTO;
+            const allProducts = this.allProducts.data()!.payload as ProductDTO[];
+            this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
+          }
         }
       }
     });
@@ -141,36 +142,25 @@ export class OrderComponent implements OnInit {
               orderId: this.order.data()!.payload.id
             }
           }, {
-            onSuccess: () => {
-              // trigger toast
-              this.messageService.add({
-                severity: 'success',
-                summary: this.translateService.instant("toast.severity.info"),
-                detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
-                life: 2000
-              });
-              // nav to order summary list after two seconds
-              setTimeout(() => {
-                this.router.navigate(["user", "orders"]);
-              }, 2000);
-            },
-            onError: (error: Error) => {
-              const apiError = error as ApiError;
-              const response: ResponseDTO = apiError.error;
-
-              // server response?
-              if (response.status !== undefined) {
-                // error?
-                if (response.status.error) {
-                  // fatal error?
-                  if (response.error!.fatal) {
-                    handleFatalError(response, this.errorService, this.router);
-                  } else
-                    handleError(response, this.messageService, this.translateService);
-                }
+            onSuccess: (response: ResponseDTO) => {
+              if (response.status.error) {
+                this.errorService.handleError(response, this.messageService);
               } else {
-                handleServerNoResponse(this.messageService, this.translateService);
+                // trigger toast
+                this.messageService.add({
+                  severity: 'success',
+                  summary: this.translateService.instant("toast.severity.info"),
+                  detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
+                  life: 2000
+                });
+                // nav to order summary list after two seconds
+                setTimeout(() => {
+                  this.router.navigate(["user", "orders"]);
+                }, 2000);
               }
+            },
+            onError: () => {
+              this.errorService.handleServerNoResponse(this.messageService);
             },
             onSettled: () => {
               this.loadingAnimationService.stopLoading();

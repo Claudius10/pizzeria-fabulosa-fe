@@ -19,8 +19,8 @@ import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../../services/cart/cart.service';
-import {isFormValid} from '../../../../../utils/functions';
 import {TranslatePipe} from '@ngx-translate/core';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-four-how',

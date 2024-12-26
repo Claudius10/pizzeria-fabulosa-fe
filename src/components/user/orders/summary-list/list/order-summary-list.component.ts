@@ -8,9 +8,10 @@ import {LoadingAnimationService} from '../../../../../services/navigation/loadin
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {Router} from '@angular/router';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {TranslatePipe} from '@ngx-translate/core';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -28,7 +29,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 export class OrderSummaryListComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
-  private router = inject(Router);
+  private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private destroyRef = inject(DestroyRef);
@@ -51,14 +52,14 @@ export class OrderSummaryListComponent {
 
         if (orderListStatus === ERROR) {
           this.loadingAnimationService.stopLoading();
-          if (this.orderList.data() !== undefined && this.orderList.data()!.status.error) {
-            this.errorService.addError(this.orderList.data()!.error!);
-            this.router.navigate(['/error']);
-          }
         }
 
         if (orderListStatus === SUCCESS) {
           this.loadingAnimationService.stopLoading();
+          const response: ResponseDTO = this.orderList.data()!;
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
+          }
         }
       }
     });

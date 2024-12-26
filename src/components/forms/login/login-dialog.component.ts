@@ -7,10 +7,9 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ApiError, MutationResult} from '../../../interfaces/mutation';
+import {MutationResult} from '../../../interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../utils/functions';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
@@ -18,6 +17,8 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {UpperCasePipe} from '@angular/common';
+import {CookieService} from 'ngx-cookie-service';
+import {isFormValid} from '../../../utils/functions';
 
 @Component({
   selector: 'app-login-dialog',
@@ -37,6 +38,7 @@ import {UpperCasePipe} from '@angular/common';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private cookieService = inject(CookieService);
   private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private messageService = inject(MessageService);
@@ -90,34 +92,24 @@ export class LoginDialogComponent implements OnDestroy {
       };
 
       this.login.mutate({payload: data}, {
-        onSuccess: () => {
-          this.closeLoginDialog();
-          this.cartService.clear();
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("toast.form.login.success.detail"),
-            life: 3000
-          });
-          this.router.navigate(["/pizzas"]);
-        },
-        onError: (error) => {
-          const apiError = error as ApiError;
-          const response: ResponseDTO = apiError.error;
-
-          // server response?
-          if (response.status !== undefined) {
-            // error?
-            if (response.status.error) {
-              // fatal error?
-              if (response.error!.fatal) {
-                handleFatalError(response, this.errorService, this.router);
-              } else
-                handleError(response, this.messageService, this.translateService);
-            }
+        onSuccess: (response: ResponseDTO) => {
+          if (response && response.status.error) {
+            this.errorService.handleError(response, this.messageService);
           } else {
-            handleServerNoResponse(this.messageService, this.translateService);
+            this.authService.setUserCredentials(this.cookieService.get("idToken"));
+            this.closeLoginDialog();
+            this.cartService.clear();
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant("toast.severity.info"),
+              detail: this.translateService.instant("toast.form.login.success.detail"),
+              life: 3000
+            });
+            this.router.navigate(["/pizzas"]);
           }
+        },
+        onError: () => {
+          this.errorService.handleServerNoResponse(this.messageService);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

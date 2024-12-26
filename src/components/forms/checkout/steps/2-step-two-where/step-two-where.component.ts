@@ -12,7 +12,6 @@ import {RESOURCE_STORES} from '../../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
-import {isFormValid} from '../../../../../utils/functions';
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {QueryResult} from '../../../../../interfaces/query';
 import {AuthService} from '../../../../../services/auth/auth.service';
@@ -21,6 +20,10 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ErrorService} from '../../../../../services/error/error.service';
+import {isFormValid} from '../../../../../utils/functions';
+import {SUCCESS} from '../../../../../utils/constants';
+import {MessageService} from 'primeng/api';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -47,6 +50,7 @@ export class StepTwoWhereComponent implements OnInit {
   private router = inject(Router);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
+  private messageService = inject(MessageService);
   protected checkoutFormService = inject(CheckoutFormService);
   private authService = inject(AuthService);
   private resourceService = inject(ResourceService);
@@ -83,17 +87,11 @@ export class StepTwoWhereComponent implements OnInit {
     // --> validate store fetch query
     const subscription = this.status.pipe().subscribe({
       next: status => {
-        if (status === "error") {
-          // did server respond?
-          if (this.stores.data() !== undefined) {
-            // note: there are no non-fatal errors for store GET request
+        if (status === SUCCESS) {
+          const response: ResponseDTO = this.stores.data()!;
 
-            // stores error
-            if (this.stores.data() !== undefined && this.stores.data()!.status.error) {
-              this.errorService.addError(this.stores.data()!.error!);
-            }
-
-            this.router.navigate(["/error"]);
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
           }
         }
       }

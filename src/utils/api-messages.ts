@@ -6,6 +6,8 @@ export const USER_NOT_FOUND = "UserNotFound"; // when user does not exist in the
 
 export const BAD_CREDENTIALS = "BadCredentialsException";
 
+export const INVALID_TOKEN = "InvalidBearerTokenException";
+
 // API RESPONSES
 
 export const USER_EMAIL_ALREADY_EXISTS = "EmailAlreadyExists";

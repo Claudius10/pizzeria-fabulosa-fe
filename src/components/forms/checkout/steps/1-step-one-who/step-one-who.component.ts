@@ -7,11 +7,11 @@ import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
-import {isFormValid} from '../../../../../utils/functions';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {CardModule} from 'primeng/card';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-one-who',

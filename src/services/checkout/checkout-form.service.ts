@@ -52,6 +52,29 @@ export class CheckoutFormService {
     this.when.set(null);
     this.how.set(null);
   }
+
+  getDeliveryHours(): string[] {
+    const interval = 5;
+    const hourIntervals: string[] = [];
+    const date = new Date();
+
+    const coefficient = 1000 * 60 * 5;
+    const roundedCurrentMins = new Date(
+      Math.ceil(date.getTime() / coefficient) * coefficient
+    ).getMinutes();
+    const currentHour = new Date().getHours() * 60;
+
+    for (
+      let minutes = currentHour + roundedCurrentMins + 30;
+      minutes < 24 * 60;
+      minutes = minutes + interval
+    ) {
+      date.setHours(0);
+      date.setMinutes(minutes);
+      hourIntervals.push(date.toLocaleTimeString("es", {timeStyle: "short"}));
+    }
+    return hourIntervals;
+  }
 }
 
 function getTestOrderSuccess(): CreatedOrderDTO {

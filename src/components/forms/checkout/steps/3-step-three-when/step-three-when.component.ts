@@ -5,13 +5,13 @@ import {InputTextModule} from "primeng/inputtext";
 import {PaginatorModule} from "primeng/paginator";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
-import {getDeliveryHours, isFormValid} from '../../../../../utils/functions';
 import {timer} from 'rxjs';
 import {Router} from '@angular/router';
 import {Option} from '../../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
+import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -36,7 +36,7 @@ export class StepThreeWhenComponent implements OnInit {
   private onDestroy = inject(DestroyRef);
   private router = inject(Router);
   programmedDelivery = this.checkoutFormService.programmedDelivery.asReadonly();
-  deliveryHours = signal<string[]>(getDeliveryHours());
+  deliveryHours = signal<string[]>(this.checkoutFormService.getDeliveryHours());
   options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
     {
@@ -50,7 +50,7 @@ export class StepThreeWhenComponent implements OnInit {
     const sub = timer(0, 300000).subscribe({
       next: () => {
         if (this.programmedDelivery()) {
-          this.deliveryHours.set(getDeliveryHours());
+          this.deliveryHours.set(this.checkoutFormService.getDeliveryHours());
         }
       }
     });

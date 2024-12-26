@@ -11,13 +11,13 @@ import {
 import {emailRgx, esCharsRegex, passwordRegex} from '../../../regex';
 import {RegisterForm} from '../../../interfaces/http/account';
 import {AccountService} from '../../../services/http/account/account.service';
-import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../utils/functions';
+import {isFormValid} from '../../../utils/functions';
 import {Button} from 'primeng/button';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ApiError, MutationResult} from '../../../interfaces/mutation';
+import {MutationResult} from '../../../interfaces/mutation';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -45,7 +45,6 @@ import {CardModule} from 'primeng/card';
     UpperCasePipe,
     CardModule
   ],
-  providers: [MessageService],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -109,32 +108,21 @@ export class RegisterComponent implements OnDestroy {
       };
 
       this.register.mutate({payload: data}, {
-        onSuccess: () => {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("toast.form.register.success.detail"),
-            life: 3000
-          });
-          this.router.navigate(["/"]);
-        },
-        onError: (error) => {
-          const apiError = error as ApiError;
-          const response: ResponseDTO = apiError.error;
-
-          // server response?
-          if (response.status !== undefined) {
-            // error?
-            if (response.status.error) {
-              // fatal error?
-              if (response.error!.fatal) {
-                handleFatalError(response, this.errorService, this.router);
-              } else
-                handleError(response, this.messageService, this.translateService);
-            }
+        onSuccess: (response: ResponseDTO) => {
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
           } else {
-            handleServerNoResponse(this.messageService, this.translateService);
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant("toast.severity.info"),
+              detail: this.translateService.instant("toast.form.register.success.detail"),
+              life: 3000
+            });
+            this.router.navigate(["/"]);
           }
+        },
+        onError: () => {
+          this.errorService.handleServerNoResponse(this.messageService);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

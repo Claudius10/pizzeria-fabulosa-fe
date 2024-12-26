@@ -12,8 +12,9 @@ import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {QueryResult} from '../../../../../interfaces/query';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
+import {MessageService} from 'primeng/api';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-user-address-list',
@@ -32,8 +33,8 @@ import {TranslatePipe} from '@ngx-translate/core';
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
-  private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private userService = inject(UserService);
   private authService = inject(AuthService);
@@ -47,20 +48,22 @@ export class UserAddressListComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
       next: status => {
+        console.log(status);
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
-          if (this.addressList.data() !== undefined && this.addressList.data()!.status.error) {
-            this.errorService.addError(this.addressList.data()!.error!);
-            this.router.navigate(['/error']);
-          }
         }
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
+          const response: ResponseDTO = this.addressList.data()!;
+
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
+          }
         }
       }
     });

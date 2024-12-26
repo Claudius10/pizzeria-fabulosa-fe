@@ -10,8 +10,9 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {Router} from '@angular/router';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-user-address-list-view',
@@ -31,7 +32,7 @@ export class UserAddressListViewComponent implements OnInit {
   selected = input<number | null>(null);
   valid = input<boolean>();
   private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
   private userService = inject(UserService);
@@ -51,14 +52,15 @@ export class UserAddressListViewComponent implements OnInit {
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
-          if (this.addressList.data() !== undefined && this.addressList.data()!.status.error) {
-            this.errorService.addError(this.addressList.data()!.error!);
-            this.router.navigate(['/error']);
-          }
         }
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
+          const response: ResponseDTO = this.addressList.data()!;
+
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
+          }
         }
       }
     });

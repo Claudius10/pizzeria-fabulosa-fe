@@ -2,8 +2,6 @@ import {inject, Injectable} from '@angular/core';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
-import {AuthService} from '../../auth/auth.service';
-import {CookieService} from 'ngx-cookie-service';
 import {AccountHttpService} from './account-http.service';
 
 @Injectable({
@@ -11,15 +9,10 @@ import {AccountHttpService} from './account-http.service';
 })
 export class AccountService {
   private accountHttpService = inject(AccountHttpService);
-  private authService = inject(AuthService);
-  private cookieService = inject(CookieService);
 
   public login(): MutationResult {
     const mutation = injectMutation(() => ({
-      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload)),
-      onSuccess: () => {
-        this.authService.setUserCredentials(this.cookieService.get("idToken"));
-      }
+      mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload))
     }));
 
     return {

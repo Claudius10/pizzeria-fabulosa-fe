@@ -3,8 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../regex';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserService} from '../../../../services/http/user/user.service';
-import {ApiError, MutationResult, UserAddressMutationOptions} from '../../../../interfaces/mutation';
-import {handleError, handleFatalError, handleServerNoResponse, isFormValid} from '../../../../utils/functions';
+import {MutationResult, UserAddressMutationOptions} from '../../../../interfaces/mutation';
+import {isFormValid} from '../../../../utils/functions';
 import {AddressFormData} from '../../../../interfaces/http/order';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
@@ -13,9 +13,8 @@ import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {ErrorService} from '../../../../services/error/error.service';
-import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
-import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 
 @Component({
@@ -36,8 +35,6 @@ import {UpperCasePipe} from '@angular/common';
 })
 export class UserAddressFormComponent {
   hideForm = output();
-  private router = inject(Router);
-  private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
@@ -88,26 +85,15 @@ export class UserAddressFormComponent {
       };
 
       this.createAddress.mutate({payload: payload}, {
-        onSuccess: () => {
-          this.hideForm.emit();
-        },
-        onError: (error) => {
-          const apiError = error as ApiError;
-          const response: ResponseDTO = apiError.error;
-
-          // server response?
-          if (response.status !== undefined) {
-            // error?
-            if (response.status.error) {
-              // fatal error?
-              if (response.error!.fatal) {
-                handleFatalError(response, this.errorService, this.router);
-              } else
-                handleError(response, this.messageService, this.translateService);
-            }
+        onSuccess: (response: ResponseDTO) => {
+          if (response.status.error) {
+            this.errorService.handleError(response, this.messageService);
           } else {
-            handleServerNoResponse(this.messageService, this.translateService);
+            this.hideForm.emit();
           }
+        },
+        onError: () => {
+          this.errorService.handleServerNoResponse(this.messageService);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

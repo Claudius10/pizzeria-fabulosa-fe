@@ -9,8 +9,10 @@ import {OfferItemComponent} from '../resources/offers/offer-item.component';
 import {StoreItemComponent} from '../resources/stores/store-item.component';
 import {ErrorService} from '../../services/error/error.service';
 import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
-import {Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
+import {ResponseDTO} from '../../interfaces/http/api';
+import {MessageService} from 'primeng/api';
+import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 
 @Component({
   selector: 'app-home',
@@ -24,14 +26,15 @@ import {TranslatePipe} from '@ngx-translate/core';
     ServerErrorComponent,
     TranslatePipe
   ],
+  providers: [MessageService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
-  private router = inject(Router);
-  private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private messageService = inject(MessageService);
+  private resourceService = inject(ResourceService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   offers: QueryResult = this.resourceService.findOffers({queryKey: RESOURCE_OFFERS});
@@ -43,31 +46,27 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.status.pipe().subscribe({
       next: status => {
-        if (status === "pending") {
+        if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
 
-        if (status === "success" && this.offers.status() === "success" && this.stores.status() === "success") {
+        if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
         }
 
-        if (status === "error") {
+        if (status === SUCCESS && this.offers.status() === SUCCESS && this.stores.status() === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          // did server respond?
-          if (this.offers.data() !== undefined || this.stores.data() !== undefined && this.offers.data()!.status.error || this.stores.data()!.status.error) {
-            // note: there are no non-fatal errors for offers/stores GET requests
 
-            // offers error
-            if (this.offers.data() !== undefined) {
-              this.errorService.addError(this.offers.data()!.error!);
-            }
+          const offersResponse: ResponseDTO = this.offers.data()!;
+          const storesResponse: ResponseDTO = this.stores.data()!;
 
-            // stores error
-            if (this.stores.data() !== undefined) {
-              this.errorService.addError(this.stores.data()!.error!);
-            }
+          if (offersResponse.status.error) {
+            this.errorService.handleError(offersResponse, this.messageService);
+            return;
+          }
 
-            this.router.navigate(["/error"]);
+          if (storesResponse.status.error) {
+            this.errorService.handleError(storesResponse, this.messageService);
           }
         }
       }

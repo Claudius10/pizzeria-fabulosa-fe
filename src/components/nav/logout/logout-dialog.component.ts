@@ -10,6 +10,8 @@ import {ButtonDirective} from 'primeng/button';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
+import {ResponseDTO} from '../../../interfaces/http/api';
+import {ErrorService} from '../../../services/error/error.service';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -26,6 +28,7 @@ import {UpperCasePipe} from '@angular/common';
 export class LogoutDialogComponent implements OnDestroy {
   private router = inject(Router);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private errorService = inject(ErrorService);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
@@ -51,17 +54,21 @@ export class LogoutDialogComponent implements OnDestroy {
   private logout() {
     this.loadingAnimationService.startLoading();
     this.logoutUser.mutate({payload: null}, {
-      onSuccess: () => {
-        this.authService.logout();
-        this.hideLogoutDialog();
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translateService.instant("toast.severity.info"),
-          detail: this.translateService.instant("dialog.logout.success.message"),
-          life: 2000
-        });
-        this.cartService.clear();
-        this.router.navigate(["/"]);
+      onSuccess: (response: ResponseDTO) => {
+        if (response && response.status.error) {
+          this.errorService.handleError(response, this.messageService);
+        } else {
+          this.authService.logout();
+          this.hideLogoutDialog();
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("dialog.logout.success.message"),
+            life: 2000
+          });
+          this.cartService.clear();
+          this.router.navigate(["/"]);
+        }
       },
       onError: () => {
         this.messageService.add({
