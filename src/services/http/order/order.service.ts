@@ -19,8 +19,7 @@ export class OrderService {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createUserOrder(request.payload)),
       onSuccess: () => {
-        // mark order summary list as stale to be re-fetched on next mount
-        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+        this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }
     }));
 
@@ -76,8 +75,7 @@ export class OrderService {
     const mutation = injectMutation(() => ({
       mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.deleteUserOrder(request.payload)),
       onSuccess: () => {
-        // mark user order summary list as stale
-        this.queryClient.invalidateQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+        this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       }
     }));
 
