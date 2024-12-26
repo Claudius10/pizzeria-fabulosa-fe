@@ -1,33 +1,39 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {MenubarModule} from 'primeng/menubar';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-nav',
   standalone: true,
   imports: [
     RouterLink,
-    MenubarModule
+    MenubarModule,
+    TranslatePipe
   ],
   templateUrl: './user-nav.component.html',
   styleUrl: './user-nav.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserNavComponent {
-  menu: MenuItem[] = [
+  userProfileMenu = signal<MenuItem[]>(getMenuItems());
+}
+
+function getMenuItems() {
+  return [
     {
-      label: "Profile",
+      label: "component.user.nav.profile",
       icon: 'pi pi-user',
       route: "profile",
     },
     {
-      label: "Order history",
+      label: "component.user.nav.order.history",
       icon: 'pi pi-list',
       route: "orders"
     },
     {
-      label: "Settings",
+      label: "component.user.nav.settings",
       icon: 'pi pi-cog',
       route: "settings",
     },

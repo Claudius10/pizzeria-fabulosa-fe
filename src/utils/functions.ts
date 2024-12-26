@@ -127,15 +127,15 @@ export function getErrorDetails(cause: string, translateService: TranslateServic
 
 export function getSeverity(summary: string) {
   switch (summary) {
-    case "INFORMACIÓN":
+    case "Información":
       return "info";
-    case "INFORMATION":
+    case "Information":
       return "info";
-    case "ADVERTENCIA":
+    case "Advertencia":
       return "warn";
-    case "WARNING":
+    case "Warning":
       return "warn";
-    case "ERROR":
+    case "Error":
       return "error";
     default:
       return "error";

@@ -54,16 +54,16 @@ export class HomeComponent implements OnInit {
         if (status === "error") {
           this.loadingAnimationService.stopLoading();
           // did server respond?
-          if (this.offers.data() !== undefined || this.stores.data() !== undefined) {
+          if (this.offers.data() !== undefined || this.stores.data() !== undefined && this.offers.data()!.status.error || this.stores.data()!.status.error) {
             // note: there are no non-fatal errors for offers/stores GET requests
 
             // offers error
-            if (this.offers.data() !== undefined && this.offers.data()!.status.error) {
+            if (this.offers.data() !== undefined) {
               this.errorService.addError(this.offers.data()!.error!);
             }
 
             // stores error
-            if (this.stores.data() !== undefined && this.stores.data()!.status.error) {
+            if (this.stores.data() !== undefined) {
               this.errorService.addError(this.stores.data()!.error!);
             }
 

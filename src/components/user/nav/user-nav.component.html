@@ -1,9 +1,9 @@
-<p-menubar [model]="menu">
+<p-menubar [model]="userProfileMenu()">
   <ng-template pTemplate="item" let-item>
     <ng-container>
       <a routerLinkActive="color" [routerLink]="item.route" class="p-menuitem-link">
         <span [class]="item.icon"></span>
-        <span class="ml-2">{{ item.label }}</span>
+        <span class="ml-2">{{ item.label | translate }}</span>
       </a>
     </ng-container>
   </ng-template>

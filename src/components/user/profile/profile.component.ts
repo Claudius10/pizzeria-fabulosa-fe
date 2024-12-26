@@ -3,6 +3,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {UserAddressListComponent} from '../user-address-list/user-address-list.component';
 import {CardModule} from 'primeng/card';
 import {Button} from 'primeng/button';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +11,8 @@ import {Button} from 'primeng/button';
   imports: [
     UserAddressListComponent,
     CardModule,
-    Button
+    Button,
+    TranslatePipe
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

@@ -8,12 +8,12 @@
           pInputText
           id="street"
           type="text"
-          placeholder="Home address"
+          placeholder="{{ 'form.label.delivery.address' | translate }}"
           formControlName="street">
       </p-iconField>
       @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
         <small id="street-help" class="invalid-text">
-          Home address is required.
+          {{ "form.invalid.delivery.address" | translate }}
         </small>
       }
     </div>
@@ -26,12 +26,12 @@
           pInputText
           id="streetNumber"
           type="tel"
-          placeholder="Address number"
+          placeholder="{{ 'form.label.delivery.number' | translate }}"
           formControlName="number">
       </p-iconField>
       @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
         <small id="number-help" class="invalid-text">
-          Home address number is required. Four digits maximum.
+          {{ "form.invalid.delivery.number" | translate }}
         </small>
       }
     </div>
@@ -44,12 +44,12 @@
           pInputText
           id="details"
           type="text"
-          placeholder="Details"
+          placeholder="{{ 'form.label.delivery.details' | translate }}"
           formControlName="details">
       </p-iconField>
       @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
         <small id="details-help" class="invalid-text">
-          Invalid details input.
+          {{ "form.invalid.delivery.details" | translate }}
         </small>
       }
     </div>
@@ -60,9 +60,9 @@
       severity="danger"
       type="button"
       (click)="cancel()"
-      label="CANCELAR"/>
+      label="{{ 'button.cancel' | translate | uppercase }}"/>
     <p-button
       type="submit"
-      label="CONTINUAR"/>
+      label="{{ 'button.continue' | translate | uppercase }}"/>
   </div>
 </form>

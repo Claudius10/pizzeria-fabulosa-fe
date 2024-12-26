@@ -6,12 +6,14 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {AuthService} from '../../../services/auth/auth.service';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {MutationResult, UserAddressDeleteMutationOptions} from '../../../interfaces/mutation';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-address-item',
   standalone: true,
   imports: [
-    Button
+    Button,
+    TranslatePipe
   ],
   templateUrl: './user-address-item.component.html',
   styleUrl: './user-address-item.component.css',

@@ -8,8 +8,12 @@ import {CardModule} from 'primeng/card';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {PENDING, SUCCESS} from '../../../utils/constants';
+import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {QueryResult} from '../../../interfaces/query';
+import {ServerErrorComponent} from '../../app/error/server-no-response/server-error.component';
+import {ErrorService} from '../../../services/error/error.service';
+import {Router} from '@angular/router';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-user-address-list',
@@ -18,7 +22,9 @@ import {QueryResult} from '../../../interfaces/query';
     Button,
     UserAddressFormComponent,
     CardModule,
-    UserAddressItemComponent
+    UserAddressItemComponent,
+    ServerErrorComponent,
+    TranslatePipe
   ],
   templateUrl: './user-address-list.component.html',
   styleUrl: './user-address-list.component.css',
@@ -26,6 +32,8 @@ import {QueryResult} from '../../../interfaces/query';
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
   private destroyRef = inject(DestroyRef);
   private userService = inject(UserService);
   private authService = inject(AuthService);
@@ -39,17 +47,21 @@ export class UserAddressListComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
       next: status => {
-
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
+        }
+
+        if (status === ERROR) {
+          this.loadingAnimationService.stopLoading();
+          if (this.addressList.data() !== undefined && this.addressList.data()!.status.error) {
+            this.errorService.addError(this.addressList.data()!.error!);
+            this.router.navigate(['/error']);
+          }
         }
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
         }
-
-      }, complete: () => {
-        this.loadingAnimationService.stopLoading();
       }
     });
 

@@ -1,9 +1,9 @@
 <div class="card flex justify-content-between align-items-center">
-  <div class="flex flex-column gap-2">
-    <span>Dirección: {{ address().street }}</span>
-    <span>Número: {{ address().number }}</span>
+  <div class="flex flex-column gap-3">
+    <span>{{ "form.label.delivery.address" | translate }}: {{ address().street }}</span>
+    <span>{{ "form.label.delivery.number" | translate }}: {{ address().number }}</span>
     @if (address().details !== null) {
-      <p>Detalles: {{ address().details }}</p>
+      <span>{{ "form.label.delivery.details" | translate }}: {{ address().details }}</span>
     }
   </div>
   <p-button type="button" severity="danger" size="small" icon="pi pi-minus" [raised]="true"
