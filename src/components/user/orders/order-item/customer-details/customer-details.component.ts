@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {CardModule} from 'primeng/card';
-import {CustomerDTO} from '../../../../interfaces/dto/order';
+import {CustomerDTO} from '../../../../../interfaces/dto/order';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({

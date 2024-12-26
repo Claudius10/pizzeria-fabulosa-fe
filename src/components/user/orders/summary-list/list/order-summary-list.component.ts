@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
-import {AuthService} from '../../../../services/auth/auth.service';
+import {AuthService} from '../../../../../services/auth/auth.service';
 import {PaginatorModule, PaginatorState} from 'primeng/paginator';
-import {OrderService} from '../../../../services/http/order/order.service';
-import {QueryResult} from '../../../../interfaces/query';
+import {OrderService} from '../../../../../services/http/order/order.service';
+import {QueryResult} from '../../../../../interfaces/query';
 import {OrderSummaryComponent} from '../list-item/order-summary.component';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {PENDING, SUCCESS} from '../../../../utils/constants';
+import {PENDING, SUCCESS} from '../../../../../utils/constants';
 
 @Component({
   selector: 'app-order-summary-list',

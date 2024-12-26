@@ -6,7 +6,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {ActivatedRoute} from '@angular/router';
 import {findDebugElement, findNativeElement} from '../../../../utils/jasmine';
-import {UserDetailsComponent} from '../../../user/user-details/user-details.component';
+import {UserDetailsComponent} from '../../user-details/user-details.component';
 import {QueryResult} from '../../../../interfaces/query';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 

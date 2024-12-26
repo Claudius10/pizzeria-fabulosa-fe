@@ -7,9 +7,7 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UserHomeComponent} from '../user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../user/profile/profile.component';
-import {OrderSummaryListComponent} from '../order/summary/list/order-summary-list.component';
 import {SettingsComponent} from '../user/settings/settings.component';
-import {OrderComponent} from '../order/view/order/order.component';
 import {BeverageListComponent} from '../resources/products/beverages/beverage-list.component';
 import {CheckoutFormComponent} from '../forms/checkout/CheckoutForm/checkout-form.component';
 import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';
@@ -19,6 +17,8 @@ import {StepFourHowComponent} from '../forms/checkout/steps/4-step-four-how/step
 import {StepFiveSummaryComponent} from '../forms/checkout/steps/5-step-five-summary/step-five-summary.component';
 import {NewOrderSuccessComponent} from '../forms/checkout/success/new-order-success.component';
 import {ErrorComponent} from './error/error.component';
+import {OrderSummaryListComponent} from '../user/orders/summary-list/list/order-summary-list.component';
+import {OrderComponent} from '../user/orders/order-item/order.component';
 
 export const routes: Routes = [
   {

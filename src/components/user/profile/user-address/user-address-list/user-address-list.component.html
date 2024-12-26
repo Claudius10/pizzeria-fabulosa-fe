@@ -2,7 +2,7 @@
   @if (addressList.status() === "success") {
     @if (addressList.data()!.payload === null) {
       <div class="flex flex-column gap-4">
-        <span>{{ "component.profile.view.address.list.empty" | translate }}</span>
+        <span>{{ "component.user.profile.view.address.list.empty" | translate }}</span>
       </div>
     } @else {
       @for (address of addressList.data()!.payload; track address.id) {

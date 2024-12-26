@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
-import {AddressDTO, OrderDetailsDTO} from '../../../../interfaces/dto/order';
+import {AddressDTO, OrderDetailsDTO} from '../../../../../interfaces/dto/order';
 import {TranslatePipe} from '@ngx-translate/core';
-import {StoreDTO} from '../../../../interfaces/dto/resources';
-import {QueryResult} from '../../../../interfaces/query';
-import {RESOURCE_STORES} from '../../../../utils/query-keys';
-import {ResourceService} from '../../../../services/http/resources/resource.service';
-import {StoreCheckoutComponent} from '../../../forms/checkout/steps/store/store-checkout.component';
+import {StoreDTO} from '../../../../../interfaces/dto/resources';
+import {QueryResult} from '../../../../../interfaces/query';
+import {RESOURCE_STORES} from '../../../../../utils/query-keys';
+import {ResourceService} from '../../../../../services/http/resources/resource.service';
+import {StoreCheckoutComponent} from '../../../../forms/checkout/steps/store/store-checkout.component';
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({

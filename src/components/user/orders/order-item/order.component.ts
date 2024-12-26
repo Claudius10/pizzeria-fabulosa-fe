@@ -9,9 +9,9 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../../interfaces/query';
-import {AddressDetailsComponent} from '../address-details/address-details.component';
-import {CustomerDetailsComponent} from '../customer-details/customer-details.component';
-import {OrderDetailsComponent} from '../order-details/order-details.component';
+import {AddressDetailsComponent} from './address-details/address-details.component';
+import {CustomerDetailsComponent} from './customer-details/customer-details.component';
+import {OrderDetailsComponent} from './order-details/order-details.component';
 import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
 import {CardModule} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -37,7 +37,7 @@ import {ProductDTO} from '../../../../interfaces/dto/resources';
     RouterLink,
     CartComponent
   ],
-  providers: [MessageService, ConfirmationService],
+  providers: [ConfirmationService],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

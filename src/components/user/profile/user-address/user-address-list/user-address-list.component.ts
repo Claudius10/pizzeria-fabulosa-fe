@@ -1,17 +1,17 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {AuthService} from '../../../services/auth/auth.service';
-import {USER_ADDRESS_LIST} from '../../../utils/query-keys';
-import {UserService} from '../../../services/http/user/user.service';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
+import {UserService} from '../../../../../services/http/user/user.service';
 import {Button} from 'primeng/button';
-import {UserAddressFormComponent} from '../../forms/user/address-form/user-address-form.component';
+import {UserAddressFormComponent} from '../../../../forms/user/address-form/user-address-form.component';
 import {CardModule} from 'primeng/card';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
-import {QueryResult} from '../../../interfaces/query';
-import {ServerErrorComponent} from '../../app/error/server-no-response/server-error.component';
-import {ErrorService} from '../../../services/error/error.service';
+import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
+import {QueryResult} from '../../../../../interfaces/query';
+import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
+import {ErrorService} from '../../../../../services/error/error.service';
 import {Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
 

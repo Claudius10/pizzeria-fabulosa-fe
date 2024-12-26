@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, inject, input, OnDestroy} from '@angular/core';
-import {AddressDTO} from '../../../interfaces/dto/order';
+import {AddressDTO} from '../../../../../interfaces/dto/order';
 import {Button} from 'primeng/button';
-import {UserService} from '../../../services/http/user/user.service';
-import {ResponseDTO} from '../../../interfaces/http/api';
-import {AuthService} from '../../../services/auth/auth.service';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
-import {MutationResult, UserAddressDeleteMutationOptions} from '../../../interfaces/mutation';
+import {UserService} from '../../../../../services/http/user/user.service';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {MutationResult, UserAddressDeleteMutationOptions} from '../../../../../interfaces/mutation';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({

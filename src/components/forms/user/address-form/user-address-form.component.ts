@@ -30,7 +30,6 @@ import {UpperCasePipe} from '@angular/common';
     TranslatePipe,
     UpperCasePipe
   ],
-  providers: [MessageService],
   templateUrl: './user-address-form.component.html',
   styleUrl: './user-address-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

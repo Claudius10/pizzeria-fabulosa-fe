@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {UserAddressListComponent} from '../user-address-list/user-address-list.component';
+import {UserAddressListComponent} from './user-address/user-address-list/user-address-list.component';
 import {CardModule} from 'primeng/card';
 import {Button} from 'primeng/button';
 import {TranslatePipe} from '@ngx-translate/core';

@@ -1,6 +1,6 @@
 <p-card>
   <div class="flex flex-column gap-3">
-    <span>Delete account</span>
+    <span>{{ "component.user.form.delete.account" | translate }}</span>
 
     <form class="flex gap-3" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-column gap-2 h-4rem">
@@ -11,12 +11,12 @@
             pInputText
             id="fullName"
             type="text"
-            placeholder="Password"
+            placeholder="{{ 'form.label.password' | translate}} "
             formControlName="password">
         </p-iconField>
         @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
           <small id="fullName-help" class="invalid-text">
-            Password is required.
+            {{ "form.invalid.password" | translate }}
           </small>
         }
       </div>
@@ -24,7 +24,7 @@
       <p-button
         type="submit"
         severity="danger"
-        label="DELETE"/>
+        label="{{ 'button.delete' | translate | uppercase }}"/>
     </form>
   </div>
 </p-card>

@@ -2,9 +2,6 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnIni
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
-import {CustomerDetailsComponent} from '../../../order/view/customer-details/customer-details.component';
-import {AddressDetailsComponent} from '../../../order/view/address-details/address-details.component';
-import {OrderDetailsComponent} from '../../../order/view/order-details/order-details.component';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -15,6 +12,9 @@ import {RESOURCE_PRODUCT_ALL} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {CustomerDetailsComponent} from '../../../user/orders/order-item/customer-details/customer-details.component';
+import {AddressDetailsComponent} from '../../../user/orders/order-item/address-details/address-details.component';
+import {OrderDetailsComponent} from '../../../user/orders/order-item/order-details/order-details.component';
 
 @Component({
   selector: 'app-new-order-success',
