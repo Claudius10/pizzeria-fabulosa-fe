@@ -1,18 +1,17 @@
-<div class="flex flex-column gap-5 h-full w-full">
-
-  @if (orderList.status() === "success") {
-    <div class="list flex flex-column gap-4 w-full">
+<div class="list flex flex-column justify-content-between gap-3 w-full">
+  <div class="flex flex-column gap-3 w-full">
+    @if (orderList.status() === "success") {
       @if (orderList.data()!.payload.totalElements !== 0) {
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
           <app-order-summary [orderSummary]="orderSummary"/>
         }
       } @else {
-        <span class="text-center">Place your first order and it will appear here!</span>
+        <span class="text-center">{{ "component.user.order.list.empty" | translate }}</span>
       }
-    </div>
-  } @else if (orderList.status() === 'error') {
-    <div>Error: {{ orderList.error()?.message }}</div>
-  }
+    } @else if (orderList.status() === 'error') {
+      <app-server-error/>
+    }
+  </div>
 
   <p-paginator
     (onPageChange)="onPageChange($event)"

@@ -6,18 +6,31 @@
     </div>
 
     <div class="flex flex-column gap-3">
-      <span>Created on {{ orderSummary().formattedCreatedOn }}</span>
-      @if (orderSummary().formattedUpdatedOn) {
-        <span>Updated on: {{ orderSummary().formattedCreatedOn }}</span>
-      }
+      <span>{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
     </div>
 
     <div class="flex gap-3">
 
       @if (orderSummary().cart.totalCostOffers) {
-        <span>Total with offers: {{ orderSummary().cart.totalCostOffers }}€</span>
+        <div class="flex align-items-center gap-2">
+          <span>{{ "component.cart.total.offers" | translate }}:</span>
+          <p-button
+            type="button"
+            [text]="true"
+            label="{{ orderSummary().cart.totalCostOffers.toFixed(2) }}€"
+            severity="success"/>
+
+        </div>
       }
-      <span>Total: {{ orderSummary().cart.totalCost }}€</span>
+
+      <div class="flex align-items-center gap-2">
+        <span>Total:</span>
+        <p-button
+          type="button"
+          [text]="true"
+          label="{{ orderSummary().cart.totalCost.toFixed(2) }}€"
+          [severity]="orderSummary().cart.totalCostOffers ? 'danger' : 'success'"/>
+      </div>
     </div>
   </div>
 </p-card>

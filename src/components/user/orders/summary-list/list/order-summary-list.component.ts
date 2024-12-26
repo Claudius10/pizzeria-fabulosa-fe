@@ -6,23 +6,31 @@ import {QueryResult} from '../../../../../interfaces/query';
 import {OrderSummaryComponent} from '../list-item/order-summary.component';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {PENDING, SUCCESS} from '../../../../../utils/constants';
+import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
+import {ErrorService} from '../../../../../services/error/error.service';
+import {Router} from '@angular/router';
+import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-summary-list',
   standalone: true,
   imports: [
     PaginatorModule,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    ServerErrorComponent,
+    TranslatePipe
   ],
   templateUrl: './order-summary-list.component.html',
   styleUrl: './order-summary-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {
+  private loadingAnimationService = inject(LoadingAnimationService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
-  private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private pageNumber = this.orderService.getPageNumber();
   currentElements = 0;
@@ -41,11 +49,17 @@ export class OrderSummaryListComponent {
           this.loadingAnimationService.startLoading();
         }
 
+        if (orderListStatus === ERROR) {
+          this.loadingAnimationService.stopLoading();
+          if (this.orderList.data() !== undefined && this.orderList.data()!.status.error) {
+            this.errorService.addError(this.orderList.data()!.error!);
+            this.router.navigate(['/error']);
+          }
+        }
+
         if (orderListStatus === SUCCESS) {
           this.loadingAnimationService.stopLoading();
         }
-      }, complete: () => {
-        this.loadingAnimationService.stopLoading();
       }
     });
 
