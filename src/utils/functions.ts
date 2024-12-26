@@ -6,6 +6,7 @@ import {ErrorService} from '../services/error/error.service';
 import {
   ADDRESS_MAX_SIZE,
   BAD_CREDENTIALS,
+  ORDER_DELETE_TIME_ERROR,
   ORDER_NOT_FOUND,
   USER_EMAIL_ALREADY_EXISTS,
   USER_ID_NO_MATCH,
@@ -99,6 +100,8 @@ export function getErrorSummary(cause: string, translateService: TranslateServic
       return translateService.instant("toast.severity.warning");
     case ORDER_NOT_FOUND:
       return translateService.instant("toast.severity.error");
+    case ORDER_DELETE_TIME_ERROR:
+      return translateService.instant("toast.severity.warning");
     default:
       console.log("getErrorSummary: unknown cause received from BE ", cause);
       return translateService.instant("toast.severity.error");
@@ -119,6 +122,8 @@ export function getErrorDetails(cause: string, translateService: TranslateServic
       return translateService.instant("toast.error.api.user.address.list.full.detail");
     case ORDER_NOT_FOUND:
       return translateService.instant("toast.error.api.user.order.not.found.detail");
+    case ORDER_DELETE_TIME_ERROR:
+      return translateService.instant("toast.error.api.user.order.cancel.not.allowed");
     default:
       console.log("getErrorDetails: unknown cause received from BE ", cause);
       return translateService.instant("toast.error.api.unknown");
@@ -140,4 +145,15 @@ export function getSeverity(summary: string) {
     default:
       return "error";
   }
+}
+
+function getTimezoneOffset() {
+  const today = new Date();
+  const jan = new Date(today.getFullYear(), 0, 1);
+  const jul = new Date(today.getFullYear(), 6, 1);
+  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+}
+
+export function isDst(date: Date) {
+  return date.getTimezoneOffset() < getTimezoneOffset();
 }

@@ -13,3 +13,5 @@ export const USER_EMAIL_ALREADY_EXISTS = "EmailAlreadyExists";
 export const ADDRESS_MAX_SIZE = "UserAddressListFull";
 
 export const ORDER_NOT_FOUND = "UserOrderNotFound";
+
+export const ORDER_DELETE_TIME_ERROR = "InvalidOrderDeleteTime";
