@@ -15,6 +15,9 @@ import {LoadingAnimationService} from '../../../../services/navigation/loading-a
 import {CustomerDetailsComponent} from '../../../user/orders/order-item/customer-details/customer-details.component';
 import {AddressDetailsComponent} from '../../../user/orders/order-item/address-details/address-details.component';
 import {OrderDetailsComponent} from '../../../user/orders/order-item/order-details/order-details.component';
+import {ErrorService} from '../../../../services/error/error.service';
+import {ResponseDTO} from '../../../../interfaces/http/api';
+import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 
 @Component({
   selector: 'app-new-order-success',
@@ -40,6 +43,7 @@ export class NewOrderSuccessComponent implements OnInit, OnDestroy {
   protected checkoutFormService = inject(CheckoutFormService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
+  private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
@@ -55,19 +59,25 @@ export class NewOrderSuccessComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.checkoutFormService.orderSuccess()) {
       const subscription = this.status.subscribe(status => {
-        if (status === "pending") {
+        if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
 
-        if (status === "error") {
+        if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
         }
 
-        if (status === "success") {
+        if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const cart = this.checkoutFormService.orderSuccess()!.cart!;
-          const allProducts = this.allProducts.data()!.payload as ProductDTO[];
-          this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
+          const response: ResponseDTO = this.allProducts.data()!;
+
+          if (response.error) {
+            this.errorService.handleError(response);
+          } else {
+            const allProducts = response.payload as ProductDTO[];
+            const cart = this.checkoutFormService.orderSuccess()!.cart!;
+            this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost, true, allProducts);
+          }
         }
       });
 

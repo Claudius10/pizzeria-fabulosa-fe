@@ -7,14 +7,18 @@
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
-  <div class="flex flex-column align-items-center gap-5">
-    <span
-      class="text-4xl text-center">{{ "view.order" | translate }} {{ checkoutFormService.orderSuccess()!.id }} {{ "view.order.created" | translate }}</span>
-    <span
-      class="text-2xl text-center">{{ "view.order.created.on" | translate }} {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
+  <div class="container flex flex-column align-items-center gap-5">
 
-    <div class="flex gap-5">
-      <div class="flex flex-column gap-5">
+    <div class="flex flex-column gap-3">
+      <span
+        class="text-4xl text-center">{{ "view.order" | translate }} {{ checkoutFormService.orderSuccess()!.id }} {{ "view.order.created" | translate }}</span>
+      <span
+        class="text-2xl text-center">{{ "view.order.created.on" | translate }} {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
+    </div>
+
+    <div class="flex gap-3">
+
+      <div class="flex flex-column gap-3">
         <app-customer-details [customer]="checkoutFormService.orderSuccess()!.customer"/>
         <app-address-details
           [address]="checkoutFormService.orderSuccess()!.address"
@@ -25,12 +29,13 @@
           [orderDetails]="checkoutFormService.orderSuccess()!.orderDetails"/>
       </div>
 
-      @if (allProducts.status() === "success") {
+      @if (allProducts.status() === "success" && !allProducts.data()!.status.error) {
         <div class="cart">
           <app-cart [viewOnly]="true"/>
         </div>
       }
     </div>
+
     @if (allProducts.status() === "error") {
       <span class="text-center invalid-text">{{ "component.order.error.loading.cart" | translate }}</span>
     }
@@ -42,5 +47,6 @@
               routerLink="/registration">{{ "component.order.success.anon.link" | translate }}</span>
       }
     </div>
+
   </div>
 }
