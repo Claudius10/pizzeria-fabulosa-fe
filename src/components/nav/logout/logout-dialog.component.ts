@@ -61,7 +61,7 @@ export class LogoutDialogComponent implements OnDestroy {
           this.errorService.handleError(response);
         } else {
           this.authService.logout();
-          this.queryClient.clear();
+          this.queryClient.removeQueries({queryKey: ["user"]});
           this.hideLogoutDialog();
           this.messageService.add({
             severity: 'success',
