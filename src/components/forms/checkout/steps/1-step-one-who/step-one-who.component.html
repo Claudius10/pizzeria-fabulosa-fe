@@ -2,8 +2,9 @@
   <div class="flex flex-column justify-content-between gap-5 h-full w-full">
     <p-card>
       <div class="flex flex-column gap-3">
-        <span>{{ "form.label.name" | translate }}: {{ userName }}</span>
-        <span>{{ "form.label.email" | translate }}: {{ userEmail }}</span>
+        <span>{{ "form.label.name" | translate }}: {{ userName() }}</span>
+        <span>{{ "form.label.email" | translate }}: {{ userEmail() }}</span>
+        <span>{{ "form.label.contact.number" | translate }}: {{ userContactNumber() }}</span>
       </div>
     </p-card>
 

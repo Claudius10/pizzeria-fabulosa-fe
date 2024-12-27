@@ -61,15 +61,15 @@ export class AuthService {
   }
 
   public getUserEmail() {
-    return this.userEmail();
+    return this.userEmail.asReadonly();
   }
 
   public getUserName() {
-    return this.userName();
+    return this.userName.asReadonly();
   }
 
   public getUserContactNumber() {
-    return this.userContactNumber();
+    return this.userContactNumber.asReadonly();
   }
 
   public getUserId() {

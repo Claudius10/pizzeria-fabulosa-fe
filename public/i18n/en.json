@@ -78,6 +78,7 @@
   "component.form.step.one.advice": "Please fill in the fields",
   "component.form.step.two.advice": "Please select delivery type",
   "component.form.step.two.warning": "Unable to load step two: step one must be completed",
+  "component.form.step.two.user.address.list.empty": "The address list is empty. You may add from your Profile or select store pick-up.",
   "component.form.step.three.advice": "Please select delivery type",
   "component.form.step.three.programmed.delivery.advice": "Please select delivery hour",
   "component.form.step.three.warning": "Unable to load step three: all previous steps must be completed",

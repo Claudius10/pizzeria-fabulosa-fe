@@ -22,6 +22,7 @@ export class ProfileComponent {
   private authService = inject(AuthService);
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
+  userContactNumber = this.authService.getUserContactNumber();
   viewAddressList = signal(false);
 
   toggleAddressList() {

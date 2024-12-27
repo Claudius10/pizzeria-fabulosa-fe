@@ -2,6 +2,7 @@ export type RegisterForm = {
   name: string;
   email: string
   matchingEmail: string,
+  contactNumber: number,
   password: string
   matchingPassword: string,
 }

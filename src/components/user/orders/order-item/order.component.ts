@@ -62,6 +62,9 @@ export class OrderComponent implements OnInit {
   private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
+  userName = this.authService.getUserName();
+  userEmail = this.authService.getUserEmail();
+  userContactNumber = this.authService.getUserContactNumber();
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   allProducts = this.resourceService.findAllProducts({queryKey: RESOURCE_PRODUCT_ALL});
   order: QueryResult = this.orderService.findUserOrder({
@@ -74,9 +77,9 @@ export class OrderComponent implements OnInit {
   status = merge(this.allProductsStatus, this.orderStatus);
   delete: MutationResult = this.orderService.deleteUserOrder();
   customer: CustomerDTO = {
-    name: this.authService.getUserName()!,
-    email: this.authService.getUserEmail()!,
-    contactNumber: Number(this.authService.getUserContactNumber()!)
+    name: this.userName()!,
+    email: this.userEmail()!,
+    contactNumber: Number(this.userContactNumber()!)
   };
 
   ngOnInit(): void {

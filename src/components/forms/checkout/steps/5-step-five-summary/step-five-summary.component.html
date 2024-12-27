@@ -16,9 +16,11 @@
           <div class="flex flex-column gap-3">
             @if (this.isAuthenticated()) {
               <span>{{ "form.label.name" | translate }}: <span
-                class="text-primary uppercase">{{ userName }}</span></span>
+                class="text-primary uppercase">{{ userName() }}</span></span>
               <span>{{ "form.label.email" | translate }}: <span
-                class="text-primary uppercase">{{ userEmail }}</span></span>
+                class="text-primary uppercase">{{ userEmail() }}</span></span>
+              <span>{{ "form.label.contact.number" | translate }}: <span
+                class="text-primary uppercase">{{ userContactNumber() }}</span></span>
             } @else {
               <span>{{ "form.label.name" | translate }}: <span
                 class="text-primary uppercase">{{ checkoutFormService.who()!.name }}</span></span>

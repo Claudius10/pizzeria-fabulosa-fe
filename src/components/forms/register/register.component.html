@@ -62,6 +62,24 @@
 
         <div class="flex flex-column gap-2">
           <p-iconField iconPosition="left">
+            <p-inputIcon styleClass="pi pi-phone"/>
+            <input
+              class="w-full"
+              pInputText
+              id="contactNumber"
+              type="tel"
+              placeholder="{{'form.label.contact.number' | translate }}"
+              formControlName="contactNumber">
+          </p-iconField>
+          @if (!this.form.controls.matchingEmail.untouched && !this.form.controls.matchingEmail.valid) {
+            <small id="contactNumber-help" class="invalid-text">
+              {{ "form.invalid.contact.number" | translate }}
+            </small>
+          }
+        </div>
+
+        <div class="flex flex-column gap-2">
+          <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-key"/>
             <input class="w-full"
                    pInputText
@@ -88,7 +106,7 @@
                    formControlName="matchingPassword">
           </p-iconField>
           @if (!this.form.controls.matchingPassword.untouched && !this.form.controls.matchingPassword.valid) {
-            <small id="contactNumber-help" class="invalid-text">
+            <small id="matchingPassword-help" class="invalid-text">
               {{ "form.invalid.password.matching" | translate }}
             </small>
           }

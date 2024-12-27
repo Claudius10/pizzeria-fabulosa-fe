@@ -37,6 +37,7 @@ export class StepOneWhoComponent implements OnInit {
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
+  userContactNumber = this.authService.getUserContactNumber();
 
   form = new FormGroup({
     fullName: new FormControl("", {

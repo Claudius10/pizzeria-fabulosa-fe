@@ -79,6 +79,7 @@
   "component.form.step.one.advice": "Por favor rellene los campos",
   "component.form.step.two.advice": "Por favor seleccione el tipo de entrega",
   "component.form.step.two.warning": "No es posible cargar el paso dos: el primer paso debe ser completado",
+  "component.form.step.two.user.address.list.empty": "La lista de domicilios está vacía. Puedes agregar desde tu Perfil o elegir recogida en tienda.",
   "component.form.step.three.advice": "Por favor seleccione el tipo de entrega",
   "component.form.step.three.programmed.delivery.advice": "Por favor seleccione la hora de entrega",
   "component.form.step.three.warning": "No es posible cargar el paso tres: los pasos anteriores deben ser completados",

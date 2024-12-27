@@ -59,6 +59,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   userName = this.authService.getUserName();
   userEmail = this.authService.getUserEmail();
+  userContactNumber = this.authService.getUserContactNumber();
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
