@@ -10,6 +10,10 @@ input.ng-invalid.ng-touched {
   color: var(--primary-color);
 }
 
+.form-container {
+  min-height: 55rem;
+}
+
 .steps-container {
   width: 40vw;
   min-width: 15rem;
@@ -20,7 +24,7 @@ input.ng-invalid.ng-touched {
 }
 
 .checkout-cart {
-  height: 55rem;
+  height: 100%;
 }
 
 .small-steps {
@@ -61,6 +65,10 @@ input.ng-invalid.ng-touched {
 @media (max-width: 578px) {
   :host ::ng-deep .p-button {
     width: 100%;
+  }
+
+  .form-container {
+    min-height: 35rem;
   }
 
   .buttons {

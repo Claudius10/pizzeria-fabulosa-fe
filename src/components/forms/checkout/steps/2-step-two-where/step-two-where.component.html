@@ -128,7 +128,7 @@
       <p-button
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step() === 4"
+        [disabled]="checkoutFormService.step() === 4 || isFetching()"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>

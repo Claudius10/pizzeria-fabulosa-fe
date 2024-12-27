@@ -23,6 +23,7 @@ import {ErrorService} from '../../../../../services/error/error.service';
 import {isFormValid} from '../../../../../utils/functions';
 import {SUCCESS} from '../../../../../utils/constants';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -52,6 +53,8 @@ export class StepTwoWhereComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private authService = inject(AuthService);
   private resourceService = inject(ResourceService);
+  private loadingAnimationService = inject(LoadingAnimationService);
+  isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   status = toObservable(this.stores.status);
