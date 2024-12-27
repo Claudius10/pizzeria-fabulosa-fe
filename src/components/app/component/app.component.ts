@@ -7,6 +7,7 @@ import defaultLanguage from "../../../../public/i18n/en.json";
 import {CartLocalstorageService} from '../../../services/cart/localstorage/cart-localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
+import {ErrorService} from '../../../services/error/error.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import {ToastModule} from "primeng/toast";
     TranslateModule,
     ToastModule
   ],
+  providers: [ErrorService],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

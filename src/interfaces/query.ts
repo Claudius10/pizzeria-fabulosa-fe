@@ -12,9 +12,9 @@ export interface BaseQueryOptions {
 }
 
 export interface BaseQueryOptionsId extends BaseQueryOptions {
-  id: string; // address id, user id, order id, etc.
+  id: string | null; // address id, user id, order id, etc.
 }
 
 export interface BaseQueryOptionsIdAndUser extends BaseQueryOptionsId {
-  userId: string;
+  userId: string | null;
 }

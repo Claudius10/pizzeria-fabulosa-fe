@@ -9,7 +9,6 @@ import {ServerErrorComponent} from '../../../app/error/server-no-response/server
 import {ErrorService} from '../../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-pizza-list',
@@ -21,7 +20,6 @@ import {MessageService} from 'primeng/api';
     ProductItemComponent,
     ServerErrorComponent
   ],
-  providers: [MessageService],
   templateUrl: './pizza-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -30,7 +28,6 @@ export class PizzaListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
 
@@ -49,7 +46,7 @@ export class PizzaListComponent implements OnInit {
             this.loadingAnimationService.stopLoading();
             const response: ResponseDTO = this.query.data()!;
             if (response.status.error) {
-              this.errorService.handleError(response, this.messageService);
+              this.errorService.handleError(response);
             }
           }
         }

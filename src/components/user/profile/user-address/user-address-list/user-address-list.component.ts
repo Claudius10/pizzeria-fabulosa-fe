@@ -13,7 +13,6 @@ import {QueryResult} from '../../../../../interfaces/query';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
@@ -33,7 +32,6 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private userService = inject(UserService);
@@ -48,7 +46,6 @@ export class UserAddressListComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
       next: status => {
-        console.log(status);
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
@@ -62,7 +59,7 @@ export class UserAddressListComponent implements OnInit {
           const response: ResponseDTO = this.addressList.data()!;
 
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           }
         }
       }

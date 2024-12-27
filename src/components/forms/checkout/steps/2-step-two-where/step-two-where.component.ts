@@ -22,7 +22,6 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {isFormValid} from '../../../../../utils/functions';
 import {SUCCESS} from '../../../../../utils/constants';
-import {MessageService} from 'primeng/api';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
@@ -50,7 +49,6 @@ export class StepTwoWhereComponent implements OnInit {
   private router = inject(Router);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  private messageService = inject(MessageService);
   protected checkoutFormService = inject(CheckoutFormService);
   private authService = inject(AuthService);
   private resourceService = inject(ResourceService);
@@ -91,7 +89,7 @@ export class StepTwoWhereComponent implements OnInit {
           const response: ResponseDTO = this.stores.data()!;
 
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           }
         }
       }

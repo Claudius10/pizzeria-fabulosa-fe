@@ -13,12 +13,16 @@ import {
   USER_BASE,
   V1
 } from '../../../utils/api-routes';
+import {of} from 'rxjs';
+import {buildErrorResponse} from '../../../utils/functions';
+import {ErrorService} from '../../error/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountHttpService {
   private httpClient = inject(HttpClient);
+  private errorService = inject(ErrorService);
 
   public login(data: LoginForm) {
     return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=${data.email}&password=${data.password}`,
@@ -37,6 +41,10 @@ export class AccountHttpService {
   }
 
   public delete(data: DeleteAccountForm) {
+    const result = this.errorService.ensureId([data.userId!]);
+
+    if (!result) return of(buildErrorResponse());
+
     return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}?id=${data.userId}&password=${data.password}`,
       {withCredentials: true});
   }

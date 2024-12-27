@@ -110,7 +110,7 @@ export class RegisterComponent implements OnDestroy {
       this.register.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.messageService.add({
               severity: 'success',
@@ -122,7 +122,7 @@ export class RegisterComponent implements OnDestroy {
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

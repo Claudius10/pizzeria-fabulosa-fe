@@ -9,7 +9,6 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-beverage-list',
@@ -21,7 +20,6 @@ import {MessageService} from 'primeng/api';
     ProductItemComponent,
     ServerErrorComponent
   ],
-  providers: [MessageService],
   templateUrl: './beverage-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -30,7 +28,6 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
   query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
 
@@ -49,7 +46,7 @@ export class BeverageListComponent implements OnInit, OnDestroy {
             this.loadingAnimationService.stopLoading();
             const response: ResponseDTO = this.query.data()!;
             if (response.status.error) {
-              this.errorService.handleError(response, this.messageService);
+              this.errorService.handleError(response);
             }
           }
         }

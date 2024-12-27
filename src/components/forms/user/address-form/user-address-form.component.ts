@@ -13,7 +13,6 @@ import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {ErrorService} from '../../../../services/error/error.service';
-import {MessageService} from 'primeng/api';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 
@@ -35,7 +34,6 @@ import {UpperCasePipe} from '@angular/common';
 })
 export class UserAddressFormComponent {
   hideForm = output();
-  private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
@@ -87,13 +85,13 @@ export class UserAddressFormComponent {
       this.createAddress.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.hideForm.emit();
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

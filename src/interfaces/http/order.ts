@@ -47,7 +47,7 @@ export interface UserOrderUpdateFormData extends UserOrderFormData {
 }
 
 export interface NewUserOrderFormData {
-  userId: number;
+  userId: string | null;
   order: UserOrderFormData;
 }
 

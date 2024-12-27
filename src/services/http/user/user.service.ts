@@ -16,7 +16,7 @@ export class UserService {
   public findUserAddressList(options: BaseQueryOptionsId): QueryResult {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,
-      queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.id))
+      queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList(options.id!))
     }));
 
     return {

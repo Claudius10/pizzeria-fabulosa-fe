@@ -15,21 +15,17 @@ export interface MutationResult {
 }
 
 export interface BaseUserMutationOptions {
-  userId: string | undefined;
+  userId: string | null;
 }
 
 export interface UserOrderDeleteMutationOptions extends BaseUserMutationOptions {
-  orderId: string | undefined;
+  orderId: string | null;
 }
 
 export interface UserAddressDeleteMutationOptions extends BaseUserMutationOptions {
-  addressId: string | undefined;
+  addressId: string | null;
 }
 
 export interface UserAddressMutationOptions extends BaseUserMutationOptions {
   data: AddressFormData;
-}
-
-export interface ApiError extends Error {
-  error: ResponseDTO;
 }

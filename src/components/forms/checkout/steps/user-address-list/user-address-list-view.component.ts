@@ -12,7 +12,6 @@ import {LoadingAnimationService} from '../../../../../services/navigation/loadin
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-user-address-list-view',
@@ -32,7 +31,6 @@ export class UserAddressListViewComponent implements OnInit {
   selected = input<number | null>(null);
   valid = input<boolean>();
   private destroyRef = inject(DestroyRef);
-  private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
   private userService = inject(UserService);
@@ -59,7 +57,7 @@ export class UserAddressListViewComponent implements OnInit {
           const response: ResponseDTO = this.addressList.data()!;
 
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           }
         }
       }

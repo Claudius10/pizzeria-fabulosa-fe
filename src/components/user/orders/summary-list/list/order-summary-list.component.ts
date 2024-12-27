@@ -11,7 +11,6 @@ import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
-import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -29,7 +28,6 @@ import {MessageService} from 'primeng/api';
 export class OrderSummaryListComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
   private destroyRef = inject(DestroyRef);
@@ -58,7 +56,7 @@ export class OrderSummaryListComponent {
           this.loadingAnimationService.stopLoading();
           const response: ResponseDTO = this.orderList.data()!;
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           }
         }
       }

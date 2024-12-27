@@ -16,7 +16,6 @@ import {CardModule} from 'primeng/card';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
 import {UpperCasePipe} from '@angular/common';
 
 @Component({
@@ -40,7 +39,6 @@ import {UpperCasePipe} from '@angular/common';
 export class UserDeleteFormComponent implements OnDestroy {
   private router = inject(Router);
   private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
@@ -70,14 +68,14 @@ export class UserDeleteFormComponent implements OnDestroy {
       this.delete.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.authService.logout();
             this.router.navigate(["/"]);
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

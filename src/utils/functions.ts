@@ -1,4 +1,5 @@
 import {FormGroup} from '@angular/forms';
+import {ResponseDTO} from '../interfaces/http/api';
 
 function getTimezoneOffset() {
   const today = new Date();
@@ -26,4 +27,25 @@ export function isFormValid(form: FormGroup) {
   }
 
   return valid;
+}
+
+export function buildErrorResponse(): ResponseDTO {
+  return {
+    payload: null,
+    timeStamp: new Date().toTimeString(),
+    status: {
+      error: true,
+      code: 401,
+      description: "InvalidBearerTokenException"
+    },
+    error: {
+      id: 0,
+      fatal: false,
+      logged: false,
+      cause: "InvalidBearerTokenException",
+      message: "InvalidBearerTokenException",
+      origin: "errorService.ensureId",
+      path: ""
+    }
+  };
 }

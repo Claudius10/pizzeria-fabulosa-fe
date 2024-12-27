@@ -14,6 +14,8 @@ import {provideTanStackQuery, QueryClient, withDevtools} from '@tanstack/angular
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ErrorService} from '../../services/error/error.service';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -34,6 +36,8 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
+    ConfirmationService,
     //provideClientHydration(),
     provideAnimations(),
     provideZoneChangeDetection({eventCoalescing: true}),

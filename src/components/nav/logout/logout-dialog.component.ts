@@ -56,7 +56,7 @@ export class LogoutDialogComponent implements OnDestroy {
     this.logoutUser.mutate({payload: null}, {
       onSuccess: (response: ResponseDTO) => {
         if (response && response.status.error) {
-          this.errorService.handleError(response, this.messageService);
+          this.errorService.handleError(response);
         } else {
           this.authService.logout();
           this.hideLogoutDialog();

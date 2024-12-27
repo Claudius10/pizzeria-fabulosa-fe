@@ -14,18 +14,18 @@ import {
   USER_NOT_FOUND
 } from '../../utils/api-messages';
 import {AuthService} from '../auth/auth.service';
-import {MutationResult} from '../../interfaces/mutation';
-import {AccountService} from '../http/account/account.service';
+import {AUTH_BASE, AUTH_LOGOUT, BASE, PATH, V1} from '../../utils/api-routes';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorService {
+  private httpClient = inject(HttpClient);
   private authService = inject(AuthService);
-  private accountService = inject(AccountService);
-  private logoutUser: MutationResult = this.accountService.logout();
   private translateService = inject(TranslateService);
   private router = inject(Router);
+  private messageService = inject(MessageService);
   errors = signal<ErrorDTO[]>([]);
 
   isEmpty() {
@@ -36,11 +36,11 @@ export class ErrorService {
     return this.errors.asReadonly();
   }
 
-  handleError(response: ResponseDTO, messageService: MessageService) {
+  handleError(response: ResponseDTO) {
     if (response.error!.fatal) {
       this.handleFatalError(response);
     } else {
-      this.handleNonFatalError(response, messageService);
+      this.handleNonFatalError(response);
     }
   }
 
@@ -48,7 +48,7 @@ export class ErrorService {
     this.errors.update(errors => [...errors, error]);
   }
 
-  private handleNonFatalError(response: ResponseDTO, messageService: MessageService) {
+  private handleNonFatalError(response: ResponseDTO) {
     if (response.error === null) {
       throw new Error("Expected error is NULL");
     }
@@ -58,20 +58,11 @@ export class ErrorService {
     const summary = this.getErrorSummary(cause);
     const details = this.getErrorDetails(cause);
 
-    messageService.add({severity: this.getSeverity(summary), summary: summary, detail: details, life: 3000});
+    this.messageService.add({severity: this.getSeverity(summary), summary: summary, detail: details, life: 3000});
 
     if (INVALID_TOKEN === cause) {
       this.logout();
     }
-  }
-
-  private logout() {
-    this.authService.logout();
-    this.logoutUser.mutate({payload: null});
-
-    setTimeout(() => {
-      this.router.navigate(["/"]);
-    }, 3000);
   }
 
   private handleFatalError(response: ResponseDTO) {
@@ -84,8 +75,26 @@ export class ErrorService {
     this.router.navigate(["/error"]);
   }
 
-  handleServerNoResponse(messageService: MessageService) {
-    messageService.add({
+  private logout() {
+    this.authService.logout();
+    this.sendLogout();
+
+    setTimeout(() => {
+      this.router.navigate(["/"]);
+    }, 3000);
+  }
+
+  ensureId(ids: string[]) {
+    for (let id of ids) {
+      if (id === null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  handleServerNoResponse() {
+    this.messageService.add({
       severity: 'warn',
       summary: this.translateService.instant("toast.severity.warning"),
       detail: this.translateService.instant("toast.error.server.detail"),
@@ -160,6 +169,12 @@ export class ErrorService {
       default:
         return "error";
     }
+  }
+
+  private sendLogout() {
+    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
+      {responseType: "text"}, // -> without this, cookies won't be set
+      {withCredentials: true});
   }
 }
 

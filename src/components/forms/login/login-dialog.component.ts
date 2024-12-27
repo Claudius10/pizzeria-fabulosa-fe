@@ -94,7 +94,7 @@ export class LoginDialogComponent implements OnDestroy {
       this.login.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
           if (response && response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.authService.setUserCredentials(this.cookieService.get("idToken"));
             this.closeLoginDialog();
@@ -109,7 +109,7 @@ export class LoginDialogComponent implements OnDestroy {
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

@@ -23,7 +23,6 @@ import {AnonOrderFormData, NewUserOrderFormData} from '../../../../../interfaces
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {MessageService} from 'primeng/api';
 import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
@@ -52,7 +51,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private cartService = inject(CartService);
   private router = inject(Router);
   private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -81,7 +79,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         if (this.isAuthenticated()) {
           const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
-            id: this.authService.getUserId()!
+            id: this.authService.getUserId()
           }); // NOTE - guaranteed to be here because it will load in step two when user is logged in
 
           const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
@@ -120,12 +118,12 @@ export class StepFiveSummaryComponent implements OnDestroy {
   }
 
   createOrder() {
-    this.loadingAnimationService.startLoading();
-
+    // authenticated user order
     if (this.isAuthenticated()) {
+      this.loadingAnimationService.startLoading();
 
       const payload: NewUserOrderFormData = {
-        userId: Number(this.authService.getUserId()!),
+        userId: this.authService.getUserId(),
         order: {
           addressId: this.checkoutFormService.selectedId().id!,
           orderDetails: {
@@ -148,7 +146,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
       this.createUserOrder.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.cartService.clear();
             this.checkoutFormService.clear();
@@ -157,13 +155,15 @@ export class StepFiveSummaryComponent implements OnDestroy {
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();
         }
       });
     } else {
+      // anon user order
+      this.loadingAnimationService.startLoading();
 
       const payload: AnonOrderFormData = {
         customer: {
@@ -196,7 +196,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
       this.createAnonOrder.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error) {
-            this.errorService.handleError(response, this.messageService);
+            this.errorService.handleError(response);
           } else {
             this.cartService.clear();
             this.checkoutFormService.clear();
@@ -205,7 +205,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           }
         },
         onError: () => {
-          this.errorService.handleServerNoResponse(this.messageService);
+          this.errorService.handleServerNoResponse();
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

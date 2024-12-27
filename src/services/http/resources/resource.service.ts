@@ -65,7 +65,7 @@ export class ResourceService {
   findStoreByAddressId(options: BaseQueryOptionsId) {
     const query = injectQuery(() => ({
       queryKey: options.queryKey,
-      queryFn: () => firstValueFrom(this.resourcesHttpService.findStoreByAddressId(options.id))
+      queryFn: () => firstValueFrom(this.resourcesHttpService.findStoreByAddressId(options.id!))
     }));
 
     return {

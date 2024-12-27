@@ -11,7 +11,6 @@ import {ErrorService} from '../../services/error/error.service';
 import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../interfaces/http/api';
-import {MessageService} from 'primeng/api';
 import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 
 @Component({
@@ -26,14 +25,12 @@ import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
     ServerErrorComponent,
     TranslatePipe
   ],
-  providers: [MessageService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private messageService = inject(MessageService);
   private resourceService = inject(ResourceService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
@@ -61,12 +58,12 @@ export class HomeComponent implements OnInit {
           const storesResponse: ResponseDTO = this.stores.data()!;
 
           if (offersResponse.status.error) {
-            this.errorService.handleError(offersResponse, this.messageService);
+            this.errorService.handleError(offersResponse);
             return;
           }
 
           if (storesResponse.status.error) {
-            this.errorService.handleError(storesResponse, this.messageService);
+            this.errorService.handleError(storesResponse);
           }
         }
       }

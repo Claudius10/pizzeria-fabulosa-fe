@@ -15,7 +15,6 @@ import {Button} from 'primeng/button';
     NgClass,
     Button
   ],
-  providers: [MessageService],
   templateUrl: './locale-selector.component.html',
   styleUrls: ['./locale-selector.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
