@@ -12,6 +12,7 @@ import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -27,6 +28,7 @@ import {ErrorService} from '../../../services/error/error.service';
 })
 export class LogoutDialogComponent implements OnDestroy {
   private router = inject(Router);
+  private queryClient = inject(QueryClient);
   private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
   private messageService = inject(MessageService);
@@ -59,6 +61,7 @@ export class LogoutDialogComponent implements OnDestroy {
           this.errorService.handleError(response);
         } else {
           this.authService.logout();
+          this.queryClient.clear();
           this.hideLogoutDialog();
           this.messageService.add({
             severity: 'success',
