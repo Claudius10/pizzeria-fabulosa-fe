@@ -4,10 +4,12 @@ import {NavigationBarComponent} from '../../nav/navigation-bar/navigation-bar.co
 import {FooterComponent} from '../../footer/footer.component';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
 import defaultLanguage from "../../../../public/i18n/en.json";
-import {CartLocalstorageService} from '../../../services/cart/localstorage/cart-localstorage.service';
+import es from "../../../../public/i18n/es.json";
+import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
+import {ThemeService} from '../../../services/themes/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -24,21 +26,37 @@ import {ErrorService} from '../../../services/error/error.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-
-  // TODO - check data type consistency and coherency of arguments passed to http requests
-
   private translateService = inject(TranslateService);
-  private cartLocalStorageService = inject(CartLocalstorageService);
+  private themeService = inject(ThemeService);
+  private localStorageService = inject(LocalstorageService);
   private cartService = inject(CartService);
 
   ngOnInit() {
-    this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
-    this.translateService.setTranslation('en', defaultLanguage);
-    this.translateService.use('en');
+    this.setUpLocale();
+    this.setUpTheme();
+    this.setUpCart();
+  }
 
-    if (!this.cartLocalStorageService.isEmpty()) {
-      const {items, total, quantity} = this.cartLocalStorageService.get();
+  setUpTheme() {
+    const theme = this.localStorageService.getStorageTheme();
+    if (theme === null) {
+      return;
+    }
+    this.themeService.switchTheme(theme);
+  }
+
+  setUpCart() {
+    if (!this.localStorageService.isCartEmpty()) {
+      const {items, total, quantity} = this.localStorageService.getCart();
       this.cartService.set(items, quantity, total, false);
     }
+  }
+
+  setUpLocale() {
+    const locale = this.localStorageService.getLocale();
+    const langToUse = locale === "en" ? defaultLanguage : es;
+    this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
+    this.translateService.setTranslation(locale, langToUse);
+    this.translateService.use(locale);
   }
 }

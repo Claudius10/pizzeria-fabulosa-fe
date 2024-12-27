@@ -1,14 +1,14 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
-import {Cart} from './localstorage/Cart';
-import {CartLocalstorageService} from './localstorage/cart-localstorage.service';
+import {Cart} from '../localstorage/Cart';
+import {LocalstorageService} from '../localstorage/localstorage.service';
 import {ProductDTO} from '../../interfaces/dto/resources';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cartLocalStorageService = inject(CartLocalstorageService);
+  private localStorageService = inject(LocalstorageService);
 
   private items = signal<CartItemDTO[]>([]);
   private total = signal<number>(0);
@@ -185,7 +185,7 @@ export class CartService {
       .withThreeForTwo(this.threeForTwoOffers())
       .withSecondHalfPrice(this.secondHalfPriceOffer());
 
-    this.cartLocalStorageService.set(cart);
+    this.localStorageService.setCart(cart);
   }
 
   private getPizzaItems(items: CartItemDTO[]) {

@@ -6,6 +6,7 @@ import primeNgEn from "../../../../public/i18n/primeng-en.json";
 import {ToastModule} from 'primeng/toast';
 import {NgClass} from '@angular/common';
 import {Button} from 'primeng/button';
+import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 
 @Component({
   selector: 'app-locale-selector',
@@ -20,6 +21,7 @@ import {Button} from 'primeng/button';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
+  private localStorageService = inject(LocalstorageService);
   private translateService = inject(TranslateService);
   private primeNgConfig = inject(PrimeNGConfig);
   private messageService = inject(MessageService);
@@ -40,6 +42,7 @@ export class LocaleSelectorComponent {
   }
 
   changeLanguage(lang: string): void {
+    this.localStorageService.setLocale(lang);
     this.useLanguage(lang);
     this.visible = false;
     this.messageService.add({

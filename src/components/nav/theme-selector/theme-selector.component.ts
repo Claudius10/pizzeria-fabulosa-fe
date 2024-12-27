@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {ThemeService} from '../../../services/themes/theme.service';
-import {THEMES_DARK, THEMES_DEFAULT, THEMES_LIGHT} from '../../../utils/constants';
+import {THEMES_DARK, THEMES_LIGHT} from '../../../utils/constants';
+import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 
 @Component({
   selector: 'app-theme-selector',
@@ -11,42 +12,56 @@ import {THEMES_DARK, THEMES_DEFAULT, THEMES_LIGHT} from '../../../utils/constant
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
-  private themeService = inject(ThemeService);
-  protected isDark = signal(true);
   private darkThemes: string[] = THEMES_DARK;
   private lightThemes: string[] = THEMES_LIGHT;
-  private currentTheme = THEMES_DEFAULT;
-  private index = 0;
-
-  switchTheme() {
-    if (this.isDark()) {
-      const nextTheme = this.darkThemes[this.index];
-      this.themeService.switchTheme(nextTheme);
-      this.currentTheme = nextTheme;
-    } else {
-      const nextTheme = this.lightThemes[this.index];
-      this.themeService.switchTheme(nextTheme);
-      this.currentTheme = nextTheme;
-    }
-    this.handleIndex();
-  }
-
-  private handleIndex(): void {
-    if (this.index === THEMES_DARK.length - 1) {
-      this.index = 0;
-    } else {
-      this.index++;
-    }
-  }
+  private themeService = inject(ThemeService);
+  private localStorageService = inject(LocalstorageService);
+  private currentTheme = this.localStorageService.getTheme();
+  isDark = signal(this.localStorageService.getTheme().includes("dark"));
 
   toggleDarkMode() {
-    let theme;
-    if (this.isDark()) {
-      theme = this.currentTheme.replace("dark", "light");
+    let nextTheme;
+
+    if (this.currentTheme.includes("dark")) {
+      nextTheme = this.currentTheme.replace("dark", "light");
+      this.isDark.set(false);
     } else {
-      theme = this.currentTheme.replace("light", "dark");
+      nextTheme = this.currentTheme.replace("light", "dark");
+      this.isDark.set(true);
     }
-    this.isDark.set(!this.isDark());
-    this.themeService.switchTheme(theme);
+
+    this.themeService.switchTheme(nextTheme);
+    this.currentTheme = nextTheme;
+  }
+
+  switchTheme() {
+    const storageIndex = this.getStoreIndex();
+
+    let index;
+    if (storageIndex >= this.darkThemes.length - 1) {
+      index = 0;
+    } else {
+      index = storageIndex + 1;
+    }
+
+    if (this.currentTheme.includes("dark")) {
+      const nextTheme = this.darkThemes[index];
+      this.themeService.switchTheme(nextTheme);
+      this.currentTheme = nextTheme;
+    } else {
+      const nextTheme = this.lightThemes[index];
+      this.themeService.switchTheme(nextTheme);
+      this.currentTheme = nextTheme;
+    }
+  }
+
+  getStoreIndex() {
+    let storageIndex;
+    if (THEMES_LIGHT.findIndex(theme => theme === this.localStorageService.getTheme()) === -1) {
+      storageIndex = THEMES_DARK.findIndex(theme => theme === this.localStorageService.getTheme());
+    } else {
+      storageIndex = THEMES_LIGHT.findIndex(theme => theme === this.localStorageService.getTheme());
+    }
+    return storageIndex;
   }
 }
