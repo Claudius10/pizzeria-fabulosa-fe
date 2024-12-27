@@ -6,6 +6,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {
   ADDRESS_MAX_SIZE,
   BAD_CREDENTIALS,
+  DUMMY_ACCOUNT_ERROR,
   INVALID_TOKEN,
   ORDER_DELETE_TIME_ERROR,
   ORDER_NOT_FOUND,
@@ -124,6 +125,8 @@ export class ErrorService {
         return this.translateService.instant("toast.severity.warning");
       case INVALID_TOKEN:
         return this.translateService.instant("toast.severity.error");
+      case DUMMY_ACCOUNT_ERROR:
+        return this.translateService.instant("toast.severity.warning");
       default:
         console.log("getErrorSummary: unknown cause received from BE ", cause);
         return this.translateService.instant("toast.severity.error");
@@ -148,6 +151,8 @@ export class ErrorService {
         return this.translateService.instant("toast.error.api.user.order.cancel.not.allowed");
       case INVALID_TOKEN:
         return this.translateService.instant("toast.error.api.user.invalid.token");
+      case DUMMY_ACCOUNT_ERROR:
+        return this.translateService.instant("toast.error.api.user.dummy");
       default:
         console.log("getErrorDetails: unknown cause received from BE ", cause);
         return this.translateService.instant("toast.error.api.unknown");

@@ -82,6 +82,37 @@ export class LoginDialogComponent implements OnDestroy {
     this.router.navigate(["/registration"]);
   }
 
+  dummySignIn() {
+    this.signIn(null);
+  }
+
+  signIn(data: LoginForm | null): void {
+    this.login.mutate({payload: data}, {
+      onSuccess: (response: ResponseDTO) => {
+        if (response && response.status.error) {
+          this.errorService.handleError(response);
+        } else {
+          this.authService.setUserCredentials(this.cookieService.get("idToken"));
+          this.closeLoginDialog();
+          this.cartService.clear();
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.login.success.detail"),
+            life: 3000
+          });
+          this.router.navigate(["/pizzas"]);
+        }
+      },
+      onError: () => {
+        this.errorService.handleServerNoResponse();
+      },
+      onSettled: () => {
+        this.loadingAnimationService.stopLoading();
+      }
+    });
+  }
+
   public onSubmit(): void {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
@@ -91,30 +122,7 @@ export class LoginDialogComponent implements OnDestroy {
         password: this.form.get("password")!.value,
       };
 
-      this.login.mutate({payload: data}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response && response.status.error) {
-            this.errorService.handleError(response);
-          } else {
-            this.authService.setUserCredentials(this.cookieService.get("idToken"));
-            this.closeLoginDialog();
-            this.cartService.clear();
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant("toast.severity.info"),
-              detail: this.translateService.instant("toast.form.login.success.detail"),
-              life: 3000
-            });
-            this.router.navigate(["/pizzas"]);
-          }
-        },
-        onError: () => {
-          this.errorService.handleServerNoResponse();
-        },
-        onSettled: () => {
-          this.loadingAnimationService.stopLoading();
-        }
-      });
+      this.signIn(data);
     }
   }
 }

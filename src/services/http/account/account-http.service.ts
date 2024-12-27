@@ -25,9 +25,15 @@ export class AccountHttpService {
   private errorService = inject(ErrorService);
 
   public login(data: LoginForm) {
-    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=${data.email}&password=${data.password}`,
-      {responseType: "text"}, // -> without this, cookies won't be set
-      {withCredentials: true});
+    if (data === null) {
+      return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=donQuijote@gmail.com&password=Password1`,
+        {responseType: "text"}, // -> without this, cookies won't be set
+        {withCredentials: true});
+    } else {
+      return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=${data.email}&password=${data.password}`,
+        {responseType: "text"}, // -> without this, cookies won't be set
+        {withCredentials: true});
+    }
   }
 
   public logout() {

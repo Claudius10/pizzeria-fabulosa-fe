@@ -17,3 +17,5 @@ export const ADDRESS_MAX_SIZE = "UserAddressListFull";
 export const ORDER_NOT_FOUND = "UserOrderNotFound";
 
 export const ORDER_DELETE_TIME_ERROR = "InvalidOrderDeleteTime";
+
+export const DUMMY_ACCOUNT_ERROR = "DummyAccountError";

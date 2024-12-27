@@ -11,7 +11,8 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-column px-6 py-4 gap-4"
            style="border-radius: 12px; background-image: radial-gradient(circle at left top, var(--primary-400), var(--primary-700))">
-        <span class="text-primary-50 text-center text-2xl font-bold">{{ "component.form.login.title" | translate }}</span>
+        <span
+          class="text-primary-50 text-center text-2xl font-bold">{{ "component.form.login.title" | translate }}</span>
 
         <div class="inline-flex flex-column gap-2">
           <label for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
@@ -55,11 +56,20 @@
             [disabled]="form.untouched"/> <!-- https://github.com/angular/angular/issues/30616 -->
         </div>
 
-        <div class="flex flex-column gap-2">
-          <span class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
+        <div class="flex flex-column justify-content-center gap-2">
           <span
-            (click)="goToRegister()"
-            class="cursor-pointer underline text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.action' | translate }}</span>
+            class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
+
+          <div class="flex justify-content-center gap-2">
+            <span class="cursor-pointer underline text-center text-primary-50 font-semibold"
+                  (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}</span>
+
+            {{ "prompt.or" | translate }}
+
+            <span class="cursor-pointer underline text-center text-primary-50 font-semibold"
+                  (click)="dummySignIn()">{{ 'component.form.login.footer.action.use.dummy' | translate }}</span>
+          </div>
+
         </div>
       </div>
     </form>
