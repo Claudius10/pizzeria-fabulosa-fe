@@ -12,7 +12,7 @@
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.offers" | translate }}</span>
     @if (offers.status() === "error") {
       <app-server-error/>
-    } @else if (offers.status() === "success") {
+    } @else if (offers.status() === "success" && offers.data()!.payload !== null) {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (offer of offers.data()!.payload; track offer.id) {
           <app-offer-item [offer]="offer"/>
@@ -26,7 +26,7 @@
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.stores" | translate }}</span>
     @if (stores.status() === "error") {
       <app-server-error/>
-    } @else if (stores.status() === "success") {
+    } @else if (stores.status() === "success" && stores.data()!.payload !== null) {
       <div class="flex flex-wrap justify-content-center gap-5">
         @for (store of stores.data()!.payload; track store.id) {
           <app-store-item [store]="store"/>

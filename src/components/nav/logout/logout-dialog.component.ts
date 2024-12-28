@@ -19,9 +19,9 @@ import {QueryClient} from '@tanstack/angular-query-experimental';
   standalone: true,
   imports: [
     DialogModule,
-    ButtonDirective,
     TranslatePipe,
-    UpperCasePipe
+    UpperCasePipe,
+    ButtonDirective
   ],
   templateUrl: './logout-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

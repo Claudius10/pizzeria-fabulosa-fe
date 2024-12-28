@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
-import {RouterLink} from '@angular/router';
 import {MenuItem} from 'primeng/api';
 import {MenubarModule} from 'primeng/menubar';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -8,7 +7,6 @@ import {TranslatePipe} from '@ngx-translate/core';
   selector: 'app-user-nav',
   standalone: true,
   imports: [
-    RouterLink,
     MenubarModule,
     TranslatePipe
   ],

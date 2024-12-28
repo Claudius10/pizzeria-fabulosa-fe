@@ -3,7 +3,6 @@ import {TranslateService} from '@ngx-translate/core';
 import {MessageService, PrimeNGConfig} from 'primeng/api';
 import primeNgEs from "../../../../public/i18n/primeng-es.json";
 import primeNgEn from "../../../../public/i18n/primeng-en.json";
-import {ToastModule} from 'primeng/toast';
 import {NgClass} from '@angular/common';
 import {Button} from 'primeng/button';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
@@ -12,7 +11,6 @@ import {LocalstorageService} from '../../../services/localstorage/localstorage.s
   selector: 'app-locale-selector',
   standalone: true,
   imports: [
-    ToastModule,
     NgClass,
     Button
   ],

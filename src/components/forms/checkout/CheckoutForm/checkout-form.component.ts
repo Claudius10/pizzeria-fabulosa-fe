@@ -1,19 +1,10 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {StepsModule} from 'primeng/steps';
 import {CardModule} from 'primeng/card';
-import {PanelModule} from 'primeng/panel';
 import {SmallScreenStepsComponent} from '../steps/small-screen/small-screen-steps.component';
-import {InputGroupModule} from 'primeng/inputgroup';
-import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
-import {InputTextModule} from 'primeng/inputtext';
-import {InputNumberModule} from 'primeng/inputnumber';
-import {IconFieldModule} from 'primeng/iconfield';
-import {InputIconModule} from 'primeng/inputicon';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {MenuItem} from 'primeng/api';
-import {ToastModule} from 'primeng/toast';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
 
 @Component({
@@ -23,19 +14,9 @@ import {CartComponent} from '../../../cart/sidebar/cart.component';
   },
   standalone: true,
   imports: [
-    ReactiveFormsModule,
-    StepsModule,
     CardModule,
-    PanelModule,
+    StepsModule,
     SmallScreenStepsComponent,
-    InputGroupModule,
-    InputGroupAddonModule,
-    InputTextModule,
-    InputNumberModule,
-    FormsModule,
-    IconFieldModule,
-    InputIconModule,
-    ToastModule,
     CartComponent
   ],
   templateUrl: './checkout-form.component.html',

@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass, NgOptimizedImage} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
-import {CardModule} from 'primeng/card';
 import {PanelModule} from 'primeng/panel';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
 import {TranslateService} from '@ngx-translate/core';
@@ -12,9 +11,7 @@ import {ProductPriceComponent} from './price/product-price.component';
   selector: 'app-product',
   standalone: true,
   imports: [
-    NgOptimizedImage,
     Button,
-    CardModule,
     PanelModule,
     NgClass,
     ProductPriceComponent

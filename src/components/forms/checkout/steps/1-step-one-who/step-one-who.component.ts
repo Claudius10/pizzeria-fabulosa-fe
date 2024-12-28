@@ -3,7 +3,6 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {emailRgx, numbersRegex} from '../../../../../regex';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
-import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
@@ -17,14 +16,13 @@ import {isFormValid} from '../../../../../utils/functions';
   selector: 'app-checkout-step-one-who',
   standalone: true,
   imports: [
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    Button,
     CardModule,
     TranslatePipe,
-    UpperCasePipe
+    Button,
+    UpperCasePipe,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule
   ],
   templateUrl: './step-one-who.component.html',
   styleUrl: './step-one-who.component.css',

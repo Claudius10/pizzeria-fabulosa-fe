@@ -27,13 +27,13 @@ import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
   standalone: true,
   imports: [
     Button,
+    TranslatePipe,
+    UpperCasePipe,
     CustomerDetailsComponent,
     AddressDetailsComponent,
     OrderDetailsComponent,
-    RouterLink,
-    TranslatePipe,
-    UpperCasePipe,
-    CartComponent
+    CartComponent,
+    RouterLink
   ],
   templateUrl: './new-order-success.component.html',
   styleUrl: './new-order-success.component.css',

@@ -1,18 +1,18 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {OrderSummaryDTO} from '../../../../../interfaces/dto/order';
 import {RouterLink} from '@angular/router';
-import {CardModule} from 'primeng/card';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Button} from 'primeng/button';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-order-summary',
   standalone: true,
   imports: [
     RouterLink,
-    CardModule,
     TranslatePipe,
-    Button
+    Button,
+    CardModule
   ],
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.css',

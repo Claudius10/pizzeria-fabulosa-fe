@@ -29,13 +29,13 @@ import {isFormValid} from '../../../../../utils/functions';
   selector: 'app-step-five-summary',
   standalone: true,
   imports: [
-    StoreCheckoutComponent,
-    CardModule,
-    InputTextareaModule,
     Button,
-    ReactiveFormsModule,
     TranslatePipe,
-    UpperCasePipe
+    UpperCasePipe,
+    CardModule,
+    StoreCheckoutComponent,
+    ReactiveFormsModule,
+    InputTextareaModule
   ],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.css',

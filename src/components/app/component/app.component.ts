@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../../nav/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../../footer/footer.component';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
-import defaultLanguage from "../../../../public/i18n/en.json";
+import {TranslateService} from '@ngx-translate/core';
+import en from "../../../../public/i18n/en.json";
 import es from "../../../../public/i18n/es.json";
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
@@ -18,7 +18,6 @@ import {ThemeService} from '../../../services/themes/theme.service';
     NavigationBarComponent,
     RouterOutlet,
     FooterComponent,
-    TranslateModule,
     ToastModule
   ],
   providers: [ErrorService],
@@ -54,7 +53,7 @@ export class AppComponent implements OnInit {
 
   setUpLocale() {
     const locale = this.localStorageService.getLocale();
-    const langToUse = locale === "en" ? defaultLanguage : es;
+    const langToUse = locale === "en" ? en : es;
     this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
     this.translateService.setTranslation(locale, langToUse);
     this.translateService.use(locale);

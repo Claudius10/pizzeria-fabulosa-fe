@@ -12,12 +12,12 @@ import {NgClass, UpperCasePipe} from '@angular/common';
   selector: 'app-cart',
   standalone: true,
   imports: [
+    NgClass,
     CartItemComponent,
     TotalsComponent,
     Button,
     TranslatePipe,
-    UpperCasePipe,
-    NgClass,
+    UpperCasePipe
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',

@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, effect, inject, signal, Signal, untracked} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -8,7 +7,6 @@ import {LoginDialogComponent} from '../../forms/login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 import {LocaleSelectorComponent} from '../locale-selector/locale-selector.component';
-import {ToastModule} from 'primeng/toast';
 import {SidebarModule} from 'primeng/sidebar';
 import {CartComponent} from '../../cart/sidebar/cart.component';
 import {ProgressBarModule} from 'primeng/progressbar';
@@ -29,10 +27,9 @@ import {BadgeModule} from 'primeng/badge';
     NgStyle,
     LoginDialogComponent,
     LogoutDialogComponent,
-    ThemeSelectorComponent,
     LocaleSelectorComponent,
+    ThemeSelectorComponent,
     ProgressBarModule,
-    ToastModule,
     SidebarModule,
     CartComponent
   ],

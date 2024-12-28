@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {UserNavComponent} from '../nav/user-nav.component';
 import {RouterOutlet} from '@angular/router';
-import {ToastModule} from 'primeng/toast';
 
 @Component({
   selector: 'app-user-home',
@@ -11,8 +10,7 @@ import {ToastModule} from 'primeng/toast';
   standalone: true,
   imports: [
     UserNavComponent,
-    RouterOutlet,
-    ToastModule
+    RouterOutlet
   ],
   templateUrl: './user-home.component.html',
   styleUrl: './user-home.component.css',

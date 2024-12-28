@@ -1,9 +1,9 @@
 import {Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {CartService} from '../../../services/cart/cart.service';
 import {CartItemDTO} from '../../../interfaces/dto/order';
+import {CartService} from '../../../services/cart/cart.service';
+import {TranslateService} from '@ngx-translate/core';
 import {NgOptimizedImage} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
-import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cart-item',

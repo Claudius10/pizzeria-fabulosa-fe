@@ -26,10 +26,10 @@ import {isFormValid} from '../../../utils/functions';
   imports: [
     DialogModule,
     ReactiveFormsModule,
+    TranslatePipe,
     IconFieldModule,
     InputIconModule,
     Button,
-    TranslatePipe,
     UpperCasePipe
   ],
   templateUrl: './login-dialog.component.html',

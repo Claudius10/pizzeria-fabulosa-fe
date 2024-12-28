@@ -9,9 +9,9 @@ import {OfferItemComponent} from '../resources/offers/offer-item.component';
 import {StoreItemComponent} from '../resources/stores/store-item.component';
 import {ErrorService} from '../../services/error/error.service';
 import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
-import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../interfaces/http/api';
 import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home',
@@ -20,9 +20,9 @@ import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
   },
   standalone: true,
   imports: [
+    ServerErrorComponent,
     OfferItemComponent,
     StoreItemComponent,
-    ServerErrorComponent,
     TranslatePipe
   ],
   templateUrl: './home.component.html',

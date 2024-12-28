@@ -1,6 +1,4 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
-import {AccordionModule} from "primeng/accordion";
-import {CardModule} from "primeng/card";
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {NgClass} from '@angular/common';
 import {AddressId} from '../../../../../services/checkout/checkout-form.service';
@@ -10,8 +8,6 @@ import {TranslateService} from '@ngx-translate/core';
   selector: 'app-store-checkout',
   standalone: true,
   imports: [
-    AccordionModule,
-    CardModule,
     NgClass
   ],
   templateUrl: './store-checkout.component.html',

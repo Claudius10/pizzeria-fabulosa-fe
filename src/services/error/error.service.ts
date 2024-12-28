@@ -18,6 +18,7 @@ import {AuthService} from '../auth/auth.service';
 import {AUTH_BASE, AUTH_LOGOUT, BASE, V1} from '../../utils/api-routes';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import {lastValueFrom} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +81,13 @@ export class ErrorService {
 
   private logout() {
     this.authService.logout();
-    this.sendLogout();
+    const logout = lastValueFrom(this.sendLogout());
+
+    logout.then(response => {
+      if (response && response.error) {
+        this.handleError(response);
+      }
+    }).catch(() => this.handleServerNoResponse());
 
     setTimeout(() => {
       this.router.navigate(["/"]);

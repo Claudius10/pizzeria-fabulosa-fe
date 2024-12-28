@@ -2,8 +2,7 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} 
 import {IconFieldModule} from "primeng/iconfield";
 import {InputIconModule} from "primeng/inputicon";
 import {InputTextModule} from "primeng/inputtext";
-import {PaginatorModule} from "primeng/paginator";
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CheckoutFormService} from '../../../../../services/checkout/checkout-form.service';
 import {timer} from 'rxjs';
 import {Router} from '@angular/router';
@@ -17,15 +16,15 @@ import {isFormValid} from '../../../../../utils/functions';
   selector: 'app-checkout-step-three-when',
   standalone: true,
   imports: [
+    TranslatePipe,
+    Button,
+    UpperCasePipe,
+    ReactiveFormsModule,
     IconFieldModule,
     InputIconModule,
-    InputTextModule,
-    PaginatorModule,
-    ReactiveFormsModule,
-    Button,
+    FormsModule,
     NgForOf,
-    TranslatePipe,
-    UpperCasePipe
+    InputTextModule
   ],
   templateUrl: './step-three-when.component.html',
   styleUrl: './step-three-when.component.css',

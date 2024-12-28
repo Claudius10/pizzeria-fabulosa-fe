@@ -26,15 +26,15 @@ import {isFormValid} from '../../../../../utils/functions';
   selector: 'app-checkout-step-four-how',
   standalone: true,
   imports: [
+    Button,
+    TranslatePipe,
+    UpperCasePipe,
+    ReactiveFormsModule,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
-    ReactiveFormsModule,
-    Button,
     NgForOf,
-    FormsModule,
-    TranslatePipe,
-    UpperCasePipe
+    FormsModule
   ],
   templateUrl: './step-four-how.component.html',
   styleUrl: './step-four-how.component.css',

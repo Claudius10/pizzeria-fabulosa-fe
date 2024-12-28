@@ -9,16 +9,16 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
-import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-order-summary-list',
   standalone: true,
   imports: [
-    PaginatorModule,
     OrderSummaryComponent,
     ServerErrorComponent,
+    PaginatorModule,
     TranslatePipe
   ],
   templateUrl: './order-summary-list.component.html',

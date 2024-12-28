@@ -24,7 +24,6 @@ import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
-import {ToastModule} from 'primeng/toast';
 import {UpperCasePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
 
@@ -35,15 +34,14 @@ import {CardModule} from 'primeng/card';
   },
   standalone: true,
   imports: [
+    CardModule,
     ReactiveFormsModule,
-    Button,
     IconFieldModule,
+    TranslatePipe,
     InputIconModule,
     InputTextModule,
-    ToastModule,
-    TranslatePipe,
     UpperCasePipe,
-    CardModule
+    Button
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',

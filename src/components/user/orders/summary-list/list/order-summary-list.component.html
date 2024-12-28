@@ -1,7 +1,7 @@
 <div class="list flex flex-column justify-content-between gap-3 w-full">
   <div class="flex flex-column gap-3 w-full">
     @if (orderList.status() === "success") {
-      @if (orderList.data()!.payload.totalElements !== 0) {
+      @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
           <app-order-summary [orderSummary]="orderSummary"/>
         }
@@ -17,7 +17,7 @@
     (onPageChange)="onPageChange($event)"
     [first]="currentElements"
     [rows]="4"
-    [totalRecords]="orderList.status() === 'success' ? orderList.data()!.payload.totalElements : 0"
+    [totalRecords]="orderList.status() === 'success' && orderList.data()!.payload !== null ? orderList.data()!.payload.totalElements : 0"
     [showCurrentPageReport]="true"
     [showPageLinks]="false"
     [showJumpToPageDropdown]="false"

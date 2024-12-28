@@ -1,7 +1,7 @@
 <div class="flex justify-content-center flex-wrap row-gap-6 column-gap-6 lg:w-8">
   @if (query.status() === "error") {
     <app-server-error/>
-  } @else if (query.status() === "success") {
+  } @else if (query.status() === "success" && query.data()!.payload !== null) {
     @for (product of query.data()!.payload; track product.id) {
       <app-product [product]="product"/>
     }

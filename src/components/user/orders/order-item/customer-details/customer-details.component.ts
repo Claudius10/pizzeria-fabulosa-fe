@@ -7,8 +7,8 @@ import {TranslatePipe} from '@ngx-translate/core';
   selector: 'app-customer-details',
   standalone: true,
   imports: [
-    CardModule,
-    TranslatePipe
+    TranslatePipe,
+    CardModule
   ],
   templateUrl: './customer-details.component.html',
   styleUrl: './customer-details.component.css',

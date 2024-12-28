@@ -4,7 +4,6 @@ import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {Button} from 'primeng/button';
 import {UserAddressFormComponent} from '../../../../forms/user/address-form/user-address-form.component';
-import {CardModule} from 'primeng/card';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -19,11 +18,10 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
   selector: 'app-user-address-list',
   standalone: true,
   imports: [
-    Button,
-    UserAddressFormComponent,
-    CardModule,
     UserAddressItemComponent,
     ServerErrorComponent,
+    Button,
+    UserAddressFormComponent,
     TranslatePipe
   ],
   templateUrl: './user-address-list.component.html',

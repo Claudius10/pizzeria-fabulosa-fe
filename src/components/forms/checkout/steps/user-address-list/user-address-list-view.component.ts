@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, o
 import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {AuthService} from '../../../../../services/auth/auth.service';
-import {CardModule} from 'primeng/card';
 import {NgClass} from '@angular/common';
 import {AddressId} from '../../../../../services/checkout/checkout-form.service';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -12,12 +11,12 @@ import {LoadingAnimationService} from '../../../../../services/navigation/loadin
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {QueryResult} from '../../../../../interfaces/query';
 
 @Component({
   selector: 'app-user-address-list-view',
   standalone: true,
   imports: [
-    CardModule,
     NgClass,
     TranslatePipe,
     ServerErrorComponent
@@ -35,7 +34,7 @@ export class UserAddressListViewComponent implements OnInit {
   private errorService = inject(ErrorService);
   private userService = inject(UserService);
   private authService = inject(AuthService);
-  addressList = this.userService.findUserAddressList({
+  addressList: QueryResult = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
     id: this.authService.getUserId()!
   });

@@ -9,10 +9,10 @@ import {TranslatePipe} from '@ngx-translate/core';
   selector: 'app-profile',
   standalone: true,
   imports: [
-    UserAddressListComponent,
     CardModule,
+    TranslatePipe,
     Button,
-    TranslatePipe
+    UserAddressListComponent
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',

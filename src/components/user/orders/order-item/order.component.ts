@@ -6,7 +6,6 @@ import {OrderService} from '../../../../services/http/order/order.service';
 import {RESOURCE_PRODUCT_ALL, userOrderQueryKey} from '../../../../utils/query-keys';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {ToastModule} from 'primeng/toast';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../../interfaces/query';
 import {AddressDetailsComponent} from './address-details/address-details.component';
@@ -27,23 +26,23 @@ import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {isDst} from '../../../../utils/functions';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-order',
   standalone: true,
   imports: [
-    ToastModule,
-    OrderDetailsComponent,
-    ConfirmDialogModule,
-    AddressDetailsComponent,
-    CustomerDetailsComponent,
-    OrderDetailsComponent,
     CardModule,
-    RouterLink,
-    CartComponent,
     TranslatePipe,
-    ServerErrorComponent,
-    UpperCasePipe
+    RouterLink,
+    CustomerDetailsComponent,
+    AddressDetailsComponent,
+    OrderDetailsComponent,
+    CartComponent,
+    Button,
+    UpperCasePipe,
+    ConfirmDialogModule,
+    ServerErrorComponent
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.css',
