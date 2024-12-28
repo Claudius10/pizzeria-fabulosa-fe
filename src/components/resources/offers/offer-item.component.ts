@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
 import {OfferDTO} from '../../../interfaces/dto/resources';
-import {NgOptimizedImage} from '@angular/common';
 import {AccordionModule} from 'primeng/accordion';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
@@ -10,7 +9,6 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
   standalone: true,
   imports: [
     CardModule,
-    NgOptimizedImage,
     AccordionModule,
     TranslatePipe
   ],

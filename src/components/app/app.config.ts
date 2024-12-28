@@ -10,11 +10,12 @@ import {routes} from './app.routes';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {AuthService} from '../../services/auth/auth.service';
 import {CookieService} from 'ngx-cookie-service';
-import {provideTanStackQuery, QueryClient, withDevtools} from '@tanstack/angular-query-experimental';
+import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ConfirmationService, MessageService} from 'primeng/api';
+import {IMAGE_CONFIG} from '@angular/common';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -50,14 +51,13 @@ export const appConfig: ApplicationConfig = {
       },
     })]),
     provideTanStackQuery(new QueryClient({
-        defaultOptions: {
-          queries: {
-            refetchOnMount: true,
-            staleTime: 300000
-          },
-        }
-      }),
-      withDevtools()),
+      defaultOptions: {
+        queries: {
+          refetchOnMount: true,
+          staleTime: 300000
+        },
+      }
+    })), // withDevtools()
     {
       provide: APP_INITIALIZER,
       useFactory: () => {
@@ -66,6 +66,7 @@ export const appConfig: ApplicationConfig = {
         return initializeApp(cookieService, authService);
       },
       multi: true,
-    }
+    },
+    {provide: IMAGE_CONFIG, useValue: {disableImageSizeWarning: true, disableImageLazyLoadWarning: true}}
   ]
 };

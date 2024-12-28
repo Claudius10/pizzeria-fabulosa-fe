@@ -1,6 +1,6 @@
 <p-card header="{{store().name}}" [style]="{ width: '320px' }">
   <ng-template pTemplate="header">
-    <img class="border-round" [ngSrc]="store().image" width="50" height="200" alt="Store image">
+    <img class="border-round" src="{{store().image}}" width="50" height="200" alt="Store image">
   </ng-template>
   <div class="flex flex-column gap-4">
     <div class="flex gap-2">
