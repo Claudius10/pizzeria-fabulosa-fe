@@ -136,39 +136,37 @@ export class OrderComponent implements OnInit {
         rejectButtonStyleClass: "p-button-text",
         accept: () => {
           // if user accepts, send account-delete
-          if (true) {
-            this.loadingAnimationService.startLoading();
-            this.delete.mutate({
-              payload: {
-                userId: this.authService.getUserId(),
-                orderId: this.order.data()!.payload.id
+          this.loadingAnimationService.startLoading();
+          this.delete.mutate({
+            payload: {
+              userId: this.authService.getUserId(),
+              orderId: this.order.data()!.payload.id
+            }
+          }, {
+            onSuccess: (response: ResponseDTO) => {
+              if (response.status.error) {
+                this.errorService.handleError(response);
+              } else {
+                // trigger toast
+                this.messageService.add({
+                  severity: 'success',
+                  summary: this.translateService.instant("toast.severity.info"),
+                  detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
+                  life: 2000
+                });
+                // nav to order summary list after two seconds
+                setTimeout(() => {
+                  this.router.navigate(["user", "orders"]);
+                }, 2000);
               }
-            }, {
-              onSuccess: (response: ResponseDTO) => {
-                if (response.status.error) {
-                  this.errorService.handleError(response);
-                } else {
-                  // trigger toast
-                  this.messageService.add({
-                    severity: 'success',
-                    summary: this.translateService.instant("toast.severity.info"),
-                    detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
-                    life: 2000
-                  });
-                  // nav to order summary list after two seconds
-                  setTimeout(() => {
-                    this.router.navigate(["user", "orders"]);
-                  }, 2000);
-                }
-              },
-              onError: () => {
-                this.errorService.handleServerNoResponse();
-              },
-              onSettled: () => {
-                this.loadingAnimationService.stopLoading();
-              }
-            });
-          }
+            },
+            onError: () => {
+              this.errorService.handleServerNoResponse();
+            },
+            onSettled: () => {
+              this.loadingAnimationService.stopLoading();
+            }
+          });
         },
         // if user rejects
         reject: () => {
