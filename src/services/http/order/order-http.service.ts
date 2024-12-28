@@ -2,12 +2,13 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../interfaces/http/order';
 import {ResponseDTO} from '../../../interfaces/http/api';
-import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, PATH, USER_BASE, V1} from '../../../utils/api-routes';
+import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} from '../../../utils/api-routes';
 import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
 import {ErrorService} from '../../error/error.service';
 import {of} from 'rxjs';
 import {buildErrorResponse} from '../../../utils/functions';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,17 +16,18 @@ import {buildErrorResponse} from '../../../utils/functions';
 export class OrderHttpService {
   private httpClient = inject(HttpClient);
   private errorService = inject(ErrorService);
+  private PATH = environment.url;
 
   public createUserOrder(data: NewUserOrderFormData) {
     const result = this.errorService.ensureId([data.userId!]);
 
     if (!result) return of(buildErrorResponse());
 
-    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}`, data.order, {withCredentials: true});
+    return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}`, data.order, {withCredentials: true});
   }
 
   public createAnonOrder(data: AnonOrderFormData) {
-    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + ANON_BASE + ANON_ORDER}`, data);
+    return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + ANON_BASE + ANON_ORDER}`, data);
   }
 
   public findOrderSummaryList(userId: string | null, pageNumber: number, pageSize: number) {
@@ -33,7 +35,7 @@ export class OrderHttpService {
 
     if (!result) return of(buildErrorResponse());
 
-    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${userId + ORDER_BASE + ORDER_SUMMARY}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}/${userId + ORDER_BASE + ORDER_SUMMARY}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
       {withCredentials: true});
   }
 
@@ -42,7 +44,7 @@ export class OrderHttpService {
 
     if (!result) return of(buildErrorResponse());
 
-    return this.httpClient.get<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${options.userId + ORDER_BASE}/${options.id}`,
+    return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}/${options.userId + ORDER_BASE}/${options.id}`,
       {withCredentials: true});
   }
 
@@ -51,7 +53,7 @@ export class OrderHttpService {
 
     if (!result) return of(buildErrorResponse());
 
-    return this.httpClient.delete<ResponseDTO>(`${PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}/${data.orderId}`,
+    return this.httpClient.delete<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}/${data.orderId}`,
       {withCredentials: true});
   }
 }

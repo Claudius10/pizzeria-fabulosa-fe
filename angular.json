@@ -88,6 +88,7 @@
           },
           "configurations": {
             "production": {
+              "ssr": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -107,7 +108,13 @@
               "extractLicenses": false,
               "sourceMap": true,
               "prerender": false,
-              "ssr": false
+              "ssr": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

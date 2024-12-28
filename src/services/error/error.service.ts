@@ -15,14 +15,16 @@ import {
   USER_NOT_FOUND
 } from '../../utils/api-messages';
 import {AuthService} from '../auth/auth.service';
-import {AUTH_BASE, AUTH_LOGOUT, BASE, PATH, V1} from '../../utils/api-routes';
+import {AUTH_BASE, AUTH_LOGOUT, BASE, V1} from '../../utils/api-routes';
 import {HttpClient} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorService {
   private httpClient = inject(HttpClient);
+  private PATH = environment.url;
   private authService = inject(AuthService);
   private translateService = inject(TranslateService);
   private router = inject(Router);
@@ -177,7 +179,7 @@ export class ErrorService {
   }
 
   private sendLogout() {
-    return this.httpClient.post<ResponseDTO>(`${PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
+    return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
       {responseType: "text"}, // -> without this, cookies won't be set
       {withCredentials: true});
   }
