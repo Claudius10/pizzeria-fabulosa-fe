@@ -37,7 +37,7 @@
   "form.invalid.email.matching": "El correo electrónico no coincide",
   "form.invalid.password": "La contraseña debe tener una letra mayúscula, minúscula, un número, y una longitud de ocho caracteres",
   "form.invalid.password.requiered": "La contraseña es obligatoria",
-  "form.invalid.password.matching": "La contraseña no coincide",
+  "form.invalid.password.matching": "La contraseña debe coincidir",
   "form.invalid.contact.number": "El teléfono de contacto debe contener nueve dígitos",
   "form.invalid.delivery.address": "La ubicación es obligatoria",
   "form.invalid.delivery.number": "El número de ubicación es obligatorio: máximo cuatro dígitos",

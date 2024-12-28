@@ -37,7 +37,7 @@
   "form.invalid.email.matching": "Please make sure email address matches",
   "form.invalid.password": "Password must contain one uppercase and lower case letter, one number, and be eight characters long",
   "form.invalid.password.requiered": "The password is requiered",
-  "form.invalid.password.matching": "Please make sure your password matches",
+  "form.invalid.password.matching": "Password must match",
   "form.invalid.contact.number": "Contact number must contain exactly nine digits",
   "form.invalid.delivery.address": "Delivery address is requiered",
   "form.invalid.delivery.number": "Delivery number is requiered: four digits máximum",

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -58,6 +58,16 @@ export class RegisterComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private accountService = inject(AccountService);
   private register: MutationResult = this.accountService.create();
+  showPassword = signal(false);
+  showMatchingPassword = signal(false);
+
+  togglePassword() {
+    this.showPassword.set(!this.showPassword());
+  }
+
+  toggleMatchingPassword() {
+    this.showMatchingPassword.set(!this.showMatchingPassword());
+  }
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
