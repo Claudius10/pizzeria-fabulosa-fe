@@ -5,7 +5,7 @@ import {
   inject,
   provideZoneChangeDetection
 } from '@angular/core';
-import {provideRouter, withComponentInputBinding} from '@angular/router';
+import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router';
 import {routes} from './app.routes';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {AuthService} from '../../services/auth/auth.service';
@@ -15,7 +15,6 @@ import {provideAnimations} from '@angular/platform-browser/animations';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ConfirmationService, MessageService} from 'primeng/api';
-import {ErrorService} from '../../services/error/error.service';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -41,7 +40,7 @@ export const appConfig: ApplicationConfig = {
     //provideClientHydration(),
     provideAnimations(),
     provideZoneChangeDetection({eventCoalescing: true}),
-    provideRouter(routes, withComponentInputBinding()),
+    provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({scrollPositionRestoration: "enabled"})),
     provideHttpClient(withFetch()),
     importProvidersFrom([TranslateModule.forRoot({
       loader: {

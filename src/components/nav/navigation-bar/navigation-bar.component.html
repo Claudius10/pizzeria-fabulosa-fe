@@ -95,13 +95,11 @@
   <div class="flex flex-column align-items-center gap-4">
     <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
        [routerLinkActiveOptions]="{exact: true}">
-      Home</p>
+      {{ 'component.navigation.quick.link.home' | translate }}</p>
     <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
       Pizzas</p>
     <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color"
-       routerLink="beverages">{{ 'navigation.quick.link.beverages' | translate }}</p>
-    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color"
-       routerLink="about">{{ 'navigation.quick.link.about' | translate }}</p>
+       routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
   </div>
 </p-sidebar>
 <p-sidebar [(visible)]="sidebarCartVisible" position="right" styleClass="w-24rem">
