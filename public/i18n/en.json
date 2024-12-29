@@ -12,6 +12,7 @@
   "button.step.previous": "Previous",
   "button.step.start": "Start",
   "button.order.confirm": "Order",
+  "form.step": "Step",
   "form.step.one": "My info",
   "form.step.two": "Delivery location",
   "form.step.three": "Delivery time",

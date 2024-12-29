@@ -87,6 +87,7 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   signIn(data: LoginForm | null): void {
+    this.loadingAnimationService.startLoading();
     this.login.mutate({payload: data}, {
       onSuccess: (response: ResponseDTO) => {
         if (response && response.status.error) {
@@ -115,8 +116,6 @@ export class LoginDialogComponent implements OnDestroy {
 
   public onSubmit(): void {
     if (isFormValid(this.form)) {
-      this.loadingAnimationService.startLoading();
-
       const data: LoginForm = {
         email: this.form.get("email")!.value,
         password: this.form.get("password")!.value,
