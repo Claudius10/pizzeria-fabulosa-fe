@@ -6,10 +6,10 @@
     </div>
 
     <!-- NAME + FORMAT -->
-    <div class="flex flex-column align-items-center pt-2">
+    <div class="flex flex-column align-items-center">
 
-      <div class="flex flex-column align-items-center gap-3">
-        <span class="font-semibold">{{ currentLang() === 'en' ? product().name.en : product().name.es }}</span>
+      <div class="flex flex-column align-items-center gap-2">
+        <span class="font-semibold text-xl">{{ currentLang() === 'en' ? product().name.en : product().name.es }}</span>
 
         <div class="flex gap-2">
           @if (product().formats.s) {
@@ -48,7 +48,7 @@
       <!-- INGREDIENTES -->
       @if (product().description !== null) {
         <div [ngClass]="product().description === null ? 'h-2rem' : 'h-7rem'"
-             class="flex flex-column justify-content-center text-center w-11 pt-3 pb-3">{{ currentLang() === 'en' ? product().description.en : product().description.es }}
+             class="flex flex-column justify-content-center text-center w-11">{{ currentLang() === 'en' ? product().description.en : product().description.es }}
         </div>
       }
 

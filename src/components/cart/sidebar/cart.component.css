@@ -1,3 +1,7 @@
+.items {
+  height: 90% !important;
+}
+
 :host ::ng-deep .p-button {
   width: 100%;
 }

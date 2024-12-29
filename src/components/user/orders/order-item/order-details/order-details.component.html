@@ -14,9 +14,9 @@
     </div>
 
     @if (orderDetails().comment !== null) {
-      <div class="flex flex-column gap-3 text w-20rem">
+      <div class="flex flex-column gap-3 text">
         <span>{{ "view.comment" | translate }}: </span>
-        <span class="font-italic text-center text-primary">{{ orderDetails().comment }} </span>
+        <span class="font-italic text-primary">{{ orderDetails().comment }} </span>
       </div>
     }
   </div>
