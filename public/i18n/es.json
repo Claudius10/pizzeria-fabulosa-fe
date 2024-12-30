@@ -133,5 +133,6 @@
   "dialog.logout.success.message": "Sesión cerrada con éxito",
   "dialog.logout.error.message": "Error al cerrar la session. Si el problema persiste, contacta con nosotros.",
   "page.forbidden": "Acceso denegado: asegúrese de tener la sesión abierta y los privilegios suficientes para acceder a esta página",
-  "page.not.found": "Esto es un callejón sin salida. Por favor vuelve a la página principal haciendo click en el icono pizza en la esquina superior izquierda."
+  "page.not.found": "Esto es un callejón sin salida. Por favor vuelve a la página principal haciendo click en el icono pizza en la esquina superior izquierda.",
+  "footer.dev": "Proyecto de Clau"
 }

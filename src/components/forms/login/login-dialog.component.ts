@@ -94,15 +94,13 @@ export class LoginDialogComponent implements OnDestroy {
           this.errorService.handleError(response);
         } else {
           this.authService.setUserCredentials(this.cookieService.get("idToken"));
-          this.closeLoginDialog();
           this.cartService.clear();
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),
             detail: this.translateService.instant("toast.form.login.success.detail"),
-            life: 3000
+            life: 3000,
           });
-          this.router.navigate(["/pizzas"]);
         }
       },
       onError: () => {
@@ -110,6 +108,7 @@ export class LoginDialogComponent implements OnDestroy {
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();
+        this.closeLoginDialog();
       }
     });
   }
