@@ -20,24 +20,23 @@ import {ResponseDTO} from '../../../../interfaces/http/api';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 
 @Component({
-  selector: 'app-new-order-success',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
-  imports: [
-    Button,
-    TranslatePipe,
-    UpperCasePipe,
-    CustomerDetailsComponent,
-    AddressDetailsComponent,
-    OrderDetailsComponent,
-    CartComponent,
-    RouterLink
-  ],
-  templateUrl: './new-order-success.component.html',
-  styleUrl: './new-order-success.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-new-order-success',
+    host: {
+        class: 'upper-layout',
+    },
+    imports: [
+        Button,
+        TranslatePipe,
+        UpperCasePipe,
+        CustomerDetailsComponent,
+        AddressDetailsComponent,
+        OrderDetailsComponent,
+        CartComponent,
+        RouterLink
+    ],
+    templateUrl: './new-order-success.component.html',
+    styleUrl: './new-order-success.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewOrderSuccessComponent implements OnInit, OnDestroy {
   protected checkoutFormService = inject(CheckoutFormService);

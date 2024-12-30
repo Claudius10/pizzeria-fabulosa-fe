@@ -14,16 +14,15 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {QueryResult} from '../../../../../interfaces/query';
 
 @Component({
-  selector: 'app-user-address-list-view',
-  standalone: true,
-  imports: [
-    NgClass,
-    TranslatePipe,
-    ServerErrorComponent
-  ],
-  templateUrl: './user-address-list-view.component.html',
-  styleUrl: './user-address-list-view.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-address-list-view',
+    imports: [
+        NgClass,
+        TranslatePipe,
+        ServerErrorComponent
+    ],
+    templateUrl: './user-address-list-view.component.html',
+    styleUrl: './user-address-list-view.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListViewComponent implements OnInit {
   onAddressSelect = output<AddressId>();

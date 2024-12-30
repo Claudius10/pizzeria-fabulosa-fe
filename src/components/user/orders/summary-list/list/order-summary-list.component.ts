@@ -13,17 +13,16 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-order-summary-list',
-  standalone: true,
-  imports: [
-    OrderSummaryComponent,
-    ServerErrorComponent,
-    PaginatorModule,
-    TranslatePipe
-  ],
-  templateUrl: './order-summary-list.component.html',
-  styleUrl: './order-summary-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order-summary-list',
+    imports: [
+        OrderSummaryComponent,
+        ServerErrorComponent,
+        PaginatorModule,
+        TranslatePipe
+    ],
+    templateUrl: './order-summary-list.component.html',
+    styleUrl: './order-summary-list.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {
   private loadingAnimationService = inject(LoadingAnimationService);

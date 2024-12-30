@@ -91,7 +91,7 @@
           <form [formGroup]="form">
             <div class="flex flex-column gap-3">
               <span>{{ "component.form.step.five.comment.advice" | translate }}</span>
-              <textarea formControlName="comment" pInputTextarea></textarea>
+              <textarea formControlName="comment" pTextarea></textarea>
               @if (!this.form.controls.comment.untouched && !this.form.controls.comment.valid) {
                 <small id="fullName-help" class="invalid-text">
                   {{ "form.invalid.comment" | translate }}

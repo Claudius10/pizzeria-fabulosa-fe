@@ -10,7 +10,6 @@ import {NgClass, UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-cart',
-  standalone: true,
   imports: [
     NgClass,
     CartItemComponent,

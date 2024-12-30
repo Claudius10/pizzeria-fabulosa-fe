@@ -13,17 +13,16 @@ import {ThemeService} from '../../../services/themes/theme.service';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    NavigationBarComponent,
-    RouterOutlet,
-    FooterComponent,
-    ToastModule
-  ],
-  providers: [ErrorService],
-  templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-root',
+    imports: [
+        NavigationBarComponent,
+        RouterOutlet,
+        FooterComponent,
+        ToastModule
+    ],
+    providers: [ErrorService],
+    templateUrl: './app.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, AfterViewInit {
   private translateService = inject(TranslateService);

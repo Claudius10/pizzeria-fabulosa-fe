@@ -6,17 +6,16 @@ import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 
 @Component({
-  selector: 'app-order-summary',
-  standalone: true,
-  imports: [
-    RouterLink,
-    TranslatePipe,
-    Button,
-    CardModule
-  ],
-  templateUrl: './order-summary.component.html',
-  styleUrl: './order-summary.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order-summary',
+    imports: [
+        RouterLink,
+        TranslatePipe,
+        Button,
+        CardModule
+    ],
+    templateUrl: './order-summary.component.html',
+    styleUrl: './order-summary.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryComponent {
   orderSummary = input.required<OrderSummaryDTO>();

@@ -8,17 +8,16 @@ import {TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 
 @Component({
-  selector: 'app-product',
-  standalone: true,
-  imports: [
-    Button,
-    PanelModule,
-    NgClass,
-    ProductPriceComponent
-  ],
-  templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-product',
+    imports: [
+        Button,
+        PanelModule,
+        NgClass,
+        ProductPriceComponent
+    ],
+    templateUrl: './product-item.component.html',
+    styleUrls: ['./product-item.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {
   public product = input.required<ProductDTO>();

@@ -19,22 +19,21 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 
 @Component({
-  selector: 'app-user-delete-form',
-  standalone: true,
-  imports: [
-    PaginatorModule,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    Button,
-    CardModule,
-    TranslatePipe,
-    UpperCasePipe
-  ],
-  templateUrl: './user-delete-form.component.html',
-  styleUrl: './user-delete-form.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-delete-form',
+    imports: [
+        PaginatorModule,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        Button,
+        CardModule,
+        TranslatePipe,
+        UpperCasePipe
+    ],
+    templateUrl: './user-delete-form.component.html',
+    styleUrl: './user-delete-form.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
   private router = inject(Router);

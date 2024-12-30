@@ -4,15 +4,14 @@ import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 
 @Component({
-  selector: 'app-error-item',
-  standalone: true,
-  imports: [
-    Button,
-    CardModule
-  ],
-  templateUrl: './error-item.component.html',
-  styleUrl: './error-item.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-error-item',
+    imports: [
+        Button,
+        CardModule
+    ],
+    templateUrl: './error-item.component.html',
+    styleUrl: './error-item.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorItemComponent {
   error = input.required<ErrorDTO>();

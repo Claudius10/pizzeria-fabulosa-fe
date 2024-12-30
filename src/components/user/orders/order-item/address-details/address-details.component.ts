@@ -10,16 +10,15 @@ import {StoreCheckoutComponent} from '../../../../forms/checkout/steps/store/sto
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-address-details',
-  standalone: true,
-  imports: [
-    CardModule,
-    TranslatePipe,
-    StoreCheckoutComponent
-  ],
-  templateUrl: './address-details.component.html',
-  styleUrl: './address-details.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-address-details',
+    imports: [
+        CardModule,
+        TranslatePipe,
+        StoreCheckoutComponent
+    ],
+    templateUrl: './address-details.component.html',
+    styleUrl: './address-details.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressDetailsComponent implements OnInit {
   address = input.required<AddressDTO>();

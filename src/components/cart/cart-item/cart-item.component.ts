@@ -6,14 +6,13 @@ import {NgOptimizedImage} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
 
 @Component({
-  selector: 'app-cart-item',
-  standalone: true,
-  imports: [
-    NgOptimizedImage,
-    Button,
-    ButtonDirective
-  ],
-  templateUrl: './cart-item.component.html',
+    selector: 'app-cart-item',
+    imports: [
+        NgOptimizedImage,
+        Button,
+        ButtonDirective
+    ],
+    templateUrl: './cart-item.component.html'
 })
 export class CartItemComponent implements OnInit {
   readOnly = input.required<boolean>();

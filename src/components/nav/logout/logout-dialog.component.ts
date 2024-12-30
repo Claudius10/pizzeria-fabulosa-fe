@@ -15,16 +15,15 @@ import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 
 @Component({
-  selector: 'app-logout-dialog',
-  standalone: true,
-  imports: [
-    DialogModule,
-    TranslatePipe,
-    UpperCasePipe,
-    ButtonDirective
-  ],
-  templateUrl: './logout-dialog.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-logout-dialog',
+    imports: [
+        DialogModule,
+        TranslatePipe,
+        UpperCasePipe,
+        ButtonDirective
+    ],
+    templateUrl: './logout-dialog.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent implements OnDestroy {
   private router = inject(Router);

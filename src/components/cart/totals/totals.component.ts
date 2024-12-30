@@ -3,15 +3,14 @@ import {Button} from "primeng/button";
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-cart-totals',
-  standalone: true,
-  imports: [
-    Button,
-    TranslatePipe
-  ],
-  templateUrl: './totals.component.html',
-  styleUrl: './totals.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-cart-totals',
+    imports: [
+        Button,
+        TranslatePipe
+    ],
+    templateUrl: './totals.component.html',
+    styleUrl: './totals.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TotalsComponent {
   total = input.required<number>();

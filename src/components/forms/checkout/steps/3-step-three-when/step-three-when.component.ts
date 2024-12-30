@@ -13,22 +13,21 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
-  selector: 'app-checkout-step-three-when',
-  standalone: true,
-  imports: [
-    TranslatePipe,
-    Button,
-    UpperCasePipe,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    FormsModule,
-    NgForOf,
-    InputTextModule
-  ],
-  templateUrl: './step-three-when.component.html',
-  styleUrl: './step-three-when.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-checkout-step-three-when',
+    imports: [
+        TranslatePipe,
+        Button,
+        UpperCasePipe,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        FormsModule,
+        NgForOf,
+        InputTextModule
+    ],
+    templateUrl: './step-three-when.component.html',
+    styleUrl: './step-three-when.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);

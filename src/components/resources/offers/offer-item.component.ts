@@ -5,16 +5,15 @@ import {AccordionModule} from 'primeng/accordion';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-offer-item',
-  standalone: true,
-  imports: [
-    CardModule,
-    AccordionModule,
-    TranslatePipe
-  ],
-  templateUrl: './offer-item.component.html',
-  styleUrl: './offer-item.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-offer-item',
+    imports: [
+        CardModule,
+        AccordionModule,
+        TranslatePipe
+    ],
+    templateUrl: './offer-item.component.html',
+    styleUrl: './offer-item.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {
   offer = input.required<OfferDTO>();

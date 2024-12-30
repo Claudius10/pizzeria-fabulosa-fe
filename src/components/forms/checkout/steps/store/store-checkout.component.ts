@@ -5,14 +5,13 @@ import {AddressId} from '../../../../../services/checkout/checkout-form.service'
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-store-checkout',
-  standalone: true,
-  imports: [
-    NgClass
-  ],
-  templateUrl: './store-checkout.component.html',
-  styleUrl: './store-checkout.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-store-checkout',
+    imports: [
+        NgClass
+    ],
+    templateUrl: './store-checkout.component.html',
+    styleUrl: './store-checkout.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
   store = input.required<StoreDTO>();

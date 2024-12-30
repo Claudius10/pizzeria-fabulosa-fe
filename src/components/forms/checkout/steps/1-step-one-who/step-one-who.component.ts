@@ -14,21 +14,20 @@ import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 
 @Component({
-  selector: 'app-checkout-step-one-who',
-  standalone: true,
-  imports: [
-    CardModule,
-    TranslatePipe,
-    Button,
-    UpperCasePipe,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule
-  ],
-  templateUrl: './step-one-who.component.html',
-  styleUrl: './step-one-who.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-checkout-step-one-who',
+    imports: [
+        CardModule,
+        TranslatePipe,
+        Button,
+        UpperCasePipe,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule
+    ],
+    templateUrl: './step-one-who.component.html',
+    styleUrl: './step-one-who.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
   private router = inject(Router);

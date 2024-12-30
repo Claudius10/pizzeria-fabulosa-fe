@@ -6,7 +6,6 @@ import {ResourceService} from '../../../../../services/http/resources/resource.s
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {StoreCheckoutComponent} from '../store/store-checkout.component';
 import {CardModule} from 'primeng/card';
-import {InputTextareaModule} from 'primeng/inputtextarea';
 import {Button} from 'primeng/button';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../../regex';
@@ -24,10 +23,10 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {isFormValid} from '../../../../../utils/functions';
+import {Textarea} from 'primeng/textarea';
 
 @Component({
   selector: 'app-step-five-summary',
-  standalone: true,
   imports: [
     Button,
     TranslatePipe,
@@ -35,7 +34,7 @@ import {isFormValid} from '../../../../../utils/functions';
     CardModule,
     StoreCheckoutComponent,
     ReactiveFormsModule,
-    InputTextareaModule
+    Textarea,
   ],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.css',

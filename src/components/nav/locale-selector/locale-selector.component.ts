@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MessageService, PrimeNGConfig} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 import primeNgEs from "../../../../public/i18n/primeng-es.json";
 import primeNgEn from "../../../../public/i18n/primeng-en.json";
 import {NgClass} from '@angular/common';
@@ -8,20 +8,18 @@ import {Button} from 'primeng/button';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 
 @Component({
-  selector: 'app-locale-selector',
-  standalone: true,
-  imports: [
-    NgClass,
-    Button
-  ],
-  templateUrl: './locale-selector.component.html',
-  styleUrls: ['./locale-selector.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-locale-selector',
+    imports: [
+        NgClass,
+        Button
+    ],
+    templateUrl: './locale-selector.component.html',
+    styleUrls: ['./locale-selector.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
   private localStorageService = inject(LocalstorageService);
   private translateService = inject(TranslateService);
-  private primeNgConfig = inject(PrimeNGConfig);
   private messageService = inject(MessageService);
   visible = false;
   @ViewChild('locale') locale: ElementRef | undefined;
@@ -56,9 +54,9 @@ export class LocaleSelectorComponent {
     // setting locale of primeNg by directly loading the json files in this component
     // https://github.com/ngx-translate/core/issues/641
     if (language === 'es') {
-      this.primeNgConfig.setTranslation(primeNgEs);
+      //this.primeNgConfig.setTranslation(primeNgEs);
     } else {
-      this.primeNgConfig.setTranslation(primeNgEn);
+      //this.primeNgConfig.setTranslation(primeNgEn);
     }
   }
 }

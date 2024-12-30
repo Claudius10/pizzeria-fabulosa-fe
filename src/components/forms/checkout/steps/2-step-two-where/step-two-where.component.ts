@@ -26,25 +26,24 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 
 @Component({
-  selector: 'app-checkout-step-two-where',
-  standalone: true,
-  imports: [
-    Button,
-    TranslatePipe,
-    UpperCasePipe,
-    IconFieldModule,
-    ReactiveFormsModule,
-    FormsModule,
-    InputIconModule,
-    UserAddressListViewComponent,
-    ServerErrorComponent,
-    StoreCheckoutComponent,
-    InputTextModule,
-    NgForOf
-  ],
-  templateUrl: './step-two-where.component.html',
-  styleUrl: './step-two-where.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-checkout-step-two-where',
+    imports: [
+        Button,
+        TranslatePipe,
+        UpperCasePipe,
+        IconFieldModule,
+        ReactiveFormsModule,
+        FormsModule,
+        InputIconModule,
+        UserAddressListViewComponent,
+        ServerErrorComponent,
+        StoreCheckoutComponent,
+        InputTextModule,
+        NgForOf
+    ],
+    templateUrl: './step-two-where.component.html',
+    styleUrl: './step-two-where.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
   private router = inject(Router);

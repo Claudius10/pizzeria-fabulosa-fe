@@ -3,14 +3,13 @@ import {MenuItem} from 'primeng/api';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-small-screen-steps',
-  standalone: true,
-  imports: [
-    TranslatePipe
-  ],
-  templateUrl: './small-screen-steps.component.html',
-  styleUrl: './small-screen-steps.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-small-screen-steps',
+    imports: [
+        TranslatePipe
+    ],
+    templateUrl: './small-screen-steps.component.html',
+    styleUrl: './small-screen-steps.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallScreenStepsComponent {
   activeIndex = input.required<number>();

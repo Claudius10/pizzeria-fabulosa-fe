@@ -28,24 +28,23 @@ import {UpperCasePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
 
 @Component({
-  selector: 'app-register',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
-  imports: [
-    CardModule,
-    ReactiveFormsModule,
-    IconFieldModule,
-    TranslatePipe,
-    InputIconModule,
-    InputTextModule,
-    UpperCasePipe,
-    Button
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-register',
+    host: {
+        class: 'upper-layout',
+    },
+    imports: [
+        CardModule,
+        ReactiveFormsModule,
+        IconFieldModule,
+        TranslatePipe,
+        InputIconModule,
+        InputTextModule,
+        UpperCasePipe,
+        Button
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
   private router = inject(Router);

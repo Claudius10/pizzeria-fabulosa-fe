@@ -29,24 +29,23 @@ import {isDst} from '../../../../utils/functions';
 import {Button} from 'primeng/button';
 
 @Component({
-  selector: 'app-order',
-  standalone: true,
-  imports: [
-    CardModule,
-    TranslatePipe,
-    RouterLink,
-    CustomerDetailsComponent,
-    AddressDetailsComponent,
-    OrderDetailsComponent,
-    CartComponent,
-    Button,
-    UpperCasePipe,
-    ConfirmDialogModule,
-    ServerErrorComponent
-  ],
-  templateUrl: './order.component.html',
-  styleUrl: './order.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order',
+    imports: [
+        CardModule,
+        TranslatePipe,
+        RouterLink,
+        CustomerDetailsComponent,
+        AddressDetailsComponent,
+        OrderDetailsComponent,
+        CartComponent,
+        Button,
+        UpperCasePipe,
+        ConfirmDialogModule,
+        ServerErrorComponent
+    ],
+    templateUrl: './order.component.html',
+    styleUrl: './order.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
   private router = inject(Router);

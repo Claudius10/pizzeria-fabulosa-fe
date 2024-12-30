@@ -6,17 +6,16 @@ import {Button} from 'primeng/button';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
-  imports: [
-    CardModule,
-    TranslatePipe,
-    Button,
-    UserAddressListComponent
-  ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-profile',
+    imports: [
+        CardModule,
+        TranslatePipe,
+        Button,
+        UserAddressListComponent
+    ],
+    templateUrl: './profile.component.html',
+    styleUrl: './profile.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
   private authService = inject(AuthService);

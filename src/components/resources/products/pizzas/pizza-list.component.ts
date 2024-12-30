@@ -11,17 +11,16 @@ import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
-  selector: 'app-pizza-list',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
-  imports: [
-    ProductItemComponent,
-    ServerErrorComponent
-  ],
-  templateUrl: './pizza-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-pizza-list',
+    host: {
+        class: 'upper-layout',
+    },
+    imports: [
+        ProductItemComponent,
+        ServerErrorComponent
+    ],
+    templateUrl: './pizza-list.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PizzaListComponent implements OnInit {
   private resourceService = inject(ResourceService);

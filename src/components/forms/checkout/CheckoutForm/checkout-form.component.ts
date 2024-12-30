@@ -6,22 +6,23 @@ import {SmallScreenStepsComponent} from '../steps/small-screen/small-screen-step
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
 import {MenuItem} from 'primeng/api';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
+import {RouterOutlet} from '@angular/router';
 
 @Component({
-  selector: 'app-checkout-form',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
+    selector: 'app-checkout-form',
+    host: {
+        class: 'upper-layout',
+    },
   imports: [
     CardModule,
     StepsModule,
     SmallScreenStepsComponent,
-    CartComponent
+    CartComponent,
+    RouterOutlet
   ],
-  templateUrl: './checkout-form.component.html',
-  styleUrl: './checkout-form.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './checkout-form.component.html',
+    styleUrl: './checkout-form.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutFormComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);

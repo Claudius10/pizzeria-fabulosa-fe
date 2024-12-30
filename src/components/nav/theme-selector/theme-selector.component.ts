@@ -4,12 +4,11 @@ import {THEMES_DARK, THEMES_LIGHT} from '../../../utils/constants';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 
 @Component({
-  selector: 'app-theme-selector',
-  standalone: true,
-  imports: [],
-  templateUrl: './theme-selector.component.html',
-  styleUrls: ['./theme-selector.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-theme-selector',
+    imports: [],
+    templateUrl: './theme-selector.component.html',
+    styleUrls: ['./theme-selector.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
   private darkThemes: string[] = THEMES_DARK;

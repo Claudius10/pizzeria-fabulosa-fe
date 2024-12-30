@@ -6,17 +6,16 @@ import {StoreDTO} from '../../../interfaces/dto/resources';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-store-item',
-  standalone: true,
-  imports: [
-    AccordionModule,
-    CardModule,
-    PrimeTemplate,
-    TranslatePipe
-  ],
-  templateUrl: './store-item.component.html',
-  styleUrl: './store-item.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-store-item',
+    imports: [
+        AccordionModule,
+        CardModule,
+        PrimeTemplate,
+        TranslatePipe
+    ],
+    templateUrl: './store-item.component.html',
+    styleUrl: './store-item.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreItemComponent implements OnInit {
   store = input.required<StoreDTO>();

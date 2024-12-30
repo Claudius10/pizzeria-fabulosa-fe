@@ -5,18 +5,17 @@ import {ErrorItemComponent} from './item/error-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-error',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
-  imports: [
-    ErrorItemComponent,
-    TranslatePipe
-  ],
-  templateUrl: './error.component.html',
-  styleUrl: './error.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-error',
+    host: {
+        class: 'upper-layout',
+    },
+    imports: [
+        ErrorItemComponent,
+        TranslatePipe
+    ],
+    templateUrl: './error.component.html',
+    styleUrl: './error.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorComponent implements OnDestroy {
   errorService = inject(ErrorService);

@@ -5,7 +5,6 @@ import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from '../../forms/login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
-import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 import {LocaleSelectorComponent} from '../locale-selector/locale-selector.component';
 import {SidebarModule} from 'primeng/sidebar';
 import {CartComponent} from '../../cart/sidebar/cart.component';
@@ -16,7 +15,6 @@ import {BadgeModule} from 'primeng/badge';
 
 @Component({
   selector: 'app-navigation-bar',
-  standalone: true,
   imports: [
     RouterLink,
     NgOptimizedImage,
@@ -28,7 +26,6 @@ import {BadgeModule} from 'primeng/badge';
     LoginDialogComponent,
     LogoutDialogComponent,
     LocaleSelectorComponent,
-    ThemeSelectorComponent,
     ProgressBarModule,
     SidebarModule,
     CartComponent

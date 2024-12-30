@@ -14,20 +14,19 @@ import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-home',
-  host: {
-    class: 'upper-layout',
-  },
-  standalone: true,
-  imports: [
-    ServerErrorComponent,
-    OfferItemComponent,
-    StoreItemComponent,
-    TranslatePipe
-  ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-home',
+    host: {
+        class: 'upper-layout',
+    },
+    imports: [
+        ServerErrorComponent,
+        OfferItemComponent,
+        StoreItemComponent,
+        TranslatePipe
+    ],
+    templateUrl: './home.component.html',
+    styleUrl: './home.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);

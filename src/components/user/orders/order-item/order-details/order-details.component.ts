@@ -4,15 +4,14 @@ import {OrderDetailsDTO} from '../../../../../interfaces/dto/order';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-order-details',
-  standalone: true,
-  imports: [
-    CardModule,
-    TranslatePipe
-  ],
-  templateUrl: './order-details.component.html',
-  styleUrl: './order-details.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order-details',
+    imports: [
+        CardModule,
+        TranslatePipe
+    ],
+    templateUrl: './order-details.component.html',
+    styleUrl: './order-details.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDetailsComponent {
   orderDetails = input.required<OrderDetailsDTO>();

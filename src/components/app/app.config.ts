@@ -1,8 +1,8 @@
 import {
-  APP_INITIALIZER,
   ApplicationConfig,
   importProvidersFrom,
   inject,
+  provideAppInitializer,
   provideZoneChangeDetection
 } from '@angular/core';
 import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router';
@@ -16,6 +16,9 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {IMAGE_CONFIG} from '@angular/common';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {providePrimeNG} from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
@@ -40,6 +43,16 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     //provideClientHydration(),
     provideAnimations(),
+    provideAnimationsAsync(),
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: '.my-app-dark',
+          prefix: 'my',
+        }
+      }
+    }),
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes, withComponentInputBinding(), withInMemoryScrolling({scrollPositionRestoration: "enabled"})),
     provideHttpClient(withFetch()),
@@ -58,15 +71,14 @@ export const appConfig: ApplicationConfig = {
         },
       }
     })), // withDevtools()
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => {
+    provideAppInitializer(() => {
+      const initializerFn = (() => {
         const cookieService = inject(CookieService);
         const authService = inject(AuthService);
         return initializeApp(cookieService, authService);
-      },
-      multi: true,
-    },
+      })();
+      return initializerFn();
+    }),
     {provide: IMAGE_CONFIG, useValue: {disableImageSizeWarning: true, disableImageLazyLoadWarning: true}}
   ]
 };

@@ -17,20 +17,19 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 
 @Component({
-  selector: 'app-user-address-form',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    Button,
-    TranslatePipe,
-    UpperCasePipe
-  ],
-  templateUrl: './user-address-form.component.html',
-  styleUrl: './user-address-form.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-address-form',
+    imports: [
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        Button,
+        TranslatePipe,
+        UpperCasePipe
+    ],
+    templateUrl: './user-address-form.component.html',
+    styleUrl: './user-address-form.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressFormComponent {
   hideForm = output();

@@ -15,18 +15,17 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
-  selector: 'app-user-address-list',
-  standalone: true,
-  imports: [
-    UserAddressItemComponent,
-    ServerErrorComponent,
-    Button,
-    UserAddressFormComponent,
-    TranslatePipe
-  ],
-  templateUrl: './user-address-list.component.html',
-  styleUrl: './user-address-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-address-list',
+    imports: [
+        UserAddressItemComponent,
+        ServerErrorComponent,
+        Button,
+        UserAddressFormComponent,
+        TranslatePipe
+    ],
+    templateUrl: './user-address-list.component.html',
+    styleUrl: './user-address-list.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);

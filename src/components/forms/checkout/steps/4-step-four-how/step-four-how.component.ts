@@ -23,22 +23,21 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
 
 @Component({
-  selector: 'app-checkout-step-four-how',
-  standalone: true,
-  imports: [
-    Button,
-    TranslatePipe,
-    UpperCasePipe,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    NgForOf,
-    FormsModule
-  ],
-  templateUrl: './step-four-how.component.html',
-  styleUrl: './step-four-how.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-checkout-step-four-how',
+    imports: [
+        Button,
+        TranslatePipe,
+        UpperCasePipe,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        NgForOf,
+        FormsModule
+    ],
+    templateUrl: './step-four-how.component.html',
+    styleUrl: './step-four-how.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFourHowComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
