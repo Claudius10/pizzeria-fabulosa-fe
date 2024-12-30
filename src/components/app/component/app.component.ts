@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../../nav/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../../footer/footer.component';
@@ -10,6 +10,7 @@ import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
 import {ThemeService} from '../../../services/themes/theme.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -24,16 +25,26 @@ import {ThemeService} from '../../../services/themes/theme.service';
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   private translateService = inject(TranslateService);
   private themeService = inject(ThemeService);
   private localStorageService = inject(LocalstorageService);
   private cartService = inject(CartService);
+  private messageService = inject(MessageService);
 
   ngOnInit() {
     this.setUpLocale();
     this.setUpTheme();
     this.setUpCart();
+  }
+
+  ngAfterViewInit(): void {
+    this.messageService.add({
+      severity: 'info',
+      summary: this.translateService.instant("toast.severity.info"),
+      detail: this.translateService.instant("toast.dev.note"),
+      life: 5000,
+    });
   }
 
   setUpTheme() {

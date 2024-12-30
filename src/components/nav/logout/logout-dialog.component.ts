@@ -62,7 +62,6 @@ export class LogoutDialogComponent implements OnDestroy {
         } else {
           this.authService.logout();
           this.queryClient.removeQueries({queryKey: ["user"]});
-          this.hideLogoutDialog();
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),
@@ -83,6 +82,7 @@ export class LogoutDialogComponent implements OnDestroy {
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();
+        this.hideLogoutDialog();
       }
     });
   }

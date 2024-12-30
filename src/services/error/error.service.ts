@@ -18,13 +18,14 @@ import {AuthService} from '../auth/auth.service';
 import {AUTH_BASE, AUTH_LOGOUT, BASE, V1} from '../../utils/api-routes';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {lastValueFrom} from 'rxjs';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ErrorService {
   private httpClient = inject(HttpClient);
+  private queryClient = inject(QueryClient);
   private PATH = environment.url;
   private authService = inject(AuthService);
   private translateService = inject(TranslateService);
@@ -65,6 +66,7 @@ export class ErrorService {
     this.messageService.add({severity: this.getSeverity(summary), summary: summary, detail: details, life: 3000});
 
     if (INVALID_TOKEN === cause) {
+      this.queryClient.removeQueries({queryKey: ["user"]});
       this.logout();
     }
   }
@@ -81,14 +83,7 @@ export class ErrorService {
 
   private logout() {
     this.authService.logout();
-    const logout = lastValueFrom(this.sendLogout());
-
-    logout.then(response => {
-      if (response && response.error) {
-        this.handleError(response);
-      }
-    }).catch(() => this.handleServerNoResponse());
-
+    // back-end deletes cookies
     setTimeout(() => {
       this.router.navigate(["/"]);
     }, 3000);
