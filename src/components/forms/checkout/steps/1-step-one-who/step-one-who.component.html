@@ -1,7 +1,7 @@
 @if (isAuthenticated()) {
-  <div class="flex flex-column justify-content-between gap-5 h-full w-full">
+  <div class="flex flex-col justify-between gap-8 h-full w-full">
     <p-card>
-      <div class="flex flex-column gap-3">
+      <div class="flex flex-col gap-4">
         <span>{{ "form.label.name" | translate }}: {{ userName() }}</span>
         <span>{{ "form.label.email" | translate }}: {{ userEmail() }}</span>
         <span>{{ "form.label.contact.number" | translate }}: {{ userContactNumber() }}</span>
@@ -23,14 +23,14 @@
     </div>
   </div>
 } @else {
-  <form class="flex flex-column justify-content-between gap-8 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
-    <div class="flex flex-column gap-3">
+  <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+    <div class="flex flex-col gap-4">
 
       <span>{{ "component.form.step.one.advice" | translate }}</span>
 
-      <div class="flex flex-column gap-3">
+      <div class="flex flex-col gap-4">
 
-        <div class="flex flex-column gap-2 h-4rem">
+        <div class="flex flex-col gap-2 h-16">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-user"/>
             <input
@@ -48,7 +48,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2 h-4rem">
+        <div class="flex flex-col gap-2 h-16">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-envelope"/>
             <input
@@ -66,7 +66,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2 h-4rem">
+        <div class="flex flex-col gap-2 h-16">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-phone"/>
             <input class="w-full"

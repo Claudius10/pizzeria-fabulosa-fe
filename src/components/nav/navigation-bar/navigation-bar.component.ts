@@ -31,7 +31,7 @@ import {BadgeModule} from 'primeng/badge';
     CartComponent
   ],
   templateUrl: './navigation-bar.component.html',
-  styleUrls: ['./navigation-bar.component.css'],
+  styleUrls: ['./navigation-bar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationBarComponent {

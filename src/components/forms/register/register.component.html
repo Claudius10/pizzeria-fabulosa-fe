@@ -1,12 +1,12 @@
 <p-card>
   <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="flex flex-column gap-6">
+    <div class="flex flex-col gap-12">
     <span
       class="text-center font-semibold text-4xl">{{ "component.form.register.title" | translate | uppercase }}</span>
 
 
-      <div class="flex flex-column gap-5">
-        <div class="flex flex-column gap-2">
+      <div class="flex flex-col gap-8">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-user"/>
             <input
@@ -24,7 +24,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-envelope"/>
             <input
@@ -42,7 +42,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-envelope"/>
             <input
@@ -60,7 +60,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="left">
             <p-inputIcon styleClass="pi pi-phone"/>
             <input
@@ -78,7 +78,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="right">
             <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input class="w-full"
@@ -95,7 +95,7 @@
           }
         </div>
 
-        <div class="flex flex-column gap-2">
+        <div class="flex flex-col gap-2">
           <p-iconField iconPosition="right">
             <p-inputIcon (click)="toggleMatchingPassword()"
                          styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
@@ -127,7 +127,7 @@
         label="{{'button.continue' | translate | uppercase }}"/>
     </div>
 
-    <div class="flex flex-column align-items-center gap-3">
+    <div class="flex flex-col items-center gap-4">
       <span>{{ "component.form.register.footer" | translate }}</span>
       <span class="text-primary"
             (click)="authService.setLoginDialog(true)">{{ "component.form.register.link" | translate }}</span>

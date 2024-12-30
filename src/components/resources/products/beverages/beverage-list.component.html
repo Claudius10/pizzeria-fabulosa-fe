@@ -1,4 +1,4 @@
-<div class="flex justify-content-center flex-wrap row-gap-6 column-gap-6 lg:w-9">
+<div class="flex justify-center flex-wrap gap-y-12 gap-x-12 lg:w-9/12">
   @if (query.status() === "error") {
     <app-server-error/>
   } @else if (query.status() === "success" && query.data()!.payload !== null) {

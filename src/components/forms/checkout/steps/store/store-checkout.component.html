@@ -1,8 +1,8 @@
 <div
   [ngClass]="[
-  'card flex flex-column gap-3 border-2 border-transparent border-round-xl',
-  selected() === store().id ? 'border-primary transition-all transition-duration-300' : '',
-  valid() ? '' : 'border-red-300 border-round-xl transition-all transition-duration-300'
+  'card flex flex-col gap-4 border-2 border-transparent rounded-xl',
+  selected() === store().id ? 'border-primary transition-all duration-300' : '',
+  valid() ? '' : 'border-red-300 rounded-xl transition-all duration-300'
   ]"
   (click)="selectStore()">
   <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>

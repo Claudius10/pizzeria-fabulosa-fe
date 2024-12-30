@@ -1,18 +1,18 @@
-<div class="flex flex-column gap-3">
+<div class="flex flex-col gap-4">
 
   <!-- TOTAL -->
-  <div class="flex align-items-center gap-2">
+  <div class="flex items-center gap-2">
     <span>Total</span>
     <p-button type="button" [text]="true" label="{{ total().toFixed(2) }}€"
               [severity]="(threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) ? 'danger' : 'success'"/>
   </div>
 
   <!-- OFFERS -->
-  <div class="flex flex-column gap-3">
+  <div class="flex flex-col gap-4">
     @if (threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) {
 
       <!-- TOTAL WITH OFFERS -->
-      <div class="flex align-items-center gap-2">
+      <div class="flex items-center gap-2">
         <span>{{ "component.cart.total.offers" | translate }}</span>
         <p-button type="button" size="large" [text]="true" label="{{ totalAfterOffers().toFixed(2) }}€"
                   severity="success"/>
@@ -22,7 +22,7 @@
       <div class="flex gap-2">
         <span>{{ "component.cart.total.offers.applied" | translate }}</span>
 
-        <div class="flex gap-3">
+        <div class="flex gap-4">
           @if (secondForHalfPriceOffer() != 0) {
             <p-button type="button" [text]="true">
               2<sup>{{ "component.cart.total.offers.second.part.one" | translate }}</sup> <span

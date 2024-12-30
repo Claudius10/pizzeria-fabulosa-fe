@@ -1,8 +1,8 @@
 <p-card>
-  <div class="flex flex-column gap-3">
+  <div class="flex flex-col gap-4">
     <span class="text-2xl text-primary">{{ "view.orderdetails.header" | translate }}</span>
 
-    <div class="flex flex-column gap-3">
+    <div class="flex flex-col gap-4">
       <span>{{ "view.payment.method" | translate }}:
               <span
                 class="text-primary uppercase">{{ orderDetails().paymentMethod | translate }}</span></span>
@@ -14,9 +14,9 @@
     </div>
 
     @if (orderDetails().comment !== null) {
-      <div class="flex flex-column gap-3 text">
+      <div class="flex flex-col gap-4 text">
         <span>{{ "view.comment" | translate }}: </span>
-        <span class="font-italic text-primary">{{ orderDetails().comment }} </span>
+        <span class="italic text-primary">{{ orderDetails().comment }} </span>
       </div>
     }
   </div>

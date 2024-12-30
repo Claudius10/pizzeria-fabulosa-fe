@@ -1,19 +1,19 @@
-<div class="flex flex-column align-items-center gap-8">
+<div class="flex flex-col items-center gap-20">
 
   <!-- WELCOME MESSAGE  -->
-  <div class="flex flex-column align-items-center">
+  <div class="flex flex-col items-center">
     <span
-      class="text-center font-bold font-italic text-primary font-size">{{ "component.home.welcome.part.one" | translate }}</span>
-    <span class="text-center font-bold font-italic text-primary font-size">Pizzeria Fabulosa</span>
+      class="text-center font-bold italic text-primary font-size">{{ "component.home.welcome.part.one" | translate }}</span>
+    <span class="text-center font-bold italic text-primary font-size">Pizzeria Fabulosa</span>
   </div>
 
   <!-- OFFERS  -->
-  <div class="flex flex-column align-items-center gap-5">
+  <div class="flex flex-col items-center gap-8">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.offers" | translate }}</span>
     @if (offers.status() === "error") {
       <app-server-error/>
     } @else if (offers.status() === "success" && offers.data()!.payload !== null) {
-      <div class="flex flex-wrap justify-content-center gap-5">
+      <div class="flex flex-wrap justify-center gap-8">
         @for (offer of offers.data()!.payload; track offer.id) {
           <app-offer-item [offer]="offer"/>
         }
@@ -22,12 +22,12 @@
   </div>
 
   <!-- STORES -->
-  <div class="flex flex-column align-items-center gap-5">
+  <div class="flex flex-col items-center gap-8">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.stores" | translate }}</span>
     @if (stores.status() === "error") {
       <app-server-error/>
     } @else if (stores.status() === "success" && stores.data()!.payload !== null) {
-      <div class="flex flex-wrap justify-content-center gap-5">
+      <div class="flex flex-wrap justify-center gap-8">
         @for (store of stores.data()!.payload; track store.id) {
           <app-store-item [store]="store"/>
         }

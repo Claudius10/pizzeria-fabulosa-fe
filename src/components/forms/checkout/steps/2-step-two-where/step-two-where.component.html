@@ -1,5 +1,5 @@
 @if (!checkoutFormService.isStepFilled(1)) {
-  <div class="flex flex-column justify-content-between align-items-center gap-5 h-full w-full">
+  <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.two.warning" | translate }}</span>
     <p-button
       type="button"
@@ -8,11 +8,11 @@
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
-  <form class="flex flex-column justify-content-between gap-8 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+  <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
     <!-- ADDRESS SELECT -->
-    <div class="flex flex-column gap-3">
+    <div class="flex flex-col gap-4">
 
-      <div class="flex flex-column gap-3">
+      <div class="flex flex-col gap-4">
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
         <p-iconField iconPosition="right">
           <p-inputIcon styleClass="pi pi-angle-down"/>
@@ -36,9 +36,9 @@
             [valid]="validSelection"
           />
         } @else {
-          <div class="flex flex-column gap-3">
+          <div class="flex flex-col gap-4">
 
-            <div class="flex flex-column gap-2 h-4rem">
+            <div class="flex flex-col gap-2 h-16">
               <p-iconField iconPosition="left">
                 <p-inputIcon styleClass="pi pi-directions"/>
                 <input
@@ -56,7 +56,7 @@
               }
             </div>
 
-            <div class="flex flex-column gap-2 h-4rem">
+            <div class="flex flex-col gap-2 h-16">
               <p-iconField iconPosition="left">
                 <p-inputIcon styleClass="pi pi-home"/>
                 <input
@@ -74,7 +74,7 @@
               }
             </div>
 
-            <div class="flex flex-column gap-2 h-4rem">
+            <div class="flex flex-col gap-2 h-16">
               <p-iconField iconPosition="left">
                 <p-inputIcon styleClass="pi pi-info-circle"/>
                 <input
@@ -95,7 +95,7 @@
         }
       } @else {
         <!-- STORE SELECT -->
-        <div class="flex flex-column gap-3 mb-4">
+        <div class="flex flex-col gap-4 mb-6">
           @if (stores.status() === "pending") {
             <span class="text-primary">{{ "loading.stores" | translate }}</span>
           } @else if (stores.status() === "error") {

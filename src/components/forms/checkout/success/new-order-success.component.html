@@ -1,24 +1,24 @@
 @if (checkoutFormService.orderSuccess() === null) {
-  <div class="flex flex-column gap-5 justify-content-between align-items-center">
-    <span class="text-center text-4xl font-italic">{{ "component.order.success.no.content" | translate }}</span>
+  <div class="flex flex-col gap-8 justify-between items-center">
+    <span class="text-center text-4xl italic">{{ "component.order.success.no.content" | translate }}</span>
     <p-button
       type="button"
       (onClick)="goBack()"
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
-  <div class="container flex flex-column align-items-center gap-5">
+  <div class="container flex flex-col items-center gap-8">
 
-    <div class="flex flex-column gap-3">
+    <div class="flex flex-col gap-4">
       <span
         class="text-4xl text-center">{{ "view.order" | translate }} {{ checkoutFormService.orderSuccess()!.id }} {{ "view.order.created" | translate }}</span>
       <span
         class="text-2xl text-center">{{ "view.order.created.on" | translate }} {{ checkoutFormService.orderSuccess()!.formattedCreatedOn }}</span>
     </div>
 
-    <div class="flex gap-3">
+    <div class="flex gap-4">
 
-      <div class="flex flex-column gap-3">
+      <div class="flex flex-col gap-4">
         <app-customer-details [customer]="checkoutFormService.orderSuccess()!.customer"/>
         <app-address-details
           [address]="checkoutFormService.orderSuccess()!.address"
@@ -40,7 +40,7 @@
       <span class="text-center invalid-text">{{ "component.order.error.loading.cart" | translate }}</span>
     }
 
-    <div class="flex flex-column align-items-center gap-3">
+    <div class="flex flex-col items-center gap-4">
       @if (!isAuthenticated()) {
         <span class="text-center">{{ "component.order.success.anon.advice" | translate }}</span>
         <span class="text-center text-primary"

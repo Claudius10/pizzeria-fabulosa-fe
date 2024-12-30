@@ -1,26 +1,27 @@
 <div class="fixed top-0 left-0 w-screen style">
-  <div class="flex align-items-center justify-content-between">
+  <div class="flex items-center justify-between">
     <!-- ICON -->
     <img routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
       <img routerLink="/" class="logo-ls" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
-      <div class="flex gap-6">
-        <p class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
-        <p class="cursor-pointer" routerLinkActive="color"
+      <div class="flex gap-12">
+        <p routerLinkActive="color" routerLink="pizzas">Pizzas</p>
+        <p class="text-primary-300" routerLink="pizzas">Pizzas</p>
+        <p routerLinkActive="color"
            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
       </div>
     </div>
 
     <!-- RIGHT SIDE ICON LIST -->
-    <ul class="flex list-none m-0 p-0 gap-2 align-items-center">
+    <ul class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
       <li (click)="toggleCartSidePanel()" pBadge value="{{cartQuantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
-                'flex border-1 border-solid w-2rem h-2rem surface-border border-round surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary' :
-                'flex border-1 border-solid w-2rem h-2rem surface-border border-round surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary bump'"
+                'flex border border-solid w-8 h-8 border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary' :
+                'flex border border-solid w-8 h-8 border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary bump'"
                 [ngStyle]="cartQuantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart"></i>
         </button>
@@ -92,7 +93,7 @@
   }
 </div>
 <p-sidebar [(visible)]="sidebarMobileMenuVisible">
-  <div class="flex flex-column align-items-center gap-4">
+  <div class="flex flex-col items-center gap-6">
     <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
        [routerLinkActiveOptions]="{exact: true}">
       {{ 'component.navigation.quick.link.home' | translate }}</p>
@@ -102,7 +103,7 @@
        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
   </div>
 </p-sidebar>
-<p-sidebar [(visible)]="sidebarCartVisible" position="right" styleClass="w-24rem">
+<p-sidebar [(visible)]="sidebarCartVisible" position="right" styleClass="w-96">
   <ng-template pTemplate="header">
     <span class="font-bold font text-2xl ml-1">Cart</span>
   </ng-template>

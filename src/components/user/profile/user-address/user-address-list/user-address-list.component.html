@@ -1,7 +1,7 @@
-<div class="flex flex-column gap-4">
+<div class="flex flex-col gap-6">
   @if (addressList.status() === "success") {
     @if (addressList.data()!.payload === null) {
-      <div class="flex flex-column gap-4">
+      <div class="flex flex-col gap-6">
         <span>{{ "component.user.profile.view.address.list.empty" | translate }}</span>
       </div>
     } @else {
@@ -13,7 +13,7 @@
     <app-server-error/>
   }
 
-  <div class="flex align-items-center justify-content-end">
+  <div class="flex items-center justify-end">
     <p-button type="button" size="small" icon="pi pi-plus" iconPos="right" [raised]="true"
               (click)="toggleAddressForm()"/>
   </div>

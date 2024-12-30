@@ -1,11 +1,11 @@
 <li>
   <button #locale (click)="toggle()"
-          class="p-element p-link flex align-items-center surface-card h-2rem px-2 hover:surface-hover border-1 border-solid surface-border transition-all transition-duration-300 hover:border-primary">
+          class="p-element p-link flex items-center bg-surface-0 dark:bg-surface-900 h-8 px-2 hover:bg-emphasis border border-solid border-surface transition-all duration-300 hover:border-primary">
     <i class="pi pi-language"></i>
   </button>
   <div
-    [ngClass]="{'container surface-overlay border-round shadow-1 origin-top mt-2 z-5':visible, 'hidden':!visible}">
-    <div class="flex flex-column gap-2 m-0 p-0">
+    [ngClass]="{'container bg-surface-0 dark:bg-surface-900 rounded-border shadow-sm origin-top mt-2 z-5':visible, 'hidden':!visible}">
+    <div class="flex flex-col gap-2 m-0 p-0">
       <p-button
         (click)="changeLanguage('es')"
         label="Castellano"
