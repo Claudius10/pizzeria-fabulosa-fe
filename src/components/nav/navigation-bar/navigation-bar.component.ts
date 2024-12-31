@@ -12,6 +12,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {BadgeModule} from 'primeng/badge';
+import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -28,7 +29,8 @@ import {BadgeModule} from 'primeng/badge';
     LocaleSelectorComponent,
     ProgressBarModule,
     SidebarModule,
-    CartComponent
+    CartComponent,
+    ThemeSelectorComponent
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],

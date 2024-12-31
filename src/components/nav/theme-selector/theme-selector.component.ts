@@ -1,66 +1,72 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {ThemeService} from '../../../services/themes/theme.service';
-import {THEMES_DARK, THEMES_LIGHT} from '../../../utils/constants';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
+import {updatePreset} from '@primeng/themes';
 
 @Component({
-    selector: 'app-theme-selector',
-    imports: [],
-    templateUrl: './theme-selector.component.html',
-    styleUrls: ['./theme-selector.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-theme-selector',
+  imports: [],
+  templateUrl: './theme-selector.component.html',
+  styleUrls: ['./theme-selector.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
-  private darkThemes: string[] = THEMES_DARK;
-  private lightThemes: string[] = THEMES_LIGHT;
-  private themeService = inject(ThemeService);
   private localStorageService = inject(LocalstorageService);
   private currentTheme = this.localStorageService.getTheme();
   isDark = signal(this.localStorageService.getTheme().includes("dark"));
 
   toggleDarkMode() {
-    let nextTheme;
-
-    if (this.currentTheme.includes("dark")) {
-      nextTheme = this.currentTheme.replace("dark", "light");
-      this.isDark.set(false);
-    } else {
-      nextTheme = this.currentTheme.replace("light", "dark");
-      this.isDark.set(true);
-    }
-
-    this.themeService.switchTheme(nextTheme);
-    this.currentTheme = nextTheme;
+    const element = document.querySelector('html');
+    element!.classList.toggle('my-app-dark');
   }
 
-  switchTheme() {
-    const storageIndex = this.getStoreIndex();
-
-    let index;
-    if (storageIndex >= this.darkThemes.length - 1) {
-      index = 0;
-    } else {
-      index = storageIndex + 1;
+  changePrimaryColor(color: string) {
+    switch (color) {
+      case 'indigo':
+        updatePreset({
+          semantic: {
+            primary: indigo()
+          }
+        });
+        break;
+      case 'pink':
+        updatePreset({
+          semantic: {
+            primary: pink()
+          }
+        });
+        break;
     }
-
-    if (this.currentTheme.includes("dark")) {
-      const nextTheme = this.darkThemes[index];
-      this.themeService.switchTheme(nextTheme);
-      this.currentTheme = nextTheme;
-    } else {
-      const nextTheme = this.lightThemes[index];
-      this.themeService.switchTheme(nextTheme);
-      this.currentTheme = nextTheme;
-    }
-  }
-
-  getStoreIndex() {
-    let storageIndex;
-    if (THEMES_LIGHT.findIndex(theme => theme === this.localStorageService.getTheme()) === -1) {
-      storageIndex = THEMES_DARK.findIndex(theme => theme === this.localStorageService.getTheme());
-    } else {
-      storageIndex = THEMES_LIGHT.findIndex(theme => theme === this.localStorageService.getTheme());
-    }
-    return storageIndex;
   }
 }
+
+const pink = () => {
+  return {
+    50: '{pink.50}',
+    100: '{pink.100}',
+    200: '{pink.200}',
+    300: '{pink.300}',
+    400: '{pink.400}',
+    500: '{pink.500}',
+    600: '{pink.600}',
+    700: '{pink.700}',
+    800: '{pink.800}',
+    900: '{pink.900}',
+    950: '{pink.950}'
+  };
+};
+
+const indigo = () => {
+  return {
+    50: '{indigo.50}',
+    100: '{indigo.100}',
+    200: '{indigo.200}',
+    300: '{indigo.300}',
+    400: '{indigo.400}',
+    500: '{indigo.500}',
+    600: '{indigo.600}',
+    700: '{indigo.700}',
+    800: '{indigo.800}',
+    900: '{indigo.900}',
+    950: '{indigo.950}'
+  };
+};

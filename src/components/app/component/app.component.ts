@@ -9,24 +9,22 @@ import {LocalstorageService} from '../../../services/localstorage/localstorage.s
 import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
-import {ThemeService} from '../../../services/themes/theme.service';
 import {MessageService} from 'primeng/api';
 
 @Component({
-    selector: 'app-root',
-    imports: [
-        NavigationBarComponent,
-        RouterOutlet,
-        FooterComponent,
-        ToastModule
-    ],
-    providers: [ErrorService],
-    templateUrl: './app.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-root',
+  imports: [
+    NavigationBarComponent,
+    RouterOutlet,
+    FooterComponent,
+    ToastModule
+  ],
+  providers: [ErrorService],
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, AfterViewInit {
   private translateService = inject(TranslateService);
-  private themeService = inject(ThemeService);
   private localStorageService = inject(LocalstorageService);
   private cartService = inject(CartService);
   private messageService = inject(MessageService);
@@ -47,11 +45,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setUpTheme() {
-    const theme = this.localStorageService.getStorageTheme();
-    if (theme === null) {
-      return;
-    }
-    this.themeService.switchTheme(theme);
+
   }
 
   setUpCart() {

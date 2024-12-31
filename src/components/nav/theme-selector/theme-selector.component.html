@@ -18,7 +18,14 @@
         </button>
       </li>
     }
-    <li (click)="switchTheme()">
+    <li (click)="changePrimaryColor('pink')">
+      <button
+        type="button"
+        class="button p-button flex border p-0 items-center justify-center transition-all duration-300 min-w-0">
+        <i class="pi pi-palette"></i>
+      </button>
+    </li>
+    <li (click)="changePrimaryColor('indigo')">
       <button
         type="button"
         class="button p-button flex border p-0 items-center justify-center transition-all duration-300 min-w-0">
