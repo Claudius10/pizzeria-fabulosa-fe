@@ -38,12 +38,24 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.messageService.add({
-      severity: 'info',
-      summary: this.translateService.instant("toast.severity.info"),
-      detail: this.translateService.instant("toast.dev.note"),
-      life: 5000,
-    });
+    const appLastStart = this.localStorageService.getAppLastStart();
+
+    if (appLastStart !== null) {
+      // add 10 minutes to appLastStart
+      const lastStart = new Date(new Date(appLastStart).getTime() + 600000);
+      const now = new Date();
+
+      if (now > lastStart) {
+        this.messageService.add({
+          severity: 'info',
+          summary: this.translateService.instant("toast.severity.info"),
+          detail: this.translateService.instant("toast.dev.note"),
+          life: 5000,
+        });
+      }
+    }
+
+    this.localStorageService.setAppStartTime();
   }
 
   setUpTheme() {

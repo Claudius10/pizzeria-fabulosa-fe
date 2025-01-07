@@ -11,6 +11,15 @@ export class LocalstorageService {
   private THEME = "Pizzeria.Fabulosa.THEME";
   private DARK_MODE = "Pizzeria.Fabulosa.DARK_MODE";
   private LOCALE = "Pizzeria.Fabulosa.LOCALE";
+  private LAST_APP_START = "Pizzeria.Fabulosa.LAST_APP_START";
+
+  getAppLastStart() {
+    return localStorage.getItem(this.LAST_APP_START);
+  }
+
+  setAppStartTime() {
+    localStorage.setItem(this.LAST_APP_START, new Date().toString());
+  }
 
   setTheme(theme: string) {
     localStorage.setItem(this.THEME, theme);
