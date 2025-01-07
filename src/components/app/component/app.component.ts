@@ -10,6 +10,7 @@ import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
+import {ThemeService} from '../../../services/theme/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import {MessageService} from 'primeng/api';
 export class AppComponent implements OnInit, AfterViewInit {
   private translateService = inject(TranslateService);
   private localStorageService = inject(LocalstorageService);
+  private themeService = inject(ThemeService);
   private cartService = inject(CartService);
   private messageService = inject(MessageService);
 
@@ -45,7 +47,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setUpTheme() {
-
+    this.themeService.toggleDarkMode(this.localStorageService.getDarkMode());
+    const theme = this.localStorageService.getTheme();
+    if (theme !== null) {
+      this.themeService.changePrimaryColor(theme);
+    }
   }
 
   setUpCart() {

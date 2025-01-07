@@ -9,19 +9,29 @@ export class LocalstorageService {
 
   private CART = "Pizzeria.Fabulosa.CART";
   private THEME = "Pizzeria.Fabulosa.THEME";
+  private DARK_MODE = "Pizzeria.Fabulosa.DARK_MODE";
   private LOCALE = "Pizzeria.Fabulosa.LOCALE";
 
   setTheme(theme: string) {
     localStorage.setItem(this.THEME, theme);
   }
 
-  getStorageTheme() {
+  getTheme() {
     return localStorage.getItem(this.THEME);
   }
 
-  getTheme() {
-    const theme = localStorage.getItem(this.THEME);
-    return theme === null ? "aura-dark-blue" : theme;
+  setDarkMode(darkMode: boolean) {
+    localStorage.setItem(this.DARK_MODE, darkMode.toString());
+  }
+
+  getDarkMode() {
+    const darkMode = localStorage.getItem(this.DARK_MODE);
+
+    if (darkMode !== null) {
+      return darkMode === 'true';
+    }
+
+    return false;
   }
 
   setLocale(locale: string) {
