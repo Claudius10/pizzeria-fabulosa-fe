@@ -8,7 +8,6 @@
       <img routerLink="/" class="logo-ls" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
       <div class="flex gap-12">
         <p routerLinkActive="color" routerLink="pizzas">Pizzas</p>
-        <p class="text-primary-300" routerLink="pizzas">Pizzas</p>
         <p routerLinkActive="color"
            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
       </div>
@@ -20,8 +19,8 @@
       <li (click)="toggleCartSidePanel()" pBadge value="{{cartQuantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
-                'flex border border-solid w-8 h-8 border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary' :
-                'flex border border-solid w-8 h-8 border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary bump'"
+                'flex w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary' :
+                'flex w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary bump'"
                 [ngStyle]="cartQuantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart"></i>
         </button>
@@ -30,8 +29,7 @@
       <!-- SMALL SCREEN MENU ICON -->
       <li (click)="toggleMobileSidePanelMenu()" class="quick-links-sm">
         <button type="button"
-                class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-bars"></i>
         </button>
       </li>
@@ -40,8 +38,7 @@
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
           <button type="button"
-                  class="cursor-pointer flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 transition-all transition-duration-300 hover:border-primary">
             <i class="pi pi-sign-in"></i>
           </button>
           @if (loginDialog()) {
@@ -76,9 +73,9 @@
 
       <!-- GITHUB BUTTON -->
       <li>
-        <a class="github flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary"
-           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
+        <a
+          class="item"
+          href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
           <i class="pi pi-github"></i>
         </a>
       </li>
@@ -88,7 +85,7 @@
     <p-progressBar mode="indeterminate"
                    [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
   } @else {
-    <p-progressBar [value]="100"
+    <p-progressBar [value]="100" [showValue]="false"
                    [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
   }
 </div>

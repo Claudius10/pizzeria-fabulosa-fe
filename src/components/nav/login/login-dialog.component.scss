@@ -1,0 +1,15 @@
+.style {
+  border-radius: 12px;
+  background-image: radial-gradient(circle at left top, var(--p-primary-400), var(--p-primary-700));
+}
+
+:host ::ng-deep .p-input-icon {
+  color: var(--p-primary-50);
+}
+
+@media (max-width: 576px) {
+  .buttons {
+    display: flex;
+    flex-direction: column;
+  }
+}

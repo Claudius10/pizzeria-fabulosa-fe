@@ -21,19 +21,19 @@ import {CookieService} from 'ngx-cookie-service';
 import {isFormValid} from '../../../utils/functions';
 
 @Component({
-    selector: 'app-login-dialog',
-    imports: [
-        DialogModule,
-        ReactiveFormsModule,
-        TranslatePipe,
-        IconFieldModule,
-        InputIconModule,
-        Button,
-        UpperCasePipe
-    ],
-    templateUrl: './login-dialog.component.html',
-    styleUrls: ['./login-dialog.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-login-dialog',
+  imports: [
+    DialogModule,
+    ReactiveFormsModule,
+    TranslatePipe,
+    IconFieldModule,
+    InputIconModule,
+    Button,
+    UpperCasePipe
+  ],
+  templateUrl: './login-dialog.component.html',
+  styleUrls: ['./login-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);

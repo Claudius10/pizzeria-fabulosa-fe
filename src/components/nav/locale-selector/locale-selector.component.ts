@@ -1,21 +1,19 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
-import primeNgEs from "../../../../public/i18n/primeng-es.json";
-import primeNgEn from "../../../../public/i18n/primeng-en.json";
 import {NgClass} from '@angular/common';
 import {Button} from 'primeng/button';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 
 @Component({
-    selector: 'app-locale-selector',
-    imports: [
-        NgClass,
-        Button
-    ],
-    templateUrl: './locale-selector.component.html',
-    styleUrls: ['./locale-selector.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-locale-selector',
+  imports: [
+    NgClass,
+    Button
+  ],
+  templateUrl: './locale-selector.component.html',
+  styleUrls: ['./locale-selector.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
   private localStorageService = inject(LocalstorageService);

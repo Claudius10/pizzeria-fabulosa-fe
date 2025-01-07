@@ -3,7 +3,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
-import {LoginDialogComponent} from '../../forms/login/login-dialog.component';
+import {LoginDialogComponent} from '../login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {LocaleSelectorComponent} from '../locale-selector/locale-selector.component';
 import {SidebarModule} from 'primeng/sidebar';

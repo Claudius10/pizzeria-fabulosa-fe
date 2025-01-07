@@ -4,28 +4,19 @@
       <li>
         <button (click)="toggleDarkMode(false)"
                 type="button"
-                class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-50 dark:bg-surface-900 transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-sun"></i>
         </button>
       </li>
     } @else {
       <li>
         <button (click)="toggleDarkMode(true)"
-                class="cursor-pointer flex px-link border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-50 dark:bg-surface-900 transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-moon"></i>
         </button>
       </li>
     }
     <li (click)="changePrimaryColor('pink')">
-      <button
-        type="button"
-        class="button p-button flex border p-0 items-center justify-center transition-all duration-300 min-w-0">
-        <i class="pi pi-palette"></i>
-      </button>
-    </li>
-    <li (click)="changePrimaryColor('indigo')">
       <button
         type="button"
         class="button p-button flex border p-0 items-center justify-center transition-all duration-300 min-w-0">
