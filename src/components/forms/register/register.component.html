@@ -88,7 +88,6 @@
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="formIconColor()">
-            <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input class="w-full"
                    id="password"
                    type="{{showPassword() ? 'text' : 'password'}}"
@@ -97,6 +96,7 @@
                    pInputText
                    [dt]="input()"
             >
+            <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
           @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
             <small id="password-help" class="invalid-text">
@@ -107,8 +107,6 @@
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="formIconColor()">
-            <p-inputicon (click)="toggleMatchingPassword()"
-                         styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input class="w-full"
                    id="matchingPassword"
                    type="{{showMatchingPassword() ? 'text' : 'password'}}"
@@ -117,6 +115,8 @@
                    pInputText
                    [dt]="input()"
             >
+            <p-inputicon (click)="toggleMatchingPassword()"
+                         styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
           @if (!this.form.controls.matchingPassword.untouched && !this.form.controls.matchingPassword.valid) {
             <small id="matchingPassword-help" class="invalid-text">
