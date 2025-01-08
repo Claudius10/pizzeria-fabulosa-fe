@@ -12,7 +12,7 @@ import {LocalstorageService} from '../../../services/localstorage/localstorage.s
     Button
   ],
   templateUrl: './locale-selector.component.html',
-  styleUrls: ['./locale-selector.component.css'],
+  styleUrls: ['./locale-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {

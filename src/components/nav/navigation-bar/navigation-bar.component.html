@@ -19,8 +19,8 @@
       <li (click)="toggleCartSidePanel()" pBadge value="{{cartQuantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
-                'flex w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary' :
-                'flex w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 items-center justify-center transition-all duration-300 hover:border-primary bump'"
+                'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center transition-all duration-300 hover:border-primary' :
+                'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center transition-all duration-300 hover:border-primary bump'"
                 [ngStyle]="cartQuantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart"></i>
         </button>
@@ -29,7 +29,7 @@
       <!-- SMALL SCREEN MENU ICON -->
       <li (click)="toggleMobileSidePanelMenu()" class="quick-links-sm">
         <button type="button"
-                class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
           <i class="pi pi-bars"></i>
         </button>
       </li>
@@ -38,7 +38,7 @@
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
           <button type="button"
-                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border bg-surface-0 dark:bg-surface-900 transition-all transition-duration-300 hover:border-primary">
+                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background transition-all transition-duration-300 hover:border-primary">
             <i class="pi pi-sign-in"></i>
           </button>
           @if (loginDialog()) {
@@ -49,16 +49,14 @@
         <!-- USER BUTTON -->
         <li>
           <button [routerLink]="['user', 'profile']" type="button"
-                  class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background transition-all transition-duration-300 hover:border-primary">
             <i class="pi pi-user"></i>
           </button>
         </li>
         <!-- SIGN OUT BUTTON -->
         <li (click)="showLogoutDialog()">
           <button type="button"
-                  class="flex border-1 border-solid w-2rem h-2rem surface-border border-round
-        surface-card align-items-center justify-content-center transition-all transition-duration-300 hover:border-primary">
+                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background transition-all transition-duration-300 hover:border-primary">
             <i class="pi pi-sign-out"></i>
           </button>
           @if (logoutDialog()) {
@@ -68,13 +66,13 @@
       }
 
       <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
-      <app-theme-selector/>
       <app-locale-selector/>
+      <app-theme-selector/>
 
       <!-- GITHUB BUTTON -->
       <li>
         <a
-          class="item"
+          class=" cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background transition-all transition-duration-300 hover:border-primary"
           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
           <i class="pi pi-github"></i>
         </a>

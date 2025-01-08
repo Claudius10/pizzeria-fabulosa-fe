@@ -10,3 +10,8 @@
 :host ::ng-deep .p-button {
   width: 100%;
 }
+
+.item-background {
+  background-color: var(--p-surface-nav-item);
+  border-color: var(--p-surface-700);
+}

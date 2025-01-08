@@ -1,24 +1,12 @@
 .style {
   z-index: 1100;
-  background-color: var(--p-surface-ground);
+  background-color: var(--p-surface-900);
   padding: 0.5rem 10.5rem 0.5rem 10.5rem;
 }
 
-.item {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border: 1px solid var(--p-surface-950);
-  width: 2rem;
-  height: 2rem;
-  transition: outline-color .2s, border-color .2s;
-  border-radius: 6px;
-  margin: 0;
-  padding: 0;
-  outline-color: transparent;
-  background-color: var(--p-content-background);
-  cursor: pointer;
+.item-background {
+  background-color: var(--p-surface-nav-item);
+  border-color: var(--p-surface-700);
 }
 
 a, a:visited {

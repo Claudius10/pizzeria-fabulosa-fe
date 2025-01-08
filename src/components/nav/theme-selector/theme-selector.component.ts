@@ -6,7 +6,7 @@ import {ThemeService} from '../../../services/theme/theme.service';
   selector: 'app-theme-selector',
   imports: [],
   templateUrl: './theme-selector.component.html',
-  styleUrls: ['./theme-selector.component.css'],
+  styleUrls: ['./theme-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
