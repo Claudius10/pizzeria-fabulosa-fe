@@ -7,7 +7,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './footer.component.html',
-    styleUrl: './footer.component.css',
+    styleUrl: './footer.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterComponent {

@@ -43,7 +43,7 @@ import {CardModule} from 'primeng/card';
         Button
     ],
     templateUrl: './register.component.html',
-    styleUrl: './register.component.css',
+    styleUrl: './register.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {

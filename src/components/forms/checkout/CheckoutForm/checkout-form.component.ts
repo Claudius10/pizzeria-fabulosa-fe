@@ -21,7 +21,7 @@ import {RouterOutlet} from '@angular/router';
     RouterOutlet
   ],
   templateUrl: './checkout-form.component.html',
-  styleUrl: './checkout-form.component.css',
+  styleUrl: './checkout-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutFormComponent implements OnInit {

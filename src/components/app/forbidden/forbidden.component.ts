@@ -10,7 +10,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './forbidden.component.html',
-    styleUrl: './forbidden.component.css',
+    styleUrl: './forbidden.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForbiddenComponent {

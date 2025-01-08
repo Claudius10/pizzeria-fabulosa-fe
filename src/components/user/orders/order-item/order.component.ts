@@ -44,7 +44,7 @@ import {Button} from 'primeng/button';
         ServerErrorComponent
     ],
     templateUrl: './order.component.html',
-    styleUrl: './order.component.css',
+    styleUrl: './order.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {

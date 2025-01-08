@@ -7,7 +7,7 @@ import {UserDeleteFormComponent} from '../../forms/user/account-delete/user-dele
         UserDeleteFormComponent
     ],
     templateUrl: './settings.component.html',
-    styleUrl: './settings.component.css',
+    styleUrl: './settings.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SettingsComponent {

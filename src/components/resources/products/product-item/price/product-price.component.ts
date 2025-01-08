@@ -7,7 +7,7 @@ import {Button} from 'primeng/button';
         Button
     ],
     templateUrl: './product-price.component.html',
-    styleUrl: './product-price.component.css',
+    styleUrl: './product-price.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductPriceComponent {

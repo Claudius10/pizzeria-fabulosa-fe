@@ -35,7 +35,7 @@ import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
         RouterLink
     ],
     templateUrl: './new-order-success.component.html',
-    styleUrl: './new-order-success.component.css',
+    styleUrl: './new-order-success.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewOrderSuccessComponent implements OnInit, OnDestroy {

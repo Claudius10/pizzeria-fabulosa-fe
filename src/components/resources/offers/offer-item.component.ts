@@ -12,7 +12,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './offer-item.component.html',
-    styleUrl: './offer-item.component.css',
+    styleUrl: './offer-item.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {

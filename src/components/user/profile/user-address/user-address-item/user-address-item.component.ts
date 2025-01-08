@@ -15,7 +15,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './user-address-item.component.html',
-    styleUrl: './user-address-item.component.css',
+    styleUrl: './user-address-item.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressItemComponent implements OnDestroy {

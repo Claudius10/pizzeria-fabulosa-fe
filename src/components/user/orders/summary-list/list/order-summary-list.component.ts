@@ -21,7 +21,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './order-summary-list.component.html',
-    styleUrl: './order-summary-list.component.css',
+    styleUrl: './order-summary-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {

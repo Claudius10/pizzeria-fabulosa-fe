@@ -10,7 +10,7 @@ import {TranslatePipe} from "@ngx-translate/core";
         TranslatePipe
     ],
     templateUrl: './not-found.component.html',
-    styleUrl: './not-found.component.css',
+    styleUrl: './not-found.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NotFoundComponent {

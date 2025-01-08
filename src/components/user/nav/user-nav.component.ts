@@ -13,7 +13,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router';
     RouterLink
   ],
     templateUrl: './user-nav.component.html',
-    styleUrl: './user-nav.component.css',
+    styleUrl: './user-nav.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserNavComponent {

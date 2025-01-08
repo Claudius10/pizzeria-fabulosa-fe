@@ -17,7 +17,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
         StoreCheckoutComponent
     ],
     templateUrl: './address-details.component.html',
-    styleUrl: './address-details.component.css',
+    styleUrl: './address-details.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressDetailsComponent implements OnInit {

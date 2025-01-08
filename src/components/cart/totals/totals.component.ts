@@ -9,7 +9,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './totals.component.html',
-    styleUrl: './totals.component.css',
+    styleUrl: './totals.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TotalsComponent {

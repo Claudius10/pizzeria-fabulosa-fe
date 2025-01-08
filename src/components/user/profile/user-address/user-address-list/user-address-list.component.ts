@@ -24,7 +24,7 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
         TranslatePipe
     ],
     templateUrl: './user-address-list.component.html',
-    styleUrl: './user-address-list.component.css',
+    styleUrl: './user-address-list.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListComponent implements OnInit {

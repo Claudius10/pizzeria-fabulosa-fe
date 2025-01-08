@@ -9,7 +9,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './server-error.component.html',
-    styleUrl: './server-error.component.css',
+    styleUrl: './server-error.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServerErrorComponent {

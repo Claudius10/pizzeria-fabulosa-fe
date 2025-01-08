@@ -1,17 +1,13 @@
-:host ::ng-deep .p-input-icon {
-  color: var(--primary-color);
-}
-
 :host ::ng-deep .p-button {
   width: 10rem;
 }
 
 input.ng-invalid.ng-touched {
-  border: 1px solid #f87171;
+  border: 1px solid var(--p-red-800);
 }
 
 .invalid-text {
-  color: #f87171;
+  color: var(--p-red-800);
 }
 
 .form {

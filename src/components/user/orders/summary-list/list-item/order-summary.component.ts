@@ -14,7 +14,7 @@ import {CardModule} from 'primeng/card';
         CardModule
     ],
     templateUrl: './order-summary.component.html',
-    styleUrl: './order-summary.component.css',
+    styleUrl: './order-summary.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryComponent {

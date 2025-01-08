@@ -14,7 +14,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         UserAddressListComponent
     ],
     templateUrl: './profile.component.html',
-    styleUrl: './profile.component.css',
+    styleUrl: './profile.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {

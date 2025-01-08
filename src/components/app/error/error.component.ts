@@ -14,7 +14,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './error.component.html',
-    styleUrl: './error.component.css',
+    styleUrl: './error.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorComponent implements OnDestroy {

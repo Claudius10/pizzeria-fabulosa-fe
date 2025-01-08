@@ -10,7 +10,7 @@ import {CardModule} from 'primeng/card';
         CardModule
     ],
     templateUrl: './error-item.component.html',
-    styleUrl: './error-item.component.css',
+    styleUrl: './error-item.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorItemComponent {

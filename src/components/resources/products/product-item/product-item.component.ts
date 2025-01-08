@@ -16,7 +16,7 @@ import {ProductPriceComponent} from './price/product-price.component';
         ProductPriceComponent
     ],
     templateUrl: './product-item.component.html',
-    styleUrls: ['./product-item.component.css'],
+    styleUrls: ['./product-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {

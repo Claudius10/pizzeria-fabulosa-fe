@@ -10,7 +10,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './order-details.component.html',
-    styleUrl: './order-details.component.css',
+    styleUrl: './order-details.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDetailsComponent {

@@ -14,7 +14,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './store-item.component.html',
-    styleUrl: './store-item.component.css',
+    styleUrl: './store-item.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreItemComponent implements OnInit {
