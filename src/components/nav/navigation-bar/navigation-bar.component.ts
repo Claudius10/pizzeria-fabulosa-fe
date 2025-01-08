@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, effect, inject, signal, Signal, untracked} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from '../login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
@@ -13,12 +13,12 @@ import {LoadingAnimationService} from '../../../services/navigation/loading-anim
 import {CartService} from '../../../services/cart/cart.service';
 import {BadgeModule} from 'primeng/badge';
 import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
+import {Drawer} from 'primeng/drawer';
 
 @Component({
   selector: 'app-navigation-bar',
   imports: [
     RouterLink,
-    NgOptimizedImage,
     RouterLinkActive,
     TranslatePipe,
     BadgeModule,
@@ -30,7 +30,8 @@ import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component
     ProgressBarModule,
     SidebarModule,
     CartComponent,
-    ThemeSelectorComponent
+    ThemeSelectorComponent,
+    Drawer
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
