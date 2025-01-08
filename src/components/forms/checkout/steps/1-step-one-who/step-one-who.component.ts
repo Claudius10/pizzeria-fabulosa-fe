@@ -13,7 +13,7 @@ import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {inputInverse} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -92,5 +92,5 @@ export class StepOneWhoComponent implements OnInit {
 
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly inputInverse = inputInverse;
 }

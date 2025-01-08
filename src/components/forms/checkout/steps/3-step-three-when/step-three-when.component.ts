@@ -12,24 +12,24 @@ import {NgForOf, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {inputInverse} from '../../../../../primeng/input';
 
 @Component({
-    selector: 'app-checkout-step-three-when',
-    imports: [
-        TranslatePipe,
-        Button,
-        UpperCasePipe,
-        ReactiveFormsModule,
-        IconFieldModule,
-        InputIconModule,
-        FormsModule,
-        NgForOf,
-        InputTextModule
-    ],
-    templateUrl: './step-three-when.component.html',
-    styleUrl: './step-three-when.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-checkout-step-three-when',
+  imports: [
+    TranslatePipe,
+    Button,
+    UpperCasePipe,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    FormsModule,
+    NgForOf,
+    InputTextModule
+  ],
+  templateUrl: './step-three-when.component.html',
+  styleUrl: './step-three-when.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
@@ -117,5 +117,5 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly inputInverse = inputInverse;
 }

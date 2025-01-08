@@ -26,6 +26,8 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {UpperCasePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
+import {input} from '../../../primeng/input';
+import {formIconColor} from '../../../primeng/icon';
 
 @Component({
     selector: 'app-register',
@@ -143,6 +145,9 @@ export class RegisterComponent implements OnDestroy {
       });
     }
   }
+
+  protected readonly input = input;
+  protected readonly formIconColor = formIconColor;
 }
 
 const validateEmailMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

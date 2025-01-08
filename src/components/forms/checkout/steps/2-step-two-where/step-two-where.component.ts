@@ -25,27 +25,27 @@ import {SUCCESS} from '../../../../../utils/constants';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {inputInverse} from '../../../../../primeng/input';
 
 @Component({
-    selector: 'app-checkout-step-two-where',
-    imports: [
-        Button,
-        TranslatePipe,
-        UpperCasePipe,
-        IconFieldModule,
-        ReactiveFormsModule,
-        FormsModule,
-        InputIconModule,
-        UserAddressListViewComponent,
-        ServerErrorComponent,
-        StoreCheckoutComponent,
-        InputTextModule,
-        NgForOf
-    ],
-    templateUrl: './step-two-where.component.html',
-    styleUrl: './step-two-where.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-checkout-step-two-where',
+  imports: [
+    Button,
+    TranslatePipe,
+    UpperCasePipe,
+    IconFieldModule,
+    ReactiveFormsModule,
+    FormsModule,
+    InputIconModule,
+    UserAddressListViewComponent,
+    ServerErrorComponent,
+    StoreCheckoutComponent,
+    InputTextModule,
+    NgForOf
+  ],
+  templateUrl: './step-two-where.component.html',
+  styleUrl: './step-two-where.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
   private router = inject(Router);
@@ -251,5 +251,5 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly inputInverse = inputInverse;
 }

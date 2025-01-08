@@ -22,7 +22,7 @@
             class="w-full"
             id="deliveryOption"
             pInputText
-            [dt]="input()"
+            [dt]="inputInverse()"
           >
             <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
@@ -51,7 +51,7 @@
                     placeholder="{{ 'form.label.delivery.address' | translate }}"
                     formControlName="street"
                     pInputText
-                    [dt]="input()"
+                    [dt]="inputInverse()"
                   >
                 </p-iconfield>
                 @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
@@ -71,7 +71,7 @@
                     placeholder="{{ 'form.label.delivery.number' | translate }}"
                     formControlName="number"
                     pInputText
-                    [dt]="input()"
+                    [dt]="inputInverse()"
                   >
                 </p-iconfield>
                 @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
@@ -91,7 +91,7 @@
                     placeholder="{{ 'form.label.delivery.details' | translate }}"
                     formControlName="details"
                     pInputText
-                    [dt]="input()"
+                    [dt]="inputInverse()"
                   >
                 </p-iconfield>
                 @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {

@@ -7,16 +7,18 @@
 
       <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-user"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-user"/>
             <input
               class="w-full"
-              pInputText
               id="name"
               type="text"
               placeholder="{{'form.label.name' | translate }}"
-              formControlName="name">
-          </p-iconField>
+              formControlName="name"
+              pInputText
+              [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.name.untouched && !this.form.controls.name.valid) {
             <small id="name-help" class="invalid-text">
               {{ "form.invalid.name" | translate }}
@@ -25,16 +27,18 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-envelope"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-envelope"/>
             <input
               class="w-full"
-              pInputText
               id="email"
               type="email"
               placeholder="{{'form.label.email' | translate }}"
-              formControlName="email">
-          </p-iconField>
+              formControlName="email"
+              pInputText
+              [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
             <small id="email-help" class="invalid-text">
               {{ "form.invalid.email" | translate }}
@@ -43,16 +47,18 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-envelope"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-envelope"/>
             <input
               class="w-full"
-              pInputText
               id="matchingEmail"
               type="email"
               placeholder="{{'form.label.email.matching' | translate }}"
-              formControlName="matchingEmail">
-          </p-iconField>
+              formControlName="matchingEmail"
+              pInputText
+              [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.matchingEmail.untouched && !this.form.controls.matchingEmail.valid) {
             <small id="matchingEmail-help" class="invalid-text">
               {{ "form.invalid.email.matching" | translate }}
@@ -61,16 +67,18 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-phone"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-phone"/>
             <input
               class="w-full"
-              pInputText
               id="contactNumber"
               type="tel"
               placeholder="{{'form.label.contact.number' | translate }}"
-              formControlName="contactNumber">
-          </p-iconField>
+              formControlName="contactNumber"
+              pInputText
+              [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.matchingEmail.untouched && !this.form.controls.matchingEmail.valid) {
             <small id="contactNumber-help" class="invalid-text">
               {{ "form.invalid.contact.number" | translate }}
@@ -79,15 +87,17 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="right">
-            <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input class="w-full"
-                   pInputText
                    id="password"
                    type="{{showPassword() ? 'text' : 'password'}}"
                    placeholder="{{'form.label.password' | translate }}"
-                   formControlName="password">
-          </p-iconField>
+                   formControlName="password"
+                   pInputText
+                   [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
             <small id="password-help" class="invalid-text">
               {{ "form.invalid.password" | translate }}
@@ -96,16 +106,18 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconField iconPosition="right">
-            <p-inputIcon (click)="toggleMatchingPassword()"
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon (click)="toggleMatchingPassword()"
                          styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
             <input class="w-full"
-                   pInputText
                    id="matchingPassword"
                    type="{{showMatchingPassword() ? 'text' : 'password'}}"
                    placeholder="{{'form.label.password.matching' | translate }}"
-                   formControlName="matchingPassword">
-          </p-iconField>
+                   formControlName="matchingPassword"
+                   pInputText
+                   [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.matchingPassword.untouched && !this.form.controls.matchingPassword.valid) {
             <small id="matchingPassword-help" class="invalid-text">
               {{ "form.invalid.password.matching" | translate }}
