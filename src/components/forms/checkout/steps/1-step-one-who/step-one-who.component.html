@@ -31,8 +31,8 @@
       <div class="flex flex-col gap-4">
 
         <div class="flex flex-col gap-2 h-16">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-user"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-user"/>
             <input
               class="w-full"
               pInputText
@@ -40,7 +40,7 @@
               type="text"
               placeholder="{{ 'form.label.name' | translate }}"
               formControlName="fullName">
-          </p-iconField>
+          </p-iconfield>
           @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
             <small id="fullName-help" class="invalid-text">
               {{ "form.invalid.name" | translate }}

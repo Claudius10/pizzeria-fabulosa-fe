@@ -19,6 +19,10 @@ export const defaultPreset = definePreset(Aura, {
           900: "#2c2c34",
           950: "#16161d",
           bg: "#ececec",
+          card: {
+            bg: "#ececec",
+            inverse: "#ffffff",
+          },
           nav: {
             bg: "#ffffff",
             item: {
@@ -43,6 +47,10 @@ export const defaultPreset = definePreset(Aura, {
           900: "#2c2c34",
           950: "#16161d",
           bg: "#16161d",
+          card: {
+            bg: "#16161d",
+            inverse: "#2c2c34",
+          },
           nav: {
             bg: "#2c2c34",
             item: {

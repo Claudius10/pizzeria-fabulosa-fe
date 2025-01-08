@@ -19,6 +19,7 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {UpperCasePipe} from '@angular/common';
 import {CookieService} from 'ngx-cookie-service';
 import {isFormValid} from '../../../utils/functions';
+import {passwordIconColor} from '../../../primeng/icon';
 
 @Component({
   selector: 'app-login-dialog',
@@ -52,12 +53,12 @@ export class LoginDialogComponent implements OnDestroy {
 
   form = new FormGroup({
     email: new FormControl<string>("", {
-      validators: [Validators.pattern(emailRgx)],
+      validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
       updateOn: 'blur'
     }),
     password: new FormControl<string>("", {
-      validators: [Validators.pattern(passwordRegex)],
+      validators: [Validators.required, Validators.pattern(passwordRegex)],
       nonNullable: true,
       updateOn: 'blur'
     }),
@@ -122,4 +123,6 @@ export class LoginDialogComponent implements OnDestroy {
       this.signIn(data);
     }
   }
+
+  protected readonly passwordIconColor = passwordIconColor;
 }

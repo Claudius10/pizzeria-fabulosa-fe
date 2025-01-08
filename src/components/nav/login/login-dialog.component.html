@@ -3,6 +3,7 @@
   [resizable]="false"
   [breakpoints]="{ '576px': '90vw' }"
   [style]="{ width: '30rem' }"
+  styleClass="!border-0 !bg-transparent"
   [modal]="true"
   (onHide)="closeLoginDialog()"
   [dismissableMask]="true"
@@ -26,15 +27,15 @@
         <div class="inline-flex flex-col gap-2 w-full">
           <label for="password"
                  class="text-primary-50 font-semibold">{{ "form.label.password" | translate }}</label>
-          <p-iconField iconPosition="right">
-            <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+          <p-iconfield [dt]="passwordIconColor()">
             <input
               formControlName="password"
               id="password"
               name="password"
               class="bg-white/20 border-0 p-4 text-primary-50 w-full"
               type="{{showPassword() ? 'text' : 'password'}}"/>
-          </p-iconField>
+            <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+          </p-iconfield>
         </div>
 
         <div class="flex items-center buttons gap-2">
@@ -43,14 +44,14 @@
             label="{{ 'button.cancel' | translate | uppercase }}"
             (onClick)="closeLoginDialog()"
             [text]="true"
-            styleClass="p-4 w-full text-primary-50 border border-white/30 hover:bg-white/10"
+            styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
             class="w-full"
           />
           <p-button
             type="submit"
             label="{{ 'button.enter' | translate | uppercase }}"
             [text]="true"
-            styleClass="p-4 w-full text-primary-50 border border-white/30 hover:bg-white/10"
+            styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
             class="w-full"
             [disabled]="form.untouched"/> <!-- https://github.com/angular/angular/issues/30616 -->
         </div>

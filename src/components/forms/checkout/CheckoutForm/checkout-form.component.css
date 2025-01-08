@@ -6,10 +6,6 @@ input.ng-invalid.ng-touched {
   color: #f87171;
 }
 
-:host ::ng-deep .p-input-icon {
-  color: var(--primary-color);
-}
-
 .form-container {
   min-height: 57.5rem;
 }
@@ -63,10 +59,6 @@ input.ng-invalid.ng-touched {
 }
 
 @media (max-width: 578px) {
-  :host ::ng-deep .p-button {
-    width: 100%;
-  }
-
   .form-container {
     min-height: 35rem;
   }

@@ -12,22 +12,23 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
+import {formIconColor} from '../../../../../primeng/icon';
 
 @Component({
-    selector: 'app-checkout-step-one-who',
-    imports: [
-        CardModule,
-        TranslatePipe,
-        Button,
-        UpperCasePipe,
-        ReactiveFormsModule,
-        IconFieldModule,
-        InputIconModule,
-        InputTextModule
-    ],
-    templateUrl: './step-one-who.component.html',
-    styleUrl: './step-one-who.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-checkout-step-one-who',
+  imports: [
+    CardModule,
+    TranslatePipe,
+    Button,
+    UpperCasePipe,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule
+  ],
+  templateUrl: './step-one-who.component.html',
+  styleUrl: './step-one-who.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
   private router = inject(Router);
@@ -87,4 +88,7 @@ export class StepOneWhoComponent implements OnInit {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
+
+
+  protected readonly formIconColor = formIconColor;
 }

@@ -1,4 +1,4 @@
-<div [ngClass]="['card flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding']">
+<div [ngClass]="['card flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding cart-background']">
 
   @if (quantity() === 0) {
     <span class="ml-1">{{ "component.cart.empty.text" | translate }}</span>

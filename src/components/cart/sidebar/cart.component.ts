@@ -19,7 +19,7 @@ import {NgClass, UpperCasePipe} from '@angular/common';
     UpperCasePipe
   ],
   templateUrl: './cart.component.html',
-  styleUrl: './cart.component.css',
+  styleUrl: './cart.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {

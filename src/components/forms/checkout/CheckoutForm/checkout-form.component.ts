@@ -9,10 +9,10 @@ import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {RouterOutlet} from '@angular/router';
 
 @Component({
-    selector: 'app-checkout-form',
-    host: {
-        class: 'upper-layout',
-    },
+  selector: 'app-checkout-form',
+  host: {
+    class: 'upper-layout',
+  },
   imports: [
     CardModule,
     StepsModule,
@@ -20,9 +20,9 @@ import {RouterOutlet} from '@angular/router';
     CartComponent,
     RouterOutlet
   ],
-    templateUrl: './checkout-form.component.html',
-    styleUrl: './checkout-form.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './checkout-form.component.html',
+  styleUrl: './checkout-form.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckoutFormComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
