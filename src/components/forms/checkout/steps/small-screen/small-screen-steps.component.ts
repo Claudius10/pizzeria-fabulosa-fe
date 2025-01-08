@@ -8,7 +8,7 @@ import {TranslatePipe} from '@ngx-translate/core';
         TranslatePipe
     ],
     templateUrl: './small-screen-steps.component.html',
-    styleUrl: './small-screen-steps.component.css',
+    styleUrl: './small-screen-steps.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallScreenStepsComponent {

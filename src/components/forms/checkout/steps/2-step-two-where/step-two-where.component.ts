@@ -24,6 +24,8 @@ import {isFormValid} from '../../../../../utils/functions';
 import {SUCCESS} from '../../../../../utils/constants';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {formIconColor} from '../../../../../primeng/icon';
+import {input} from '../../../../../primeng/input';
 
 @Component({
     selector: 'app-checkout-step-two-where',
@@ -42,7 +44,7 @@ import {LoadingAnimationService} from '../../../../../services/navigation/loadin
         NgForOf
     ],
     templateUrl: './step-two-where.component.html',
-    styleUrl: './step-two-where.component.css',
+    styleUrl: './step-two-where.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
@@ -247,4 +249,7 @@ export class StepTwoWhereComponent implements OnInit {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
+
+  protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }

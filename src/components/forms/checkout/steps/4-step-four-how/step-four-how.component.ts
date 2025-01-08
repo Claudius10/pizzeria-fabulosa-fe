@@ -21,6 +21,8 @@ import {NgForOf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
+import {formIconColor} from '../../../../../primeng/icon';
+import {input} from '../../../../../primeng/input';
 
 @Component({
     selector: 'app-checkout-step-four-how',
@@ -36,7 +38,7 @@ import {isFormValid} from '../../../../../utils/functions';
         FormsModule
     ],
     templateUrl: './step-four-how.component.html',
-    styleUrl: './step-four-how.component.css',
+    styleUrl: './step-four-how.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFourHowComponent implements OnInit {
@@ -148,6 +150,9 @@ export class StepFourHowComponent implements OnInit {
   firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
   }
+
+  protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }
 
 function billValidator(total: number, totalWithOffers: number): ValidatorFn {

@@ -9,110 +9,121 @@
   </div>
 } @else {
   <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
-    <!-- ADDRESS SELECT -->
-    <div class="flex flex-col gap-4">
 
+    <div class="flex flex-col gap-8">
       <div class="flex flex-col gap-4">
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
-        <p-iconField iconPosition="right">
-          <p-inputIcon styleClass="pi pi-angle-down"/>
+        <p-iconfield [dt]="formIconColor()">
+          <p-inputicon styleClass="pi pi-angle-down"/>
           <select
             [ngModel]="selectedOption.code"
             [ngModelOptions]="{standalone: true}"
             (change)="selectDelivery($event)"
-            pInputText
             class="w-full"
-            id="deliveryOption">
+            id="deliveryOption"
+            pInputText
+            [dt]="input()"
+          >
             <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
-        </p-iconField>
+        </p-iconfield>
       </div>
 
-      @if (checkoutFormService.homeDelivery()) {
-        @if (isAuthenticated()) {
-          <app-user-address-list-view
-            (onAddressSelect)="setSelectedId($event)"
-            [selected]="this.checkoutFormService.selectedId().id"
-            [valid]="validSelection"
-          />
+      <!-- ADDRESS SELECT -->
+      <div class="flex flex-col gap-4">
+        @if (checkoutFormService.homeDelivery()) {
+          @if (isAuthenticated()) {
+            <app-user-address-list-view
+              (onAddressSelect)="setSelectedId($event)"
+              [selected]="this.checkoutFormService.selectedId().id"
+              [valid]="validSelection"
+            />
+          } @else {
+            <div class="flex flex-col gap-4">
+
+              <div class="flex flex-col gap-2 h-16">
+                <p-iconfield [dt]="formIconColor()">
+                  <p-inputicon styleClass="pi pi-directions"/>
+                  <input
+                    class="w-full"
+                    id="street"
+                    type="text"
+                    placeholder="{{ 'form.label.delivery.address' | translate }}"
+                    formControlName="street"
+                    pInputText
+                    [dt]="input()"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+                  <small id="street-help" class="invalid-text">
+                    {{ "form.invalid.delivery.address" | translate }}
+                  </small>
+                }
+              </div>
+
+              <div class="flex flex-col gap-2 h-16">
+                <p-iconfield [dt]="formIconColor()">
+                  <p-inputicon styleClass="pi pi-home"/>
+                  <input
+                    class="w-full"
+                    id="streetNumber"
+                    type="tel"
+                    placeholder="{{ 'form.label.delivery.number' | translate }}"
+                    formControlName="number"
+                    pInputText
+                    [dt]="input()"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+                  <small id="number-help" class="invalid-text">
+                    {{ "form.invalid.delivery.number" | translate }}
+                  </small>
+                }
+              </div>
+
+              <div class="flex flex-col gap-2 h-16">
+                <p-iconfield [dt]="formIconColor()">
+                  <p-inputicon styleClass="pi pi-info-circle"/>
+                  <input
+                    class="w-full"
+                    id="details"
+                    type="text"
+                    placeholder="{{ 'form.label.delivery.details' | translate }}"
+                    formControlName="details"
+                    pInputText
+                    [dt]="input()"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+                  <small id="details-help" class="invalid-text">
+                    {{ "form.invalid.delivery.details" | translate }}
+                  </small>
+                }
+              </div>
+            </div>
+          }
         } @else {
-          <div class="flex flex-col gap-4">
-
-            <div class="flex flex-col gap-2 h-16">
-              <p-iconField iconPosition="left">
-                <p-inputIcon styleClass="pi pi-directions"/>
-                <input
-                  class="w-full"
-                  pInputText
-                  id="street"
-                  type="text"
-                  placeholder="{{ 'form.label.delivery.address' | translate }}"
-                  formControlName="street">
-              </p-iconField>
-              @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-                <small id="street-help" class="invalid-text">
-                  {{ "form.invalid.delivery.address" | translate }}
-                </small>
+          <!-- STORE SELECT -->
+          <div class="flex flex-col gap-4 mb-6">
+            @if (stores.status() === "pending") {
+              <span class="text-primary">{{ "loading.stores" | translate }}</span>
+            } @else if (stores.status() === "error") {
+              <app-server-error/>
+            } @else {
+              @for (store of stores.data()!.payload; track store.id) {
+                <app-store-checkout
+                  [store]="store"
+                  (onStoreSelect)="setSelectedId($event)"
+                  [selected]="this.checkoutFormService.selectedId().id"
+                  [valid]="validSelection"
+                />
               }
-            </div>
-
-            <div class="flex flex-col gap-2 h-16">
-              <p-iconField iconPosition="left">
-                <p-inputIcon styleClass="pi pi-home"/>
-                <input
-                  class="w-full"
-                  pInputText
-                  id="streetNumber"
-                  type="tel"
-                  placeholder="{{ 'form.label.delivery.number' | translate }}"
-                  formControlName="number">
-              </p-iconField>
-              @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-                <small id="number-help" class="invalid-text">
-                  {{ "form.invalid.delivery.number" | translate }}
-                </small>
-              }
-            </div>
-
-            <div class="flex flex-col gap-2 h-16">
-              <p-iconField iconPosition="left">
-                <p-inputIcon styleClass="pi pi-info-circle"/>
-                <input
-                  class="w-full"
-                  pInputText
-                  id="details"
-                  type="text"
-                  placeholder="{{ 'form.label.delivery.details' | translate }}"
-                  formControlName="details">
-              </p-iconField>
-              @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-                <small id="details-help" class="invalid-text">
-                  {{ "form.invalid.delivery.details" | translate }}
-                </small>
-              }
-            </div>
+            }
           </div>
         }
-      } @else {
-        <!-- STORE SELECT -->
-        <div class="flex flex-col gap-4 mb-6">
-          @if (stores.status() === "pending") {
-            <span class="text-primary">{{ "loading.stores" | translate }}</span>
-          } @else if (stores.status() === "error") {
-            <app-server-error/>
-          } @else {
-            @for (store of stores.data()!.payload; track store.id) {
-              <app-store-checkout
-                [store]="store"
-                (onStoreSelect)="setSelectedId($event)"
-                [selected]="this.checkoutFormService.selectedId().id"
-                [valid]="validSelection"
-              />
-            }
-          }
-        </div>
-      }
+      </div>
     </div>
+
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button

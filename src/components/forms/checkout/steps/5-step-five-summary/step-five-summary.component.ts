@@ -37,7 +37,7 @@ import {Textarea} from 'primeng/textarea';
     Textarea,
   ],
   templateUrl: './step-five-summary.component.html',
-  styleUrl: './step-five-summary.component.css',
+  styleUrl: './step-five-summary.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent implements OnDestroy {

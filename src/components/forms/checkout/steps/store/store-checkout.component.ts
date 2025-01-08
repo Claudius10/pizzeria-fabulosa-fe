@@ -10,7 +10,7 @@ import {TranslateService} from '@ngx-translate/core';
         NgClass
     ],
     templateUrl: './store-checkout.component.html',
-    styleUrl: './store-checkout.component.css',
+    styleUrl: './store-checkout.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {

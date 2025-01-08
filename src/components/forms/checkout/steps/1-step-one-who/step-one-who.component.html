@@ -35,11 +35,13 @@
             <p-inputicon styleClass="pi pi-user"/>
             <input
               class="w-full"
-              pInputText
               id="fullName"
               type="text"
               placeholder="{{ 'form.label.name' | translate }}"
-              formControlName="fullName">
+              formControlName="fullName"
+              pInputText
+              [dt]="input()"
+            >
           </p-iconfield>
           @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
             <small id="fullName-help" class="invalid-text">
@@ -49,16 +51,17 @@
         </div>
 
         <div class="flex flex-col gap-2 h-16">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-envelope"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-envelope"/>
             <input
               class="w-full"
-              pInputText
               id="email"
               type="email"
               placeholder="{{ 'form.label.email' | translate }}"
-              formControlName="email">
-          </p-iconField>
+              formControlName="email"
+              pInputText
+              [dt]="input()">
+          </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
             <small id="email-help" class="invalid-text">
               {{ "form.invalid.email" | translate }}
@@ -67,15 +70,16 @@
         </div>
 
         <div class="flex flex-col gap-2 h-16">
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-phone"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-phone"/>
             <input class="w-full"
-                   pInputText
                    id="contactNumber"
                    type="tel"
                    placeholder="{{ 'form.label.contact.number' | translate }}"
-                   formControlName="contactNumber">
-          </p-iconField>
+                   formControlName="contactNumber"
+                   pInputText
+                   [dt]="input()">
+          </p-iconfield>
           @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
             <small id="contactNumber-help" class="invalid-text">
               {{ "form.invalid.contact.number" | translate }}

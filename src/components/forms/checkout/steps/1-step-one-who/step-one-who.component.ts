@@ -13,6 +13,7 @@ import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 import {formIconColor} from '../../../../../primeng/icon';
+import {input} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -27,7 +28,7 @@ import {formIconColor} from '../../../../../primeng/icon';
     InputTextModule
   ],
   templateUrl: './step-one-who.component.html',
-  styleUrl: './step-one-who.component.css',
+  styleUrl: './step-one-who.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
@@ -91,4 +92,5 @@ export class StepOneWhoComponent implements OnInit {
 
 
   protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }

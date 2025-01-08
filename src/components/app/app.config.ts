@@ -18,7 +18,7 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {IMAGE_CONFIG} from '@angular/common';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
-import {defaultPreset} from './default.preset.theme';
+import {defaultPreset} from '../../primeng/default.preset.theme';
 
 function initializeApp(cookieService: CookieService, authService: AuthService) {
   return () => new Promise((resolve) => {

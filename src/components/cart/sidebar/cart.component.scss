@@ -14,3 +14,7 @@
 .padding {
   padding: 1rem;
 }
+
+:host ::ng-deep .p-button {
+  width: 100%;
+}

@@ -1,7 +1,14 @@
-export const inputBackgroundColor = () => {
+export const input = () => {
   return {
-    icon: {
-      color: "{bg}",
+
+    background: "{surface.card.inverse}",
+    border: {
+      color: "transparent",
+    },
+    hover: {
+      border: {
+        color: "{primary.400}",
+      }
     }
   };
 };

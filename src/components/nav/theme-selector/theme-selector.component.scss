@@ -7,3 +7,10 @@
   background-color: var(--p-surface-nav-item-bg);
   border-color: var(--p-surface-nav-item-border);
 }
+
+.item-background:hover {
+  border-color: var(--p-primary-color);
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 400ms !important;
+}

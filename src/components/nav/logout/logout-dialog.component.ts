@@ -13,22 +13,24 @@ import {UpperCasePipe} from '@angular/common';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 
 @Component({
-    selector: 'app-logout-dialog',
-    imports: [
-        DialogModule,
-        TranslatePipe,
-        UpperCasePipe,
-        ButtonDirective
-    ],
-    templateUrl: './logout-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-logout-dialog',
+  imports: [
+    DialogModule,
+    TranslatePipe,
+    UpperCasePipe,
+    ButtonDirective
+  ],
+  templateUrl: './logout-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent implements OnDestroy {
   private router = inject(Router);
-  private queryClient = inject(QueryClient);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private checkoutFormService = inject(CheckoutFormService);
+  private queryClient = inject(QueryClient);
   private errorService = inject(ErrorService);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
@@ -68,6 +70,7 @@ export class LogoutDialogComponent implements OnDestroy {
             life: 2000
           });
           this.cartService.clear();
+          this.checkoutFormService.clear();
           this.router.navigate(["/"]);
         }
       },

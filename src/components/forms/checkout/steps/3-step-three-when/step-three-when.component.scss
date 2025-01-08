@@ -2,16 +2,12 @@
   width: 10rem;
 }
 
-input.ng-invalid.ng-touched {
-  border: 1px solid #f87171;
-}
-
-.invalid-border {
-  border: 1px solid #f87171;
+select.ng-invalid.ng-touched {
+  border: 1px solid var(--p-red-800);
 }
 
 .invalid-text {
-  color: #f87171;
+  color: var(--p-red-800);
 }
 
 .buttons {

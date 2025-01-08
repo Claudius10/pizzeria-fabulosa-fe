@@ -3,8 +3,8 @@
     @if (addressList.data()!.payload !== null) {
       @for (address of addressList.data()!.payload; track address.id) {
         <div (click)="selectAddress(address.id)" [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
-  selected() === address.id ? 'border-primary transition-all duration-300' : '',
-  valid() ? '' : 'border-red-300 rounded-xl transition-all duration-300'
+  selected() === address.id ? '!border-primary transition-all duration-300' : '',
+  valid() ? '' : '!border-red-800 rounded-xl transition-all duration-300'
   ]">
           <span>{{ "form.label.delivery.address" | translate }}: {{ address.street }}</span>
           <span>{{ "form.label.delivery.number" | translate }}: {{ address.number }}</span>

@@ -11,6 +11,8 @@ import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
+import {formIconColor} from '../../../../../primeng/icon';
+import {input} from '../../../../../primeng/input';
 
 @Component({
     selector: 'app-checkout-step-three-when',
@@ -26,7 +28,7 @@ import {isFormValid} from '../../../../../utils/functions';
         InputTextModule
     ],
     templateUrl: './step-three-when.component.html',
-    styleUrl: './step-three-when.component.css',
+    styleUrl: './step-three-when.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepThreeWhenComponent implements OnInit {
@@ -113,4 +115,7 @@ export class StepThreeWhenComponent implements OnInit {
   firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
   }
+
+  protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }

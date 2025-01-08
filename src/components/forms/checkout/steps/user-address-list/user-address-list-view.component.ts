@@ -21,7 +21,7 @@ import {QueryResult} from '../../../../../interfaces/query';
         ServerErrorComponent
     ],
     templateUrl: './user-address-list-view.component.html',
-    styleUrl: './user-address-list-view.component.css',
+    styleUrl: './user-address-list-view.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListViewComponent implements OnInit {

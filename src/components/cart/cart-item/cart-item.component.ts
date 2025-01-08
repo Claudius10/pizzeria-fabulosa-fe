@@ -2,13 +2,11 @@ import {Component, DestroyRef, inject, input, OnInit, signal} from '@angular/cor
 import {CartItemDTO} from '../../../interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslateService} from '@ngx-translate/core';
-import {NgOptimizedImage} from '@angular/common';
 import {Button, ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-cart-item',
   imports: [
-    NgOptimizedImage,
     Button,
     ButtonDirective
   ],

@@ -13,33 +13,37 @@
 
       <div class="flex flex-col gap-4">
         <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
-        <p-iconField iconPosition="right">
-          <p-inputIcon styleClass="pi pi-angle-down"/>
+        <p-iconfield [dt]="formIconColor()">
+          <p-inputicon styleClass="pi pi-angle-down"/>
           <select
             [ngModel]="selectedOption.code"
             [ngModelOptions]="{standalone: true}"
             name="deliveryChoice"
             (change)="selectDeliveryChoice($event)"
-            pInputText
             class="w-full"
-            id="deliveryChoice">
+            id="deliveryChoice"
+            pInputText
+            [dt]="input()"
+          >
             <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
-        </p-iconField>
+        </p-iconfield>
         @if (programmedDelivery()) {
           <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
-          <p-iconField iconPosition="right">
-            <p-inputIcon styleClass="pi pi-angle-down"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-angle-down"/>
             <select
               class="w-full"
-              pInputText
               id="deliveryTime"
-              formControlName="deliveryTime">
+              formControlName="deliveryTime"
+              pInputText
+              [dt]="input()"
+            >
               @for (deliveryHour of deliveryHours(); track deliveryHour) {
                 <option value="{{deliveryHour}}">{{ deliveryHour }}</option>
               }
             </select>
-          </p-iconField>
+          </p-iconfield>
           @if (!this.form.controls.deliveryTime.untouched && !this.form.controls.deliveryTime.valid) {
             <small id="deliveryTime-help" class="invalid-text">
               {{ "form.invalid.delivery.programmed.hour" | translate }}

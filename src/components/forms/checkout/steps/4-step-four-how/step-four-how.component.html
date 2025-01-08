@@ -13,49 +13,55 @@
 
       <div class="flex flex-col gap-4">
         <label for="paymentMethod">{{ "component.form.step.four.advice" | translate }}</label>
-        <p-iconField iconPosition="right">
-          <p-inputIcon styleClass="pi pi-angle-down"/>
+        <p-iconfield [dt]="formIconColor()">
+          <p-inputicon styleClass="pi pi-angle-down"/>
           <select
             class="w-full"
-            pInputText
             id="paymentMethod"
             formControlName="paymentMethod"
-            (change)="togglePaymentOption($event.target!)">
+            (change)="togglePaymentOption($event.target!)"
+            pInputText
+            [dt]="input()"
+          >
             <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description | translate }}
             </option>
           </select>
-        </p-iconField>
+        </p-iconfield>
 
         @if (checkoutFormService.cashPayment()) {
 
           <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
-          <p-iconField iconPosition="right">
-            <p-inputIcon styleClass="pi pi-angle-down"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-angle-down"/>
             <select
               [ngModel]="selectedChangeOption.code"
               [ngModelOptions]="{standalone: true}"
               class="w-full"
-              pInputText
               id="changeRequestChoice"
-              (change)="toggleChangeRequest($event.target!)">
+              (change)="toggleChangeRequest($event.target!)"
+              pInputText
+              [dt]="input()"
+            >
               <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description | translate }}
               </option>
             </select>
-          </p-iconField>
+          </p-iconfield>
         }
 
         @if (checkoutFormService.changeRequested()) {
           <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
-          <p-iconField iconPosition="left">
-            <p-inputIcon styleClass="pi pi-euro"/>
+          <p-iconfield [dt]="formIconColor()">
+            <p-inputicon styleClass="pi pi-euro"/>
             <input
               class="w-full invalid-border"
-              pInputText
               placeholder="10"
               id="billToChange"
               type="tel"
-              formControlName="billToChange">
-          </p-iconField>
+              formControlName="billToChange"
+              pInputText
+              [dt]="input()"
+            >
+          </p-iconfield>
           @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
             <small id="fullName-help" class="invalid-text">
               {{ "form.invalid.bill.change" | translate }}
