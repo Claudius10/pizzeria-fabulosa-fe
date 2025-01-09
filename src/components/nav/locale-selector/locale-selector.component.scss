@@ -5,6 +5,7 @@
   padding: 0.75rem;
   width: fit-content;
   z-index: 10;
+  background-color: var(--p-surface-bg);
 }
 
 :host ::ng-deep .p-button {

@@ -16,12 +16,52 @@
         </button>
       </li>
     }
-    <li (click)="changePrimaryColor('pink')">
+    <li #themes (click)="toggle()">
       <button
         type="button"
         class="button p-button flex border p-0 items-center justify-center transition-all duration-300 min-w-0">
         <i class="pi pi-palette"></i>
       </button>
+      <div
+        [ngClass]="{'container rounded-border shadow-sm origin-top mt-2':visible, 'hidden':!visible}">
+        <button (click)="changePrimaryColor('emerald')" type="button" style="background-color: rgb(16, 185, 129);"
+                title="emerald"
+                class="theme-button"></button>
+        <button (click)="changePrimaryColor('green')" type="button" style="background-color: rgb(34, 197, 94);"
+                title="green" class="theme-button"></button>
+        <button (click)="changePrimaryColor('lime')" type="button" style="background-color: rgb(132, 204, 22);"
+                title="lime" class="theme-button"></button>
+        <button (click)="changePrimaryColor('orange')" type="button" style="background-color: rgb(249, 115, 22);"
+                title="orange" class="theme-button"></button>
+        <button (click)="changePrimaryColor('amber')" type="button" style="background-color: rgb(245, 158, 11);"
+                title="amber" class="theme-button"></button>
+        <button (click)="changePrimaryColor('yellow')" type="button" style="background-color: rgb(234, 179, 8);"
+                title="yellow" class="theme-button"></button>
+        <button (click)="changePrimaryColor('teal')" type="button" style="background-color: rgb(20, 184, 166);"
+                title="teal" class="theme-button"></button>
+        <button (click)="changePrimaryColor('cyan')" type="button" style="background-color: rgb(6, 182, 212);"
+                title="cyan" class="theme-button"></button>
+        <button (click)="changePrimaryColor('sky')" type="button" style="background-color: rgb(14, 165, 233);"
+                title="sky" class="theme-button"></button>
+        <button (click)="changePrimaryColor('blue')" type="button" style="background-color: rgb(59, 130, 246);"
+                title="blue" class="theme-button"></button>
+        <button (click)="changePrimaryColor('indigo')" type="button" style="background-color: rgb(99, 102, 241);"
+                title="indigo"
+                class="theme-button"></button>
+        <button (click)="changePrimaryColor('violet')" type="button" style="background-color: rgb(139, 92, 246);"
+                title="violet"
+                class="theme-button"></button>
+        <button (click)="changePrimaryColor('purple')" type="button" style="background-color: rgb(168, 85, 247);"
+                title="purple"
+                class="theme-button"></button>
+        <button (click)="changePrimaryColor('fuchsia')" type="button" style="background-color: rgb(217, 70, 239);"
+                title="fuchsia"
+                class="theme-button"></button>
+        <button (click)="changePrimaryColor('pink')" type="button" style="background-color: rgb(236, 72, 153);"
+                title="pink" class="theme-button"></button>
+        <button (click)="changePrimaryColor('rose')" type="button" style="background-color: rgb(244, 63, 94);"
+                title="rose" class="theme-button"></button>
+      </div>
     </li>
   </ul>
 </li>
