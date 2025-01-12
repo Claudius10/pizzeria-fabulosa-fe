@@ -1,5 +1,12 @@
-.cart-item-background {
+.cart-item {
   background-color: var(--p-surface-card-bg);
   border: 1px solid var(--p-primary-color);
   border-radius: 7px;
+  margin-right: 0.5rem;
+}
+
+img {
+  width: 90px;
+  height: 100px;
+  object-fit: fill;
 }
