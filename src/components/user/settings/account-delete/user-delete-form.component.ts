@@ -17,6 +17,8 @@ import {LoadingAnimationService} from '../../../../services/navigation/loading-a
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
+import {formIconColor} from '../../../../primeng/icon';
+import {input} from '../../../../primeng/input';
 
 @Component({
     selector: 'app-user-delete-form',
@@ -32,7 +34,7 @@ import {UpperCasePipe} from '@angular/common';
         UpperCasePipe
     ],
     templateUrl: './user-delete-form.component.html',
-    styleUrl: './user-delete-form.component.css',
+    styleUrl: './user-delete-form.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
@@ -87,4 +89,7 @@ export class UserDeleteFormComponent implements OnDestroy {
       });
     }
   }
+
+  protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }

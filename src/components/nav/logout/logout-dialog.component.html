@@ -8,24 +8,25 @@
   [dismissableMask]="true"
   [position]="'topright'">
   <ng-template pTemplate="headless">
-    <div class="flex flex-col items-center p-4">
-      <span class="font-bold text-2xl block">
-                {{ 'toast.severity.info' | translate }}
-      </span>
-      <p class="mb-0">{{ 'dialog.logout.confirm' | translate }}</p>
-      <div class="flex items-center gap-2 mt-6">
-        <button
-          pButton
-          label="{{ 'prompt.yes' | translate | uppercase }}"
-          (click)="acceptLogout()"
-          class="w-32">
-        </button>
-        <button
-          pButton
-          label="{{ 'prompt.no' | translate | uppercase }}"
+    <div class="flex flex-col items-center p-4 gap-6">
+
+      <div class="flex flex-col items-center gap-1">
+        <span class="font-bold text-2xl block">{{ 'toast.severity.info' | translate }}</span>
+        <p class="mb-0">{{ 'dialog.logout.confirm' | translate }}</p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <p-button
+          type="button"
           (click)="hideLogoutDialog();"
-          class="p-button-outlined w-32">
-        </button>
+          label="{{ 'prompt.no' | translate | uppercase }}"
+          severity="danger"/>
+        <p-button
+          type="button"
+          (click)="acceptLogout()"
+          label="{{ 'prompt.yes' | translate | uppercase }}"
+          severity="success"
+        />
       </div>
     </div>
   </ng-template>

@@ -14,6 +14,7 @@ export class OrderService {
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
   private pageNumber = signal(1);
+  private pageSize = signal(5);
 
   createUserOrder(): MutationResult {
     const mutation = injectMutation(() => ({
@@ -46,8 +47,8 @@ export class OrderService {
 
   findOrderSummaryList(userId: string | null): QueryResult {
     const query = injectQuery(() => ({
-      queryKey: ["user", "order", "summary", this.pageNumber() - 1],
-      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, 4)),
+      queryKey: ["user", "order", "summary", this.pageNumber() - 1, this.pageSize()],
+      queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, this.pageSize())),
     }));
 
     return {
@@ -91,8 +92,21 @@ export class OrderService {
     this.pageNumber.set(pageNumber);
   };
 
+  setPageSize = (pageSize: number): void => {
+    this.pageSize.set(pageSize);
+  };
+
   getPageNumber() {
     return this.pageNumber.asReadonly();
+  }
+
+  getPageSize() {
+    return this.pageSize.asReadonly();
+  }
+
+  resetSummaryListArgs() {
+    this.pageNumber.set(1);
+    this.pageSize.set(5);
   }
 }
 

@@ -6,16 +6,16 @@
   ]"
   (click)="selectStore()">
   <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>
-  <div [ngClass]="['store', orientation() === 'horizontal' ? '' : 'flex-column gap-3']">
-    <div class="flex gap-2">
+  <div [ngClass]="['store justify-between', orientation() === 'horizontal' ? '' : 'flex flex-col gap-6']">
+    <div class="flex items-center gap-2">
       <i class="pi pi-map"></i>
       {{ store().address.street }} {{ store().address.number }}
     </div>
-    <div class="flex gap-2">
+    <div class="flex items-center gap-2">
       <i class="pi pi-phone"></i>
       {{ store().phoneNumber }}
     </div>
-    <div class="flex gap-2">
+    <div class="flex items-center gap-2">
       <i class="pi pi-calendar-clock"></i>
       <span>{{ currentLang() === 'en' ? store().schedule.en : store().schedule.es }}</span>
     </div>

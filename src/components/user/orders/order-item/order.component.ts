@@ -9,7 +9,6 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../../interfaces/query';
 import {AddressDetailsComponent} from './address-details/address-details.component';
-import {CustomerDetailsComponent} from './customer-details/customer-details.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
 import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
 import {CardModule} from 'primeng/card';
@@ -27,25 +26,26 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {isDst} from '../../../../utils/functions';
 import {Button} from 'primeng/button';
+import {UserDetailsComponent} from '../../details/user-details.component';
 
 @Component({
-    selector: 'app-order',
-    imports: [
-        CardModule,
-        TranslatePipe,
-        RouterLink,
-        CustomerDetailsComponent,
-        AddressDetailsComponent,
-        OrderDetailsComponent,
-        CartComponent,
-        Button,
-        UpperCasePipe,
-        ConfirmDialogModule,
-        ServerErrorComponent
-    ],
-    templateUrl: './order.component.html',
-    styleUrl: './order.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-order',
+  imports: [
+    CardModule,
+    TranslatePipe,
+    RouterLink,
+    AddressDetailsComponent,
+    OrderDetailsComponent,
+    CartComponent,
+    Button,
+    UpperCasePipe,
+    ConfirmDialogModule,
+    ServerErrorComponent,
+    UserDetailsComponent
+  ],
+  templateUrl: './order.component.html',
+  styleUrl: './order.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
   private router = inject(Router);
@@ -130,9 +130,14 @@ export class OrderComponent implements OnInit {
         header: this.translateService.instant("toast.order.cancel.confirm.header"),
         message: this.translateService.instant("toast.order.cancel.confirm.message"),
         icon: 'pi pi-exclamation-triangle',
-        acceptIcon: "none",
-        rejectIcon: "none",
-        rejectButtonStyleClass: "p-button-text",
+        closable: true,
+        closeOnEscape: true,
+        rejectButtonProps: {
+          severity: "danger",
+        },
+        acceptButtonProps: {
+          severity: 'success',
+        },
         accept: () => {
           // if user accepts, send account-delete
           this.loadingAnimationService.startLoading();

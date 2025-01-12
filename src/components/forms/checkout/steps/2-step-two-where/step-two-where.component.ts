@@ -15,7 +15,7 @@ import {NgForOf, UpperCasePipe} from '@angular/common';
 import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {QueryResult} from '../../../../../interfaces/query';
 import {AuthService} from '../../../../../services/auth/auth.service';
-import {UserAddressListViewComponent} from '../user-address-list/user-address-list-view.component';
+import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
 import {toObservable} from '@angular/core/rxjs-interop';

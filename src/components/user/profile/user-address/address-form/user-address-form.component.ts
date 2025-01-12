@@ -1,35 +1,37 @@
 import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../regex';
-import {AuthService} from '../../../../services/auth/auth.service';
-import {UserService} from '../../../../services/http/user/user.service';
-import {MutationResult, UserAddressMutationOptions} from '../../../../interfaces/mutation';
-import {isFormValid} from '../../../../utils/functions';
-import {AddressFormData} from '../../../../interfaces/http/order';
+import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {UserService} from '../../../../../services/http/user/user.service';
+import {MutationResult, UserAddressMutationOptions} from '../../../../../interfaces/mutation';
+import {isFormValid} from '../../../../../utils/functions';
+import {AddressFormData} from '../../../../../interfaces/http/order';
 import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {InputTextModule} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
-import {ResponseDTO} from '../../../../interfaces/http/api';
-import {ErrorService} from '../../../../services/error/error.service';
+import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
+import {formIconColor} from '../../../../../primeng/icon';
+import {input} from '../../../../../primeng/input';
 
 @Component({
-    selector: 'app-user-address-form',
-    imports: [
-        ReactiveFormsModule,
-        IconFieldModule,
-        InputIconModule,
-        InputTextModule,
-        Button,
-        TranslatePipe,
-        UpperCasePipe
-    ],
-    templateUrl: './user-address-form.component.html',
-    styleUrl: './user-address-form.component.css',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-address-form',
+  imports: [
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    Button,
+    TranslatePipe,
+    UpperCasePipe
+  ],
+  templateUrl: './user-address-form.component.html',
+  styleUrl: './user-address-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressFormComponent {
   hideForm = output();
@@ -98,4 +100,7 @@ export class UserAddressFormComponent {
       });
     }
   }
+
+  protected readonly formIconColor = formIconColor;
+  protected readonly input = input;
 }

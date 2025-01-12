@@ -5,12 +5,15 @@ import {FooterComponent} from '../../footer/footer.component';
 import {TranslateService} from '@ngx-translate/core';
 import en from "../../../../public/i18n/en.json";
 import es from "../../../../public/i18n/es.json";
+import primeEN from "../../../../public/i18n/primeng-en.json";
+import primeES from "../../../../public/i18n/primeng-es.json";
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {ThemeService} from '../../../services/theme/theme.service';
+import {PrimeNG} from 'primeng/config';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private themeService = inject(ThemeService);
   private cartService = inject(CartService);
   private messageService = inject(MessageService);
+  private primeNgConfig = inject(PrimeNG);
 
   ngOnInit() {
     this.setUpLocale();
@@ -79,5 +83,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
     this.translateService.setTranslation(locale, langToUse);
     this.translateService.use(locale);
+    this.primeNgConfig.setTranslation(locale === "en" ? primeEN : primeES);
   }
 }

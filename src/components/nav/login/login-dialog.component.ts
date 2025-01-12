@@ -20,6 +20,7 @@ import {UpperCasePipe} from '@angular/common';
 import {CookieService} from 'ngx-cookie-service';
 import {isFormValid} from '../../../utils/functions';
 import {passwordIconColor} from '../../../primeng/icon';
+import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -46,6 +47,7 @@ export class LoginDialogComponent implements OnDestroy {
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private cartService = inject(CartService);
+  private checkoutFormService = inject(CheckoutFormService);
   private login: MutationResult = this.accountService.login();
   showPassword = signal(false);
   // visible provides hiding dialog on esc key press
@@ -93,8 +95,9 @@ export class LoginDialogComponent implements OnDestroy {
         if (response && response.status.error) {
           this.errorService.handleError(response);
         } else {
-          this.authService.setUserCredentials(this.cookieService.get("idToken"));
           this.cartService.clear();
+          this.checkoutFormService.clear();
+          this.authService.setUserCredentials(this.cookieService.get("idToken"));
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),

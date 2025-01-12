@@ -1,6 +1,6 @@
 import {Injectable, signal} from '@angular/core';
-import {how, when, where, who} from '../../interfaces/forms/steps';
-import {CreatedOrderDTO} from '../../interfaces/dto/order';
+import {how, when, where} from '../../interfaces/forms/steps';
+import {CreatedOrderDTO, CustomerDTO} from '../../interfaces/dto/order';
 
 export type AddressId = {
   id: number | null;
@@ -17,7 +17,7 @@ export class CheckoutFormService {
   programmedDelivery = signal(false);
   cashPayment = signal(false); // true shows Do you need change? select
   changeRequested = signal(false); // true shows Bill to change input
-  who = signal<who | null>(null);
+  who = signal<CustomerDTO | null>(null);
   where = signal<where | null>(null);
   when = signal<when | null>(null);
   how = signal<how | null>(null);
@@ -46,6 +46,7 @@ export class CheckoutFormService {
     this.programmedDelivery.set(false);
     this.cashPayment.set(false);
     this.changeRequested.set(false);
+    this.orderSuccess.set(null);
 
     this.who.set(null);
     this.where.set(null);

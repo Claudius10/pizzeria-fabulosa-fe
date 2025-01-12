@@ -13,16 +13,16 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-order-summary-list',
-    imports: [
-        OrderSummaryComponent,
-        ServerErrorComponent,
-        PaginatorModule,
-        TranslatePipe
-    ],
-    templateUrl: './order-summary-list.component.html',
-    styleUrl: './order-summary-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-order-summary-list',
+  imports: [
+    OrderSummaryComponent,
+    ServerErrorComponent,
+    PaginatorModule,
+    TranslatePipe
+  ],
+  templateUrl: './order-summary-list.component.html',
+  styleUrl: './order-summary-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
@@ -31,6 +31,7 @@ export class OrderSummaryListComponent {
   private orderService = inject(OrderService);
   private destroyRef = inject(DestroyRef);
   private pageNumber = this.orderService.getPageNumber();
+  pageSize = this.orderService.getPageSize();
   currentElements = 0;
   orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.getUserId());
   orderListStatus = toObservable(this.orderList.status);
@@ -38,7 +39,7 @@ export class OrderSummaryListComponent {
   // TODO - prefetch next page
 
   constructor() {
-    this.currentElements = (this.pageNumber() * 4) - 4;
+    this.currentElements = (this.pageNumber() * this.pageSize()) - this.pageSize();
 
     const subscription = this.orderListStatus.subscribe({
       next: orderListStatus => {
@@ -64,12 +65,14 @@ export class OrderSummaryListComponent {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
       this.loadingAnimationService.stopLoading();
+      this.orderService.resetSummaryListArgs();
     });
   }
 
   onPageChange(event: PaginatorState) {
     const page = event.page === undefined ? 1 : event.page + 1;
+    this.currentElements = event.first!;
     this.orderService.setPageNumber(page);
-    this.currentElements = (page * 4) - 4;
+    this.orderService.setPageSize(event.rows!);
   }
 }

@@ -4,16 +4,18 @@
 
     <form class="flex gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-col gap-2 h-16">
-        <p-iconField iconPosition="right">
-          <p-inputIcon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+        <p-iconfield [dt]="formIconColor()">
           <input
             class="w-full"
-            pInputText
             id="password"
             type="{{showPassword() ? 'text' : 'password'}}"
             placeholder="{{ 'form.label.password' | translate}} "
-            formControlName="password">
-        </p-iconField>
+            formControlName="password"
+            pInputText
+            [dt]="input()"
+          >
+          <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+        </p-iconfield>
         @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
           <small id="password-help" class="invalid-text">
             {{ "form.invalid.password.requiered" | translate }}

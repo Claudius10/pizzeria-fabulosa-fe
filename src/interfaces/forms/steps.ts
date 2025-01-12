@@ -1,9 +1,3 @@
-export interface who {
-  name: string;
-  contactNumber: number;
-  email: string;
-}
-
 export interface where {
   id: number | null;
   street: string | null;

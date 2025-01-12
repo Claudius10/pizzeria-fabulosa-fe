@@ -24,6 +24,7 @@ import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {isFormValid} from '../../../../../utils/functions';
 import {Textarea} from 'primeng/textarea';
+import {UserDetailsComponent} from '../../../../user/details/user-details.component';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -35,6 +36,7 @@ import {Textarea} from 'primeng/textarea';
     StoreCheckoutComponent,
     ReactiveFormsModule,
     Textarea,
+    UserDetailsComponent,
   ],
   templateUrl: './step-five-summary.component.html',
   styleUrl: './step-five-summary.component.scss',

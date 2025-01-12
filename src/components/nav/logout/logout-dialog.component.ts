@@ -6,7 +6,7 @@ import {AccountService} from '../../../services/http/account/account.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth/auth.service';
 import {DialogModule} from 'primeng/dialog';
-import {ButtonDirective} from 'primeng/button';
+import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
@@ -21,9 +21,10 @@ import {CheckoutFormService} from '../../../services/checkout/checkout-form.serv
     DialogModule,
     TranslatePipe,
     UpperCasePipe,
-    ButtonDirective
+    Button
   ],
   templateUrl: './logout-dialog.component.html',
+  styleUrls: ['./logout-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent implements OnDestroy {
@@ -61,16 +62,16 @@ export class LogoutDialogComponent implements OnDestroy {
         if (response && response.status.error) {
           this.errorService.handleError(response);
         } else {
-          this.authService.logout();
           this.queryClient.removeQueries({queryKey: ["user"]});
+          this.authService.logout();
+          this.cartService.clear();
+          this.checkoutFormService.clear();
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),
             detail: this.translateService.instant("dialog.logout.success.message"),
             life: 2000
           });
-          this.cartService.clear();
-          this.checkoutFormService.clear();
           this.router.navigate(["/"]);
         }
       },

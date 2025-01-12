@@ -14,19 +14,21 @@ import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 import {formIconColor} from '../../../../../primeng/icon';
 import {inputInverse} from '../../../../../primeng/input';
+import {UserDetailsComponent} from "../../../../user/details/user-details.component";
 
 @Component({
   selector: 'app-checkout-step-one-who',
-  imports: [
-    CardModule,
-    TranslatePipe,
-    Button,
-    UpperCasePipe,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule
-  ],
+    imports: [
+        CardModule,
+        TranslatePipe,
+        Button,
+        UpperCasePipe,
+        ReactiveFormsModule,
+        IconFieldModule,
+        InputIconModule,
+        InputTextModule,
+        UserDetailsComponent
+    ],
   templateUrl: './step-one-who.component.html',
   styleUrl: './step-one-who.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

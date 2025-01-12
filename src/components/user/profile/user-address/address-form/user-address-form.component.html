@@ -1,16 +1,18 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-2 h-16">
-      <p-iconField iconPosition="left">
-        <p-inputIcon styleClass="pi pi-directions"/>
+      <p-iconfield [dt]="formIconColor()">
+        <p-inputicon styleClass="pi pi-directions"/>
         <input
           class="w-full"
-          pInputText
           id="street"
           type="text"
           placeholder="{{ 'form.label.delivery.address' | translate }}"
-          formControlName="street">
-      </p-iconField>
+          formControlName="street"
+          pInputText
+          [dt]="input()"
+        >
+      </p-iconfield>
       @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
         <small id="street-help" class="invalid-text">
           {{ "form.invalid.delivery.address" | translate }}
@@ -19,16 +21,18 @@
     </div>
 
     <div class="flex flex-col gap-2 h-16">
-      <p-iconField iconPosition="left">
-        <p-inputIcon styleClass="pi pi-home"/>
+      <p-iconfield [dt]="formIconColor()">
+        <p-inputicon styleClass="pi pi-home"/>
         <input
           class="w-full"
-          pInputText
           id="streetNumber"
           type="tel"
           placeholder="{{ 'form.label.delivery.number' | translate }}"
-          formControlName="number">
-      </p-iconField>
+          formControlName="number"
+          pInputText
+          [dt]="input()"
+        >
+      </p-iconfield>
       @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
         <small id="number-help" class="invalid-text">
           {{ "form.invalid.delivery.number" | translate }}
@@ -37,16 +41,18 @@
     </div>
 
     <div class="flex flex-col gap-2 h-16">
-      <p-iconField iconPosition="left">
-        <p-inputIcon styleClass="pi pi-info-circle"/>
+      <p-iconfield [dt]="formIconColor()">
+        <p-inputicon styleClass="pi pi-info-circle"/>
         <input
           class="w-full"
-          pInputText
           id="details"
           type="text"
           placeholder="{{ 'form.label.delivery.details' | translate }}"
-          formControlName="details">
-      </p-iconField>
+          formControlName="details"
+          pInputText
+          [dt]="input()"
+        >
+      </p-iconfield>
       @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
         <small id="details-help" class="invalid-text">
           {{ "form.invalid.delivery.details" | translate }}

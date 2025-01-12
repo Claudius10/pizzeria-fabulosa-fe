@@ -3,19 +3,25 @@
     <div class="flex flex-col gap-4 h-full">
       <div class="flex gap-4">
 
-        <div class="flex flex-col gap-4 w-full">
+        <div class="left-side flex flex-col gap-4 w-full">
           <p-card [style]="{ width: '100%' }">
             <div class="flex flex-col items-center gap-4" routerLink="/user/orders">
               <div class="flex items-center gap-2">
                 <span class="text-xl text-primary">{{ order.id }}</span>
-                <i class="pi pi-arrow-up-right-and-arrow-down-left-from-center" style="color: var(--primary-color)"></i>
+                <i class="pi pi-arrow-up-right-and-arrow-down-left-from-center"
+                   style="color: var(--p-primary-color)"></i>
               </div>
               <span>{{ "view.order.created.on" | translate }} {{ order.formattedCreatedOn }}</span>
             </div>
           </p-card>
 
           <div class="flex flex-col gap-4">
-            <app-customer-details [customer]="customer"/>
+            <p-card>
+              <div class="flex flex-col gap-4">
+                <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
+                <app-user-details/>
+              </div>
+            </p-card>
             <app-address-details
               [address]="order.address"
               [orderDetails]="order.orderDetails"

@@ -1,17 +1,17 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output} from '@angular/core';
-import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
-import {UserService} from '../../../../../services/http/user/user.service';
-import {AuthService} from '../../../../../services/auth/auth.service';
+import {USER_ADDRESS_LIST} from '../../../../../../utils/query-keys';
+import {UserService} from '../../../../../../services/http/user/user.service';
+import {AuthService} from '../../../../../../services/auth/auth.service';
 import {NgClass} from '@angular/common';
-import {AddressId} from '../../../../../services/checkout/checkout-form.service';
+import {AddressId} from '../../../../../../services/checkout/checkout-form.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
-import {ErrorService} from '../../../../../services/error/error.service';
-import {ServerErrorComponent} from '../../../../app/error/server-no-response/server-error.component';
-import {ResponseDTO} from '../../../../../interfaces/http/api';
-import {QueryResult} from '../../../../../interfaces/query';
+import {ERROR, PENDING, SUCCESS} from '../../../../../../utils/constants';
+import {LoadingAnimationService} from '../../../../../../services/navigation/loading-animation.service';
+import {ErrorService} from '../../../../../../services/error/error.service';
+import {ServerErrorComponent} from '../../../../../app/error/server-no-response/server-error.component';
+import {ResponseDTO} from '../../../../../../interfaces/http/api';
+import {QueryResult} from '../../../../../../interfaces/query';
 
 @Component({
     selector: 'app-user-address-list-view',

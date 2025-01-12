@@ -4,6 +4,9 @@ import {MessageService} from 'primeng/api';
 import {NgClass} from '@angular/common';
 import {Button} from 'primeng/button';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
+import {PrimeNG} from 'primeng/config';
+import primeEN from '../../../../public/i18n/primeng-en.json';
+import primeES from '../../../../public/i18n/primeng-es.json';
 
 @Component({
   selector: 'app-locale-selector',
@@ -19,6 +22,7 @@ export class LocaleSelectorComponent {
   private localStorageService = inject(LocalstorageService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
+  private primeNgConfig = inject(PrimeNG);
   visible = false;
   @ViewChild('locale') locale: ElementRef | undefined;
 
@@ -51,10 +55,6 @@ export class LocaleSelectorComponent {
     this.translateService.use(language);
     // setting locale of primeNg by directly loading the json files in this component
     // https://github.com/ngx-translate/core/issues/641
-    if (language === 'es') {
-      //this.primeNgConfig.setTranslation(primeNgEs);
-    } else {
-      //this.primeNgConfig.setTranslation(primeNgEn);
-    }
+    this.primeNgConfig.setTranslation(language === "en" ? primeEN : primeES);
   }
 }

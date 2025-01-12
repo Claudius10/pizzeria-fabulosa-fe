@@ -9,7 +9,6 @@ import {userCredentialsGuardGuard} from '../user/guard/user-credentials-guard.gu
 import {ProfileComponent} from '../user/profile/profile.component';
 import {SettingsComponent} from '../user/settings/settings.component';
 import {BeverageListComponent} from '../resources/products/beverages/beverage-list.component';
-import {CheckoutFormComponent} from '../forms/checkout/CheckoutForm/checkout-form.component';
 import {StepOneWhoComponent} from '../forms/checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../forms/checkout/steps/2-step-two-where/step-two-where.component';
 import {StepThreeWhenComponent} from '../forms/checkout/steps/3-step-three-when/step-three-when.component';
@@ -19,6 +18,7 @@ import {NewOrderSuccessComponent} from '../forms/checkout/success/new-order-succ
 import {ErrorComponent} from './error/error.component';
 import {OrderSummaryListComponent} from '../user/orders/summary-list/list/order-summary-list.component';
 import {OrderComponent} from '../user/orders/order-item/order.component';
+import {CheckoutFormComponent} from '../forms/checkout/form/checkout-form.component';
 
 export const routes: Routes = [
   {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, Signal} from '@angular/core';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
@@ -12,33 +12,35 @@ import {RESOURCE_PRODUCT_ALL} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
-import {CustomerDetailsComponent} from '../../../user/orders/order-item/customer-details/customer-details.component';
 import {AddressDetailsComponent} from '../../../user/orders/order-item/address-details/address-details.component';
 import {OrderDetailsComponent} from '../../../user/orders/order-item/order-details/order-details.component';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
+import {Card} from "primeng/card";
+import {UserDetailsComponent} from "../../../user/details/user-details.component";
 
 @Component({
-    selector: 'app-new-order-success',
-    host: {
-        class: 'upper-layout',
-    },
-    imports: [
-        Button,
-        TranslatePipe,
-        UpperCasePipe,
-        CustomerDetailsComponent,
-        AddressDetailsComponent,
-        OrderDetailsComponent,
-        CartComponent,
-        RouterLink
-    ],
-    templateUrl: './new-order-success.component.html',
-    styleUrl: './new-order-success.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-new-order-success',
+  host: {
+    class: 'upper-layout',
+  },
+  imports: [
+    Button,
+    TranslatePipe,
+    UpperCasePipe,
+    AddressDetailsComponent,
+    OrderDetailsComponent,
+    CartComponent,
+    RouterLink,
+    Card,
+    UserDetailsComponent
+  ],
+  templateUrl: './new-order-success.component.html',
+  styleUrl: './new-order-success.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewOrderSuccessComponent implements OnInit, OnDestroy {
+export class NewOrderSuccessComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
@@ -82,11 +84,9 @@ export class NewOrderSuccessComponent implements OnInit, OnDestroy {
 
       this.destroyRef.onDestroy(() => {
         subscription.unsubscribe();
+        this.cartService.clear();
+        this.checkoutFormService.clear();
       });
     }
-  }
-
-  ngOnDestroy(): void {
-    this.cartService.clear();
   }
 }
