@@ -1,6 +1,6 @@
 import {APP_BASE_HREF} from '@angular/common';
 import {CommonEngine} from '@angular/ssr/node';
-import express from 'express';
+import express, {Express} from 'express';
 import {fileURLToPath} from 'node:url';
 import {dirname, join, resolve} from 'node:path';
 import bootstrap from './src/main.server';
@@ -50,8 +50,8 @@ function run(): void {
   const port = process.env['PORT'] || 3000;
 
   // Start up the Node server
-  const server = app();
-  server.listen(port, '::', () => {
+  const server: Express = app();
+  server.listen(Number(port), '::', () => {
     console.log(`Server listening on [::]${port}`);
   });
 }
