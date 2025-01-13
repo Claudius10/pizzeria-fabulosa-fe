@@ -24,6 +24,7 @@ export const routes: Routes = [
   {
     path: "",
     component: HomeComponent,
+    title: "Pizzeria Fabulosa"
   },
   {
     path: "pizzas",

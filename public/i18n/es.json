@@ -105,6 +105,7 @@
   "component.user.order.list.empty": "Tramita tu primer pedido y aparecerá aquí!",
   "component.user.order.note": "Nota importante:",
   "component.user.order.note.text": "el pedido se puede cancelar únicamente en los primeros diez minutos desde su creación.",
+  "component.user.delete.form": "Cuenta borrada con éxito",
   "component.server.error.header": "Nuestros servidores no están disponibles en estos momentos",
   "component.server.error.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas.",
   "component.error.no.error": "No hay ningún error",
@@ -134,6 +135,6 @@
   "dialog.logout.error.message": "Error al cerrar la session. Si el problema persiste, contacta con nosotros.",
   "page.forbidden": "Acceso denegado: asegúrese de tener la sesión abierta y los privilegios suficientes para acceder a esta página",
   "page.not.found": "Esto es un callejón sin salida. Por favor vuelve a la página principal haciendo click en el icono pizza en la esquina superior izquierda.",
-  "toast.dev.note": "El servidor puede estar durmiendo. Por favor espera unos segundos y luego refresca la página",
+  "toast.dev.note": "El servidor puede estar durmiendo. Por favor, espera unos segundos.",
   "footer.dev": "Proyecto de Clau"
 }

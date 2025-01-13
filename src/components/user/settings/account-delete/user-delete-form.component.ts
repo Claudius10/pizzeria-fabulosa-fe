@@ -15,32 +15,35 @@ import {isFormValid} from '../../../../utils/functions';
 import {CardModule} from 'primeng/card';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {formIconColor} from '../../../../primeng/icon';
 import {input} from '../../../../primeng/input';
+import {MessageService} from 'primeng/api';
 
 @Component({
-    selector: 'app-user-delete-form',
-    imports: [
-        PaginatorModule,
-        ReactiveFormsModule,
-        IconFieldModule,
-        InputIconModule,
-        InputTextModule,
-        Button,
-        CardModule,
-        TranslatePipe,
-        UpperCasePipe
-    ],
-    templateUrl: './user-delete-form.component.html',
-    styleUrl: './user-delete-form.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-delete-form',
+  imports: [
+    PaginatorModule,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    Button,
+    CardModule,
+    TranslatePipe,
+    UpperCasePipe
+  ],
+  templateUrl: './user-delete-form.component.html',
+  styleUrl: './user-delete-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
+  private loadingAnimationService = inject(LoadingAnimationService);
+  private messageService = inject(MessageService);
+  private translateService = inject(TranslateService);
   private router = inject(Router);
   private errorService = inject(ErrorService);
-  private loadingAnimationService = inject(LoadingAnimationService);
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private delete: MutationResult = this.accountService.delete();
@@ -77,6 +80,12 @@ export class UserDeleteFormComponent implements OnDestroy {
             this.errorService.handleError(response);
           } else {
             this.authService.logout();
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant("toast.severity.info"),
+              detail: this.translateService.instant("component.user.delete.form"),
+              life: 2000
+            });
             this.router.navigate(["/"]);
           }
         },
