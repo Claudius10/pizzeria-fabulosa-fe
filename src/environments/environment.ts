@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://pizzeriaprojectbe.railway.internal:3000'
+  url: 'http://pizzeriaprojectbe.railway.internal:3000'
 };
