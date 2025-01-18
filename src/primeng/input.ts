@@ -1,21 +1,6 @@
-export const inputInverse = () => {
+export const input = (inverse: boolean) => {
   return {
-
-    background: "{surface.card.inverse}",
-    border: {
-      color: "transparent",
-    },
-    hover: {
-      border: {
-        color: "{primary.400}",
-      }
-    }
-  };
-};
-
-export const input = () => {
-  return {
-    background: "{surface.card.bg}",
+    background: inverse ? "{surface.card.inverse}" : "{surface.card.bg}",
     border: {
       color: "transparent",
     },

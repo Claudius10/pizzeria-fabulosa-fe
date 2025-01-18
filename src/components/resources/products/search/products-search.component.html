@@ -1,0 +1,16 @@
+<form class="flex gap-4" [formGroup]="form">
+  <div class="flex flex-col gap-2">
+    <p-iconfield [dt]="formIconColor()">
+      <input
+        class="w-full"
+        id="searchText"
+        type="text"
+        placeholder="{{ 'form.label.search' | translate}} "
+        formControlName="searchText"
+        pInputText
+        [dt]="input(true)"
+      >
+      <p-inputicon styleClass="pi pi-search"/>
+    </p-iconfield>
+  </div>
+</form>

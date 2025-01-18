@@ -21,7 +21,7 @@
             formControlName="paymentMethod"
             (change)="togglePaymentOption($event.target!)"
             pInputText
-            [dt]="inputInverse()"
+            [dt]="input(true)"
           >
             <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description | translate }}
             </option>
@@ -40,7 +40,7 @@
               id="changeRequestChoice"
               (change)="toggleChangeRequest($event.target!)"
               pInputText
-              [dt]="inputInverse()"
+              [dt]="input(true)"
             >
               <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description | translate }}
               </option>
@@ -59,7 +59,7 @@
               type="tel"
               formControlName="billToChange"
               pInputText
-              [dt]="inputInverse()"
+              [dt]="input(true)"
             >
           </p-iconfield>
           @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {

@@ -16,7 +16,7 @@
     <!-- RIGHT SIDE ICON LIST -->
     <ul class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
-      <li (click)="toggleCartSidePanel()" pBadge value="{{cartQuantity()}}">
+      <li (click)="toggleCartDrawer()" pBadge value="{{cartQuantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
                 'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center' :
@@ -27,7 +27,7 @@
       </li>
 
       <!-- SMALL SCREEN MENU ICON -->
-      <li (click)="toggleMobileSidePanelMenu()" class="quick-links-sm">
+      <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
         <button type="button"
                 class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
           <i class="pi pi-bars"></i>
@@ -87,21 +87,21 @@
                    [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
   }
 </div>
-<p-drawer [(visible)]="sidebarMobileMenuVisible">
+<p-drawer [(visible)]="linksDrawerVisible">
   <div class="flex flex-col items-center gap-6">
-    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
+    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
        [routerLinkActiveOptions]="{exact: true}">
       {{ 'component.navigation.quick.link.home' | translate }}</p>
-    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
+    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
       Pizzas</p>
-    <p (click)="hideMobileSidePanelMenu()" class="cursor-pointer" routerLinkActive="color"
+    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color"
        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
   </div>
 </p-drawer>
-<p-drawer [(visible)]="sidebarCartVisible" position="right" styleClass="!w-96">
+<p-drawer [(visible)]="drawerCartVisible" position="right" styleClass="!w-96">
   <ng-template pTemplate="header">
-    <span class="font-bold font text-2xl ml-1">Cart</span>
+    <span class="font-bold font text-2xl ml-1">{{ "component.navigation.cart.drawer.header" | translate }}</span>
   </ng-template>
-  <app-cart [viewOnly]="false" [inSidebar]="true" (onNewOrderClick)="hideCartSidePanelMenu($event)"/>
+  <app-cart [viewOnly]="false" [inSidebar]="true" (onNewOrderClick)="hideCartDrawer($event)"/>
 </p-drawer>
 

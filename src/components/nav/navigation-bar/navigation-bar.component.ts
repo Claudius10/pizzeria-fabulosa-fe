@@ -46,8 +46,8 @@ export class NavigationBarComponent {
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
-  sidebarMobileMenuVisible = false;
-  sidebarCartVisible = false;
+  linksDrawerVisible = false;
+  drawerCartVisible = false;
   bump = signal(false);
 
   constructor() {
@@ -73,20 +73,20 @@ export class NavigationBarComponent {
     });
   }
 
-  toggleMobileSidePanelMenu() {
-    this.sidebarMobileMenuVisible = !this.sidebarMobileMenuVisible;
+  toggleMobileLinksDrawer() {
+    this.linksDrawerVisible = !this.linksDrawerVisible;
   }
 
-  toggleCartSidePanel() {
-    this.sidebarCartVisible = !this.sidebarCartVisible;
+  toggleCartDrawer() {
+    this.drawerCartVisible = !this.drawerCartVisible;
   }
 
-  hideCartSidePanelMenu(event: boolean) {
-    this.sidebarCartVisible = event;
+  hideCartDrawer(event: boolean) {
+    this.drawerCartVisible = event;
   }
 
-  hideMobileSidePanelMenu() {
-    this.sidebarMobileMenuVisible = false;
+  hideMobileLinksDrawer() {
+    this.linksDrawerVisible = false;
   }
 
   showLoginDialog() {

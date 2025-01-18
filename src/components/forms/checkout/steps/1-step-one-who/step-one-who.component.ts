@@ -13,22 +13,22 @@ import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 import {formIconColor} from '../../../../../primeng/icon';
-import {inputInverse} from '../../../../../primeng/input';
 import {UserDetailsComponent} from "../../../../user/details/user-details.component";
+import {input} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-one-who',
-    imports: [
-        CardModule,
-        TranslatePipe,
-        Button,
-        UpperCasePipe,
-        ReactiveFormsModule,
-        IconFieldModule,
-        InputIconModule,
-        InputTextModule,
-        UserDetailsComponent
-    ],
+  imports: [
+    CardModule,
+    TranslatePipe,
+    Button,
+    UpperCasePipe,
+    ReactiveFormsModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
+    UserDetailsComponent
+  ],
   templateUrl: './step-one-who.component.html',
   styleUrl: './step-one-who.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -38,9 +38,6 @@ export class StepOneWhoComponent implements OnInit {
   private authService = inject(AuthService);
   protected checkoutFormService = inject(CheckoutFormService);
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
-  userName = this.authService.getUserName();
-  userEmail = this.authService.getUserEmail();
-  userContactNumber = this.authService.getUserContactNumber();
 
   form = new FormGroup({
     fullName: new FormControl("", {
@@ -94,5 +91,5 @@ export class StepOneWhoComponent implements OnInit {
 
 
   protected readonly formIconColor = formIconColor;
-  protected readonly inputInverse = inputInverse;
+  protected readonly input = input;
 }

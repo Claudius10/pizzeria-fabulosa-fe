@@ -1,9 +1,28 @@
-<div class="flex justify-center flex-wrap gap-y-12 gap-x-12 lg:w-8/12">
-  @if (query.status() === "error") {
-    <app-server-error/>
-  } @else if (query.status() === "success" && query.data()!.payload !== null) {
-    @for (product of query.data()!.payload; track product.id) {
-      <app-product [product]="product"/>
-    }
-  }
+<div class="flex justify-center gap-5 w-full">
+
+  <div class="products-search flex flex-col gap-3">
+    <app-products-search (onSearch)="setSearchText($event)"/>
+    <app-products-filter/>
+  </div>
+
+  <div class="flex flex-col items-center gap-8">
+
+    <div class="products-search-sm flex-col gap-3">
+      <app-products-search (onSearch)="setSearchText($event)"/>
+      <app-products-filter/>
+    </div>
+
+    <div class="products flex justify-start flex-wrap gap-y-12 gap-x-12">
+
+      @if (query.status() === "success" && query.data()!.payload !== null) {
+        @for (product of query.data()!.payload | productsSearch: searchText(); track product.id) {
+          <app-product [product]="product"/>
+        }
+      }
+
+      @if (query.status() === "error") {
+        <app-server-error/>
+      }
+    </div>
+  </div>
 </div>
