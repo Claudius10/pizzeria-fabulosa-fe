@@ -9,7 +9,6 @@ import {ServerErrorComponent} from '../../../app/error/server-no-response/server
 import {ErrorService} from '../../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {Card} from 'primeng/card';
 import {card} from '../../../../primeng/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {input} from '../../../../primeng/input';
@@ -26,7 +25,6 @@ import {ProductsSearchComponent} from '../search/products-search.component';
     ProductItemComponent,
     ServerErrorComponent,
     ProductsSearchPipe,
-    Card,
     ReactiveFormsModule,
     ProductsFilterComponent,
     ProductsSearchPipe,
