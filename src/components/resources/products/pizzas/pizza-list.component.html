@@ -15,7 +15,7 @@
     <div class="products flex justify-start flex-wrap gap-y-12 gap-x-12">
 
       @if (query.status() === "success" && query.data()!.payload !== null) {
-        @for (product of query.data()!.payload | productsSearch: searchText(); track product.id) {
+        @for (product of query.data()!.payload | productsSearch: searchText():searchFilters(); track product.id) {
           <app-product [product]="product"/>
         }
       }

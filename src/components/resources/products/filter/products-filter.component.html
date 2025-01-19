@@ -1,4 +1,20 @@
-<div pInputText [dt]="input(true)" class="flex justify-between" (click)="toggleFilters()">
-  <span>{{ "component.products.filters.drawer.header" | translate }}</span>
-  <i class="flex items-center pi pi-filter" style="color: var(--p-primary-color)"></i>
+<div class="flex flex-col gap-2">
+
+  <div pInputText [dt]="input(true)" class="flex justify-between">
+    <div class="flex gap-2" (click)="toggle()">
+      <i class="flex items-center pi pi-angle-right" style="color: var(--p-primary-color)"></i>
+      <span>{{ "component.products.filters.drawer.header" | translate }}</span>
+    </div>
+
+    <i class="flex items-center pi pi-filter" style="color: var(--p-primary-color)"
+       (click)="this.filterService.clear()"></i>
+  </div>
+
+  @if (open()) {
+    <app-filter-list [header]="'component.products.filters.meat'" [items]="meatItems"/>
+    <app-filter-list [header]="'component.products.filters.cheese'" [items]="cheeseItems"/>
+    <app-filter-list [header]="'component.products.filters.vegetables'" [items]="vegetablesItems"/>
+    <app-filter-list [header]="'component.products.filters.sauce'" [items]="sauceItems"/>
+    <app-filter-list [header]="'component.products.filters.others'" [items]="othersItems"/>
+  }
 </div>

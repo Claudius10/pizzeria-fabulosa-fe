@@ -15,6 +15,7 @@ import {input} from '../../../../primeng/input';
 import {ProductsFilterComponent} from '../filter/products-filter.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
+import {FilterService} from '../../../../services/filter/filter.service';
 
 @Component({
   selector: 'app-pizza-list',
@@ -39,8 +40,10 @@ export class PizzaListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
+  private filterService = inject(FilterService);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
+  searchFilters = this.filterService.getFilters();
   searchText = signal<string>("");
 
   setSearchText(text: string) {
