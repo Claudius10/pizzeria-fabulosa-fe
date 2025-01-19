@@ -14,7 +14,7 @@ import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
 import {formIconColor} from '../../../../../primeng/icon';
 import {UserDetailsComponent} from "../../../../user/details/user-details.component";
-import {input} from '../../../../../primeng/input';
+import {myInput} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -91,5 +91,5 @@ export class StepOneWhoComponent implements OnInit {
 
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }

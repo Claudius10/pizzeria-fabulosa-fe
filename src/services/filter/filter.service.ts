@@ -4,38 +4,51 @@ import {Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class FilterService {
-  searchFilters = signal<string[]>([]);
+  selectedFilters = signal<string[]>([]);
   isEmpty = signal(true);
 
-  add(filter: string) {
+  contains(category: string): boolean {
+    let result = false;
+
+    for (let filter of this.selectedFilters()) {
+      if (filter.includes(category)) {
+        result = true;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  addFilter(filter: string) {
     if (this.isEmpty()) {
       this.isEmpty.set(false);
     }
 
-    this.searchFilters.update(currentFilters => {
+    this.selectedFilters.update(currentFilters => {
       return [...currentFilters, filter];
     });
   }
 
-  remove(filter: string) {
-    const filters = this.searchFilters().filter(oldFilter => {
+  removeFilter(filter: string) {
+    const filters = this.selectedFilters().filter(oldFilter => {
       return oldFilter !== filter;
     });
 
-    this.searchFilters.set(filters);
+    this.selectedFilters.set(filters);
 
-    if (this.searchFilters().length === 0) {
+    if (this.selectedFilters().length === 0) {
       this.isEmpty.set(true);
     }
   }
 
   clear() {
-    this.searchFilters.set([]);
+    this.selectedFilters.set([]);
     this.isEmpty.set(true);
   }
 
   getFilters() {
-    return this.searchFilters.asReadonly();
+    return this.selectedFilters.asReadonly();
   }
 
   getIsEmpty() {

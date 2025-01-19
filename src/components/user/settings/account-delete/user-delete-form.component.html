@@ -12,7 +12,7 @@
             placeholder="{{ 'form.label.password' | translate}} "
             formControlName="password"
             pInputText
-            [dt]="input(true)"
+            [dt]="myInput(true)"
           >
           <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
         </p-iconfield>

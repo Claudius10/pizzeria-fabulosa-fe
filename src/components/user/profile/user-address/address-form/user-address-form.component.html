@@ -10,7 +10,7 @@
           placeholder="{{ 'form.label.delivery.address' | translate }}"
           formControlName="street"
           pInputText
-          [dt]="input(false)"
+          [dt]="myInput(false)"
         >
       </p-iconfield>
       @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
@@ -30,7 +30,7 @@
           placeholder="{{ 'form.label.delivery.number' | translate }}"
           formControlName="number"
           pInputText
-          [dt]="input(false)"
+          [dt]="myInput(false)"
         >
       </p-iconfield>
       @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
@@ -50,7 +50,7 @@
           placeholder="{{ 'form.label.delivery.details' | translate }}"
           formControlName="details"
           pInputText
-          [dt]="input(false)"
+          [dt]="myInput(false)"
         >
       </p-iconfield>
       @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {

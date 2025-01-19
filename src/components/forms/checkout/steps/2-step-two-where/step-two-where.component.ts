@@ -25,7 +25,7 @@ import {SUCCESS} from '../../../../../utils/constants';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {myInput} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -251,5 +251,5 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }

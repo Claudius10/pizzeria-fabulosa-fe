@@ -11,7 +11,6 @@ import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {card} from '../../../../primeng/card';
 import {ReactiveFormsModule} from '@angular/forms';
-import {input} from '../../../../primeng/input';
 import {ProductsFilterComponent} from '../filter/products-filter.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
@@ -79,5 +78,4 @@ export class PizzaListComponent implements OnInit {
   }
 
   protected readonly card = card;
-  protected readonly input = input;
 }

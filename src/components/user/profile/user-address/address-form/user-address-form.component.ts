@@ -16,7 +16,7 @@ import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {myInput} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-user-address-form',
@@ -102,5 +102,5 @@ export class UserAddressFormComponent {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }

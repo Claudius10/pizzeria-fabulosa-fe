@@ -18,8 +18,8 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {formIconColor} from '../../../../primeng/icon';
-import {input} from '../../../../primeng/input';
 import {MessageService} from 'primeng/api';
+import {myInput} from '../../../../primeng/input';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -100,5 +100,5 @@ export class UserDeleteFormComponent implements OnDestroy {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }

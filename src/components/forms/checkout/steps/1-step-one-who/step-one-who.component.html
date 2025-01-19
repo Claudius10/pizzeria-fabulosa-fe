@@ -36,7 +36,7 @@
               placeholder="{{ 'form.label.name' | translate }}"
               formControlName="fullName"
               pInputText
-              [dt]="input(true)"
+              [dt]="myInput(true)"
             >
           </p-iconfield>
           @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
@@ -56,7 +56,7 @@
               placeholder="{{ 'form.label.email' | translate }}"
               formControlName="email"
               pInputText
-              [dt]="input(true)">
+              [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
             <small id="email-help" class="invalid-text">
@@ -74,7 +74,7 @@
                    placeholder="{{ 'form.label.contact.number' | translate }}"
                    formControlName="contactNumber"
                    pInputText
-                   [dt]="input(true)">
+                   [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
             <small id="contactNumber-help" class="invalid-text">

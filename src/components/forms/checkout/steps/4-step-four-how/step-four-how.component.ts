@@ -22,7 +22,7 @@ import {CartService} from '../../../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../../utils/functions';
 import {formIconColor} from '../../../../../primeng/icon';
-import {input} from '../../../../../primeng/input';
+import {myInput} from '../../../../../primeng/input';
 
 @Component({
   selector: 'app-checkout-step-four-how',
@@ -152,7 +152,7 @@ export class StepFourHowComponent implements OnInit {
   }
 
   protected readonly formIconColor = formIconColor;
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }
 
 function billValidator(total: number, totalWithOffers: number): ValidatorFn {

@@ -16,7 +16,7 @@
               placeholder="{{'form.label.name' | translate }}"
               formControlName="name"
               pInputText
-              [dt]="input(false)"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           @if (!this.form.controls.name.untouched && !this.form.controls.name.valid) {
@@ -36,7 +36,7 @@
               placeholder="{{'form.label.email' | translate }}"
               formControlName="email"
               pInputText
-              [dt]="input(false)"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
@@ -56,7 +56,7 @@
               placeholder="{{'form.label.email.matching' | translate }}"
               formControlName="matchingEmail"
               pInputText
-              [dt]="input(false)"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           @if (!this.form.controls.matchingEmail.untouched && !this.form.controls.matchingEmail.valid) {
@@ -76,7 +76,7 @@
               placeholder="{{'form.label.contact.number' | translate }}"
               formControlName="contactNumber"
               pInputText
-              [dt]="input(false)"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           @if (!this.form.controls.matchingEmail.untouched && !this.form.controls.matchingEmail.valid) {
@@ -94,7 +94,7 @@
                    placeholder="{{'form.label.password' | translate }}"
                    formControlName="password"
                    pInputText
-                   [dt]="input(false)"
+                   [dt]="myInput(false)"
             >
             <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
@@ -113,7 +113,7 @@
                    placeholder="{{'form.label.password.matching' | translate }}"
                    formControlName="matchingPassword"
                    pInputText
-                   [dt]="input(false)"
+                   [dt]="myInput(false)"
             >
             <p-inputicon (click)="toggleMatchingPassword()"
                          styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>

@@ -1,1 +1,2 @@
-<span [ngClass]="['ml-4', selected() ? 'color' : '' ]" (click)="toggleFilter()">{{ item() | translate }}</span>
+<span [ngClass]="['ml-4 cursor-pointer', selected() ? 'color' : '' ]"
+      (click)="toggleFilter()">{{ item() | translate }}</span>

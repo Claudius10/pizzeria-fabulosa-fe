@@ -31,12 +31,14 @@ export class FilterItemComponent implements OnInit {
   protected isEmpty = this.filterService.getIsEmpty();
   selected = signal(false);
 
+  // when pressing filled filter icon, the filters are cleared
+  // therefore remove the filter item active color
   constructor() {
     effect(() => {
       if (this.isEmpty()) {
         untracked(() => {
           this.selected.set(false);
-          this.filterService.remove(this.item());
+          this.filterService.removeFilter(this.item());
         });
       }
     });
@@ -51,11 +53,11 @@ export class FilterItemComponent implements OnInit {
 
   toggleFilter() {
     if (this.selected()) {
-      this.filterService.remove(this.item());
+      this.filterService.removeFilter(this.item());
       this.selected.set(false);
       this.onSelected.emit(false);
     } else {
-      this.filterService.add(this.item());
+      this.filterService.addFilter(this.item());
       this.selected.set(true);
       this.onSelected.emit(true);
     }

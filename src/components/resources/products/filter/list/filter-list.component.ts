@@ -27,6 +27,8 @@ export class FilterListComponent {
   open = signal(true);
   selected = signal(false);
 
+  // when pressing filled filter icon, the filters are cleared
+  // therefore remove the filter header active color
   constructor() {
     effect(() => {
       if (this.isEmpty()) {
@@ -38,7 +40,8 @@ export class FilterListComponent {
   }
 
   setSelected() {
-    if (this.isEmpty()) {
+    const category = this.filterService.contains(this.header());
+    if (!category) {
       this.selected.set(false);
     } else {
       this.selected.set(true);

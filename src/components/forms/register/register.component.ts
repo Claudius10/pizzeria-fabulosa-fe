@@ -26,27 +26,27 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {UpperCasePipe} from '@angular/common';
 import {CardModule} from 'primeng/card';
-import {input} from '../../../primeng/input';
 import {formIconColor} from '../../../primeng/icon';
+import {myInput} from '../../../primeng/input';
 
 @Component({
-    selector: 'app-register',
-    host: {
-        class: 'upper-layout',
-    },
-    imports: [
-        CardModule,
-        ReactiveFormsModule,
-        IconFieldModule,
-        TranslatePipe,
-        InputIconModule,
-        InputTextModule,
-        UpperCasePipe,
-        Button
-    ],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-register',
+  host: {
+    class: 'upper-layout',
+  },
+  imports: [
+    CardModule,
+    ReactiveFormsModule,
+    IconFieldModule,
+    TranslatePipe,
+    InputIconModule,
+    InputTextModule,
+    UpperCasePipe,
+    Button
+  ],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
   private router = inject(Router);
@@ -146,8 +146,8 @@ export class RegisterComponent implements OnDestroy {
     }
   }
 
-  protected readonly input = input;
   protected readonly formIconColor = formIconColor;
+  protected readonly myInput = myInput;
 }
 
 const validateEmailMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

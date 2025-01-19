@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
 import {TranslatePipe} from '@ngx-translate/core';
-import {input} from '../../../../primeng/input';
+
 import {FilterListComponent} from './list/filter-list.component';
 import {FilterService} from '../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
+import {myInput} from '../../../../primeng/input';
 
 @Component({
   selector: 'app-products-filter',
@@ -19,13 +20,16 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsFilterComponent {
+  sm = input.required<boolean>();
   protected filterService = inject(FilterService);
   protected isEmpty = this.filterService.getIsEmpty();
   open = signal(false);
 
   toggle() {
-    this.open.set(!this.open());
-    this.filterService.clear();
+    if (!this.sm()) {
+      this.open.set(!this.open());
+      this.filterService.clear();
+    }
   }
 
   meatItems = [
@@ -65,5 +69,5 @@ export class ProductsFilterComponent {
     'component.products.filters.others.truffle.oil',
   ];
 
-  protected readonly input = input;
+  protected readonly myInput = myInput;
 }
