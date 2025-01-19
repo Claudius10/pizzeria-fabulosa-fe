@@ -45,19 +45,25 @@ export class ProductsSearchPipe implements PipeTransform {
       return this.translateService.instant(filter).toLowerCase();
     });
 
-    filters.forEach((filter) => {
+    items.map(item => {
 
-      items.map(item => {
+      let includes = true;
+
+      filters.forEach(filter => {
         if (locale === 'en') {
-          if (item.description.en.toLowerCase().includes(filter)) {
-            filteredItems.push(item);
+          if (!item.description.en.toLowerCase().includes(filter)) {
+            includes = false;
           }
         } else {
-          if (item.description.es.toLowerCase().includes(filter)) {
-            filteredItems.push(item);
+          if (!item.description.es.toLowerCase().includes(filter)) {
+            includes = false;
           }
         }
       });
+
+      if (includes) {
+        filteredItems.push(item);
+      }
     });
 
     return filteredItems;

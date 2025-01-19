@@ -4,13 +4,15 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {input} from '../../../../primeng/input';
 import {FilterListComponent} from './list/filter-list.component';
 import {FilterService} from '../../../../services/filter/filter.service';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-products-filter',
   imports: [
     InputText,
     TranslatePipe,
-    FilterListComponent
+    FilterListComponent,
+    NgClass
   ],
   templateUrl: './products-filter.component.html',
   styleUrl: './products-filter.component.scss',
@@ -18,10 +20,12 @@ import {FilterService} from '../../../../services/filter/filter.service';
 })
 export class ProductsFilterComponent {
   protected filterService = inject(FilterService);
+  protected isEmpty = this.filterService.getIsEmpty();
   open = signal(false);
 
   toggle() {
     this.open.set(!this.open());
+    this.filterService.clear();
   }
 
   meatItems = [

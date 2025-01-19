@@ -2,11 +2,11 @@
 
   <div pInputText [dt]="input(true)" class="flex justify-between">
     <div class="flex gap-2" (click)="toggle()">
-      <i class="flex items-center pi pi-angle-right" style="color: var(--p-primary-color)"></i>
+      <i [ngClass]="['flex items-center color', open() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
       <span>{{ "component.products.filters.drawer.header" | translate }}</span>
     </div>
 
-    <i class="flex items-center pi pi-filter" style="color: var(--p-primary-color)"
+    <i [ngClass]="['flex items-center color', isEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
        (click)="this.filterService.clear()"></i>
   </div>
 

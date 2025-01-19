@@ -1,10 +1,10 @@
 <p-card [dt]="card('10px', '6px', true)">
   <div class="flex flex-col gap-2">
-    <span (click)="toggle()">{{ header() | translate }}</span>
+    <span [ngClass]="[selected() ? 'color' : '' ]" (click)="toggle()">{{ header() | translate }}</span>
     @if (open()) {
       <div class="flex flex-col gap-2 transition duration-150 ease-in-out">
         @for (item of items(); track item) {
-          <app-filter-item [item]="item"/>
+          <app-filter-item [item]="item" (onSelected)="setSelected()"/>
         }
       </div>
     }
