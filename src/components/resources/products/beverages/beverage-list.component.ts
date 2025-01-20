@@ -9,26 +9,34 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
+import {FilterService} from '../../../../services/filter/filter.service';
+import {ProductsSearchComponent} from '../search/products-search.component';
+import {ProductsSearchPipe} from '../search/products-search.pipe';
 
 @Component({
-    selector: 'app-beverage-list',
-    host: {
-        class: 'upper-layout',
-    },
-    imports: [
-        ProductItemComponent,
-        ServerErrorComponent
-    ],
-    templateUrl: './beverage-list.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-beverage-list',
+  host: {
+    class: 'upper-layout',
+  },
+  imports: [
+    ProductItemComponent,
+    ServerErrorComponent,
+    ProductsSearchComponent,
+    ProductsSearchPipe
+  ],
+  templateUrl: './beverage-list.component.html',
+  styleUrls: ['./beverage-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BeverageListComponent implements OnInit, OnDestroy {
   private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
+  protected filterService = inject(FilterService);
   query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
+  searchText = this.filterService.getSearchText();
 
   ngOnInit(): void {
     const subscription = this.statusObservable.subscribe({

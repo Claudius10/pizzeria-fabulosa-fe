@@ -1,7 +1,7 @@
 <div class="container">
 
   <div class="products-search flex flex-col gap-3">
-    <app-products-search (onSearch)="setSearchText($event)"/>
+    <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
     <app-products-filter [items]="getAllFilters()"/>
   </div>
 

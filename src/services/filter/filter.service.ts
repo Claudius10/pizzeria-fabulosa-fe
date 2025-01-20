@@ -4,8 +4,13 @@ import {Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class FilterService {
+  searchText = signal<string>("");
   selectedFilters = signal<string[]>([]);
   isEmpty = signal(true);
+
+  setSearchText(text: string) {
+    this.searchText.set(text);
+  }
 
   contains(category: string): boolean {
     let result = false;
@@ -49,6 +54,10 @@ export class FilterService {
 
   getFilters() {
     return this.selectedFilters.asReadonly();
+  }
+
+  getSearchText() {
+    return this.searchText.asReadonly();
   }
 
   getIsEmpty() {

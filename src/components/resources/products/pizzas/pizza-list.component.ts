@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {RESOURCE_PRODUCT_PIZZA} from '../../../../utils/query-keys';
@@ -36,15 +36,11 @@ export class PizzaListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
-  private filterService = inject(FilterService);
+  protected filterService = inject(FilterService);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
   searchFilters = this.filterService.getFilters();
-  searchText = signal<string>("");
-
-  setSearchText(text: string) {
-    this.searchText.set(text);
-  }
+  searchText = this.filterService.getSearchText();
 
   ngOnInit(): void {
     const subscription = this.statusObservable.subscribe({
