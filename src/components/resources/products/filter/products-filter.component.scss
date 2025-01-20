@@ -1,3 +1,18 @@
 .color {
   color: var(--p-primary-color);
 }
+
+.filter-box {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-size: 1rem;
+  color: var(--p-inputtext-color);
+  background: var(--p-surface-card-inverse);
+  appearance: none;
+  border-radius: 6px;
+  outline-color: transparent;
+  box-shadow: var(--p-inputtext-shadow);
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  min-width: 15rem;
+}

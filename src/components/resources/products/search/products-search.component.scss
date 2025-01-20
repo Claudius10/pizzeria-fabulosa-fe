@@ -1,0 +1,22 @@
+.search-bar {
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-size: 1rem;
+  color: var(--p-inputtext-color);
+  background: var(--p-surface-card-inverse);
+  appearance: none;
+  border-radius: 6px;
+  outline-color: transparent;
+  box-shadow: var(--p-inputtext-shadow);
+  padding: 0.5rem;
+  border: 1px solid transparent;
+  min-width: 15rem;
+  transition-property: border-color !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 400ms !important;
+}
+
+.search-bar:hover, .search-bar:focus {
+  border: 1px solid var(--p-primary-color);
+  outline: none;
+}

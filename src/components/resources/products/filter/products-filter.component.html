@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-2">
 
-  <div pInputText [dt]="myInput(true)" class="flex justify-between">
+  <div class="flex justify-between filter-box">
     <div class="flex gap-2" (click)="toggle()">
       <i [ngClass]="['flex items-center color', open() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
       <span class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
