@@ -11,10 +11,21 @@
   </div>
 
   @if (open()) {
-    <app-filter-list [header]="'component.products.filters.meat'" [items]="meatItems"/>
-    <app-filter-list [header]="'component.products.filters.cheese'" [items]="cheeseItems"/>
-    <app-filter-list [header]="'component.products.filters.vegetables'" [items]="vegetablesItems"/>
-    <app-filter-list [header]="'component.products.filters.sauce'" [items]="sauceItems"/>
-    <app-filter-list [header]="'component.products.filters.others'" [items]="othersItems"/>
+    <div class="flex flex-col gap-2" @filtersAnimation>
+      @for (item of items(); track item.header) {
+        <app-filter-list [header]="item.header" [items]="item.items" [inverseCardBg]="true"/>
+      }
+    </div>
   }
+
 </div>
+<p-drawer [(visible)]="drawerFiltersVisible" position="left">
+  <ng-template pTemplate="header">
+    <span class="font-bold font text-2xl ml-1">{{ "component.products.filters.drawer.header" | translate }}</span>
+  </ng-template>
+  <div class="flex flex-col gap-2">
+    @for (item of items(); track item.header) {
+      <app-filter-list [header]="item.header" [items]="item.items" [inverseCardBg]="false"/>
+    }
+  </div>
+</p-drawer>

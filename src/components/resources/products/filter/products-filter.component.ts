@@ -1,73 +1,66 @@
 import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 import {InputText} from 'primeng/inputtext';
-import {TranslatePipe} from '@ngx-translate/core';
 
 import {FilterListComponent} from './list/filter-list.component';
 import {FilterService} from '../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
 import {myInput} from '../../../../primeng/input';
+import {Drawer} from 'primeng/drawer';
+import {PrimeTemplate} from 'primeng/api';
+import {animate, style, transition, trigger} from '@angular/animations';
+import {TranslatePipe} from '@ngx-translate/core';
+
+export interface FilterItem {
+  header: string;
+  items: string[];
+}
 
 @Component({
   selector: 'app-products-filter',
   imports: [
     InputText,
-    TranslatePipe,
+    NgClass,
     FilterListComponent,
-    NgClass
+    Drawer,
+    PrimeTemplate,
+    TranslatePipe
   ],
   templateUrl: './products-filter.component.html',
   styleUrl: './products-filter.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('filtersAnimation', [
+      transition(':enter', [style({opacity: 0}), animate('500ms', style({opacity: 1}))]),
+      transition(':leave', [animate('500ms', style({opacity: 0}))]),
+    ]),
+  ]
 })
 export class ProductsFilterComponent {
-  sm = input.required<boolean>();
+  items = input.required<FilterItem[]>();
   protected filterService = inject(FilterService);
   protected isEmpty = this.filterService.getIsEmpty();
   open = signal(false);
+  drawerFiltersVisible = false;
+  collapsed = true;
+
+  toggleFiltersDrawer() {
+    this.drawerFiltersVisible = !this.drawerFiltersVisible;
+  }
 
   toggle() {
-    if (!this.sm()) {
+    this.toggleCollapse();
+    if (window.innerWidth <= 929) {
+      this.toggleFiltersDrawer();
+      this.open.set(false);
+    } else {
       this.open.set(!this.open());
       this.filterService.clear();
     }
   }
 
-  meatItems = [
-    'component.products.filters.meat.bacon',
-    'component.products.filters.meat.double.bacon',
-    'component.products.filters.meat.pepperoni',
-    'component.products.filters.meat.double.pepperoni',
-    'component.products.filters.meat.beef',
-    'component.products.filters.meat.york.ham',
-    'component.products.filters.meat.chicken'
-  ];
-
-  cheeseItems = [
-    'component.products.filters.cheese.parmesan',
-    'component.products.filters.cheese.emmental',
-    'component.products.filters.cheese.blue',
-    'component.products.filters.cheese.goat',
-    'component.products.filters.cheese.mozzarella',
-    'component.products.filters.cheese.double.mozzarella',
-  ];
-
-  vegetablesItems = [
-    'component.products.filters.vegetables.zucchini',
-    'component.products.filters.vegetables.tomato',
-    'component.products.filters.vegetables.onion',
-    'component.products.filters.vegetables.mushroom',
-    'component.products.filters.vegetables.eggplant',
-    'component.products.filters.vegetables.olives.black',
-  ];
-
-  sauceItems = [
-    'component.products.filters.sauce.tomato',
-    'component.products.filters.sauce.cream',
-  ];
-
-  othersItems = [
-    'component.products.filters.others.truffle.oil',
-  ];
+  toggleCollapse() {
+    this.collapsed = !this.collapsed;
+  }
 
   protected readonly myInput = myInput;
 }

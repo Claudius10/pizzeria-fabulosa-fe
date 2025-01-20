@@ -12,4 +12,3 @@ export const card = (padding: string, borderRadius: string, inverse: boolean) =>
     background: backgroundColor
   };
 };
-

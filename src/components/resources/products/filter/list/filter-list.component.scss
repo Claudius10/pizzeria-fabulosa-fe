@@ -1,3 +1,21 @@
 .color {
   color: var(--p-primary-color);
 }
+
+.card {
+  background: var(--p-surface-card-inverse);
+  color: var(--p-card-color);
+  box-shadow: var(--p-card-shadow);
+  display: flex;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.card-inverse {
+  background: var(--p-surface-card-bg);
+  color: var(--p-card-color);
+  box-shadow: var(--p-card-shadow);
+  display: flex;
+  border-radius: 6px;
+  padding: 10px;
+}

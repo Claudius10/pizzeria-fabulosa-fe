@@ -10,7 +10,6 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {card} from '../../../../primeng/card';
-import {ReactiveFormsModule} from '@angular/forms';
 import {ProductsFilterComponent} from '../filter/products-filter.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
@@ -22,13 +21,11 @@ import {FilterService} from '../../../../services/filter/filter.service';
     class: 'upper-layout',
   },
   imports: [
-    ProductItemComponent,
-    ServerErrorComponent,
-    ProductsSearchPipe,
-    ReactiveFormsModule,
+    ProductsSearchComponent,
     ProductsFilterComponent,
     ProductsSearchPipe,
-    ProductsSearchComponent
+    ProductItemComponent,
+    ServerErrorComponent
   ],
   templateUrl: './pizza-list.component.html',
   styleUrls: ['./pizza-list.component.scss'],
@@ -78,4 +75,76 @@ export class PizzaListComponent implements OnInit {
   }
 
   protected readonly card = card;
+  protected readonly getAllFilters = getAllFilters;
+}
+
+function getAllFilters() {
+  return [getMeatFilterItems(), getCheeseFilterItems(), getVegetablesFilterItems(), getSauceFilterItems(), getOthersFilterItems()];
+}
+
+function getMeatFilterItems() {
+  return {
+    header: "component.products.filters.meat",
+    items:
+      [
+        'component.products.filters.meat.bacon',
+        'component.products.filters.meat.double.bacon',
+        'component.products.filters.meat.pepperoni',
+        'component.products.filters.meat.double.pepperoni',
+        'component.products.filters.meat.beef',
+        'component.products.filters.meat.york.ham',
+        'component.products.filters.meat.chicken'
+      ]
+  };
+}
+
+function getCheeseFilterItems() {
+  return {
+    header: "component.products.filters.cheese",
+    items:
+      [
+        'component.products.filters.cheese.parmesan',
+        'component.products.filters.cheese.emmental',
+        'component.products.filters.cheese.blue',
+        'component.products.filters.cheese.goat',
+        'component.products.filters.cheese.mozzarella',
+        'component.products.filters.cheese.double.mozzarella',
+      ]
+  };
+}
+
+function getVegetablesFilterItems() {
+  return {
+    header: "component.products.filters.vegetables",
+    items:
+      [
+        'component.products.filters.vegetables.zucchini',
+        'component.products.filters.vegetables.tomato',
+        'component.products.filters.vegetables.onion',
+        'component.products.filters.vegetables.mushroom',
+        'component.products.filters.vegetables.eggplant',
+        'component.products.filters.vegetables.olives.black',
+      ]
+  };
+}
+
+function getSauceFilterItems() {
+  return {
+    header: "component.products.filters.sauce",
+    items:
+      [
+        'component.products.filters.sauce.tomato',
+        'component.products.filters.sauce.cream',
+      ]
+  };
+}
+
+function getOthersFilterItems() {
+  return {
+    header: "component.products.filters.others",
+    items:
+      [
+        'component.products.filters.others.truffle.oil',
+      ]
+  };
 }

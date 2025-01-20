@@ -1,14 +1,10 @@
-<p-card [dt]="card('10px', '6px', true)">
+<div [ngClass]="[inverseCardBg() ? 'card' : 'card-inverse']">
   <div class="flex flex-col gap-2">
-    <span [ngClass]="['cursor-pointer', selected() ? 'color' : '' ]"
-          (click)="toggle()">{{ header() | translate }}</span>
-
-    @if (open()) {
-      <div class="flex flex-col gap-2 transition duration-150 ease-in-out">
-        @for (item of items(); track item) {
-          <app-filter-item [item]="item" (onSelected)="setSelected()"/>
-        }
-      </div>
-    }
+    <span [ngClass]="['cursor-pointer', selected() ? 'color' : '' ]">{{ header() | translate }}</span>
+    <div class="flex flex-col gap-2">
+      @for (item of items(); track item) {
+        <app-filter-item [item]="item" (onSelected)="setSelected()"/>
+      }
+    </div>
   </div>
-</p-card>
+</div>

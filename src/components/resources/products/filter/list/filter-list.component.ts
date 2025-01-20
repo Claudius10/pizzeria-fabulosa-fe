@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, effect, inject, input, output, signal, untracked} from '@angular/core';
 import {FilterItemComponent} from '../item/filter-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
-import {Card} from 'primeng/card';
 import {card} from '../../../../../primeng/card';
 import {NgClass} from '@angular/common';
 import {FilterService} from '../../../../../services/filter/filter.service';
@@ -11,7 +10,6 @@ import {FilterService} from '../../../../../services/filter/filter.service';
   imports: [
     FilterItemComponent,
     TranslatePipe,
-    Card,
     NgClass
   ],
   templateUrl: './filter-list.component.html',
@@ -24,7 +22,7 @@ export class FilterListComponent {
   private isEmpty = this.filterService.getIsEmpty();
   header = input.required<string>();
   items = input.required<string[]>();
-  open = signal(true);
+  inverseCardBg = input.required<boolean>();
   selected = signal(false);
 
   // when pressing filled filter icon, the filters are cleared
@@ -46,10 +44,6 @@ export class FilterListComponent {
     } else {
       this.selected.set(true);
     }
-  }
-
-  toggle() {
-    this.open.set(!this.open());
   }
 
   protected readonly card = card;

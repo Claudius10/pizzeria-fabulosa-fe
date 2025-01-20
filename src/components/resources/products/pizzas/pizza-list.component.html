@@ -1,16 +1,11 @@
-<div class="flex justify-center gap-5 w-full">
+<div class="container">
 
   <div class="products-search flex flex-col gap-3">
     <app-products-search (onSearch)="setSearchText($event)"/>
-    <app-products-filter [sm]="false"/>
+    <app-products-filter [items]="getAllFilters()"/>
   </div>
 
   <div class="flex flex-col items-center gap-8">
-
-    <div class="products-search-sm flex-col gap-3">
-      <app-products-search (onSearch)="setSearchText($event)"/>
-    </div>
-
     <div class="products flex justify-start flex-wrap gap-y-12 gap-x-12">
 
       @if (query.status() === "success" && query.data()!.payload !== null) {
