@@ -3,7 +3,6 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {formIconColor} from '../../../../primeng/icon';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
-import {InputText} from 'primeng/inputtext';
 import {TranslatePipe} from '@ngx-translate/core';
 import {myInput} from '../../../../primeng/input';
 
@@ -12,7 +11,6 @@ import {myInput} from '../../../../primeng/input';
   imports: [
     IconField,
     InputIcon,
-    InputText,
     ReactiveFormsModule,
     TranslatePipe
   ],

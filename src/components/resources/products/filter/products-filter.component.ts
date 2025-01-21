@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
-import {InputText} from 'primeng/inputtext';
 
 import {FilterListComponent} from './list/filter-list.component';
 import {FilterService} from '../../../../services/filter/filter.service';
@@ -15,10 +14,11 @@ export interface FilterItem {
   items: string[];
 }
 
+const FILTER_ANIMATION_TRANSITION_DURATION = "600ms";
+
 @Component({
   selector: 'app-products-filter',
   imports: [
-    InputText,
     NgClass,
     FilterListComponent,
     Drawer,
@@ -30,8 +30,11 @@ export interface FilterItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('filtersAnimation', [
-      transition(':enter', [style({opacity: 0}), animate('500ms', style({opacity: 1}))]),
-      transition(':leave', [animate('500ms', style({opacity: 0}))]),
+      transition(':enter', [style({
+        height: "0",
+        overflow: "hidden"
+      }), animate(FILTER_ANIMATION_TRANSITION_DURATION, style({height: "*"}))]),
+      transition(':leave', [animate(FILTER_ANIMATION_TRANSITION_DURATION, style({height: 0, overflow: "hidden"}))]),
     ]),
   ]
 })
