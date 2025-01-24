@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
-import {formIconColor} from '../../../../primeng/icon';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {TranslatePipe} from '@ngx-translate/core';
 import {myInput} from '../../../../primeng/input';
+import {myIcon} from '../../../../primeng/icon';
 
 @Component({
   selector: 'app-products-search',
@@ -41,6 +41,6 @@ export class ProductsSearchComponent implements OnInit {
     });
   }
 
-  protected readonly formIconColor = formIconColor;
   protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
 }

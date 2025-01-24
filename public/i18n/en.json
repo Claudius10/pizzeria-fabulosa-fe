@@ -74,6 +74,8 @@
   "component.home.welcome.stores": "Come by our store",
   "component.offer.item.conditions": "Conditions",
   "component.store.item.schedule": "Schedule",
+  "component.products.allergens.header": "Allergens",
+  "component.products.allergens.text": "This product contains the following allergens",
   "component.products.filters.meat": "Meat",
   "component.products.filters.vegetables": "Vegetable",
   "component.products.filters.cheese": "Cheese",

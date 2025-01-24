@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="flex flex-col gap-4">
     <div class="flex flex-col gap-2 h-16">
-      <p-iconfield [dt]="formIconColor()">
+      <p-iconfield [dt]="myIcon('{primary.400}')">
         <p-inputicon styleClass="pi pi-directions"/>
         <input
           class="w-full"
@@ -21,7 +21,7 @@
     </div>
 
     <div class="flex flex-col gap-2 h-16">
-      <p-iconfield [dt]="formIconColor()">
+      <p-iconfield [dt]="myIcon('{primary.400}')">
         <p-inputicon styleClass="pi pi-home"/>
         <input
           class="w-full"
@@ -41,7 +41,7 @@
     </div>
 
     <div class="flex flex-col gap-2 h-16">
-      <p-iconfield [dt]="formIconColor()">
+      <p-iconfield [dt]="myIcon('{primary.400}')">
         <p-inputicon styleClass="pi pi-info-circle"/>
         <input
           class="w-full"

@@ -12,9 +12,9 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../../utils/functions';
 import {InputTextModule} from 'primeng/inputtext';
-import {formIconColor} from '../../../../../primeng/icon';
 import {UserDetailsComponent} from "../../../../user/details/user-details.component";
 import {myInput} from '../../../../../primeng/input';
+import {myIcon} from '../../../../../primeng/icon';
 
 @Component({
   selector: 'app-checkout-step-one-who',
@@ -89,7 +89,6 @@ export class StepOneWhoComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-
-  protected readonly formIconColor = formIconColor;
   protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
 }

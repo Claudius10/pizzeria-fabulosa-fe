@@ -15,8 +15,8 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
-import {formIconColor} from '../../../../../primeng/icon';
 import {myInput} from '../../../../../primeng/input';
+import {myIcon} from '../../../../../primeng/icon';
 
 @Component({
   selector: 'app-user-address-form',
@@ -101,6 +101,6 @@ export class UserAddressFormComponent {
     }
   }
 
-  protected readonly formIconColor = formIconColor;
   protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
 }

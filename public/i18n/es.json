@@ -75,6 +75,8 @@
   "component.home.welcome.stores": "Acercate a la tienda",
   "component.offer.item.conditions": "Condiciones",
   "component.store.item.schedule": "Horario",
+  "component.products.allergens.header": "Alérgenos",
+  "component.products.allergens.text": "Este producto contiene los siguiente alérgenos",
   "component.products.filters.meat": "Carne",
   "component.products.filters.vegetables": "Verdura",
   "component.products.filters.cheese": "Queso",

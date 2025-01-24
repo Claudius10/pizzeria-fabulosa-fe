@@ -62,7 +62,8 @@ export class CartService {
         price: item.price,
         code: item.code,
         format: item.format,
-        quantity: item.quantity
+        quantity: item.quantity,
+        allergens: item.allergens,
       });
     });
 

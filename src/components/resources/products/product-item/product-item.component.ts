@@ -1,11 +1,14 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {PanelModule} from 'primeng/panel';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
+import {Dialog} from 'primeng/dialog';
+import {ReactiveFormsModule} from '@angular/forms';
+import {Card} from 'primeng/card';
 
 @Component({
   selector: 'app-product',
@@ -13,7 +16,13 @@ import {ProductPriceComponent} from './price/product-price.component';
     Button,
     PanelModule,
     NgClass,
-    ProductPriceComponent
+    ProductPriceComponent,
+    Dialog,
+    ReactiveFormsModule,
+    Card,
+    TranslatePipe,
+    NgForOf,
+    NgIf
   ],
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],
@@ -27,6 +36,7 @@ export class ProductItemComponent implements OnInit {
   currentLang = signal(this.translateService.currentLang);
   productFormat = signal<string>("");
   productPrice = signal<number>(0);
+  allergensDialogVisible = false;
 
   ngOnInit(): void {
     this.productFormat.set(this.product().formats.m === undefined ? "S" : "M");
@@ -37,6 +47,14 @@ export class ProductItemComponent implements OnInit {
     });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
+  }
+
+  openAllergensDialog() {
+    this.allergensDialogVisible = true;
+  }
+
+  closeAllergensDialog() {
+    this.allergensDialogVisible = false;
   }
 
   public addProductToCart() {
@@ -52,6 +70,7 @@ export class ProductItemComponent implements OnInit {
       quantity: 1,
       price: this.productPrice(),
       format: this.productFormat(),
+      allergens: this.product().allergens
     });
   }
 

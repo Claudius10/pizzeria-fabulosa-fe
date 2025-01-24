@@ -13,7 +13,7 @@
 
       <div class="flex flex-col gap-4">
         <label for="paymentMethod">{{ "component.form.step.four.advice" | translate }}</label>
-        <p-iconfield [dt]="formIconColor()">
+        <p-iconfield [dt]="myIcon('{primary.400}')">
           <p-inputicon styleClass="pi pi-angle-down"/>
           <select
             class="w-full"
@@ -31,7 +31,7 @@
         @if (checkoutFormService.cashPayment()) {
 
           <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-angle-down"/>
             <select
               [ngModel]="selectedChangeOption.code"
@@ -50,7 +50,7 @@
 
         @if (checkoutFormService.changeRequested()) {
           <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-euro"/>
             <input
               class="w-full invalid-border"

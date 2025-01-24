@@ -7,7 +7,7 @@
 
       <div class="flex flex-col gap-8">
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-user"/>
             <input
               class="w-full"
@@ -27,7 +27,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-envelope"/>
             <input
               class="w-full"
@@ -47,7 +47,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-envelope"/>
             <input
               class="w-full"
@@ -67,7 +67,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-phone"/>
             <input
               class="w-full"
@@ -87,7 +87,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <input class="w-full"
                    id="password"
                    type="{{showPassword() ? 'text' : 'password'}}"
@@ -106,7 +106,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <input class="w-full"
                    id="matchingPassword"
                    type="{{showMatchingPassword() ? 'text' : 'password'}}"

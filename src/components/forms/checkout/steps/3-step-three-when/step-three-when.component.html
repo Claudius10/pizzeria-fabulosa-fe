@@ -13,7 +13,7 @@
 
       <div class="flex flex-col gap-4">
         <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
-        <p-iconfield [dt]="formIconColor()">
+        <p-iconfield [dt]="myIcon('{primary.400}')">
           <p-inputicon styleClass="pi pi-angle-down"/>
           <select
             [ngModel]="selectedOption.code"
@@ -30,7 +30,7 @@
         </p-iconfield>
         @if (programmedDelivery()) {
           <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
-          <p-iconfield [dt]="formIconColor()">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-angle-down"/>
             <select
               class="w-full"

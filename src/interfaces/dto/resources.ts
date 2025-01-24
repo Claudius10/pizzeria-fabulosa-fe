@@ -33,6 +33,10 @@ export type ProductDTO = {
   id: string;
   code: string;
   productType: string;
+  allergens: {
+    en: string[];
+    es: string[];
+  }
   image: string;
   name: {
     en: string;

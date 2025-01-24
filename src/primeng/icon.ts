@@ -1,15 +1,7 @@
-export const passwordIconColor = () => {
+export const myIcon = (color: string) => {
   return {
     icon: {
-      color: "{bg}",
-    }
-  };
-};
-
-export const formIconColor = () => {
-  return {
-    icon: {
-      color: "{primary.400}",
+      color: color,
     }
   };
 };

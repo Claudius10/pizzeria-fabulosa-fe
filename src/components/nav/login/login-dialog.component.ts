@@ -19,8 +19,8 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {UpperCasePipe} from '@angular/common';
 import {CookieService} from 'ngx-cookie-service';
 import {isFormValid} from '../../../utils/functions';
-import {passwordIconColor} from '../../../primeng/icon';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
+import {myIcon} from '../../../primeng/icon';
 
 @Component({
   selector: 'app-login-dialog',
@@ -127,5 +127,5 @@ export class LoginDialogComponent implements OnDestroy {
     }
   }
 
-  protected readonly passwordIconColor = passwordIconColor;
+  protected readonly myIcon = myIcon;
 }

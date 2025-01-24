@@ -105,6 +105,10 @@ function getTestOrderSuccess(): CreatedOrderDTO {
       cartItems: [
         {
           productType: "pizza",
+          allergens: {
+            en: [],
+            es: []
+          },
           prices: {
             s: 0,
             m: 13.30,
