@@ -13,32 +13,9 @@ export class ProductsSearchPipe implements PipeTransform {
       return [];
     }
 
-    const locale = this.translateService.currentLang;
-    const allergens: string[] = allergenFilters.map((filter) => {
-      return this.translateService.instant(filter);
-    });
-    const ingredients: string[] = ingredientFilters.map((filter) => {
-      return this.translateService.instant(filter).toLowerCase();
-    });
-
-    const products = this.filterItemsByAllergens(locale, allergens, items);
-
-    if (!searchText) {
-
-      if (ingredientFilters.length > 0) {
-        return this.filterItemsByIngredients(locale, ingredients, products);
-      } else {
-        return products;
-      }
-
-    } else {
-
-      if (ingredientFilters.length > 0) {
-        return this.filterItemsByIngredients(locale, ingredients, this.search(searchText, products));
-      } else {
-        return this.search(searchText, products);
-      }
-    }
+    const productsByAllergens = this.filterItemsByAllergens(this.getLocale(), this.getTranslatedAllergens(allergenFilters), items);
+    const productsByAllergensAndIngredients = this.filterItemsByIngredients(this.getLocale(), this.getTranslatedIngredients(ingredientFilters), productsByAllergens);
+    return searchText ? this.search(searchText, productsByAllergensAndIngredients) : productsByAllergensAndIngredients;
   }
 
   search(searchText: string, items: ProductDTO[]): ProductDTO[] {
@@ -115,5 +92,21 @@ export class ProductsSearchPipe implements PipeTransform {
     });
 
     return filteredItems;
+  }
+
+  getLocale() {
+    return this.translateService.currentLang;
+  }
+
+  getTranslatedAllergens(filters: string []) {
+    return filters.map((filter) => {
+      return this.translateService.instant(filter);
+    });
+  }
+
+  getTranslatedIngredients(filters: string []) {
+    return filters.map((filter) => {
+      return this.translateService.instant(filter).toLowerCase();
+    });
   }
 }
