@@ -5,7 +5,8 @@ import {Injectable, signal} from '@angular/core';
 })
 export class FilterService {
   searchText = signal<string>("");
-  selectedFilters = signal<string[]>([]);
+  ingredientFilters = signal<string[]>([]);
+  allergenFilters = signal<string[]>([]);
   isEmpty = signal(true);
 
   setSearchText(text: string) {
@@ -15,7 +16,7 @@ export class FilterService {
   contains(category: string): boolean {
     let result = false;
 
-    for (let filter of this.selectedFilters()) {
+    for (let filter of this.ingredientFilters()) {
       if (filter.includes(category)) {
         result = true;
         break;
@@ -25,35 +26,58 @@ export class FilterService {
     return result;
   }
 
-  addFilter(filter: string) {
+  addAllergenFilter(filter: string) {
+
+
+    this.allergenFilters.update(currentFilters => {
+      return [...currentFilters, filter];
+    });
+
+
+  }
+
+  removeAllergenFilter(filter: string) {
+    const filters = this.allergenFilters().filter(oldFilter => {
+      return oldFilter !== filter;
+    });
+
+    this.allergenFilters.set(filters);
+
+  }
+
+  addIngredientFilter(filter: string) {
     if (this.isEmpty()) {
       this.isEmpty.set(false);
     }
 
-    this.selectedFilters.update(currentFilters => {
+    this.ingredientFilters.update(currentFilters => {
       return [...currentFilters, filter];
     });
   }
 
-  removeFilter(filter: string) {
-    const filters = this.selectedFilters().filter(oldFilter => {
+  removeIngredientFilter(filter: string) {
+    const filters = this.ingredientFilters().filter(oldFilter => {
       return oldFilter !== filter;
     });
 
-    this.selectedFilters.set(filters);
+    this.ingredientFilters.set(filters);
 
-    if (this.selectedFilters().length === 0) {
+    if (this.ingredientFilters().length === 0) {
       this.isEmpty.set(true);
     }
   }
 
   clear() {
-    this.selectedFilters.set([]);
+    this.ingredientFilters.set([]);
     this.isEmpty.set(true);
   }
 
-  getFilters() {
-    return this.selectedFilters.asReadonly();
+  getIngredientFilters() {
+    return this.ingredientFilters.asReadonly();
+  }
+
+  getAllergenFilters() {
+    return this.allergenFilters.asReadonly();
   }
 
   getSearchText() {

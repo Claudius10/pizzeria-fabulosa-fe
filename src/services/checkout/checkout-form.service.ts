@@ -136,8 +136,8 @@ function getTestOrderSuccess(): CreatedOrderDTO {
           image: "",
           price: 13.30,
           description: {
-            en: "",
-            es: ""
+            en: [],
+            es: []
           },
           quantity: 1,
           format: "Mediana",

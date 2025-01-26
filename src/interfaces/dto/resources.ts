@@ -43,8 +43,8 @@ export type ProductDTO = {
     es: string;
   };
   description: {
-    en: string;
-    es: string;
+    en: string[];
+    es: string[];
   };
   prices: {
     s: number;

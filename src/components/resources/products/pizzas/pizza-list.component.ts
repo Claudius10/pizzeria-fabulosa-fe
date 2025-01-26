@@ -39,7 +39,8 @@ export class PizzaListComponent implements OnInit {
   protected filterService = inject(FilterService);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
-  searchFilters = this.filterService.getFilters();
+  ingredientFilters = this.filterService.getIngredientFilters();
+  allergenFilters = this.filterService.getAllergenFilters();
   searchText = this.filterService.getSearchText();
 
   ngOnInit(): void {
@@ -75,7 +76,7 @@ export class PizzaListComponent implements OnInit {
 }
 
 function getAllFilters() {
-  return [getMeatFilterItems(), getCheeseFilterItems(), getVegetablesFilterItems(), getSauceFilterItems(), getOthersFilterItems()];
+  return [getMeatFilterItems(), getCheeseFilterItems(), getVegetablesFilterItems(), getSauceFilterItems(), getOthersFilterItems(), getAllergenFilterItems()];
 }
 
 function getMeatFilterItems() {
@@ -137,10 +138,24 @@ function getSauceFilterItems() {
 
 function getOthersFilterItems() {
   return {
-    header: "component.products.filters.others",
+    header: "component.products.filters.oil",
     items:
       [
-        'component.products.filters.others.truffle.oil',
+        'component.products.filters.oil.truffle',
+      ]
+  };
+}
+
+export function getAllergenFilterItems() {
+  return {
+    header: "component.products.filters.allergen",
+    items:
+      [
+        'component.products.filters.allergen.gluten',
+        'component.products.filters.allergen.lactose',
+        'component.products.filters.allergen.soy',
+        'component.products.filters.allergen.eggs',
+        'component.products.filters.allergen.mustard',
       ]
   };
 }

@@ -24,42 +24,55 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterItemComponent implements OnInit {
-  onSelected = output<boolean>();
+  onSelected = output<string>();
   item = input.required<string>();
   private filterService = inject(FilterService);
-  private filters = this.filterService.getFilters();
-  protected isEmpty = this.filterService.getIsEmpty();
+  private ingredientFilters = this.filterService.getIngredientFilters();
+  private isEmpty = this.filterService.getIsEmpty();
   selected = signal(false);
 
   // when pressing filled filter icon, the filters are cleared
   // therefore remove the filter item active color
   constructor() {
     effect(() => {
-      if (this.isEmpty()) {
+      if (this.isEmpty() && !this.isAllergen()) {
         untracked(() => {
           this.selected.set(false);
-          this.filterService.removeFilter(this.item());
+          this.filterService.removeIngredientFilter(this.item());
         });
       }
     });
   }
 
   ngOnInit(): void {
-    const previouslySelected = this.filters().findIndex(filter => filter === this.item());
+    const previouslySelected = this.ingredientFilters().findIndex(filter => filter === this.item());
     if (previouslySelected !== -1) {
       this.selected.set(true);
     }
   }
 
   toggleFilter() {
-    if (this.selected()) {
-      this.filterService.removeFilter(this.item());
-      this.selected.set(false);
-      this.onSelected.emit(false);
+    if (this.isAllergen()) {
+      if (this.selected()) {
+        this.selected.set(false);
+        this.filterService.removeAllergenFilter(this.item());
+      } else {
+        this.selected.set(true);
+        this.filterService.addAllergenFilter(this.item());
+      }
     } else {
-      this.filterService.addFilter(this.item());
-      this.selected.set(true);
-      this.onSelected.emit(true);
+      if (this.selected()) {
+        this.filterService.removeIngredientFilter(this.item());
+        this.selected.set(false);
+      } else {
+        this.filterService.addIngredientFilter(this.item());
+        this.selected.set(true);
+      }
     }
+    this.onSelected.emit(this.item());
   };
+
+  isAllergen() {
+    return this.item().includes("allergen");
+  }
 }
