@@ -28,26 +28,42 @@ export class FilterItemComponent implements OnInit {
   item = input.required<string>();
   private filterService = inject(FilterService);
   private ingredientFilters = this.filterService.getIngredientFilters();
-  private isEmpty = this.filterService.getIsEmpty();
+  private allergenFilters = this.filterService.getAllergenFilters();
+  private areIngredientFiltersEmpty = this.filterService.getAreIngredientFiltersEmpty();
+  private areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
   selected = signal(false);
 
   // when pressing filled filter icon, the filters are cleared
   // therefore remove the filter item active color
   constructor() {
     effect(() => {
-      if (this.isEmpty() && !this.isAllergen()) {
-        untracked(() => {
-          this.selected.set(false);
-          this.filterService.removeIngredientFilter(this.item());
-        });
+      if (this.isAllergen()) {
+        if (this.areAllergenFiltersEmpty()) {
+          untracked(() => {
+            this.selected.set(false);
+          });
+        }
+      } else {
+        if (this.areIngredientFiltersEmpty()) {
+          untracked(() => {
+            this.selected.set(false);
+          });
+        }
       }
     });
   }
 
   ngOnInit(): void {
-    const previouslySelected = this.ingredientFilters().findIndex(filter => filter === this.item());
-    if (previouslySelected !== -1) {
-      this.selected.set(true);
+    if (this.isAllergen()) {
+      const previouslySelected = this.allergenFilters().findIndex(filter => filter === this.item());
+      if (previouslySelected !== -1) {
+        this.selected.set(true);
+      }
+    } else {
+      const previouslySelected = this.ingredientFilters().findIndex(filter => filter === this.item());
+      if (previouslySelected !== -1) {
+        this.selected.set(true);
+      }
     }
   }
 

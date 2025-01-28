@@ -41,7 +41,8 @@ const FILTER_ANIMATION_TRANSITION_DURATION = "600ms";
 export class ProductsFilterComponent {
   items = input.required<FilterItem[]>();
   protected filterService = inject(FilterService);
-  protected isEmpty = this.filterService.getIsEmpty();
+  protected areIngredientFiltersEmpty = this.filterService.getAreIngredientFiltersEmpty();
+  protected areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
   open = signal(false);
   drawerFiltersVisible = false;
   collapsed = true;

@@ -19,7 +19,8 @@ import {FilterService} from '../../../../../services/filter/filter.service';
 export class FilterListComponent {
   onFilterSelect = output<string>();
   private filterService = inject(FilterService);
-  private isEmpty = this.filterService.getIsEmpty();
+  private areIngredientFiltersEmpty = this.filterService.getAreIngredientFiltersEmpty();
+  private areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
   header = input.required<string>();
   items = input.required<string[]>();
   inverseCardBg = input.required<boolean>();
@@ -29,21 +30,40 @@ export class FilterListComponent {
   // therefore remove the filter header active color
   constructor() {
     effect(() => {
-      if (this.isEmpty()) {
-        untracked(() => {
-          this.selected.set(false);
-        });
+      if (this.isAllergen()) {
+        if (this.areAllergenFiltersEmpty()) {
+          untracked(() => {
+            this.selected.set(false);
+          });
+        }
+      } else {
+        if (this.areIngredientFiltersEmpty()) {
+          untracked(() => {
+            this.selected.set(false);
+          });
+        }
       }
     });
   }
 
   setSelected() {
-    const category = this.filterService.contains(this.header());
-    if (!category) {
-      this.selected.set(false);
+    if (this.isAllergen()) {
+      if (!this.filterService.containsAllergen(this.header())) {
+        this.selected.set(false);
+      } else {
+        this.selected.set(true);
+      }
     } else {
-      this.selected.set(true);
+      if (!this.filterService.containsIngredient(this.header())) {
+        this.selected.set(false);
+      } else {
+        this.selected.set(true);
+      }
     }
+  }
+
+  isAllergen() {
+    return this.header().includes("allergen");
   }
 
   protected readonly card = card;

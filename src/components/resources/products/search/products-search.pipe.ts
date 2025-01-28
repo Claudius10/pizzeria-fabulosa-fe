@@ -13,8 +13,18 @@ export class ProductsSearchPipe implements PipeTransform {
       return [];
     }
 
-    const productsByAllergens = this.filterItemsByAllergens(this.getLocale(), this.getTranslatedAllergens(allergenFilters), items);
-    const productsByAllergensAndIngredients = this.filterItemsByIngredients(this.getLocale(), this.getTranslatedIngredients(ingredientFilters), productsByAllergens);
+    const productsByAllergens = this.filterItemsByAllergens(
+      this.getLocale(),
+      this.getTranslatedAllergens(allergenFilters),
+      items
+    );
+
+    const productsByAllergensAndIngredients = this.filterItemsByIngredients(
+      this.getLocale(),
+      this.getTranslatedIngredients(ingredientFilters),
+      productsByAllergens
+    );
+
     return searchText ? this.search(searchText, productsByAllergensAndIngredients) : productsByAllergensAndIngredients;
   }
 

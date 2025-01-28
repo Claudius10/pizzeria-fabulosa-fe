@@ -6,7 +6,7 @@
       <span class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
     </div>
 
-    <i [ngClass]="['flex items-center color', isEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
+    <i [ngClass]="['flex items-center color', areAllergenFiltersEmpty() && areIngredientFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
        (click)="this.filterService.clear()"></i>
   </div>
 

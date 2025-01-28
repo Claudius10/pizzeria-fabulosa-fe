@@ -1,3 +1,7 @@
-.color {
+.included {
+  color: var(--p-green-400);
+}
+
+.excluded {
   color: var(--p-primary-color);
 }

@@ -7,13 +7,14 @@ export class FilterService {
   searchText = signal<string>("");
   ingredientFilters = signal<string[]>([]);
   allergenFilters = signal<string[]>([]);
-  isEmpty = signal(true);
+  areIngredientFiltersEmpty = signal(true);
+  areAllergenFiltersEmpty = signal(true);
 
   setSearchText(text: string) {
     this.searchText.set(text);
   }
 
-  contains(category: string): boolean {
+  containsIngredient(category: string): boolean {
     let result = false;
 
     for (let filter of this.ingredientFilters()) {
@@ -26,14 +27,27 @@ export class FilterService {
     return result;
   }
 
-  addAllergenFilter(filter: string) {
+  containsAllergen(allergen: string): boolean {
+    let result = false;
 
+    for (let filter of this.allergenFilters()) {
+      if (filter.includes(allergen)) {
+        result = true;
+        break;
+      }
+    }
+
+    return result;
+  }
+
+  addAllergenFilter(filter: string) {
+    if (this.areAllergenFiltersEmpty()) {
+      this.areAllergenFiltersEmpty.set(false);
+    }
 
     this.allergenFilters.update(currentFilters => {
       return [...currentFilters, filter];
     });
-
-
   }
 
   removeAllergenFilter(filter: string) {
@@ -43,11 +57,14 @@ export class FilterService {
 
     this.allergenFilters.set(filters);
 
+    if (this.allergenFilters().length === 0) {
+      this.areAllergenFiltersEmpty.set(true);
+    }
   }
 
   addIngredientFilter(filter: string) {
-    if (this.isEmpty()) {
-      this.isEmpty.set(false);
+    if (this.areIngredientFiltersEmpty()) {
+      this.areIngredientFiltersEmpty.set(false);
     }
 
     this.ingredientFilters.update(currentFilters => {
@@ -63,13 +80,15 @@ export class FilterService {
     this.ingredientFilters.set(filters);
 
     if (this.ingredientFilters().length === 0) {
-      this.isEmpty.set(true);
+      this.areIngredientFiltersEmpty.set(true);
     }
   }
 
   clear() {
     this.ingredientFilters.set([]);
-    this.isEmpty.set(true);
+    this.allergenFilters.set([]);
+    this.areIngredientFiltersEmpty.set(true);
+    this.areAllergenFiltersEmpty.set(true);
   }
 
   getIngredientFilters() {
@@ -84,7 +103,11 @@ export class FilterService {
     return this.searchText.asReadonly();
   }
 
-  getIsEmpty() {
-    return this.isEmpty.asReadonly();
+  getAreIngredientFiltersEmpty() {
+    return this.areIngredientFiltersEmpty.asReadonly();
+  }
+
+  getAreAllergenFiltersEmpty() {
+    return this.areAllergenFiltersEmpty.asReadonly();
   }
 }
