@@ -1,7 +1,7 @@
-<div [ngClass]="['card flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding cart-background']">
+<div [ngClass]="['flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding card cart-background']">
 
   @if (quantity() === 0) {
-    <span class="ml-1">{{ "component.cart.empty.text" | translate }}</span>
+    <span>{{ "component.cart.empty.text" | translate }}</span>
   } @else {
     <div class="flex flex-col gap-4 items overflow-y-auto overflow-x-hidden">
       @for (item of items(); track item.id) {
