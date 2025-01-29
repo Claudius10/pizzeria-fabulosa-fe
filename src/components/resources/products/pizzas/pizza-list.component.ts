@@ -39,8 +39,9 @@ export class PizzaListComponent implements OnInit {
   protected filterService = inject(FilterService);
   protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_PIZZA});
   private statusObservable = toObservable(this.query.status);
-  ingredientFilters = this.filterService.getIngredientFilters();
-  allergenFilters = this.filterService.getAllergenFilters();
+  filters = this.filterService.getFilters();
+  // descriptionFilters = this.filterService.getDescriptionFilters();
+  // allergenFilters = this.filterService.getAllergenFilters();
   searchText = this.filterService.getSearchText();
 
   ngOnInit(): void {
@@ -81,81 +82,81 @@ function getAllFilters() {
 
 function getMeatFilterItems() {
   return {
-    header: "component.products.filters.meat",
+    header: "component.products.filters.include.meat",
     items:
       [
-        'component.products.filters.meat.bacon',
-        'component.products.filters.meat.double.bacon',
-        'component.products.filters.meat.pepperoni',
-        'component.products.filters.meat.double.pepperoni',
-        'component.products.filters.meat.beef',
-        'component.products.filters.meat.york.ham',
-        'component.products.filters.meat.chicken'
+        'component.products.filters.include.meat.bacon',
+        'component.products.filters.include.meat.double.bacon',
+        'component.products.filters.include.meat.pepperoni',
+        'component.products.filters.include.meat.double.pepperoni',
+        'component.products.filters.include.meat.beef',
+        'component.products.filters.include.meat.york.ham',
+        'component.products.filters.include.meat.chicken'
       ]
   };
 }
 
 function getCheeseFilterItems() {
   return {
-    header: "component.products.filters.cheese",
+    header: "component.products.filters.include.cheese",
     items:
       [
-        'component.products.filters.cheese.parmesan',
-        'component.products.filters.cheese.emmental',
-        'component.products.filters.cheese.blue',
-        'component.products.filters.cheese.goat',
-        'component.products.filters.cheese.mozzarella',
-        'component.products.filters.cheese.double.mozzarella',
+        'component.products.filters.include.cheese.parmesan',
+        'component.products.filters.include.cheese.emmental',
+        'component.products.filters.include.cheese.blue',
+        'component.products.filters.include.cheese.goat',
+        'component.products.filters.include.cheese.mozzarella',
+        'component.products.filters.include.cheese.double.mozzarella',
       ]
   };
 }
 
 function getVegetablesFilterItems() {
   return {
-    header: "component.products.filters.vegetables",
+    header: "component.products.filters.include.vegetable",
     items:
       [
-        'component.products.filters.vegetables.zucchini',
-        'component.products.filters.vegetables.tomato',
-        'component.products.filters.vegetables.onion',
-        'component.products.filters.vegetables.mushroom',
-        'component.products.filters.vegetables.eggplant',
-        'component.products.filters.vegetables.olives.black',
+        'component.products.filters.include.vegetables.zucchini',
+        'component.products.filters.include.vegetables.tomato',
+        'component.products.filters.include.vegetables.onion',
+        'component.products.filters.include.vegetables.mushroom',
+        'component.products.filters.include.vegetables.eggplant',
+        'component.products.filters.include.vegetables.olives.black',
       ]
   };
 }
 
 function getSauceFilterItems() {
   return {
-    header: "component.products.filters.sauce",
+    header: "component.products.filters.include.sauce",
     items:
       [
-        'component.products.filters.sauce.tomato',
-        'component.products.filters.sauce.cream',
+        'component.products.filters.include.sauce.tomato',
+        'component.products.filters.include.sauce.cream',
       ]
   };
 }
 
 function getOthersFilterItems() {
   return {
-    header: "component.products.filters.oil",
+    header: "component.products.filters.include.oil",
     items:
       [
-        'component.products.filters.oil.truffle',
+        'component.products.filters.include.oil.truffle',
       ]
   };
 }
 
-export function getAllergenFilterItems() {
+function getAllergenFilterItems() {
   return {
-    header: "component.products.filters.allergen",
+    header: "component.products.filters.exclude.allergen",
     items:
       [
-        'component.products.filters.allergen.gluten',
-        'component.products.filters.allergen.lactose',
-        'component.products.filters.allergen.soy',
-        'component.products.filters.allergen.eggs',
-        'component.products.filters.allergen.mustard',
+        'component.products.filters.exclude.allergen.gluten',
+        'component.products.filters.exclude.allergen.lactose',
+        'component.products.filters.exclude.allergen.soy',
+        'component.products.filters.exclude.allergen.eggs',
+        'component.products.filters.exclude.allergen.mustard',
       ]
   };
 }

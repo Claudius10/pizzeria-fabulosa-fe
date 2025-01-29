@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, effect, inject, input, output, signal, untracked} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, inject, input, output, signal} from '@angular/core';
 import {FilterItemComponent} from '../item/filter-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {card} from '../../../../../primeng/card';
@@ -19,8 +19,8 @@ import {FilterService} from '../../../../../services/filter/filter.service';
 export class FilterListComponent {
   onFilterSelect = output<string>();
   private filterService = inject(FilterService);
-  private areIngredientFiltersEmpty = this.filterService.getAreIngredientFiltersEmpty();
-  private areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
+  // private areDescriptionFiltersEmpty = this.filterService.getAreDescriptionFiltersEmpty();
+  // private areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
   header = input.required<string>();
   items = input.required<string[]>();
   inverseCardBg = input.required<boolean>();
@@ -30,40 +30,46 @@ export class FilterListComponent {
   // therefore remove the filter header active color
   constructor() {
     effect(() => {
-      if (this.isAllergen()) {
-        if (this.areAllergenFiltersEmpty()) {
-          untracked(() => {
-            this.selected.set(false);
-          });
-        }
-      } else {
-        if (this.areIngredientFiltersEmpty()) {
-          untracked(() => {
-            this.selected.set(false);
-          });
-        }
-      }
+      // if (this.isAllergen()) {
+      //   if (this.areAllergenFiltersEmpty()) {
+      //     untracked(() => {
+      //       this.selected.set(false);
+      //     });
+      //   }
+      // } else {
+      //   if (this.areDescriptionFiltersEmpty()) {
+      //     untracked(() => {
+      //       this.selected.set(false);
+      //     });
+      //   }
+      // }
     });
   }
 
   setSelected() {
-    if (this.isAllergen()) {
-      if (!this.filterService.containsAllergen(this.header())) {
-        this.selected.set(false);
-      } else {
-        this.selected.set(true);
-      }
-    } else {
-      if (!this.filterService.containsIngredient(this.header())) {
-        this.selected.set(false);
-      } else {
-        this.selected.set(true);
-      }
-    }
+    const type = this.isAllergen() ? "allergen" : "filter";
+    // this.filterService.addFilter(this.header(), type);
+    // if (this.isAllergen()) {
+    //   if (!this.filterService.containsAllergen(this.header())) {
+    //     this.selected.set(false);
+    //   } else {
+    //     this.selected.set(true);
+    //   }
+    // } else {
+    //   if (!this.filterService.containsDescriptionItem(this.header())) {
+    //     this.selected.set(false);
+    //   } else {
+    //     this.selected.set(true);
+    //   }
+    // }
   }
 
   isAllergen() {
     return this.header().includes("allergen");
+  }
+
+  toInclude() {
+    return this.header().includes(".include.");
   }
 
   protected readonly card = card;

@@ -12,6 +12,7 @@ import {ResponseDTO} from '../../../../interfaces/http/api';
 import {FilterService} from '../../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
+import {ProductsFilterComponent} from '../filter/products-filter.component';
 
 @Component({
   selector: 'app-beverage-list',
@@ -22,7 +23,8 @@ import {ProductsSearchPipe} from '../search/products-search.pipe';
     ProductItemComponent,
     ServerErrorComponent,
     ProductsSearchComponent,
-    ProductsSearchPipe
+    ProductsSearchPipe,
+    ProductsFilterComponent
   ],
   templateUrl: './beverage-list.component.html',
   styleUrls: ['./beverage-list.component.scss'],
@@ -37,6 +39,9 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
   searchText = this.filterService.getSearchText();
+  // descriptionFilters = this.filterService.getDescriptionFilters();
+  // allergenFilters = this.filterService.getAllergenFilters();
+  filters = this.filterService.getFilters();
 
   ngOnInit(): void {
     const subscription = this.statusObservable.subscribe({
@@ -69,4 +74,31 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
   }
+
+  protected readonly getAllFilters = getAllFilters;
+}
+
+function getAllFilters() {
+  return [getDescriptionFilterItems(), getAllergenFilterItems()];
+}
+
+function getDescriptionFilterItems() {
+  return {
+    header: "component.products.filters.exclude.additive",
+    items:
+      [
+        'component.products.filters.exclude.additive.sugar',
+      ]
+  };
+}
+
+function getAllergenFilterItems() {
+  return {
+    header: "component.products.filters.exclude.allergen",
+    items:
+      [
+        'component.products.filters.exclude.allergen.gluten',
+        'component.products.filters.exclude.allergen.alcohol'
+      ]
+  };
 }

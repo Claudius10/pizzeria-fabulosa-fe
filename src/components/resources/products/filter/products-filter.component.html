@@ -6,8 +6,9 @@
       <span class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
     </div>
 
-    <i [ngClass]="['flex items-center color', areAllergenFiltersEmpty() && areIngredientFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
-       (click)="this.filterService.clear()"></i>
+    <i
+      [ngClass]="['flex items-center color', filters().length === 0 ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
+      (click)="this.filterService.clear()"></i>
   </div>
 
   @if (open()) {

@@ -1,6 +1,7 @@
 import {inject, Pipe, PipeTransform} from '@angular/core';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
 import {TranslateService} from '@ngx-translate/core';
+import {Filter} from '../../../../services/filter/filter.service';
 
 @Pipe({
   name: 'productsSearch'
@@ -8,24 +9,37 @@ import {TranslateService} from '@ngx-translate/core';
 export class ProductsSearchPipe implements PipeTransform {
   private translateService = inject(TranslateService);
 
-  transform(items: ProductDTO[], searchText: string, ingredientFilters: string[], allergenFilters: string[]): ProductDTO[] {
+  transform(items: ProductDTO[], searchText: string, filters: Filter[]): ProductDTO[] {
     if (items.length === 0) {
       return [];
     }
 
+    console.log("filters", filters);
+
+    const allergenFilters = filters.filter(filter => {
+      return filter.type === 'allergen';
+    });
+
+    const descriptionFilters = filters.filter(filter => {
+      return filter.type === 'filter';
+    });
+
+    console.log("allergenFilters", allergenFilters);
+    console.log("descriptionFilters", descriptionFilters);
+
     const productsByAllergens = this.filterItemsByAllergens(
       this.getLocale(),
-      this.getTranslatedAllergens(allergenFilters),
+      allergenFilters,
       items
     );
 
-    const productsByAllergensAndIngredients = this.filterItemsByIngredients(
+    const productsByAllergensAndDescription = this.filterItemsByDescription(
       this.getLocale(),
-      this.getTranslatedIngredients(ingredientFilters),
+      descriptionFilters,
       productsByAllergens
     );
 
-    return searchText ? this.search(searchText, productsByAllergensAndIngredients) : productsByAllergensAndIngredients;
+    return searchText ? this.search(searchText, productsByAllergensAndDescription) : productsByAllergensAndDescription;
   }
 
   search(searchText: string, items: ProductDTO[]): ProductDTO[] {
@@ -34,20 +48,22 @@ export class ProductsSearchPipe implements PipeTransform {
     });
   }
 
-  filterItemsByAllergens(locale: string, allergens: string[], items: ProductDTO[]): ProductDTO[] {
-    if (allergens.length === 0) {
-      return items;
-    }
-
+  filterItemsByAllergens(locale: string, allergens: Filter[], items: ProductDTO[]): ProductDTO[] {
     const filteredItems: ProductDTO[] = [];
 
-    items.forEach(item => {
+    for (let i = 0; i < items.length; i++) {
+      let item = items[i];
+
+      if (!item.allergens) {
+        continue;
+      }
+
       let add = true;
 
       if (locale === 'en') {
         item.allergens.en.forEach(allergen => {
           allergens.forEach(unwantedAllergen => {
-            if (allergen === unwantedAllergen) {
+            if (allergen === unwantedAllergen.name && unwantedAllergen.include) {
               add = false;
             }
           });
@@ -60,7 +76,7 @@ export class ProductsSearchPipe implements PipeTransform {
       } else {
         item.allergens.es.forEach(allergen => {
           allergens.forEach(unwantedAllergen => {
-            if (allergen === unwantedAllergen) {
+            if (allergen === unwantedAllergen.name && unwantedAllergen.include) {
               add = false;
             }
           });
@@ -70,34 +86,40 @@ export class ProductsSearchPipe implements PipeTransform {
           filteredItems.push(item);
         }
       }
-    });
+    }
 
     return filteredItems;
   }
 
-  filterItemsByIngredients(locale: string, ingredients: string[], items: ProductDTO[]): ProductDTO[] {
-    if (ingredients.length === 0) {
-      return items;
-    }
-
+  filterItemsByDescription(locale: string, filters: Filter[], items: ProductDTO[]): ProductDTO[] {
     const filteredItems: ProductDTO[] = [];
+
     items.forEach(item => {
+
       if (locale === 'en') {
-        const included = item.description.en.filter((ingredient) => {
-          return ingredients.includes(ingredient.toLowerCase());
+
+        let included = 0;
+
+        item.description.en.filter((descriptionItem) => {
+          filters.forEach((filterItem) => {
+            if (filterItem.name === descriptionItem && filterItem.include) {
+              included++;
+            }
+          });
         });
 
-        if (included.length === ingredients.length) {
+        if (included === filters.length) {
           filteredItems.push(item);
         }
+
       } else {
-        const included = item.description.es.filter((ingredient) => {
-          return ingredients.includes(ingredient.toLowerCase());
-        });
-
-        if (included.length === ingredients.length) {
-          filteredItems.push(item);
-        }
+        // const included = item.description.es.filter((descriptionItem) => {
+        //   return description.includes(descriptionItem.toLowerCase());
+        // });
+        //
+        // if (included.length === description.length) {
+        //   filteredItems.push(item);
+        // }
       }
     });
 
@@ -106,17 +128,5 @@ export class ProductsSearchPipe implements PipeTransform {
 
   getLocale() {
     return this.translateService.currentLang;
-  }
-
-  getTranslatedAllergens(filters: string []) {
-    return filters.map((filter) => {
-      return this.translateService.instant(filter);
-    });
-  }
-
-  getTranslatedIngredients(filters: string []) {
-    return filters.map((filter) => {
-      return this.translateService.instant(filter).toLowerCase();
-    });
   }
 }

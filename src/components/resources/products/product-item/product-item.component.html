@@ -1,4 +1,4 @@
-<div [ngClass]="['flex flex-col rounded-border', product().description === null ? 'container' : 'container-desc' ]">
+<div [ngClass]="['flex flex-col rounded-border', product().productType !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
   <img class="pb-2 " src="{{product().image}}" alt="Product image">
 
@@ -48,7 +48,7 @@
                 {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         } @else {
-          <span  *ngFor="let ingredient of product().description.en; let last = last">
+          <span *ngFor="let ingredient of product().description.en; let last = last">
                 {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         }

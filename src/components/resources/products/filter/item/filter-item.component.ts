@@ -9,7 +9,7 @@ import {
   signal,
   untracked
 } from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FilterService} from '../../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
 
@@ -24,71 +24,48 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterItemComponent implements OnInit {
-  onSelected = output<string>();
+  private translateService = inject(TranslateService);
+  onSelected = output<boolean>();
   item = input.required<string>();
   private filterService = inject(FilterService);
-  private ingredientFilters = this.filterService.getIngredientFilters();
-  private allergenFilters = this.filterService.getAllergenFilters();
-  private areIngredientFiltersEmpty = this.filterService.getAreIngredientFiltersEmpty();
-  private areAllergenFiltersEmpty = this.filterService.getAreAllergenFiltersEmpty();
+  private filters = this.filterService.getFilters();
+  // private allergenFilters = this.filterService.getAllergenFilters();
+  // private areDescriptionFiltersEmpty = this.filterService.getAreDescriptionFiltersEmpty();
+  private areFiltersEmpty = this.filterService.getAreFiltersEmpty();
   selected = signal(false);
 
   // when pressing filled filter icon, the filters are cleared
   // therefore remove the filter item active color
   constructor() {
     effect(() => {
-      if (this.isAllergen()) {
-        if (this.areAllergenFiltersEmpty()) {
-          untracked(() => {
-            this.selected.set(false);
-          });
-        }
-      } else {
-        if (this.areIngredientFiltersEmpty()) {
-          untracked(() => {
-            this.selected.set(false);
-          });
-        }
+      if (this.areFiltersEmpty()) {
+        untracked(() => {
+          this.selected.set(false);
+        });
       }
     });
   }
 
   ngOnInit(): void {
-    if (this.isAllergen()) {
-      const previouslySelected = this.allergenFilters().findIndex(filter => filter === this.item());
-      if (previouslySelected !== -1) {
-        this.selected.set(true);
-      }
-    } else {
-      const previouslySelected = this.ingredientFilters().findIndex(filter => filter === this.item());
-      if (previouslySelected !== -1) {
-        this.selected.set(true);
-      }
+    const previouslySelected = this.filters().findIndex(filter => filter.name === this.item());
+    if (previouslySelected !== -1) {
+      this.selected.set(true);
     }
   }
 
   toggleFilter() {
-    if (this.isAllergen()) {
-      if (this.selected()) {
-        this.selected.set(false);
-        this.filterService.removeAllergenFilter(this.item());
-      } else {
-        this.selected.set(true);
-        this.filterService.addAllergenFilter(this.item());
-      }
-    } else {
-      if (this.selected()) {
-        this.filterService.removeIngredientFilter(this.item());
-        this.selected.set(false);
-      } else {
-        this.filterService.addIngredientFilter(this.item());
-        this.selected.set(true);
-      }
-    }
-    this.onSelected.emit(this.item());
+    const type = this.isAllergen() ? "allergen" : "filter";
+    const filterName = this.translateService.instant(this.item());
+    this.filterService.toggleFilter(filterName, type);
+    this.onSelected.emit(true);
   };
 
   isAllergen() {
     return this.item().includes("allergen");
+  }
+
+
+  toInclude() {
+    return this.item().includes(".include.");
   }
 }
