@@ -12,21 +12,38 @@ export interface Filter {
 export class FilterService {
   searchText = signal<string>("");
   filters = signal<Filter[]>([]);
-  //allergenFilters = signal<Filter[]>([]);
   areFiltersEmpty = signal(true);
-
-  // areAllergenFiltersEmpty = signal(true);
 
   setSearchText(text: string) {
     this.searchText.set(text);
   }
 
+  toggleFilter(filterName: string, type: string): Filter | null {
+    const index = this.containsFilter(filterName);
+
+    // filter added for the first time as an included filter
+    if (index === -1) {
+      return this.addFilter({name: filterName, type: type, include: true});
+    }
+
+    const existingFilter = this.filters()[index];
+
+    if (existingFilter.include) {
+      // if it's already in as an included filter, then re-add it as an excluded filter
+      this.removeFilter(existingFilter);
+      existingFilter.include = false;
+      return this.addFilter(existingFilter);
+    } else {
+      // if it's already in as an excluded filter, remove it
+      return this.removeFilter(existingFilter);
+    }
+  }
+
   containsFilter(name: string): number {
     let index = -1;
 
-    for (let i = 0; this.filters().length; i++) {
-      const filter = this.filters()[i];
-      if (filter.name === name) {
+    for (let i = 0; this.filters().length > i; i++) {
+      if (this.filters()[i].name === name) {
         index = i;
         break;
       }
@@ -35,35 +52,21 @@ export class FilterService {
     return index;
   }
 
-  toggleFilter(filter: string, type: string) {
-    if (this.areFiltersEmpty()) {
+  addFilter(filter: Filter): Filter {
+    this.filters.update(currentFilters => {
+      return [...currentFilters, filter];
+    });
+
+    if (this.filters().length > 0) {
       this.areFiltersEmpty.set(false);
     }
 
-    const index = this.containsFilter(filter);
-    console.log("index", index);
-    if (index !== -1) {
-      const foundFilter = this.filters()[index];
-      if (foundFilter.include) {
-        this.removeFilter(foundFilter.name);
-        this.addFilter(foundFilter.name, false, foundFilter.type);
-      } else {
-        this.removeFilter(filter);
-      }
-    } else {
-      this.addFilter(filter, true, type);
-    }
+    return filter;
   }
 
-  addFilter(name: string, include: boolean, type: string): void {
-    this.filters.update(currentFilters => {
-      return [...currentFilters, {name: name, include: include, type: type}];
-    });
-  }
-
-  removeFilter(name: string) {
+  removeFilter(filter: Filter): null {
     const filters = this.filters().filter(oldFilter => {
-      return oldFilter.name !== name;
+      return oldFilter.name !== filter.name;
     });
 
     this.filters.set(filters);
@@ -71,44 +74,18 @@ export class FilterService {
     if (this.filters().length === 0) {
       this.areFiltersEmpty.set(true);
     }
-  }
 
-  // addDescriptionFilter(filter: Filter) {
-  //   if (this.areDescriptionFiltersEmpty()) {
-  //     this.areDescriptionFiltersEmpty.set(false);
-  //   }
-  //
-  //   this.descriptionFilters.update(currentFilters => {
-  //     return [...currentFilters, filter];
-  //   });
-  // }
-  //
-  // removeDescriptionFilter(filter: Filter) {
-  //   const filters = this.descriptionFilters().filter(oldFilter => {
-  //     return oldFilter.name !== filter.name;
-  //   });
-  //
-  //   this.descriptionFilters.set(filters);
-  //
-  //   if (this.descriptionFilters().length === 0) {
-  //     this.areDescriptionFiltersEmpty.set(true);
-  //   }
-  // }
+    return null;
+  }
 
   clear() {
     this.filters.set([]);
-    // this.allergenFilters.set([]);
     this.areFiltersEmpty.set(true);
-    // this.areAllergenFiltersEmpty.set(true);
   }
 
   getFilters() {
     return this.filters.asReadonly();
   }
-
-  // getAllergenFilters() {
-  //   return this.allergenFilters.asReadonly();
-  // }
 
   getSearchText() {
     return this.searchText.asReadonly();
@@ -117,8 +94,4 @@ export class FilterService {
   getAreFiltersEmpty() {
     return this.areFiltersEmpty.asReadonly();
   }
-
-  // getAreAllergenFiltersEmpty() {
-  //   return this.areAllergenFiltersEmpty.asReadonly();
-  // }
 }

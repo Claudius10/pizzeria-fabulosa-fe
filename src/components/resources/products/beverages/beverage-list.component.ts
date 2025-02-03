@@ -39,8 +39,6 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
   private statusObservable = toObservable(this.query.status);
   searchText = this.filterService.getSearchText();
-  // descriptionFilters = this.filterService.getDescriptionFilters();
-  // allergenFilters = this.filterService.getAllergenFilters();
   filters = this.filterService.getFilters();
 
   ngOnInit(): void {
@@ -84,21 +82,21 @@ function getAllFilters() {
 
 function getDescriptionFilterItems() {
   return {
-    header: "component.products.filters.exclude.additive",
+    header: "component.products.filters.additive",
     items:
       [
-        'component.products.filters.exclude.additive.sugar',
+        'component.products.filters.additive.sugar',
       ]
   };
 }
 
 function getAllergenFilterItems() {
   return {
-    header: "component.products.filters.exclude.allergen",
+    header: "component.products.filters.allergen",
     items:
       [
-        'component.products.filters.exclude.allergen.gluten',
-        'component.products.filters.exclude.allergen.alcohol'
+        'component.products.filters.allergen.gluten',
+        'component.products.filters.allergen.alcohol'
       ]
   };
 }
