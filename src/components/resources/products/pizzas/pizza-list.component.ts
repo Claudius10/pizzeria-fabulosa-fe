@@ -67,6 +67,7 @@ export class PizzaListComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
       this.loadingAnimationService.stopLoading();
+      this.filterService.clear();
     });
   }
 

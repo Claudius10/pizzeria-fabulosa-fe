@@ -15,10 +15,11 @@ export class ProductsSearchPipe implements PipeTransform {
     }
 
     const locale = this.getLocale();
-    const withIncludedAllergens = this.filterByIncludedAllergens(items, this.getAllergensToInclude(filters), locale);
-    const withExcludedAllergens = this.filterByExcludedAllergens(withIncludedAllergens, this.getAllergensToExclude(filters), locale);
-    const withIncludedIngredients = this.filterByIncludedIngredients(withExcludedAllergens, this.getIngredientsToInclude(filters), locale);
-    const withExcludedIngredients = this.filterByExcludedIngredients(withIncludedIngredients, this.getIngredientsToExclude(filters), locale);
+    const localeFilters = this.translateFilters(filters);
+    const withIncludedAllergens = this.filterByIncludedAllergens(items, this.getAllergensToInclude(localeFilters), locale);
+    const withExcludedAllergens = this.filterByExcludedAllergens(withIncludedAllergens, this.getAllergensToExclude(localeFilters), locale);
+    const withIncludedIngredients = this.filterByIncludedIngredients(withExcludedAllergens, this.getIngredientsToInclude(localeFilters), locale);
+    const withExcludedIngredients = this.filterByExcludedIngredients(withIncludedIngredients, this.getIngredientsToExclude(localeFilters), locale);
     return searchText ? this.search(searchText, withExcludedIngredients) : withExcludedIngredients;
   }
 
@@ -137,7 +138,7 @@ export class ProductsSearchPipe implements PipeTransform {
         }
       } else {
         for (let i = 0; item.allergens.es.length > i; i++) {
-          let allergen = item.allergens.en[i];
+          let allergen = item.allergens.es[i];
 
           const index = toExclude.findIndex(allergenToExclude => {
             return allergenToExclude.name === allergen;
@@ -183,7 +184,7 @@ export class ProductsSearchPipe implements PipeTransform {
         }
       } else {
         for (let i = 0; item.description.es.length > i; i++) {
-          let ingredient = item.description.en[i];
+          let ingredient = item.description.es[i];
 
           const index = toExclude.findIndex(ingredientToExclude => {
             return ingredientToExclude.name === ingredient;
@@ -229,6 +230,16 @@ export class ProductsSearchPipe implements PipeTransform {
   getIngredientsToExclude(filters: Filter[]): Filter[] {
     return filters.filter(filter => {
       return !filter.include && filter.type === 'filter';
+    });
+  }
+
+  translateFilters(filters: Filter[]): Filter[] {
+    return filters.map(filter => {
+      return {
+        name: this.translateService.instant(filter.name),
+        type: filter.type,
+        include: filter.include,
+      };
     });
   }
 }

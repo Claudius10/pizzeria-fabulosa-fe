@@ -66,6 +66,7 @@ export class BeverageListComponent implements OnInit, OnDestroy {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
       this.loadingAnimationService.stopLoading();
+      this.filterService.clear();
     });
   }
 
