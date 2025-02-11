@@ -1,0 +1,70 @@
+<p-card>
+
+  <div class="flex flex-col gap-8 items-center">
+    <span>Mi Pizza</span>
+
+    <div class="flex justify-center gap-40">
+
+      <div class="card flex justify-center">
+        <form [formGroup]="form" class="flex flex-col gap-6">
+
+          <div class="flex flex-col gap-2">
+            <span>Lo esencial</span>
+
+            <div class="flex flex-col gap-1 w-fit">
+              <span>Formato</span>
+              <p-selectButton
+                size="small"
+                [options]="formatOptions"
+                formControlName="format"
+                optionLabel="label"
+                optionValue="value"
+                [ngClass]="!form.controls.format.untouched && !form.controls.format.valid ? 'ng-invalid ng-dirty' : ''"/>
+            </div>
+
+            <div class="flex flex-col gap-1 w-fit">
+              <span>Salsa base</span>
+              <p-selectButton
+                size="small"
+                [options]="sauceOptions"
+                formControlName="sauce"
+                optionLabel="label"
+                optionValue="value"
+                [ngClass]="!form.controls.sauce.untouched && !form.controls.sauce.valid ? 'ng-invalid ng-dirty' : ''"/>
+            </div>
+
+            <div class="flex flex-col gap-1 w-fit">
+              <span>Queso base</span>
+              <p-selectButton
+                size="small"
+                [options]="cheeseOptions"
+                formControlName="cheese"
+                optionLabel="label"
+                optionValue="value"
+                [ngClass]="!form.controls.cheese.untouched && !form.controls.cheese.valid ? 'ng-invalid ng-dirty' : ''"/>
+            </div>
+          </div>
+
+          <div>
+            <span>Ingredientes</span>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+    <div>
+      <span>Alérgenos</span>
+    </div>
+
+    <p-button
+      type="button"
+      [raised]="true"
+      [label]="'Añadir'"
+      (onClick)="onSubmit()"
+    />
+  </div>
+
+
+</p-card>

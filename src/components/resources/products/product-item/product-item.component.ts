@@ -9,6 +9,7 @@ import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {Card} from 'primeng/card';
+import {CreateCustomPizzaComponent} from './custom-pizza/create-custom-pizza.component';
 
 @Component({
   selector: 'app-product',
@@ -22,7 +23,8 @@ import {Card} from 'primeng/card';
     Card,
     TranslatePipe,
     NgForOf,
-    NgIf
+    NgIf,
+    CreateCustomPizzaComponent
   ],
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],
@@ -37,10 +39,16 @@ export class ProductItemComponent implements OnInit {
   productFormat = signal<string>("");
   productPrice = signal<number>(0);
   allergensDialogVisible = false;
+  customPizzaDialogVisible = false;
 
   ngOnInit(): void {
-    this.productFormat.set(this.product().formats.m === undefined ? "S" : "M");
-    this.productPrice.set(this.product().prices.m === undefined ? this.product().prices.s : this.product().prices.m);
+    if (this.product().formats) {
+      this.productFormat.set(this.product().formats.m === undefined ? "S" : "M");
+    }
+
+    if (this.product().prices) {
+      this.productPrice.set(this.product().prices.m === undefined ? this.product().prices.s : this.product().prices.m);
+    }
 
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
       this.currentLang.set(langEvent.lang);
@@ -49,15 +57,7 @@ export class ProductItemComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  openAllergensDialog() {
-    this.allergensDialogVisible = true;
-  }
-
-  closeAllergensDialog() {
-    this.allergensDialogVisible = false;
-  }
-
-  public addProductToCart() {
+  addProductToCart() {
     this.cartService.add({
       id: this.product().id + this.product().code + this.productFormat(),
       code: this.product().code,
@@ -91,5 +91,21 @@ export class ProductItemComponent implements OnInit {
   setFormat(format: string) {
     this.productFormat.set(format);
     this.updatePrice(format);
+  }
+
+  openCustomPizzaDialog() {
+    this.customPizzaDialogVisible = true;
+  }
+
+  closeCustomPizzaDialog() {
+    this.customPizzaDialogVisible = false;
+  }
+
+  openAllergensDialog() {
+    this.allergensDialogVisible = true;
+  }
+
+  closeAllergensDialog() {
+    this.allergensDialogVisible = false;
   }
 }

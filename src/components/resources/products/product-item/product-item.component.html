@@ -8,48 +8,50 @@
     <span class="font-semibold text-xl">{{ currentLang() === 'en' ? product().name.en : product().name.es }}</span>
 
     <!-- FORMAT -->
-    <div class="flex gap-2">
-      @if (product().formats.s) {
-        <p-button
-          (click)="setFormat('S')"
-          type="button"
-          size="small"
-          label="{{ currentLang() === 'en' ? product().formats.s.en : product().formats.s.es  }}"
-          [outlined]="this.productFormat()!=='S'"
-          [raised]="true"/>
-      }
+    @if (product().formats) {
+      <div class="flex gap-2">
+        @if (product().formats.s) {
+          <p-button
+            (click)="setFormat('S')"
+            type="button"
+            size="small"
+            label="{{ currentLang() === 'en' ? product().formats.s.en : product().formats.s.es  }}"
+            [outlined]="this.productFormat()!=='S'"
+            [raised]="true"/>
+        }
 
-      @if (product().formats.m) {
-        <p-button
-          (click)="setFormat('M')"
-          type="button"
-          size="small"
-          label="{{ currentLang() === 'en' ? product().formats.m.en : product().formats.m.es  }}"
-          [outlined]="this.productFormat()!=='M'"
-          [raised]="true"/>
-      }
+        @if (product().formats.m) {
+          <p-button
+            (click)="setFormat('M')"
+            type="button"
+            size="small"
+            label="{{ currentLang() === 'en' ? product().formats.m.en : product().formats.m.es  }}"
+            [outlined]="this.productFormat()!=='M'"
+            [raised]="true"/>
+        }
 
-      @if (product().formats.l) {
-        <p-button
-          (click)="setFormat('L')"
-          type="button"
-          size="small"
-          label="{{ currentLang() === 'en' ? product().formats.l.en : product().formats.l.es  }}"
-          [outlined]="this.productFormat()!=='L'"
-          [raised]="true"/>
-      }
-    </div>
+        @if (product().formats.l) {
+          <p-button
+            (click)="setFormat('L')"
+            type="button"
+            size="small"
+            label="{{ currentLang() === 'en' ? product().formats.l.en : product().formats.l.es  }}"
+            [outlined]="this.productFormat()!=='L'"
+            [raised]="true"/>
+        }
+      </div>
+    }
 
     <!-- INGREDIENTES -->
     @if (product().description !== null) {
-      <div class="flex justify-center flex-wrap description">
+      <div class="flex justify-center flex-wrap description text-center">
         @if (currentLang() === 'es') {
           <span *ngFor="let ingredient of product().description.es; let last = last">
                 {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         } @else {
           <span *ngFor="let ingredient of product().description.en; let last = last">
-                {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
+            {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         }
       </div>
@@ -57,13 +59,15 @@
 
     <!-- PRICE + ADD BUTTON -->
     <div class="flex items-center justify-center gap-4 pb-2">
-      <app-product-price [price]="this.productPrice()"/>
+      @if (product().prices) {
+        <app-product-price [price]="this.productPrice()"/>
+      }
 
       <p-button
         type="button"
         icon="pi pi-plus"
         [raised]="true"
-        (click)="addProductToCart()"/>
+        (click)="product().code !== 'P10CUSTOM' ? addProductToCart() : openCustomPizzaDialog()"/>
 
       @if (product().allergens.es.length > 0) {
         <i class="pi pi-exclamation-circle allergens-icon-small" (click)="openAllergensDialog()"></i>
@@ -103,5 +107,20 @@
         </div>
       </div>
     </p-card>
+  </ng-template>
+</p-dialog>
+<p-dialog
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '576px': '90vw' }"
+  [style]="{ width: 'fit-content' }"
+  styleClass="!border-0 !bg-transparent"
+  [modal]="true"
+  (onHide)="closeCustomPizzaDialog()"
+  [dismissableMask]="true"
+  [position]="'center'"
+  [(visible)]="customPizzaDialogVisible">
+  <ng-template pTemplate="headless">
+    <app-create-custom-pizza/>
   </ng-template>
 </p-dialog>
