@@ -13,6 +13,7 @@ import {FilterService} from '../../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsFilterComponent} from '../filter/products-filter.component';
+import {getAllBeverageFilters} from '../../../../utils/filter-items';
 
 @Component({
   selector: 'app-beverage-list',
@@ -74,30 +75,5 @@ export class BeverageListComponent implements OnInit, OnDestroy {
     this.loadingAnimationService.stopLoading();
   }
 
-  protected readonly getAllFilters = getAllFilters;
-}
-
-function getAllFilters() {
-  return [getDescriptionFilterItems(), getAllergenFilterItems()];
-}
-
-function getDescriptionFilterItems() {
-  return {
-    header: "component.products.filters.additive",
-    items:
-      [
-        'component.products.filters.additive.sugar',
-      ]
-  };
-}
-
-function getAllergenFilterItems() {
-  return {
-    header: "component.products.filters.allergen",
-    items:
-      [
-        'component.products.filters.allergen.gluten',
-        'component.products.filters.allergen.alcohol'
-      ]
-  };
+  protected readonly getAllBeverageFilters = getAllBeverageFilters;
 }

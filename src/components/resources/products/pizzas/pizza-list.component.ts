@@ -14,6 +14,7 @@ import {ProductsFilterComponent} from '../filter/products-filter.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {FilterService} from '../../../../services/filter/filter.service';
+import {getAllPizzaFilters} from '../../../../utils/filter-items';
 
 @Component({
   selector: 'app-pizza-list',
@@ -72,90 +73,5 @@ export class PizzaListComponent implements OnInit {
   }
 
   protected readonly card = card;
-  protected readonly getAllFilters = getAllFilters;
-}
-
-function getAllFilters() {
-  return [getMeatFilterItems(), getCheeseFilterItems(), getVegetablesFilterItems(), getSauceFilterItems(), getOthersFilterItems(), getAllergenFilterItems()];
-}
-
-function getMeatFilterItems() {
-  return {
-    header: "component.products.filters.meat",
-    items:
-      [
-        'component.products.filters.meat.bacon',
-        'component.products.filters.meat.double.bacon',
-        'component.products.filters.meat.pepperoni',
-        'component.products.filters.meat.double.pepperoni',
-        'component.products.filters.meat.beef',
-        'component.products.filters.meat.york.ham',
-        'component.products.filters.meat.chicken'
-      ]
-  };
-}
-
-function getCheeseFilterItems() {
-  return {
-    header: "component.products.filters.cheese",
-    items:
-      [
-        'component.products.filters.cheese.parmesan',
-        'component.products.filters.cheese.emmental',
-        'component.products.filters.cheese.blue',
-        'component.products.filters.cheese.goat',
-        'component.products.filters.cheese.mozzarella',
-        'component.products.filters.cheese.double.mozzarella',
-      ]
-  };
-}
-
-function getVegetablesFilterItems() {
-  return {
-    header: "component.products.filters.vegetable",
-    items:
-      [
-        'component.products.filters.vegetables.zucchini',
-        'component.products.filters.vegetables.tomato',
-        'component.products.filters.vegetables.onion',
-        'component.products.filters.vegetables.mushroom',
-        'component.products.filters.vegetables.eggplant',
-        'component.products.filters.vegetables.olives.black',
-      ]
-  };
-}
-
-function getSauceFilterItems() {
-  return {
-    header: "component.products.filters.sauce",
-    items:
-      [
-        'component.products.filters.sauce.tomato',
-        'component.products.filters.sauce.cream',
-      ]
-  };
-}
-
-function getOthersFilterItems() {
-  return {
-    header: "component.products.filters.oil",
-    items:
-      [
-        'component.products.filters.oil.truffle',
-      ]
-  };
-}
-
-function getAllergenFilterItems() {
-  return {
-    header: "component.products.filters.allergen",
-    items:
-      [
-        'component.products.filters.allergen.gluten',
-        'component.products.filters.allergen.lactose',
-        'component.products.filters.allergen.soy',
-        'component.products.filters.allergen.eggs',
-        'component.products.filters.allergen.mustard',
-      ]
-  };
+  protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

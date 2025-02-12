@@ -2,7 +2,7 @@
 
   <div class="products-search flex flex-col gap-3">
     <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
-    <app-products-filter [items]="getAllFilters()"/>
+    <app-products-filter [items]="getAllPizzaFilters()"/>
   </div>
 
   <div class="flex flex-col items-center gap-8">

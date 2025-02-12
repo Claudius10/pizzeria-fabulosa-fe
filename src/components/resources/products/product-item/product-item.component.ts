@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {PanelModule} from 'primeng/panel';
@@ -18,13 +18,14 @@ import {CreateCustomPizzaComponent} from './custom-pizza/create-custom-pizza.com
     PanelModule,
     NgClass,
     ProductPriceComponent,
-    Dialog,
     ReactiveFormsModule,
     Card,
     TranslatePipe,
     NgForOf,
     NgIf,
-    CreateCustomPizzaComponent
+    CreateCustomPizzaComponent,
+    Dialog,
+    UpperCasePipe
   ],
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],
