@@ -8,7 +8,6 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
-import {Card} from 'primeng/card';
 import {CreateCustomPizzaComponent} from './custom-pizza/create-custom-pizza.component';
 
 @Component({
@@ -19,7 +18,6 @@ import {CreateCustomPizzaComponent} from './custom-pizza/create-custom-pizza.com
     NgClass,
     ProductPriceComponent,
     ReactiveFormsModule,
-    Card,
     TranslatePipe,
     NgForOf,
     NgIf,
