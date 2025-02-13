@@ -1,50 +1,55 @@
 <div class="flex flex-col items-center gap-8">
+
+  <img src="https://i.imgur.com/iN9vWN0.png" height="200"/>
+  <span class="font-bold text-3xl text-center">{{ "component.custom.pizza.text" | translate }}</span>
+
   <div class="flex justify-center gap-40">
 
     <form [formGroup]="form" class="flex flex-col gap-6">
 
-      <div class="flex flex-col w-fit gap-2">
-        <span>Lo esencial</span>
+      <span class="font-bold">{{ "component.custom.pizza.essentials" | translate }}</span>
 
-        <div class="flex flex-col gap-1 w-fit">
-          <span>Formato</span>
+      <div class="flex flex-col w-fit gap-3">
+
+        <div class="flex flex-col gap-2 w-fit">
+          <span>{{ "component.custom.pizza.format" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="formatOptions"
             formControlName="format"
             optionLabel="label"
             optionValue="value"
-            [ngClass]="['flex flex-wrap',!form.controls.format.untouched && !form.controls.format.valid ? 'ng-invalid ng-dirty' : '']">
+            [ngClass]="['flex flex-wrap gap-2',!form.controls.format.untouched && !form.controls.format.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
           </p-selectButton>
         </div>
 
-        <div class="flex flex-col gap-1 w-fit ">
-          <span>Salsa base</span>
+        <div class="flex flex-col gap-2 w-fit ">
+          <span>{{ "component.custom.pizza.base.sauce" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="sauceOptions"
             formControlName="sauce"
             optionLabel="label"
             optionValue="value"
-            [ngClass]="['flex flex-wrap',!form.controls.sauce.untouched && !form.controls.sauce.valid ? 'ng-invalid ng-dirty' : '']">
+            [ngClass]="['flex flex-wrap gap-2',!form.controls.sauce.untouched && !form.controls.sauce.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
           </p-selectButton>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <span>Queso base</span>
+        <div class="flex flex-col gap-2 w-fit">
+          <span>{{ "component.custom.pizza.base.cheese" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="baseCheeseOptions"
             formControlName="baseCheese"
             optionLabel="label"
             optionValue="value"
-            [ngClass]="['flex flex-wrap',!form.controls.baseCheese.untouched && !form.controls.baseCheese.valid ? 'ng-invalid ng-dirty' : '']">
+            [ngClass]="['flex flex-wrap gap-2',!form.controls.baseCheese.untouched && !form.controls.baseCheese.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -52,11 +57,11 @@
         </div>
       </div>
 
-      <div>
-        <span>Ingredientes</span>
+      <span class="font-bold">{{ "component.custom.pizza.ingredients" | translate }}</span>
 
+      <div class="flex flex-col w-fit gap-3">
         <div class="flex flex-col gap-2">
-          <span>Carnes</span>
+          <span>{{ "component.products.filters.meat" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="meatOptions"
@@ -64,8 +69,7 @@
             optionLabel="label"
             optionValue="value"
             [multiple]="true"
-            class="flex flex-wrap"
-          >
+            class="flex flex-wrap gap-2">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -73,7 +77,7 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <span>Quesos</span>
+          <span>{{ "component.products.filters.cheese" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="cheeseOptions"
@@ -81,7 +85,7 @@
             optionLabel="label"
             optionValue="value"
             [multiple]="true"
-            class="flex flex-wrap">
+            class="flex flex-wrap gap-2">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -89,7 +93,7 @@
         </div>
 
         <div class="flex flex-col gap-2 w-fit">
-          <span>Legumbres</span>
+          <span>{{ "component.products.filters.vegetable" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="vegetableOptions"
@@ -97,7 +101,7 @@
             optionLabel="label"
             optionValue="value"
             [multiple]="true"
-            class="flex flex-wrap">
+            class="flex flex-wrap gap-2">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -105,7 +109,7 @@
         </div>
 
         <div class="flex flex-col gap-2 w-fit">
-          <span>Otros</span>
+          <span>{{ "component.products.filters.oil" | translate }}</span>
           <p-selectButton
             size="small"
             [options]="otherOptions"
@@ -113,7 +117,7 @@
             optionLabel="label"
             optionValue="value"
             [multiple]="true"
-            class="flex flex-wrap">
+            class="flex flex-wrap gap-2">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -125,14 +129,16 @@
     </form>
   </div>
 
-  <div>
-    <span>Alérgenos</span>
-  </div>
+  @if (allergens().length > 0) {
+    <div>
+      <span>Alérgenos</span>
+    </div>
+  }
 
   <p-button
     type="button"
     [raised]="true"
-    [label]="'Añadir'"
+    icon="pi pi-plus"
     (onClick)="onSubmit()"
   />
 </div>

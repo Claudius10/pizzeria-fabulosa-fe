@@ -47,13 +47,11 @@
       <div class="flex justify-center flex-wrap description text-center">
         @if (currentLang() === 'es') {
           <span *ngFor="let ingredient of product().description.es; let last = last">
-                {{ ingredient }}
-            <ng-container *ngIf="!last">,</ng-container>
+                {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         } @else {
           <span *ngFor="let ingredient of product().description.en; let last = last">
-            {{ ingredient }}
-            <ng-container *ngIf="!last">,</ng-container>
+            {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
           </span>
         }
       </div>
@@ -77,46 +75,50 @@
     </div>
   </div>
 </div>
-<p-dialog
-  [draggable]="false"
-  [resizable]="false"
-  [modal]="true"
-  [dismissableMask]="true"
-  [style]="{ width: '25rem' }"
-  [breakpoints]="{ '576px': '90vw' }"
-  [position]="'top'"
-  (onHide)="closeAllergensDialog()"
-  [(visible)]="allergensDialogVisible"
-  [header]="'component.products.allergens.header' | translate | uppercase"
->
-  <div class="flex flex-col items-center gap-4">
-    <div class="flex flex-col items-center">
-      <i class="pi pi-exclamation-triangle allergens-icon-big"></i>
-    </div>
-    <span>{{ "component.products.allergens.text" | translate }}</span>
-    <div class="flex justify-center flex-wrap gap-4 font-bold">
-      @if (currentLang() === 'es') {
-        @for (allergen of this.product().allergens.es; track $index) {
-          <span>{{ allergen }}</span>
+@if (allergensDialogVisible) {
+  <p-dialog
+    [draggable]="false"
+    [resizable]="false"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '25rem' }"
+    [breakpoints]="{ '576px': '90vw' }"
+    [position]="'top'"
+    (onHide)="closeAllergensDialog()"
+    [(visible)]="allergensDialogVisible"
+    [header]="'component.products.allergens.header' | translate | uppercase"
+  >
+    <div class="flex flex-col items-center gap-4">
+      <div class="flex flex-col items-center">
+        <i class="pi pi-exclamation-triangle allergens-icon-big"></i>
+      </div>
+      <span>{{ "component.products.allergens.text" | translate }}</span>
+      <div class="flex justify-center flex-wrap gap-4 font-bold">
+        @if (currentLang() === 'es') {
+          @for (allergen of this.product().allergens.es; track $index) {
+            <span>{{ allergen }}</span>
+          }
+        } @else {
+          @for (allergen of this.product().allergens.en; track $index) {
+            <span>{{ allergen }}</span>
+          }
         }
-      } @else {
-        @for (allergen of this.product().allergens.en; track $index) {
-          <span>{{ allergen }}</span>
-        }
-      }
+      </div>
     </div>
-  </div>
-</p-dialog>
-<p-dialog
-  [draggable]="false"
-  [resizable]="true"
-  [modal]="true"
-  [dismissableMask]="false"
-  [style]="{ width: 'fit-content' }"
-  [breakpoints]="{ '576px': '90vw' }"
-  [position]="'center'"
-  (onHide)="closeCustomPizzaDialog()"
-  [(visible)]="customPizzaDialogVisible"
-  [header]="'component.custom.pizza.header' | translate | uppercase">
-  <app-create-custom-pizza/>
-</p-dialog>
+  </p-dialog>
+}
+@if (customPizzaDialogVisible) {
+  <p-dialog
+    [draggable]="false"
+    [resizable]="true"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{ width: 'fit-content' }"
+    [breakpoints]="{ '576px': '90vw' }"
+    [position]="'center'"
+    (onHide)="closeCustomPizzaDialog()"
+    [(visible)]="customPizzaDialogVisible"
+    [header]="'component.custom.pizza.header' | translate | uppercase">
+    <app-create-custom-pizza/>
+  </p-dialog>
+}

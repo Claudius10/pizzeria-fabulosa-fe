@@ -87,20 +87,24 @@
                    [style]="{'height': '2px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
   }
 </div>
-<p-drawer [(visible)]="linksDrawerVisible">
-  <div class="flex flex-col items-center gap-6">
-    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
-       [routerLinkActiveOptions]="{exact: true}">
-      {{ 'component.navigation.quick.link.home' | translate }}</p>
-    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
-      Pizzas</p>
-    <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color"
-       routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
-  </div>
-</p-drawer>
-<p-drawer [(visible)]="drawerCartVisible" position="right" styleClass="!w-96">
-  <ng-template pTemplate="header">
-    <span class="font-bold font text-2xl">{{ "component.navigation.cart.drawer.header" | translate }}</span>
-  </ng-template>
-  <app-cart [viewOnly]="false" [inSidebar]="true" (onNewOrderClick)="hideCartDrawer($event)"/>
-</p-drawer>
+@if (linksDrawerVisible) {
+  <p-drawer [(visible)]="linksDrawerVisible">
+    <div class="flex flex-col items-center gap-6">
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
+         [routerLinkActiveOptions]="{exact: true}">
+        {{ 'component.navigation.quick.link.home' | translate }}</p>
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">
+        Pizzas</p>
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color"
+         routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
+    </div>
+  </p-drawer>
+}
+@if (drawerCartVisible) {
+  <p-drawer [(visible)]="drawerCartVisible" position="right" styleClass="!w-96">
+    <ng-template pTemplate="header">
+      <span class="font-bold font text-2xl">{{ "component.navigation.cart.drawer.header" | translate }}</span>
+    </ng-template>
+    <app-cart [viewOnly]="false" [inSidebar]="true" (onNewOrderClick)="hideCartDrawer($event)"/>
+  </p-drawer>
+}

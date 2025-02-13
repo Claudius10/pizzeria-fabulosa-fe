@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
@@ -20,6 +20,7 @@ import {TranslatePipe} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCustomPizzaComponent {
+  allergens = signal<string[]>([]);
 
   form = new FormGroup({
     format: new FormControl<string>("",
@@ -94,6 +95,10 @@ export class CreateCustomPizzaComponent {
     {
       label: "component.products.filters.sauce.cream",
       value: "component.products.filters.sauce.cream"
+    },
+    {
+      label: "component.custom.pizza.base.no.sauce",
+      value: "component.custom.pizza.base.no.sauce"
     }
   ];
 
@@ -107,8 +112,8 @@ export class CreateCustomPizzaComponent {
       value: "component.products.filters.cheese.double.mozzarella"
     },
     {
-      label: "component.custom.pizza.no.cheese",
-      value: "component.custom.pizza.no.cheese",
+      label: "component.custom.pizza.base.no.cheese",
+      value: "component.custom.pizza.base.no.cheese",
     }
   ];
 
