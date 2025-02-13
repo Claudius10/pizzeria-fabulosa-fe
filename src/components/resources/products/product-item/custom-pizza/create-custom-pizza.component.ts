@@ -1,10 +1,11 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../../utils/functions';
 import {NgClass} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
+import {ToggleButton} from 'primeng/togglebutton';
 
 @Component({
   selector: 'app-create-custom-pizza',
@@ -13,35 +14,50 @@ import {TranslatePipe} from '@ngx-translate/core';
     SelectButton,
     Button,
     NgClass,
-    TranslatePipe
+    TranslatePipe,
+    ToggleButton
   ],
   templateUrl: './create-custom-pizza.component.html',
   styleUrl: './create-custom-pizza.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CreateCustomPizzaComponent {
+export class CreateCustomPizzaComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+  price = signal<number>(0);
   allergens = signal<string[]>([]);
 
   form = new FormGroup({
     format: new FormControl<string>("",
       {
         nonNullable: true,
-        updateOn: "change",
+        updateOn: "submit",
         validators: [Validators.required]
       },
     ),
     sauce: new FormControl<string>("",
       {
         nonNullable: true,
-        updateOn: "change",
+        updateOn: "submit",
         validators: [Validators.required]
       },
     ),
     baseCheese: new FormControl<string>("",
       {
-        nonNullable: false,
+        nonNullable: true,
         updateOn: "change",
         validators: [Validators.required]
+      },
+    ),
+    gluten: new FormControl<string>("",
+      {
+        nonNullable: false,
+        updateOn: "change",
+      },
+    ),
+    lactose: new FormControl<string>("",
+      {
+        nonNullable: false,
+        updateOn: "change",
       },
     ),
     meat: new FormControl<string>("",
@@ -59,21 +75,63 @@ export class CreateCustomPizzaComponent {
     vegetable: new FormControl<string>("",
       {
         nonNullable: false,
-        updateOn: "change",
+        updateOn: "submit",
       },
     ),
     others: new FormControl<string>("",
       {
         nonNullable: false,
-        updateOn: "change",
+        updateOn: "submit",
       },
     ),
   });
+
+  ngOnInit(): void {
+    const subscription = this.form.valueChanges.subscribe({
+      next: value => {
+        console.log(value);
+        this.updatePrice(value);
+        this.updateAllergens(value);
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
 
   onSubmit() {
     if (isFormValid(this.form)) {
       console.log(this.form.value);
     }
+  }
+
+  updatePrice(ingredient: Partial<{
+    format: string
+    sauce: string
+    baseCheese: string
+    gluten: string | null
+    lactose: string | null
+    meat: string | null
+    cheese: string | null
+    vegetable: string | null
+    others: string | null
+  }>) {
+
+  }
+
+  updateAllergens(ingredient: Partial<{
+    format: string
+    sauce: string
+    baseCheese: string
+    gluten: string | null
+    lactose: string | null
+    meat: string | null
+    cheese: string | null
+    vegetable: string | null
+    others: string | null
+  }>) {
+
   }
 
   formatOptions = [

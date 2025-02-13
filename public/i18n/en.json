@@ -161,6 +161,8 @@
   "component.custom.pizza.base.no.sauce": "No base sauce",
   "component.custom.pizza.base.cheese": "Base cheese layer",
   "component.custom.pizza.base.no.cheese": "No base cheese",
+  "component.custom.pizza.base.no.gluten": "Gluten free",
+  "component.custom.pizza.base.no.lactose": "Lactose free",
   "component.custom.pizza.ingredients": "Ingredients",
   "toast.severity.error": "Error",
   "toast.severity.warning": "Warning",

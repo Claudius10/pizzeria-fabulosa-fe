@@ -162,6 +162,8 @@
   "component.custom.pizza.base.no.sauce": "Sin salsa base",
   "component.custom.pizza.base.cheese": "Capa de queso base",
   "component.custom.pizza.base.no.cheese": "Sin queso base",
+  "component.custom.pizza.base.no.gluten": "Sin Gluten",
+  "component.custom.pizza.base.no.lactose": "Sin Lactosa",
   "component.custom.pizza.ingredients": "Ingredientes",
   "toast.severity.error": "Error",
   "toast.severity.warning": "Advertencia",

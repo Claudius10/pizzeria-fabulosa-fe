@@ -55,6 +55,26 @@
             </ng-template>
           </p-selectButton>
         </div>
+
+        <div class="flex flex-col gap-2 w-fit">
+          <span>{{ "component.products.filters.allergen" | translate }}</span>
+          <div class="flex gap-2">
+            <p-toggleButton
+              size="small"
+              formControlName="gluten"
+              onLabel="{{'component.custom.pizza.base.no.gluten' | translate}}"
+              offLabel="{{'component.products.filters.allergen.gluten' | translate}}"
+              [ngClass]="['flex flex-wrap gap-2']"
+            />
+            <p-toggleButton
+              size="small"
+              formControlName="lactose"
+              onLabel="{{'component.custom.pizza.base.no.lactose' | translate}}"
+              offLabel="{{'component.products.filters.allergen.lactose' | translate}}"
+              [ngClass]="['flex flex-wrap gap-2']"
+            />
+          </div>
+        </div>
       </div>
 
       <span class="font-bold">{{ "component.custom.pizza.ingredients" | translate }}</span>
@@ -141,4 +161,13 @@
     icon="pi pi-plus"
     (onClick)="onSubmit()"
   />
+
+  <div class="price">
+    <p-button
+      type="button"
+      size="small"
+      label="{{ price().toFixed(2) }}€"
+      severity="primary"
+      [raised]="true"/>
+  </div>
 </div>
