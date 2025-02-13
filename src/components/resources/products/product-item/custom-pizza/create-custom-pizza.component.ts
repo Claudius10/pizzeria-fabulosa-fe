@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../../utils/functions';
-import {NgClass} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ToggleButton} from 'primeng/togglebutton';
 
@@ -15,7 +15,8 @@ import {ToggleButton} from 'primeng/togglebutton';
     Button,
     NgClass,
     TranslatePipe,
-    ToggleButton
+    ToggleButton,
+    NgOptimizedImage
   ],
   templateUrl: './create-custom-pizza.component.html',
   styleUrl: './create-custom-pizza.component.scss',
