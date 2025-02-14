@@ -7,7 +7,7 @@
 }
 
 :host ::ng-deep .p-button {
-  width: 5rem;
+  width: 8rem;
 }
 
 img {
@@ -20,4 +20,11 @@ img {
 .price {
   position: absolute;
   top: 100%;
+  right: 50.5%;
+}
+
+.quantity {
+  position: absolute;
+  top: 100%;
+  left: 50.5%;
 }

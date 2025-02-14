@@ -3,9 +3,9 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../../utils/functions';
-import {NgClass, NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
-import {ToggleButton} from 'primeng/togglebutton';
+import {pairwise, startWith} from 'rxjs';
 
 @Component({
   selector: 'app-create-custom-pizza',
@@ -15,8 +15,8 @@ import {ToggleButton} from 'primeng/togglebutton';
     Button,
     NgClass,
     TranslatePipe,
-    ToggleButton,
-    NgOptimizedImage
+    NgOptimizedImage,
+    UpperCasePipe
   ],
   templateUrl: './create-custom-pizza.component.html',
   styleUrl: './create-custom-pizza.component.scss',
@@ -24,80 +24,135 @@ import {ToggleButton} from 'primeng/togglebutton';
 })
 export class CreateCustomPizzaComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
-  price = signal<number>(0);
+  ingredientQuantity = signal<number>(3);
+  price = signal<number>(11);
   allergens = signal<string[]>([]);
 
   form = new FormGroup({
-    format: new FormControl<string>("",
-      {
-        nonNullable: true,
-        updateOn: "submit",
-        validators: [Validators.required]
-      },
-    ),
-    sauce: new FormControl<string>("",
-      {
-        nonNullable: true,
-        updateOn: "submit",
-        validators: [Validators.required]
-      },
-    ),
-    baseCheese: new FormControl<string>("",
+    format: new FormControl<string>("component.custom.pizza.format.m",
       {
         nonNullable: true,
         updateOn: "change",
         validators: [Validators.required]
       },
     ),
-    gluten: new FormControl<string>("",
+    sauce: new FormControl<string>("component.products.filters.sauce.tomato",
       {
-        nonNullable: false,
-        updateOn: "change",
-      },
-    ),
-    lactose: new FormControl<string>("",
-      {
-        nonNullable: false,
-        updateOn: "change",
-      },
-    ),
-    meat: new FormControl<string>("",
-      {
-        nonNullable: false,
-        updateOn: "change",
-      },
-    ),
-    cheese: new FormControl<string>("",
-      {
-        nonNullable: false,
-        updateOn: "change",
-      },
-    ),
-    vegetable: new FormControl<string>("",
-      {
-        nonNullable: false,
+        nonNullable: true,
         updateOn: "submit",
+        validators: [Validators.required]
       },
     ),
-    others: new FormControl<string>("",
+    baseCheese: new FormControl<string>("component.products.filters.cheese.mozzarella",
       {
-        nonNullable: false,
-        updateOn: "submit",
+        nonNullable: true,
+        updateOn: "change",
+        validators: [Validators.required]
+      },
+    ),
+    allergen: new FormControl<string>("",
+      {
+        nonNullable: true,
+        updateOn: "change",
+      },
+    ),
+    meat: new FormControl<string[]>([],
+      {
+        nonNullable: true,
+        updateOn: "change",
+      },
+    ),
+    cheese: new FormControl<string[]>([],
+      {
+        nonNullable: true,
+        updateOn: "change",
+      },
+    ),
+    vegetable: new FormControl<string[]>([],
+      {
+        nonNullable: true,
+        updateOn: "change",
+      },
+    ),
+    others: new FormControl<string[]>([],
+      {
+        nonNullable: true,
+        updateOn: "change"
       },
     ),
   });
 
   ngOnInit(): void {
-    const subscription = this.form.valueChanges.subscribe({
-      next: value => {
-        console.log(value);
-        this.updatePrice(value);
-        this.updateAllergens(value);
+    const format = this.form.controls.format.valueChanges.subscribe({
+      next: format => {
+        if (format!.includes("format.m")) {
+          this.price.update(prevPrice => prevPrice - 4);
+        } else if (format!.includes("format.l")) {
+          this.price.update(prevPrice => prevPrice + 4);
+        }
+      }
+    });
+
+    const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
+      next: baseCheese => {
+        const cheese = this.form.controls.cheese;
+        if (baseCheese!.includes("no.lactose")) {
+          if (cheese.enabled) {
+            cheese.disable();
+            cheese.reset();
+          }
+        } else {
+          if (cheese.disabled) {
+            cheese.enable();
+          }
+        }
+      }
+    });
+
+    const allergens = this.form.controls.allergen.valueChanges.subscribe({
+      next: allergen => {
+        if (allergen == null) {
+          this.price.update(prevPrice => prevPrice - 2);
+        } else {
+          if (allergen.includes("no.gluten")) {
+            this.price.update(prevPrice => prevPrice + 2);
+          }
+        }
+      }
+    });
+
+    const meat = this.form.controls.meat.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
+      next: arrays => {
+        this.updatePrice(arrays);
+      }
+    });
+
+    const cheese = this.form.controls.cheese.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
+      next: arrays => {
+        this.updatePrice(arrays);
+      }
+    });
+
+    const vegetable = this.form.controls.vegetable.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
+      next: arrays => {
+        this.updatePrice(arrays);
+      }
+    });
+
+    const others = this.form.controls.others.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
+      next: arrays => {
+        this.updatePrice(arrays);
       }
     });
 
     this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
+      format.unsubscribe();
+      baseCheese.unsubscribe();
+      allergens.unsubscribe();
+      meat.unsubscribe();
+      cheese.unsubscribe();
+      vegetable.unsubscribe();
+      others.unsubscribe();
     });
   }
 
@@ -107,32 +162,50 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  updatePrice(ingredient: Partial<{
-    format: string
-    sauce: string
-    baseCheese: string
-    gluten: string | null
-    lactose: string | null
-    meat: string | null
-    cheese: string | null
-    vegetable: string | null
-    others: string | null
-  }>) {
+  updatePrice(arrays: [string[] | undefined, string[] | undefined]) {
+    const old = arrays[0];
+    const actual = arrays[1];
+    console.log("old", old);
+    console.log("actual", actual);
 
+    if (old === undefined) {
+      // first emission
+      // have to check for actual not being empty in case "Lactose free" is selected with empty cheese array
+      if (actual && actual.length > 0) {
+        this.price.update(prevPrice => prevPrice + 1.50);
+        this.ingredientQuantity.update(prevQ => prevQ + 1);
+      }
+    } else {
+      // subsequent emissions
+      if (actual) {
+        // case when there are cheese items already selected and lactose free was selected
+        // so to rest the price of the cheese items when they are removed
+        if (actual.length === 0 && old.length > 0) {
+          this.price.update(prevPrice => prevPrice - (1.50 * old.length));
+          this.ingredientQuantity.update(prevQ => prevQ - (old.length));
+          return;
+        }
+
+        if (actual.length > old.length) {
+          this.price.update(prevPrice => prevPrice + 1.50);
+          this.ingredientQuantity.update(prevQ => prevQ + 1);
+          return;
+        }
+
+        if (actual.length < old.length) {
+          this.price.update(prevPrice => prevPrice - 1.50);
+          this.ingredientQuantity.update(prevQ => prevQ - 1);
+          return;
+        }
+      }
+    }
   }
 
-  updateAllergens(ingredient: Partial<{
-    format: string
-    sauce: string
-    baseCheese: string
-    gluten: string | null
-    lactose: string | null
-    meat: string | null
-    cheese: string | null
-    vegetable: string | null
-    others: string | null
-  }>) {
-
+  reset() {
+    this.form.reset();
+    this.ingredientQuantity.set(3);
+    this.price.set(11);
+    this.allergens.set([]);
   }
 
   formatOptions = [
@@ -173,7 +246,18 @@ export class CreateCustomPizzaComponent implements OnInit {
     {
       label: "component.custom.pizza.base.no.cheese",
       value: "component.custom.pizza.base.no.cheese",
+    },
+    {
+      label: "component.custom.pizza.base.no.lactose",
+      value: "component.custom.pizza.base.no.lactose",
     }
+  ];
+
+  allergenOptions = [
+    {
+      label: "component.custom.pizza.base.no.gluten",
+      value: "component.custom.pizza.base.no.gluten"
+    },
   ];
 
   meatOptions = [

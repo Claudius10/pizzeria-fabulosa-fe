@@ -19,6 +19,7 @@
             formControlName="format"
             optionLabel="label"
             optionValue="value"
+            [allowEmpty]="false"
             [ngClass]="['flex flex-wrap gap-2',!form.controls.format.untouched && !form.controls.format.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
@@ -34,6 +35,7 @@
             formControlName="sauce"
             optionLabel="label"
             optionValue="value"
+            [allowEmpty]="false"
             [ngClass]="['flex flex-wrap gap-2',!form.controls.sauce.untouched && !form.controls.sauce.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
@@ -49,6 +51,7 @@
             formControlName="baseCheese"
             optionLabel="label"
             optionValue="value"
+            [allowEmpty]="false"
             [ngClass]="['flex flex-wrap gap-2',!form.controls.baseCheese.untouched && !form.controls.baseCheese.valid ? 'ng-invalid ng-dirty' : '']">
             <ng-template #item let-item>
               {{ item.label | translate }}
@@ -59,20 +62,17 @@
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.products.filters.allergen" | translate }}</span>
           <div class="flex gap-2">
-            <p-toggleButton
+            <p-selectButton
               size="small"
-              formControlName="gluten"
-              onLabel="{{'component.custom.pizza.base.no.gluten' | translate}}"
-              offLabel="{{'component.products.filters.allergen.gluten' | translate}}"
-              [ngClass]="['flex flex-wrap gap-2']"
-            />
-            <p-toggleButton
-              size="small"
-              formControlName="lactose"
-              onLabel="{{'component.custom.pizza.base.no.lactose' | translate}}"
-              offLabel="{{'component.products.filters.allergen.lactose' | translate}}"
-              [ngClass]="['flex flex-wrap gap-2']"
-            />
+              [options]="allergenOptions"
+              formControlName="allergen"
+              optionLabel="label"
+              optionValue="value"
+              [ngClass]="['flex flex-wrap gap-2']">
+              <ng-template #item let-item>
+                {{ item.label | translate }}
+              </ng-template>
+            </p-selectButton>
           </div>
         </div>
       </div>
@@ -155,12 +155,24 @@
     </div>
   }
 
-  <p-button
-    type="button"
-    [raised]="true"
-    icon="pi pi-plus"
-    (onClick)="onSubmit()"
-  />
+  <div class="flex gap-2">
+    <p-button
+      type="button"
+      [raised]="true"
+      [outlined]="true"
+      label="{{'button.custom.pizza.reset' | translate | uppercase}}"
+      (onClick)="reset()"
+    />
+    <p-button
+      type="button"
+      [raised]="true"
+      [outlined]="true"
+      label="{{'button.custom.pizza.add' | translate | uppercase}}"
+      (onClick)="onSubmit()"
+      [severity]="ingredientQuantity() > 9 ? 'danger' : 'primary'"
+      [disabled]="ingredientQuantity() > 9"
+    />
+  </div>
 
   <div class="price">
     <p-button
@@ -168,6 +180,15 @@
       size="small"
       label="{{ price().toFixed(2) }}€"
       severity="primary"
+      [raised]="true"/>
+  </div>
+
+  <div class="quantity">
+    <p-button
+      type="button"
+      size="small"
+      label="{{ ingredientQuantity() }}/9"
+      [severity]="ingredientQuantity() > 9 ? 'danger' : 'primary'"
       [raised]="true"/>
   </div>
 </div>

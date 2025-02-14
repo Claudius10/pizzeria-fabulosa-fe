@@ -12,6 +12,8 @@
   "button.step.previous": "Anterior",
   "button.step.start": "Empezar",
   "button.order.confirm": "Pedir",
+  "button.custom.pizza.add": "Añadir",
+  "button.custom.pizza.reset": "Restablecer",
   "form.step": "Paso",
   "form.step.one": "Mis datos",
   "form.step.two": "Dirección de entrega",
