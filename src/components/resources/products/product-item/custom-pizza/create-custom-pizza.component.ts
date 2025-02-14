@@ -165,8 +165,6 @@ export class CreateCustomPizzaComponent implements OnInit {
   updatePrice(arrays: [string[] | undefined, string[] | undefined]) {
     const old = arrays[0];
     const actual = arrays[1];
-    console.log("old", old);
-    console.log("actual", actual);
 
     if (old === undefined) {
       // first emission
@@ -195,6 +193,36 @@ export class CreateCustomPizzaComponent implements OnInit {
         if (actual.length < old.length) {
           this.price.update(prevPrice => prevPrice - 1.50);
           this.ingredientQuantity.update(prevQ => prevQ - 1);
+          return;
+        }
+      }
+    }
+  }
+
+  updateAllergens(arrays: [string[] | undefined, string[] | undefined]) {
+    const old = arrays[0];
+    const actual = arrays[1];
+    const allergens = getPizzaAllergens();
+
+    if (old === undefined) {
+      // first emission
+      if (actual && actual.length > 0) {
+
+      }
+    } else {
+      // subsequent emissions
+      if (actual) {
+        if (actual.length === 0 && old.length > 0) {
+          return;
+        }
+
+        if (actual.length > old.length) {
+
+          return;
+        }
+
+        if (actual.length < old.length) {
+
           return;
         }
       }
@@ -345,7 +373,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   ];
 }
 
-function getPizzaAllergenItems() {
+function getPizzaAllergens() {
   return [
     'component.products.filters.allergen.gluten',
     'component.products.filters.allergen.lactose',
