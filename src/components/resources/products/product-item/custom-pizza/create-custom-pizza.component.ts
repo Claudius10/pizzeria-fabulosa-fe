@@ -3,8 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../../utils/functions';
-import {NgClass, NgOptimizedImage, UpperCasePipe} from '@angular/common';
-import {TranslatePipe} from '@ngx-translate/core';
+import {NgClass, UpperCasePipe} from '@angular/common';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {pairwise, startWith} from 'rxjs';
 
 @Component({
@@ -15,7 +15,6 @@ import {pairwise, startWith} from 'rxjs';
     Button,
     NgClass,
     TranslatePipe,
-    NgOptimizedImage,
     UpperCasePipe
   ],
   templateUrl: './create-custom-pizza.component.html',
@@ -23,6 +22,7 @@ import {pairwise, startWith} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCustomPizzaComponent implements OnInit {
+  private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   ingredientQuantity = signal<number>(3);
   price = signal<number>(11);
@@ -53,7 +53,7 @@ export class CreateCustomPizzaComponent implements OnInit {
         validators: [Validators.required]
       },
     ),
-    allergen: new FormControl<string>("",
+    allergens: new FormControl<string[]>([],
       {
         nonNullable: true,
         updateOn: "change",
@@ -98,50 +98,40 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
       next: baseCheese => {
-        const cheese = this.form.controls.cheese;
+        // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
+        if (baseCheese === "component.custom.pizza.base.no.cheese" && this.form.controls.cheese.value.length === 0) {
+          this.removeAllergen("lactose");
+        }
 
-        if (cheese.enabled) {
-
-          // if Lactose free option was selected
-          if (baseCheese === "component.custom.pizza.base.no.lactose") {
-            cheese.reset();
-            cheese.disable();
-            this.removeAllergen("lactose");
-            this.price.update(prevPrice => prevPrice + 2);
-          }
-
-          // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
-          if (baseCheese === "component.custom.pizza.base.no.cheese" && this.form.controls.cheese.value.length === 0) {
-            this.removeAllergen("lactose");
-          }
-
-          // if an option other than Lactose free or No base cheese was selected, add lactose allergen
-          if (baseCheese !== "component.custom.pizza.base.no.lactose" && baseCheese !== "component.custom.pizza.base.no.cheese") {
-            this.addAllergen("lactose");
-          }
-
-        } else {
-          cheese.enable();
-          this.price.update(prevPrice => prevPrice - 2);
-          // add lactose allergen when selecting a different option from Lactose free
-          // if No base cheese was not the selected option
-          if (baseCheese !== "component.custom.pizza.base.no.cheese") {
-            this.addAllergen("lactose");
-          }
+        // if an option other than No base cheese was selected, add lactose allergen
+        if (baseCheese !== "component.custom.pizza.base.no.cheese") {
+          this.addAllergen("lactose");
         }
       }
     });
 
-    const allergens = this.form.controls.allergen.valueChanges.subscribe({
-      next: allergen => {
-        if (allergen == null) {
+    const allergens = this.form.controls.allergens.valueChanges.subscribe({
+      next: allergens => {
+
+        const cheese = this.form.controls.cheese;
+
+        if (allergens.includes("component.custom.pizza.base.no.lactose")) {
+          cheese.reset();
+          cheese.disable();
+          this.removeAllergen("lactose");
+          this.price.update(prevPrice => prevPrice + 2);
+        } else {
+          cheese.enable();
+          this.price.update(prevPrice => prevPrice - 2);
+          this.addAllergen("lactose");
+        }
+
+        if (allergens.includes("component.custom.pizza.base.no.gluten")) {
+          this.price.update(prevPrice => prevPrice + 2);
+          this.removeAllergen("gluten");
+        } else {
           this.price.update(prevPrice => prevPrice - 2);
           this.addAllergen("gluten");
-        } else {
-          if (allergen.includes("no.gluten")) {
-            this.price.update(prevPrice => prevPrice + 2);
-            this.removeAllergen("gluten");
-          }
         }
       }
     });
@@ -180,12 +170,6 @@ export class CreateCustomPizzaComponent implements OnInit {
       vegetable.unsubscribe();
       others.unsubscribe();
     });
-  }
-
-  onSubmit() {
-    if (isFormValid(this.form)) {
-      console.log(this.form.value);
-    }
   }
 
   updatePrice(arrays: [string[] | undefined, string[] | undefined]) {
@@ -237,10 +221,6 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     } else {
       // subsequent emissions
-      if (actual.length === 0) {
-        this.removeAllergen("lactose");
-      }
-
       if (actual.length > 0) {
         this.addAllergen("lactose");
       }
@@ -261,6 +241,17 @@ export class CreateCustomPizzaComponent implements OnInit {
     this.allergens.set(allergens);
   }
 
+  getFullAllergenName(allergen: string) {
+    switch (allergen) {
+      case "gluten":
+        return "component.products.filters.allergen.gluten";
+      case "lactose":
+        return "component.products.filters.allergen.lactose";
+      default:
+        return "";
+    }
+  }
+
   reset() {
     this.form.reset();
     this.ingredientQuantity.set(3);
@@ -271,14 +262,48 @@ export class CreateCustomPizzaComponent implements OnInit {
     ]);
   }
 
-  getFullAllergenName(allergen: string) {
-    switch (allergen) {
-      case "gluten":
-        return "component.products.filters.allergen.gluten";
-      case "lactose":
-        return "component.products.filters.allergen.lactose";
-      default:
-        return "";
+  onSubmit() {
+    if (isFormValid(this.form)) {
+      let ingredients: string[] = [];
+      console.log(this.form.value);
+
+      // allergens
+      this.form.controls.allergens.value.forEach((ingredient) => {
+        ingredients.push(this.translateService.instant(ingredient));
+      });
+
+      // format
+      ingredients.push(this.translateService.instant(this.form.controls.format.value));
+
+      // base cheese
+      ingredients.push(this.translateService.instant(this.form.controls.baseCheese.value));
+
+      // base sauce
+      ingredients.push(this.translateService.instant(this.form.controls.sauce.value));
+
+      // meats
+      this.form.controls.meat.value.forEach((ingredient) => {
+        ingredients.push(this.translateService.instant(ingredient));
+      });
+
+      // cheeses
+      if (this.form.controls.cheese.value) {
+        this.form.controls.cheese.value.forEach((ingredient) => {
+          ingredients.push(this.translateService.instant(ingredient));
+        });
+      }
+
+      // vegetables
+      this.form.controls.vegetable.value.forEach((ingredient) => {
+        ingredients.push(this.translateService.instant(ingredient));
+      });
+
+      // others
+      this.form.controls.others.value.forEach((ingredient) => {
+        ingredients.push(this.translateService.instant(ingredient));
+      });
+
+      console.log(ingredients.join(", "));
     }
   }
 
@@ -320,10 +345,6 @@ export class CreateCustomPizzaComponent implements OnInit {
     {
       label: "component.custom.pizza.base.no.cheese",
       value: "component.custom.pizza.base.no.cheese",
-    },
-    {
-      label: "component.custom.pizza.base.no.lactose",
-      value: "component.custom.pizza.base.no.lactose",
     }
   ];
 
@@ -331,6 +352,10 @@ export class CreateCustomPizzaComponent implements OnInit {
     {
       label: "component.custom.pizza.base.no.gluten",
       value: "component.custom.pizza.base.no.gluten"
+    },
+    {
+      label: "component.custom.pizza.base.no.lactose",
+      value: "component.custom.pizza.base.no.lactose"
     },
   ];
 
