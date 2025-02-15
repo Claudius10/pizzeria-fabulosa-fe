@@ -85,9 +85,6 @@ function getPizzaAllergenFilterItems() {
       [
         'component.products.filters.allergen.gluten',
         'component.products.filters.allergen.lactose',
-        'component.products.filters.allergen.soy',
-        'component.products.filters.allergen.eggs',
-        'component.products.filters.allergen.mustard',
       ]
   };
 }

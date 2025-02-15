@@ -150,8 +150,15 @@
   </div>
 
   @if (allergens().length > 0) {
-    <div>
-      <span>Alérgenos</span>
+    <div class="flex flex-col gap-2 items-center">
+      <div class="flex gap-2 items-center">
+        <span class="font-bold text-xl allergen-color">{{ "component.products.filters.allergen" | translate }}</span>
+      </div>
+      <div class="flex justify-center flex-wrap gap-2">
+        @for (allergen of this.allergens(); track $index) {
+          <span class="font-bold">{{ allergen | translate }}</span>
+        }
+      </div>
     </div>
   }
 

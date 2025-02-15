@@ -26,7 +26,10 @@ export class CreateCustomPizzaComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   ingredientQuantity = signal<number>(3);
   price = signal<number>(11);
-  allergens = signal<string[]>([]);
+  allergens = signal<string[]>([
+    "component.products.filters.allergen.gluten",
+    "component.products.filters.allergen.lactose"
+  ]);
 
   form = new FormGroup({
     format: new FormControl<string>("component.custom.pizza.format.m",
@@ -96,14 +99,34 @@ export class CreateCustomPizzaComponent implements OnInit {
     const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
       next: baseCheese => {
         const cheese = this.form.controls.cheese;
-        if (baseCheese!.includes("no.lactose")) {
-          if (cheese.enabled) {
-            cheese.disable();
+
+        if (cheese.enabled) {
+
+          // if Lactose free option was selected
+          if (baseCheese === "component.custom.pizza.base.no.lactose") {
             cheese.reset();
+            cheese.disable();
+            this.removeAllergen("lactose");
+            this.price.update(prevPrice => prevPrice + 2);
           }
+
+          // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
+          if (baseCheese === "component.custom.pizza.base.no.cheese" && this.form.controls.cheese.value.length === 0) {
+            this.removeAllergen("lactose");
+          }
+
+          // if an option other than Lactose free or No base cheese was selected, add lactose allergen
+          if (baseCheese !== "component.custom.pizza.base.no.lactose" && baseCheese !== "component.custom.pizza.base.no.cheese") {
+            this.addAllergen("lactose");
+          }
+
         } else {
-          if (cheese.disabled) {
-            cheese.enable();
+          cheese.enable();
+          this.price.update(prevPrice => prevPrice - 2);
+          // add lactose allergen when selecting a different option from Lactose free
+          // if No base cheese was not the selected option
+          if (baseCheese !== "component.custom.pizza.base.no.cheese") {
+            this.addAllergen("lactose");
           }
         }
       }
@@ -113,9 +136,11 @@ export class CreateCustomPizzaComponent implements OnInit {
       next: allergen => {
         if (allergen == null) {
           this.price.update(prevPrice => prevPrice - 2);
+          this.addAllergen("gluten");
         } else {
           if (allergen.includes("no.gluten")) {
             this.price.update(prevPrice => prevPrice + 2);
+            this.removeAllergen("gluten");
           }
         }
       }
@@ -130,6 +155,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     const cheese = this.form.controls.cheese.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
       next: arrays => {
         this.updatePrice(arrays);
+        this.updateLactoseAllergen(arrays);
       }
     });
 
@@ -199,41 +225,61 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  updateAllergens(arrays: [string[] | undefined, string[] | undefined]) {
-    const old = arrays[0];
-    const actual = arrays[1];
-    const allergens = getPizzaAllergens();
+  updateLactoseAllergen(arrays: [string[] | undefined, string[] | undefined]) {
+    const old = arrays[0]!;
+    const actual = arrays[1]!;
 
     if (old === undefined) {
       // first emission
-      if (actual && actual.length > 0) {
-
+      if (actual.length > 0) {
+        this.addAllergen("lactose");
       }
+
     } else {
       // subsequent emissions
-      if (actual) {
-        if (actual.length === 0 && old.length > 0) {
-          return;
-        }
+      if (actual.length === 0) {
+        this.removeAllergen("lactose");
+      }
 
-        if (actual.length > old.length) {
-
-          return;
-        }
-
-        if (actual.length < old.length) {
-
-          return;
-        }
+      if (actual.length > 0) {
+        this.addAllergen("lactose");
       }
     }
+  }
+
+  addAllergen(allergen: string) {
+    const allergenFullName = this.getFullAllergenName(allergen);
+    const index = this.allergens().findIndex(value => value === allergenFullName);
+    if (index === -1) {
+      this.allergens.update(value => [...value, allergenFullName]);
+    }
+  }
+
+  removeAllergen(allergen: string) {
+    const allergenFullName = this.getFullAllergenName(allergen);
+    const allergens = this.allergens().filter(value => value !== allergenFullName);
+    this.allergens.set(allergens);
   }
 
   reset() {
     this.form.reset();
     this.ingredientQuantity.set(3);
     this.price.set(11);
-    this.allergens.set([]);
+    this.allergens.set([
+      "component.products.filters.allergen.gluten",
+      "component.products.filters.allergen.lactose"
+    ]);
+  }
+
+  getFullAllergenName(allergen: string) {
+    switch (allergen) {
+      case "gluten":
+        return "component.products.filters.allergen.gluten";
+      case "lactose":
+        return "component.products.filters.allergen.lactose";
+      default:
+        return "";
+    }
   }
 
   formatOptions = [
@@ -370,15 +416,5 @@ export class CreateCustomPizzaComponent implements OnInit {
       label: "component.products.filters.oil.truffle",
       value: "component.products.filters.oil.truffle"
     },
-  ];
-}
-
-function getPizzaAllergens() {
-  return [
-    'component.products.filters.allergen.gluten',
-    'component.products.filters.allergen.lactose',
-    'component.products.filters.allergen.soy',
-    'component.products.filters.allergen.eggs',
-    'component.products.filters.allergen.mustard',
   ];
 }
