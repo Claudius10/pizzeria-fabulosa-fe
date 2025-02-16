@@ -98,8 +98,7 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     const sauce = this.form.controls.sauce.valueChanges.subscribe({
       next: sauce => {
-        console.log("sauce");
-        if (sauce.includes("sauce.cream") && !this.form.controls.allergens.value.includes("component.custom.pizza.base.no.lactose")) {
+        if (sauce.includes("sauce.cream") && !this.isLactoseFree()) {
           this.addAllergen("lactose");
         } else {
           if (this.form.controls.baseCheese.value === "component.custom.pizza.base.no.cheese") {
@@ -111,14 +110,13 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
       next: baseCheese => {
-        console.log("baseCheese");
         // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
         if (baseCheese === "component.custom.pizza.base.no.cheese" && this.form.controls.cheese.value.length === 0) {
           this.removeAllergen("lactose");
         }
 
         // if an option other than No base cheese was selected, add lactose allergen
-        if (baseCheese !== "component.custom.pizza.base.no.cheese" && !this.form.controls.allergens.value.includes("component.custom.pizza.base.no.lactose")) {
+        if (baseCheese !== "component.custom.pizza.base.no.cheese" && !this.isLactoseFree()) {
           this.addAllergen("lactose");
         }
       }
@@ -126,12 +124,11 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     const allergens = this.form.controls.allergens.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
       next: arrays => {
-        console.log("allergens");
         const old = arrays[0];
         const actual = arrays[1]!;
         const cheese = this.form.controls.cheese;
 
-        if (actual.includes("component.custom.pizza.base.no.lactose")) {
+        if (this.isLactoseFree()) {
           this.removeAllergen("lactose");
           cheese.disable();
           cheese.reset();
@@ -144,7 +141,7 @@ export class CreateCustomPizzaComponent implements OnInit {
           cheese.enable();
         }
 
-        if (actual.includes("component.custom.pizza.base.no.gluten")) {
+        if (this.isGlutenFree()) {
           this.removeAllergen("gluten");
         } else {
           this.addAllergen("gluten");
@@ -241,7 +238,6 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   updateLactoseAllergen(arrays: [string[] | undefined, string[] | undefined]) {
-    console.log("updateLactoseAllergen ");
     const old = arrays[0]!;
     const actual = arrays[1]!;
 
@@ -267,13 +263,11 @@ export class CreateCustomPizzaComponent implements OnInit {
     const allergenFullName = this.getFullAllergenName(allergen);
     const index = this.allergens().findIndex(value => value === allergenFullName);
     if (index === -1) {
-      console.log("add", allergen);
       this.allergens.update(value => [...value, allergenFullName]);
     }
   }
 
   removeAllergen(allergen: string) {
-    console.log("remove", allergen);
     const allergenFullName = this.getFullAllergenName(allergen);
     const allergens = this.allergens().filter(value => value !== allergenFullName);
     this.allergens.set(allergens);
@@ -296,6 +290,14 @@ export class CreateCustomPizzaComponent implements OnInit {
 
   decreasePrice(amount: number) {
     this.price.update(value => value - amount);
+  }
+
+  isLactoseFree() {
+    return this.form.controls.allergens.value.includes("component.custom.pizza.base.no.lactose");
+  }
+
+  isGlutenFree() {
+    return this.form.controls.allergens.value.includes("component.custom.pizza.base.no.gluten");
   }
 
   reset() {
