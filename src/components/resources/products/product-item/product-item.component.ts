@@ -8,7 +8,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CreateCustomPizzaComponent} from './custom-pizza/create-custom-pizza.component';
+import {CreateCustomPizzaComponent, CustomPizza} from './custom-pizza/create-custom-pizza.component';
 
 @Component({
   selector: 'app-product',
@@ -71,6 +71,11 @@ export class ProductItemComponent implements OnInit {
       format: this.productFormat(),
       allergens: this.product().allergens
     });
+  }
+
+  addCustomPizza(pizza: CustomPizza) {
+    console.log(pizza);
+    this.closeCustomPizzaDialog();
   }
 
   updatePrice(format: string) {

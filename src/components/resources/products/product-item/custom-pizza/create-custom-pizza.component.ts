@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
@@ -6,6 +6,11 @@ import {isFormValid} from '../../../../../utils/functions';
 import {NgClass, UpperCasePipe} from '@angular/common';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {pairwise, startWith} from 'rxjs';
+
+export interface CustomPizza {
+  ingredients: string;
+  price: number;
+}
 
 @Component({
   selector: 'app-create-custom-pizza',
@@ -22,6 +27,7 @@ import {pairwise, startWith} from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCustomPizzaComponent implements OnInit {
+  onNewCustomPizza = output<CustomPizza>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   ingredientQuantity = signal<number>(3);
@@ -327,7 +333,6 @@ export class CreateCustomPizzaComponent implements OnInit {
   onSubmit() {
     if (isFormValid(this.form)) {
       let ingredients: string[] = [];
-      console.log(this.form.value);
 
       // allergens
       this.form.controls.allergens.value.forEach((ingredient) => {
@@ -365,7 +370,7 @@ export class CreateCustomPizzaComponent implements OnInit {
         ingredients.push(this.translateService.instant(ingredient));
       });
 
-      console.log(ingredients.join(", "));
+      this.onNewCustomPizza.emit({ingredients: ingredients.join(", "), price: this.price()});
     }
   }
 

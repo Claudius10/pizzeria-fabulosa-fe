@@ -47,11 +47,13 @@
       <div class="flex justify-center flex-wrap description text-center">
         @if (currentLang() === 'es') {
           <span *ngFor="let ingredient of product().description.es; let last = last">
-                {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
+                {{ ingredient }}
+            <ng-container *ngIf="!last">,</ng-container>
           </span>
         } @else {
           <span *ngFor="let ingredient of product().description.en; let last = last">
-            {{ ingredient }}<ng-container *ngIf="!last">,</ng-container>
+            {{ ingredient }}
+            <ng-container *ngIf="!last">,</ng-container>
           </span>
         }
       </div>
@@ -119,6 +121,6 @@
     (onHide)="closeCustomPizzaDialog()"
     [(visible)]="customPizzaDialogVisible"
     [header]="'component.custom.pizza.header' | translate | uppercase">
-    <app-create-custom-pizza/>
+    <app-create-custom-pizza (onNewCustomPizza)="addCustomPizza($event)"/>
   </p-dialog>
 }
