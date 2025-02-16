@@ -88,10 +88,18 @@ export class CreateCustomPizzaComponent implements OnInit {
   ngOnInit(): void {
     const format = this.form.controls.format.valueChanges.subscribe({
       next: format => {
+        this.form.controls.allergens.reset();
+        this.form.controls.sauce.reset();
+        this.form.controls.baseCheese.reset();
+        this.form.controls.meat.reset();
+        this.form.controls.cheese.reset();
+        this.form.controls.vegetable.reset();
+        this.form.controls.others.reset();
+
         if (format.includes("format.m")) {
-          this.decreasePrice(4);
+          this.price.set(11);
         } else if (format.includes("format.l")) {
-          this.increasePrice(4);
+          this.price.set(15);
         }
       }
     });
@@ -137,7 +145,6 @@ export class CreateCustomPizzaComponent implements OnInit {
             || this.form.controls.sauce.value === "component.products.filters.sauce.cream") {
             this.addAllergen("lactose");
           }
-
           cheese.enable();
         }
 
@@ -147,17 +154,19 @@ export class CreateCustomPizzaComponent implements OnInit {
           this.addAllergen("gluten");
         }
 
+        const priceOfRemovingAllergen = this.isMediumSize() ? 2 : 4;
+
         // first emission
         if (old === undefined) {
-          this.increasePrice(2);
+          this.increasePrice(priceOfRemovingAllergen);
         } else {
           // subsequent emissions
           if (actual.length > old.length) {
-            this.increasePrice(2);
+            this.increasePrice(priceOfRemovingAllergen);
           }
 
           if (actual.length < old.length) {
-            this.decreasePrice(2);
+            this.decreasePrice(priceOfRemovingAllergen);
           }
         }
       }
@@ -203,12 +212,13 @@ export class CreateCustomPizzaComponent implements OnInit {
   updatePrice(arrays: [string[] | undefined, string[] | undefined]) {
     const old = arrays[0];
     const actual = arrays[1]!;
+    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
 
     if (old === undefined) {
       // first emission
       // have to check for actual not being empty in case "Lactose free" is selected with empty cheese array
       if (actual.length > 0) {
-        this.price.update(prevPrice => prevPrice + 1.50);
+        this.price.update(prevPrice => prevPrice + priceOfIngredient);
         this.ingredientQuantity.update(prevQ => prevQ + 1);
       }
     } else {
@@ -217,19 +227,19 @@ export class CreateCustomPizzaComponent implements OnInit {
         // case when there are cheese items already selected and lactose free was selected
         // so to rest the price of the cheese items when they are removed
         if (actual.length === 0 && old.length > 0) {
-          this.price.update(prevPrice => prevPrice - (1.50 * old.length));
+          this.price.update(prevPrice => prevPrice - (priceOfIngredient * old.length));
           this.ingredientQuantity.update(prevQ => prevQ - (old.length));
           return;
         }
 
         if (actual.length > old.length) {
-          this.price.update(prevPrice => prevPrice + 1.50);
+          this.price.update(prevPrice => prevPrice + priceOfIngredient);
           this.ingredientQuantity.update(prevQ => prevQ + 1);
           return;
         }
 
         if (actual.length < old.length) {
-          this.price.update(prevPrice => prevPrice - 1.50);
+          this.price.update(prevPrice => prevPrice - priceOfIngredient);
           this.ingredientQuantity.update(prevQ => prevQ - 1);
           return;
         }
@@ -298,6 +308,10 @@ export class CreateCustomPizzaComponent implements OnInit {
 
   isGlutenFree() {
     return this.form.controls.allergens.value.includes("component.custom.pizza.base.no.gluten");
+  }
+
+  isMediumSize() {
+    return this.form.controls.format.value.includes("format.m");
   }
 
   reset() {
