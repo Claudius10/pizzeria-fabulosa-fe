@@ -3,7 +3,7 @@ import {CartItemDTO} from '../../../interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-cart-item',
@@ -11,9 +11,7 @@ import {NgClass, NgForOf, NgIf} from '@angular/common';
     Button,
     ButtonDirective,
     NgClass,
-    TranslatePipe,
-    NgForOf,
-    NgIf
+    TranslatePipe
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss'
