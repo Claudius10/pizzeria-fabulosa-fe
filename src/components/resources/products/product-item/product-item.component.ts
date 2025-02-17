@@ -9,6 +9,7 @@ import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {CreateCustomPizzaComponent, CustomPizza} from './custom-pizza/create-custom-pizza.component';
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'app-product',
@@ -58,7 +59,7 @@ export class ProductItemComponent implements OnInit {
 
   addProductToCart() {
     this.cartService.add({
-      id: this.product().id + this.product().code + this.productFormat(),
+      id: uuidv4(),
       code: this.product().code,
       image: this.product().image,
       productType: this.product().productType,
@@ -74,8 +75,27 @@ export class ProductItemComponent implements OnInit {
   }
 
   addCustomPizza(pizza: CustomPizza) {
-    console.log(pizza);
     this.closeCustomPizzaDialog();
+    this.cartService.add({
+      id: uuidv4(),
+      code: pizza.ingredients.join(", "),
+      image: this.product().image,
+      productType: "CustomPizza",
+      name: {
+        en: "My Pizza",
+        es: "Mi Pizza"
+      },
+      description: {
+        en: pizza.ingredients,
+        es: pizza.ingredients
+      },
+      prices: this.product().prices,
+      formats: this.product().formats,
+      quantity: 1,
+      price: pizza.price,
+      format: pizza.format,
+      allergens: this.product().allergens
+    });
   }
 
   updatePrice(format: string) {

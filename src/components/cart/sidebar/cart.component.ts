@@ -24,11 +24,11 @@ import {NgClass, UpperCasePipe} from '@angular/common';
 })
 export class CartComponent implements OnInit {
   onNewOrderClick = output<boolean>();
-  viewOnly = input.required<boolean>();
-  inSidebar = input<boolean>(false);
   protected cartService: CartService = inject(CartService);
   private router = inject(Router);
   private viewOnlyRoutes = ["/order/new/", "/order/success", "/user/orders/"];
+  viewOnly = input.required<boolean>();
+  inSidebar = input<boolean>(false);
   items = this.cartService.cartItems;
   quantity = this.cartService.cartQuantity;
   total = this.cartService.cartTotal;

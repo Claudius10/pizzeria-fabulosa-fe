@@ -1,54 +1,76 @@
-<div class="flex justify-between rounded-lg cart-item">
+<div class="flex flex-col rounded-lg cart-item">
+  <div class="flex justify-between">
+    <!-- IMAGE -->
+    <img class="rounded-border" [src]="item().image" width="90" height="500" alt="Product image">
 
-  <!-- IMAGE -->
-  <img class="rounded-border" [src]="item().image" width="90" height="500" alt="Product image">
+    <!-- BODY -->
+    <div class="flex flex-col justify-center items-center w-60 gap-2">
 
-  <!-- BODY -->
-  <div class="flex flex-col justify-center items-center w-60 gap-4">
+      <!-- 1ST ROW -> NAME + FORMAT -->
+      <div class="flex items-start gap-1">
+        <span class="font-bold">{{ currentLang() === 'en' ? item().name.en : item().name.es }}</span>
 
-    <!-- 1ST ROW -> NAME + FORMAT -->
-    <div class="flex items-start gap-2">
-      <span>{{ currentLang() === 'en' ? item().name.en : item().name.es }}</span>
+        <div class="flex">
+          @if (item().format === 'S') {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.s.en : item().formats.s.es }}</span>
+          }
 
-      <div class="flex gap-2">
-        @if (item().format === 'S') {
-          <span>{{ currentLang() === 'en' ? item().formats.s.en : item().formats.s.es }}</span>
-        }
+          @if (item().format === 'M') {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.m.en : item().formats.m.es }}</span>
+          }
 
-        @if (item().format === 'M') {
-          <span>{{ currentLang() === 'en' ? item().formats.m.en : item().formats.m.es }}</span>
-        }
+          @if (item().format === 'L') {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.l.en : item().formats.l.es }}</span>
+          }
+        </div>
+      </div>
 
-        @if (item().format === 'L') {
-          <span>{{ currentLang() === 'en' ? item().formats.l.en : item().formats.l.es }}</span>
+      <!-- 2ND ROW -> PRICE AND BUTTON WITH Q -->
+      <div class="flex justify-between gap-4">
+
+        <!-- PRICE -->
+        <p-button type="button" size="small" label="{{ item().price.toFixed(2) }}€" [outlined]="true"
+                  [raised]="true"/>
+
+        @if (readOnly()) {
+          <!-- X QUANTITY -->
+          <div class="flex gap-4 items-center justify-center">
+            <i class="pi pi-times"></i>
+            <button type="button" pButton size="small">{{ item().quantity }}</button>
+          </div>
+        } @else {
+          <!-- BUTTONS -->
+          <div class="flex gap-2 items-center justify-center">
+            <p-button type="button" size="small" icon="pi pi-plus" [raised]="true"
+                      (click)="increaseItemQuantity(item().id)"/>
+            <span>{{ item().quantity }}</span>
+            <p-button type="button" size="small" icon="pi pi-minus" [raised]="true"
+                      (click)="decreaseItemQuantity(item().id)"/>
+          </div>
         }
       </div>
-    </div>
 
-    <!-- 2ND ROW -> PRICE AND BUTTON WITH Q -->
-    <div class="flex justify-between gap-4">
-
-      <!-- PRICE -->
-      <p-button type="button" size="small" label="{{ item().price.toFixed(2) }}€" [outlined]="true"
-                [raised]="true"/>
-
-      @if (readOnly()) {
-        <!-- X QUANTITY -->
-        <div class="flex gap-4 items-center justify-center">
-          <i class="pi pi-times"></i>
-          <button type="button" pButton size="small">{{ item().quantity }}</button>
+      <div class="flex flex-col gap-2" (click)="toggleIngredients()">
+        <div class="flex items-center gap-1">
+          <i
+            style="color: var(--p-primary-color)"
+            [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+          <span class="cursor-pointer">{{ "component.custom.pizza.ingredients" | translate }}</span>
         </div>
-      } @else {
-        <!-- BUTTONS -->
-        <div class="flex gap-2 items-center justify-center">
-          <p-button type="button" size="small" icon="pi pi-plus" [raised]="true"
-                    (click)="increaseItemQuantity(item().id)"/>
-          <span>{{ item().quantity }}</span>
-          <p-button type="button" size="small" icon="pi pi-minus" [raised]="true"
-                    (click)="decreaseItemQuantity(item().id)"/>
-        </div>
-      }
+      </div>
     </div>
+  </div>
 
+  <div class="flex">
+    @if (viewIngredients()) {
+      <div class="flex justify-center text-center">
+        @if (currentLang() === 'es') {
+          {{ item().description.es.join(", ") }}
+        } @else {
+          {{ item().description.en.join(", ") }}
+        }
+      </div>
+    }
   </div>
 </div>
+

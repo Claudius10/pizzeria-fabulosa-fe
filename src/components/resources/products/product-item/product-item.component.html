@@ -46,15 +46,9 @@
     @if (product().description !== null) {
       <div class="flex justify-center flex-wrap description text-center">
         @if (currentLang() === 'es') {
-          <span *ngFor="let ingredient of product().description.es; let last = last">
-                {{ ingredient }}
-            <ng-container *ngIf="!last">,</ng-container>
-          </span>
+          {{ product().description.es.join(", ") }}
         } @else {
-          <span *ngFor="let ingredient of product().description.en; let last = last">
-            {{ ingredient }}
-            <ng-container *ngIf="!last">,</ng-container>
-          </span>
+          {{ product().description.es.join(", ") }}
         }
       </div>
     }

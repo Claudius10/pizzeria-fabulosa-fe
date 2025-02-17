@@ -4,12 +4,13 @@ import {SelectButton} from 'primeng/selectbutton';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../../utils/functions';
 import {NgClass, UpperCasePipe} from '@angular/common';
-import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {TranslatePipe} from '@ngx-translate/core';
 import {pairwise, startWith} from 'rxjs';
 
 export interface CustomPizza {
-  ingredients: string;
+  ingredients: string[];
   price: number;
+  format: string;
 }
 
 @Component({
@@ -28,7 +29,6 @@ export interface CustomPizza {
 })
 export class CreateCustomPizzaComponent implements OnInit {
   onNewCustomPizza = output<CustomPizza>();
-  private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   ingredientQuantity = signal<number>(3);
   price = signal<number>(11);
@@ -336,41 +336,45 @@ export class CreateCustomPizzaComponent implements OnInit {
 
       // allergens
       this.form.controls.allergens.value.forEach((ingredient) => {
-        ingredients.push(this.translateService.instant(ingredient));
+        ingredients.push(ingredient);
       });
 
       // format
-      ingredients.push(this.translateService.instant(this.form.controls.format.value));
+      ingredients.push(this.form.controls.format.value);
 
       // base cheese
-      ingredients.push(this.translateService.instant(this.form.controls.baseCheese.value));
+      ingredients.push(this.form.controls.baseCheese.value);
 
       // base sauce
-      ingredients.push(this.translateService.instant(this.form.controls.sauce.value));
+      ingredients.push(this.form.controls.sauce.value);
 
       // meats
       this.form.controls.meat.value.forEach((ingredient) => {
-        ingredients.push(this.translateService.instant(ingredient));
+        ingredients.push(ingredient);
       });
 
       // cheeses
       if (this.form.controls.cheese.value) {
         this.form.controls.cheese.value.forEach((ingredient) => {
-          ingredients.push(this.translateService.instant(ingredient));
+          ingredients.push(ingredient);
         });
       }
 
       // vegetables
       this.form.controls.vegetable.value.forEach((ingredient) => {
-        ingredients.push(this.translateService.instant(ingredient));
+        ingredients.push(ingredient);
       });
 
       // others
       this.form.controls.others.value.forEach((ingredient) => {
-        ingredients.push(this.translateService.instant(ingredient));
+        ingredients.push(ingredient);
       });
 
-      this.onNewCustomPizza.emit({ingredients: ingredients.join(", "), price: this.price()});
+      this.onNewCustomPizza.emit({
+        ingredients: ingredients,
+        price: this.price(),
+        format: this.form.controls.format.value
+      });
     }
   }
 
