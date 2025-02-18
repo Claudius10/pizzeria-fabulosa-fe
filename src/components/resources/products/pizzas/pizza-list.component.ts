@@ -15,6 +15,7 @@ import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {FilterService} from '../../../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../../utils/filter-items';
+import {CustomPizzaComponent} from '../product-item/custom-pizza/custom-pizza.component';
 
 @Component({
   selector: 'app-pizza-list',
@@ -26,7 +27,8 @@ import {getAllPizzaFilters} from '../../../../utils/filter-items';
     ProductsFilterComponent,
     ProductsSearchPipe,
     ProductItemComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    CustomPizzaComponent
   ],
   templateUrl: './pizza-list.component.html',
   styleUrls: ['./pizza-list.component.scss'],

@@ -8,7 +8,6 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
-import {CreateCustomPizzaComponent, CustomPizza} from './custom-pizza/create-custom-pizza.component';
 import {v4 as uuidv4} from 'uuid';
 
 @Component({
@@ -20,7 +19,6 @@ import {v4 as uuidv4} from 'uuid';
     ProductPriceComponent,
     ReactiveFormsModule,
     TranslatePipe,
-    CreateCustomPizzaComponent,
     Dialog,
     UpperCasePipe
   ],
@@ -37,7 +35,6 @@ export class ProductItemComponent implements OnInit {
   productFormat = signal<string>("");
   productPrice = signal<number>(0);
   allergensDialogVisible = false;
-  customPizzaDialogVisible = false;
 
   ngOnInit(): void {
     if (this.product().formats) {
@@ -58,41 +55,25 @@ export class ProductItemComponent implements OnInit {
   addProductToCart() {
     this.cartService.add({
       id: uuidv4(),
-      code: this.product().code,
-      image: this.product().image,
-      productType: this.product().productType,
+      type: this.product().type,
       name: this.product().name,
       description: this.product().description,
-      prices: this.product().prices,
-      formats: this.product().formats,
-      quantity: 1,
+      formats: {
+        s: this.productFormat() === "S" ? {
+          en: this.product().formats.s.en,
+          es: this.product().formats.s.es,
+        } : null,
+        m: this.productFormat() === "M" ? {
+          en: this.product().formats.m.en,
+          es: this.product().formats.m.es,
+        } : null,
+        l: this.productFormat() === "L" ? {
+          en: this.product().formats.l.en,
+          es: this.product().formats.l.es,
+        } : null,
+      },
       price: this.productPrice(),
-      format: this.productFormat(),
-      allergens: this.product().allergens
-    });
-  }
-
-  addCustomPizza(pizza: CustomPizza) {
-    this.closeCustomPizzaDialog();
-    this.cartService.add({
-      id: uuidv4(),
-      code: pizza.ingredients.join(", "),
-      image: this.product().image,
-      productType: "CustomPizza",
-      name: {
-        en: "My Pizza",
-        es: "Mi Pizza"
-      },
-      description: {
-        en: pizza.ingredients,
-        es: pizza.ingredients
-      },
-      prices: this.product().prices,
-      formats: this.product().formats,
       quantity: 1,
-      price: pizza.price,
-      format: pizza.format,
-      allergens: this.product().allergens
     });
   }
 
@@ -113,14 +94,6 @@ export class ProductItemComponent implements OnInit {
   setFormat(format: string) {
     this.productFormat.set(format);
     this.updatePrice(format);
-  }
-
-  openCustomPizzaDialog() {
-    this.customPizzaDialogVisible = true;
-  }
-
-  closeCustomPizzaDialog() {
-    this.customPizzaDialogVisible = false;
   }
 
   openAllergensDialog() {

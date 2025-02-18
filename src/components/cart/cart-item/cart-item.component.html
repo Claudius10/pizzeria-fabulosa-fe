@@ -1,7 +1,9 @@
-<div class="flex flex-col rounded-lg cart-item">
-  <div class="flex justify-between">
+<div class="flex flex-col rounded-lg cart-item justify-center">
+  <div class="flex pt-3 pb-3">
     <!-- IMAGE -->
-    <img class="rounded-border" [src]="item().image" width="90" height="500" alt="Product image">
+    <div class="flex items-center">
+      <img class="rounded-border" [src]="getIcon() " width="80" height="80" alt="Product image">
+    </div>
 
     <!-- BODY -->
     <div class="flex flex-col justify-center items-center w-60 gap-2">
@@ -11,16 +13,16 @@
         <span class="font-bold">{{ currentLang() === 'en' ? item().name.en : item().name.es }}</span>
 
         <div class="flex">
-          @if (item().format === 'S') {
-            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.s.en : item().formats.s.es }}</span>
+          @if (item().formats.s !== null) {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.s!.en : item().formats.s!.es }}</span>
           }
 
-          @if (item().format === 'M') {
-            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.m.en : item().formats.m.es }}</span>
+          @if (item().formats.m !== null) {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.m!.en : item().formats.m!.es }}</span>
           }
 
-          @if (item().format === 'L') {
-            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.l.en : item().formats.l.es }}</span>
+          @if (item().formats.l !== null) {
+            <span class="font-bold">{{ currentLang() === 'en' ? item().formats.l!.en : item().formats.l!.es }}</span>
           }
         </div>
       </div>
@@ -50,27 +52,26 @@
         }
       </div>
 
-      <div class="flex flex-col gap-2" (click)="toggleIngredients()">
-        <div class="flex items-center gap-1">
-          <i
-            style="color: var(--p-primary-color)"
-            [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
-          <span class="cursor-pointer">{{ "component.custom.pizza.ingredients" | translate }}</span>
+      @if (item().description.en.length > 0) {
+        <div class="flex flex-col gap-2" (click)="toggleIngredients()">
+          <div class="flex items-center gap-1">
+            <i
+              style="color: var(--p-primary-color)"
+              [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+            <span class="cursor-pointer">{{ "component.custom.pizza.ingredients" | translate }}</span>
+          </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 
-  <div class="flex">
-    @if (viewIngredients()) {
-      <div class="flex justify-center text-center">
-        @if (currentLang() === 'es') {
-          {{ item().description.es.join(", ") }}
-        } @else {
-          {{ item().description.en.join(", ") }}
-        }
-      </div>
-    }
-  </div>
+  @if (viewIngredients()) {
+    <div class="flex justify-center text-center pb-2" @ingredientsAnimation>
+      @if (currentLang() === 'es') {
+        {{ item().description.es.join(", ") }}
+      } @else {
+        {{ item().description.en.join(", ") }}
+      }
+    </div>
+  }
 </div>
-

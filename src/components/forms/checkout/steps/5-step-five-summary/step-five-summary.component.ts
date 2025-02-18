@@ -49,7 +49,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private userService = inject(UserService);
   private authService = inject(AuthService);
   private orderService = inject(OrderService);
-  private cartService = inject(CartService);
+  protected cartService = inject(CartService);
   private router = inject(Router);
   private errorService = inject(ErrorService);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
@@ -58,9 +58,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
   selectedStore = signal<StoreDTO | null>(null);
   selectedAddress = signal<AddressDTO | null>(null);
   isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
-  userName = this.authService.getUserName();
-  userEmail = this.authService.getUserEmail();
-  userContactNumber = this.authService.getUserContactNumber();
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
@@ -152,6 +149,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           } else {
             this.cartService.clear();
             this.checkoutFormService.clear();
+            console.log(response.payload);
             this.checkoutFormService.orderSuccess.set(response.payload);
             this.router.navigate(['order', 'success']);
           }

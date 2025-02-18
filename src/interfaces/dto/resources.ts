@@ -31,8 +31,7 @@ export type StoreDTO = {
 
 export type ProductDTO = {
   id: string;
-  code: string;
-  productType: string;
+  type: string;
   allergens: {
     en: string[];
     es: string[];

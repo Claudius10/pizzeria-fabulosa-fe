@@ -1,0 +1,37 @@
+<div class="flex flex-col rounded-border container-desc">
+  <!-- IMAGE -->
+  <img class="pb-2 " src="https://i.imgur.com/loYe1jf.jpeg" alt="Product image">
+
+  <div class="flex flex-col items-center justify-between product-container">
+
+    <!-- NAME -->
+    <span class="font-semibold text-xl">{{ "component.custom.pizza.header" | translate }}</span>
+
+    <div class="flex justify-center flex-wrap description text-center">
+      {{ "component.custom.pizza.text" | translate }}
+    </div>
+
+    <div class="pb-2">
+      <p-button
+        type="button"
+        icon="pi pi-plus"
+        [raised]="true"
+        (click)="openCustomPizzaDialog()"/>
+    </div>
+  </div>
+</div>
+@if (customPizzaDialogVisible) {
+  <p-dialog
+    [draggable]="false"
+    [resizable]="true"
+    [modal]="true"
+    [dismissableMask]="false"
+    [style]="{ width: 'fit-content' }"
+    [breakpoints]="{ '576px': '90vw' }"
+    [position]="'center'"
+    (onHide)="closeCustomPizzaDialog()"
+    [(visible)]="customPizzaDialogVisible"
+    [header]="'component.custom.pizza.header' | translate | uppercase">
+    <app-create-custom-pizza (onNewCustomPizza)="addCustomPizza($event)"/>
+  </p-dialog>
+}

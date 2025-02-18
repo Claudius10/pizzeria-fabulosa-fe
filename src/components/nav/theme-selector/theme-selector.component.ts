@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {ThemeService} from '../../../services/theme/theme.service';
 import {NgClass} from '@angular/common';
@@ -15,7 +15,7 @@ import {NgClass} from '@angular/common';
 export class ThemeSelectorComponent {
   private localStorageService = inject(LocalstorageService);
   private themeService = inject(ThemeService);
-  isDarkMode = signal(this.localStorageService.getDarkMode());
+  isDarkMode = this.localStorageService.getDarkMode();
   visible = false;
   @ViewChild('themes') themes: ElementRef | undefined;
 
@@ -33,7 +33,7 @@ export class ThemeSelectorComponent {
   }
 
   toggleDarkMode = (on: boolean) => {
-    this.isDarkMode.set(on);
+    this.isDarkMode = on;
     this.themeService.toggleDarkMode(on);
     this.localStorageService.setDarkMode(on);
   };

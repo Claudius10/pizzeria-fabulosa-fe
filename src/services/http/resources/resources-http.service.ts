@@ -11,10 +11,6 @@ export class ResourcesHttpService {
   private httpClient = inject(HttpClient);
   private PATH = environment.url;
 
-  public findAllProducts() {
-    return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}`);
-  }
-
   public findProducts(type: string) {
     return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}?type=${type}`);
   }

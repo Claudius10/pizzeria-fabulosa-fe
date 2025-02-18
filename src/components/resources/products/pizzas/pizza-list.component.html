@@ -12,6 +12,7 @@
         @for (product of query.data()!.payload | productsSearch: searchText():filters(); track product.id) {
           <app-product [product]="product"/>
         }
+        <app-custom-pizza/>
       }
 
       @if (query.status() === "error") {

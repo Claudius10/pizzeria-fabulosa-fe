@@ -104,16 +104,7 @@ function getTestOrderSuccess(): CreatedOrderDTO {
     cart: {
       cartItems: [
         {
-          productType: "pizza",
-          allergens: {
-            en: [],
-            es: []
-          },
-          prices: {
-            s: 0,
-            m: 13.30,
-            l: 18.30
-          },
+          type: "pizza",
           name: {
             en: "Cuatro Quesos",
             es: "Cuatro Quesos"
@@ -133,15 +124,12 @@ function getTestOrderSuccess(): CreatedOrderDTO {
             }
           },
           id: "1",
-          image: "",
           price: 13.30,
           description: {
             en: [],
             es: []
           },
           quantity: 1,
-          format: "Mediana",
-          code: "P1C"
         }
       ],
       id: 1,

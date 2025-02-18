@@ -2,11 +2,11 @@
   background-color: var(--p-surface-card-bg);
   border: 1px solid var(--p-primary-color);
   border-radius: 7px;
-  margin-right: 0.5rem;
+  min-height: 7rem;
 }
 
 img {
-  width: 90px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   object-fit: fill;
 }

@@ -88,7 +88,7 @@
   }
 </div>
 @if (linksDrawerVisible) {
-  <p-drawer [(visible)]="linksDrawerVisible">
+  <p-drawer [(visible)]="linksDrawerVisible" [blockScroll]="true">
     <div class="flex flex-col items-center gap-6">
       <p (click)="hideMobileLinksDrawer()" class="cursor-pointer" routerLinkActive="color" routerLink="/"
          [routerLinkActiveOptions]="{exact: true}">
@@ -101,7 +101,7 @@
   </p-drawer>
 }
 @if (drawerCartVisible) {
-  <p-drawer [(visible)]="drawerCartVisible" position="right" styleClass="!w-96">
+  <p-drawer [(visible)]="drawerCartVisible" position="right" styleClass="!w-96" [blockScroll]="true">
     <ng-template pTemplate="header">
       <span class="font-bold font text-2xl">{{ "component.navigation.cart.drawer.header" | translate }}</span>
     </ng-template>

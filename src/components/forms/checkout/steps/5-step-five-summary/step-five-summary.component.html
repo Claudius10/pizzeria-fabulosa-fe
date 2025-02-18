@@ -107,7 +107,7 @@
         [severity]="'success'"
         type="button"
         (onClick)="onSubmit()"
-        [disabled]="checkoutFormService.step() !== 4"
+        [disabled]="checkoutFormService.step() !== 4 || !cartService.isEmpty()"
         label="{{ 'button.order.confirm' | translate | uppercase }}"/>
     </div>
   </div>

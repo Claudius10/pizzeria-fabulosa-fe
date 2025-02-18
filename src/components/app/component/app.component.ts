@@ -73,15 +73,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   setUpCart() {
     if (!this.localStorageService.isCartEmpty()) {
       const {items, total, quantity} = this.localStorageService.getCart();
-      this.cartService.set(items, quantity, total, false);
+      this.cartService.set(items, quantity, total);
     }
   }
 
   setUpLocale() {
     const locale = this.localStorageService.getLocale();
-    const langToUse = locale === "en" ? en : es;
-    this.translateService.addLangs(['es', 'en', 'primeng-es', 'primeng-en']);
-    this.translateService.setTranslation(locale, langToUse);
+    this.translateService.setTranslation('en', en);
+    this.translateService.setTranslation('es', es);
+    this.translateService.setDefaultLang('es');
     this.translateService.use(locale);
     this.primeNgConfig.setTranslation(locale === "en" ? primeEN : primeES);
   }

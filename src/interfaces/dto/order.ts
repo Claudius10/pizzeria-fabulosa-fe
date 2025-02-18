@@ -1,5 +1,3 @@
-import {ProductDTO} from './resources';
-
 export type AddressDTO = {
   id: number;
   street: string;
@@ -16,11 +14,33 @@ export type OrderDetailsDTO = {
   comment: string | null;
 }
 
-export interface CartItemDTO extends ProductDTO {
-  code: string;
+export interface CartItemDTO {
+  id: string;
+  type: string;
+  name: {
+    en: string;
+    es: string;
+  };
+  description: {
+    es: string[],
+    en: string[],
+  };
+  formats: {
+    s: {
+      en: string;
+      es: string;
+    } | null;
+    m: {
+      en: string;
+      es: string;
+    } | null;
+    l: {
+      en: string;
+      es: string;
+    } | null;
+  };
   quantity: number;
   price: number;
-  format: string;
 }
 
 export type CartDTO = {

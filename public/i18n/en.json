@@ -189,7 +189,7 @@
   "dialog.logout.success.message": "Sign-out successful",
   "dialog.logout.error.message": "Sign-out unsuccessful. If the problem persists, contact us.",
   "page.forbidden": "Access denied: ensure you are logged-in and have the sufficient privileges to access this page",
-  "page.not.found": "You have reached a dead-end. Please return to the main page by clicking the pizza icon in the left top corner.",
+  "page.not.found": "You have reached a dead-end. 404",
   "toast.dev.note": "The server is asleep. Please, wait a few seconds.",
   "footer.dev": "Clau's project"
 }

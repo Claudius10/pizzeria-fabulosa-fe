@@ -35,16 +35,10 @@
           [orderDetails]="checkoutFormService.orderSuccess()!.orderDetails"/>
       </div>
 
-      @if (allProducts.status() === "success" && !allProducts.data()!.status.error) {
-        <div class="cart">
-          <app-cart [viewOnly]="true"/>
-        </div>
-      }
+      <div class="cart">
+        <app-cart [viewOnly]="true"/>
+      </div>
     </div>
-
-    @if (allProducts.status() === "error") {
-      <span class="text-center invalid-text">{{ "component.order.error.loading.cart" | translate }}</span>
-    }
 
     <div class="flex flex-col items-center gap-4">
       @if (!isAuthenticated()) {
@@ -53,6 +47,5 @@
               routerLink="/registration">{{ "component.order.success.anon.link" | translate }}</span>
       }
     </div>
-
   </div>
 }

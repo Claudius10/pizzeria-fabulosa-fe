@@ -1,4 +1,4 @@
-<div [ngClass]="['flex flex-col rounded-border', product().productType !== 'pizza' ? 'container' : 'container-desc' ]">
+<div [ngClass]="['flex flex-col rounded-border', product().type !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
   <img class="pb-2 " src="{{product().image}}" alt="Product image">
 
@@ -48,7 +48,7 @@
         @if (currentLang() === 'es') {
           {{ product().description.es.join(", ") }}
         } @else {
-          {{ product().description.es.join(", ") }}
+          {{ product().description.en.join(", ") }}
         }
       </div>
     }
@@ -63,7 +63,7 @@
         type="button"
         icon="pi pi-plus"
         [raised]="true"
-        (click)="product().code !== 'P10CUSTOM' ? addProductToCart() : openCustomPizzaDialog()"/>
+        (click)="addProductToCart()"/>
 
       @if (product().allergens.es.length > 0) {
         <i class="pi pi-exclamation-circle allergens-icon-small" (click)="openAllergensDialog()"></i>
@@ -101,20 +101,5 @@
         }
       </div>
     </div>
-  </p-dialog>
-}
-@if (customPizzaDialogVisible) {
-  <p-dialog
-    [draggable]="false"
-    [resizable]="true"
-    [modal]="true"
-    [dismissableMask]="false"
-    [style]="{ width: 'fit-content' }"
-    [breakpoints]="{ '576px': '90vw' }"
-    [position]="'center'"
-    (onHide)="closeCustomPizzaDialog()"
-    [(visible)]="customPizzaDialogVisible"
-    [header]="'component.custom.pizza.header' | translate | uppercase">
-    <app-create-custom-pizza (onNewCustomPizza)="addCustomPizza($event)"/>
   </p-dialog>
 }
