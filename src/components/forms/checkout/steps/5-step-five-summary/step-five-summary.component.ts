@@ -149,7 +149,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
           } else {
             this.cartService.clear();
             this.checkoutFormService.clear();
-            console.log(response.payload);
             this.checkoutFormService.orderSuccess.set(response.payload);
             this.router.navigate(['order', 'success']);
           }

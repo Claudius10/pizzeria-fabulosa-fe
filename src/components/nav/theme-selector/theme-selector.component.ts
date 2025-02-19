@@ -15,7 +15,7 @@ import {NgClass} from '@angular/common';
 export class ThemeSelectorComponent {
   private localStorageService = inject(LocalstorageService);
   private themeService = inject(ThemeService);
-  isDarkMode = this.localStorageService.getDarkMode();
+  isDarkMode = this.themeService.getDarkMode();
   visible = false;
   @ViewChild('themes') themes: ElementRef | undefined;
 
@@ -33,7 +33,6 @@ export class ThemeSelectorComponent {
   }
 
   toggleDarkMode = (on: boolean) => {
-    this.isDarkMode = on;
     this.themeService.toggleDarkMode(on);
     this.localStorageService.setDarkMode(on);
   };

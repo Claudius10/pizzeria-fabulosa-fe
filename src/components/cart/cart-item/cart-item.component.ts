@@ -4,8 +4,8 @@ import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass} from '@angular/common';
-import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {animate, style, transition, trigger} from '@angular/animations';
+import {ThemeService} from '../../../services/theme/theme.service';
 
 const ANIMATION_TRANSITION_DURATION = "100ms";
 
@@ -33,8 +33,8 @@ export class CartItemComponent implements OnInit {
   private cartService: CartService = inject(CartService);
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
-  private localStorageService = inject(LocalstorageService);
-  isDarkMode = signal(this.localStorageService.getDarkMode());
+  private themeService = inject(ThemeService);
+  isDarkMode = this.themeService.getDarkMode();
   readOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
@@ -60,12 +60,23 @@ export class CartItemComponent implements OnInit {
     this.viewIngredients.set(!this.viewIngredients());
   }
 
-  getIcon() {
+  getLightIcon() {
     switch (this.item().type) {
       case 'pizza':
-        return this.isDarkMode() ? '/assets/icons/pizza-light.png' : '/assets/icons/pizza-dark.png';
+        return '/assets/icons/pizza-light.png';
       case 'beverage':
-        return this.isDarkMode() ? '/assets/icons/beverage-light.png' : '/assets/icons/beverage-dark.png';
+        return '/assets/icons/beverage-light.png';
+      default:
+        return '';
+    }
+  }
+
+  getDarkIcon() {
+    switch (this.item().type) {
+      case 'pizza':
+        return '/assets/icons/pizza-dark.png';
+      case 'beverage':
+        return '/assets/icons/beverage-dark.png';
       default:
         return '';
     }

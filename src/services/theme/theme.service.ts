@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {updatePreset} from '@primeng/themes';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
+  isDarkMode = signal(false);
 
   changePrimaryColor(color: string) {
     updatePreset({
@@ -17,8 +18,10 @@ export class ThemeService {
   toggleDarkMode(on: boolean) {
     const element = document.querySelector('html');
     if (on) {
+      this.isDarkMode.set(true);
       element!.classList.add('my-app-dark');
     } else {
+      this.isDarkMode.set(false);
       element!.classList.remove('my-app-dark');
     }
   }
@@ -37,5 +40,9 @@ export class ThemeService {
       900: `{${color}.900}`,
       950: `{${color}.950}`
     };
+  }
+
+  getDarkMode() {
+    return this.isDarkMode.asReadonly();
   }
 }

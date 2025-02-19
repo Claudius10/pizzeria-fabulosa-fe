@@ -27,36 +27,28 @@ export class CustomPizzaComponent {
 
   addCustomPizza(pizza: CustomPizza) {
     this.closeCustomPizzaDialog();
-    const enIngredients = this.translateIngredients("en", pizza.ingredients);
-    const esIngredients = this.translateIngredients("es", pizza.ingredients);
-    const ingredients = {
-      en: enIngredients,
-      es: esIngredients
-    };
+    const isMedium = pizza.format.includes("format.m");
     this.cartService.add({
       id: uuidv4(),
-      type: "CustomPizza",
+      type: "pizza",
       name: {
         en: "My Pizza",
         es: "Mi Pizza"
       },
       description: {
-        en: enIngredients,
-        es: esIngredients,
+        en: this.translateIngredients("en", pizza.ingredients),
+        es: this.translateIngredients("es", pizza.ingredients),
       },
       formats: {
-        s: {
-          en: "",
-          es: ""
-        },
-        m: {
-          en: "",
-          es: ""
-        },
-        l: {
-          en: "",
-          es: ""
-        }
+        s: null,
+        m: isMedium ? {
+          en: this.translateIngredient("en", pizza.format),
+          es: this.translateIngredient("es", pizza.format),
+        } : null,
+        l: !isMedium ? {
+          en: this.translateIngredient("en", pizza.format),
+          es: this.translateIngredient("es", pizza.format),
+        } : null
       },
       quantity: 1,
       price: pizza.price,
@@ -71,7 +63,13 @@ export class CustomPizzaComponent {
     this.customPizzaDialogVisible = false;
   }
 
-  translateIngredients(to: string, ingredients: string[]) {
+  translateIngredient(to: string, ingredient: string): string {
+    const translations = this.translateService.translations;
+    const translation = translations[to];
+    return translation[ingredient];
+  }
+
+  translateIngredients(to: string, ingredients: string[]): string[] {
     const translations = this.translateService.translations;
     const translation = translations[to];
     return ingredients.map(ingredient => {
