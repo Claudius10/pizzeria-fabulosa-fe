@@ -1,4 +1,4 @@
-<div class="flex flex-col rounded-lg cart-item justify-center">
+<div class="flex flex-col items-center rounded-lg cart-item justify-center">
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
     <div class="flex items-center">
@@ -67,7 +67,8 @@
   </div>
 
   @if (viewIngredients()) {
-    <div class="flex flex-wrap justify-center text-center pb-2" @ingredientsAnimation>
+    <div class="flex flex-wrap justify-center align-middle text-center pb-2 ingredients-container"
+         @ingredientsAnimation>
       @if (currentLang() === 'es') {
         {{ item().description.es.join(", ") }}
       } @else {

@@ -125,7 +125,9 @@ export class CreateCustomPizzaComponent implements OnInit {
     const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
       next: baseCheese => {
         // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
-        if (baseCheese === "component.custom.pizza.base.no.cheese" && this.form.controls.cheese.value.length === 0) {
+        if (baseCheese === "component.custom.pizza.base.no.cheese" &&
+          this.form.controls.cheese.value.length === 0 &&
+          this.form.controls.sauce.value === 'component.custom.pizza.base.no.sauce') {
           this.removeAllergen("lactose");
         }
 
@@ -259,17 +261,19 @@ export class CreateCustomPizzaComponent implements OnInit {
 
     if (old === undefined) {
       // first emission
-      if (actual.length > 0) {
+      if (actual.length > 0 && !this.isLactoseFree()) {
         this.addAllergen("lactose");
       }
 
     } else {
       // subsequent emissions
-      if (actual.length > old.length) {
+      if (actual.length > old.length && !this.isLactoseFree()) {
         this.addAllergen("lactose");
       }
 
-      if (actual.length < old.length) {
+      if (actual.length === 0 && (this.isLactoseFree()
+        || this.form.controls.baseCheese.value === 'component.custom.pizza.base.no.cheese'
+        || this.form.controls.sauce.value === 'component.products.filters.no.sauce')) {
         this.removeAllergen("lactose");
       }
     }
