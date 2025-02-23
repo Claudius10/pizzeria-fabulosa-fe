@@ -1,9 +1,15 @@
 <div class="flex flex-col items-center rounded-lg cart-item justify-center">
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
+
     <div class="flex items-center">
-      <img class="rounded-border" [src]="isDarkMode() ? this.item().images.light: item().images.dark" width="80"
-           height="80" alt="Product image">
+      @if (isDarkMode()) {
+        <img class="rounded-border" ngSrc="{{item().images.dark}}" width="80"
+             height="80" alt="Product image">
+      } @else {
+        <img class="rounded-border" ngSrc="{{item().images.light}}" width="80"
+             height="80" alt="Product image">
+      }
     </div>
 
     <!-- BODY -->
