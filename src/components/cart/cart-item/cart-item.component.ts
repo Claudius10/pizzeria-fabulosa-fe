@@ -3,7 +3,7 @@ import {CartItemDTO} from '../../../interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
-import {NgClass, NgOptimizedImage} from '@angular/common';
+import {NgClass} from '@angular/common';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ThemeService} from '../../../services/theme/theme.service';
 
@@ -15,8 +15,7 @@ const ANIMATION_TRANSITION_DURATION = "100ms";
     Button,
     ButtonDirective,
     NgClass,
-    TranslatePipe,
-    NgOptimizedImage
+    TranslatePipe
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
