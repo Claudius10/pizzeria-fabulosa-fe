@@ -3,13 +3,17 @@
     <!-- IMAGE -->
 
     <div class="flex items-center">
-      @if (isDarkMode()) {
-        <img class="rounded-border" ngSrc="{{item().images.light}}" width="80"
-             height="80" alt="Product image">
-      } @else {
-        <img class="rounded-border" ngSrc="{{item().images.dark}}" width="80"
-             height="80" alt="Product image">
-      }
+
+      <img [ngClass]="['rounded-border', isDarkMode()? 'image-on' : 'image-off']" ngSrc="{{item().images.light}}"
+           width="80"
+           height="80"
+           alt="Product image">
+
+      <img [ngClass]="['rounded-border', isDarkMode()? 'image-off' : 'image-on']" ngSrc="{{item().images.dark}}"
+           width="80"
+           height="80"
+           alt="Product image">
+
     </div>
 
     <!-- BODY -->
