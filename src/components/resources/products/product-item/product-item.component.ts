@@ -9,6 +9,7 @@ import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {ReactiveFormsModule} from '@angular/forms';
 import {v4 as uuidv4} from 'uuid';
+import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
 
 @Component({
   selector: 'app-product',
@@ -55,6 +56,10 @@ export class ProductItemComponent implements OnInit {
   addProductToCart() {
     this.cartService.add({
       id: uuidv4(),
+      images: {
+        dark: getDarkIcon(this.product().type),
+        light: getLightIcon(this.product().type)
+      },
       type: this.product().type,
       name: this.product().name,
       description: this.product().description,

@@ -6,7 +6,6 @@ import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass} from '@angular/common';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ThemeService} from '../../../services/theme/theme.service';
-import {toObservable} from '@angular/core/rxjs-interop';
 
 const ANIMATION_TRANSITION_DURATION = "100ms";
 
@@ -39,7 +38,7 @@ export class CartItemComponent implements OnInit {
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
   viewIngredients = signal(false);
-  isDarkMode = toObservable(this.themeService.isDarkMode);
+  isDarkMode = this.themeService.getDarkMode();
   icon = signal("");
 
   ngOnInit(): void {
@@ -47,13 +46,8 @@ export class CartItemComponent implements OnInit {
       this.currentLang.set(langEvent.lang);
     });
 
-    const isDarkModeSub = this.isDarkMode.subscribe(isDarkMode => {
-      this.icon.set(this.getIcon(isDarkMode));
-    });
-
     this.destroyRef.onDestroy(() => {
       translateSub.unsubscribe();
-      isDarkModeSub.unsubscribe();
     });
   }
 
@@ -67,35 +61,5 @@ export class CartItemComponent implements OnInit {
 
   toggleIngredients() {
     this.viewIngredients.set(!this.viewIngredients());
-  }
-
-  getIcon(isDarkMode: boolean) {
-    if (isDarkMode) {
-      return this.getLightIcon();
-    } else {
-      return this.getDarkIcon();
-    }
-  }
-
-  getLightIcon() {
-    switch (this.item().type) {
-      case 'pizza':
-        return '/assets/icons/pizza-light.png';
-      case 'beverage':
-        return '/assets/icons/beverage-light.png';
-      default:
-        return '';
-    }
-  }
-
-  getDarkIcon() {
-    switch (this.item().type) {
-      case 'pizza':
-        return '/assets/icons/pizza-dark.png';
-      case 'beverage':
-        return '/assets/icons/beverage-dark.png';
-      default:
-        return '';
-    }
   }
 }

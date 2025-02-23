@@ -29,6 +29,28 @@ export function isFormValid(form: FormGroup) {
   return valid;
 }
 
+export function getLightIcon(type: string) {
+  switch (type) {
+    case 'pizza':
+      return '/assets/icons/pizza-light.png';
+    case 'beverage':
+      return '/assets/icons/beverage-light.png';
+    default:
+      return '';
+  }
+}
+
+export function getDarkIcon(type: string) {
+  switch (type) {
+    case 'pizza':
+      return '/assets/icons/pizza-dark.png';
+    case 'beverage':
+      return '/assets/icons/beverage-dark.png';
+    default:
+      return '';
+  }
+}
+
 export function buildErrorResponse(): ResponseDTO {
   return {
     payload: null,

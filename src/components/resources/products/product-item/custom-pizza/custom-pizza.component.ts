@@ -6,6 +6,7 @@ import {v4 as uuidv4} from 'uuid';
 import {CreateCustomPizzaComponent, CustomPizza} from '../create-custom-pizza/create-custom-pizza.component';
 import {CartService} from '../../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
+import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-custom-pizza',
@@ -30,6 +31,10 @@ export class CustomPizzaComponent {
     const isMedium = pizza.format.includes("format.m");
     this.cartService.add({
       id: uuidv4(),
+      images: {
+        dark: getDarkIcon('pizza'),
+        light: getLightIcon('pizza'),
+      },
       type: "pizza",
       name: {
         en: "My Pizza",
