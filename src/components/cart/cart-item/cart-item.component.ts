@@ -3,9 +3,10 @@ import {CartItemDTO} from '../../../interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
-import {NgClass} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {ThemeService} from '../../../services/theme/theme.service';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 const ANIMATION_TRANSITION_DURATION = "100ms";
 
@@ -15,7 +16,8 @@ const ANIMATION_TRANSITION_DURATION = "100ms";
     Button,
     ButtonDirective,
     NgClass,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
@@ -34,15 +36,20 @@ export class CartItemComponent implements OnInit {
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   private themeService = inject(ThemeService);
-  isDarkMode = this.themeService.getDarkMode();
   readOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
   viewIngredients = signal(false);
+  isDarkMode = toObservable(this.themeService.isDarkMode);
+  icon = signal("");
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
       this.currentLang.set(langEvent.lang);
+    });
+
+    this.isDarkMode.subscribe(isDarkMode => {
+      this.icon.set(this.getIcon(isDarkMode));
     });
 
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
@@ -58,6 +65,14 @@ export class CartItemComponent implements OnInit {
 
   toggleIngredients() {
     this.viewIngredients.set(!this.viewIngredients());
+  }
+
+  getIcon(isDarkMode: boolean) {
+    if (isDarkMode) {
+      return this.getLightIcon();
+    } else {
+      return this.getDarkIcon();
+    }
   }
 
   getLightIcon() {
