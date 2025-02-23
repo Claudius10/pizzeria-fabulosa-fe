@@ -44,15 +44,18 @@ export class CartItemComponent implements OnInit {
   icon = signal("");
 
   ngOnInit(): void {
-    const subscription = this.translateService.onLangChange.subscribe(langEvent => {
+    const translateSub = this.translateService.onLangChange.subscribe(langEvent => {
       this.currentLang.set(langEvent.lang);
     });
 
-    this.isDarkMode.subscribe(isDarkMode => {
+    const isDarkModeSub = this.isDarkMode.subscribe(isDarkMode => {
       this.icon.set(this.getIcon(isDarkMode));
     });
 
-    this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    this.destroyRef.onDestroy(() => {
+      translateSub.unsubscribe();
+      isDarkModeSub.unsubscribe();
+    });
   }
 
   decreaseItemQuantity(id: string) {
