@@ -10,9 +10,16 @@
   <!-- OFFERS  -->
   <div class="flex flex-col items-center gap-8">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.offers" | translate }}</span>
-    @if (offers.status() === "error") {
+
+    @if (offers.status() === 'pending') {
+      <!-- nothing (should be a skeleton) -->
+    }
+
+    @if (offers.status() !== 'pending' && offers.status() === 'error') {
       <app-server-error/>
-    } @else if (offers.status() === "success" && offers.data()!.payload !== null) {
+    }
+
+    @if (offers.status() === "success" && offers.data()!.payload !== null) {
       <div class="flex flex-wrap justify-center gap-8">
         @for (offer of offers.data()!.payload; track offer.id) {
           <app-offer-item [offer]="offer"/>
@@ -24,9 +31,16 @@
   <!-- STORES -->
   <div class="flex flex-col items-center gap-8">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.stores" | translate }}</span>
-    @if (stores.status() === "error") {
+
+    @if (stores.status() === 'pending') {
+      <!-- nothing (should be a skeleton) -->
+    }
+
+    @if (stores.status() !== 'pending' && stores.status() === 'error') {
       <app-server-error/>
-    } @else if (stores.status() === "success" && stores.data()!.payload !== null) {
+    }
+
+    @if (stores.status() === "success" && stores.data()!.payload !== null) {
       <div class="flex flex-wrap justify-center gap-8">
         @for (store of stores.data()!.payload; track store.id) {
           <app-store-item [store]="store"/>

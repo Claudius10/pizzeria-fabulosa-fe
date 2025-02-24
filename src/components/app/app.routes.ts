@@ -23,6 +23,12 @@ import {CheckoutFormComponent} from '../forms/checkout/form/checkout-form.compon
 export const routes: Routes = [
   {
     path: "",
+    redirectTo: "home",
+    pathMatch: "full",
+    title: "Pizzeria Fabulosa"
+  },
+  {
+    path: "home",
     component: HomeComponent,
     title: "Pizzeria Fabulosa"
   },
