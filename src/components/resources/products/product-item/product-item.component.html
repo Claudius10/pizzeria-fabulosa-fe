@@ -5,7 +5,7 @@
   <div class="flex flex-col items-center justify-between product-container">
 
     <!-- NAME -->
-    <span class="font-semibold text-xl">{{ currentLang() === 'en' ? product().name.en : product().name.es }}</span>
+    <span class="font-semibold text-xl">{{ currentLang() === 'es' ? product().name.es : product().name.en }}</span>
 
     <!-- FORMAT -->
     @if (product().formats) {
@@ -15,7 +15,7 @@
             (click)="setFormat('S')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'en' ? product().formats.s.en : product().formats.s.es  }}"
+            label="{{ currentLang() === 'es' ? product().formats.s.es : product().formats.s.en  }}"
             [outlined]="this.productFormat()!=='S'"
             [raised]="true"/>
         }
@@ -25,7 +25,7 @@
             (click)="setFormat('M')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'en' ? product().formats.m.en : product().formats.m.es  }}"
+            label="{{ currentLang() === 'es' ? product().formats.m.es : product().formats.m.en  }}"
             [outlined]="this.productFormat()!=='M'"
             [raised]="true"/>
         }
@@ -35,7 +35,7 @@
             (click)="setFormat('L')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'en' ? product().formats.l.en : product().formats.l.es  }}"
+            label="{{ currentLang() === 'es' ? product().formats.l.es : product().formats.l.en  }}"
             [outlined]="this.productFormat()!=='L'"
             [raised]="true"/>
         }
@@ -45,11 +45,7 @@
     <!-- INGREDIENTES -->
     @if (product().description !== null) {
       <div class="flex justify-center flex-wrap description text-center">
-        @if (currentLang() === 'es') {
-          {{ product().description.es.join(", ") }}
-        } @else {
-          {{ product().description.en.join(", ") }}
-        }
+        {{ currentLang() === 'es' ? product().description.es.join(", ") : product().description.en.join(", ") }}
       </div>
     }
 
