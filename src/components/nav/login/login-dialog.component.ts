@@ -17,7 +17,7 @@ import {IconFieldModule} from 'primeng/iconfield';
 import {InputIconModule} from 'primeng/inputicon';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {UpperCasePipe} from '@angular/common';
-import {CookieService} from 'ngx-cookie-service';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {isFormValid} from '../../../utils/functions';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {myIcon} from '../../../primeng/icon';
@@ -39,7 +39,7 @@ import {myIcon} from '../../../primeng/icon';
 })
 export class LoginDialogComponent implements OnDestroy {
   private router = inject(Router);
-  private cookieService = inject(CookieService);
+  private cookieService = inject(SsrCookieService);
   private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private messageService = inject(MessageService);

@@ -3,7 +3,7 @@ import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@
 import {routes} from './app.routes';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
 import {AuthService} from '../../services/auth/auth.service';
-import {CookieService} from 'ngx-cookie-service';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideTranslateService, TranslateLoader} from '@ngx-translate/core';
@@ -15,7 +15,7 @@ import {providePrimeNG} from 'primeng/config';
 import {defaultPreset} from '../../primeng/default.preset.theme';
 import {provideClientHydration, withI18nSupport} from '@angular/platform-browser';
 
-function initializeApp(cookieService: CookieService, authService: AuthService) {
+function initializeApp(cookieService: SsrCookieService, authService: AuthService) {
   return () => new Promise((resolve) => {
 
     // authentication check
@@ -69,7 +69,7 @@ export const appConfig: ApplicationConfig = {
     })), // withDevtools()
     provideAppInitializer(() => {
       const initializerFn = (() => {
-        const cookieService = inject(CookieService);
+        const cookieService = inject(SsrCookieService);
         const authService = inject(AuthService);
         return initializeApp(cookieService, authService);
       })();
