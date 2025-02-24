@@ -39,7 +39,9 @@
           },
           "configurations": {
             "production": {
-              "ssr": true,
+              "ssr": {
+                "entry": "server.ts"
+              },
               "prerender": true,
               "budgets": [
                 {
@@ -60,7 +62,9 @@
               "extractLicenses": false,
               "sourceMap": true,
               "prerender": true,
-              "ssr": true,
+              "ssr": {
+                "entry": "server.ts"
+              },
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
