@@ -4,11 +4,10 @@
   "scripts": {
     "ng": "ng",
     "dev": "ng serve",
-    "start": "serve:ssr:pizzeria-angular-fe",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:PizzeriaAngularFE": "node dist/pizzeria-angular-fe/server/server.mjs"
+    "start": "node dist/pizzeria-angular-fe/server/server.mjs"
   },
   "private": true,
   "dependencies": {
