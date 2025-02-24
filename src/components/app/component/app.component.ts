@@ -3,13 +3,14 @@ import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../../nav/navigation-bar/navigation-bar.component';
 import {FooterComponent} from '../../footer/footer.component';
 import {TranslateService} from '@ngx-translate/core';
-import primeES from "../../../../public/i18n/primeng-es.json";
 import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ToastModule} from "primeng/toast";
 import {ErrorService} from '../../../services/error/error.service';
 import {ThemeService} from '../../../services/theme/theme.service';
 import {PrimeNG} from 'primeng/config';
+import primeES from "../../../../public/i18n/primeng-es.json";
+import es from "../../../../public/i18n/es.json";
 
 @Component({
   selector: 'app-root',
@@ -56,6 +57,7 @@ export class AppComponent {
   }
 
   setUpLocale() {
+    this.translateService.setTranslation('es', es);
     if (this.localStorageService.getLocale() !== 'en') {
       this.translateService.use('es');
       this.primeNgConfig.setTranslation(primeES);

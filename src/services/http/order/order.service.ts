@@ -46,6 +46,16 @@ export class OrderService {
   }
 
   findOrderSummaryList(userId: string | null): QueryResult {
+    // when server (SSR) tries to fetch, but token is not loaded yet
+    // return placeholder
+    if (userId === null) {
+      return {
+        data: signal(undefined),
+        status: signal('pending'),
+        error: signal(null),
+      };
+    }
+
     const query = injectQuery(() => ({
       queryKey: ["user", "order", "summary", this.pageNumber() - 1, this.pageSize()],
       queryFn: () => lastValueFrom(this.orderHttpService.findOrderSummaryList(userId, this.pageNumber() - 1, this.pageSize())),
@@ -59,6 +69,16 @@ export class OrderService {
   }
 
   findUserOrder(options: BaseQueryOptionsIdAndUser): QueryResult {
+    // when server (SSR) tries to fetch, but token is not loaded yet
+    // return placeholder
+    if (options.userId === null) {
+      return {
+        data: signal(undefined),
+        status: signal('pending'),
+        error: signal(null),
+      };
+    }
+
     const query = injectQuery(() => ({
       // enabled: options.userId !== undefined,
       queryKey: options.queryKey,

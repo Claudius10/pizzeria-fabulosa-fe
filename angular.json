@@ -42,7 +42,6 @@
               "ssr": {
                 "entry": "server.ts"
               },
-              "prerender": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -61,7 +60,6 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "prerender": true,
               "ssr": {
                 "entry": "server.ts"
               },
