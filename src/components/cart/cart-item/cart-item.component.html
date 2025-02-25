@@ -70,8 +70,7 @@
   </div>
 
   @if (viewIngredients()) {
-    <div class="flex flex-wrap justify-center align-middle text-center pb-2 ingredients-container"
-         @ingredientsAnimation>
+    <div class="flex flex-wrap justify-center align-middle text-center pb-2 ingredients-container">
       @if (currentLang() === 'es') {
         {{ item().description.es.join(", ") }}
       } @else {

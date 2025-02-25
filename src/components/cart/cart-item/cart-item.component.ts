@@ -4,9 +4,6 @@ import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass} from '@angular/common';
-import {animate, style, transition, trigger} from '@angular/animations';
-
-const ANIMATION_TRANSITION_DURATION = "100ms";
 
 @Component({
   selector: 'app-cart-item',
@@ -18,15 +15,6 @@ const ANIMATION_TRANSITION_DURATION = "100ms";
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
-  animations: [
-    trigger('ingredientsAnimation', [
-      transition(':enter', [style({
-        height: "0px",
-        overflow: "hidden"
-      }), animate(ANIMATION_TRANSITION_DURATION, style({height: "*"}))]),
-      transition(':leave', [animate(ANIMATION_TRANSITION_DURATION, style({height: '0px', overflow: "hidden"}))]),
-    ]),
-  ]
 })
 export class CartItemComponent implements OnInit {
   private cartService: CartService = inject(CartService);

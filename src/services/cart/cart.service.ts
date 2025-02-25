@@ -27,8 +27,8 @@ export class CartService {
 
   public set(items: CartItemDTO[], quantity: number, total: number) {
     this.clear();
-    this.quantity.set(quantity);
     this.setIcons(items);
+    this.quantity.set(quantity);
     this.total.set(total);
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
@@ -182,6 +182,8 @@ export class CartService {
     return JSON.parse(this.cookieService.get(COOKIE_CART));
   }
 
+  // when loading order in user orders or in order-success
+  // icons must be set because they don't exist in the db
   private setIcons(items: CartItemDTO[]) {
     for (const item of items) {
       item.images = {
