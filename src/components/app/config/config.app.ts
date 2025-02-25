@@ -73,9 +73,6 @@ export const configApp: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: defaultPreset,
-        options: {
-          darkModeSelector: '.my-app-dark'
-        }
       }
     }),
     provideZoneChangeDetection({eventCoalescing: true}),

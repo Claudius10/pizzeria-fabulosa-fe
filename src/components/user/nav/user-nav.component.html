@@ -1,10 +1,8 @@
 <p-menubar [model]="userProfileMenu()" [dt]="userMenuBar()">
-  <ng-template class="flex gap-6" #item let-item>
-    <ng-container>
-      <a routerLinkActive="color" [routerLink]="item.route" class="flex justify-center items-center">
-        <span [class]="item.icon"></span>
-        <span class="ml-2">{{ item.label | translate }}</span>
-      </a>
-    </ng-container>
+  <ng-template #item let-item>
+    <a routerLinkActive="color" [routerLink]="item.route" class="flex justify-center items-center">
+      <span [class]="item.icon"></span>
+      <span class="ml-2">{{ item.label | translate }}</span>
+    </a>
   </ng-template>
 </p-menubar>
