@@ -12,7 +12,6 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {BadgeModule} from 'primeng/badge';
-import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component';
 import {Drawer} from 'primeng/drawer';
 
 @Component({
@@ -30,7 +29,6 @@ import {Drawer} from 'primeng/drawer';
     ProgressBarModule,
     SidebarModule,
     CartComponent,
-    ThemeSelectorComponent,
     Drawer
   ],
   templateUrl: './navigation-bar.component.html',
