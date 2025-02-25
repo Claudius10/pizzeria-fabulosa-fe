@@ -17,9 +17,8 @@ import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE, COOKIE_THEME_MODE} from '..
 import {ThemeService} from '../../../services/theme/theme.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import en from "../../../../public/i18n/en.json";
-import es from "../../../../public/i18n/es.json";
 import primeES from "../../../../public/i18n/primeng-es.json";
+import primeEN from "../../../../public/i18n/primeng-es.json";
 
 function initializeApp(
   cookieService: SsrCookieService,
@@ -30,28 +29,18 @@ function initializeApp(
   primeNgConfig: PrimeNG
 ) {
   return () => new Promise((resolve) => {
+    // locale
+    if (!cookieService.check(COOKIE_LOCALE)) {
+      translateService.use('en');
+    } else {
+      const locale = cookieService.get(COOKIE_LOCALE);
+      translateService.use(locale);
+      primeNgConfig.setTranslation(locale === 'en' ? primeEN : primeES);
+    }
+
     // auth token
     if (cookieService.check(COOKIE_ID_TOKEN)) {
       authService.setUserCredentials(cookieService.get(COOKIE_ID_TOKEN));
-    }
-
-    // translate Service
-    translateService.setTranslation('en', en);
-    translateService.setDefaultLang('en');
-
-    // locale
-    if (cookieService.check(COOKIE_LOCALE)) {
-      const locale = cookieService.get(COOKIE_LOCALE);
-      if (locale !== 'en') {
-        translateService.setTranslation('es', es);
-        translateService.use(locale);
-        primeNgConfig.setTranslation(primeES);
-      }
-    }
-
-    // theme
-    if (cookieService.check(COOKIE_THEME_MODE)) {
-      //???
     }
 
     // cart
@@ -60,6 +49,11 @@ function initializeApp(
       if (cartCookie.items.length > 0) {
         cartService.set(cartCookie.items, cartCookie.quantity, cartCookie.total);
       }
+    }
+
+    // theme
+    if (cookieService.check(COOKIE_THEME_MODE)) {
+      //???
     }
 
     resolve(true);
