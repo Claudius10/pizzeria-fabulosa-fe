@@ -3,10 +3,11 @@ import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {NgClass} from '@angular/common';
 import {Button} from 'primeng/button';
-import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
 import {PrimeNG} from 'primeng/config';
 import primeEN from '../../../../public/i18n/primeng-en.json';
 import primeES from '../../../../public/i18n/primeng-es.json';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
+import {COOKIE_LOCALE} from '../../../utils/constants';
 
 @Component({
   selector: 'app-locale-selector',
@@ -19,7 +20,7 @@ import primeES from '../../../../public/i18n/primeng-es.json';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
-  private localStorageService = inject(LocalstorageService);
+  private cookieService = inject(SsrCookieService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private primeNgConfig = inject(PrimeNG);
@@ -40,7 +41,7 @@ export class LocaleSelectorComponent {
   }
 
   changeLanguage(lang: string): void {
-    this.localStorageService.setLocale(lang);
+    this.cookieService.set(COOKIE_LOCALE, lang, 30);
     this.useLanguage(lang);
     this.visible = false;
     this.messageService.add({
@@ -51,7 +52,7 @@ export class LocaleSelectorComponent {
     });
   }
 
-  useLanguage(language: string): void {
+  private useLanguage(language: string): void {
     this.translateService.use(language);
     // setting locale of primeNg by directly loading the json files in this component
     // https://github.com/ngx-translate/core/issues/641

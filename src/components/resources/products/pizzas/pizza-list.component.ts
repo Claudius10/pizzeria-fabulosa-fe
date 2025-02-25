@@ -5,7 +5,7 @@ import {RESOURCE_PRODUCT_PIZZA} from '../../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {QueryResult} from '../../../../interfaces/query';
-import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';

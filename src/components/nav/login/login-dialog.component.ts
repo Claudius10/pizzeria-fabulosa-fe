@@ -21,6 +21,7 @@ import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {isFormValid} from '../../../utils/functions';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {myIcon} from '../../../primeng/icon';
+import {COOKIE_ID_TOKEN} from '../../../utils/constants';
 
 @Component({
   selector: 'app-login-dialog',
@@ -97,7 +98,7 @@ export class LoginDialogComponent implements OnDestroy {
         } else {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.authService.setUserCredentials(this.cookieService.get("idToken"));
+          this.authService.setUserCredentials(this.cookieService.get(COOKIE_ID_TOKEN));
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),

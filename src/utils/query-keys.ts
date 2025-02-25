@@ -1,6 +1,5 @@
 export const RESOURCE_PRODUCT_PIZZA = ["resource", "product", "pizza"];
 export const RESOURCE_PRODUCT_BEVERAGES = ["resource", "product", "beverage"];
-export const RESOURCE_PRODUCT_ALL = ["resource", "product", "all"];
 export const RESOURCE_OFFERS = ["resource", "offers"];
 export const RESOURCE_STORES = ["resource", "stores"];
 

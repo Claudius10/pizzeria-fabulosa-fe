@@ -1,3 +1,7 @@
+@if (order.status() === "error") {
+  <app-server-error/>
+}
+
 @if (order.status() === "success") {
   @if (order.data()!.payload; as order) {
     <div class="flex flex-col gap-4 h-full">
@@ -49,6 +53,4 @@
     </div>
   }
   <p-confirmDialog/>
-} @else if (order.status() === "error") {
-  <app-server-error/>
 }

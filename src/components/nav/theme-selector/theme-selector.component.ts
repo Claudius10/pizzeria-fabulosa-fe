@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
-import {LocalstorageService} from '../../../services/localstorage/localstorage.service';
+
 import {ThemeService} from '../../../services/theme/theme.service';
 import {NgClass} from '@angular/common';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
 
 @Component({
   selector: 'app-theme-selector',
@@ -13,7 +14,8 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
-  private localStorageService = inject(LocalstorageService);
+
+  private cookieService = inject(SsrCookieService);
   private themeService = inject(ThemeService);
   isDarkMode = this.themeService.getDarkMode();
   visible = false;
@@ -34,11 +36,16 @@ export class ThemeSelectorComponent {
 
   toggleDarkMode = (on: boolean) => {
     this.themeService.toggleDarkMode(on);
-    this.localStorageService.setDarkMode(on);
+
+    if (on) {
+      this.cookieService.set("dark", "true", 1000);
+    } else {
+      this.cookieService.delete("dark");
+    }
   };
 
   changePrimaryColor(color: string) {
     this.themeService.changePrimaryColor(color);
-    this.localStorageService.setTheme(color);
+
   }
 }

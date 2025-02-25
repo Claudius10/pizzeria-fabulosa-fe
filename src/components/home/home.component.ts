@@ -8,7 +8,7 @@ import {QueryResult} from '../../interfaces/query';
 import {OfferItemComponent} from '../resources/offers/offer-item.component';
 import {StoreItemComponent} from '../resources/stores/store-item.component';
 import {ErrorService} from '../../services/error/error.service';
-import {ServerErrorComponent} from '../app/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../app/routes/error/server-no-response/server-error.component';
 import {ResponseDTO} from '../../interfaces/http/api';
 import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 import {TranslatePipe} from '@ngx-translate/core';

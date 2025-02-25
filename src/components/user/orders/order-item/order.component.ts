@@ -17,7 +17,7 @@ import {LoadingAnimationService} from '../../../../services/navigation/loading-a
 import {MutationResult} from '../../../../interfaces/mutation';
 import {CartComponent} from '../../../cart/sidebar/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ResponseDTO} from '../../../../interfaces/http/api';

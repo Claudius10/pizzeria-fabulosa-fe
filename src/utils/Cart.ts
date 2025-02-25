@@ -1,4 +1,4 @@
-import {CartItemDTO} from '../../interfaces/dto/order';
+import {CartItemDTO} from '../interfaces/dto/order';
 
 export class Cart implements Partial<ICart> {
   items?: CartItemDTO[];

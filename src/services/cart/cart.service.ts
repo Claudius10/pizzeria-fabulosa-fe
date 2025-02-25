@@ -1,13 +1,14 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
-import {Cart} from '../localstorage/Cart';
-import {LocalstorageService} from '../localstorage/localstorage.service';
+import {Cart, ICart} from '../../utils/Cart';
+import {SsrCookieService} from 'ngx-cookie-service-ssr';
+import {COOKIE_CART} from '../../utils/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private localStorageService = inject(LocalstorageService);
+  private cookieService = inject(SsrCookieService);
 
   private items = signal<CartItemDTO[]>([]);
   private total = signal<number>(0);
@@ -29,7 +30,7 @@ export class CartService {
     this.total.set(total);
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
-    this.updateLocalStorage();
+    this.updateCartCookie();
   }
 
   public add(item: CartItemDTO) {
@@ -46,7 +47,7 @@ export class CartService {
       this.updateTotal(this.items());
       this.calculateCostWithOffers(this.items(), this.total());
     }
-    this.updateLocalStorage();
+    this.updateCartCookie();
   }
 
   public decreaseQuantity(id: string) {
@@ -66,7 +67,7 @@ export class CartService {
       this.updateTotal(this.items());
       this.calculateCostWithOffers(this.items(), this.total());
     }
-    this.updateLocalStorage();
+    this.updateCartCookie();
   }
 
   public increaseQuantity(id: string) {
@@ -78,7 +79,7 @@ export class CartService {
     this.updateQuantity(this.items());
     this.updateTotal(this.items());
     this.calculateCostWithOffers(this.items(), this.total());
-    this.updateLocalStorage();
+    this.updateCartCookie();
   }
 
   private updateQuantity(items: CartItemDTO[]) {
@@ -132,14 +133,14 @@ export class CartService {
     this.totalAfterOffers.set(0);
     this.quantity.set(0);
     this.calculateCostWithOffers([], 0);
-    this.updateLocalStorage();
+    this.updateCartCookie();
   }
 
   public isEmpty() {
     return this.items().length !== 0;
   }
 
-  private updateLocalStorage() {
+  private updateCartCookie() {
     const cart = new Cart()
       .withItems(this.items())
       .withTotal(this.total())
@@ -148,7 +149,11 @@ export class CartService {
       .withThreeForTwo(this.threeForTwoOffers())
       .withSecondHalfPrice(this.secondHalfPriceOffer());
 
-    this.localStorageService.setCart(cart);
+    if (cart.items.length > 0) {
+      this.setCartCookie(cart);
+    } else {
+      this.cookieService.delete(COOKIE_CART);
+    }
   }
 
   private getPizzaItems(items: CartItemDTO[]) {
@@ -165,5 +170,13 @@ export class CartService {
 
   private getLowestPricedPizza(pizzaPrices: number[]) {
     return Math.min(...pizzaPrices);
+  }
+
+  private setCartCookie(cart: ICart) {
+    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), 30);
+  }
+
+  getCartCookie(): ICart {
+    return JSON.parse(this.cookieService.get(COOKIE_CART));
   }
 }

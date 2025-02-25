@@ -6,7 +6,7 @@ import {ResourceService} from '../../../../services/http/resources/resource.serv
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {QueryResult} from '../../../../interfaces/query';
 import {ErrorService} from '../../../../services/error/error.service';
-import {ServerErrorComponent} from '../../../app/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {FilterService} from '../../../../services/filter/filter.service';

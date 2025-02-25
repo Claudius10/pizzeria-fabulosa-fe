@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
-import {ErrorDTO} from '../../../../interfaces/http/api';
+import {ErrorDTO} from '../../../../../interfaces/http/api';
 import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 

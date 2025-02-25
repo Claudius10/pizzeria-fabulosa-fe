@@ -1,4 +1,4 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, PLATFORM_ID, signal} from '@angular/core';
 import {OrderDTO} from '../../../interfaces/dto/order';
 import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST} from '../../../utils/query-keys';
@@ -6,11 +6,14 @@ import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
 import {lastValueFrom} from 'rxjs';
 import {BaseQueryOptionsIdAndUser, QueryResult} from '../../../interfaces/query';
+import {isPlatformBrowser} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private platformId = inject(PLATFORM_ID);
+  private isServer = !isPlatformBrowser(this.platformId);
   private orderHttpService = inject(OrderHttpService);
   private queryClient = injectQueryClient();
   private pageNumber = signal(1);
@@ -46,9 +49,7 @@ export class OrderService {
   }
 
   findOrderSummaryList(userId: string | null): QueryResult {
-    // when server (SSR) tries to fetch, but token is not loaded yet
-    // return placeholder
-    if (userId === null) {
+    if (this.isServer) {
       return {
         data: signal(undefined),
         status: signal('pending'),
@@ -69,9 +70,7 @@ export class OrderService {
   }
 
   findUserOrder(options: BaseQueryOptionsIdAndUser): QueryResult {
-    // when server (SSR) tries to fetch, but token is not loaded yet
-    // return placeholder
-    if (options.userId === null) {
+    if (this.isServer) {
       return {
         data: signal(undefined),
         status: signal('pending'),

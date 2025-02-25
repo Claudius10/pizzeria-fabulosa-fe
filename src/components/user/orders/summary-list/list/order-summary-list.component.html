@@ -1,5 +1,10 @@
 <div class="list flex flex-col justify-between gap-4 w-full">
   <div class="flex flex-col gap-4 w-full">
+
+    @if (orderList.status() === 'error') {
+      <app-server-error/>
+    }
+
     @if (orderList.status() === "success") {
       @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
@@ -8,8 +13,6 @@
       } @else {
         <span class="text-center">{{ "component.user.order.list.empty" | translate }}</span>
       }
-    } @else if (orderList.status() === 'error') {
-      <app-server-error/>
     }
   </div>
 
