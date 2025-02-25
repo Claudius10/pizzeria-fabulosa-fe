@@ -6,3 +6,4 @@ export const COOKIE_CART = "Pizzeria.Fabulosa.CART";
 export const COOKIE_THEME_COLOR = "Pizzeria.Fabulosa.THEME_COLOR";
 export const COOKIE_THEME_MODE = "Pizzeria.Fabulosa.THEME_MODE";
 export const COOKIE_LOCALE = "Pizzeria.Fabulosa.LOCALE";
+export const COOKIE_PATH = "/";

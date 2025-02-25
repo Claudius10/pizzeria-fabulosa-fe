@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_CART} from '../../utils/constants';
+import {COOKIE_CART, COOKIE_PATH} from '../../utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -173,7 +173,7 @@ export class CartService {
   }
 
   private setCartCookie(cart: ICart) {
-    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), 30);
+    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), 30, COOKIE_PATH);
   }
 
   getCartCookie(): ICart {
