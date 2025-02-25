@@ -3,6 +3,7 @@ import {CartItemDTO} from '../../interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {COOKIE_CART, COOKIE_PATH} from '../../utils/constants';
+import {getDarkIcon, getLightIcon} from '../../utils/functions';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class CartService {
   public set(items: CartItemDTO[], quantity: number, total: number) {
     this.clear();
     this.quantity.set(quantity);
+    this.setIcons(items);
     this.total.set(total);
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
@@ -178,5 +180,14 @@ export class CartService {
 
   getCartCookie(): ICart {
     return JSON.parse(this.cookieService.get(COOKIE_CART));
+  }
+
+  private setIcons(items: CartItemDTO[]) {
+    for (const item of items) {
+      item.images = {
+        dark: getDarkIcon(item.type),
+        light: getLightIcon(item.type)
+      };
+    }
   }
 }
