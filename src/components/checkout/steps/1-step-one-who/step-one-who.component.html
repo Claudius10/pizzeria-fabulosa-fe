@@ -1,0 +1,101 @@
+@if (isAuthenticated()) {
+  <div class="flex flex-col justify-between gap-8 h-full w-full">
+    <p-card>
+      <app-user-details/>
+    </p-card>
+
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        severity="danger"
+        type="button"
+        (onClick)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase  }}"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step === 4"
+        label="{{ 'button.continue' | translate | uppercase  }}"/>
+    </div>
+  </div>
+} @else {
+  <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+    <div class="flex flex-col gap-4">
+
+      <span>{{ "component.form.step.one.advice" | translate }}</span>
+
+      <div class="flex flex-col gap-3">
+
+        <div class="flex flex-col gap-2 h-16">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
+            <p-inputicon styleClass="pi pi-user"/>
+            <input
+              class="w-full"
+              id="fullName"
+              type="text"
+              placeholder="{{ 'form.label.name' | translate }}"
+              formControlName="fullName"
+              pInputText
+              [dt]="myInput(true)"
+            >
+          </p-iconfield>
+          @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
+            <small id="fullName-help" class="invalid-text">
+              {{ "form.invalid.name" | translate }}
+            </small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2 h-16">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
+            <p-inputicon styleClass="pi pi-envelope"/>
+            <input
+              class="w-full"
+              id="email"
+              type="email"
+              placeholder="{{ 'form.label.email' | translate }}"
+              formControlName="email"
+              pInputText
+              [dt]="myInput(true)">
+          </p-iconfield>
+          @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
+            <small id="email-help" class="invalid-text">
+              {{ "form.invalid.email" | translate }}
+            </small>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2 h-16">
+          <p-iconfield [dt]="myIcon('{primary.400}')">
+            <p-inputicon styleClass="pi pi-phone"/>
+            <input class="w-full"
+                   id="contactNumber"
+                   type="tel"
+                   placeholder="{{ 'form.label.contact.number' | translate }}"
+                   formControlName="contactNumber"
+                   pInputText
+                   [dt]="myInput(true)">
+          </p-iconfield>
+          @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
+            <small id="contactNumber-help" class="invalid-text">
+              {{ "form.invalid.contact.number" | translate }}
+            </small>
+          }
+        </div>
+      </div>
+    </div>
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        severity="danger"
+        type="button"
+        (onClick)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step === 4"
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
+    </div>
+  </form>
+}

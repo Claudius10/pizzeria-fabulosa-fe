@@ -7,7 +7,7 @@ import {LoginDialogComponent} from '../login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {LocaleSelectorComponent} from '../locale-selector/locale-selector.component';
 import {SidebarModule} from 'primeng/sidebar';
-import {CartComponent} from '../../cart/sidebar/cart.component';
+import {CartComponent} from '../../cart/cart.component';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
@@ -38,8 +38,7 @@ import {Drawer} from 'primeng/drawer';
 export class NavigationBarComponent {
   private authService = inject(AuthService);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private cartService = inject(CartService);
-  cartQuantity = this.cartService.cartQuantity;
+  protected cartService = inject(CartService);
   isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   loginDialog: Signal<boolean> = this.authService.getLoginDialog();
   logoutDialog: Signal<boolean> = this.authService.getLogoutDialog();
@@ -51,7 +50,7 @@ export class NavigationBarComponent {
   constructor() {
     // cart bump animation whenever quantity changes
     effect((onCleanup) => {
-      if (this.cartQuantity() === 0) {
+      if (this.cartService.quantity === 0) {
         return;
       }
 

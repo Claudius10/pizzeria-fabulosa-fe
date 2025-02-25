@@ -5,8 +5,8 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {merge} from 'rxjs';
 import {LoadingAnimationService} from '../../services/navigation/loading-animation.service';
 import {QueryResult} from '../../interfaces/query';
-import {OfferItemComponent} from '../resources/offers/offer-item.component';
-import {StoreItemComponent} from '../resources/stores/store-item.component';
+import {OfferItemComponent} from './offers/offer-item.component';
+import {StoreItemComponent} from './stores/store-item.component';
 import {ErrorService} from '../../services/error/error.service';
 import {ServerErrorComponent} from '../app/routes/error/server-no-response/server-error.component';
 import {ResponseDTO} from '../../interfaces/http/api';
@@ -14,19 +14,19 @@ import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-home',
-    host: {
-        class: 'upper-layout',
-    },
-    imports: [
-        ServerErrorComponent,
-        OfferItemComponent,
-        StoreItemComponent,
-        TranslatePipe
-    ],
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-home',
+  host: {
+    class: 'upper-layout',
+  },
+  imports: [
+    TranslatePipe,
+    OfferItemComponent,
+    ServerErrorComponent,
+    StoreItemComponent
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);

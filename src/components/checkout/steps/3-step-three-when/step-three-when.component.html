@@ -1,0 +1,75 @@
+@if (!this.checkoutFormService.isStepFilled(2)) {
+  <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
+    <span class="text-center">{{ "component.form.step.three.warning" | translate }}</span>
+    <p-button
+      type="button"
+      (onClick)="firstStep()"
+      [disabled]="checkoutFormService.step === 0"
+      label="{{ 'button.step.start' | translate | uppercase }}"/>
+  </div>
+} @else {
+  <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+    <div class="flex flex-col gap-8">
+
+      <div class="flex flex-col gap-4">
+        <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
+        <p-iconfield [dt]="myIcon('{primary.400}')">
+          <p-inputicon styleClass="pi pi-angle-down"/>
+          <select
+            [ngModel]="selectedOption.code"
+            [ngModelOptions]="{standalone: true}"
+            name="deliveryChoice"
+            (change)="selectDeliveryChoice($event)"
+            class="w-full"
+            id="deliveryChoice"
+            pInputText
+            [dt]="myInput(true)"
+          >
+            <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
+          </select>
+        </p-iconfield>
+        @if (this.checkoutFormService.programmedDelivery) {
+          <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
+          <p-iconfield [dt]="myIcon('{primary.400}')">
+            <p-inputicon styleClass="pi pi-angle-down"/>
+            <select
+              class="w-full"
+              id="deliveryTime"
+              formControlName="deliveryTime"
+              pInputText
+              [dt]="myInput(true)"
+            >
+              @for (deliveryHour of deliveryHours; track deliveryHour) {
+                <option value="{{deliveryHour}}">{{ deliveryHour }}</option>
+              }
+            </select>
+          </p-iconfield>
+          @if (!this.form.controls.deliveryTime.untouched && !this.form.controls.deliveryTime.valid) {
+            <small id="deliveryTime-help" class="invalid-text">
+              {{ "form.invalid.delivery.programmed.hour" | translate }}
+            </small>
+          }
+        }
+      </div>
+
+    </div>
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        type="button"
+        (onClick)="previousStep()"
+        [disabled]="checkoutFormService.step === 0"
+        label="{{ 'button.step.previous' | translate | uppercase }}"/>
+      <p-button
+        severity="danger"
+        type="button"
+        (onClick)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
+      <p-button
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step === 4"
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
+    </div>
+  </form>
+}

@@ -10,12 +10,12 @@ export interface Filter {
   providedIn: 'root'
 })
 export class FilterService {
-  searchText = signal<string>("");
   filters = signal<Filter[]>([]);
-  areFiltersEmpty = signal(true);
+  areFiltersEmpty = true;
+  searchText = "";
 
   setSearchText(text: string) {
-    this.searchText.set(text);
+    this.searchText = text;
   }
 
   toggleFilter(filterName: string, type: string): Filter | null {
@@ -58,7 +58,7 @@ export class FilterService {
     });
 
     if (this.filters().length > 0) {
-      this.areFiltersEmpty.set(false);
+      this.areFiltersEmpty = false;
     }
 
     return filter;
@@ -72,7 +72,7 @@ export class FilterService {
     this.filters.set(filters);
 
     if (this.filters().length === 0) {
-      this.areFiltersEmpty.set(true);
+      this.areFiltersEmpty = true;
     }
 
     return null;
@@ -80,18 +80,10 @@ export class FilterService {
 
   clear() {
     this.filters.set([]);
-    this.areFiltersEmpty.set(true);
+    this.areFiltersEmpty = true;
   }
 
   getFilters() {
     return this.filters.asReadonly();
-  }
-
-  getSearchText() {
-    return this.searchText.asReadonly();
-  }
-
-  getAreFiltersEmpty() {
-    return this.areFiltersEmpty.asReadonly();
   }
 }

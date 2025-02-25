@@ -6,7 +6,7 @@ import {StoreDTO} from '../../../../../interfaces/dto/resources';
 import {QueryResult} from '../../../../../interfaces/query';
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';
 import {ResourceService} from '../../../../../services/http/resources/resource.service';
-import {StoreCheckoutComponent} from '../../../../forms/checkout/steps/store/store-checkout.component';
+import {StoreCheckoutComponent} from '../../../../checkout/steps/store/store-checkout.component';
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({

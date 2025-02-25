@@ -10,49 +10,42 @@ import {getDarkIcon, getLightIcon} from '../../utils/functions';
 })
 export class CartService {
   private cookieService = inject(SsrCookieService);
+  items = signal<CartItemDTO[]>([]);
+  total = 0;
+  totalAfterOffers = 0;
+  quantity = 0;
+  threeForTwoOffers = 0;
+  secondHalfPriceOffer = 0;
 
-  private items = signal<CartItemDTO[]>([]);
-  private total = signal<number>(0);
-  private totalAfterOffers = signal<number>(0);
-  private quantity = signal<number>(0);
-  private threeForTwoOffers = signal<number>(0);
-  private secondHalfPriceOffer = signal<number>(0);
-
-  public cartItems = this.items.asReadonly();
-  public cartTotal = this.total.asReadonly();
-  public cartTotalAfterOffers = this.totalAfterOffers.asReadonly();
-  public cartQuantity = this.quantity.asReadonly();
-  public cartThreeForTwoOffers = this.threeForTwoOffers.asReadonly();
-  public cartSecondHalfPriceOffer = this.secondHalfPriceOffer.asReadonly();
-
-  public set(items: CartItemDTO[], quantity: number, total: number) {
+  set(items: CartItemDTO[], quantity: number, total: number) {
     this.clear();
     this.setIcons(items);
-    this.quantity.set(quantity);
-    this.total.set(total);
+    this.quantity = quantity;
+    this.total = total;
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
     this.updateCartCookie();
   }
 
-  public add(item: CartItemDTO) {
+  add(item: CartItemDTO) {
     const itemIndex = this.items().findIndex((existingItem) => existingItem.id === item.id);
 
     if (itemIndex !== -1) {
       this.items()[itemIndex].quantity++;
       this.updateQuantity(this.items());
       this.updateTotal(this.items());
-      this.calculateCostWithOffers(this.items(), this.total());
+      this.calculateCostWithOffers(this.items(), this.total);
     } else {
       this.items.update((prevItems) => [...prevItems, item]);
       this.updateQuantity(this.items());
       this.updateTotal(this.items());
-      this.calculateCostWithOffers(this.items(), this.total());
+      this.calculateCostWithOffers(this.items(), this.total);
     }
+
     this.updateCartCookie();
   }
 
-  public decreaseQuantity(id: string) {
+  decreaseQuantity(id: string) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
     const theItem = this.items()[itemIndex];
 
@@ -61,18 +54,19 @@ export class CartService {
       this.items.set(cartItemsMinusTheItem);
       this.updateQuantity(this.items());
       this.updateTotal(this.items());
-      this.calculateCostWithOffers(this.items(), this.total());
+      this.calculateCostWithOffers(this.items(), this.total);
     } else {
       this.items()[itemIndex].quantity--;
       this.items.update(prevItems => [...prevItems]);
       this.updateQuantity(this.items());
       this.updateTotal(this.items());
-      this.calculateCostWithOffers(this.items(), this.total());
+      this.calculateCostWithOffers(this.items(), this.total);
     }
+
     this.updateCartCookie();
   }
 
-  public increaseQuantity(id: string) {
+  increaseQuantity(id: string) {
     const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
 
     this.items()[itemIndex].quantity++;
@@ -80,25 +74,23 @@ export class CartService {
 
     this.updateQuantity(this.items());
     this.updateTotal(this.items());
-    this.calculateCostWithOffers(this.items(), this.total());
+    this.calculateCostWithOffers(this.items(), this.total);
     this.updateCartCookie();
   }
 
   private updateQuantity(items: CartItemDTO[]) {
-    const itemQuantity = items.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
-    this.quantity.set(itemQuantity);
+    this.quantity = items.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
   }
 
   private updateTotal(items: CartItemDTO[]) {
     const itemCosts = items.map((item) => item.price * item.quantity);
-    const total = itemCosts.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
-    this.total.set(total);
+    this.total = itemCosts.reduce((previousValue, currentValue) => previousValue + currentValue, 0);
   }
 
   private calculateCostWithOffers(items: CartItemDTO[], total: number) {
     if (items.length === 0 || total === 0) {
-      this.secondHalfPriceOffer.set(0);
-      this.threeForTwoOffers.set(0);
+      this.secondHalfPriceOffer = 0;
+      this.threeForTwoOffers = 0;
       return;
     }
 
@@ -112,44 +104,44 @@ export class CartService {
     const helper = pizzaQuantity - (3 * timesToApplyThreeForTwoOffer);
 
     if (timesToApplyThreeForTwoOffer !== 0) {
-      this.totalAfterOffers.set(total - (lowestPricedPizza * timesToApplyThreeForTwoOffer));
+      this.totalAfterOffers = total - (lowestPricedPizza * timesToApplyThreeForTwoOffer);
     }
 
     if (applySecondPizzaHalfPriceOffer && helper > 0) {
-      this.totalAfterOffers.set(total - (lowestPricedPizza * timesToApplyThreeForTwoOffer) - (lowestPricedPizza / 2));
-      this.secondHalfPriceOffer.set(1);
+      this.totalAfterOffers = total - (lowestPricedPizza * timesToApplyThreeForTwoOffer) - (lowestPricedPizza / 2);
+      this.secondHalfPriceOffer = 1;
     } else {
-      this.secondHalfPriceOffer.set(0);
+      this.secondHalfPriceOffer = 0;
     }
 
     if (pizzaQuantity === 1 || pizzaQuantity === 0) {
-      this.totalAfterOffers.set(0);
+      this.totalAfterOffers = 0;
     }
 
-    this.threeForTwoOffers.set(timesToApplyThreeForTwoOffer);
+    this.threeForTwoOffers = timesToApplyThreeForTwoOffer;
   }
 
-  public clear() {
+  clear() {
     this.items.set([]);
-    this.total.set(0);
-    this.totalAfterOffers.set(0);
-    this.quantity.set(0);
+    this.total = 0;
+    this.totalAfterOffers = 0;
+    this.quantity = 0;
     this.calculateCostWithOffers([], 0);
     this.updateCartCookie();
   }
 
-  public isEmpty() {
+  isEmpty() {
     return this.items().length !== 0;
   }
 
   private updateCartCookie() {
     const cart = new Cart()
       .withItems(this.items())
-      .withTotal(this.total())
-      .withQuantity(this.quantity())
-      .withTotalAfterOffers(this.totalAfterOffers())
-      .withThreeForTwo(this.threeForTwoOffers())
-      .withSecondHalfPrice(this.secondHalfPriceOffer());
+      .withTotal(this.total)
+      .withQuantity(this.quantity)
+      .withTotalAfterOffers(this.totalAfterOffers)
+      .withThreeForTwo(this.threeForTwoOffers)
+      .withSecondHalfPrice(this.secondHalfPriceOffer);
 
     if (cart.items.length > 0) {
       this.setCartCookie(cart);

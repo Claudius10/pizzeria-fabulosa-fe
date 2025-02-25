@@ -15,7 +15,7 @@ import {Card} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {MutationResult} from '../../../../interfaces/mutation';
-import {CartComponent} from '../../../cart/sidebar/cart.component';
+import {CartComponent} from '../../../cart/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {UpperCasePipe} from '@angular/common';

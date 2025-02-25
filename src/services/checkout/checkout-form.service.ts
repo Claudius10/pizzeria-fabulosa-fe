@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {how, when, where} from '../../interfaces/forms/steps';
 import {CreatedOrderDTO, CustomerDTO} from '../../interfaces/dto/order';
 
@@ -11,47 +11,53 @@ export type AddressId = {
   providedIn: 'root'
 })
 export class CheckoutFormService {
-  step = signal(0);
-  selectedId = signal<AddressId>({id: null, isStore: null});
-  homeDelivery = signal(true);
-  programmedDelivery = signal(false);
-  cashPayment = signal(false); // true shows Do you need change? select
-  changeRequested = signal(false); // true shows Bill to change input
-  who = signal<CustomerDTO | null>(null);
-  where = signal<where | null>(null);
-  when = signal<when | null>(null);
-  how = signal<how | null>(null);
-  orderSuccess = signal<CreatedOrderDTO | null>(null);
+  step = 0;
+
+  cashPayment = false; // true shows Do you need change? select
+  changeRequested = false; // true shows Bill to change input
+
+  selectedId: AddressId = {id: null, isStore: null};
+  homeDelivery = true;
+  programmedDelivery = false;
+
+  who: CustomerDTO | null = null;
+  where: where | null = null;
+  when: when | null = null;
+  how: how | null = null;
+
+  orderSuccess: CreatedOrderDTO | null = null;
 
   isStepFilled(step: number) {
     switch (step) {
       case 1:
-        return this.who() !== null;
+        return this.who !== null;
       case 2:
-        return this.who() !== null && this.where() !== null;
+        return this.who !== null && this.where !== null;
       case 3:
-        return this.who() !== null && this.where() !== null && this.when() !== null;
+        return this.who !== null && this.where !== null && this.when !== null;
       case 4:
-        return this.who() !== null && this.where() !== null && this.when() !== null && this.how() !== null;
+        return this.who !== null && this.where !== null && this.when !== null && this.how !== null;
       default:
         return false;
     }
   }
 
   clear() {
-    this.step.set(0);
+    this.step = 0;
 
-    this.selectedId.set({id: null, isStore: null});
-    this.homeDelivery.set(true);
-    this.programmedDelivery.set(false);
-    this.cashPayment.set(false);
-    this.changeRequested.set(false);
-    this.orderSuccess.set(null);
+    this.cashPayment = false;
+    this.changeRequested = false;
 
-    this.who.set(null);
-    this.where.set(null);
-    this.when.set(null);
-    this.how.set(null);
+    this.selectedId = {id: null, isStore: null};
+    this.homeDelivery = true;
+    this.programmedDelivery = false;
+
+    this.who = null;
+    this.where = null;
+    this.when = null;
+    this.how = null;
+
+    this.orderSuccess = null;
   }
 
   getDeliveryHours(): string[] {
@@ -74,6 +80,7 @@ export class CheckoutFormService {
       date.setMinutes(minutes);
       hourIntervals.push(date.toLocaleTimeString("es", {timeStyle: "short"}));
     }
+
     return hourIntervals;
   }
 }

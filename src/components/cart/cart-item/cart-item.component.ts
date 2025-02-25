@@ -23,8 +23,7 @@ export class CartItemComponent implements OnInit {
   viewOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
-  viewIngredients = signal(false);
-  icon = signal("");
+  viewIngredients = false;
 
   ngOnInit(): void {
     const translateSub = this.translateService.onLangChange.subscribe(langEvent => {
@@ -45,6 +44,6 @@ export class CartItemComponent implements OnInit {
   }
 
   toggleIngredients() {
-    this.viewIngredients.set(!this.viewIngredients());
+    this.viewIngredients = !this.viewIngredients;
   }
 }
