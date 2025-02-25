@@ -2,12 +2,12 @@
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
 
-<!--    <div class="flex items-center">-->
-<!--      <img class="rounded-border image" src="{{item().images.dark}}"-->
-<!--           width="80"-->
-<!--           height="80"-->
-<!--           alt="Product image">-->
-<!--    </div>-->
+    <!--    <div class="flex items-center">-->
+    <!--      <img class="rounded-border image" src="{{item().images.dark}}"-->
+    <!--           width="80"-->
+    <!--           height="80"-->
+    <!--           alt="Product image">-->
+    <!--    </div>-->
 
     <!-- BODY -->
     <div class="flex flex-col justify-center items-center w-60 gap-2">
@@ -38,7 +38,7 @@
         <p-button type="button" size="small" label="{{ item().price.toFixed(2) }}€" [outlined]="true"
                   [raised]="true"/>
 
-        @if (readOnly()) {
+        @if (viewOnly()) {
           <!-- X QUANTITY -->
           <div class="flex gap-4 items-center justify-center">
             <i class="pi pi-times"></i>

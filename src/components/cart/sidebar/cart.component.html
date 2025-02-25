@@ -5,7 +5,7 @@
   } @else {
     <div class="flex flex-col gap-4 items overflow-y-auto overflow-x-hidden">
       @for (item of items(); track item.id) {
-        <app-cart-item [readOnly]="getIsViewOnly()" [item]="item"/>
+        <app-cart-item [viewOnly]="getIsViewOnly()" [item]="item"/>
       }
     </div>
   }

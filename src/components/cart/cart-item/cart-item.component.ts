@@ -5,7 +5,6 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass} from '@angular/common';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {ThemeService} from '../../../services/theme/theme.service';
 
 const ANIMATION_TRANSITION_DURATION = "100ms";
 
@@ -33,12 +32,10 @@ export class CartItemComponent implements OnInit {
   private cartService: CartService = inject(CartService);
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
-  private themeService = inject(ThemeService);
-  readOnly = input.required<boolean>();
+  viewOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
   viewIngredients = signal(false);
-  isDarkMode = this.themeService.getDarkMode();
   icon = signal("");
 
   ngOnInit(): void {

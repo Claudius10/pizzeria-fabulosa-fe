@@ -1,10 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, input, OnInit, output, signal} from '@angular/core';
 import {CartService} from '../../../services/cart/cart.service';
 import {CartItemComponent} from '../cart-item/cart-item.component';
-import {NavigationEnd, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {TotalsComponent} from '../totals/totals.component';
 import {Button} from 'primeng/button';
-import {filter} from 'rxjs';
 import {TranslatePipe} from '@ngx-translate/core';
 import {NgClass, UpperCasePipe} from '@angular/common';
 
@@ -38,15 +37,12 @@ export class CartComponent implements OnInit {
   viewOnlyRoute = signal(false);
 
   ngOnInit(): void {
-    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(event => {
-      const url = event.url;
-      const isViewOnlyRoute = this.viewOnlyRoutes.findIndex(route => url.includes(route) || url === route);
-      if (isViewOnlyRoute !== -1) {
+    for (let i = 0; i < this.viewOnlyRoutes.length; i++) {
+      if (this.router.url.includes(this.viewOnlyRoutes[i])) {
         this.viewOnlyRoute.set(true);
-      } else {
-        this.viewOnlyRoute.set(false);
+        break;
       }
-    });
+    }
   }
 
   getIsViewOnly() {
