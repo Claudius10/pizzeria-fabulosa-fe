@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, Vi
 import {ThemeService} from '../../../services/theme/theme.service';
 import {NgClass} from '@angular/common';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
+import {COOKIE_THEME_MODE} from '../../../utils/constants';
 
 @Component({
   selector: 'app-theme-selector',
@@ -36,16 +37,14 @@ export class ThemeSelectorComponent {
 
   toggleDarkMode = (on: boolean) => {
     this.themeService.toggleDarkMode(on);
-
     if (on) {
-      this.cookieService.set("dark", "true", 1000);
+      this.cookieService.set(COOKIE_THEME_MODE, "dark", 30);
     } else {
-      this.cookieService.delete("dark");
+      this.cookieService.delete(COOKIE_THEME_MODE);
     }
   };
 
   changePrimaryColor(color: string) {
     this.themeService.changePrimaryColor(color);
-
   }
 }

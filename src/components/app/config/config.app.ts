@@ -13,7 +13,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {PrimeNG, providePrimeNG} from 'primeng/config';
 import {defaultPreset} from '../../../primeng/default.preset.theme';
 import {provideClientHydration} from '@angular/platform-browser';
-import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE} from '../../../utils/constants';
+import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE, COOKIE_THEME_MODE} from '../../../utils/constants';
 import {ThemeService} from '../../../services/theme/theme.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
@@ -50,6 +50,9 @@ function initializeApp(
     }
 
     // theme
+    if (cookieService.check(COOKIE_THEME_MODE)) {
+      //???
+    }
 
     // cart
     if (cookieService.check(COOKIE_CART)) {
