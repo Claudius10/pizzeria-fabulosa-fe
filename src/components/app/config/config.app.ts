@@ -35,19 +35,19 @@ function initializeApp(
       authService.setUserCredentials(cookieService.get(COOKIE_ID_TOKEN));
     }
 
-    // translate Service
-    translateService.setTranslation('en', en);
-    translateService.setDefaultLang('en');
-
-    // locale
-    if (cookieService.check(COOKIE_LOCALE)) {
-      const locale = cookieService.get(COOKIE_LOCALE);
-      if (locale !== 'en') {
-        translateService.setTranslation('es', es);
-        translateService.use(locale);
-        primeNgConfig.setTranslation(primeES);
-      }
-    }
+    // // translate Service
+    // translateService.setTranslation('en', en);
+    // translateService.setDefaultLang('en');
+    //
+    // // locale
+    // if (cookieService.check(COOKIE_LOCALE)) {
+    //   const locale = cookieService.get(COOKIE_LOCALE);
+    //   if (locale !== 'en') {
+    //     translateService.setTranslation('es', es);
+    //     translateService.use(locale);
+    //     primeNgConfig.setTranslation(primeES);
+    //   }
+    // }
 
     // theme
     if (cookieService.check(COOKIE_THEME_MODE)) {
