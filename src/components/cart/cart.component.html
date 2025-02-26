@@ -1,6 +1,6 @@
 <div [ngClass]="['flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding card cart-background']">
 
-  @if (this.cartService.quantity === 0) {
+  @if (this.cartService.quantity() === 0) {
     <span>{{ "component.cart.empty.text" | translate }}</span>
   } @else {
     <div class="flex flex-col gap-4 items overflow-y-auto overflow-x-hidden">
@@ -18,7 +18,7 @@
       [totalAfterOffers]="this.cartService.totalAfterOffers"
     />
 
-    @if (this.cartService.quantity !== 0 && !getIsViewOnly()) {
+    @if (this.cartService.quantity() !== 0 && !getIsViewOnly()) {
       <p-button type="button" label="{{'button.start.order' | translate | uppercase }}" [raised]="true"
                 (click)="newOrderOnLick()"/>
     }

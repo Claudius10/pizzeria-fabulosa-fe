@@ -4,7 +4,7 @@
 
     <div class="flex flex-col gap-4">
 
-      @if (selectedStore() === null) {
+      @if (selectedStore === null) {
         <span>{{ "view.delivery.time.selected" | translate }}:
                 <span
                   class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
@@ -14,10 +14,10 @@
                   class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
       }
 
-      @if (selectedStore() !== null) {
+      @if (selectedStore !== null) {
         <div class="flex flex-col gap-4">
           <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
-          <app-store-checkout [orientation]="'vertical'" [highlight]="true" [valid]="true" [store]="selectedStore()!"/>
+          <app-store-checkout [orientation]="'vertical'" [highlight]="true" [valid]="true" [store]="selectedStore"/>
         </div>
       } @else {
         <span>{{ "form.label.delivery.address" | translate }}:

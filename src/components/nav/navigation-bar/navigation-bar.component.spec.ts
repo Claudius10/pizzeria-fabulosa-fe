@@ -62,6 +62,6 @@ describe('NavigationBarComponent', () => {
 
 @Injectable()
 class AuthServiceSpy extends AuthService {
-  override isAuthenticated = signal(true);
+  override isAuthenticated = true;
   override getIsAuthenticated = jasmine.createSpy().and.returnValue(this.isAuthenticated);
 }

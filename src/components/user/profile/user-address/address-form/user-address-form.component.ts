@@ -6,9 +6,9 @@ import {UserService} from '../../../../../services/http/user/user.service';
 import {MutationResult, UserAddressMutationOptions} from '../../../../../interfaces/mutation';
 import {isFormValid} from '../../../../../utils/functions';
 import {AddressFormData} from '../../../../../interfaces/http/order';
-import {IconFieldModule} from 'primeng/iconfield';
-import {InputIconModule} from 'primeng/inputicon';
-import {InputTextModule} from 'primeng/inputtext';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
+import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
@@ -22,11 +22,11 @@ import {myIcon} from '../../../../../primeng/icon';
   selector: 'app-user-address-form',
   imports: [
     ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    Button,
+    IconField,
+    InputIcon,
     TranslatePipe,
+    InputText,
+    Button,
     UpperCasePipe
   ],
   templateUrl: './user-address-form.component.html',
@@ -67,7 +67,7 @@ export class UserAddressFormComponent {
   }
 
   onSubmit() {
-    const userId = this.authService.getUserId();
+    const userId = this.authService.userId!;
     if (isFormValid(this.form) && userId) {
       this.loadingAnimationService.startLoading();
 
@@ -79,7 +79,7 @@ export class UserAddressFormComponent {
       };
 
       const payload: UserAddressMutationOptions = {
-        userId: this.authService.getUserId()!,
+        userId: this.authService.userId!,
         data: form
       };
 

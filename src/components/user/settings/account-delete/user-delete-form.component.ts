@@ -1,18 +1,17 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AccountService} from '../../../../services/http/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {DeleteAccountForm} from '../../../../interfaces/http/account';
-import {PaginatorModule} from 'primeng/paginator';
 import {Router} from '@angular/router';
 import {MutationResult} from '../../../../interfaces/mutation';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {IconFieldModule} from 'primeng/iconfield';
-import {InputIconModule} from 'primeng/inputicon';
-import {InputTextModule} from 'primeng/inputtext';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
+import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../utils/functions';
-import {CardModule} from 'primeng/card';
+import {Card} from 'primeng/card';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
@@ -24,14 +23,13 @@ import {myIcon} from '../../../../primeng/icon';
 @Component({
   selector: 'app-user-delete-form',
   imports: [
-    PaginatorModule,
-    ReactiveFormsModule,
-    IconFieldModule,
-    InputIconModule,
-    InputTextModule,
-    Button,
-    CardModule,
+    Card,
     TranslatePipe,
+    ReactiveFormsModule,
+    IconField,
+    InputText,
+    InputIcon,
+    Button,
     UpperCasePipe
   ],
   templateUrl: './user-delete-form.component.html',
@@ -47,10 +45,10 @@ export class UserDeleteFormComponent implements OnDestroy {
   private authService = inject(AuthService);
   private accountService = inject(AccountService);
   private delete: MutationResult = this.accountService.delete();
-  showPassword = signal(false);
+  showPassword = false;
 
   togglePassword() {
-    this.showPassword.set(!this.showPassword());
+    this.showPassword = !this.showPassword;
   }
 
   ngOnDestroy(): void {
@@ -70,7 +68,7 @@ export class UserDeleteFormComponent implements OnDestroy {
       this.loadingAnimationService.startLoading();
 
       const data: DeleteAccountForm = {
-        userId: this.authService.getUserId()!,
+        userId: this.authService.userId!,
         password: this.form.get("password")!.value
       };
 

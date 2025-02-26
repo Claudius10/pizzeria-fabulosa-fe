@@ -1,6 +1,6 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {Button} from 'primeng/button';
-import {DialogModule} from 'primeng/dialog';
+import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
 import {AccountService} from '../../../services/http/account/account.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
@@ -8,13 +8,13 @@ import {emailRgx, passwordRegex} from '../../../regex';
 import {LoginForm} from '../../../interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
 import {MutationResult} from '../../../interfaces/mutation';
-import {MessageService} from 'primeng/api';
+import {MessageService, PrimeTemplate} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
-import {IconFieldModule} from 'primeng/iconfield';
-import {InputIconModule} from 'primeng/inputicon';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {UpperCasePipe} from '@angular/common';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
@@ -26,12 +26,13 @@ import {COOKIE_ID_TOKEN} from '../../../utils/constants';
 @Component({
   selector: 'app-login-dialog',
   imports: [
-    DialogModule,
+    Dialog,
+    PrimeTemplate,
     ReactiveFormsModule,
-    TranslatePipe,
-    IconFieldModule,
-    InputIconModule,
+    IconField,
+    InputIcon,
     Button,
+    TranslatePipe,
     UpperCasePipe
   ],
   templateUrl: './login-dialog.component.html',
@@ -50,9 +51,9 @@ export class LoginDialogComponent implements OnDestroy {
   private cartService = inject(CartService);
   private checkoutFormService = inject(CheckoutFormService);
   private login: MutationResult = this.accountService.login();
-  showPassword = signal(false);
+  showPassword = false;
   // visible provides hiding dialog on esc key press
-  visible: boolean = this.authService.getIsLoginDialogVisible();
+  visible: boolean = this.authService.loginDialog;
 
   form = new FormGroup({
     email: new FormControl<string>("", {
@@ -72,7 +73,7 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   togglePassword() {
-    this.showPassword.set(!this.showPassword());
+    this.showPassword = !this.showPassword;
   }
 
   closeLoginDialog(): void {

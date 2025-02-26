@@ -41,7 +41,7 @@
     </div>
 
     <div class="flex flex-col items-center gap-4">
-      @if (!isAuthenticated()) {
+      @if (!authService.isAuthenticated) {
         <span class="text-center">{{ "component.order.success.anon.advice" | translate }}</span>
         <span class="text-center text-primary"
               routerLink="/registration">{{ "component.order.success.anon.link" | translate }}</span>

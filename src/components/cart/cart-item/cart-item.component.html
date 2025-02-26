@@ -3,7 +3,7 @@
     <!-- IMAGE -->
 
     <div class="flex items-center">
-      <img class="rounded-border" src="{{item().images.light}}"
+      <img class="rounded-border" src="{{isDarkMode() ? item().images.light : item().images.dark}}"
            width="80"
            height="80"
            alt="Product image">

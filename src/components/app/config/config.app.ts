@@ -13,22 +13,26 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {PrimeNG, providePrimeNG} from 'primeng/config';
 import {defaultPreset} from '../../../primeng/default.preset.theme';
 import {provideClientHydration} from '@angular/platform-browser';
-import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE, COOKIE_THEME_MODE} from '../../../utils/constants';
-import {ThemeService} from '../../../services/theme/theme.service';
+import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE} from '../../../utils/constants';
 import {CartService} from '../../../services/cart/cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import primeES from "../../../../public/i18n/primeng-es.json";
 import primeEN from "../../../../public/i18n/primeng-es.json";
+import en from "../../../../public/i18n/en.json";
+import es from "../../../../public/i18n/es.json";
 
 function initializeApp(
   cookieService: SsrCookieService,
   authService: AuthService,
   translateService: TranslateService,
-  themeService: ThemeService,
   cartService: CartService,
   primeNgConfig: PrimeNG
 ) {
   return () => new Promise((resolve) => {
+    // set translations to have them available when calling translateService.translations
+    translateService.setTranslation('en', en);
+    translateService.setTranslation('es', es);
+
     // locale
     if (!cookieService.check(COOKIE_LOCALE)) {
       translateService.use('en');
@@ -51,11 +55,6 @@ function initializeApp(
       }
     }
 
-    // theme
-    if (cookieService.check(COOKIE_THEME_MODE)) {
-      //???
-    }
-
     resolve(true);
   });
 }
@@ -73,6 +72,9 @@ export const configApp: ApplicationConfig = {
     providePrimeNG({
       theme: {
         preset: defaultPreset,
+        options: {
+          darkModeSelector: '.my-app-dark'
+        }
       }
     }),
     provideZoneChangeDetection({eventCoalescing: true}),
@@ -98,14 +100,12 @@ export const configApp: ApplicationConfig = {
         const cookieService = inject(SsrCookieService);
         const authService = inject(AuthService);
         const translateService = inject(TranslateService);
-        const themeService = inject(ThemeService);
         const cartService = inject(CartService);
         const primeNgConfig = inject(PrimeNG);
         return initializeApp(
           cookieService,
           authService,
           translateService,
-          themeService,
           cartService,
           primeNgConfig,
         );

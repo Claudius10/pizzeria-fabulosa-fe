@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {UserService} from '../../../../../services/http/user/user.service';
@@ -15,17 +15,17 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 
 @Component({
-    selector: 'app-user-address-list',
-    imports: [
-        UserAddressItemComponent,
-        ServerErrorComponent,
-        Button,
-        UserAddressFormComponent,
-        TranslatePipe
-    ],
-    templateUrl: './user-address-list.component.html',
-    styleUrl: './user-address-list.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-address-list',
+  imports: [
+    UserAddressItemComponent,
+    ServerErrorComponent,
+    UserAddressFormComponent,
+    Button,
+    TranslatePipe
+  ],
+  templateUrl: './user-address-list.component.html',
+  styleUrl: './user-address-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
@@ -35,10 +35,10 @@ export class UserAddressListComponent implements OnInit {
   private authService = inject(AuthService);
   protected addressList: QueryResult = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
-    id: this.authService.getUserId()!
+    id: this.authService.userId!
   });
   addressListStatus = toObservable(this.addressList.status);
-  showAddressForm = signal(false);
+  showAddressForm = false;
 
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
@@ -69,10 +69,10 @@ export class UserAddressListComponent implements OnInit {
   }
 
   toggleAddressForm() {
-    this.showAddressForm.set(!this.showAddressForm());
+    this.showAddressForm = !this.showAddressForm;
   }
 
   hideFormOnCancel() {
-    this.showAddressForm.set(false);
+    this.showAddressForm = false;
   }
 }

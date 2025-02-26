@@ -4,6 +4,7 @@ import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass} from '@angular/common';
+import {ThemeService} from '../../../services/theme/theme.service';
 
 @Component({
   selector: 'app-cart-item',
@@ -20,9 +21,11 @@ export class CartItemComponent implements OnInit {
   private cartService: CartService = inject(CartService);
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
+  private themeService = inject(ThemeService);
   viewOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
+  isDarkMode = this.themeService.getDarkMode();
   viewIngredients = false;
 
   ngOnInit(): void {

@@ -14,15 +14,15 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {QueryResult} from '../../../../../interfaces/query';
 
 @Component({
-    selector: 'app-user-address-list-view',
-    imports: [
-        NgClass,
-        TranslatePipe,
-        ServerErrorComponent
-    ],
-    templateUrl: './user-address-list-view.component.html',
-    styleUrl: './user-address-list-view.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-address-list-view',
+  imports: [
+    NgClass,
+    TranslatePipe,
+    ServerErrorComponent
+  ],
+  templateUrl: './user-address-list-view.component.html',
+  styleUrl: './user-address-list-view.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressListViewComponent implements OnInit {
   onAddressSelect = output<AddressId>();
@@ -35,7 +35,7 @@ export class UserAddressListViewComponent implements OnInit {
   private authService = inject(AuthService);
   addressList: QueryResult = this.userService.findUserAddressList({
     queryKey: USER_ADDRESS_LIST,
-    id: this.authService.getUserId()!
+    id: this.authService.userId
   });
   status = toObservable(this.addressList.status);
 

@@ -1,6 +1,5 @@
-import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
-import {MenuItem} from 'primeng/api';
-import {MenubarModule} from 'primeng/menubar';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {Menubar} from 'primeng/menubar';
 import {TranslatePipe} from '@ngx-translate/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {userMenuBar} from '../../../primeng/menubar';
@@ -8,22 +7,17 @@ import {userMenuBar} from '../../../primeng/menubar';
 @Component({
   selector: 'app-user-nav',
   imports: [
-    MenubarModule,
-    TranslatePipe,
+    Menubar,
     RouterLinkActive,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
   templateUrl: './user-nav.component.html',
   styleUrl: './user-nav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserNavComponent {
-  userProfileMenu = signal<MenuItem[]>(userMenuItems());
-  protected readonly userMenuBar = userMenuBar;
-}
-
-function userMenuItems() {
-  return [
+  userProfileMenu = [
     {
       label: "component.user.nav.profile",
       icon: 'pi pi-user',
@@ -40,4 +34,5 @@ function userMenuItems() {
       route: "settings",
     },
   ];
+  protected readonly userMenuBar = userMenuBar;
 }

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {AuthService} from '../../../../../services/auth/auth.service';
-import {PaginatorModule, PaginatorState} from 'primeng/paginator';
+import {Paginator, PaginatorState} from 'primeng/paginator';
 import {OrderService} from '../../../../../services/http/order/order.service';
 import {QueryResult} from '../../../../../interfaces/query';
 import {OrderSummaryComponent} from '../list-item/order-summary.component';
@@ -15,10 +15,10 @@ import {TranslatePipe} from '@ngx-translate/core';
 @Component({
   selector: 'app-order-summary-list',
   imports: [
-    OrderSummaryComponent,
     ServerErrorComponent,
-    PaginatorModule,
-    TranslatePipe
+    OrderSummaryComponent,
+    TranslatePipe,
+    Paginator
   ],
   templateUrl: './order-summary-list.component.html',
   styleUrl: './order-summary-list.component.scss',
@@ -33,10 +33,8 @@ export class OrderSummaryListComponent {
   private pageNumber = this.orderService.getPageNumber();
   pageSize = this.orderService.getPageSize();
   currentElements = 0;
-  orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.getUserId());
+  orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.userId!);
   orderListStatus = toObservable(this.orderList.status);
-
-  // TODO - prefetch next page
 
   constructor() {
     this.currentElements = (this.pageNumber() * this.pageSize()) - this.pageSize();

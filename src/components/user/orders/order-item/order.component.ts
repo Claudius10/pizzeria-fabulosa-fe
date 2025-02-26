@@ -10,7 +10,7 @@ import {ConfirmDialog} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../../interfaces/query';
 import {AddressDetailsComponent} from './address-details/address-details.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
-import {CartDTO, CustomerDTO} from '../../../../interfaces/dto/order';
+import {CartDTO} from '../../../../interfaces/dto/order';
 import {Card} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
@@ -28,50 +28,42 @@ import {UserDetailsComponent} from '../../details/user-details.component';
 @Component({
   selector: 'app-order',
   imports: [
+    ServerErrorComponent,
     Card,
-    RouterLink,
     TranslatePipe,
+    RouterLink,
     UserDetailsComponent,
     AddressDetailsComponent,
     OrderDetailsComponent,
     CartComponent,
+    Button,
     UpperCasePipe,
-    ConfirmDialog,
-    ServerErrorComponent,
-    Button
+    ConfirmDialog
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
-  private router = inject(Router);
+  private loadingAnimationService = inject(LoadingAnimationService);
+  private confirmationService = inject(ConfirmationService);
   private translateService = inject(TranslateService);
+  private activatedRoute = inject(ActivatedRoute);
+  private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
   private orderService = inject(OrderService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
-  private activatedRoute = inject(ActivatedRoute);
-  private messageService = inject(MessageService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private confirmationService = inject(ConfirmationService);
-  userName = this.authService.getUserName();
-  userEmail = this.authService.getUserEmail();
-  userContactNumber = this.authService.getUserContactNumber();
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
   order: QueryResult = this.orderService.findUserOrder({
     id: this.orderId,
-    userId: this.authService.getUserId()!,
+    userId: this.authService.userId,
     queryKey: userOrderQueryKey(this.orderId)
   });
   orderStatus = toObservable(this.order.status);
   delete: MutationResult = this.orderService.deleteUserOrder();
-  customer: CustomerDTO = {
-    name: this.userName()!,
-    email: this.userEmail()!,
-    contactNumber: Number(this.userContactNumber()!)
-  };
 
   ngOnInit(): void {
     const subscription = this.orderStatus.subscribe({
@@ -127,7 +119,7 @@ export class OrderComponent implements OnInit {
           this.loadingAnimationService.startLoading();
           this.delete.mutate({
             payload: {
-              userId: this.authService.getUserId(),
+              userId: this.authService.userId,
               orderId: this.order.data()!.payload.id
             }
           }, {

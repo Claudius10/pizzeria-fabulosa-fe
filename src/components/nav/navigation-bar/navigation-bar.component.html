@@ -16,12 +16,12 @@
     <!-- RIGHT SIDE ICON LIST -->
     <ul class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
-      <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity}}">
+      <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity()}}">
         <button type="button"
                 [ngClass]="!bump() ?
                 'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center' :
                 'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
-                [ngStyle]="this.cartService.quantity !== 0 ? {'color': 'var(--primary-color)'} : {}">
+                [ngStyle]="this.cartService.quantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart"></i>
         </button>
       </li>
@@ -34,14 +34,14 @@
         </button>
       </li>
 
-      @if (!isAuthenticated()) {
+      @if (!authService.isAuthenticated) {
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
           <button type="button"
                   class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-in"></i>
           </button>
-          @if (loginDialog()) {
+          @if (authService.loginDialog) {
             <app-login-dialog/>
           }
         </li>
@@ -59,7 +59,7 @@
                   class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-out"></i>
           </button>
-          @if (logoutDialog()) {
+          @if (authService.logoutDialog) {
             <app-logout-dialog/>
           }
         </li>
@@ -67,7 +67,7 @@
 
       <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
       <app-locale-selector/>
-      <!--      <app-theme-selector/>-->
+      <app-theme-selector/>
 
       <!-- GITHUB BUTTON -->
       <li>

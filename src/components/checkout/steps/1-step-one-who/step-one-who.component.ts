@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {emailRgx, numbersRegex} from '../../../../regex';
 import {IconField} from 'primeng/iconfield';
@@ -35,9 +35,8 @@ import {myIcon} from '../../../../primeng/icon';
 })
 export class StepOneWhoComponent implements OnInit {
   private router = inject(Router);
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
   protected checkoutFormService = inject(CheckoutFormService);
-  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
 
   form = new FormGroup({
     fullName: new FormControl("", {
@@ -66,7 +65,7 @@ export class StepOneWhoComponent implements OnInit {
       });
     }
 
-    if (!this.isAuthenticated()) {
+    if (!this.authService.isAuthenticated) {
       this.form.controls.fullName.addValidators([Validators.required, Validators.minLength(2), Validators.maxLength(50)]);
       this.form.controls.email.addValidators([Validators.required, Validators.pattern(emailRgx)]);
       this.form.controls.contactNumber.addValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)]);

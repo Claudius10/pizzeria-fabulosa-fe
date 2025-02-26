@@ -1,6 +1,6 @@
 import {inject, Injectable, PLATFORM_ID, signal} from '@angular/core';
 import {OrderDTO} from '../../../interfaces/dto/order';
-import {injectMutation, injectQuery, injectQueryClient} from '@tanstack/angular-query-experimental';
+import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
 import {OrderHttpService} from './order-http.service';
@@ -15,7 +15,7 @@ export class OrderService {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private orderHttpService = inject(OrderHttpService);
-  private queryClient = injectQueryClient();
+  private queryClient = inject(QueryClient);
   private pageNumber = signal(1);
   private pageSize = signal(5);
 

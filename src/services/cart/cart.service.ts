@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_CART, COOKIE_PATH} from '../../utils/constants';
+import {COOKIE_CART, COOKIE_LIFE_30_DAYS, COOKIE_PATH} from '../../utils/constants';
 import {getDarkIcon, getLightIcon} from '../../utils/functions';
 
 @Injectable({
@@ -13,14 +13,14 @@ export class CartService {
   items = signal<CartItemDTO[]>([]);
   total = 0;
   totalAfterOffers = 0;
-  quantity = 0;
+  quantity = signal(0); // so in nav bar the bump animation can function correctly (to mark comp for detection change when value changes)
   threeForTwoOffers = 0;
   secondHalfPriceOffer = 0;
 
   set(items: CartItemDTO[], quantity: number, total: number) {
     this.clear();
     this.setIcons(items);
-    this.quantity = quantity;
+    this.quantity.set(quantity);
     this.total = total;
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
@@ -79,7 +79,7 @@ export class CartService {
   }
 
   private updateQuantity(items: CartItemDTO[]) {
-    this.quantity = items.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
+    this.quantity.set(items.reduce((previousValue, {quantity}) => previousValue + quantity, 0));
   }
 
   private updateTotal(items: CartItemDTO[]) {
@@ -125,7 +125,7 @@ export class CartService {
     this.items.set([]);
     this.total = 0;
     this.totalAfterOffers = 0;
-    this.quantity = 0;
+    this.quantity.set(0);
     this.calculateCostWithOffers([], 0);
     this.updateCartCookie();
   }
@@ -138,7 +138,7 @@ export class CartService {
     const cart = new Cart()
       .withItems(this.items())
       .withTotal(this.total)
-      .withQuantity(this.quantity)
+      .withQuantity(this.quantity())
       .withTotalAfterOffers(this.totalAfterOffers)
       .withThreeForTwo(this.threeForTwoOffers)
       .withSecondHalfPrice(this.secondHalfPriceOffer);
@@ -167,7 +167,7 @@ export class CartService {
   }
 
   private setCartCookie(cart: ICart) {
-    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), 30, COOKIE_PATH);
+    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), COOKIE_LIFE_30_DAYS, COOKIE_PATH);
   }
 
   getCartCookie(): ICart {

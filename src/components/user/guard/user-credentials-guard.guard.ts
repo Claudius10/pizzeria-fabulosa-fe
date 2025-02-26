@@ -13,7 +13,7 @@ export const userCredentialsGuardGuard: CanMatchFn = (route, segments) => {
     return true;
   }
 
-  if (!authService.isAuthenticated()) {
+  if (!authService.isAuthenticated) {
     return router.parseUrl("/forbidden");
   }
 

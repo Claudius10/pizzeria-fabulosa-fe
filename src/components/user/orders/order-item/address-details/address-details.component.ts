@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit} from '@angular/core';
 import {CardModule} from 'primeng/card';
 import {AddressDTO, OrderDetailsDTO} from '../../../../../interfaces/dto/order';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -10,24 +10,24 @@ import {StoreCheckoutComponent} from '../../../../checkout/steps/store/store-che
 import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
-    selector: 'app-address-details',
-    imports: [
-        CardModule,
-        TranslatePipe,
-        StoreCheckoutComponent
-    ],
-    templateUrl: './address-details.component.html',
-    styleUrl: './address-details.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-address-details',
+  imports: [
+    CardModule,
+    TranslatePipe,
+    StoreCheckoutComponent
+  ],
+  templateUrl: './address-details.component.html',
+  styleUrl: './address-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddressDetailsComponent implements OnInit {
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private resourceService = inject(ResourceService);
   private destroyRef = inject(DestroyRef);
-  selectedStore = signal<StoreDTO | null>(null);
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   status = toObservable(this.stores.status);
+  selectedStore: StoreDTO | null = null;
 
   ngOnInit(): void {
     const subscription = this.status.subscribe(status => {
@@ -36,7 +36,7 @@ export class AddressDetailsComponent implements OnInit {
         const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.address().id);
 
         if (selectedStoreIndex !== -1) {
-          this.selectedStore.set(fetchedStores[selectedStoreIndex]);
+          this.selectedStore = fetchedStores[selectedStoreIndex];
         }
       }
     });

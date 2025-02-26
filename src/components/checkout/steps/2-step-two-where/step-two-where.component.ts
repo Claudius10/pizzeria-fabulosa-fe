@@ -52,11 +52,10 @@ export class StepTwoWhereComponent implements OnInit {
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   protected checkoutFormService = inject(CheckoutFormService);
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
   private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
   isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   storesStatus = toObservable(this.stores.status);
   options: Option[] = [
@@ -106,7 +105,7 @@ export class StepTwoWhereComponent implements OnInit {
     // --> set up component
     this.checkoutFormService.step = 1;
 
-    if (!this.isAuthenticated()) {
+    if (!this.authService.isAuthenticated) {
       this.setHomeDeliveryValidators(true);
     } else {
       // authed user has home address list to pick from
@@ -171,7 +170,7 @@ export class StepTwoWhereComponent implements OnInit {
       this.checkoutFormService.homeDelivery = true;
 
       // if user is logged in
-      if (this.isAuthenticated()) {
+      if (this.authService.isAuthenticated) {
         this.setHomeDeliveryValidators(false);
         this.setPickUpValidators(true);
       } else {

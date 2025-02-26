@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
@@ -35,10 +35,9 @@ import {UserDetailsComponent} from "../../user/details/user-details.component";
 export class NewOrderSuccessComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private destroyRef = inject(DestroyRef);
-  private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
+  protected authService = inject(AuthService);
 
   goBack() {
     this.router.navigate(['/pizzas']);

@@ -4,11 +4,11 @@
     <p-button
       (click)="toggleAddressList()"
       label="{{ 'component.user.profile.view.address.list' | translate }}"
-      icon="{{viewAddressList() ? 'pi pi-angle-down' : 'pi pi-angle-right'}}"
+      icon="{{viewAddressList ? 'pi pi-angle-down' : 'pi pi-angle-right'}}"
       iconPos="right"
       [text]="true"
       [raised]="true"/>
-    @if (viewAddressList()) {
+    @if (viewAddressList) {
       <app-user-address-list/>
     }
   </div>

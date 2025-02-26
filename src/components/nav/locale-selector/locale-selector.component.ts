@@ -7,7 +7,7 @@ import {PrimeNG} from 'primeng/config';
 import primeEN from '../../../../public/i18n/primeng-en.json';
 import primeES from '../../../../public/i18n/primeng-es.json';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_LOCALE, COOKIE_PATH} from '../../../utils/constants';
+import {COOKIE_LIFE_30_DAYS, COOKIE_LOCALE, COOKIE_PATH} from '../../../utils/constants';
 
 @Component({
   selector: 'app-locale-selector',
@@ -41,7 +41,7 @@ export class LocaleSelectorComponent {
   }
 
   changeLanguage(lang: string): void {
-    this.cookieService.set(COOKIE_LOCALE, lang, 30, COOKIE_PATH);
+    this.cookieService.set(COOKIE_LOCALE, lang, COOKIE_LIFE_30_DAYS, COOKIE_PATH);
     this.useLanguage(lang);
     this.visible = false;
     this.messageService.add({

@@ -40,7 +40,7 @@ export class LogoutDialogComponent implements OnDestroy {
   private cartService = inject(CartService);
   private logoutUser: MutationResult = this.accountService.logout();
   // visible provides hiding dialog on esc key press
-  visible: boolean = this.authService.getIsLogoutDialogVisible();
+  visible: boolean = this.authService.logoutDialog;
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();

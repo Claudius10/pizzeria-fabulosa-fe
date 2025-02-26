@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../utils/query-keys';
@@ -47,14 +47,13 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
   private userService = inject(UserService);
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
   private orderService = inject(OrderService);
   protected cartService = inject(CartService);
   private router = inject(Router);
   private errorService = inject(ErrorService);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
-  isAuthenticated: Signal<boolean> = this.authService.getIsAuthenticated();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   selectedStore: StoreDTO | null = null;
   selectedAddress: AddressDTO | null = null;
@@ -75,10 +74,10 @@ export class StepFiveSummaryComponent implements OnDestroy {
         this.selectedStore = fetchedStores[selectedStoreIndex];
       } else {
         // if user is authed
-        if (this.isAuthenticated()) {
+        if (this.authService.isAuthenticated) {
           const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
-            id: this.authService.getUserId()
+            id: this.authService.userId
           }); // NOTE - guaranteed to be here because it will load in step two when user is logged in
 
           const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
@@ -119,10 +118,10 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private createOrder() {
     this.loadingAnimationService.startLoading();
 
-    if (this.isAuthenticated()) {
+    if (this.authService.isAuthenticated) {
 
       const payload: NewUserOrderFormData = {
-        userId: this.authService.getUserId(),
+        userId: this.authService.userId,
         order: {
           addressId: this.checkoutFormService.selectedId.id!,
           orderDetails: {
@@ -135,7 +134,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           cart: {
             id: null,
             cartItems: cleanIds(this.cartService.items()),
-            totalQuantity: this.cartService.quantity,
+            totalQuantity: this.cartService.quantity(),
             totalCost: Number(this.cartService.total.toFixed(2)),
             totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
           }
@@ -183,7 +182,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         cart: {
           id: null,
           cartItems: cleanIds(this.cartService.items()),
-          totalQuantity: this.cartService.quantity,
+          totalQuantity: this.cartService.quantity(),
           totalCost: Number(this.cartService.total.toFixed(2)),
           totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
         }

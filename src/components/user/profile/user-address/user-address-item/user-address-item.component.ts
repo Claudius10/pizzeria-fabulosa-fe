@@ -9,14 +9,14 @@ import {MutationResult, UserAddressDeleteMutationOptions} from '../../../../../i
 import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-user-address-item',
-    imports: [
-        Button,
-        TranslatePipe
-    ],
-    templateUrl: './user-address-item.component.html',
-    styleUrl: './user-address-item.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-user-address-item',
+  imports: [
+    Button,
+    TranslatePipe
+  ],
+  templateUrl: './user-address-item.component.html',
+  styleUrl: './user-address-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressItemComponent implements OnDestroy {
   private userService = inject(UserService);
@@ -33,7 +33,7 @@ export class UserAddressItemComponent implements OnDestroy {
     this.loadingAnimationService.startLoading();
 
     const payload: UserAddressDeleteMutationOptions = {
-      userId: this.authService.getUserId()!,
+      userId: this.authService.userId!,
       addressId: id.toString()
     };
 

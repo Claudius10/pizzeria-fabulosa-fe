@@ -8,13 +8,13 @@
           <input
             class="w-full"
             id="password"
-            type="{{showPassword() ? 'text' : 'password'}}"
+            type="{{showPassword ? 'text' : 'password'}}"
             placeholder="{{ 'form.label.password' | translate}} "
             formControlName="password"
             pInputText
             [dt]="myInput(false)"
           >
-          <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+          <p-inputicon (click)="togglePassword()" styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
         </p-iconfield>
         @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
           <small id="password-help" class="invalid-text">

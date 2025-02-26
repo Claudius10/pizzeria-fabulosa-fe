@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-4">
   <span class="flex gap-2">{{ "form.label.name" | translate }}: <span
-    class="text-primary uppercase">{{ isAuthenticated() ? userName() : anon()?.name }}</span></span>
+    class="text-primary uppercase">{{ this.authService.isAuthenticated ? this.authService.userName : anon()?.name }}</span></span>
   <span class="flex gap-2">{{ "form.label.email" | translate }}: <span
-    class="text-primary uppercase"> {{ isAuthenticated() ? userEmail() : anon()?.email }}</span></span>
+    class="text-primary uppercase"> {{ this.authService.isAuthenticated ? this.authService.userEmail : anon()?.email }}</span></span>
   <span class="flex gap-2">{{ "form.label.contact.number" | translate }}: <span
-    class="text-primary uppercase"> {{ isAuthenticated() ? userContactNumber() : anon()?.contactNumber }}</span></span>
+    class="text-primary uppercase"> {{ this.authService.isAuthenticated ? this.authService.userContactNumber : anon()?.contactNumber }}</span></span>
 </div>

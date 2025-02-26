@@ -14,9 +14,5 @@ import {CustomerDTO} from '../../../interfaces/dto/order';
 })
 export class UserDetailsComponent {
   anon = input<CustomerDTO>();
-  private authService = inject(AuthService);
-  userName = this.authService.getUserName();
-  userEmail = this.authService.getUserEmail();
-  userContactNumber = this.authService.getUserContactNumber();
-  isAuthenticated = this.authService.getIsAuthenticated();
+  protected authService = inject(AuthService);
 }

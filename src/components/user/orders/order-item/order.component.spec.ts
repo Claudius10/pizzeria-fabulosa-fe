@@ -69,9 +69,6 @@ describe('OrderComponent', () => {
     expect(orderComponent.order.data()!.payload.id).toBe(0);
     expect(orderComponent.order.status()).toBeTrue();
 
-    expect(orderComponent.customer.name).toBe("tester");
-    expect(orderComponent.customer.email).toBe("email@gmail.com");
-
     expect(userDetailsComponent.name).toBe("tester");
     expect(userDetailsComponent.email).toBe("email@gmail.com");
     expect(userDetailsComponent.contactNumber).toBe("0");
@@ -110,7 +107,8 @@ const response: ResponseDTO = {
   error: null,
   status: {
     code: 200,
-    description: "OK"
+    description: "OK",
+    error: false
   },
   timeStamp: "now"
 };

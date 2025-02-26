@@ -1,79 +1,43 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userId: string | null = null;
-  private userEmail = signal<string | null>(null);
-  private userName = signal<string | null>(null);
-  private userContactNumber = signal<string | null>(null);
-  public isAuthenticated = signal(false);
-  private loginDialog = signal(false);
-  private logoutDialog = signal(false);
+  isAuthenticated = false;
+  loginDialog = false;
+  logoutDialog = false;
+  userId: string | null = null;
+  userEmail: string | null = null;
+  userName: string | null = null;
+  userContactNumber: string | null = null;
 
-  public setUserCredentials(token: string) {
+  setUserCredentials(token: string) {
     const idToken = this.decode(token);
     if (idToken !== null) {
       this.userId = idToken.id;
-      this.userEmail.set(idToken.sub!);
-      this.userName.set(idToken.name);
-      this.userContactNumber.set(idToken.contactNumber);
-      this.isAuthenticated.set(true);
+      this.userEmail = idToken.sub!;
+      this.userName = idToken.name;
+      this.userContactNumber = idToken.contactNumber;
+      this.isAuthenticated = true;
     }
   }
 
-  public logout() {
+  logout() {
     this.userId = null;
-    this.userEmail.set(null);
-    this.userName.set(null);
-    this.userContactNumber.set(null);
-    this.isAuthenticated.set(false);
+    this.userEmail = null;
+    this.userName = null;
+    this.userContactNumber = null;
+    this.isAuthenticated = false;
   }
 
-  public getLoginDialog() {
-    return this.loginDialog.asReadonly();
+  setLoginDialog(value: boolean) {
+    this.loginDialog = value;
   }
 
-  public getIsLoginDialogVisible() {
-    return this.loginDialog();
-  }
-
-  public setLoginDialog(value: boolean) {
-    this.loginDialog.set(value);
-  }
-
-  public getLogoutDialog() {
-    return this.logoutDialog.asReadonly();
-  }
-
-  public getIsLogoutDialogVisible() {
-    return this.logoutDialog();
-  }
-
-  public setLogoutDialog(value: boolean) {
-    this.logoutDialog.set(value);
-  }
-
-  public getIsAuthenticated() {
-    return this.isAuthenticated.asReadonly();
-  }
-
-  public getUserEmail() {
-    return this.userEmail.asReadonly();
-  }
-
-  public getUserName() {
-    return this.userName.asReadonly();
-  }
-
-  public getUserContactNumber() {
-    return this.userContactNumber.asReadonly();
-  }
-
-  public getUserId() {
-    return this.userId;
+  setLogoutDialog(value: boolean) {
+    this.logoutDialog = value;
   }
 
   private decode(token: string): MyJwtPayload | null {

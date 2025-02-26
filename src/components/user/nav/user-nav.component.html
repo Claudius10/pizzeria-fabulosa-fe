@@ -1,4 +1,4 @@
-<p-menubar [model]="userProfileMenu()" [dt]="userMenuBar()">
+<p-menubar [model]="userProfileMenu" [dt]="userMenuBar()">
   <ng-template #item let-item>
     <a routerLinkActive="color" [routerLink]="item.route" class="flex justify-center items-center">
       <span [class]="item.icon"></span>
