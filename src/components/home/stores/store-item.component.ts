@@ -4,6 +4,7 @@ import {Card} from "primeng/card";
 import {PrimeTemplate} from "primeng/api";
 import {StoreDTO} from '../../../interfaces/dto/resources';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-store-item',
@@ -14,7 +15,8 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
     AccordionPanel,
     AccordionHeader,
     AccordionContent,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './store-item.component.html',
   styleUrl: './store-item.component.scss',

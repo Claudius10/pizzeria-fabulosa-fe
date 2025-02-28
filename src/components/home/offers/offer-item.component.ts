@@ -3,13 +3,15 @@ import {CardModule} from 'primeng/card';
 import {OfferDTO} from '../../../interfaces/dto/resources';
 import {AccordionModule} from 'primeng/accordion';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-offer-item',
   imports: [
     CardModule,
     AccordionModule,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './offer-item.component.html',
   styleUrl: './offer-item.component.scss',

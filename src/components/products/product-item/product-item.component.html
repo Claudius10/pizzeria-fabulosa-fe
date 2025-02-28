@@ -1,6 +1,6 @@
 <div [ngClass]="['flex flex-col rounded-border', product().type !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
-  <img class="pb-2 " src="{{product().image}}" alt="Product image">
+  <img class="pb-2 " ngSrc="{{product().image}}" width="210" height="190" alt="Pizza Product">
 
   <div class="flex flex-col items-center justify-between product-container">
 

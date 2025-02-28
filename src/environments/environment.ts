@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://pizzeriaprojectbe-production.up.railway.app'
+  url: 'http://116.203.230.28:8080'
 };

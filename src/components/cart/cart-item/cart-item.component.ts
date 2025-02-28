@@ -3,7 +3,7 @@ import {CartItemDTO} from '../../../interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
-import {NgClass} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {ThemeService} from '../../../services/theme/theme.service';
 
 @Component({
@@ -12,7 +12,8 @@ import {ThemeService} from '../../../services/theme/theme.service';
     Button,
     ButtonDirective,
     NgClass,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
