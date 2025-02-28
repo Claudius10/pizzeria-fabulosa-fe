@@ -25,7 +25,7 @@ import {getDarkIcon, getLightIcon} from '../../../utils/functions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {
-  public product = input.required<ProductDTO>();
+  product = input<ProductDTO>();
   private cartService = inject(CartService);
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
@@ -33,14 +33,17 @@ export class ProductItemComponent implements OnInit {
   productFormat = "";
   productPrice = 0;
   allergensDialogVisible = false;
+  theProduct = signal<ProductDTO>(productPlaceholder());
 
   ngOnInit(): void {
-    if (this.product().formats) {
-      this.productFormat = this.product().formats.m === undefined ? "S" : "M";
+    this.theProduct.set(this.product()!);
+
+    if (this.theProduct().formats) {
+      this.productFormat = this.theProduct().formats.m === undefined ? "S" : "M";
     }
 
-    if (this.product().prices) {
-      this.productPrice = this.product().prices.m === undefined ? this.product().prices.s : this.product().prices.m;
+    if (this.theProduct().prices) {
+      this.productPrice = this.theProduct().prices.m === undefined ? this.theProduct().prices.s : this.theProduct().prices.m;
     }
 
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
@@ -54,24 +57,24 @@ export class ProductItemComponent implements OnInit {
     this.cartService.add({
       id: uuidv4(),
       images: {
-        dark: getDarkIcon(this.product().type),
-        light: getLightIcon(this.product().type)
+        dark: getDarkIcon(this.theProduct().type),
+        light: getLightIcon(this.theProduct().type)
       },
-      type: this.product().type,
-      name: this.product().name,
-      description: this.product().description,
+      type: this.theProduct().type,
+      name: this.theProduct().name,
+      description: this.theProduct().description,
       formats: {
         s: this.productFormat === "S" ? {
-          en: this.product().formats.s.en,
-          es: this.product().formats.s.es,
+          en: this.theProduct().formats.s.en,
+          es: this.theProduct().formats.s.es,
         } : null,
         m: this.productFormat === "M" ? {
-          en: this.product().formats.m.en,
-          es: this.product().formats.m.es,
+          en: this.theProduct().formats.m.en,
+          es: this.theProduct().formats.m.es,
         } : null,
         l: this.productFormat === "L" ? {
-          en: this.product().formats.l.en,
-          es: this.product().formats.l.es,
+          en: this.theProduct().formats.l.en,
+          es: this.theProduct().formats.l.es,
         } : null,
       },
       price: this.productPrice,
@@ -87,13 +90,13 @@ export class ProductItemComponent implements OnInit {
   private updatePrice(format: string) {
     switch (format) {
       case 'S':
-        this.productPrice = this.product().prices.s;
+        this.productPrice = this.theProduct().prices.s;
         break;
       case 'M':
-        this.productPrice = this.product().prices.m;
+        this.productPrice = this.theProduct().prices.m;
         break;
       case 'L':
-        this.productPrice = this.product().prices.l;
+        this.productPrice = this.theProduct().prices.l;
         break;
     }
   }
@@ -106,3 +109,42 @@ export class ProductItemComponent implements OnInit {
     this.allergensDialogVisible = false;
   }
 }
+
+export const productPlaceholder = (): ProductDTO => {
+  return {
+    name: {
+      en: "...",
+      es: "...",
+    },
+    formats: {
+      s: {
+        en: "...",
+        es: "...",
+      },
+      m: {
+        en: "...",
+        es: "...",
+      },
+      l: {
+        en: "...",
+        es: "...",
+      }
+    },
+    description: {
+      en: ["..."],
+      es: ["..."]
+    },
+    type: "...",
+    image: "/assets/products/placeholder.png",
+    prices: {
+      s: 0,
+      m: 0,
+      l: 0
+    },
+    allergens: {
+      en: ["..."],
+      es: ["..."]
+    },
+    id: "1"
+  };
+};

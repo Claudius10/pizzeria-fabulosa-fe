@@ -10,6 +10,10 @@ export class ProductsSearchPipe implements PipeTransform {
   private translateService = inject(TranslateService);
 
   transform(items: ProductDTO[], searchText: string, filters: Filter[]): ProductDTO[] {
+    if (items === null) {
+      return [];
+    }
+
     if (items.length === 0) {
       return [];
     }

@@ -42,6 +42,9 @@
               "ssr": {
                 "entry": "server.ts"
               },
+              "prerender": {
+                "discoverRoutes": false
+              },
               "budgets": [
                 {
                   "type": "initial",
@@ -62,6 +65,9 @@
               "sourceMap": true,
               "ssr": {
                 "entry": "server.ts"
+              },
+              "prerender": {
+                "discoverRoutes": false
               },
               "fileReplacements": [
                 {

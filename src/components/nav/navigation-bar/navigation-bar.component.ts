@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, effect, inject, Signal, signal, untracked} from '@angular/core';
 import {AuthService} from '../../../services/auth/auth.service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {NgClass, NgStyle} from '@angular/common';
+import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from '../login/login-dialog.component';
 import {LogoutDialogComponent} from '../logout/logout-dialog.component';
@@ -29,7 +29,8 @@ import {ThemeSelectorComponent} from '../theme-selector/theme-selector.component
     ThemeSelectorComponent,
     ProgressBar,
     Drawer,
-    CartComponent
+    CartComponent,
+    NgOptimizedImage
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],

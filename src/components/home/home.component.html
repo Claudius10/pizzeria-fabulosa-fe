@@ -15,13 +15,12 @@
       <app-server-error/>
     }
 
-    @if (offers.status() === "success" && offers.data()!.payload !== null) {
-      <div class="flex flex-wrap justify-center gap-8">
-        @for (offer of offers.data()!.payload; track offer.id) {
-          <app-offer-item [offer]="offer"/>
-        }
-      </div>
-    }
+    <div class="flex flex-wrap justify-center gap-8">
+      @for (offer of offers.data()?.payload; track offer.id) {
+        <app-offer-item [offer]="offer"/>
+      }
+    </div>
+
   </div>
 
   <!-- STORES -->
@@ -32,12 +31,11 @@
       <app-server-error/>
     }
 
-    @if (stores.status() === "success" && stores.data()!.payload !== null) {
-      <div class="flex flex-wrap justify-center gap-8">
-        @for (store of stores.data()!.payload; track store.id) {
-          <app-store-item [store]="store"/>
-        }
-      </div>
-    }
+    <div class="flex flex-wrap justify-center gap-8">
+      @for (store of stores.data()?.payload; track store.id) {
+        <app-store-item [store]="store"/>
+      }
+    </div>
+
   </div>
 </div>

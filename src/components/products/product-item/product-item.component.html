@@ -1,41 +1,42 @@
-<div [ngClass]="['flex flex-col rounded-border', product().type !== 'pizza' ? 'container' : 'container-desc' ]">
+<div [ngClass]="['flex flex-col rounded-border', theProduct().type !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
-  <img class="pb-2 " ngSrc="{{product().image}}" width="210" height="190" alt="Pizza Product">
+  <img class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190" alt="Pizza Product">
 
   <div class="flex flex-col items-center justify-between product-container">
 
     <!-- NAME -->
-    <span class="font-semibold text-xl">{{ currentLang() === 'es' ? product().name.es : product().name.en }}</span>
+    <span
+      class="font-semibold text-xl">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
 
     <!-- FORMAT -->
-    @if (product().formats) {
+    @if (theProduct().formats) {
       <div class="flex gap-2">
-        @if (product().formats.s) {
+        @if (theProduct().formats.s) {
           <p-button
             (click)="setFormat('S')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.s.es : product().formats.s.en  }}"
+            label="{{ currentLang() === 'es' ? theProduct().formats.s.es : theProduct().formats.s.en  }}"
             [outlined]="this.productFormat!=='S'"
             [raised]="true"/>
         }
 
-        @if (product().formats.m) {
+        @if (theProduct().formats.m) {
           <p-button
             (click)="setFormat('M')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.m.es : product().formats.m.en  }}"
+            label="{{ currentLang() === 'es' ? theProduct().formats.m.es : theProduct().formats.m.en  }}"
             [outlined]="this.productFormat!=='M'"
             [raised]="true"/>
         }
 
-        @if (product().formats.l) {
+        @if (theProduct().formats.l) {
           <p-button
             (click)="setFormat('L')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.l.es : product().formats.l.en  }}"
+            label="{{ currentLang() === 'es' ? theProduct().formats.l.es : theProduct().formats.l.en  }}"
             [outlined]="this.productFormat!=='L'"
             [raised]="true"/>
         }
@@ -43,15 +44,15 @@
     }
 
     <!-- INGREDIENTES -->
-    @if (product().description !== null) {
+    @if (theProduct().description !== null) {
       <div class="flex justify-center flex-wrap description text-center">
-        {{ currentLang() === 'es' ? product().description.es.join(", ") : product().description.en.join(", ") }}
+        {{ currentLang() === 'es' ? theProduct().description.es.join(", ") : theProduct().description.en.join(", ") }}
       </div>
     }
 
     <!-- PRICE + ADD BUTTON -->
     <div class="flex items-center justify-center gap-4 pb-2">
-      @if (product().prices) {
+      @if (theProduct().prices) {
         <app-product-price [price]="this.productPrice"/>
       }
 
@@ -62,7 +63,7 @@
         size="small"
         (click)="addProductToCart()"/>
 
-      @if (product().allergens.es.length > 0) {
+      @if (theProduct().allergens.es.length > 0) {
         <i class="pi pi-exclamation-circle allergens-icon-small" (click)="openAllergensDialog()"></i>
       }
     </div>
@@ -88,11 +89,11 @@
       <span>{{ "component.products.allergens.text" | translate }}</span>
       <div class="flex justify-center flex-wrap gap-4 font-bold">
         @if (currentLang() === 'es') {
-          @for (allergen of this.product().allergens.es; track $index) {
+          @for (allergen of this.theProduct().allergens.es; track $index) {
             <span>{{ allergen }}</span>
           }
         } @else {
-          @for (allergen of this.product().allergens.en; track $index) {
+          @for (allergen of this.theProduct().allergens.en; track $index) {
             <span>{{ allergen }}</span>
           }
         }

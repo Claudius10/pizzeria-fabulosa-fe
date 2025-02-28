@@ -18,16 +18,38 @@ import {NgOptimizedImage} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {
-  offer = input.required<OfferDTO>();
+  offer = input<OfferDTO>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   currentLang = signal(this.translateService.currentLang);
+  theOffer = signal<OfferDTO>(offerPlaceholder());
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
       this.currentLang.set(langEvent.lang);
     });
 
+    this.theOffer.set(this.offer()!);
+
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
+
+export const offerPlaceholder = (): OfferDTO => {
+  return {
+    image: "assets",
+    name: {
+      en: "...",
+      es: "..."
+    },
+    description: {
+      es: "...",
+      en: "..."
+    },
+    caveat: {
+      es: "...",
+      en: "..."
+    },
+    id: 1
+  };
+};

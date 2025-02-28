@@ -1,16 +1,16 @@
-<p-card header="{{store().name}}" [style]="{ width: '320px' }">
+<p-card header="{{theStore().name}}" [style]="{ width: '320px' }">
   <ng-template pTemplate="header">
-    <img class="rounded-border" ngSrc="{{store().image}}" alt="Store image" width="320" height="220">
+    <img class="rounded-border" ngSrc="{{theStore().image}}" alt="theStore image" width="320" height="220">
   </ng-template>
 
   <div class="flex flex-col gap-3">
     <div class="flex gap-2 items-center">
       <i class="pi pi-map"></i>
-      {{ store().address.street }} {{ store().address.number }}
+      {{ theStore().address.street }} {{ theStore().address.number }}
     </div>
     <div class="flex gap-2 items-center">
       <i class="pi pi-phone"></i>
-      {{ store().phoneNumber }}
+      {{ theStore().phoneNumber }}
     </div>
   </div>
 
@@ -24,7 +24,7 @@
         </p-accordion-header>
 
         <p-accordion-content>
-          <span>{{ currentLang() === "en" ? store().schedule.en : store().schedule.es }}</span>
+          <span>{{ currentLang() === "en" ? theStore().schedule.en : theStore().schedule.es }}</span>
         </p-accordion-content>
 
       </p-accordion-panel>
