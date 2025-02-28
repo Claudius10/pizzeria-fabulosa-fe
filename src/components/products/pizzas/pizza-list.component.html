@@ -11,11 +11,11 @@
         <app-server-error/>
       }
 
+      <app-custom-pizza/>
+
       @for (product of query.data()?.payload | productsSearch: this.filterService.searchText:filters(); track product.id) {
         <app-product [product]="product"/>
       }
-
-      <app-custom-pizza/>
     </div>
   </div>
 </div>

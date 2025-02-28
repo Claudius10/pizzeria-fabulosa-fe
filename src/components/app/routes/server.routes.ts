@@ -3,18 +3,6 @@ import {RenderMode, ServerRoute} from '@angular/ssr';
 export const serverRoutes: ServerRoute[] = [
   {
     path: '',
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: 'pizzas',
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: 'beverages',
-    renderMode: RenderMode.Prerender,
-  },
-  {
-    path: '**',
     renderMode: RenderMode.Server,
   },
 ];

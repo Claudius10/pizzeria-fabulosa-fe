@@ -28,18 +28,19 @@ export class ThemeService {
     } else {
       this.isDarkMode.set(false);
       element!.classList.remove('my-app-dark');
-      this.cookieService.delete(COOKIE_THEME_MODE);
+      this.cookieService.set(COOKIE_THEME_MODE, "light", COOKIE_LIFE_30_DAYS, COOKIE_PATH);
     }
   }
 
   reload() {
     if (this.cookieService.check(COOKIE_THEME_MODE)) {
-      this.toggleDarkMode(true);
+      const value = this.cookieService.get(COOKIE_THEME_MODE);
+      this.toggleDarkMode(value === 'dark');
     }
 
-    if (this.cookieService.check(COOKIE_THEME_COLOR)) {
-      this.changePrimaryColor(this.cookieService.get(COOKIE_THEME_COLOR));
-    }
+    // if (this.cookieService.check(COOKIE_THEME_COLOR)) {
+    //   this.changePrimaryColor(this.cookieService.get(COOKIE_THEME_COLOR));
+    // }
   }
 
   getColorPreset(color: string) {

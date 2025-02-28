@@ -42,9 +42,7 @@
               "ssr": {
                 "entry": "server.ts"
               },
-              "prerender": {
-                "discoverRoutes": false
-              },
+              "prerender": false,
               "budgets": [
                 {
                   "type": "initial",
@@ -66,9 +64,7 @@
               "ssr": {
                 "entry": "server.ts"
               },
-              "prerender": {
-                "discoverRoutes": false
-              },
+              "prerender": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
