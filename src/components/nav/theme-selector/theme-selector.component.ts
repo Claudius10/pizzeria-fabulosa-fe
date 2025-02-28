@@ -1,13 +1,10 @@
 import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
 
 import {ThemeService} from '../../../services/theme/theme.service';
-import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-theme-selector',
-  imports: [
-    NgClass
-  ],
+  imports: [],
   templateUrl: './theme-selector.component.html',
   styleUrls: ['./theme-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
