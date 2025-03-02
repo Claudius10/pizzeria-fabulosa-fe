@@ -1,14 +1,16 @@
 <div class="fixed top-0 left-0 w-screen style">
   <div class="flex items-center justify-between">
     <!-- ICON -->
-    <img routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
+    <img aria-label="To Home Page" routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png"
+         height="60" width="60">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
-      <img routerLink="/" class="logo-ls" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
+      <img aria-label="To Home Page" routerLink="/" class="logo-ls" alt="dropdown icon"
+           ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
       <div class="flex gap-12">
-        <p class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
-        <p class="cursor-pointer" routerLinkActive="color"
+        <p aria-label="To Pizzas Page" class="cursor-pointer" routerLinkActive="color" routerLink="pizzas">Pizzas</p>
+        <p aria-label="To Beverages Page" class="cursor-pointer" routerLinkActive="color"
            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
       </div>
     </div>
@@ -18,6 +20,7 @@
       <!-- CART ICON -->
       <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity()}}">
         <button type="button"
+                aria-label="Open Cart"
                 [ngClass]="!bump() ?
                 'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center' :
                 'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
@@ -29,6 +32,7 @@
       <!-- SMALL SCREEN MENU ICON -->
       <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
         <button type="button"
+                aria-label="Open Site Navigation"
                 class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
           <i class="pi pi-bars"></i>
         </button>
@@ -38,6 +42,7 @@
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
           <button type="button"
+                  aria-label="Sign In"
                   class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-in"></i>
           </button>
@@ -49,6 +54,7 @@
         <!-- USER BUTTON -->
         <li>
           <button [routerLink]="['user', 'profile']" type="button"
+                  aria-label="User Home Page"
                   class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-user"></i>
           </button>
@@ -56,6 +62,7 @@
         <!-- SIGN OUT BUTTON -->
         <li (click)="showLogoutDialog()">
           <button type="button"
+                  aria-label="Sign out"
                   class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-out"></i>
           </button>
@@ -66,12 +73,17 @@
       }
 
       <!-- DARK/LIGHT, THEME, LOCALE, BUTTONS -->
-      <app-locale-selector/>
-      <app-theme-selector/>
+      <li>
+        <app-locale-selector/>
+      </li>
+      <li>
+        <app-theme-selector/>
+      </li>
 
       <!-- GITHUB BUTTON -->
       <li>
         <a
+          aria-label="To Author's Github Page"
           class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background"
           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
           <i class="pi pi-github"></i>

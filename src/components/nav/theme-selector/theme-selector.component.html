@@ -1,20 +1,14 @@
-<li>
-  <ul class="flex list-none m-0 p-0 gap-2 items-center">
-    @if (isDarkMode()) {
-      <li>
-        <button (click)="toggleDarkMode(false)"
-                type="button"
-                class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
-          <i class="pi pi-sun"></i>
-        </button>
-      </li>
-    } @else {
-      <li>
-        <button (click)="toggleDarkMode(true)"
-                class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
-          <i class="pi pi-moon"></i>
-        </button>
-      </li>
-    }
-  </ul>
-</li>
+@if (isDarkMode()) {
+  <button (click)="toggleDarkMode(false)"
+          aria-label="Light mode"
+          type="button"
+          class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
+    <i class="pi pi-sun"></i>
+  </button>
+} @else {
+  <button (click)="toggleDarkMode(true)"
+          aria-label="Dark mode"
+          class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
+    <i class="pi pi-moon"></i>
+  </button>
+}
