@@ -5,7 +5,6 @@ import {RESOURCE_PRODUCT_PIZZA} from '../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../services/http/resources/resource.service';
 import {QueryResult} from '../../../interfaces/query';
-import {ServerErrorComponent} from '../../app/routes/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ResponseDTO} from '../../../interfaces/http/api';
@@ -16,6 +15,7 @@ import {ProductsSearchComponent} from '../search/products-search.component';
 import {FilterService} from '../../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../utils/filter-items';
 import {CustomPizzaComponent} from '../custom/custom-pizza/custom-pizza.component';
+import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 
 @Component({
   selector: 'app-pizza-list',
@@ -28,6 +28,7 @@ import {CustomPizzaComponent} from '../custom/custom-pizza/custom-pizza.componen
     ProductItemComponent,
     ProductsSearchPipe,
     CustomPizzaComponent,
+    ServerErrorComponent,
     ServerErrorComponent
   ],
   templateUrl: './pizza-list.component.html',

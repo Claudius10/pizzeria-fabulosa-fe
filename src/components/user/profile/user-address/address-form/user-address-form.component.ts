@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../regex';
+import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../utils/regex';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {MutationResult, UserAddressMutationOptions} from '../../../../../interfaces/mutation';

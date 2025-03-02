@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
-import {ErrorService} from '../../../../services/error/error.service';
-import {ErrorDTO} from '../../../../interfaces/http/api';
+import {ErrorService} from '../../../services/error/error.service';
+import {ErrorDTO} from '../../../interfaces/http/api';
 import {ErrorItemComponent} from './item/error-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
 

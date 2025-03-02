@@ -8,7 +8,7 @@ import {StoreCheckoutComponent} from '../store/store-checkout.component';
 import {Card} from 'primeng/card';
 import {Button} from 'primeng/button';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../regex';
+import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../utils/regex';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
 import {MutationResult} from '../../../../interfaces/mutation';

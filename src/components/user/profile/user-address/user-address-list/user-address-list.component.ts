@@ -9,7 +9,7 @@ import {LoadingAnimationService} from '../../../../../services/navigation/loadin
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {QueryResult} from '../../../../../interfaces/query';
-import {ServerErrorComponent} from '../../../../app/routes/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../../../../../app/routes/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ResponseDTO} from '../../../../../interfaces/http/api';

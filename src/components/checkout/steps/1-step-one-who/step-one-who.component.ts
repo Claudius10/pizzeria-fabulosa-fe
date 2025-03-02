@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {emailRgx, numbersRegex} from '../../../../regex';
+import {emailRgx, numbersRegex} from '../../../../utils/regex';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {Button} from 'primeng/button';

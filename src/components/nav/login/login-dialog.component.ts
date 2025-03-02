@@ -4,7 +4,7 @@ import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
 import {AccountService} from '../../../services/http/account/account.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {emailRgx, passwordRegex} from '../../../regex';
+import {emailRgx, passwordRegex} from '../../../utils/regex';
 import {LoginForm} from '../../../interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
 import {MutationResult} from '../../../interfaces/mutation';

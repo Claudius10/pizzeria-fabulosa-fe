@@ -8,7 +8,7 @@ import {
   ValidatorFn,
   Validators
 } from '@angular/forms';
-import {emailRgx, esCharsRegex, numbersRegex, passwordRegex} from '../../regex';
+import {emailRgx, esCharsRegex, numbersRegex, passwordRegex} from '../../utils/regex';
 import {RegisterForm} from '../../interfaces/http/account';
 import {AccountService} from '../../services/http/account/account.service';
 import {isFormValid} from '../../utils/functions';

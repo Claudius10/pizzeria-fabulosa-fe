@@ -1,8 +1,8 @@
 import {mergeApplicationConfig} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
-import {AppComponent} from './components/app/component/app.component';
-import {serverConfig} from './components/app/config/config.server';
-import {configApp} from './components/app/config/config.app';
+import {AppComponent} from './app/component/app.component';
+import {serverConfig} from './app/config/config.server';
+import {configApp} from './app/config/config.app';
 
 const config = mergeApplicationConfig(configApp, serverConfig);
 

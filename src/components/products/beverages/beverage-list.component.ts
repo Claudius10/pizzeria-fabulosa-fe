@@ -6,7 +6,6 @@ import {ResourceService} from '../../../services/http/resources/resource.service
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {QueryResult} from '../../../interfaces/query';
 import {ErrorService} from '../../../services/error/error.service';
-import {ServerErrorComponent} from '../../app/routes/error/server-no-response/server-error.component';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {FilterService} from '../../../services/filter/filter.service';
@@ -14,6 +13,7 @@ import {ProductsSearchComponent} from '../search/products-search.component';
 import {ProductsSearchPipe} from '../search/products-search.pipe';
 import {ProductsFilterComponent} from '../filters/products-filter.component';
 import {getAllBeverageFilters} from '../../../utils/filter-items';
+import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 
 @Component({
   selector: 'app-beverage-list',
@@ -25,7 +25,7 @@ import {getAllBeverageFilters} from '../../../utils/filter-items';
     ProductsFilterComponent,
     ProductItemComponent,
     ProductsSearchPipe,
-    ServerErrorComponent
+    ServerErrorComponent,
   ],
   templateUrl: './beverage-list.component.html',
   styleUrls: ['./beverage-list.component.scss'],

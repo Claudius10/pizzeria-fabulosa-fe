@@ -13,7 +13,7 @@ import {
   Validators
 } from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
-import {numbersRegex} from '../../../../regex';
+import {numbersRegex} from '../../../../utils/regex';
 import {Router} from '@angular/router';
 import {Option} from '../../../../interfaces/forms/steps';
 import {Button} from 'primeng/button';

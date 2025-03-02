@@ -2,7 +2,7 @@ import {ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetec
 import {provideRouter, withComponentInputBinding, withInMemoryScrolling} from '@angular/router';
 import {routes} from '../routes/app.routes';
 import {HttpClient, provideHttpClient, withFetch} from '@angular/common/http';
-import {AuthService} from '../../../services/auth/auth.service';
+import {AuthService} from '../../services/auth/auth.service';
 import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideTranslateService, TranslateLoader, TranslateService} from '@ngx-translate/core';
@@ -11,15 +11,15 @@ import {ConfirmationService, MessageService} from 'primeng/api';
 import {IMAGE_CONFIG} from '@angular/common';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {PrimeNG, providePrimeNG} from 'primeng/config';
-import {defaultPreset} from '../../../primeng/default.preset.theme';
-import {provideClientHydration} from '@angular/platform-browser';
-import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE} from '../../../utils/constants';
-import {CartService} from '../../../services/cart/cart.service';
+import {defaultPreset} from '../../primeng/default.preset.theme';
+import {provideClientHydration, withEventReplay} from '@angular/platform-browser';
+import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE} from '../../utils/constants';
+import {CartService} from '../../services/cart/cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import primeES from "../../../../public/i18n/primeng-es.json";
-import primeEN from "../../../../public/i18n/primeng-es.json";
-import en from "../../../../public/i18n/en.json";
-import es from "../../../../public/i18n/es.json";
+import primeES from "../../../public/i18n/primeng-es.json";
+import primeEN from "../../../public/i18n/primeng-es.json";
+import en from "../../../public/i18n/en.json";
+import es from "../../../public/i18n/es.json";
 
 function initializeApp(
   cookieService: SsrCookieService,
@@ -66,7 +66,7 @@ export const configApp: ApplicationConfig = {
   providers: [
     MessageService,
     ConfirmationService,
-    provideClientHydration(),
+    provideClientHydration(withEventReplay()),
     provideAnimations(),
     provideAnimationsAsync(),
     providePrimeNG({

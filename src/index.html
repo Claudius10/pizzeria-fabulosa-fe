@@ -9,10 +9,22 @@
   <base href="/">
 </head>
 <body>
+<script>
+  if (localStorage.getItem("Pizzeria.Fabulosa.THEME_MODE") === 'dark') {
+    if (document && document.documentElement) {
+      document.documentElement.classList.add('my-app-dark');
+      localStorage.setItem('Pizzeria.Fabulosa.THEME_MODE', 'dark');
+    }
+  } else {
+    if (document && document.documentElement) {
+      document.documentElement.classList.remove('my-app-dark');
+      localStorage.setItem('Pizzeria.Fabulosa.THEME_MODE', 'light');
+    }
+  }
+</script>
 <!--<script src=" https://cdn.jsdelivr.net/npm/eruda@3.4.1/eruda.min.js "></script>-->
 <!--<script src="//cdn.jsdelivr.net/npm/eruda"></script>-->
 <!--<script>eruda.init();</script>-->
 <app-root></app-root>
 </body>
 </html>
-
