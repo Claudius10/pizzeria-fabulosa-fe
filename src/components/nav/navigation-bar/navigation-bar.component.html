@@ -9,9 +9,10 @@
       <img aria-label="To Home Page" routerLink="/" class="logo-ls" alt="dropdown icon"
            ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
       <div class="flex gap-12">
-        <p aria-label="To Pizzas Page" class="cursor-pointer text-lg" routerLinkActive="color" routerLink="pizzas">
+        <p aria-label="To Pizzas Page" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
+           routerLink="pizzas">
           Pizzas</p>
-        <p aria-label="To Beverages Page" class="cursor-pointer text-lg" routerLinkActive="color"
+        <p aria-label="To Beverages Page" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
       </div>
     </div>
@@ -103,12 +104,14 @@
 @if (linksDrawerVisible) {
   <p-drawer [(visible)]="linksDrawerVisible" [blockScroll]="true">
     <div class="flex flex-col items-center gap-6">
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg" routerLinkActive="color" routerLink="/"
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
+         routerLink="/"
          [routerLinkActiveOptions]="{exact: true}">
         {{ 'component.navigation.quick.link.home' | translate }}</p>
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg" routerLinkActive="color" routerLink="pizzas">
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
+         routerLink="pizzas">
         Pizzas</p>
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg" routerLinkActive="color"
+      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
          routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
     </div>
   </p-drawer>
