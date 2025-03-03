@@ -24,12 +24,13 @@ import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ResponseDTO} from '../../interfaces/http/api';
 import {ErrorService} from '../../services/error/error.service';
-import {UpperCasePipe} from '@angular/common';
+import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
 import {Card} from 'primeng/card';
 import {myInput} from '../../primeng/input';
 import {myIcon} from '../../primeng/icon';
 
 @Component({
+
   selector: 'app-register',
   host: {
     class: 'upper-layout',
@@ -42,7 +43,9 @@ import {myIcon} from '../../primeng/icon';
     IconField,
     InputIcon,
     InputText,
-    Button
+    Button,
+    NgIf,
+    NgClass
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -76,34 +79,34 @@ export class RegisterComponent implements OnDestroy {
     name: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(esCharsRegex)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     email: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     matchingEmail: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     contactNumber: new FormControl<string>("", {
       validators: [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     password: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(passwordRegex)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     matchingPassword: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(passwordRegex)],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     })
-  }, {validators: [validateEmailMatching, validatePasswordMatching]});
+  }, {validators: [validatePasswordMatching, validateEmailMatching]});
 
   cancel() {
     this.router.navigate(['/']);
@@ -153,11 +156,13 @@ export class RegisterComponent implements OnDestroy {
 const validateEmailMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const email = control.get("email");
   const matchingEmail = control.get("matchingEmail");
-  return email && matchingEmail && email.value === matchingEmail.value ? null : {valid: false};
+  const emailsMatching = email && matchingEmail && email.value === matchingEmail.value;
+  return emailsMatching ? null : {emailsNotMatching: true};
 };
 
 const validatePasswordMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const password = control.get("password");
   const matchingPassword = control.get("matchingPassword");
-  return password && matchingPassword && password.value === matchingPassword.value ? null : {valid: false};
+  const matchingPasswords = password && matchingPassword && password.value === matchingPassword.value;
+  return matchingPasswords ? null : {passwordsNotMatching: true};
 };
