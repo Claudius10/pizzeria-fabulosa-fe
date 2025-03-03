@@ -22,10 +22,10 @@
         <button type="button"
                 aria-label="Open Cart"
                 [ngClass]="!bump() ?
-                'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center' :
-                'flex w-8 h-8 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
+                'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center' :
+                'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
                 [ngStyle]="this.cartService.quantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
-          <i class="pi pi-shopping-cart"></i>
+          <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
         </button>
       </li>
 
@@ -33,8 +33,8 @@
       <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
         <button type="button"
                 aria-label="Open Site Navigation"
-                class="flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
-          <i class="pi pi-bars"></i>
+                class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
+          <i class="pi pi-bars" style="font-size: 1.25rem"></i>
         </button>
       </li>
 
@@ -43,8 +43,8 @@
         <li (click)="showLoginDialog()">
           <button type="button"
                   aria-label="Sign In"
-                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
-            <i class="pi pi-sign-in"></i>
+                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+            <i class="pi pi-sign-in" style="font-size: 1.25rem"></i>
           </button>
           @if (authService.loginDialog) {
             <app-login-dialog/>
@@ -55,16 +55,16 @@
         <li>
           <button [routerLink]="['user', 'profile']" type="button"
                   aria-label="User Home Page"
-                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
-            <i class="pi pi-user"></i>
+                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+            <i class="pi pi-user" style="font-size: 1.25rem"></i>
           </button>
         </li>
         <!-- SIGN OUT BUTTON -->
         <li (click)="showLogoutDialog()">
           <button type="button"
                   aria-label="Sign out"
-                  class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background">
-            <i class="pi pi-sign-out"></i>
+                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+            <i class="pi pi-sign-out" style="font-size: 1.25rem"></i>
           </button>
           @if (authService.logoutDialog) {
             <app-logout-dialog/>
@@ -84,9 +84,9 @@
       <li>
         <a
           aria-label="To Author's Github Page"
-          class="cursor-pointer flex items-center justify-center w-8 h-8 border border-solid border-surface rounded-border item-background"
+          class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background"
           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
-          <i class="pi pi-github"></i>
+          <i class="pi pi-github" style="font-size: 1.25rem"></i>
         </a>
       </li>
     </ul>
