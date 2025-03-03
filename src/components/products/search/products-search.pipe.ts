@@ -29,7 +29,7 @@ export class ProductsSearchPipe implements PipeTransform {
 
   private search(searchText: string, items: ProductDTO[]): ProductDTO[] {
     return items.filter(item => {
-      return item.name.es.toLowerCase().includes(searchText);
+      return item.name.es.toLowerCase().includes(searchText.toLowerCase());
     });
   }
 
