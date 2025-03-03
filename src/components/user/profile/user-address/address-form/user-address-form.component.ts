@@ -46,19 +46,19 @@ export class UserAddressFormComponent {
     street: new FormControl("", {
         validators: [Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)],
         nonNullable: true,
-        updateOn: "blur"
+        updateOn: "change"
       }
     ),
     number: new FormControl("", {
         validators: [Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)],
         nonNullable: true,
-        updateOn: "blur"
+        updateOn: "change"
       }
     ),
     details: new FormControl<string | null>(null, {
       validators: [Validators.pattern(esCharsAndNumbersRegex)],
       nonNullable: false,
-      updateOn: "blur"
+      updateOn: "change"
     }),
   });
 
