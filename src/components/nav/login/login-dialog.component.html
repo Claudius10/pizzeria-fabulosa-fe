@@ -6,7 +6,6 @@
   styleClass="!border-0 !bg-transparent"
   [modal]="true"
   (onHide)="closeLoginDialog()"
-  [dismissableMask]="true"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -22,6 +21,10 @@
             id="email"
             name="email"
             class="bg-white/20 border-0 p-4 text-primary-50"/>
+          <div class="invalid-text"
+               *ngIf="this.form.controls.email.touched && this.form.controls.email.invalid">
+            {{ "form.invalid.email" | translate }}
+          </div>
         </div>
 
         <div class="inline-flex flex-col gap-2 w-full">
@@ -36,6 +39,10 @@
               type="{{showPassword ? 'text' : 'password'}}"/>
             <p-inputicon (click)="togglePassword()" styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
+          <div class="invalid-text"
+               *ngIf="this.form.controls.password.touched && this.form.controls.password.invalid">
+            {{ "form.invalid.password.requiered" | translate }}
+          </div>
         </div>
 
         <div class="flex items-center buttons gap-2">
@@ -52,8 +59,8 @@
             label="{{ 'button.enter' | translate | uppercase }}"
             [text]="true"
             styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
-            class="w-full"
-            [disabled]="form.untouched"/> <!-- https://github.com/angular/angular/issues/30616 -->
+            class="w-full"/>
+          <!-- https://github.com/angular/angular/issues/30616 -->
         </div>
 
         <div class="flex flex-col justify-center gap-2">

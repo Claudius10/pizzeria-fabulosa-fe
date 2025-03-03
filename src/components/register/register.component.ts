@@ -77,7 +77,7 @@ export class RegisterComponent implements OnDestroy {
 
   form = new FormGroup({
     name: new FormControl<string>("", {
-      validators: [Validators.required, Validators.pattern(esCharsRegex)],
+      validators: [Validators.required, Validators.minLength(2), Validators.pattern(esCharsRegex)],
       nonNullable: true,
       updateOn: 'change'
     }),

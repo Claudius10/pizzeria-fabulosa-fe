@@ -4,7 +4,6 @@ import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
 import {AccountService} from '../../../services/http/account/account.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {emailRgx, passwordRegex} from '../../../utils/regex';
 import {LoginForm} from '../../../interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
 import {MutationResult} from '../../../interfaces/mutation';
@@ -16,7 +15,7 @@ import {ErrorService} from '../../../services/error/error.service';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {ResponseDTO} from '../../../interfaces/http/api';
-import {UpperCasePipe} from '@angular/common';
+import {NgIf, UpperCasePipe} from '@angular/common';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {isFormValid} from '../../../utils/functions';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
@@ -33,7 +32,8 @@ import {COOKIE_ID_TOKEN} from '../../../utils/constants';
     InputIcon,
     Button,
     TranslatePipe,
-    UpperCasePipe
+    UpperCasePipe,
+    NgIf
   ],
   templateUrl: './login-dialog.component.html',
   styleUrls: ['./login-dialog.component.scss'],
@@ -57,14 +57,14 @@ export class LoginDialogComponent implements OnDestroy {
 
   form = new FormGroup({
     email: new FormControl<string>("", {
-      validators: [Validators.required, Validators.pattern(emailRgx)],
+      validators: [Validators.required],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
     password: new FormControl<string>("", {
-      validators: [Validators.required, Validators.pattern(passwordRegex)],
+      validators: [Validators.required],
       nonNullable: true,
-      updateOn: 'blur'
+      updateOn: 'change'
     }),
   });
 
@@ -106,6 +106,7 @@ export class LoginDialogComponent implements OnDestroy {
             detail: this.translateService.instant("toast.form.login.success.detail"),
             life: 3000,
           });
+          this.closeLoginDialog();
         }
       },
       onError: () => {
@@ -113,7 +114,6 @@ export class LoginDialogComponent implements OnDestroy {
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();
-        this.closeLoginDialog();
       }
     });
   }

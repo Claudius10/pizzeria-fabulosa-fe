@@ -36,7 +36,7 @@
   "form.select.time.programmed": "Hora programada",
   "form.select.payment.method.card": "Tarjeta",
   "form.select.payment.method.cash": "Efectivo",
-  "form.invalid.name": "El nombre completo es obligatorio",
+  "form.invalid.name": "El nombre es obligatorio: mínimo dos letras",
   "form.invalid.email": "El correo electrónico es obligatorio",
   "form.invalid.email.matching": "El correo electrónico no coincide",
   "form.invalid.password": "La contraseña debe tener una letra mayúscula, minúscula, un número, y una longitud de ocho caracteres",

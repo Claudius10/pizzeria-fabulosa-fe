@@ -51,7 +51,7 @@
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-envelope"/>
             <input
-              [ngClass]="['w-full', this.form.hasError('emailsNotMatching') && this.form.controls.matchingEmail.touched  ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
               id="matchingEmail"
               type="email"
               placeholder="{{'form.label.email.matching' | translate }}"
@@ -111,7 +111,7 @@
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <input
-              [ngClass]="['w-full', this.form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
               id="matchingPassword"
               type="{{showMatchingPassword ? 'text' : 'password'}}"
               placeholder="{{'form.label.password.matching' | translate }}"

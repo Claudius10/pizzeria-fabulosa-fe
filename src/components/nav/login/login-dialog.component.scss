@@ -3,6 +3,14 @@
   background-image: radial-gradient(circle at left top, var(--p-primary-400), var(--p-primary-700));
 }
 
+input.ng-invalid.ng-touched {
+  border: 1px solid white;
+}
+
+.invalid-text {
+  color: white;
+}
+
 @media (max-width: 576px) {
   .buttons {
     display: flex;

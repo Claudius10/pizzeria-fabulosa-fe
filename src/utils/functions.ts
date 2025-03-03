@@ -14,6 +14,8 @@ export function isDst(date: Date) {
 
 export function isFormValid(form: FormGroup) {
   const valid = form.valid;
+  const matchingEmailsError = form.hasError('emailsNotMatching');
+  const matchingPasswordsError = form.hasError('passwordsNotMatching');
 
   if (!valid) {
     Object.keys(form.controls).forEach(controlName => {
@@ -21,7 +23,9 @@ export function isFormValid(form: FormGroup) {
       if (!control!.valid) {
         control!.markAsTouched();
       } else {
-        control!.markAsUntouched();
+        if (!matchingEmailsError && !matchingPasswordsError) {
+          control!.markAsUntouched();
+        }
       }
     });
   }
