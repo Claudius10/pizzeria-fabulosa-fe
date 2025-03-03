@@ -180,7 +180,7 @@
   "toast.error.api.user.id.no.match.detail": "Por favor reinicie la sesión. Si el problema persiste, contáctenos.",
   "toast.error.api.user.not.found.detail": "El email o contraseña proporcionada no figura en los registros",
   "toast.error.api.user.email.unique.detail": "El correo electrónico proporcionado ya ha sido registrado",
-  "toast.error.api.user.address.list.full.detail": "Ha excedido el máximo permitido (3) de domicilios",
+  "toast.error.api.user.address.list.full.detail": "No puede añadir más de tres domicilios",
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",
   "toast.error.api.user.order.cancel.not.allowed": "El pedido no se puede cancelar transcurrido 10 minutos desde su creación",
   "toast.error.api.user.invalid.token": "Sesión inválida, por favor reinicie la sesión. Redirigiendo en 3 segundos...",

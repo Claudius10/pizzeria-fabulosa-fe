@@ -179,7 +179,7 @@
   "toast.error.api.user.id.no.match.detail": "Please re-login into your account. If the problem persists, contact us.",
   "toast.error.api.user.not.found.detail": "The provided email or password does not match any records",
   "toast.error.api.user.email.unique.detail": "The provided email has already been registered",
-  "toast.error.api.user.address.list.full.detail": "You have exceded the maximum size (3) of your address list",
+  "toast.error.api.user.address.list.full.detail": "You may not add more than three addresses",
   "toast.error.api.user.order.not.found.detail": "Unable to find order. If the problem persists, contact us.",
   "toast.error.api.user.order.cancel.not.allowed": "The order cannot be canceled 10 minutes after creation",
   "toast.error.api.user.invalid.token": "Invalid account session, please sign-in again. Redirecting in 3 seconds...",
