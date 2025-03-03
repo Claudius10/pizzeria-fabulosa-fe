@@ -45,9 +45,9 @@
             </select>
           </p-iconfield>
           @if (!this.form.controls.deliveryTime.untouched && !this.form.controls.deliveryTime.valid) {
-            <small id="deliveryTime-help" class="invalid-text">
+            <div id="deliveryTime-help" class="invalid-text">
               {{ "form.invalid.delivery.programmed.hour" | translate }}
-            </small>
+            </div>
           }
         }
       </div>

@@ -24,9 +24,9 @@
 
       <span>{{ "component.form.step.one.advice" | translate }}</span>
 
-      <div class="flex flex-col gap-3">
+      <div class="flex flex-col gap-6">
 
-        <div class="flex flex-col gap-2 h-16">
+        <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-user"/>
             <input
@@ -40,13 +40,13 @@
             >
           </p-iconfield>
           @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
-            <small id="fullName-help" class="invalid-text">
+            <div id="fullName-help" class="invalid-text">
               {{ "form.invalid.name" | translate }}
-            </small>
+            </div>
           }
         </div>
 
-        <div class="flex flex-col gap-2 h-16">
+        <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-envelope"/>
             <input
@@ -59,13 +59,13 @@
               [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
-            <small id="email-help" class="invalid-text">
+            <div id="email-help" class="invalid-text">
               {{ "form.invalid.email" | translate }}
-            </small>
+            </div>
           }
         </div>
 
-        <div class="flex flex-col gap-2 h-16">
+        <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-phone"/>
             <input class="w-full"
@@ -77,9 +77,9 @@
                    [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
-            <small id="contactNumber-help" class="invalid-text">
+            <div id="contactNumber-help" class="invalid-text">
               {{ "form.invalid.contact.number" | translate }}
-            </small>
+            </div>
           }
         </div>
       </div>

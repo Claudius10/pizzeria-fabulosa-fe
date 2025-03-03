@@ -63,9 +63,9 @@
             >
           </p-iconfield>
           @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
-            <small id="fullName-help" class="invalid-text">
+            <div id="fullName-help" class="invalid-text">
               {{ "form.invalid.bill.change" | translate }}
-            </small>
+            </div>
           }
         }
       </div>

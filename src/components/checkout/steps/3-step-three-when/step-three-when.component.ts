@@ -62,6 +62,7 @@ export class StepThreeWhenComponent implements OnInit {
       if (this.checkoutFormService.when.deliveryTime !== this.options[0].description) {
 
         this.selectedOption = this.options[1];
+        this.checkoutFormService.programmedDelivery = true;
 
         this.form.setValue({
           deliveryTime: this.checkoutFormService.when.deliveryTime,
@@ -74,7 +75,7 @@ export class StepThreeWhenComponent implements OnInit {
     deliveryTime: new FormControl(this.options[0].description, {
       validators: [Validators.required, Validators.minLength(4)],
       nonNullable: true,
-      updateOn: "blur"
+      updateOn: "change"
     }),
   });
 
@@ -96,6 +97,12 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   previousStep() {
+    if (this.form.controls.deliveryTime.invalid) {
+      this.checkoutFormService.programmedDelivery = false;
+      this.checkoutFormService.when = null;
+    } else {
+      this.saveFormValues();
+    }
     this.router.navigate(['order', 'new', 'step-two']);
   }
 

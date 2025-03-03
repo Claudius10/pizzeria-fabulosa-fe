@@ -86,10 +86,10 @@ export class StepFourHowComponent implements OnInit {
     paymentMethod: new FormControl(this.paymentOptions[0].code, {
       validators: [Validators.required],
       nonNullable: true,
-      updateOn: "blur"
+      updateOn: "change"
     }),
     billToChange: new FormControl<string | null>(null, {
-      updateOn: "blur",
+      updateOn: "change",
       validators: [billValidator(this.cartService.total, this.cartService.totalAfterOffers)]
     }),
   });
@@ -131,8 +131,13 @@ export class StepFourHowComponent implements OnInit {
 
   previousStep() {
     this.router.navigate(['order', 'new', 'step-three']);
-    this.checkoutFormService.cashPayment = false;
-    this.checkoutFormService.changeRequested = false;
+    if (this.form.controls.billToChange.invalid) {
+      this.checkoutFormService.cashPayment = false;
+      this.checkoutFormService.changeRequested = false;
+      this.checkoutFormService.how = null;
+    } else {
+      this.saveFormValues()
+    }
   }
 
   nextStep() {

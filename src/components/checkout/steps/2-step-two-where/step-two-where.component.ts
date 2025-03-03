@@ -69,18 +69,18 @@ export class StepTwoWhereComponent implements OnInit {
     id: new FormControl<number | null>(null),
     street: new FormControl("", {
         nonNullable: true,
-        updateOn: "blur"
+        updateOn: "change"
       }
     ),
     number: new FormControl("", {
         nonNullable: true,
-        updateOn: "blur"
+        updateOn: "change"
       }
     ),
     details: new FormControl<string | null>(null, {
       validators: [Validators.pattern(esCharsAndNumbersRegex)],
       nonNullable: false,
-      updateOn: "blur"
+      updateOn: "change"
     }),
   });
 

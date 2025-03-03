@@ -10,7 +10,8 @@
 } @else {
   <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
 
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-6">
+
       <div class="flex flex-col gap-4">
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
         <p-iconfield [dt]="myIcon('{primary.400}')">
@@ -39,9 +40,9 @@
               [valid]="validSelection"
             />
           } @else {
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-6">
 
-              <div class="flex flex-col gap-2 h-16">
+              <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
                   <p-inputicon styleClass="pi pi-directions"/>
                   <input
@@ -55,13 +56,13 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-                  <small id="street-help" class="invalid-text">
+                  <div id="street-help" class="invalid-text">
                     {{ "form.invalid.delivery.address" | translate }}
-                  </small>
+                  </div>
                 }
               </div>
 
-              <div class="flex flex-col gap-2 h-16">
+              <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
                   <p-inputicon styleClass="pi pi-home"/>
                   <input
@@ -75,13 +76,13 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-                  <small id="number-help" class="invalid-text">
+                  <div id="number-help" class="invalid-text">
                     {{ "form.invalid.delivery.number" | translate }}
-                  </small>
+                  </div>
                 }
               </div>
 
-              <div class="flex flex-col gap-2 h-16">
+              <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
                   <p-inputicon styleClass="pi pi-info-circle"/>
                   <input
@@ -95,9 +96,9 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-                  <small id="details-help" class="invalid-text">
+                  <div id="details-help" class="invalid-text">
                     {{ "form.invalid.delivery.details" | translate }}
-                  </small>
+                  </div>
                 }
               </div>
             </div>

@@ -17,9 +17,9 @@
           <p-inputicon (click)="togglePassword()" styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
         </p-iconfield>
         @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
-          <small id="password-help" class="invalid-text">
+          <div id="password-help" class="invalid-text">
             {{ "form.invalid.password.requiered" | translate }}
-          </small>
+          </div>
         }
       </div>
 

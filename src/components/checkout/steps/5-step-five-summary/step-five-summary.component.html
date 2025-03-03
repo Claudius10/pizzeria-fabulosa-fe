@@ -83,9 +83,9 @@
               <span>{{ "component.form.step.five.comment.advice" | translate }}</span>
               <textarea formControlName="comment" pTextarea></textarea>
               @if (!this.form.controls.comment.untouched && !this.form.controls.comment.valid) {
-                <small id="fullName-help" class="invalid-text">
+                <div id="fullName-help" class="invalid-text">
                   {{ "form.invalid.comment" | translate }}
-                </small>
+                </div>
               }
             </div>
           </form>

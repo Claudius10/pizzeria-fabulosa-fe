@@ -41,15 +41,15 @@ export class StepOneWhoComponent implements OnInit {
   form = new FormGroup({
     fullName: new FormControl("", {
       nonNullable: true,
-      updateOn: "blur"
+      updateOn: "change"
     }),
     email: new FormControl("", {
       nonNullable: true,
-      updateOn: "blur"
+      updateOn: "change"
     }),
     contactNumber: new FormControl("", {
       nonNullable: true,
-      updateOn: "blur"
+      updateOn: "change"
     }),
   });
 

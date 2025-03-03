@@ -58,7 +58,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   form = new FormGroup({
     password: new FormControl<string>("", {
       nonNullable: true,
-      updateOn: "blur",
+      updateOn: "change",
       validators: [Validators.required]
     })
   });

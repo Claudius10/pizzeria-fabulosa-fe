@@ -2,7 +2,7 @@
   [ngClass]="[
   'card flex flex-col gap-4 border-2 border-transparent rounded-xl',
   selected() === store().id ? '!border-primary transition-all duration-300' : '',
-  valid() ? '' : '!border-red-800 rounded-xl transition-all duration-300'
+  valid() ? '' : 'invalid-border rounded-xl transition-all duration-300'
   ]"
   (click)="selectStore()">
   <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>

@@ -58,10 +58,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
   selectedStore: StoreDTO | null = null;
   selectedAddress: AddressDTO | null = null;
 
-  ngOnDestroy(): void {
-    this.loadingAnimationService.stopLoading();
-  }
-
   constructor() {
     this.checkoutFormService.step = 4;
 
@@ -69,7 +65,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       // selected store, either by user or anon
       if (this.checkoutFormService.selectedId.isStore) {
-        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - guaranteed to be here
+        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - guaranteed to be in cache
         const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where!.id);
         this.selectedStore = fetchedStores[selectedStoreIndex];
       } else {
@@ -78,7 +74,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
           const userAddressList: QueryResult = this.userService.findUserAddressList({
             queryKey: USER_ADDRESS_LIST,
             id: this.authService.userId
-          }); // NOTE - guaranteed to be here because it will load in step two when user is logged in
+          }); // NOTE - guaranteed to be in cache
 
           const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
           const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where!.id);
@@ -92,7 +88,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
     comment: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
       nonNullable: false,
-      updateOn: "blur"
+      updateOn: "change"
     }),
   });
 
@@ -113,6 +109,10 @@ export class StepFiveSummaryComponent implements OnDestroy {
     if (isFormValid(this.form)) {
       this.createOrder();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
   }
 
   private createOrder() {
