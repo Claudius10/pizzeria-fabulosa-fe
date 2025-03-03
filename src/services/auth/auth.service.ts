@@ -13,15 +13,19 @@ export class AuthService {
   userName: string | null = null;
   userContactNumber: string | null = null;
 
-  setUserCredentials(token: string) {
+  authenticate(token: string): boolean {
     const idToken = this.decode(token);
-    if (idToken !== null) {
-      this.userId = idToken.id;
-      this.userEmail = idToken.sub!;
-      this.userName = idToken.name;
-      this.userContactNumber = idToken.contactNumber;
-      this.isAuthenticated = true;
+
+    if (idToken === null) {
+      return false;
     }
+
+    this.userId = idToken.id;
+    this.userEmail = idToken.sub!;
+    this.userName = idToken.name;
+    this.userContactNumber = idToken.contactNumber;
+    this.isAuthenticated = true;
+    return true;
   }
 
   logout() {
@@ -43,8 +47,7 @@ export class AuthService {
   private decode(token: string): MyJwtPayload | null {
     try {
       return jwtDecode(token);
-    } catch (invalidTokenError) {
-      console.log(invalidTokenError);
+    } catch (Error) {
       return null;
     }
   }

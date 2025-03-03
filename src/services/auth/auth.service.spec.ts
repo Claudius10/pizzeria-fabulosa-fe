@@ -2,45 +2,41 @@ import {TestBed} from '@angular/core/testing';
 
 import {AuthService} from './auth.service';
 
-describe('AuthService', () => {
+describe('AuthServiceTests', () => {
   let service: AuthService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({providers: [AuthService]});
+    TestBed.configureTestingModule({});
     service = TestBed.inject(AuthService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
+  it('givenValidToken_thenSetCredentialsAndReturnTrue', () => {
+    // Act
+
+    const result = service.authenticate("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
+
+    // Assert
+
+    expect(result).toBeTrue();
+    expect(service.userId).toBe("1");
+    expect(service.userEmail).toBe("john@email.com");
+    expect(service.userName).toBe("John Doe");
+    expect(service.userContactNumber).toBe("123123123");
+    expect(service.isAuthenticated).toBeTrue();
   });
 
-  it('should set user credentials given valid token', () => {
-    service.setUserCredentials("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
+  it('givenInvalidToken_thenReturnFalse', () => {
+    // Act
 
-    const userEmail = service.getUserEmail();
-    const userName = service.getUserName();
-    const userContactNumber = service.getUserContactNumber();
-    const isAuthenticated = service.getIsAuthenticated();
+    const result = service.authenticate("invalid token");
 
-    expect(service.getUserId()).toBe("1");
-    expect(userEmail).toBe("john@email.com");
-    expect(userName).toBe("John Doe");
-    expect(userContactNumber).toBe("123123123");
-    expect(isAuthenticated()).toBeTrue();
-  });
+    // Assert
 
-  it('should return defaults if token is invalid', () => {
-    service.setUserCredentials("invalid token");
-
-    const userEmail = service.getUserEmail();
-    const userName = service.getUserName();
-    const userContactNumber = service.getUserContactNumber();
-    const isAuthenticated = service.getIsAuthenticated();
-
-    expect(service.getUserId()).toBe("0");
-    expect(userEmail).toBe("quijote@gmail.com");
-    expect(userName).toBe("Cervantes");
-    expect(userContactNumber).toBe("000 000 000");
-    expect(isAuthenticated()).toBeFalse();
+    expect(result).toBeFalse();
+    expect(service.userId).toBe(null);
+    expect(service.userEmail).toBe(null);
+    expect(service.userName).toBe(null);
+    expect(service.userContactNumber).toBe(null);
+    expect(service.isAuthenticated).toBeFalse();
   });
 });

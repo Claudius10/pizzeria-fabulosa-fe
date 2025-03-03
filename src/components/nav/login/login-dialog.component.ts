@@ -99,14 +99,23 @@ export class LoginDialogComponent implements OnDestroy {
         } else {
           this.cartService.clear();
           this.checkoutFormService.clear();
-          this.authService.setUserCredentials(this.cookieService.get(COOKIE_ID_TOKEN));
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("toast.form.login.success.detail"),
-            life: 3000,
-          });
-          this.closeLoginDialog();
+          const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
+          if (result) {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant("toast.severity.info"),
+              detail: this.translateService.instant("toast.form.login.success.detail"),
+              life: 3000,
+            });
+            this.closeLoginDialog();
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant("toast.severity.error"),
+              detail: this.translateService.instant("toast.error.api.token.invalid"),
+              life: 3000,
+            });
+          }
         }
       },
       onError: () => {

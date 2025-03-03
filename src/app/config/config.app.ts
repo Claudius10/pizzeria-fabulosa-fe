@@ -44,7 +44,7 @@ function initializeApp(
 
     // auth token
     if (cookieService.check(COOKIE_ID_TOKEN)) {
-      authService.setUserCredentials(cookieService.get(COOKIE_ID_TOKEN));
+      authService.authenticate(cookieService.get(COOKIE_ID_TOKEN));
     }
 
     // cart

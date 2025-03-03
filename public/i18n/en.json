@@ -184,6 +184,7 @@
   "toast.error.api.user.order.cancel.not.allowed": "The order cannot be canceled 10 minutes after creation",
   "toast.error.api.user.invalid.token": "Invalid account session, please sign-in again. Redirecting in 3 seconds...",
   "toast.error.api.user.dummy": "Dummy account cannot be deleted",
+  "toast.error.api.token.invalid": "Authentication token is invalid: cannot sign-in",
   "toast.error.api.unknown": "Unknown error. Please let us know what happened.",
   "dialog.logout.confirm": "Proceed with sign-out?",
   "dialog.logout.success.message": "Sign-out successful",
