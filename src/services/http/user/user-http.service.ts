@@ -3,9 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {UserAddressDeleteMutationOptions, UserAddressMutationOptions} from '../../../interfaces/mutation';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {BASE, USER_ADDRESS, USER_BASE, V1} from '../../../utils/api-routes';
-import {ErrorService} from '../../error/error.service';
 import {of} from 'rxjs';
-import {buildErrorResponse} from '../../../utils/functions';
+import {buildErrorResponse, ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -13,11 +12,10 @@ import {environment} from '../../../environments/environment';
 })
 export class UserHttpService {
   private httpClient = inject(HttpClient);
-  private errorService = inject(ErrorService);
   private PATH = environment.url;
 
   public findUserAddressList(userId: string | null) {
-    const result = this.errorService.ensureId([userId!]);
+    const result = ensureId([userId!]);
 
     if (!result) return of(buildErrorResponse());
 
@@ -27,7 +25,7 @@ export class UserHttpService {
   }
 
   public createUserAddress(options: UserAddressMutationOptions) {
-    const result = this.errorService.ensureId([options.userId!]);
+    const result = ensureId([options.userId!]);
 
     if (!result) return of(buildErrorResponse());
 
@@ -37,7 +35,7 @@ export class UserHttpService {
   }
 
   public deleteUserAddress(options: UserAddressDeleteMutationOptions) {
-    const result = this.errorService.ensureId([options.userId!]);
+    const result = ensureId([options.userId!]);
 
     if (!result) return of(buildErrorResponse());
 

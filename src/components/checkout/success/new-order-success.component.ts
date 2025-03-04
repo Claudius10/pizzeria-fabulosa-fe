@@ -34,10 +34,10 @@ import {UserDetailsComponent} from "../../user/details/user-details.component";
 })
 export class NewOrderSuccessComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
+  protected authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private cartService = inject(CartService);
   private router = inject(Router);
-  protected authService = inject(AuthService);
 
   goBack() {
     this.router.navigate(['/pizzas']);

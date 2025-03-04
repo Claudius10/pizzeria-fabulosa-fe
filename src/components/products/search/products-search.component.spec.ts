@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ProductsSearchComponent } from './products-search.component';
+import {ProductsSearchComponent} from './products-search.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('ProductsFilterComponent', () => {
   let component: ProductsSearchComponent;
@@ -8,9 +9,9 @@ describe('ProductsFilterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductsSearchComponent]
+      imports: [ProductsSearchComponent, TranslateModule.forRoot()]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ProductsSearchComponent);
     component = fixture.componentInstance;

@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CustomPizzaComponent } from './custom-pizza.component';
+import {CustomPizzaComponent} from './custom-pizza.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('CustomPizzaComponent', () => {
   let component: CustomPizzaComponent;
@@ -8,9 +9,9 @@ describe('CustomPizzaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CustomPizzaComponent]
+      imports: [CustomPizzaComponent, TranslateModule.forRoot()]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CustomPizzaComponent);
     component = fixture.componentInstance;

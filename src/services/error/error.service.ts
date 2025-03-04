@@ -24,13 +24,13 @@ import {QueryClient} from '@tanstack/angular-query-experimental';
   providedIn: 'root',
 })
 export class ErrorService {
-  private httpClient = inject(HttpClient);
-  private queryClient = inject(QueryClient);
-  private PATH = environment.url;
-  private authService = inject(AuthService);
   private translateService = inject(TranslateService);
-  private router = inject(Router);
   private messageService = inject(MessageService);
+  private queryClient = inject(QueryClient);
+  private authService = inject(AuthService);
+  private httpClient = inject(HttpClient);
+  private router = inject(Router);
+  private PATH = environment.url;
   errors = signal<ErrorDTO[]>([]);
 
   isEmpty() {
@@ -89,15 +89,6 @@ export class ErrorService {
     }, 3000);
   }
 
-  ensureId(ids: string[]) {
-    for (let id of ids) {
-      if (id === null) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   handleServerNoResponse() {
     this.messageService.add({
       severity: 'warn',
@@ -111,7 +102,7 @@ export class ErrorService {
     this.errors.set([]);
   }
 
-  getErrorSummary(cause: string): string {
+  private getErrorSummary(cause: string): string {
     switch (cause) {
       case USER_ID_NO_MATCH:
         return this.translateService.instant("toast.severity.error");
@@ -137,7 +128,7 @@ export class ErrorService {
     }
   }
 
-  getErrorDetails(cause: string): string {
+  private getErrorDetails(cause: string): string {
     switch (cause) {
       case USER_ID_NO_MATCH:
         return this.translateService.instant("toast.error.api.user.id.no.match.detail");
@@ -163,7 +154,7 @@ export class ErrorService {
     }
   }
 
-  getSeverity(summary: string): string {
+  private getSeverity(summary: string): string {
     switch (summary) {
       case "Información":
         return "info";

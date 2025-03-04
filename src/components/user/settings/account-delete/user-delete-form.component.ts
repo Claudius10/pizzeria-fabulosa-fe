@@ -38,12 +38,12 @@ import {myIcon} from '../../../../primeng/icon';
 })
 export class UserDeleteFormComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private messageService = inject(MessageService);
   private translateService = inject(TranslateService);
-  private router = inject(Router);
+  private messageService = inject(MessageService);
+  private accountService = inject(AccountService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
-  private accountService = inject(AccountService);
+  private router = inject(Router);
   private delete: MutationResult = this.accountService.delete();
   showPassword = false;
 

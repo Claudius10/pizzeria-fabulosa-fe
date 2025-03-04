@@ -75,3 +75,12 @@ export function buildErrorResponse(): ResponseDTO {
     }
   };
 }
+
+export function ensureId(ids: string[]) {
+  for (let id of ids) {
+    if (id === null) {
+      return false;
+    }
+  }
+  return true;
+}

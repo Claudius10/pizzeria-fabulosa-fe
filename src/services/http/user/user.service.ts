@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {injectMutation, injectQuery, injectQueryClient, QueryClient} from '@tanstack/angular-query-experimental';
+import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {UserHttpService} from './user-http.service';
 import {BaseQueryOptionsId, QueryResult} from '../../../interfaces/query';
@@ -11,7 +11,7 @@ import {USER_ADDRESS_LIST} from '../../../utils/query-keys';
 })
 export class UserService {
   private userHttpService = inject(UserHttpService);
-  private queryClient: QueryClient = injectQueryClient();
+  private queryClient = inject(QueryClient);
 
   public findUserAddressList(options: BaseQueryOptionsId): QueryResult {
     const query = injectQuery(() => ({

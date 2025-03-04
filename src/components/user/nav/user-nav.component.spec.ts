@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserNavComponent} from './user-nav.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {provideRouter} from '@angular/router';
 
 describe('UserNavComponent', () => {
   let component: UserNavComponent;
@@ -8,9 +10,12 @@ describe('UserNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserNavComponent]
+      imports: [UserNavComponent, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([{path: '**', component: UserNavComponent}])
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserNavComponent);
     component = fixture.componentInstance;

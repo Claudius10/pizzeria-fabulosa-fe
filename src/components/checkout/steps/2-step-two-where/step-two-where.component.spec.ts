@@ -1,6 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StepTwoWhereComponent} from './step-two-where.component';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {TranslateModule} from '@ngx-translate/core';
+import {QueryClient} from '@tanstack/angular-query-experimental';
+import {MessageService} from 'primeng/api';
 
 describe('Step-two-where', () => {
   let component: StepTwoWhereComponent;
@@ -8,7 +13,13 @@ describe('Step-two-where', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StepTwoWhereComponent]
+      imports: [StepTwoWhereComponent, TranslateModule.forRoot()],
+      providers: [
+        MessageService,
+        QueryClient,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
       .compileComponents();
 

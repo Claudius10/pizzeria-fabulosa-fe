@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserHomeComponent} from './user-home.component';
+import {provideRouter} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('UserHomeComponent', () => {
   let component: UserHomeComponent;
@@ -8,9 +10,12 @@ describe('UserHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserHomeComponent]
+      imports: [UserHomeComponent, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([{path: '**', component: UserHomeComponent}])
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(UserHomeComponent);
     component = fixture.componentInstance;

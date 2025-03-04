@@ -48,13 +48,13 @@ import {myIcon} from '../../../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
-  private router = inject(Router);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  protected checkoutFormService = inject(CheckoutFormService);
-  protected authService = inject(AuthService);
-  private resourceService = inject(ResourceService);
   private loadingAnimationService = inject(LoadingAnimationService);
+  protected checkoutFormService = inject(CheckoutFormService);
+  private resourceService = inject(ResourceService);
+  private errorService = inject(ErrorService);
+  protected authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
   storesStatus = toObservable(this.stores.status);

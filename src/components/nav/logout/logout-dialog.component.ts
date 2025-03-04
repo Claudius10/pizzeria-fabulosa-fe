@@ -28,16 +28,16 @@ import {CheckoutFormService} from '../../../services/checkout/checkout-form.serv
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent implements OnDestroy {
-  private router = inject(Router);
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private queryClient = inject(QueryClient);
-  private errorService = inject(ErrorService);
-  private messageService = inject(MessageService);
-  private authService = inject(AuthService);
-  private accountService = inject(AccountService);
   private translateService = inject(TranslateService);
+  private messageService = inject(MessageService);
+  private accountService = inject(AccountService);
+  private errorService = inject(ErrorService);
+  private queryClient = inject(QueryClient);
+  private authService = inject(AuthService);
   private cartService = inject(CartService);
+  private router = inject(Router);
   private logoutUser: MutationResult = this.accountService.logout();
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.logoutDialog;

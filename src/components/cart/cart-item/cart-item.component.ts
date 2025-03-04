@@ -19,10 +19,10 @@ import {ThemeService} from '../../../services/theme/theme.service';
   styleUrl: './cart-item.component.scss',
 })
 export class CartItemComponent implements OnInit {
-  private cartService: CartService = inject(CartService);
   private translateService = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
   private themeService = inject(ThemeService);
+  private cartService: CartService = inject(CartService);
+  private destroyRef = inject(DestroyRef);
   viewOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);

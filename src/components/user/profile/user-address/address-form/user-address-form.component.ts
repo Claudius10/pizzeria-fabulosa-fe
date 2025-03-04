@@ -35,10 +35,10 @@ import {myIcon} from '../../../../../primeng/icon';
 })
 export class UserAddressFormComponent {
   hideForm = output();
+  private loadingAnimationService = inject(LoadingAnimationService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
-  private loadingAnimationService = inject(LoadingAnimationService);
   private createAddress: MutationResult = this.userService.createUserAddress();
 
   form = new FormGroup({

@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {LocaleSelectorComponent} from './locale-selector.component';
+import {MessageService} from 'primeng/api';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('LocaleSelectorComponent', () => {
   let component: LocaleSelectorComponent;
@@ -8,9 +10,12 @@ describe('LocaleSelectorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LocaleSelectorComponent]
+      imports: [LocaleSelectorComponent, TranslateModule.forRoot()],
+      providers: [
+        MessageService
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(LocaleSelectorComponent);
     component = fixture.componentInstance;

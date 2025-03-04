@@ -1,7 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderSummaryListComponent} from './order-summary-list.component';
-import {OrderService} from '../../../../../services/http/order/order.service';
+import {TranslateModule} from '@ngx-translate/core';
+import {MessageService} from 'primeng/api';
+import {QueryClient} from '@tanstack/angular-query-experimental';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('OrderListComponent', () => {
   let component: OrderSummaryListComponent;
@@ -9,8 +13,14 @@ describe('OrderListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrderSummaryListComponent],
-      providers: [OrderService]
+      imports: [OrderSummaryListComponent, TranslateModule.forRoot()],
+      providers:
+        [
+          MessageService,
+          QueryClient,
+          provideHttpClient(),
+          provideHttpClientTesting()
+        ]
     })
       .compileComponents();
 

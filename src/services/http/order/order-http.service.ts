@@ -5,9 +5,8 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} from '../../../utils/api-routes';
 import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
-import {ErrorService} from '../../error/error.service';
 import {of} from 'rxjs';
-import {buildErrorResponse} from '../../../utils/functions';
+import {buildErrorResponse, ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -15,11 +14,10 @@ import {environment} from '../../../environments/environment';
 })
 export class OrderHttpService {
   private httpClient = inject(HttpClient);
-  private errorService = inject(ErrorService);
   private PATH = environment.url;
 
   public createUserOrder(data: NewUserOrderFormData) {
-    const result = this.errorService.ensureId([data.userId!]);
+    const result = ensureId([data.userId!]);
 
     if (!result) return of(buildErrorResponse());
 
@@ -31,7 +29,7 @@ export class OrderHttpService {
   }
 
   public findOrderSummaryList(userId: string | null, pageNumber: number, pageSize: number) {
-    const result = this.errorService.ensureId([userId!]);
+    const result = ensureId([userId!]);
 
     if (!result) return of(buildErrorResponse());
 
@@ -40,7 +38,7 @@ export class OrderHttpService {
   }
 
   public findUserOrder(options: BaseQueryOptionsIdAndUser) {
-    const result = this.errorService.ensureId([options.userId!]);
+    const result = ensureId([options.userId!]);
 
     if (!result) return of(buildErrorResponse());
 
@@ -49,7 +47,7 @@ export class OrderHttpService {
   }
 
   public deleteUserOrder(data: UserOrderDeleteMutationOptions) {
-    const result = this.errorService.ensureId([data.userId!]);
+    const result = ensureId([data.userId!]);
 
     if (!result) return of(buildErrorResponse());
 

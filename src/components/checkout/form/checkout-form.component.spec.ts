@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {CheckoutFormComponent} from './checkout-form.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {provideRouter} from '@angular/router';
 
 describe('AnonUserCheckoutFormComponent', () => {
   let component: CheckoutFormComponent;
@@ -8,9 +10,12 @@ describe('AnonUserCheckoutFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CheckoutFormComponent]
+      imports: [CheckoutFormComponent, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([{path: '**', component: CheckoutFormComponent}])
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(CheckoutFormComponent);
     component = fixture.componentInstance;

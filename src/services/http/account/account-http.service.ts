@@ -13,8 +13,7 @@ import {
   V1
 } from '../../../utils/api-routes';
 import {of} from 'rxjs';
-import {buildErrorResponse} from '../../../utils/functions';
-import {ErrorService} from '../../error/error.service';
+import {buildErrorResponse, ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -22,7 +21,6 @@ import {environment} from '../../../environments/environment';
 })
 export class AccountHttpService {
   private httpClient = inject(HttpClient);
-  private errorService = inject(ErrorService);
   private PATH = environment.url;
 
   public login(data: LoginForm) {
@@ -48,7 +46,7 @@ export class AccountHttpService {
   }
 
   public delete(data: DeleteAccountForm) {
-    const result = this.errorService.ensureId([data.userId!]);
+    const result = ensureId([data.userId!]);
 
     if (!result) return of(buildErrorResponse());
 

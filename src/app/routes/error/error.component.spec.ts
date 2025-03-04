@@ -1,6 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ErrorComponent } from './error.component';
+import {ErrorComponent} from './error.component';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {TranslateModule} from '@ngx-translate/core';
+import {MessageService} from 'primeng/api';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('ErrorComponent', () => {
   let component: ErrorComponent;
@@ -8,9 +13,15 @@ describe('ErrorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ErrorComponent]
+      imports: [ErrorComponent, TranslateModule.forRoot()],
+      providers: [
+        MessageService,
+        QueryClient,
+        provideHttpClient(),
+        provideHttpClientTesting()
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ErrorComponent);
     component = fixture.componentInstance;

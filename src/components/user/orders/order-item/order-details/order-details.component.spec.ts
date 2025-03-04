@@ -1,6 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderDetailsComponent} from './order-details.component';
+import {TranslateModule} from '@ngx-translate/core';
+import {OrderDetailsDTO} from '../../../../../interfaces/dto/order';
 
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
@@ -8,12 +10,13 @@ describe('OrderDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrderDetailsComponent]
+      imports: [OrderDetailsComponent, TranslateModule.forRoot()]
     })
       .compileComponents();
 
     fixture = TestBed.createComponent(OrderDetailsComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput("orderDetails", getMockOrderDetails());
     fixture.detectChanges();
   });
 
@@ -21,3 +24,14 @@ describe('OrderDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+export const getMockOrderDetails = (): OrderDetailsDTO => {
+  return {
+    id: 1,
+    comment: "",
+    changeToGive: 0,
+    billToChange: 0,
+    deliveryTime: "ASAP",
+    paymentMethod: "Card"
+  };
+};
