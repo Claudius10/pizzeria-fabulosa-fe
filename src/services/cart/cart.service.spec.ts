@@ -15,6 +15,10 @@ describe('CartServiceTests', () => {
     cookieService = TestBed.inject(SsrCookieService);
   });
 
+  afterAll(() => {
+    cookieService.deleteAll();
+  });
+
   it('givenItems_thenSetCart', () => {
     // Act
 
@@ -97,6 +101,28 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(1);
     expect(cartService.totalAfterOffers).toBe(0);
+    expect(cookieService.check(COOKIE_CART)).toBeTrue();
+  });
+
+  it('givenItem_whenAddingTheSameItem_thenIncreaseQuantityOfItem', () => {
+
+    // Arrange
+
+    let mockCartItem = getMockCartItem("1", 1);
+    cartService.add(mockCartItem);
+
+    // Act
+
+    cartService.add(mockCartItem);
+
+    // Assert
+
+    expect(cartService.items().length).toBe(1);
+    expect(cartService.quantity()).toBe(2);
+    expect(cartService.secondHalfPriceOffer).toBe(1);
+    expect(cartService.threeForTwoOffers).toBe(0);
+    expect(cartService.total).toBe(2);
+    expect(cartService.totalAfterOffers).toBe(1.5);
     expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
