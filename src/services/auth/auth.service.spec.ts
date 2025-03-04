@@ -39,4 +39,28 @@ describe('AuthServiceTests', () => {
     expect(service.userContactNumber).toBe(null);
     expect(service.isAuthenticated).toBeFalse();
   });
+
+  it('givenLoggedInUser_thenLogout', () => {
+
+    // Arrange
+    const result = service.authenticate("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
+    expect(result).toBeTrue();
+    expect(service.userId).toBe("1");
+    expect(service.userEmail).toBe("john@email.com");
+    expect(service.userName).toBe("John Doe");
+    expect(service.userContactNumber).toBe("123123123");
+    expect(service.isAuthenticated).toBeTrue();
+
+    // Act
+
+    service.logout();
+
+    // Assert
+
+    expect(service.userId).toBe(null);
+    expect(service.userEmail).toBe(null);
+    expect(service.userName).toBe(null);
+    expect(service.userContactNumber).toBe(null);
+    expect(service.isAuthenticated).toBeFalse();
+  });
 });

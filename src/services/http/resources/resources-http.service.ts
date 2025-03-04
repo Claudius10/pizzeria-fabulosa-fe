@@ -22,8 +22,4 @@ export class ResourcesHttpService {
   public findStores() {
     return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_STORE}`);
   }
-
-  public findStoreByAddressId(id: string) {
-    return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_STORE}/${id}`);
-  }
 }
