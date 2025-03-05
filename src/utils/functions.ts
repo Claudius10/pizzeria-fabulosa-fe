@@ -62,17 +62,34 @@ export function buildErrorResponse(): ResponseDTO {
     status: {
       error: true,
       code: 401,
-      description: "InvalidBearerTokenException"
+      description: "Exception"
     },
     error: {
       id: 0,
       fatal: false,
       logged: false,
-      cause: "InvalidBearerTokenException",
-      message: "InvalidBearerTokenException",
-      origin: "errorService.ensureId",
+      cause: "Exception",
+      message: "Exception",
+      origin: "origin",
       path: ""
     }
+  };
+}
+
+export function buildResponse(
+  payload: any,
+  statusError: boolean,
+  statusCode: number,
+  statusDesc: string): ResponseDTO {
+  return {
+    payload: payload,
+    timeStamp: new Date().toTimeString(),
+    status: {
+      error: statusError,
+      code: statusCode,
+      description: statusDesc
+    },
+    error: null
   };
 }
 
