@@ -8,7 +8,7 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 import {BASE, USER_ADDRESS, USER_BASE, V1} from '../../../utils/api-routes';
 import {buildErrorResponse, buildResponse} from '../../../utils/functions';
 
-describe('UserHttpService', () => {
+describe('UserHttpServiceTests', () => {
   let service: UserHttpService;
   let httpTesting: HttpTestingController;
   const PATH = "http://192.168.1.128:8080";
