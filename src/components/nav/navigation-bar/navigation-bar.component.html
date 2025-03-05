@@ -1,18 +1,19 @@
 <div class="fixed top-0 left-0 w-screen style">
   <div class="flex items-center justify-between">
     <!-- ICON -->
-    <img aria-label="To Home Page" routerLink="/" class="logo-sm" alt="dropdown icon" ngSrc="/assets/icons/pizzabig.png"
+    <img aria-label="To Home Page" routerLink="/" class="logo-sm cursor-pointer" alt="dropdown icon"
+         ngSrc="/assets/icons/pizzabig.png"
          height="50" width="50">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
-      <img aria-label="To Home Page" routerLink="/" class="logo-ls" alt="dropdown icon"
+      <img aria-label="To Home Page" routerLink="/" class="logo-ls cursor-pointer" alt="dropdown icon"
            ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
       <div class="flex gap-12">
-        <p aria-label="To Pizzas Page" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
+        <p aria-label="To Pizzas Page" class="cursor-pointer text-lg" routerLinkActive="color"
            routerLink="pizzas">
           Pizzas</p>
-        <p aria-label="To Beverages Page" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
+        <p aria-label="To Beverages Page" class="cursor-pointer text-lg" routerLinkActive="color"
            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
       </div>
     </div>
