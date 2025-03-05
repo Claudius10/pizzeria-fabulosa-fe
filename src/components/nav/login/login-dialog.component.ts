@@ -9,7 +9,7 @@ import {AuthService} from '../../../services/auth/auth.service';
 import {MutationResult} from '../../../interfaces/mutation';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
 import {IconField} from 'primeng/iconfield';

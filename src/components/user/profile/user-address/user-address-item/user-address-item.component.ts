@@ -4,7 +4,7 @@ import {Button} from 'primeng/button';
 import {UserService} from '../../../../../services/http/user/user.service';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {AuthService} from '../../../../../services/auth/auth.service';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {MutationResult, UserAddressDeleteMutationOptions} from '../../../../../interfaces/mutation';
 import {TranslatePipe} from '@ngx-translate/core';
 

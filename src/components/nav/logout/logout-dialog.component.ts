@@ -7,7 +7,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth/auth.service';
 import {DialogModule} from 'primeng/dialog';
 import {Button} from 'primeng/button';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
 import {ResponseDTO} from '../../../interfaces/http/api';

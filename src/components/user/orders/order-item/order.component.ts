@@ -13,7 +13,7 @@ import {OrderDetailsComponent} from './order-details/order-details.component';
 import {CartDTO} from '../../../../interfaces/dto/order';
 import {Card} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {MutationResult} from '../../../../interfaces/mutation';
 import {CartComponent} from '../../../cart/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';

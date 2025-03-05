@@ -10,7 +10,7 @@ import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {ResponseDTO} from '../../../../../interfaces/http/api';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';

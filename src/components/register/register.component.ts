@@ -18,7 +18,7 @@ import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {AuthService} from '../../services/auth/auth.service';
 import {MutationResult} from '../../interfaces/mutation';
-import {LoadingAnimationService} from '../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';

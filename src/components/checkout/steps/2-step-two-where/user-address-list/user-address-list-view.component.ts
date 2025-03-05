@@ -7,7 +7,7 @@ import {AddressId} from '../../../../../services/checkout/checkout-form.service'
 import {TranslatePipe} from '@ngx-translate/core';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../../app/routes/error/server-no-response/server-error.component';
 import {ResponseDTO} from '../../../../../interfaces/http/api';

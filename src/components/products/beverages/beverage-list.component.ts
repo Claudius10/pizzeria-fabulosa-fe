@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {RESOURCE_PRODUCT_BEVERAGES} from '../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../services/http/resources/resource.service';

@@ -23,7 +23,7 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {isFormValid} from '../../../../utils/functions';
 import {SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 

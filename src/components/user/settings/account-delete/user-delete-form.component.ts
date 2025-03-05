@@ -12,7 +12,7 @@ import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../utils/functions';
 import {Card} from 'primeng/card';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';

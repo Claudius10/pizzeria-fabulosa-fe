@@ -4,7 +4,7 @@ import {Paginator, PaginatorState} from 'primeng/paginator';
 import {OrderService} from '../../../../../services/http/order/order.service';
 import {QueryResult} from '../../../../../interfaces/query';
 import {OrderSummaryComponent} from '../list-item/order-summary.component';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ErrorService} from '../../../../../services/error/error.service';

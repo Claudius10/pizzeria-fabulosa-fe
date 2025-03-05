@@ -8,7 +8,7 @@ import {LogoutDialogComponent} from '../logout/logout-dialog.component';
 import {LocaleSelectorComponent} from '../locale-selector/locale-selector.component';
 import {CartComponent} from '../../cart/cart.component';
 import {ProgressBar} from 'primeng/progressbar';
-import {LoadingAnimationService} from '../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {BadgeDirective} from 'primeng/badge';
 import {Drawer} from 'primeng/drawer';

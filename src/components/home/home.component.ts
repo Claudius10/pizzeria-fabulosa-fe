@@ -3,7 +3,7 @@ import {ResourceService} from '../../services/http/resources/resource.service';
 import {RESOURCE_OFFERS, RESOURCE_STORES} from '../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {merge} from 'rxjs';
-import {LoadingAnimationService} from '../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
 import {QueryResult} from '../../interfaces/query';
 import {OfferItemComponent} from './offers/offer-item.component';
 import {StoreItemComponent} from './stores/store-item.component';

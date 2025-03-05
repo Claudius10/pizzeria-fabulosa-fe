@@ -14,7 +14,7 @@ import {OrderService} from '../../../../services/http/order/order.service';
 import {MutationResult} from '../../../../interfaces/mutation';
 import {QueryResult} from '../../../../interfaces/query';
 import {ResponseDTO} from '../../../../interfaces/http/api';
-import {LoadingAnimationService} from '../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {AddressDTO, CartItemDTO} from '../../../../interfaces/dto/order';
 import {UserService} from '../../../../services/http/user/user.service';
 import {AuthService} from '../../../../services/auth/auth.service';

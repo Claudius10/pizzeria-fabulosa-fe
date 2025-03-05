@@ -5,7 +5,7 @@ import {UserService} from '../../../../../services/http/user/user.service';
 import {Button} from 'primeng/button';
 import {UserAddressFormComponent} from '../address-form/user-address-form.component';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
-import {LoadingAnimationService} from '../../../../../services/navigation/loading-animation.service';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {QueryResult} from '../../../../../interfaces/query';
