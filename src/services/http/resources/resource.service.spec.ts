@@ -4,7 +4,7 @@ import {ResourceService} from './resource.service';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 
-describe('ResourceService', () => {
+describe('ResourceServiceTests', () => {
   let service: ResourceService;
 
   beforeEach(() => {

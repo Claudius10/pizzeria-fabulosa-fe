@@ -79,7 +79,6 @@ export class OrderService {
     }
 
     const query = injectQuery(() => ({
-      // enabled: options.userId !== undefined,
       queryKey: options.queryKey,
       queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(options))
     }));

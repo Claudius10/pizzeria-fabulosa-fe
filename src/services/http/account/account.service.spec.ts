@@ -7,7 +7,7 @@ import {AccountHttpService} from './account-http.service';
 import {MutationResult} from '../../../interfaces/mutation';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 
-describe('AccountService', () => {
+describe('AccountServiceTests', () => {
   let service: AccountService;
   let accountHttpService: jasmine.SpyObj<AccountHttpService>;
 

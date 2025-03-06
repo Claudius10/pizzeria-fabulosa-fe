@@ -18,7 +18,7 @@ import {firstValueFrom} from 'rxjs';
 import {buildErrorResponse, buildResponse} from '../../../utils/functions';
 import {DeleteAccountForm, RegisterForm} from '../../../interfaces/http/account';
 
-describe('AccountHttpService', () => {
+describe('AccountHttpServiceTest', () => {
   let service: AccountHttpService;
   let httpTesting: HttpTestingController;
   const PATH = "http://192.168.1.128:8080";
