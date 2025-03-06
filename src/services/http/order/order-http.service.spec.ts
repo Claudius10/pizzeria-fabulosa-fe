@@ -266,7 +266,7 @@ describe('OrderHttpServiceTest', () => {
     httpTesting.verify();
   });
 
-  it('givenDeleteUserOrder_whenUserIdIsNull_thenReturnOk', async () => {
+  it('givenDeleteUserOrder_whenUserIdIsNull_thenReturnErrorResponse', async () => {
 
     // Arrange
 
