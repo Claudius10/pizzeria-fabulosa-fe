@@ -48,14 +48,14 @@ describe('OrderServiceTests', () => {
     });
   });
 
-  it('givenFindOrderSummaryList_thenReturnMutationResult', () => {
+  it('givenFindOrderSummaryList_thenReturnQueryResult', () => {
     TestBed.runInInjectionContext(() => {
       const queryResult: QueryResult = service.findOrderSummaryList("1");
       expect(queryResult.status()).toEqual("pending");
     });
   });
 
-  it('givenFindUserOrder_thenReturnMutationResult', () => {
+  it('givenFindUserOrder_thenReturnQueryResult', () => {
     TestBed.runInInjectionContext(() => {
       const queryResult: QueryResult = service.findUserOrder({queryKey: ["key"], id: "1", userId: "1"});
       expect(queryResult.status()).toEqual("pending");
@@ -70,13 +70,13 @@ describe('OrderServiceTests', () => {
     });
   });
 
-  it('givenSetPageSize_thenGimmeDaCoveraje', () => {
+  it('givenSetPageSize_thenReturnCorrectPageSize', () => {
     service.setPageSize(1);
     const pageSize = service.getPageSize();
     expect(pageSize()).toEqual(1);
   });
 
-  it('givenSetPageNumber_thenGimmeDaCoveraje', () => {
+  it('givenSetPageNumber_thenReturnCorrectPageNumber', () => {
     service.setPageNumber(1);
     const pageNumber = service.getPageNumber();
     expect(pageNumber()).toEqual(1);
