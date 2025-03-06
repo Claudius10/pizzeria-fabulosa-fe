@@ -9,12 +9,13 @@ import {UserHttpService} from './user-http.service';
 
 describe('UserServiceTests', () => {
   let service: UserService;
+  let userHttpService: jasmine.SpyObj<UserHttpService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        UserHttpService,
+        {provide: UserHttpService, useValue: userHttpService},
         QueryClient,
         provideHttpClient(),
         provideHttpClientTesting()
@@ -22,6 +23,7 @@ describe('UserServiceTests', () => {
     });
 
     service = TestBed.inject(UserService);
+    userHttpService = jasmine.createSpyObj('userHttpService', ['createUserAddress', 'deleteUserAddress']);
   });
 
   it('givenFindUserAddressList_thenReturnQueryResult', () => {

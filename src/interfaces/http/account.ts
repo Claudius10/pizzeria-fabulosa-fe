@@ -13,6 +13,6 @@ export type LoginForm = {
 }
 
 export type DeleteAccountForm = {
-  userId: string;
+  userId: string | null;
   password: string;
 }

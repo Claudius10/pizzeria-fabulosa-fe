@@ -12,6 +12,7 @@ describe('UserHttpServiceTests', () => {
   let service: UserHttpService;
   let httpTesting: HttpTestingController;
   const PATH = "http://192.168.1.128:8080";
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -19,6 +20,7 @@ describe('UserHttpServiceTests', () => {
         provideHttpClientTesting()
       ]
     });
+
     service = TestBed.inject(UserHttpService);
     httpTesting = TestBed.inject(HttpTestingController);
   });

@@ -23,7 +23,7 @@ export class AccountHttpService {
   private httpClient = inject(HttpClient);
   private PATH = environment.url;
 
-  public login(data: LoginForm) {
+  public login(data: LoginForm | null) {
     if (data === null) {
       return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + AUTH_BASE + AUTH_LOGIN}?username=donQuijote@gmail.com&password=Password1`,
         {responseType: "text"}, // -> without this, cookies won't be set
