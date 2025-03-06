@@ -1,14 +1,13 @@
 import {TestBed} from '@angular/core/testing';
 
 import {ErrorService} from './error.service';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateModule} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 
 describe('ErrorService', () => {
   let service: ErrorService;
+  let messageService: jasmine.SpyObj<MessageService>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,12 +16,12 @@ describe('ErrorService', () => {
       ],
       providers: [
         QueryClient,
-        MessageService,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: MessageService, useValue: messageService},
       ]
     });
+
     service = TestBed.inject(ErrorService);
+    messageService = jasmine.createSpyObj(MessageService, ['add']);
   });
 
   it('should be created', () => {

@@ -15,9 +15,6 @@ import {
   USER_NOT_FOUND
 } from '../../utils/api-messages';
 import {AuthService} from '../auth/auth.service';
-import {AUTH_BASE, AUTH_LOGOUT, BASE, V1} from '../../utils/api-routes';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../environments/environment';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 
 @Injectable({
@@ -28,9 +25,7 @@ export class ErrorService {
   private messageService = inject(MessageService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
-  private httpClient = inject(HttpClient);
   private router = inject(Router);
-  private PATH = environment.url;
   errors = signal<ErrorDTO[]>([]);
 
   isEmpty() {
@@ -169,12 +164,6 @@ export class ErrorService {
       default:
         return "error";
     }
-  }
-
-  private sendLogout() {
-    return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + AUTH_BASE + AUTH_LOGOUT}`,
-      {responseType: "text"}, // -> without this, cookies won't be set
-      {withCredentials: true});
   }
 }
 
