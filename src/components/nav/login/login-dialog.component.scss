@@ -11,6 +11,10 @@ input.ng-invalid.ng-touched {
   color: white;
 }
 
+.title {
+  width: 100%;
+}
+
 @media (max-width: 576px) {
   .buttons {
     display: flex;
