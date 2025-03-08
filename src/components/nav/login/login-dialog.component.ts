@@ -77,7 +77,7 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   closeLoginDialog(): void {
-    this.authService.setLoginDialog(false);
+    this.authService.loginDialog = false;
     this.visible = false;
   }
 

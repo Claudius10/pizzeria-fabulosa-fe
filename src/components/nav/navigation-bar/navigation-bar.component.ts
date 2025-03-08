@@ -85,10 +85,10 @@ export class NavigationBarComponent {
   }
 
   showLoginDialog() {
-    this.authService.setLoginDialog(true);
+    this.authService.loginDialog = true;
   }
 
   showLogoutDialog() {
-    this.authService.setLogoutDialog(true);
+    this.authService.logoutDialog = true;
   }
 }

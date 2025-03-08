@@ -112,6 +112,10 @@ export class RegisterComponent implements OnDestroy {
     this.router.navigate(['/']);
   }
 
+  showLoginDialog() {
+    this.authService.loginDialog = true;
+  }
+
   public onSubmit(): void {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();

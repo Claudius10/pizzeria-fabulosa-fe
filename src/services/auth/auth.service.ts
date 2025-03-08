@@ -36,14 +36,6 @@ export class AuthService {
     this.isAuthenticated = false;
   }
 
-  setLoginDialog(value: boolean) {
-    this.loginDialog = value;
-  }
-
-  setLogoutDialog(value: boolean) {
-    this.logoutDialog = value;
-  }
-
   private decode(token: string): MyJwtPayload | null {
     try {
       return jwtDecode(token);

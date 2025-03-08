@@ -39,7 +39,7 @@ export class FilterService {
     }
   }
 
-  containsFilter(name: string): number {
+  private containsFilter(name: string): number {
     let index = -1;
 
     for (let i = 0; this.filters().length > i; i++) {
@@ -52,7 +52,7 @@ export class FilterService {
     return index;
   }
 
-  addFilter(filter: Filter): Filter {
+  private addFilter(filter: Filter): Filter {
     this.filters.update(currentFilters => {
       return [...currentFilters, filter];
     });
@@ -64,7 +64,7 @@ export class FilterService {
     return filter;
   }
 
-  removeFilter(filter: Filter): null {
+  private removeFilter(filter: Filter): null {
     const filters = this.filters().filter(oldFilter => {
       return oldFilter.name !== filter.name;
     });
