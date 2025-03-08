@@ -18,6 +18,7 @@ describe('OrderHttpServiceTest', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        OrderHttpService,
         provideHttpClient(),
         provideHttpClientTesting()
       ]

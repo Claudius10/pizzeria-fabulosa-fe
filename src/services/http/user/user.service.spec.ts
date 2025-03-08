@@ -1,29 +1,25 @@
 import {TestBed} from '@angular/core/testing';
 import {UserService} from './user.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {QueryResult} from '../../../interfaces/query';
 import {MutationResult} from '../../../interfaces/mutation';
 import {UserHttpService} from './user-http.service';
 
 describe('UserServiceTests', () => {
   let service: UserService;
-  let userHttpService: jasmine.SpyObj<UserHttpService>;
 
   beforeEach(() => {
+    const userHttpServiceSpy = jasmine.createSpyObj('UserHttpService', ['createUserAddress', 'deleteUserAddress']);
+
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        {provide: UserHttpService, useValue: userHttpService},
+        {provide: UserHttpService, useValue: userHttpServiceSpy},
         QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
       ]
     });
 
     service = TestBed.inject(UserService);
-    userHttpService = jasmine.createSpyObj('userHttpService', ['createUserAddress', 'deleteUserAddress']);
   });
 
   it('givenFindUserAddressList_thenReturnQueryResult', () => {

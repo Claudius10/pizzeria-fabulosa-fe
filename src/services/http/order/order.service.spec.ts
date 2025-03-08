@@ -1,35 +1,32 @@
 import {TestBed} from '@angular/core/testing';
 
 import {OrderService} from './order.service';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {OrderHttpService} from './order-http.service';
 import {MutationResult} from '../../../interfaces/mutation';
 import {QueryResult} from '../../../interfaces/query';
+import {OrderHttpService} from './order-http.service';
 
 describe('OrderServiceTests', () => {
   let service: OrderService;
-  let orderHttpService: jasmine.SpyObj<OrderHttpService>;
 
   beforeEach(() => {
+    const orderHttpServiceSpy = jasmine.createSpyObj('OrderHttpService', [
+      'findUserOrder',
+      'createUserOrder',
+      'createAnonOrder',
+      'findOrderSummaryList',
+      'deleteUserOrder'
+    ]);
+
     TestBed.configureTestingModule({
       providers: [
-        {provide: OrderHttpService, useValue: orderHttpService},
+        OrderService,
+        {provide: OrderHttpService, useValue: orderHttpServiceSpy},
         QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
       ]
     });
 
     service = TestBed.inject(OrderService);
-    orderHttpService = jasmine.createSpyObj('orderHttpService', [
-      'createUserOrder',
-      'createAnonOrder',
-      'findOrderSummaryList',
-      'findUserOrder',
-      'deleteUserOrder'
-    ]);
   });
 
   it('givenCreateUserOrder_thenReturnMutationResult', () => {
