@@ -9,7 +9,8 @@ describe('ErrorItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ErrorItemComponent]
+      imports: [],
+      providers: [ErrorItemComponent]
     })
       .compileComponents();
 

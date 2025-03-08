@@ -1,5 +1,8 @@
 import {ProductItemComponent} from './product-item.component';
 
+// TODO
+
+
 describe('ProductComponent', () => {
   let component: ProductItemComponent;
 

@@ -5,11 +5,15 @@ import {provideRouter} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
 
 describe('AppComponent', () => {
+
   beforeEach(async () => {
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+
     await TestBed.configureTestingModule({
-      imports: [AppComponent, TranslateModule.forRoot()],
+      imports: [TranslateModule.forRoot()],
       providers: [
-        MessageService,
+        AppComponent,
+        {provide: MessageService, useValue: messageSpy},
         provideRouter([{path: '**', component: AppComponent}])
       ],
     }).compileComponents();
