@@ -11,8 +11,6 @@ import {RouterTestingHarness} from '@angular/router/testing';
 import {AuthService} from '../auth/auth.service';
 import {BAD_CREDENTIALS, INVALID_TOKEN} from '../../utils/api-messages';
 import {HomeComponent} from '../../components/home/home.component';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 
 describe('ErrorService', () => {
   let service: ErrorService;
@@ -35,8 +33,6 @@ describe('ErrorService', () => {
         {provide: MessageService, useValue: messageSpy},
         {provide: QueryClient, useValue: querySpy},
         {provide: AuthService, useValue: authSpy},
-        provideHttpClient(),
-        provideHttpClientTesting(),
         provideRouter([{path: 'error', component: ErrorComponent},]),
         provideRouter([{path: '', component: HomeComponent},]),
       ]
