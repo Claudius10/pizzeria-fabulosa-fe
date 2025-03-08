@@ -92,14 +92,21 @@ export class LoginDialogComponent implements OnDestroy {
 
   signIn(data: LoginForm | null): void {
     this.loadingAnimationService.startLoading();
+
     this.login.mutate({payload: data}, {
       onSuccess: (response: ResponseDTO) => {
-        if (response && response.status.error) {
-          this.errorService.handleError(response);
+        if (response.status.error && response.error) {
+
+          this.errorService.handleError(response.error);
+          this.closeLoginDialog();
+
         } else {
+
           this.cartService.clear();
           this.checkoutFormService.clear();
+
           const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
+
           if (result) {
             this.messageService.add({
               severity: 'success',
@@ -107,8 +114,10 @@ export class LoginDialogComponent implements OnDestroy {
               detail: this.translateService.instant("toast.form.login.success.detail"),
               life: 3000,
             });
+
             this.closeLoginDialog();
           } else {
+
             this.messageService.add({
               severity: 'error',
               summary: this.translateService.instant("toast.severity.error"),

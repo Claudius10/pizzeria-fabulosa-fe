@@ -127,15 +127,18 @@ export class RegisterComponent implements OnDestroy {
 
       this.register.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
+
           } else {
+
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant("toast.severity.info"),
               detail: this.translateService.instant("toast.form.register.success.detail"),
               life: 3000
             });
+
             this.router.navigate(["/"]);
           }
         },

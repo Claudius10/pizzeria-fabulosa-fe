@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {ErrorDTO, ResponseDTO} from '../../interfaces/http/api';
+import {ErrorDTO} from '../../interfaces/http/api';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';
@@ -36,44 +36,30 @@ export class ErrorService {
     return this.errors.asReadonly();
   }
 
-  handleError(response: ResponseDTO) {
-    if (response.error!.fatal) {
-      this.handleFatalError(response);
+  handleError(error: ErrorDTO) {
+    if (error === null) {
+      throw new Error("Expected error cannot be null");
+    }
+
+    if (error.fatal) {
+      this.addError(error);
+      this.router.navigate(["/error"]);
     } else {
-      this.handleNonFatalError(response);
+      const cause = error.cause;
+      const summary = this.getErrorSummary(cause);
+      const severity = this.getSeverity(summary);
+
+      this.messageService.add({severity: severity, summary: summary, detail: this.getErrorDetails(cause), life: 3000});
+
+      if (INVALID_TOKEN === cause) {
+        this.queryClient.removeQueries({queryKey: ["user"]});
+        this.logout();
+      }
     }
   }
 
   private addError(error: ErrorDTO) {
     this.errors.update(errors => [...errors, error]);
-  }
-
-  private handleNonFatalError(response: ResponseDTO) {
-    if (response.error === null) {
-      throw new Error("Expected error is NULL");
-    }
-
-    const errorDTO: ErrorDTO = response.error;
-    const cause = errorDTO.cause;
-    const summary = this.getErrorSummary(cause);
-    const details = this.getErrorDetails(cause);
-
-    this.messageService.add({severity: this.getSeverity(summary), summary: summary, detail: details, life: 3000});
-
-    if (INVALID_TOKEN === cause) {
-      this.queryClient.removeQueries({queryKey: ["user"]});
-      this.logout();
-    }
-  }
-
-  private handleFatalError(response: ResponseDTO) {
-    if (response.error === null) {
-      throw new Error("Expected error is NULL");
-    }
-
-    const errorDTO: ErrorDTO = response.error;
-    this.addError(errorDTO);
-    this.router.navigate(["/error"]);
   }
 
   private logout() {

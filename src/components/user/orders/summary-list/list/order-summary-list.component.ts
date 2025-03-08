@@ -53,8 +53,8 @@ export class OrderSummaryListComponent {
         if (orderListStatus === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const response: ResponseDTO = this.orderList.data()!;
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
           }
         }
       }

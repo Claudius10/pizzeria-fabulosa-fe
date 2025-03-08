@@ -59,19 +59,24 @@ export class LogoutDialogComponent implements OnDestroy {
     this.loadingAnimationService.startLoading();
     this.logoutUser.mutate({payload: null}, {
       onSuccess: (response: ResponseDTO) => {
-        if (response && response.status.error) {
-          this.errorService.handleError(response);
+        if (response.status.error && response.error) {
+
+          this.errorService.handleError(response.error);
+
         } else {
+
           this.queryClient.removeQueries({queryKey: ["user"]});
           this.authService.logout();
           this.cartService.clear();
           this.checkoutFormService.clear();
+
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),
             detail: this.translateService.instant("dialog.logout.success.message"),
             life: 2000
           });
+
           this.router.navigate(["/"]);
         }
       },

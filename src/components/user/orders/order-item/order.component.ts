@@ -81,8 +81,8 @@ export class OrderComponent implements OnInit {
 
           const orderResponse: ResponseDTO = this.order.data()!;
 
-          if (orderResponse.status.error) {
-            this.errorService.handleError(orderResponse);
+          if (orderResponse.status.error && orderResponse.error) {
+            this.errorService.handleError(orderResponse.error);
           } else {
             const cart = this.order.data()!.payload.cart as CartDTO;
             this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
@@ -100,6 +100,7 @@ export class OrderComponent implements OnInit {
 
   beginDelete(event: Event) {
     const isDeleteAllowed = isOrderMutationAllowed(this.order.data()!.payload.createdOn, 10);
+
     if (isDeleteAllowed) {
       this.confirmationService.confirm({
         target: event.target as EventTarget,
@@ -115,38 +116,44 @@ export class OrderComponent implements OnInit {
           severity: 'success',
         },
         accept: () => {
-          // if user accepts, send account-delete
+          // if user accepts, send DELETE request for order
+
           this.loadingAnimationService.startLoading();
+
           this.delete.mutate({
-            payload: {
-              userId: this.authService.userId,
-              orderId: this.order.data()!.payload.id
-            }
-          }, {
-            onSuccess: (response: ResponseDTO) => {
-              if (response.status.error) {
-                this.errorService.handleError(response);
-              } else {
-                // trigger toast
-                this.messageService.add({
-                  severity: 'success',
-                  summary: this.translateService.instant("toast.severity.info"),
-                  detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
-                  life: 2000
-                });
-                // nav to order summary list after two seconds
-                setTimeout(() => {
-                  this.router.navigate(["user", "orders"]);
-                }, 2000);
+              payload: {
+                userId: this.authService.userId,
+                orderId: this.order.data()!.payload.id
               }
             },
-            onError: () => {
-              this.errorService.handleServerNoResponse();
-            },
-            onSettled: () => {
-              this.loadingAnimationService.stopLoading();
-            }
-          });
+            {
+              onSuccess: (response: ResponseDTO) => {
+                if (response.status.error && response.error) {
+                  this.errorService.handleError(response.error);
+
+                } else {
+                  // trigger toast
+                  this.messageService.add({
+                    severity: 'success',
+                    summary: this.translateService.instant("toast.severity.info"),
+                    detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
+                    life: 2000
+                  });
+
+                  // nav to order summary list after two seconds
+                  setTimeout(() => {
+                    this.router.navigate(["user", "orders"]);
+                  }, 2000);
+
+                }
+              },
+              onError: () => {
+                this.errorService.handleServerNoResponse();
+              },
+              onSettled: () => {
+                this.loadingAnimationService.stopLoading();
+              }
+            });
         },
         // if user rejects
         reject: () => {

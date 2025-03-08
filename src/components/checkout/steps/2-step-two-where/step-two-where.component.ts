@@ -91,8 +91,8 @@ export class StepTwoWhereComponent implements OnInit {
         if (status === SUCCESS) {
           const response: ResponseDTO = this.stores.data()!;
 
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
           }
         }
       }

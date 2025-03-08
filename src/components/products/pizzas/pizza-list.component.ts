@@ -59,8 +59,8 @@ export class PizzaListComponent implements OnInit {
           if (result === SUCCESS) {
             this.loadingAnimationService.stopLoading();
             const response: ResponseDTO = this.query.data()!;
-            if (response.status.error) {
-              this.errorService.handleError(response);
+            if (response.status.error && response.error) {
+              this.errorService.handleError(response.error);
             }
           }
         }

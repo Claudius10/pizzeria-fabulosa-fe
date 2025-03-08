@@ -54,8 +54,8 @@ export class UserAddressListViewComponent implements OnInit {
           this.loadingAnimationService.stopLoading();
           const response: ResponseDTO = this.addressList.data()!;
 
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
           }
         }
       }

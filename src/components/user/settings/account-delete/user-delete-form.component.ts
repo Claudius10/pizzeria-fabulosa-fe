@@ -74,16 +74,19 @@ export class UserDeleteFormComponent implements OnDestroy {
 
       this.delete.mutate({payload: data}, {
         onSuccess: (response: ResponseDTO) => {
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
+
           } else {
             this.authService.logout();
+
             this.messageService.add({
               severity: 'success',
               summary: this.translateService.instant("toast.severity.info"),
               detail: this.translateService.instant("component.user.delete.form"),
               life: 2000
             });
+
             this.router.navigate(["/"]);
           }
         },

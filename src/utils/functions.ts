@@ -1,5 +1,5 @@
 import {FormGroup} from '@angular/forms';
-import {ResponseDTO} from '../interfaces/http/api';
+import {ErrorDTO, ResponseDTO} from '../interfaces/http/api';
 
 function getTimezoneOffset() {
   const today = new Date();
@@ -73,6 +73,18 @@ export function buildErrorResponse(): ResponseDTO {
       origin: "origin",
       path: ""
     }
+  };
+}
+
+export function buildError(fatal: boolean): ErrorDTO {
+  return {
+    id: 0,
+    fatal: fatal,
+    logged: false,
+    cause: "Exception",
+    message: "Exception",
+    origin: "origin",
+    path: ""
   };
 }
 

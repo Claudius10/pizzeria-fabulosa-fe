@@ -56,13 +56,13 @@ export class HomeComponent implements OnInit {
           const offersResponse: ResponseDTO = this.offers.data()!;
           const storesResponse: ResponseDTO = this.stores.data()!;
 
-          if (offersResponse.status.error) {
-            this.errorService.handleError(offersResponse);
+          if (offersResponse.status.error && offersResponse.error) {
+            this.errorService.handleError(offersResponse.error);
             return;
           }
 
-          if (storesResponse.status.error) {
-            this.errorService.handleError(storesResponse);
+          if (storesResponse.status.error && storesResponse.error) {
+            this.errorService.handleError(storesResponse.error);
           }
         }
       }

@@ -143,13 +143,17 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       this.createUserOrder.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+
+            this.errorService.handleError(response.error);
+
           } else {
+
             this.cartService.clear();
             this.checkoutFormService.clear();
             this.checkoutFormService.orderSuccess = response.payload;
             this.router.navigate(['order', 'success']);
+
           }
         },
         onError: () => {
@@ -190,13 +194,17 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
       this.createAnonOrder.mutate({payload: payload}, {
         onSuccess: (response: ResponseDTO) => {
-          if (response.status.error) {
-            this.errorService.handleError(response);
+          if (response.status.error && response.error) {
+
+            this.errorService.handleError(response.error);
+
           } else {
+
             this.cartService.clear();
             this.checkoutFormService.clear();
             this.checkoutFormService.orderSuccess = response.payload;
             this.router.navigate(['order', 'success']);
+
           }
         },
         onError: () => {
