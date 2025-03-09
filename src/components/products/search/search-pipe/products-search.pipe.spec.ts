@@ -1,19 +1,23 @@
 import {ProductsSearchPipe} from './products-search.pipe';
 import {TestBed} from '@angular/core/testing';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 
 describe('ProductsSearchPipe', () => {
   let pipe: ProductsSearchPipe;
+  let translateService: jasmine.SpyObj<TranslateService>;
 
   beforeEach(() => {
+    const translateServiceSpy = jasmine.createSpyObj('TranslateService', ['']);
+
     TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot()],
+      providers: [
+        {provide: TranslateService, useValue: translateServiceSpy},
+      ]
     });
 
-    const translateService = TestBed.inject(TranslateService);
+    translateService = TestBed.inject(TranslateService) as jasmine.SpyObj<TranslateService>;
     pipe = new ProductsSearchPipe(translateService);
   });
-
 
   it("givenNoItems_thenReturnEmpty", () => {
     const productDTOS = pipe.transform([], "", []);
