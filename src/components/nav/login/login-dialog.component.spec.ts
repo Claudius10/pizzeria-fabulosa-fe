@@ -1,24 +1,26 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {LoginDialogComponent} from './login-dialog.component';
-import {MessageService} from 'primeng/api';
-import {QueryClient} from '@tanstack/angular-query-experimental';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {TranslateModule} from '@ngx-translate/core';
+import {ErrorService} from '../../../services/error/error.service';
+import {MessageService} from 'primeng/api';
+import {AccountService} from '../../../services/http/account/account.service';
 
 describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
   let fixture: ComponentFixture<LoginDialogComponent>;
 
   beforeEach(async () => {
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+    const accountServiceSpy = jasmine.createSpyObj('AccountService', ['login']);
+
     await TestBed.configureTestingModule({
       imports: [LoginDialogComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService,
-        QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: MessageService, useValue: messageSpy},
+        {provide: AccountService, useValue: accountServiceSpy},
       ],
     })
       .compileComponents();
@@ -29,6 +31,6 @@ describe('LoginDialogComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

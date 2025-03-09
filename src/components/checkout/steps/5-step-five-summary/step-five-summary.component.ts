@@ -43,15 +43,15 @@ import {UserDetailsComponent} from '../../../user/details/user-details.component
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent implements OnDestroy {
-  protected checkoutFormService = inject(CheckoutFormService);
   private loadingAnimationService = inject(LoadingAnimationService);
+  protected checkoutFormService = inject(CheckoutFormService);
   private resourceService = inject(ResourceService);
-  private userService = inject(UserService);
-  protected authService = inject(AuthService);
   private orderService = inject(OrderService);
-  protected cartService = inject(CartService);
-  private router = inject(Router);
   private errorService = inject(ErrorService);
+  protected authService = inject(AuthService);
+  protected cartService = inject(CartService);
+  private userService = inject(UserService);
+  private router = inject(Router);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
   stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
@@ -92,90 +92,24 @@ export class StepFiveSummaryComponent implements OnDestroy {
     }),
   });
 
-  previousStep() {
-    this.router.navigate(['order', 'new', 'step-four']);
-  }
-
-  cancel() {
-    this.checkoutFormService.clear();
-    this.router.navigate(['/']);
-  }
-
-  firstStep() {
-    this.router.navigate(['order', 'new', 'step-one']);
-  }
-
   onSubmit(): void {
     if (isFormValid(this.form)) {
-      this.createOrder();
+      this.loadingAnimationService.startLoading();
+
+      if (this.authService.isAuthenticated) {
+        this.newUserOrder();
+      } else {
+        this.newAnonOrder();
+      }
+
     }
   }
 
-  ngOnDestroy(): void {
-    this.loadingAnimationService.stopLoading();
-  }
-
-  private createOrder() {
-    this.loadingAnimationService.startLoading();
-
-    if (this.authService.isAuthenticated) {
-
-      const payload: NewUserOrderFormData = {
-        userId: this.authService.userId,
-        order: {
-          addressId: this.checkoutFormService.selectedId.id!,
-          orderDetails: {
-            id: null,
-            deliveryTime: this.checkoutFormService.when!.deliveryTime,
-            paymentMethod: this.checkoutFormService.how!.paymentMethod,
-            billToChange: this.checkoutFormService.how!.billToChange,
-            comment: this.form.get("comment")!.value,
-          },
-          cart: {
-            id: null,
-            cartItems: cleanIds(this.cartService.items()),
-            totalQuantity: this.cartService.quantity(),
-            totalCost: Number(this.cartService.total.toFixed(2)),
-            totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
-          }
-        }
-      };
-
-      this.createUserOrder.mutate({payload: payload}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response.status.error && response.error) {
-
-            this.errorService.handleError(response.error);
-
-          } else {
-
-            this.cartService.clear();
-            this.checkoutFormService.clear();
-            this.checkoutFormService.orderSuccess = response.payload;
-            this.router.navigate(['order', 'success']);
-
-          }
-        },
-        onError: () => {
-          this.errorService.handleServerNoResponse();
-        },
-        onSettled: () => {
-          this.loadingAnimationService.stopLoading();
-        }
-      });
-    } else {
-      const payload: AnonOrderFormData = {
-        customer: {
-          name: this.checkoutFormService.who!.name,
-          contactNumber: this.checkoutFormService.who!.contactNumber,
-          email: this.checkoutFormService.who!.email,
-        },
-        address: {
-          id: this.checkoutFormService.where!.id,
-          street: this.checkoutFormService.where!.street,
-          number: this.checkoutFormService.where!.number,
-          details: this.checkoutFormService.where!.details
-        },
+  private newAnonOrder() {
+    const payload: NewUserOrderFormData = {
+      userId: this.authService.userId,
+      order: {
+        addressId: this.checkoutFormService.selectedId.id!,
         orderDetails: {
           id: null,
           deliveryTime: this.checkoutFormService.when!.deliveryTime,
@@ -190,31 +124,97 @@ export class StepFiveSummaryComponent implements OnDestroy {
           totalCost: Number(this.cartService.total.toFixed(2)),
           totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
         }
-      };
+      }
+    };
 
-      this.createAnonOrder.mutate({payload: payload}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response.status.error && response.error) {
+    this.createUserOrder.mutate({payload: payload}, {
+      onSuccess: (response: ResponseDTO) => {
+        if (response.status.error && response.error) {
+          this.errorService.handleError(response.error);
 
-            this.errorService.handleError(response.error);
+        } else {
 
-          } else {
-
-            this.cartService.clear();
-            this.checkoutFormService.clear();
-            this.checkoutFormService.orderSuccess = response.payload;
-            this.router.navigate(['order', 'success']);
-
-          }
-        },
-        onError: () => {
-          this.errorService.handleServerNoResponse();
-        },
-        onSettled: () => {
-          this.loadingAnimationService.stopLoading();
+          this.cartService.clear();
+          this.checkoutFormService.clear();
+          this.checkoutFormService.orderSuccess = response.payload;
+          this.router.navigate(['order', 'success']);
         }
-      });
-    }
+      },
+      onError: () => {
+        this.errorService.handleServerNoResponse();
+      },
+      onSettled: () => {
+        this.loadingAnimationService.stopLoading();
+      }
+    });
+  }
+
+  private newUserOrder() {
+    const payload: AnonOrderFormData = {
+      customer: {
+        name: this.checkoutFormService.who!.name,
+        contactNumber: this.checkoutFormService.who!.contactNumber,
+        email: this.checkoutFormService.who!.email,
+      },
+      address: {
+        id: this.checkoutFormService.where!.id,
+        street: this.checkoutFormService.where!.street,
+        number: this.checkoutFormService.where!.number,
+        details: this.checkoutFormService.where!.details
+      },
+      orderDetails: {
+        id: null,
+        deliveryTime: this.checkoutFormService.when!.deliveryTime,
+        paymentMethod: this.checkoutFormService.how!.paymentMethod,
+        billToChange: this.checkoutFormService.how!.billToChange,
+        comment: this.form.get("comment")!.value,
+      },
+      cart: {
+        id: null,
+        cartItems: cleanIds(this.cartService.items()),
+        totalQuantity: this.cartService.quantity(),
+        totalCost: Number(this.cartService.total.toFixed(2)),
+        totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
+      }
+    };
+
+    this.createAnonOrder.mutate({payload: payload}, {
+      onSuccess: (response: ResponseDTO) => {
+        if (response.status.error && response.error) {
+          this.errorService.handleError(response.error);
+
+        } else {
+
+          this.cartService.clear();
+          this.checkoutFormService.clear();
+          this.checkoutFormService.orderSuccess = response.payload;
+          this.router.navigate(['order', 'success']);
+        }
+      },
+      onError: () => {
+        this.errorService.handleServerNoResponse();
+      },
+      onSettled: () => {
+        this.loadingAnimationService.stopLoading();
+      }
+    });
+  }
+
+  previousStep() {
+    this.router.navigate(['order', 'new', 'step-four']);
+  }
+
+  cancel() {
+    this.checkoutFormService.clear();
+    this.router.navigate(['/']);
+  }
+
+  firstStep() {
+    this.router.navigate(['order', 'new', 'step-one']);
+  }
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
   }
 }
 

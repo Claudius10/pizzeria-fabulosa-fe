@@ -10,7 +10,7 @@ describe('ThemeSelectorComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ThemeSelectorComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ThemeSelectorComponent);
     component = fixture.componentInstance;
@@ -18,6 +18,6 @@ describe('ThemeSelectorComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

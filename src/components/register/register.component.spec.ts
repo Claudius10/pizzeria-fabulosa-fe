@@ -3,22 +3,24 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RegisterComponent} from './register.component';
 import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {QueryClient} from '@tanstack/angular-query-experimental';
+import {ErrorService} from '../../services/error/error.service';
+import {AccountService} from '../../services/http/account/account.service';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
   beforeEach(async () => {
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+    const accountServiceSpy = jasmine.createSpyObj('AccountService', ['create']);
+
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService,
-        QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: MessageService, useValue: messageSpy},
+        {provide: AccountService, useValue: accountServiceSpy},
       ],
     })
       .compileComponents();
@@ -29,6 +31,6 @@ describe('RegisterComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

@@ -26,8 +26,8 @@ import {getDarkIcon, getLightIcon} from '../../../utils/functions';
 })
 export class ProductItemComponent implements OnInit {
   product = input<ProductDTO>();
-  private cartService = inject(CartService);
   private translateService = inject(TranslateService);
+  private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   currentLang = signal(this.translateService.currentLang);
   productFormat = "";

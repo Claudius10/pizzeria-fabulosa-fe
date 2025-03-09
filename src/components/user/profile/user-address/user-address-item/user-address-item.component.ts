@@ -19,10 +19,10 @@ import {TranslatePipe} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserAddressItemComponent implements OnDestroy {
+  private loadingAnimationService = inject(LoadingAnimationService);
   private userService = inject(UserService);
   private authService = inject(AuthService);
   private deleteUserAddress: MutationResult = this.userService.deleteUserAddress();
-  private loadingAnimationService = inject(LoadingAnimationService);
   address = input.required<AddressDTO>();
 
   ngOnDestroy(): void {

@@ -1,27 +1,30 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {BeverageListComponent} from './beverage-list.component';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateModule} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
-
+import {ErrorService} from '../../../services/error/error.service';
+import {ResourceService} from '../../../services/http/resources/resource.service';
+import {buildQueryResult} from '../../../utils/test-utils';
 
 describe('BeverageListComponent', () => {
   let component: BeverageListComponent;
   let fixture: ComponentFixture<BeverageListComponent>;
+  let resourceService: jasmine.SpyObj<ResourceService>;
 
   beforeEach(async () => {
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findProducts']);
+
     await TestBed.configureTestingModule({
       imports: [BeverageListComponent, TranslateModule.forRoot()],
       providers: [
-        QueryClient,
-        MessageService,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: ResourceService, useValue: resourceServiceSpy},
       ],
     })
       .compileComponents();
+
+    resourceService = TestBed.inject(ResourceService) as jasmine.SpyObj<ResourceService>;
+    resourceService.findProducts.and.returnValue(buildQueryResult());
 
     fixture = TestBed.createComponent(BeverageListComponent);
     component = fixture.componentInstance;
@@ -29,6 +32,6 @@ describe('BeverageListComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

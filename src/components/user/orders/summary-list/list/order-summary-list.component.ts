@@ -26,15 +26,15 @@ import {TranslatePipe} from '@ngx-translate/core';
 })
 export class OrderSummaryListComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private orderService = inject(OrderService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
-  private orderService = inject(OrderService);
   private destroyRef = inject(DestroyRef);
-  private pageNumber = this.orderService.getPageNumber();
-  pageSize = this.orderService.getPageSize();
-  currentElements = 0;
   orderList: QueryResult = this.orderService.findOrderSummaryList(this.authService.userId!);
-  orderListStatus = toObservable(this.orderList.status);
+  private orderListStatus = toObservable(this.orderList.status);
+  protected pageNumber = this.orderService.getPageNumber();
+  protected pageSize = this.orderService.getPageSize();
+  currentElements = 0;
 
   constructor() {
     this.currentElements = (this.pageNumber() * this.pageSize()) - this.pageSize();

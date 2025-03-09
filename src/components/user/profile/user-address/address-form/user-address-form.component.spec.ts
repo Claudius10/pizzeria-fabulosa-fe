@@ -1,24 +1,23 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserAddressFormComponent} from './user-address-form.component';
-import {MessageService} from 'primeng/api';
-import {QueryClient} from '@tanstack/angular-query-experimental';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {TranslateModule} from '@ngx-translate/core';
+import {ErrorService} from '../../../../../services/error/error.service';
+import {UserService} from '../../../../../services/http/user/user.service';
 
 describe('UserAddressFormComponent', () => {
   let component: UserAddressFormComponent;
   let fixture: ComponentFixture<UserAddressFormComponent>;
 
   beforeEach(async () => {
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['createUserAddress']);
+
     await TestBed.configureTestingModule({
       imports: [UserAddressFormComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService,
-        QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: UserService, useValue: userServiceSpy},
       ]
     })
       .compileComponents();
@@ -29,6 +28,6 @@ describe('UserAddressFormComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

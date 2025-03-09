@@ -1,115 +1,44 @@
 import {OrderComponent} from './order.component';
-
-import {signal} from '@angular/core';
-import {getEmptyOrder} from '../../../../services/http/order/order.service';
-import {QueryResult} from '../../../../interfaces/query';
-import {ResponseDTO} from '../../../../interfaces/http/api';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {TranslateModule} from '@ngx-translate/core';
+import {provideRouter} from '@angular/router';
+import {ConfirmationService, MessageService} from 'primeng/api';
+import {ErrorService} from '../../../../services/error/error.service';
+import {OrderService} from '../../../../services/http/order/order.service';
+import {buildQueryResult} from '../../../../utils/test-utils';
 
 describe('OrderComponent', () => {
-  // let orderComponentFixture: MockedComponentFixture<OrderComponent, OrderComponent>;
-  // let orderComponent: OrderComponent;
-  // let userDetailsFixture: DebugElement | null;
-  // let userDetailsComponent: UserDetailsComponent;
-  // let startUpdateButton: HTMLButtonElement;
-  // let cancelUpdateButton: HTMLButtonElement;
-  //
-  // MockInstance.scope();
+  let component: OrderComponent;
+  let fixture: ComponentFixture<OrderComponent>;
+  let orderService: jasmine.SpyObj<OrderService>;
 
-  beforeEach(() => {
-      // return MockBuilder(OrderComponent)
-      //   .exclude(DestroyRef)
-      //   .mock(OrderService)
-      //   .mock(AuthService)
-      //   .mock(CartService)
-      //   .mock(ActivatedRoute);
-    }
-  );
+  beforeEach(async () => {
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const confirmationServiceSpy = jasmine.createSpyObj('ConfirmationService', ['confirm']);
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['findUserOrder', 'deleteUserOrder']);
 
-  beforeEach(() => {
-      // MockInstance(ActivatedRoute, "snapshot", jasmine.createSpy(), "get").and.returnValue({paramMap: new Map([["orderId", "1"]])});
-      // MockInstance(AuthService, "getUserId", () => "0");
-      // MockInstance(AuthService, "getUserName", () => "tester");
-      // MockInstance(AuthService, "getUserEmail", () => "email@gmail.com");
-      // MockInstance(AuthService, "getUserContactNumber", () => "123123123");
-      // MockInstance(CartService, (instance) => {
-      //   instance.set = jasmine.createSpy().and.callFake(() => {
-      //   });
-      // });
-      // MockInstance(OrderService, (instance) => {
-      //   instance.findUserOrder = jasmine.createSpy().and.returnValue(queryResult);
-      // });
-    }
-  );
+    await TestBed.configureTestingModule({
+      imports: [OrderComponent, TranslateModule.forRoot()],
+      providers: [
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: ConfirmationService, useValue: confirmationServiceSpy},
+        {provide: MessageService, useValue: messageSpy},
+        {provide: OrderService, useValue: orderServiceSpy},
+        provideRouter([{path: '**', component: OrderComponent}])
+      ]
+    })
+      .compileComponents();
 
-  beforeEach(() => {
-      // orderComponentFixture = MockRender(OrderComponent);
-      // orderComponent = orderComponentFixture.componentInstance;
-      // expect(orderComponent).toBeDefined();
-      //
-      // userDetailsFixture = findDebugElement(orderComponentFixture, "userDetails");
-      // expect(userDetailsFixture).toBeDefined();
-      // userDetailsComponent = userDetailsFixture!.componentInstance;
-      // expect(userDetailsComponent).toBeDefined();
-      //
-      // startUpdateButton = findNativeElement(orderComponentFixture, "updateButton") as HTMLButtonElement;
-      // expect(startUpdateButton).toBeDefined();
-      // expect(startUpdateButton.textContent).toEqual("Actualizar pedido");
-      //
-      // cancelUpdateButton = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
-    }
-  );
+    orderService = TestBed.inject(OrderService) as jasmine.SpyObj<OrderService>;
+    orderService.findUserOrder.and.returnValue(buildQueryResult());
 
-  it('givenSetup_whenMockedProperties_thenCreateComponent', () => {
-    // expect(orderComponent.orderId).toBe("1");
-    // expect(orderComponent.order.data()!.payload.id).toBe(0);
-    // expect(orderComponent.order.status()).toBeTrue();
-    //
-    // // expect(userDetailsComponent).toBe("tester");
-    // // expect(userDetailsComponent.email).toBe("email@gmail.com");
-    // // expect(userDetailsComponent.contactNumber).toBe("0");
-    //
-    // expect(cancelUpdateButton).toBeNull();
+    fixture = TestBed.createComponent(OrderComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
-  it('givenUpdateButtonClick_thenRenderUserCheckoutFormAndCancelButton', () => {
-
-    // // confirm the cancel button is not yet rendered due to orderToUpdateId being null
-    // expect(cancelUpdateButton).toBeNull();
-    //
-    // // confirm user checkout form is not rendered before click
-    // const userCheckoutFormFixture = findDebugElement(orderComponentFixture, "userCheckOutForm");
-    // expect(userCheckoutFormFixture).toBeNull();
-    //
-    // // Act
-    //
-    // startUpdateButton.click();
-    // orderComponentFixture.detectChanges();
-    //
-    // // Assert
-    //
-    // const cancelUpdateButtonAfterClick = findNativeElement(orderComponentFixture, "cancelUpdateButton") as HTMLButtonElement;
-    // expect(cancelUpdateButtonAfterClick).toBeDefined();
-    // expect(cancelUpdateButtonAfterClick.textContent).toEqual("Cancelar actualización");
-    //
-    // const userCheckoutFormFixtureAfterClick = findDebugElement(orderComponentFixture, "userCheckOutForm");
-    // expect(userCheckoutFormFixtureAfterClick).toBeDefined();
-    // expect(userCheckoutFormFixtureAfterClick!.componentInstance).toBeDefined();
+  it('should create', () => {
+    expect(component).toBeDefined();
   });
 });
-
-const response: ResponseDTO = {
-  payload: getEmptyOrder(),
-  error: null,
-  status: {
-    code: 200,
-    description: "OK",
-    error: false
-  },
-  timeStamp: "now"
-};
-
-const queryResult: QueryResult = {
-  status: signal("success"),
-  error: signal(null),
-  data: signal(response)
-};

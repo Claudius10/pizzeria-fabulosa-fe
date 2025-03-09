@@ -1,23 +1,21 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserAddressItemComponent} from './user-address-item.component';
-import {QueryClient} from '@tanstack/angular-query-experimental';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {TranslateModule} from '@ngx-translate/core';
 import {AddressDTO} from '../../../../../interfaces/dto/order';
+import {UserService} from '../../../../../services/http/user/user.service';
 
 describe('AddressItemComponent', () => {
   let component: UserAddressItemComponent;
   let fixture: ComponentFixture<UserAddressItemComponent>;
 
   beforeEach(async () => {
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['deleteUserAddress']);
+
     await TestBed.configureTestingModule({
       imports: [UserAddressItemComponent, TranslateModule.forRoot()],
       providers: [
-        QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: UserService, useValue: userServiceSpy},
       ]
     })
       .compileComponents();
@@ -29,7 +27,7 @@ describe('AddressItemComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });
 

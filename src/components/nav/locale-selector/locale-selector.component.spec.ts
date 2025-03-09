@@ -9,10 +9,12 @@ describe('LocaleSelectorComponent', () => {
   let fixture: ComponentFixture<LocaleSelectorComponent>;
 
   beforeEach(async () => {
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+
     await TestBed.configureTestingModule({
       imports: [LocaleSelectorComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService
+        {provide: MessageService, useValue: messageSpy},
       ]
     })
       .compileComponents();
@@ -23,6 +25,6 @@ describe('LocaleSelectorComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

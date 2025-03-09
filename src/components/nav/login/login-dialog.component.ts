@@ -40,16 +40,16 @@ import {COOKIE_ID_TOKEN} from '../../../utils/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginDialogComponent implements OnDestroy {
-  private router = inject(Router);
-  private cookieService = inject(SsrCookieService);
-  private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private messageService = inject(MessageService);
-  private translateService = inject(TranslateService);
-  private authService = inject(AuthService);
-  private accountService = inject(AccountService);
-  private cartService = inject(CartService);
   private checkoutFormService = inject(CheckoutFormService);
+  private translateService = inject(TranslateService);
+  private cookieService = inject(SsrCookieService);
+  private messageService = inject(MessageService);
+  private accountService = inject(AccountService);
+  private errorService = inject(ErrorService);
+  private authService = inject(AuthService);
+  private cartService = inject(CartService);
+  private router = inject(Router);
   private login: MutationResult = this.accountService.login();
   showPassword = false;
   // visible provides hiding dialog on esc key press

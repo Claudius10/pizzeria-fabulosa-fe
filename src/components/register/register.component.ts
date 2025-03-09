@@ -52,13 +52,13 @@ import {myIcon} from '../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
-  private router = inject(Router);
-  protected authService = inject(AuthService);
-  private messageService = inject(MessageService);
-  private translateService = inject(TranslateService);
-  private errorService = inject(ErrorService);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private translateService = inject(TranslateService);
+  private messageService = inject(MessageService);
   private accountService = inject(AccountService);
+  private errorService = inject(ErrorService);
+  protected authService = inject(AuthService);
+  private router = inject(Router);
   private register: MutationResult = this.accountService.create();
   showPassword = false;
   showMatchingPassword = false;

@@ -1,27 +1,32 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { StepFiveSummaryComponent } from './step-five-summary.component';
-import {provideHttpClient} from '@angular/common/http';
-import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {QueryClient} from '@tanstack/angular-query-experimental';
+import {StepFiveSummaryComponent} from './step-five-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {MessageService} from 'primeng/api';
+import {UserService} from '../../../../services/http/user/user.service';
+import {OrderService} from '../../../../services/http/order/order.service';
+import {ErrorService} from '../../../../services/error/error.service';
+import {ResourceService} from '../../../../services/http/resources/resource.service';
 
 describe('StepFiveSummaryComponent', () => {
   let component: StepFiveSummaryComponent;
   let fixture: ComponentFixture<StepFiveSummaryComponent>;
 
   beforeEach(async () => {
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressList']);
+    const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findStores']);
+    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['createAnonOrder', 'createUserOrder']);
+
     await TestBed.configureTestingModule({
       imports: [StepFiveSummaryComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService,
-        QueryClient,
-        provideHttpClient(),
-        provideHttpClientTesting()
+        {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: ResourceService, useValue: resourceServiceSpy},
+        {provide: UserService, useValue: userServiceSpy},
+        {provide: OrderService, useValue: orderServiceSpy},
       ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(StepFiveSummaryComponent);
     component = fixture.componentInstance;
@@ -29,6 +34,6 @@ describe('StepFiveSummaryComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

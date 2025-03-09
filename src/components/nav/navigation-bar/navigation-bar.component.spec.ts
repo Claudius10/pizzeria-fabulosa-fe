@@ -10,10 +10,12 @@ describe('NavigationBarComponent', () => {
   let fixture: ComponentFixture<NavigationBarComponent>;
 
   beforeEach(async () => {
+    const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
+
     await TestBed.configureTestingModule({
       imports: [NavigationBarComponent, TranslateModule.forRoot()],
       providers: [
-        MessageService,
+        {provide: MessageService, useValue: messageSpy},
         provideRouter([{path: '**', component: NavigationBarComponent}])
       ],
     })
@@ -25,6 +27,6 @@ describe('NavigationBarComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });
