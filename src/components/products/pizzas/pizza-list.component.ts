@@ -8,9 +8,8 @@ import {QueryResult} from '../../../interfaces/query';
 import {ErrorService} from '../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ResponseDTO} from '../../../interfaces/http/api';
-import {card} from '../../../primeng/card';
 import {ProductsFilterComponent} from '../filters/products-filter.component';
-import {ProductsSearchPipe} from '../search/products-search.pipe';
+import {ProductsSearchPipe} from '../search/search-pipe/products-search.pipe';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {FilterService} from '../../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../utils/filter-items';
@@ -74,6 +73,5 @@ export class PizzaListComponent implements OnInit {
     });
   }
 
-  protected readonly card = card;
   protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

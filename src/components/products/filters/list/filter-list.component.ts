@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {FilterItemComponent} from '../item/filter-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
-import {card} from '../../../../primeng/card';
 import {NgClass} from '@angular/common';
 
 @Component({
@@ -19,6 +18,4 @@ export class FilterListComponent {
   header = input.required<string>();
   items = input.required<string[]>();
   inverseCardBg = input.required<boolean>();
-
-  protected readonly card = card;
 }

@@ -10,7 +10,7 @@ import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {FilterService} from '../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../search/products-search.component';
-import {ProductsSearchPipe} from '../search/products-search.pipe';
+import {ProductsSearchPipe} from '../search/search-pipe/products-search.pipe';
 import {ProductsFilterComponent} from '../filters/products-filter.component';
 import {getAllBeverageFilters} from '../../../utils/filter-items';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
