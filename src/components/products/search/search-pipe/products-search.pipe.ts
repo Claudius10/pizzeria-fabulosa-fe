@@ -1,4 +1,4 @@
-import {inject, Pipe, PipeTransform} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 import {ProductDTO} from '../../../../interfaces/dto/resources';
 import {TranslateService} from '@ngx-translate/core';
 import {Filter} from '../../../../services/filter/filter.service';
@@ -7,14 +7,14 @@ import {Filter} from '../../../../services/filter/filter.service';
   name: 'productsSearch'
 })
 export class ProductsSearchPipe implements PipeTransform {
-  private translateService = inject(TranslateService);
+  private translateService;
+
+  constructor(translateService: TranslateService) {
+    this.translateService = translateService;
+  }
 
   transform(items: ProductDTO[], searchText: string, filters: Filter[]): ProductDTO[] {
-    if (items === null) {
-      return [];
-    }
-
-    if (items.length === 0) {
+    if (items === null || items.length === 0) {
       return [];
     }
 
