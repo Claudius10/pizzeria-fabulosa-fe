@@ -1,5 +1,4 @@
 import {inject, Injectable, PLATFORM_ID, signal} from '@angular/core';
-import {OrderDTO} from '../../../interfaces/dto/order';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {USER_ORDER_SUMMARY_LIST} from '../../../utils/query-keys';
 import {MutationRequest, MutationResult} from '../../../interfaces/mutation';
@@ -126,36 +125,4 @@ export class OrderService {
     this.pageNumber.set(1);
     this.pageSize.set(5);
   }
-}
-
-export function getEmptyOrder() {
-  const empty: OrderDTO = {
-    id: 0,
-    address: {
-      id: 0,
-      number: 0,
-      street: "",
-      details: "",
-    },
-    cart: {
-      cartItems: [],
-      id: 0,
-      totalCost: 0,
-      totalCostOffers: 0,
-      totalQuantity: 0
-    },
-    orderDetails: {
-      id: 0,
-      deliveryTime: "",
-      paymentMethod: "",
-      billToChange: null,
-      changeToGive: null,
-      comment: null
-    },
-    createdOn: "",
-    updatedOn: "",
-    formattedCreatedOn: "",
-    formattedUpdatedOn: ""
-  };
-  return empty;
 }

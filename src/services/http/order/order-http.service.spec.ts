@@ -218,12 +218,12 @@ describe('OrderHttpServiceTest', () => {
     httpTesting.verify();
   });
 
-  it('givenFindUserOrder_thenReturnOk', async () => {
+  it('givenFindUserOrder_whenUserIdIsNull_thenReturnErrorResponse', async () => {
 
     // Arrange
 
     const options: BaseQueryOptionsIdAndUser = {
-      userId: "1",
+      userId: null,
       id: "1",
       queryKey: [""]
     };
@@ -233,14 +233,11 @@ describe('OrderHttpServiceTest', () => {
 
     const response$ = service.findUserOrder(options);
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
-    const req = httpTesting.expectOne(url);
-    const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");
-    req.flush(responseValue);
+
 
     // Assert
 
-    expect(await response).toEqual(responseValue);
-    httpTesting.verify();
+    expect(await response).toEqual(buildErrorResponse());
   });
 
   it('givenDeleteUserOrder_thenReturnOk', async () => {

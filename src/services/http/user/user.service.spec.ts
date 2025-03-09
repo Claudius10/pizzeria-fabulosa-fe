@@ -9,7 +9,7 @@ describe('UserServiceTests', () => {
   let service: UserService;
 
   beforeEach(() => {
-    const userHttpServiceSpy = jasmine.createSpyObj('UserHttpService', ['createUserAddress', 'deleteUserAddress']);
+    const userHttpServiceSpy = jasmine.createSpyObj('UserHttpService', ['createUserAddress', 'deleteUserAddress', 'findUserAddressList']);
 
     TestBed.configureTestingModule({
       imports: [],

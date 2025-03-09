@@ -78,4 +78,26 @@ describe('OrderServiceTests', () => {
     const pageNumber = service.getPageNumber();
     expect(pageNumber()).toEqual(1);
   });
+
+  it('givenResetArgs_thenResetArgsToDefaults', () => {
+
+    // Arrange
+
+    service.setPageSize(10);
+    service.setPageNumber(10);
+
+    const pageSize = service.getPageSize();
+    const pageNumber = service.getPageNumber();
+    expect(pageSize()).toEqual(10);
+    expect(pageNumber()).toEqual(10);
+
+    // Act
+
+    service.resetSummaryListArgs();
+
+    // Assert
+
+    expect(pageSize()).toEqual(5);
+    expect(pageNumber()).toEqual(1);
+  });
 });
