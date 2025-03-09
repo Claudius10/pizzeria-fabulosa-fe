@@ -227,7 +227,6 @@ describe('OrderHttpServiceTest', () => {
       id: "1",
       queryKey: [""]
     };
-    const url = `${PATH + BASE + V1 + USER_BASE}/${options.userId + ORDER_BASE}/${options.id}`;
 
     // Act
 
