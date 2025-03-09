@@ -13,8 +13,9 @@ import {
   V1
 } from '../../../utils/api-routes';
 import {of} from 'rxjs';
-import {buildErrorResponse, ensureId} from '../../../utils/functions';
+import {ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
+import {buildErrorResponse} from '../../../utils/test-utils';
 
 @Injectable({
   providedIn: 'root'

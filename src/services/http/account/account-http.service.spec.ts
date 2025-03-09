@@ -15,8 +15,8 @@ import {
 } from '../../../utils/api-routes';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {buildErrorResponse, buildResponse} from '../../../utils/functions';
 import {DeleteAccountForm, RegisterForm} from '../../../interfaces/http/account';
+import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 
 describe('AccountHttpServiceTest', () => {
   let service: AccountHttpService;

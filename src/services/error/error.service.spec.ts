@@ -4,13 +4,13 @@ import {ErrorService} from './error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateModule} from '@ngx-translate/core';
 import {MessageService, ToastMessageOptions} from 'primeng/api';
-import {buildError} from '../../utils/functions';
 import {provideRouter, Router} from '@angular/router';
 import {ErrorComponent} from '../../app/routes/error/error.component';
 import {RouterTestingHarness} from '@angular/router/testing';
 import {AuthService} from '../auth/auth.service';
 import {BAD_CREDENTIALS, INVALID_TOKEN} from '../../utils/api-messages';
 import {HomeComponent} from '../../components/home/home.component';
+import {buildError} from '../../utils/test-utils';
 
 describe('ErrorService', () => {
   let service: ErrorService;

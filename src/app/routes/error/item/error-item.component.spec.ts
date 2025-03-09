@@ -8,14 +8,11 @@ describe('ErrorItemComponent', () => {
   let fixture: ComponentFixture<ErrorItemComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [],
-      providers: [ErrorItemComponent]
-    })
-      .compileComponents();
+    await TestBed.configureTestingModule({imports: [ErrorItemComponent]}).compileComponents();
 
     fixture = TestBed.createComponent(ErrorItemComponent);
     component = fixture.componentInstance;
+
     const error: ErrorDTO = {
       id: 1,
       fatal: false,
@@ -25,11 +22,12 @@ describe('ErrorItemComponent', () => {
       cause: "",
       logged: false,
     };
+
     fixture.componentRef.setInput("error", error);
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeDefined();
   });
 });

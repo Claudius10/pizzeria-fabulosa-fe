@@ -28,8 +28,8 @@ export class UserAddressListViewComponent implements OnInit {
   onAddressSelect = output<AddressId>();
   selected = input<number | null>(null);
   valid = input<boolean>();
-  private destroyRef = inject(DestroyRef);
   private loadingAnimationService = inject(LoadingAnimationService);
+  private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
   private userService = inject(UserService);
   private authService = inject(AuthService);

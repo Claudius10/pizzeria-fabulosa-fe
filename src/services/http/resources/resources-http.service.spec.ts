@@ -6,7 +6,7 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {BASE, RESOURCE_BASE, RESOURCE_OFFER, RESOURCE_PRODUCT, RESOURCE_STORE, V1} from '../../../utils/api-routes';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {buildResponse} from '../../../utils/functions';
+import {buildResponse} from '../../../utils/test-utils';
 
 describe('ResourcesHttpServiceTest', () => {
   let service: ResourcesHttpService;

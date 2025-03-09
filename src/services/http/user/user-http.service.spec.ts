@@ -6,7 +6,7 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {firstValueFrom} from 'rxjs';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {BASE, USER_ADDRESS, USER_BASE, V1} from '../../../utils/api-routes';
-import {buildErrorResponse, buildResponse} from '../../../utils/functions';
+import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 
 describe('UserHttpServiceTests', () => {
   let service: UserHttpService;

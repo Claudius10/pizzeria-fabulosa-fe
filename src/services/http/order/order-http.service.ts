@@ -6,8 +6,9 @@ import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} f
 import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
 import {of} from 'rxjs';
-import {buildErrorResponse, ensureId} from '../../../utils/functions';
+import {ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
+import {buildErrorResponse} from '../../../utils/test-utils';
 
 @Injectable({
   providedIn: 'root'

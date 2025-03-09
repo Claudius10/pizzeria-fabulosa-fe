@@ -5,10 +5,10 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} from '../../../utils/api-routes';
 import {ResponseDTO} from '../../../interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {buildErrorResponse, buildResponse} from '../../../utils/functions';
 import {AnonOrderFormData, NewUserOrderFormData} from '../../../interfaces/http/order';
 import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
 import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
+import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 
 describe('OrderHttpServiceTest', () => {
   let service: OrderHttpService;
