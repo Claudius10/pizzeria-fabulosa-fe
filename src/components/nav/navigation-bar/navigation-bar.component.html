@@ -1,20 +1,42 @@
 <div class="fixed top-0 left-0 w-screen style">
   <div class="flex items-center justify-between">
-    <!-- ICON -->
-    <img aria-label="To Home Page" routerLink="/" class="logo-sm cursor-pointer" alt="dropdown icon"
-         ngSrc="/assets/icons/pizzabig.png"
-         height="50" width="50">
+    <!-- ICON SMALL SCREEN -->
+    <img
+      title="Pizza Small"
+      routerLink="/"
+      class="logo-sm cursor-pointer"
+      aria-label="To Home Page"
+      alt="Small Main Pizza Icon"
+      ngSrc="/assets/icons/pizzabig.png"
+      height="50" width="50">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
-      <img aria-label="To Home Page" routerLink="/" class="logo-ls cursor-pointer" alt="dropdown icon"
-           ngSrc="/assets/icons/pizzabig.png" height="60" width="60">
+      <img
+        title="Pizza Large"
+        aria-label="To Home Page"
+        routerLink="/"
+        class="logo-ls cursor-pointer"
+        alt="Large Main Pizza Icon"
+        ngSrc="/assets/icons/pizzabig.png"
+        height="60"
+        width="60">
       <div class="flex gap-12">
-        <p aria-label="To Pizzas Page" class="cursor-pointer text-lg" routerLinkActive="color"
-           routerLink="pizzas">
-          Pizzas</p>
-        <p aria-label="To Beverages Page" class="cursor-pointer text-lg" routerLinkActive="color"
-           routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
+        <button
+          title="To Pizzas"
+          class="text-lg"
+          aria-label="To Pizzas Page"
+          routerLinkActive="color"
+          routerLink="pizzas">
+          Pizzas
+        </button>
+        <button
+          title="To Beverages"
+          aria-label="To Beverages Page"
+          class="text-lg"
+          routerLinkActive="color"
+          routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+        </button>
       </div>
     </div>
 
@@ -22,21 +44,25 @@
     <ul class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
       <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity()}}">
-        <button type="button"
-                aria-label="Open Cart"
-                [ngClass]="!bump() ?
+        <button
+          title="Cart"
+          type="button"
+          aria-label="Open Cart"
+          [ngClass]="!bump() ?
                 'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center' :
                 'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
-                [ngStyle]="this.cartService.quantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
+          [ngStyle]="this.cartService.quantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
           <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
         </button>
       </li>
 
       <!-- SMALL SCREEN MENU ICON -->
       <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
-        <button type="button"
-                aria-label="Open Site Navigation"
-                class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
+        <button
+          title="Navigation Menu"
+          type="button"
+          aria-label="Open Site Navigation"
+          class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
           <i class="pi pi-bars" style="font-size: 1.25rem"></i>
         </button>
       </li>
@@ -44,9 +70,11 @@
       @if (!authService.isAuthenticated) {
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
-          <button type="button"
-                  aria-label="Sign In"
-                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+          <button
+            title="Sign In"
+            type="button"
+            aria-label="Sign In"
+            class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-in" style="font-size: 1.25rem"></i>
           </button>
           @if (authService.loginDialog) {
@@ -56,17 +84,21 @@
       } @else {
         <!-- USER BUTTON -->
         <li>
-          <button [routerLink]="['user', 'profile']" type="button"
-                  aria-label="User Home Page"
-                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+          <button
+            title="Profile"
+            [routerLink]="['user', 'profile']" type="button"
+            aria-label="User Home Page"
+            class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-user" style="font-size: 1.25rem"></i>
           </button>
         </li>
         <!-- SIGN OUT BUTTON -->
         <li (click)="showLogoutDialog()">
-          <button type="button"
-                  aria-label="Sign out"
-                  class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+          <button
+            title="Sign Out"
+            type="button"
+            aria-label="Sign out"
+            class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-out" style="font-size: 1.25rem"></i>
           </button>
           @if (authService.logoutDialog) {
@@ -86,6 +118,7 @@
       <!-- GITHUB BUTTON -->
       <li>
         <a
+          title="Author's GitHub"
           aria-label="To Author's Github Page"
           class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background"
           href="https://github.com/Claudius10" target="_blank" rel="noopener noreferrer">
@@ -105,15 +138,30 @@
 @if (linksDrawerVisible) {
   <p-drawer [(visible)]="linksDrawerVisible" [blockScroll]="true">
     <div class="flex flex-col items-center gap-6">
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
-         routerLink="/"
-         [routerLinkActiveOptions]="{exact: true}">
-        {{ 'component.navigation.quick.link.home' | translate }}</p>
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
-         routerLink="pizzas">
-        Pizzas</p>
-      <p (click)="hideMobileLinksDrawer()" class="cursor-pointer text-lg font-bold" routerLinkActive="color"
-         routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}</p>
+      <button
+        title="Home"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="/"
+        [routerLinkActiveOptions]="{exact: true}">
+        {{ 'component.navigation.quick.link.home' | translate }}
+      </button>
+      <button
+        title="Pizzas"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="pizzas">
+        Pizzas
+      </button>
+      <button
+        title="Beverages"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+      </button>
     </div>
   </p-drawer>
 }

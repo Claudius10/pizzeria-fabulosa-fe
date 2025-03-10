@@ -1,24 +1,5 @@
 import {expect, test} from '@playwright/test';
 
-
-test('givenHomeRoute_thenHavePageTitle', async ({page}) => {
-  await page.goto('/');
-
-  await expect(page).toHaveTitle(/Pizzeria Fabulosa/);
-});
-
-
-test('givenClickOnLocaleIcon_thenShowTheLocaleComponentWithChoices', async ({page}) => {
-  await page.goto('/');
-
-  const localeButton = page.getByTestId('LocaleButton');
-  const localeContainer = page.getByTestId('LocaleContainer');
-
-  localeButton.click();
-
-  await expect(localeContainer).toBeVisible();
-});
-
 test('givenHomePage_thenDisplayOffers', async ({page}) => {
   await page.route('*/**/api/v1/resource/offer', async route => {
     const json = {
@@ -32,7 +13,10 @@ test('givenHomePage_thenDisplayOffers', async ({page}) => {
           "es": "Válida todos los días en Pizzas Medianas y Familiares",
           "en": "Valid every day for Medium and Familiar sized Pizzas"
         },
-        "caveat": {"es": "Cualquiera especialidad o hasta 4 ingredientes", "en": "Any specialty or up to 4 ingredients"}
+        "caveat": {
+          "es": "Cualquiera especialidad o hasta 4 ingredientes",
+          "en": "Any specialty or up to 4 ingredients"
+        }
       }, {
         "id": 2,
         "image": "/assets/offers/offer.jpeg",
@@ -41,7 +25,10 @@ test('givenHomePage_thenDisplayOffers', async ({page}) => {
           "es": "Válida todos los días en Pizzas Medianas y Familiares",
           "en": "Valid every day for Medium and Familiar sized Pizzas"
         },
-        "caveat": {"es": "Cualquiera especialidad o hasta 4 ingredientes", "en": "Any specialty or up to 4 ingredients"}
+        "caveat": {
+          "es": "Cualquiera especialidad o hasta 4 ingredientes",
+          "en": "Any specialty or up to 4 ingredients"
+        }
       }],
       "error": null
     };

@@ -2,9 +2,13 @@
 
   <!-- TOTAL -->
   <div class="flex items-center gap-2">
-    <span>Total</span>
-    <p-button type="button" [text]="true" label="{{ total().toFixed(2) }}€"
-              [severity]="(threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) ? 'danger' : 'success'"/>
+    <span title="Total">Total</span>
+    <p-button
+      title="Total Amount"
+      type="button"
+      [text]="true"
+      label="{{ total().toFixed(2) }}€"
+      [severity]="(threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) ? 'danger' : 'success'"/>
   </div>
 
   <!-- OFFERS -->
@@ -13,9 +17,14 @@
 
       <!-- TOTAL WITH OFFERS -->
       <div class="flex items-center gap-2">
-        <span>{{ "component.cart.total.offers" | translate }}</span>
-        <p-button type="button" size="large" [text]="true" label="{{ totalAfterOffers().toFixed(2) }}€"
-                  severity="success"/>
+        <span title="Total After Offers">{{ "component.cart.total.offers" | translate }}</span>
+        <p-button
+          title="Total After Offers Amount"
+          type="button"
+          size="large"
+          [text]="true"
+          label="{{ totalAfterOffers().toFixed(2) }}€"
+          severity="success"/>
       </div>
 
       <!-- APPLIED OFFERS -->
@@ -24,15 +33,21 @@
 
         <div class="flex gap-4">
           @if (secondForHalfPriceOffer() != 0) {
-            <p-button type="button" [text]="true">
+            <p-button
+              type="button"
+              [text]="true">
               2<sup>{{ "component.cart.total.offers.second.part.one" | translate }}</sup> <span
               class="ml-1">{{ "component.cart.total.offers.second.part.two" | translate }}</span>
             </p-button>
           }
 
           @if (threeForTwoOffers() != 0) {
-            <p-button type="button" [text]="true" label="3 X 2" badge=" {{ threeForTwoOffers() }}"
-                      badgeClass="color-primary"/>
+            <p-button
+              type="button"
+              [text]="true"
+              label="3 X 2"
+              badge=" {{ threeForTwoOffers() }}"
+              badgeSeverity="primary"/>
           }
         </div>
       </div>

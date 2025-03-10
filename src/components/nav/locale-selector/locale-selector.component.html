@@ -1,17 +1,19 @@
-<button data-testid="LocaleButton" #locale (click)="toggle()"
+<button title="Locale" #locale (click)="toggle()"
         aria-label="Choose Language"
         class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
   <i class="pi pi-language" style="font-size: 1.25rem"></i>
 </button>
-<div data-testid="LocaleContainer"
-     [ngClass]="{'container rounded-border shadow-sm origin-top mt-2 border border-primary':visible, 'hidden':!visible}">
+<div
+  [ngClass]="{'container rounded-border shadow-sm origin-top mt-2 border border-primary':visible, 'hidden':!visible}">
   <div class="flex flex-col gap-2 m-0 p-0">
     <p-button
+      title="Castellano"
       (click)="changeLanguage('es')"
       label="Castellano"
       [text]="true"
       [raised]="true"/>
     <p-button
+      title="English"
       (click)="changeLanguage('en')"
       label="English"
       [text]="true"

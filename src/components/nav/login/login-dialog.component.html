@@ -12,14 +12,16 @@
       <div class="flex flex-col px-10 py-6 gap-6 style">
 
         <div class="flex justify-center items-center">
-          <span
+          <span title="Sign In"
             class="flex justify-center text-primary-50 text-center text-2xl font-bold title">{{ "component.form.login.title" | translate }}</span>
-          <i class="pi pi-times cursor-pointer" style="color: #ffffff" (click)="closeLoginDialog()"></i>
+          <i title="Close Sign In Dialog" class="pi pi-times cursor-pointer" style="color: #ffffff"
+             (click)="closeLoginDialog()"></i>
         </div>
 
         <div class="inline-flex flex-col gap-2">
           <label for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
           <input
+            title="Email input"
             formControlName="email"
             type="email"
             id="email"
@@ -36,12 +38,13 @@
                  class="text-primary-50 font-semibold">{{ "form.label.password" | translate }}</label>
           <p-iconfield [dt]="myIcon('#ffffff')">
             <input
+              title="Password input"
               formControlName="password"
               id="password"
               name="password"
               class="bg-white/20 border-0 p-4 text-primary-50 w-full"
               type="{{showPassword ? 'text' : 'password'}}"/>
-            <p-inputicon (click)="togglePassword()"
+            <p-inputicon title="Show Password" (click)="togglePassword()"
                          styleClass="{{showPassword ? 'pi pi-eye-slash cursor-pointer' : 'pi pi-eye cursor-pointer'}}"/>
           </p-iconfield>
           <div class="invalid-text"
@@ -52,6 +55,7 @@
 
         <div class="flex items-center buttons gap-2">
           <p-button
+            title="Enter"
             type="submit"
             label="{{ 'button.enter' | translate | uppercase }}"
             [text]="true"
@@ -65,13 +69,20 @@
             class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
 
           <div class="flex justify-center gap-2">
-            <span class="cursor-pointer underline text-center text-primary-50 font-semibold"
-                  (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}</span>
+            <a
+              title="To Register Page"
+              aria-label="To Register Page"
+              class="cursor-pointer underline text-center text-primary-50 font-semibold"
+              (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}</a>
 
             <span class="text-primary-50">{{ "prompt.or" | translate }}</span>
 
-            <span class="cursor-pointer underline text-center text-primary-50 font-semibold"
-                  (click)="dummySignIn()">{{ 'component.form.login.footer.action.use.dummy' | translate }}</span>
+            <button
+              title="Use a dummy account"
+              aria-label="Use a dummy account"
+              class="underline text-center text-primary-50 font-semibold"
+              (click)="dummySignIn()">{{ 'component.form.login.footer.action.use.dummy' | translate }}
+            </button>
           </div>
 
         </div>
