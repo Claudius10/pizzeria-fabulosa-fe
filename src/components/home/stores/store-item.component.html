@@ -1,15 +1,15 @@
 <p-card header="{{theStore().name}}" [style]="{ width: '320px' }">
   <ng-template pTemplate="header">
-    <img class="rounded-border" ngSrc="{{theStore().image}}" alt="theStore image" width="320" height="220">
+    <img class="rounded-border" ngSrc="{{theStore().image}}" alt="Store Location on Map" width="320" height="220">
   </ng-template>
 
   <div class="flex flex-col gap-3">
     <div class="flex gap-2 items-center">
-      <i class="pi pi-map"></i>
+      <i title="Location" class="pi pi-map"></i>
       {{ theStore().address.street }} {{ theStore().address.number }}
     </div>
     <div class="flex gap-2 items-center">
-      <i class="pi pi-phone"></i>
+      <i title="Phone" class="pi pi-phone"></i>
       {{ theStore().phoneNumber }}
     </div>
   </div>

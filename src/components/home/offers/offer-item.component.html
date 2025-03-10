@@ -1,7 +1,7 @@
 <p-card header="{{currentLang() === 'en' ? theOffer().name.en : theOffer().name.es}}" [style]="{ width: '320px' }">
 
   <ng-template pTemplate="header">
-    <img class="rounded-border" ngSrc="{{theOffer().image}}" alt="theOffer Image" width="320" height="255" priority>
+    <img class="rounded-border" ngSrc="{{theOffer().image}}" alt="Offer Picture" width="320" height="255" priority>
   </ng-template>
 
   <span>{{ currentLang() === 'en' ? theOffer().description.en : theOffer().description.es }}</span>
