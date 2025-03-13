@@ -15,6 +15,7 @@ import {FilterService} from '../../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../utils/filter-items';
 import {CustomPizzaComponent} from '../custom/custom-pizza/custom-pizza.component';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-pizza-list',
@@ -28,7 +29,8 @@ import {ServerErrorComponent} from '../../../app/routes/error/server-no-response
     ProductsSearchPipe,
     CustomPizzaComponent,
     ServerErrorComponent,
-    ServerErrorComponent
+    ServerErrorComponent,
+    NgClass
   ],
   templateUrl: './pizza-list.component.html',
   styleUrls: ['./pizza-list.component.scss'],

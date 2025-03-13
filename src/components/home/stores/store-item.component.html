@@ -1,17 +1,27 @@
-<p-card header="{{theStore().name}}" [style]="{ width: '320px' }">
+<p-card title="{{theStore().name}}" header="{{theStore().name}}" [style]="{ width: '320px' }">
+
   <ng-template pTemplate="header">
-    <img class="rounded-border" ngSrc="{{theStore().image}}" alt="Store Location on Map" width="320" height="220">
+    <img
+      title="Store Map Location"
+      class="rounded-border"
+      ngSrc="{{theStore().image}}"
+      alt="{{theStore().name}} Location on Map"
+      width="320"
+      height="220">
   </ng-template>
 
-  <div class="flex flex-col gap-3">
-    <div class="flex gap-2 items-center">
-      <i title="Location" class="pi pi-map"></i>
-      {{ theStore().address.street }} {{ theStore().address.number }}
+  <div title="Store Details" class="flex flex-col gap-3">
+
+    <div title="{{theStore().name}} Location" class="flex gap-2 items-center">
+      <i title="{{theStore().name}} Location Icon" class="pi pi-map"></i>
+      <span title="Address">{{ theStore().address.street }} {{ theStore().address.number }}</span>
     </div>
-    <div class="flex gap-2 items-center">
-      <i title="Phone" class="pi pi-phone"></i>
-      {{ theStore().phoneNumber }}
+
+    <div title="{{theStore().name}} Contact" class="flex gap-2 items-center">
+      <i title="{{theStore().name}} Phone Icon" class="pi pi-phone"></i>
+      <span title="Contact Number">{{ theStore().phoneNumber }}</span>
     </div>
+
   </div>
 
   <ng-template pTemplate="footer">
@@ -19,12 +29,13 @@
     <p-accordion value="0">
       <p-accordion-panel value="1">
 
-        <p-accordion-header>
+        <p-accordion-header title="Schedule">
           {{ 'component.store.item.schedule' | translate }}
         </p-accordion-header>
 
         <p-accordion-content>
-          <span>{{ currentLang() === "en" ? theStore().schedule.en : theStore().schedule.es }}</span>
+          <span
+            title="Schedule Details">{{ currentLang() === "en" ? theStore().schedule.en : theStore().schedule.es }}</span>
         </p-accordion-content>
 
       </p-accordion-panel>

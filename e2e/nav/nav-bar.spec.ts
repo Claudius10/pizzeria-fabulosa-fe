@@ -29,6 +29,10 @@ test.describe('Large screen tests', () => {
     await expect(beveragesLink).toBeVisible();
   });
 
+  test('givenNavBar_thenRightSideButtonsVisible', async ({page}) => {
+    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(5);
+  });
+
   test('givenClickOnPizzas_whenOnHomeRoute_thenNavToPizzasRoute', async ({page}) => {
 
     // Arrange
@@ -344,6 +348,21 @@ test.describe('Small screen tests', () => {
 
   test.beforeEach(async ({page}) => {
     await page.goto('/');
+  });
+
+  test('givenNavBar_thenHaveMainIconVisible', async ({page}) => {
+
+    // Arrange
+
+    const mainPizzaIcon = page.getByAltText('Small Main Pizza Icon');
+
+    // Assert
+
+    await expect(mainPizzaIcon).toBeVisible();
+  });
+
+  test('givenNavBar_thenRightSideButtonsVisible', async ({page}) => {
+    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(6);
   });
 
   test('givenClickOnNavBarMenu_thenShowNavMenuDrawer', async ({page}) => {

@@ -19,7 +19,7 @@
         </div>
 
         <div class="inline-flex flex-col gap-2">
-          <label for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
+          <label title="Email" for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
           <input
             title="Email input"
             formControlName="email"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="inline-flex flex-col gap-2 w-full">
-          <label for="password"
+          <label title="Password" for="password"
                  class="text-primary-50 font-semibold">{{ "form.label.password" | translate }}</label>
           <p-iconfield [dt]="myIcon('#ffffff')">
             <input
@@ -65,7 +65,7 @@
         </div>
 
         <div class="flex flex-col justify-center gap-2">
-          <span
+          <span title="Are you new?"
             class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
 
           <div class="flex justify-center gap-2">

@@ -2,13 +2,14 @@
   <div class="flex flex-col gap-2">
     <p-iconfield [dt]="myIcon('{primary.400}')">
       <input
+        title="Search Input"
         class="w-full search-bar"
         id="searchText"
         type="text"
         placeholder="{{ 'form.label.search' | translate}} "
         formControlName="searchText"
       >
-      <p-inputicon styleClass="pi pi-search"/>
+      <p-inputicon title="Search Icon" styleClass="pi pi-search"/>
     </p-iconfield>
   </div>
 </form>

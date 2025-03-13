@@ -1,18 +1,19 @@
 <div [ngClass]="['flex flex-col rounded-border', theProduct().type !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
-  <img class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190" alt="Pizza Product">
+  <img title="Pizza {{theProduct().name.es}}" class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190" alt="Pizza {{theProduct().name.es}}">
 
   <div class="flex flex-col items-center justify-between product-container">
 
     <!-- NAME -->
-    <span
-      class="font-semibold text-xl">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
+    <span title="Name"
+      class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
 
     <!-- FORMAT -->
     @if (theProduct().formats) {
       <div class="flex gap-2">
         @if (theProduct().formats.s) {
           <p-button
+            title="Small Format"
             (click)="setFormat('S')"
             type="button"
             size="small"
@@ -23,6 +24,7 @@
 
         @if (theProduct().formats.m) {
           <p-button
+            title="Medium Format"
             (click)="setFormat('M')"
             type="button"
             size="small"
@@ -33,6 +35,7 @@
 
         @if (theProduct().formats.l) {
           <p-button
+            title="Large Format"
             (click)="setFormat('L')"
             type="button"
             size="small"
@@ -45,7 +48,7 @@
 
     <!-- INGREDIENTES -->
     @if (theProduct().description !== null) {
-      <div class="flex justify-center flex-wrap description text-center">
+      <div title="Ingredients" class="flex justify-center flex-wrap description text-center">
         {{ currentLang() === 'es' ? theProduct().description.es.join(", ") : theProduct().description.en.join(", ") }}
       </div>
     }
@@ -57,6 +60,7 @@
       }
 
       <p-button
+        title="Add Product"
         type="button"
         icon="pi pi-plus"
         [raised]="true"
@@ -65,7 +69,8 @@
         (click)="addProductToCart()"/>
 
       @if (theProduct().allergens.es.length > 0) {
-        <i class="pi pi-exclamation-circle allergens-icon-small" (click)="openAllergensDialog()"></i>
+        <i title="Allergens" class="pi pi-exclamation-circle allergens-icon-small"
+           (click)="openAllergensDialog()"></i>
       }
     </div>
   </div>

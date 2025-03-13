@@ -2,22 +2,22 @@
   <div class="flex items-center justify-between">
     <!-- ICON SMALL SCREEN -->
     <img
-      title="Pizza Small"
+      title="To Home"
+      alt="Small Main Pizza Icon"
       routerLink="/"
       class="logo-sm cursor-pointer"
       aria-label="To Home Page"
-      alt="Small Main Pizza Icon"
       ngSrc="/assets/icons/pizzabig.png"
       height="50" width="50">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
       <img
-        title="Pizza Large"
+        title="To Home"
+        alt="Large Main Pizza Icon"
         aria-label="To Home Page"
         routerLink="/"
         class="logo-ls cursor-pointer"
-        alt="Large Main Pizza Icon"
         ngSrc="/assets/icons/pizzabig.png"
         height="60"
         width="60">
@@ -41,7 +41,7 @@
     </div>
 
     <!-- RIGHT SIDE ICON LIST -->
-    <ul class="flex list-none m-0 p-0 gap-2 items-center">
+    <ul title="Navigation Buttons" class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
       <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity()}}">
         <button
