@@ -10,12 +10,12 @@ test.describe('API OK', () => {
     await page.goto('/beverages');
   });
 
-  test('givenBeveragesRoute_theShowSearchBox', async ({page}) => {
+  test('ShowSearchBox', async ({page}) => {
     await expect(page.getByPlaceholder("Search")).toBeVisible();
     await expect(page.getByTitle("Search Icon")).toBeVisible();
   });
 
-  test('givenBeveragesRoute_thenShowFiltersBox', async ({page}) => {
+  test('ShowFiltersBox', async ({page}) => {
     await expect(page.getByTitle("Toggle Filters")).toBeVisible();
     await expect(page.getByText("Filters")).toBeVisible();
     await expect(page.getByTitle("Filters Active/Inactive")).toBeVisible();
@@ -25,7 +25,7 @@ test.describe('API OK', () => {
     await expect(page.getByTitle("Beverage List").getByRole('listitem')).toHaveCount(1);
   });
 
-  test('givenBeverageList_thenShowCocaCola', async ({page}) => {
+  test('ShowCocaCola', async ({page}) => {
     await expect(page.getByAltText('Coca-Cola Zero')).toBeVisible();
     await expect(page.getByText('Coca-Cola Zero')).toBeVisible();
     await expect(page.getByRole('button', {name: '330ML'})).toBeVisible();

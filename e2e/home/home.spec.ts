@@ -14,12 +14,12 @@ test.describe('API OK', () => {
     await page.goto('/');
   });
 
-  test('givenHomePage_thenWelcomeText', async ({page}) => {
+  test('ShowWelcomeText', async ({page}) => {
     await expect(page.getByText('Welcome to')).toBeVisible();
     await expect(page.getByText('Pizzeria Fabulosa')).toBeVisible();
   });
 
-  test('givenHomePage_thenDisplayOffers', async ({page}) => {
+  test('ShowOffers', async ({page}) => {
     await expect(page.getByTitle("Offer List").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText('Discover our offers')).toBeVisible();
     await expect(page.getByText('3x2 for Pizzas')).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('API OK', () => {
     await expect(page.getByAltText('Second Pizza at half the price Offer')).toBeVisible();
   });
 
-  test('givenHomePage_thenDisplayStores', async ({page}) => {
+  test('ShowStores', async ({page}) => {
     await expect(page.getByTitle("Store List").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText('Come by our store')).toBeVisible();
     await expect(page.getByText('Alustre', {exact: true})).toBeVisible();

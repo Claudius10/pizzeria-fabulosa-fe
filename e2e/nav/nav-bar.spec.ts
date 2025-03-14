@@ -5,7 +5,7 @@ test.describe('Large screen tests', () => {
     await page.goto('/');
   });
 
-  test('givenNavBar_thenHaveMainIconVisible', async ({page}) => {
+  test('MainIsIconVisible', async ({page}) => {
 
     // Arrange
 
@@ -16,7 +16,7 @@ test.describe('Large screen tests', () => {
     await expect(mainPizzaIcon).toBeVisible();
   });
 
-  test('givenNavBar_thenHaveLinksVisible', async ({page}) => {
+  test('LinksAreVisible', async ({page}) => {
 
     // Arrange
 
@@ -29,7 +29,7 @@ test.describe('Large screen tests', () => {
     await expect(beveragesLink).toBeVisible();
   });
 
-  test('givenNavBar_thenRightSideButtonsVisible', async ({page}) => {
+  test('RightSideButtonsIsVisible', async ({page}) => {
     await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(5);
   });
 
@@ -330,7 +330,7 @@ test.describe('Large screen tests', () => {
     await expect(htmlElement).not.toHaveClass('my-app-dark');
   });
 
-  test('givenNavBar_thenGithubButtonIsVisible', async ({page}) => {
+  test('GithubButtonIsIsVisible', async ({page}) => {
 
     // Arrange
 
@@ -350,7 +350,7 @@ test.describe('Small screen tests', () => {
     await page.goto('/');
   });
 
-  test('givenNavBar_thenHaveMainIconVisible', async ({page}) => {
+  test('MainIconIsVisible', async ({page}) => {
 
     // Arrange
 
@@ -361,7 +361,7 @@ test.describe('Small screen tests', () => {
     await expect(mainPizzaIcon).toBeVisible();
   });
 
-  test('givenNavBar_thenRightSideButtonsVisible', async ({page}) => {
+  test('RightSideButtonsIsVisible', async ({page}) => {
     await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(6);
   });
 

@@ -10,12 +10,12 @@ test.describe('API OK', () => {
     await page.goto('/pizzas');
   });
 
-  test('givenPizzasRoute_theShowSearchBox', async ({page}) => {
+  test('ShowSearchBox', async ({page}) => {
     await expect(page.getByPlaceholder("Search")).toBeVisible();
     await expect(page.getByTitle("Search Icon")).toBeVisible();
   });
 
-  test('givenPizzasRoute_thenShowFiltersBox', async ({page}) => {
+  test('ShowFiltersBox', async ({page}) => {
     await expect(page.getByTitle("Toggle Filters")).toBeVisible();
     await expect(page.getByText("Filters")).toBeVisible();
     await expect(page.getByTitle("Filters Active/Inactive")).toBeVisible();
@@ -25,14 +25,14 @@ test.describe('API OK', () => {
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
   });
 
-  test('givenPizzasList_thenShowCustomPizzaItem', async ({page}) => {
+  test('ShowCustomPizzaItem', async ({page}) => {
     await expect(page.getByAltText('Custom Pizza Image')).toBeVisible();
     await expect(page.getByText('My Pizza')).toBeVisible();
     await expect(page.getByText('Personalize however you like!')).toBeVisible();
     await expect(page.getByTitle('Open Custom Pizza Builder').getByRole('button')).toBeVisible();
   });
 
-  test('givenPizzasList_thenShowQuatroQuesosPizza', async ({page}) => {
+  test('ShowCuatroQuesosPizza', async ({page}) => {
     await expect(page.getByAltText('Pizza Cuatro Quesos')).toBeVisible();
     await expect(page.getByText('Cuatro Quesos')).toBeVisible();
     await expect(page.getByRole('button', {name: 'Medium'})).toBeVisible();
