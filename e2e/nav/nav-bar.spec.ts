@@ -120,10 +120,10 @@ test.describe('Large screen tests', () => {
 
     // Arrange
 
-    const loginButton = page.getByTitle('Sign In');
+    const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
     const signInText = page.getByText("Sign In");
-    const closeLoginDialogIcon = page.getByTitle('Close Sign In Dialog');
+    const closeLoginDialogIcon = page.getByTitle('Close Sign In Box');
 
     const emailAddressText = page.getByText("Email address");
     const emailInput = page.getByLabel('email');
@@ -135,7 +135,7 @@ test.describe('Large screen tests', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
     const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountText = page.getByTitle("To Register Page");
+    const createAccountText = page.getByRole("button", {name: 'To Register Page'});
     const orText = page.getByText("or", {exact: true});
     const dummyLoginText = page.getByRole("button", {name: 'Use a dummy account'});
 
@@ -163,10 +163,10 @@ test.describe('Large screen tests', () => {
 
     // Arrange
 
-    const loginButton = page.getByTitle('Sign In');
+    const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
     const signInText = page.getByText("Sign In");
-    const closeLoginDialogIcon = page.getByTitle('Close Sign In Dialog');
+    const closeLoginDialogIcon = page.getByTitle('Close Sign In Box');
 
     const emailAddressText = page.getByText("Email address");
     const emailInput = page.getByLabel('email');
@@ -178,7 +178,7 @@ test.describe('Large screen tests', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
     const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountText = page.getByTitle("To Register Page");
+    const createAccountText = page.getByRole("button", {name: 'To Register Page'});
     const orText = page.getByText("or", {exact: true});
     const dummyLoginText = page.getByRole("button", {name: 'Use a dummy account'});
 
@@ -265,6 +265,52 @@ test.describe('Large screen tests', () => {
     await expect(welcomeTextEs).toBeVisible();
     await expect(esChoice).not.toBeVisible();
     await expect(enChoice).not.toBeVisible();
+    await expect(page.getByText('Información')).toBeVisible();
+    await expect(page.getByText('Castellano seleccionado')).toBeVisible();
+  });
+
+  test('givenClickOnEnglish_whenInCastellano_thenWelcomeTextIsInEnglish', async ({page}) => {
+
+    // Arrange
+
+    const welcomeTextEs = page.getByText("Bienvenidos/as a la");
+    const welcomeTextEn = page.getByText("Welcome to");
+    await expect(welcomeTextEn).toBeVisible();
+    await expect(welcomeTextEs).not.toBeVisible();
+
+    const localeButton = page.getByTitle('Locale');
+    await expect(localeButton).toBeVisible();
+    const esChoice = page.getByRole("button", {name: "Castellano"});
+    const enChoice = page.getByRole("button", {name: "English"});
+
+    await localeButton.click();
+
+    await expect(esChoice).toBeVisible();
+    await expect(enChoice).toBeVisible();
+
+    await esChoice.click();
+
+    await expect(welcomeTextEn).not.toBeVisible();
+    await expect(welcomeTextEs).toBeVisible();
+    await expect(esChoice).not.toBeVisible();
+    await expect(enChoice).not.toBeVisible();
+    await expect(page.getByText('Información')).toBeVisible();
+    await expect(page.getByText('Castellano seleccionado')).toBeVisible();
+
+    await localeButton.click();
+
+    // Act
+
+    await enChoice.click();
+
+    // Assert
+
+    await expect(welcomeTextEn).toBeVisible();
+    await expect(welcomeTextEs).not.toBeVisible();
+    await expect(esChoice).not.toBeVisible();
+    await expect(enChoice).not.toBeVisible();
+    await expect(page.getByText('Information')).toBeVisible();
+    await expect(page.getByText('English selected')).toBeVisible();
   });
 
   test('givenClickOnLocaleButton_whenLocaleIsVisible_thenHideLocaleComponentWithChoices', async ({page}) => {

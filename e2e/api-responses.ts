@@ -24,7 +24,7 @@ export const offers = {
 };
 
 export const stores = {
-  "timeStamp": "2025-03-10T08:44:57.436579591",
+  "timeStamp": "2025-03-10T18:44:57.436579591",
   "status": {"code": 200, "description": "OK", "error": false},
   "payload": [{
     "id": 1,
@@ -45,7 +45,7 @@ export const stores = {
 };
 
 export const pizzas = {
-  "timeStamp": "2025-03-10T08:45:33.624953393",
+  "timeStamp": "2025-03-10T18:45:33.624953393",
   "status": {"code": 200, "description": "OK", "error": false},
   "payload": [{
     "id": 1,
@@ -64,7 +64,7 @@ export const pizzas = {
 };
 
 export const beverages = {
-  "timeStamp": "2025-03-10T08:46:07.507337404",
+  "timeStamp": "2025-03-10T18:46:07.507337404",
   "status": {"code": 200, "description": "OK", "error": false},
   "payload": [{
     "id": 11,
@@ -76,5 +76,12 @@ export const beverages = {
     "prices": {"s": 1.95, "m": 2.95},
     "allergens": {"es": [], "en": []}
   }],
+  "error": null
+};
+
+export const registerOK = {
+  "timeStamp": "2025-03-14T17:23:44.311560411",
+  "status": {"code": 201, "description": "CREATED", "error": false},
+  "payload": null,
   "error": null
 };

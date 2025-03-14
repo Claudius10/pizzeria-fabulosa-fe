@@ -14,6 +14,10 @@ test.describe('API OK', () => {
     await page.goto('/');
   });
 
+  test('ShowTabTitle', async ({page}) => {
+    expect(await page.title()).toBe('Pizzeria Fabulosa');
+  });
+
   test('ShowWelcomeText', async ({page}) => {
     await expect(page.getByText('Welcome to')).toBeVisible();
     await expect(page.getByText('Pizzeria Fabulosa')).toBeVisible();

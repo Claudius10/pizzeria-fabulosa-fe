@@ -48,8 +48,8 @@ export class ErrorService {
 
   handleServerNoResponse() {
     this.messageService.add({
-      severity: 'warn',
-      summary: this.translateService.instant("toast.severity.warning"),
+      severity: 'error',
+      summary: this.translateService.instant("toast.severity.error"),
       detail: this.translateService.instant("toast.error.server.detail"),
       life: 3000
     });

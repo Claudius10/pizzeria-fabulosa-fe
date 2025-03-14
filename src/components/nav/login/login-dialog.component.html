@@ -12,14 +12,18 @@
       <div class="flex flex-col px-10 py-6 gap-6 style">
 
         <div class="flex justify-center items-center">
-          <span title="Sign In"
-            class="flex justify-center text-primary-50 text-center text-2xl font-bold title">{{ "component.form.login.title" | translate }}</span>
-          <i title="Close Sign In Dialog" class="pi pi-times cursor-pointer" style="color: #ffffff"
+          <span
+            title="Sign In Box"
+            class="flex justify-center text-primary-50 text-center text-2xl font-bold title">
+            {{ "component.form.login.title" | translate }}
+          </span>
+          <i title="Close Sign In Box" class="pi pi-times cursor-pointer" style="color: #ffffff"
              (click)="closeLoginDialog()"></i>
         </div>
 
         <div class="inline-flex flex-col gap-2">
-          <label title="Email" for="email" class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
+          <label title="Email" for="email"
+                 class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
           <input
             title="Email input"
             formControlName="email"
@@ -66,14 +70,15 @@
 
         <div class="flex flex-col justify-center gap-2">
           <span title="Are you new?"
-            class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
+                class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
 
           <div class="flex justify-center gap-2">
-            <a
+            <button
               title="To Register Page"
               aria-label="To Register Page"
-              class="cursor-pointer underline text-center text-primary-50 font-semibold"
-              (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}</a>
+              class="underline text-center text-primary-50 font-semibold"
+              (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}
+            </button>
 
             <span class="text-primary-50">{{ "prompt.or" | translate }}</span>
 

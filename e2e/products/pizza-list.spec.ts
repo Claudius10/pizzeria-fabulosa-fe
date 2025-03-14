@@ -10,6 +10,10 @@ test.describe('API OK', () => {
     await page.goto('/pizzas');
   });
 
+  test('ShowTabTitle', async ({page}) => {
+    expect(await page.title()).toBe('Pizzas');
+  });
+
   test('ShowSearchBox', async ({page}) => {
     await expect(page.getByPlaceholder("Search")).toBeVisible();
     await expect(page.getByTitle("Search Icon")).toBeVisible();

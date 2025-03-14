@@ -47,7 +47,7 @@
           </div>
           <div title="Email Mismatch"
                class="invalid-text"
-               *ngIf="this.form.controls.email.touched && this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching')">
+               *ngIf="this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching')">
             {{ "form.invalid.email.matching" | translate }}
           </div>
         </div>
@@ -118,7 +118,7 @@
           </div>
           <div title="Password Mismatch"
                class="invalid-text"
-               *ngIf="this.form.controls.password.touched && this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching')">
+               *ngIf="this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching')">
             {{ "form.invalid.password.matching" | translate }}
           </div>
         </div>
@@ -136,7 +136,7 @@
               [dt]="myInput(false)"
             >
             <p-inputicon
-              title="Toggle Password Visibility"
+              title="Toggle Matching Password Visibility"
               (click)="toggleMatchingPassword()"
               styleClass="{{showMatchingPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
@@ -166,10 +166,13 @@
 
     <div title="Footer" class="flex flex-col items-center gap-4">
       <span title="Question">{{ "component.form.register.footer" | translate }}</span>
-      <span
+      <button
+        type="button"
         title="Open Login Dialog"
         class="text-primary"
-        (click)="showLoginDialog()">{{ "component.form.register.link" | translate }}</span>
+        (click)="showLoginDialog()">
+        {{ "component.form.register.link" | translate }}
+      </button>
     </div>
   </form>
 </p-card>
