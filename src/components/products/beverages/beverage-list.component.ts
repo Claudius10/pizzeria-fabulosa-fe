@@ -12,8 +12,9 @@ import {FilterService} from '../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {ProductsSearchPipe} from '../search/search-pipe/products-search.pipe';
 import {ProductsFilterComponent} from '../filters/products-filter.component';
-import {getAllBeverageFilters} from '../../../utils/filter-items';
+import {getAllBeverageFilters, getAllPizzaFilters} from '../../../utils/filter-items';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
+import {NgClass} from '@angular/common';
 
 @Component({
   selector: 'app-beverage-list',
@@ -26,6 +27,7 @@ import {ServerErrorComponent} from '../../../app/routes/error/server-no-response
     ProductItemComponent,
     ProductsSearchPipe,
     ServerErrorComponent,
+    NgClass,
   ],
   templateUrl: './beverage-list.component.html',
   styleUrls: ['./beverage-list.component.scss'],
@@ -75,4 +77,5 @@ export class BeverageListComponent implements OnInit, OnDestroy {
   }
 
   protected readonly getAllBeverageFilters = getAllBeverageFilters;
+  protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

@@ -75,69 +75,6 @@ export const beverages = {
     "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
     "prices": {"s": 1.95, "m": 2.95},
     "allergens": {"es": [], "en": []}
-  }, {
-    "id": 12,
-    "type": "beverage",
-    "image": "/assets/products/beverages/fanta.png",
-    "name": {"es": "Fanta Naranja", "en": "Fanta Orange"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 13,
-    "type": "beverage",
-    "image": "/assets/products/beverages/nestea.jpg",
-    "name": {"es": "Nestea Limón", "en": "Nestea Lime"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 14,
-    "type": "beverage",
-    "image": "/assets/products/beverages/sprite.jpg",
-    "name": {"es": "Sprite", "en": "Sprite"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 15,
-    "type": "beverage",
-    "image": "/assets/products/beverages/aguarius.jpg",
-    "name": {"es": "Aquarius Limón", "en": "Aquarius Lime"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 16,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou-clasica.jpg",
-    "name": {"es": "Mahou Clásica", "en": "Mahou Classic"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Gluten", "Alcohol"], "en": ["Gluten", "Alcohol"]}
-  }, {
-    "id": 17,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou_sin.png",
-    "name": {"es": "Mahou Sin", "en": "Mahou Without Alcohol"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Gluten"], "en": ["Gluten"]}
-  }, {
-    "id": 18,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou_sin_gluten.jpeg",
-    "name": {"es": "Mahou Sin Gluten", "en": "Mahou Gluten Free"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Alcohol"], "en": ["Alcohol"]}
   }],
   "error": null
 };
