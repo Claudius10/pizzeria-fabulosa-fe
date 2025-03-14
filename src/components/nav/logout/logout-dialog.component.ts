@@ -10,7 +10,6 @@ import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
-import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 
@@ -32,7 +31,6 @@ export class LogoutDialogComponent implements OnDestroy {
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private accountService = inject(AccountService);
-  private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
