@@ -10,7 +10,6 @@ import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
-import {ResponseDTO} from '../../../interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
@@ -58,27 +57,21 @@ export class LogoutDialogComponent implements OnDestroy {
   private logout() {
     this.loadingAnimationService.startLoading();
     this.logoutUser.mutate({payload: null}, {
-      onSuccess: (response: ResponseDTO) => {
-        if (response.status.error && response.error) {
+      onSuccess: () => {
+        // NOTE - ResponseDTO is not being returned when logging out
+        this.queryClient.removeQueries({queryKey: ["user"]});
+        this.authService.logout();
+        this.cartService.clear();
+        this.checkoutFormService.clear();
 
-          this.errorService.handleError(response.error);
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translateService.instant("toast.severity.info"),
+          detail: this.translateService.instant("dialog.logout.success.message"),
+          life: 2000
+        });
 
-        } else {
-
-          this.queryClient.removeQueries({queryKey: ["user"]});
-          this.authService.logout();
-          this.cartService.clear();
-          this.checkoutFormService.clear();
-
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("dialog.logout.success.message"),
-            life: 2000
-          });
-
-          this.router.navigate(["/"]);
-        }
+        this.router.navigate(["/"]);
       },
       onError: () => {
         this.messageService.add({

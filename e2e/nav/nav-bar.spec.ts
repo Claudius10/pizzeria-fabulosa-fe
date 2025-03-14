@@ -454,3 +454,8 @@ test.describe('Small screen tests', () => {
     await expect(page.getByRole("button", {name: 'Beverages'})).not.toBeVisible();
   });
 });
+
+test.describe('User Logged In', () => {
+
+
+});

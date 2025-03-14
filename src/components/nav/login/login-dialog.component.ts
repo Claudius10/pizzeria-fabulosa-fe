@@ -14,7 +14,6 @@ import {CartService} from '../../../services/cart/cart.service';
 import {ErrorService} from '../../../services/error/error.service';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
-import {ResponseDTO} from '../../../interfaces/http/api';
 import {NgIf, UpperCasePipe} from '@angular/common';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {isFormValid} from '../../../utils/functions';
@@ -90,52 +89,6 @@ export class LoginDialogComponent implements OnDestroy {
     this.signIn(null);
   }
 
-  signIn(data: LoginForm | null): void {
-    this.loadingAnimationService.startLoading();
-
-    this.login.mutate({payload: data}, {
-      onSuccess: (response: ResponseDTO) => {
-        if (response.status.error && response.error) {
-
-          this.errorService.handleError(response.error);
-          this.closeLoginDialog();
-
-        } else {
-
-          this.cartService.clear();
-          this.checkoutFormService.clear();
-
-          const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
-
-          if (result) {
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant("toast.severity.info"),
-              detail: this.translateService.instant("toast.form.login.success.detail"),
-              life: 3000,
-            });
-
-            this.closeLoginDialog();
-          } else {
-
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant("toast.severity.error"),
-              detail: this.translateService.instant("toast.error.api.token.invalid"),
-              life: 3000,
-            });
-          }
-        }
-      },
-      onError: () => {
-        this.errorService.handleServerNoResponse();
-      },
-      onSettled: () => {
-        this.loadingAnimationService.stopLoading();
-      }
-    });
-  }
-
   public onSubmit(): void {
     if (isFormValid(this.form)) {
       const data: LoginForm = {
@@ -145,6 +98,44 @@ export class LoginDialogComponent implements OnDestroy {
 
       this.signIn(data);
     }
+  }
+
+  signIn(data: LoginForm | null): void {
+    this.loadingAnimationService.startLoading();
+
+    this.login.mutate({payload: data}, {
+      onSuccess: () => {
+        // NOTE - ResponseDTO is not being returned when logging in
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+
+        const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
+
+        if (result) {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.login.success.detail"),
+            life: 3000,
+          });
+
+          this.closeLoginDialog();
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant("toast.severity.error"),
+            detail: this.translateService.instant("toast.error.api.token.invalid"),
+            life: 3000,
+          });
+        }
+      },
+      onError: () => {
+        this.errorService.handleServerNoResponse();
+      },
+      onSettled: () => {
+        this.loadingAnimationService.stopLoading();
+      }
+    });
   }
 
   protected readonly myIcon = myIcon;
