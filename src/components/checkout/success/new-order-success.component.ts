@@ -7,7 +7,9 @@ import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {CartComponent} from '../../cart/cart.component';
-import {AddressDetailsComponent} from '../../user/orders/order-item/address-details/address-details.component';
+import {
+  OrderAddressDetailsComponent
+} from '../../user/orders/order-item/address-details/order-address-details.component';
 import {OrderDetailsComponent} from '../../user/orders/order-item/order-details/order-details.component';
 import {Card} from "primeng/card";
 import {UserDetailsComponent} from "../../user/details/user-details.component";
@@ -23,7 +25,7 @@ import {UserDetailsComponent} from "../../user/details/user-details.component";
     Button,
     Card,
     UserDetailsComponent,
-    AddressDetailsComponent,
+    OrderAddressDetailsComponent,
     OrderDetailsComponent,
     CartComponent,
     RouterLink
@@ -35,8 +37,8 @@ import {UserDetailsComponent} from "../../user/details/user-details.component";
 export class NewOrderSuccessComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   protected authService = inject(AuthService);
-  private destroyRef = inject(DestroyRef);
   private cartService = inject(CartService);
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
   goBack() {

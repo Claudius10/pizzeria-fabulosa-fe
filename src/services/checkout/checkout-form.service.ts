@@ -16,7 +16,7 @@ export class CheckoutFormService {
   cashPayment = false; // true shows Do you need change? select
   changeRequested = false; // true shows Bill to change input
 
-  selectedId: AddressId = {id: null, isStore: null};
+  selectedAddress: AddressId = {id: null, isStore: null};
   homeDelivery = true;
   programmedDelivery = false;
 
@@ -32,11 +32,11 @@ export class CheckoutFormService {
       case 1:
         return this.who !== null;
       case 2:
-        return this.who !== null && this.where !== null;
+        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null);
       case 3:
-        return this.who !== null && this.where !== null && this.when !== null;
+        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null) && this.when !== null;
       case 4:
-        return this.who !== null && this.where !== null && this.when !== null && this.how !== null;
+        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null) && this.when !== null && this.how !== null;
       default:
         return false;
     }
@@ -48,7 +48,7 @@ export class CheckoutFormService {
     this.cashPayment = false;
     this.changeRequested = false;
 
-    this.selectedId = {id: null, isStore: null};
+    this.selectedAddress = {id: null, isStore: null};
     this.homeDelivery = true;
     this.programmedDelivery = false;
 

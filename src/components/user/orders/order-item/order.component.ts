@@ -3,12 +3,11 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
-import {userOrderQueryKey} from '../../../../utils/query-keys';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {QueryResult} from '../../../../interfaces/query';
-import {AddressDetailsComponent} from './address-details/address-details.component';
+import {OrderAddressDetailsComponent} from './address-details/order-address-details.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
 import {CartDTO} from '../../../../interfaces/dto/order';
 import {Card} from 'primeng/card';
@@ -33,7 +32,7 @@ import {UserDetailsComponent} from '../../details/user-details.component';
     TranslatePipe,
     RouterLink,
     UserDetailsComponent,
-    AddressDetailsComponent,
+    OrderAddressDetailsComponent,
     OrderDetailsComponent,
     CartComponent,
     Button,
@@ -60,7 +59,7 @@ export class OrderComponent implements OnInit {
   order: QueryResult = this.orderService.findUserOrder({
     id: this.orderId,
     userId: this.authService.userId,
-    queryKey: userOrderQueryKey(this.orderId)
+    queryKey: ["user", "order", this.orderId.toString()]
   });
   orderStatus = toObservable(this.order.status);
   delete: MutationResult = this.orderService.deleteUserOrder();

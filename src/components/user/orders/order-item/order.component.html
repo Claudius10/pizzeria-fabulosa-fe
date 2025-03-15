@@ -4,29 +4,36 @@
 
 @if (order.status() === "success") {
   @if (order.data()!.payload; as order) {
+
     <div class="flex flex-col gap-4 h-full">
       <div class="flex gap-4">
 
         <div class="left-side flex flex-col gap-4 w-full">
+
           <p-card [style]="{ width: '100%' }">
-            <div class="flex flex-col items-center gap-4" routerLink="/user/orders">
+            <div title="Back to Order List" class="flex flex-col items-center gap-4" routerLink="/user/orders">
+
               <div class="flex items-center gap-2">
-                <span class="text-xl text-primary">{{ order.id }}</span>
-                <i class="pi pi-arrow-up-right-and-arrow-down-left-from-center"
+                <span title="Identification Number" class="text-xl text-primary">{{ order.id }}</span>
+                <i title="Minimize Icon"
+                   class="pi pi-arrow-up-right-and-arrow-down-left-from-center"
                    style="color: var(--p-primary-color)"></i>
               </div>
-              <span>{{ "view.order.created.on" | translate }} {{ order.formattedCreatedOn }}</span>
+
+              <span title="Date">{{ "view.order.created.on" | translate }} {{ order.formattedCreatedOn }}</span>
+
             </div>
           </p-card>
 
           <div class="flex flex-col gap-4">
             <p-card>
               <div class="flex flex-col gap-4">
-                <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
+                <span title="Customer Details"
+                      class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
                 <app-user-details/>
               </div>
             </p-card>
-            <app-address-details
+            <order-address-details
               [address]="order.address"
               [orderDetails]="order.orderDetails"
 
@@ -41,14 +48,20 @@
         </div>
       </div>
 
+      <p-button
+        type="button"
+        title="Cancel Order"
+        (click)="beginDelete($event)"
+        severity="danger"
+        label="{{ 'button.cancel' | translate | uppercase}}"/>
       <div class="flex items-center gap-4">
-        <p-button
-          severity="danger"
-          type="button"
-          (click)="beginDelete($event)"
-          label="{{ 'button.cancel' | translate | uppercase}}"/>
-        <span class="text-center"><span
-          class="text-primary">{{ "component.user.order.note" | translate }} </span>{{ "component.user.order.note.text" | translate }}</span>
+        <span title="Cancel Conditions" class="text-center">
+
+          <span class="text-primary">{{ "component.user.order.note" | translate }}</span>
+
+          {{ "component.user.order.note.text" | translate }}
+
+        </span>
       </div>
     </div>
   }

@@ -1,5 +1,4 @@
 export interface where {
-  id: number | null;
   street: string | null;
   number: number | null;
   details: string | null;

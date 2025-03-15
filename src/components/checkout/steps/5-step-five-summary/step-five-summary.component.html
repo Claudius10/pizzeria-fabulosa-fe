@@ -99,13 +99,13 @@
         [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
-        severity="danger"
         type="button"
+        severity="danger"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
-        [severity]="'success'"
         type="button"
+        [severity]="'success'"
         (onClick)="onSubmit()"
         [disabled]="checkoutFormService.step !== 4 || cartService.isEmpty()"
         label="{{ 'button.order.confirm' | translate | uppercase }}"/>

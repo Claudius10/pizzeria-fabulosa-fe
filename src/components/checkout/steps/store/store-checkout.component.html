@@ -1,23 +1,28 @@
 <div
-  [ngClass]="[
-  'card flex flex-col gap-4 border-2 border-transparent rounded-xl',
+  [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
   selected() === store().id ? '!border-primary transition-all duration-300' : '',
   valid() ? '' : 'invalid-border rounded-xl transition-all duration-300'
   ]"
   (click)="selectStore()">
-  <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>
+
+  <span title="Store Name" [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>
+
   <div [ngClass]="['store justify-between', orientation() === 'horizontal' ? '' : 'flex flex-col gap-6']">
+
     <div class="flex items-center gap-2">
-      <i class="pi pi-map"></i>
+      <i title="Map Icon" class="pi pi-map"></i>
       {{ store().address.street }} {{ store().address.number }}
     </div>
+
     <div class="flex items-center gap-2">
-      <i class="pi pi-phone"></i>
+      <i title="Phone Icon" class="pi pi-phone"></i>
       {{ store().phoneNumber }}
     </div>
+
     <div class="flex items-center gap-2">
-      <i class="pi pi-calendar-clock"></i>
+      <i title="Schedule Icon" class="pi pi-calendar-clock"></i>
       <span>{{ currentLang() === 'en' ? store().schedule.en : store().schedule.es }}</span>
+
     </div>
   </div>
 </div>

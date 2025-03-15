@@ -5,7 +5,3 @@ export const RESOURCE_STORES = ["resource", "stores"];
 
 export const USER_ADDRESS_LIST = ["user", "address", "list"];
 export const USER_ORDER_SUMMARY_LIST = ["user", "order", "summary"];
-
-export function userOrderQueryKey(id: string) {
-  return ["user", "order", id.toString()];
-}

@@ -12,8 +12,7 @@ import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../interfaces/forms/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
-import {StoreDTO} from '../../../../interfaces/dto/resources';
-import {QueryResult} from '../../../../interfaces/query';
+import {QueryOnDemand} from '../../../../interfaces/query';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -21,11 +20,11 @@ import {ServerErrorComponent} from '../../../../app/routes/error/server-no-respo
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ErrorService} from '../../../../services/error/error.service';
 import {isFormValid} from '../../../../utils/functions';
-import {SUCCESS} from '../../../../utils/constants';
-import {ResponseDTO} from '../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
+import {ERROR, SUCCESS} from '../../../../utils/constants';
+import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -56,17 +55,16 @@ export class StepTwoWhereComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-  stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  stores: QueryOnDemand = this.resourceService.findStoresOnDemand({queryKey: RESOURCE_STORES});
   storesStatus = toObservable(this.stores.status);
   options: Option[] = [
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
   ];
   selectedOption: Option = this.options[0];
-  validSelection = true;
+  validStoreSelection = true;
 
   form = new FormGroup({
-    id: new FormControl<number | null>(null),
     street: new FormControl("", {
         nonNullable: true,
         updateOn: "change"
@@ -85,44 +83,19 @@ export class StepTwoWhereComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    // --> validate store fetch query
-    const subscription = this.storesStatus.pipe().subscribe({
-      next: status => {
-        if (status === SUCCESS) {
-          const response: ResponseDTO = this.stores.data()!;
-
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          }
-        }
-      }
-    });
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
-
-    // --> set up component
+    // set up component
     this.checkoutFormService.step = 1;
 
     if (!this.authService.isAuthenticated) {
       this.setHomeDeliveryValidators(true);
-    } else {
-      // authed user has home address list to pick from
-      // same validators has store pick up
-      this.setPickUpValidators(true);
     }
 
     // if store or user home address was selected
-    if (this.checkoutFormService.selectedId.id !== null) {
+    if (this.checkoutFormService.selectedAddress.id !== null) {
       // set validators
       this.setHomeDeliveryValidators(false);
-      this.setPickUpValidators(true);
 
-      // set store or user home address id
-      this.form.patchValue({id: this.checkoutFormService.selectedId.id});
-
-      if (!this.checkoutFormService.selectedId.isStore) {
+      if (!this.checkoutFormService.selectedAddress.isStore) {
         this.selectedOption = this.options[0];
       } else {
         this.checkoutFormService.homeDelivery = false;
@@ -141,12 +114,96 @@ export class StepTwoWhereComponent implements OnInit {
     }
   }
 
-  private setPickUpValidators(add: boolean): void {
-    if (add) {
-      this.form.controls.id.addValidators([Validators.required]);
+  selectDelivery(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+
+    // if home delivery selected
+    if (selectElement.value === this.options[0].code) {
+      this.checkoutFormService.homeDelivery = true;
+      this.checkoutFormService.selectedAddress = {id: null, isStore: null};
+
+      // if user is logged in
+      if (this.authService.isAuthenticated) {
+        this.setHomeDeliveryValidators(false);
+      } else {
+        // if anon user
+        this.setHomeDeliveryValidators(true);
+      }
     } else {
-      this.form.controls.id.removeValidators([Validators.required]);
+      // if store delivery selected
+      this.fetchStores();
+      this.checkoutFormService.homeDelivery = false;
+      this.checkoutFormService.where = null;
+      this.setHomeDeliveryValidators(false);
     }
+
+    this.form.reset();
+  }
+
+  setSelectedId(address: AddressId): void {
+    this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
+    this.validStoreSelection = true;
+  }
+
+  private saveFormValues() {
+    this.checkoutFormService.where = {
+      street: this.form.get("street")!.value,
+      number: Number(this.form.get("number")!.value),
+      details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
+    };
+  }
+
+  previousStep() {
+    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
+      this.saveFormValues();
+    }
+
+    this.router.navigate(['order', 'new', 'step-one']);
+  }
+
+  nextStep() {
+    if (this.checkoutFormService.homeDelivery && this.checkoutFormService.selectedAddress.id === null && isFormValid(this.form)) {
+      this.saveFormValues();
+      this.router.navigate(['order', 'new', 'step-three']);
+    }
+
+    if (!this.checkoutFormService.homeDelivery && this.checkoutFormService.selectedAddress.id !== null) {
+      this.router.navigate(['order', 'new', 'step-three']);
+    } else {
+      this.validStoreSelection = false;
+    }
+  }
+
+  cancel() {
+    this.checkoutFormService.clear();
+    this.router.navigate(['/']);
+  }
+
+  private fetchStores() {
+    this.loadingAnimationService.startLoading();
+    this.stores.refetch(); // no need to handle promise here
+
+    const subscription = this.storesStatus.subscribe({
+      next: status => {
+        if (status === SUCCESS) {
+          const response: ResponseDTO = this.stores.data()!;
+
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
+          }
+        }
+
+        if (status === ERROR) {
+          this.errorService.handleServerNoResponse();
+        }
+
+        this.loadingAnimationService.stopLoading();
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
   }
 
   private setHomeDeliveryValidators(add: boolean): void {
@@ -157,97 +214,6 @@ export class StepTwoWhereComponent implements OnInit {
       this.form.controls.street.removeValidators([Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)]);
       this.form.controls.number.removeValidators([Validators.required, Validators.maxLength(10), Validators.pattern(numbersRegex)]);
     }
-  }
-
-  selectDelivery(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-
-    this.checkoutFormService.selectedId = {id: null, isStore: null};
-    this.validSelection = true;
-
-    // if home delivery selected
-    if (selectElement.value === this.options[0].code) {
-      this.checkoutFormService.homeDelivery = true;
-
-      // if user is logged in
-      if (this.authService.isAuthenticated) {
-        this.setHomeDeliveryValidators(false);
-        this.setPickUpValidators(true);
-      } else {
-        // if anon user
-        this.setHomeDeliveryValidators(true);
-        this.setPickUpValidators(false);
-      }
-
-    } else {
-      // if store delivery selected
-      this.setHomeDeliveryValidators(false);
-      this.setPickUpValidators(true);
-      this.checkoutFormService.homeDelivery = false;
-    }
-
-    this.form.reset();
-  }
-
-  setSelectedId(address: AddressId): void {
-    this.checkoutFormService.selectedId = ({id: address.id, isStore: address.isStore});
-    this.form.controls.id.setValue(address.id);
-    this.validSelection = true;
-  }
-
-  private saveFormValues() {
-    if (this.checkoutFormService.selectedId.id !== null) {
-
-      if (!this.checkoutFormService.selectedId.isStore) {
-        // set user home address
-        this.checkoutFormService.where = {
-          id: this.checkoutFormService.selectedId.id,
-          street: null,
-          number: null,
-          details: null
-        };
-
-      } else {
-        // set store id on 'where' if customer selected store pickup
-        const payload = this.stores.data()!.payload as StoreDTO[];
-        const selectedStoreId = payload.findIndex(store => store.id === this.checkoutFormService.selectedId.id);
-        const selectedStore = payload[selectedStoreId];
-
-        this.checkoutFormService.where = {
-          id: selectedStore.id,
-          street: null,
-          number: null,
-          details: null
-        };
-      }
-
-    } else {
-      // else set home delivery values
-      this.checkoutFormService.where = {
-        id: null,
-        street: this.form.get("street")!.value,
-        number: Number(this.form.get("number")!.value),
-        details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
-      };
-    }
-  }
-
-  previousStep() {
-    this.router.navigate(['order', 'new', 'step-one']);
-  }
-
-  nextStep() {
-    if (isFormValid(this.form)) {
-      this.saveFormValues();
-      this.router.navigate(['order', 'new', 'step-three']);
-    } else {
-      this.validSelection = false;
-    }
-  }
-
-  cancel() {
-    this.checkoutFormService.clear();
-    this.router.navigate(['/']);
   }
 
   protected readonly myInput = myInput;

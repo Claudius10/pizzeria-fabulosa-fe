@@ -1,0 +1,38 @@
+<p-card>
+  <div class="flex flex-col gap-4">
+    <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
+
+    <div class="flex flex-col gap-4">
+
+      @if (selectedStore() !== null) {
+        <span title="Pick-up Time">{{ "view.delivery.pickup.time.selected" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
+
+        <div class="flex flex-col gap-4">
+          <span title="Pick-up Store">{{ "view.delivery.pickup.store.selected" | translate }}:</span>
+          <app-store-checkout [orientation]="'vertical'" [highlight]="true" [valid]="true" [store]="selectedStore()!"/>
+        </div>
+
+      } @else {
+        <span title="Time of Delivery">{{ "view.delivery.time.selected" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
+
+        <span title="Address">{{ "form.label.delivery.address" | translate }}:
+                <span
+                  class="text-primary uppercase">{{ address().street }}</span></span>
+
+        <span title="Address Number">{{ "form.label.delivery.number" | translate }}:
+                <span
+                  class="text-primary">{{ address().number }}</span></span>
+
+        @if (address().details) {
+          <span title="Address Details">{{ "form.label.delivery.details" | translate }}: <span
+            class="text-primary uppercase">{{ address().details }}</span></span>
+        }
+      }
+
+    </div>
+  </div>
+</p-card>

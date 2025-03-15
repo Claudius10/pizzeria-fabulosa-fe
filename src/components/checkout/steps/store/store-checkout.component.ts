@@ -5,24 +5,24 @@ import {AddressId} from '../../../../services/checkout/checkout-form.service';
 import {TranslateService} from '@ngx-translate/core';
 
 @Component({
-    selector: 'app-store-checkout',
-    imports: [
-        NgClass
-    ],
-    templateUrl: './store-checkout.component.html',
-    styleUrl: './store-checkout.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-store-checkout',
+  imports: [
+    NgClass
+  ],
+  templateUrl: './store-checkout.component.html',
+  styleUrl: './store-checkout.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
   store = input.required<StoreDTO>();
-  orientation = input<"horizontal" | "vertical">('horizontal');
-  selected = input<number | null>(null);
-  valid = input<boolean>();
-  highlight = input<boolean>();
   onStoreSelect = output<AddressId>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
+  orientation = input<"horizontal" | "vertical">('horizontal');
   currentLang = signal(this.translateService.currentLang);
+  selected = input<number | null>(null);
+  highlight = input<boolean>();
+  valid = input<boolean>();
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
@@ -33,6 +33,6 @@ export class StoreCheckoutComponent implements OnInit {
   }
 
   selectStore() {
-    this.onStoreSelect.emit({id: this.store().id, isStore: true});
+    this.onStoreSelect.emit({id: this.store().address.id, isStore: true});
   }
 }

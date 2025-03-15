@@ -13,6 +13,7 @@ export type OrderDetailsFormData = {
   paymentMethod: string;
   billToChange: number | null;
   comment: string | null;
+  storePickup: boolean
 }
 
 type CartFormData = {

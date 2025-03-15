@@ -47,7 +47,8 @@ describe('OrderHttpServiceTest', () => {
           billToChange: 0,
           deliveryTime: "asap",
           comment: "",
-          paymentMethod: "Card"
+          paymentMethod: "Card",
+          storePickup: false
         },
         addressId: 1
       }
@@ -88,7 +89,8 @@ describe('OrderHttpServiceTest', () => {
           billToChange: 0,
           deliveryTime: "asap",
           comment: "",
-          paymentMethod: "Card"
+          paymentMethod: "Card",
+          storePickup: false
         },
         addressId: 1
       }
@@ -125,7 +127,8 @@ describe('OrderHttpServiceTest', () => {
         billToChange: 0,
         deliveryTime: "asap",
         comment: "",
-        paymentMethod: "Card"
+        paymentMethod: "Card",
+        storePickup: false
       },
       cart: {
         cartItems: [],

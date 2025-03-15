@@ -12,6 +12,7 @@ export type OrderDetailsDTO = {
   billToChange: number | null;
   changeToGive: number | null;
   comment: string | null;
+  storePickup: boolean;
 }
 
 export interface CartItemDTO {

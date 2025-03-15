@@ -36,8 +36,8 @@
           @if (authService.isAuthenticated) {
             <app-user-address-list-view
               (onAddressSelect)="setSelectedId($event)"
-              [selected]="this.checkoutFormService.selectedId.id"
-              [valid]="validSelection"
+              [selected]="this.checkoutFormService.selectedAddress.id"
+              [valid]="validStoreSelection"
             />
           } @else {
             <div class="flex flex-col gap-6">
@@ -115,8 +115,8 @@
                 <app-store-checkout
                   [store]="store"
                   (onStoreSelect)="setSelectedId($event)"
-                  [selected]="this.checkoutFormService.selectedId.id"
-                  [valid]="validSelection"
+                  [selected]="this.checkoutFormService.selectedAddress.id"
+                  [valid]="validStoreSelection"
                 />
               }
             }

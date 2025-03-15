@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing';
 
 import {ResourceService} from './resource.service';
 import {ResourcesHttpService} from './resources-http.service';
-import {QueryResult} from '../../../interfaces/query';
+import {QueryOnDemand, QueryResult} from '../../../interfaces/query';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('ResourceServiceTests', () => {
@@ -44,6 +44,14 @@ describe('ResourceServiceTests', () => {
     TestBed.runInInjectionContext(() => {
       const queryResult: QueryResult = service.findStores({queryKey: [""]});
       expect(queryResult.status()).toEqual("pending");
+    });
+  });
+
+  it('givenFindStoresOnDemand_thenReturnQueryOnDemand', () => {
+    TestBed.runInInjectionContext(() => {
+      const queryOnDemand: QueryOnDemand = service.findStoresOnDemand({queryKey: [""]});
+
+      expect(queryOnDemand.status()).toEqual("pending");
     });
   });
 });

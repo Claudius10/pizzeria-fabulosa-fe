@@ -1,5 +1,5 @@
 import {ErrorDTO, ResponseDTO} from '../interfaces/http/api';
-import {QueryResult} from '../interfaces/query';
+import {QueryOnDemand, QueryResult} from '../interfaces/query';
 import {signal} from '@angular/core';
 
 export function buildErrorResponse(): ResponseDTO {
@@ -54,6 +54,16 @@ export function buildResponse(
 
 export function buildQueryResult(): QueryResult {
   return {
+    status: signal("pending"),
+    error: signal(null),
+    data: signal(undefined),
+  };
+}
+
+export function buildQueryOnDemand(): QueryOnDemand {
+  return {
+    refetch: () => new Promise(resolve => {
+    }),
     status: signal("pending"),
     error: signal(null),
     data: signal(undefined),

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST} from '../../../../utils/query-keys';
@@ -12,7 +12,7 @@ import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../utils/regex';
 import {CartService} from '../../../../services/cart/cart.service';
 import {OrderService} from '../../../../services/http/order/order.service';
 import {MutationResult} from '../../../../interfaces/mutation';
-import {QueryResult} from '../../../../interfaces/query';
+import {QueryOnDemand, QueryResult} from '../../../../interfaces/query';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {AddressDTO, CartItemDTO} from '../../../../interfaces/dto/order';
@@ -42,7 +42,7 @@ import {UserDetailsComponent} from '../../../user/details/user-details.component
   styleUrl: './step-five-summary.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StepFiveSummaryComponent implements OnDestroy {
+export class StepFiveSummaryComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
   protected checkoutFormService = inject(CheckoutFormService);
   private resourceService = inject(ResourceService);
@@ -54,31 +54,35 @@ export class StepFiveSummaryComponent implements OnDestroy {
   private router = inject(Router);
   private createAnonOrder: MutationResult = this.orderService.createAnonOrder();
   private createUserOrder: MutationResult = this.orderService.createUserOrder();
-  stores: QueryResult = this.resourceService.findStores({queryKey: RESOURCE_STORES});
+  stores: QueryOnDemand = this.resourceService.findStoresOnDemand({queryKey: RESOURCE_STORES});
   selectedStore: StoreDTO | null = null;
   selectedAddress: AddressDTO | null = null;
 
   constructor() {
     this.checkoutFormService.step = 4;
+    if (this.checkoutFormService.isStepFilled(4)) {
 
-    if (this.checkoutFormService.isStepFilled(4) && this.checkoutFormService.where !== null && this.checkoutFormService.where.id !== null) {
+      if (this.checkoutFormService.where === null && this.checkoutFormService.selectedAddress.id !== null) {
+        // either store or user address was selected
 
-      // selected store, either by user or anon
-      if (this.checkoutFormService.selectedId.isStore) {
-        const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - guaranteed to be in cache
-        const selectedStoreIndex = fetchedStores.findIndex(store => store.id === this.checkoutFormService.where!.id);
-        this.selectedStore = fetchedStores[selectedStoreIndex];
-      } else {
-        // if user is authed
-        if (this.authService.isAuthenticated) {
-          const userAddressList: QueryResult = this.userService.findUserAddressList({
-            queryKey: USER_ADDRESS_LIST,
-            id: this.authService.userId
-          }); // NOTE - guaranteed to be in cache
+        if (this.checkoutFormService.selectedAddress.isStore) {
+          // store address
+          const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - If store was selected, then data is in cache
+          const selectedStoreIndex = fetchedStores.findIndex(store => store.address.id === this.checkoutFormService.selectedAddress.id);
+          this.selectedStore = fetchedStores[selectedStoreIndex];
 
-          const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
-          const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.where!.id);
-          this.selectedAddress = fetchedUserAddressList[selectedAddressIndex];
+        } else {
+          // user address
+          if (this.authService.isAuthenticated) {
+            const userAddressList: QueryResult = this.userService.findUserAddressList({
+              queryKey: USER_ADDRESS_LIST,
+              id: this.authService.userId
+            }); // NOTE - guaranteed to be in cache
+
+            const fetchedUserAddressList = userAddressList.data()!.payload as AddressDTO[];
+            const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.selectedAddress.id);
+            this.selectedAddress = fetchedUserAddressList[selectedAddressIndex];
+          }
         }
       }
     }
@@ -97,7 +101,9 @@ export class StepFiveSummaryComponent implements OnDestroy {
       this.loadingAnimationService.startLoading();
 
       if (this.authService.isAuthenticated) {
-        this.newUserOrder();
+        if (this.checkoutFormService.selectedAddress.id !== null) {
+          this.newUserOrder();
+        }
       } else {
         this.newAnonOrder();
       }
@@ -105,17 +111,18 @@ export class StepFiveSummaryComponent implements OnDestroy {
     }
   }
 
-  private newAnonOrder() {
+  private newUserOrder() {
     const payload: NewUserOrderFormData = {
       userId: this.authService.userId,
       order: {
-        addressId: this.checkoutFormService.selectedId.id!,
+        addressId: this.checkoutFormService.selectedAddress.id!,
         orderDetails: {
           id: null,
           deliveryTime: this.checkoutFormService.when!.deliveryTime,
           paymentMethod: this.checkoutFormService.how!.paymentMethod,
           billToChange: this.checkoutFormService.how!.billToChange,
           comment: this.form.get("comment")!.value,
+          storePickup: this.checkoutFormService.selectedAddress.isStore !== null
         },
         cart: {
           id: null,
@@ -149,7 +156,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
     });
   }
 
-  private newUserOrder() {
+  private newAnonOrder() {
     const payload: AnonOrderFormData = {
       customer: {
         name: this.checkoutFormService.who!.name,
@@ -157,7 +164,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         email: this.checkoutFormService.who!.email,
       },
       address: {
-        id: this.checkoutFormService.where!.id,
+        id: this.checkoutFormService.selectedAddress.id,
         street: this.checkoutFormService.where!.street,
         number: this.checkoutFormService.where!.number,
         details: this.checkoutFormService.where!.details
@@ -168,6 +175,7 @@ export class StepFiveSummaryComponent implements OnDestroy {
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
         billToChange: this.checkoutFormService.how!.billToChange,
         comment: this.form.get("comment")!.value,
+        storePickup: this.checkoutFormService.selectedAddress.isStore !== null
       },
       cart: {
         id: null,
@@ -211,10 +219,6 @@ export class StepFiveSummaryComponent implements OnDestroy {
 
   firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
-  }
-
-  ngOnDestroy(): void {
-    this.loadingAnimationService.stopLoading();
   }
 }
 

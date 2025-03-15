@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE, store, userOrder} from '../../api-responses';
+import {AUTH_TOKEN_COOKIE, userOrder} from '../../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
@@ -12,9 +12,9 @@ test.describe('Render', () => {
       await route.fulfill({json: userOrder});
     });
 
-    await page.route('*/**/api/v1/resource/store', async route => {
-      await route.fulfill({json: store});
-    });
+    // await page.route('*/**/api/v1/resource/store', async route => {
+    //   await route.fulfill({json: store});
+    // });
 
     await page.goto('/user/orders/1');
   });

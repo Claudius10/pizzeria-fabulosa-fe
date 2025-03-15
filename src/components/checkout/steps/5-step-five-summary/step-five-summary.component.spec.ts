@@ -14,7 +14,7 @@ describe('StepFiveSummaryComponent', () => {
   beforeEach(async () => {
     const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressList']);
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findStores']);
+    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findStores', 'findStoresOnDemand']);
     const orderServiceSpy = jasmine.createSpyObj('OrderService', ['createAnonOrder', 'createUserOrder']);
 
     await TestBed.configureTestingModule({
