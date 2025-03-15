@@ -695,7 +695,7 @@ test.describe('Buttons', () => {
     // Arrange
 
     const cancel = page.getByRole("button", {name: 'Cancel'});
-    expect(page.url()).toBe('http://localhost:4200/registration');
+    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
 
     // Act
 
@@ -703,7 +703,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://localhost:4200/');
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenSubmitClick_whenEmptyForm_thenTriggerValidationErrors', async ({page}) => {
@@ -787,7 +787,7 @@ test.describe('Buttons', () => {
 
     await expect(page.getByText('Information')).toBeVisible();
     await expect(page.getByText('Successful registration! You may now login.')).toBeVisible();
-    expect(page.url()).toBe('http://localhost:4200/');
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 });
 
@@ -811,7 +811,7 @@ test.describe('Footer', () => {
 
     const passwordText = page.getByText("Password");
     const passwordInput = page.getByLabel('password');
-    const showPasswordIcon = page.getByTitle('Show Password');
+    const showPasswordIcon = page.getByTitle('Toggle Password', {exact: true});
 
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
@@ -871,6 +871,6 @@ test.describe('API KO', () => {
 
     await expect(page.getByText('Error')).toBeVisible();
     await expect(page.getByText('Our servers are not available at the moment. Please try again later')).toBeVisible();
-    expect(page.url()).toBe('http://localhost:4200/registration');
+    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
   });
 });

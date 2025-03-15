@@ -7,12 +7,14 @@
   [ngClass]="{'container rounded-border shadow-sm origin-top mt-2 border border-primary':visible, 'hidden':!visible}">
   <div class="flex flex-col gap-2 m-0 p-0">
     <p-button
+      type="button"
       title="Castellano"
       (click)="changeLanguage('es')"
       label="Castellano"
       [text]="true"
       [raised]="true"/>
     <p-button
+      type="button"
       title="English"
       (click)="changeLanguage('en')"
       label="English"

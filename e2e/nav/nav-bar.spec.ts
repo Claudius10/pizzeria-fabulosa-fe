@@ -335,8 +335,10 @@ test.describe('Small screen tests', () => {
 
     const navMenu = page.getByTitle('Navigation Menu');
     await expect(navMenu).toBeVisible();
-    const closeButton = page.getByRole('complementary').locator('p-button');
+
     await navMenu.click();
+
+    const closeButton = page.getByRole('complementary').locator('p-button');
     await expect(closeButton).toBeVisible();
     await expect(page.getByRole("button", {name: 'Home'})).toBeVisible();
     await expect(page.getByRole("button", {name: 'Pizzas'})).toBeVisible();

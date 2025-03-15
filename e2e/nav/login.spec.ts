@@ -32,7 +32,7 @@ test.describe('Render', () => {
 
     const passwordText = page.getByText("Password");
     const passwordInput = page.getByLabel('password');
-    const showPasswordIcon = page.getByTitle('Toggle Password Visibility');
+    const showPasswordIcon = page.getByTitle('Toggle Password', {exact: true});
 
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
@@ -75,7 +75,7 @@ test.describe('Render', () => {
 
     const passwordText = page.getByText("Password");
     const passwordInput = page.getByLabel('password');
-    const showPasswordIcon = page.getByTitle('Toggle Password Visibility');
+    const showPasswordIcon = page.getByTitle('Toggle Password', {exact: true});
 
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
@@ -335,7 +335,7 @@ test.describe('Validation: Password', () => {
     // Arrange
 
     const passwordInput = page.getByLabel('password');
-    const passwordVisibility = page.getByTitle('Toggle Password Visibility');
+    const showPasswordIcon = page.getByTitle('Toggle Password', {exact: true});
     const signInText = page.getByText("Sign In");
 
     // Act
@@ -343,7 +343,7 @@ test.describe('Validation: Password', () => {
     await passwordInput.fill('Password1');
     await expect(page.getByText('Password is requiered')).not.toBeVisible();
     await signInText.click();
-    await passwordVisibility.click(); // is an actual eye check the only way?
+    await showPasswordIcon.click(); // is an actual eye check the only way?
 
     // Assert
 
@@ -394,7 +394,7 @@ test.describe('Submit: API OK', () => {
         {
           status: 200,
           headers: {
-            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Domain=localhost; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT; Secure; SameSite=Lax'
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT;',
           },
         });
     });
@@ -426,7 +426,7 @@ test.describe('Submit: API OK', () => {
         {
           status: 200,
           headers: {
-            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Domain=localhost; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT; Secure; SameSite=Lax'
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT;',
           },
         });
     });
