@@ -178,7 +178,7 @@
   "toast.order.cancel.order.cancelled": "Pedido cancelado con éxito. Redirigiendo en 2 segundos...",
   "toast.error.server.detail": "El servidor no está disponible en estos momentos. Por favor, inténtelo más tarde.",
   "toast.error.api.user.id.no.match.detail": "Por favor reinicie la sesión. Si el problema persiste, contáctenos.",
-  "toast.error.api.user.not.found.detail": "El email o contraseña proporcionada no figura en los registros",
+  "toast.error.api.user.not.found.detail": "Los credenciales son inválidos o no existe una cuenta para el correo electrónico introducido. Por favor, inténtelo de nuevo.",
   "toast.error.api.user.email.unique.detail": "El correo electrónico proporcionado ya ha sido registrado",
   "toast.error.api.user.address.list.full.detail": "No puede añadir más de tres domicilios",
   "toast.error.api.user.order.not.found.detail": "No hemos podido localizar su pedido. Si el problema persiste, contáctenos.",

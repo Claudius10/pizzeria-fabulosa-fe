@@ -12,6 +12,8 @@ import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
+import {ResponseDTO} from '../../../interfaces/http/api';
+import {ErrorService} from '../../../services/error/error.service';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -31,6 +33,7 @@ export class LogoutDialogComponent implements OnDestroy {
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private accountService = inject(AccountService);
+  private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
@@ -55,21 +58,26 @@ export class LogoutDialogComponent implements OnDestroy {
   private logout() {
     this.loadingAnimationService.startLoading();
     this.logoutUser.mutate({payload: null}, {
-      onSuccess: () => {
-        // NOTE - ResponseDTO is not being returned when logging out
-        this.queryClient.removeQueries({queryKey: ["user"]});
-        this.authService.logout();
-        this.cartService.clear();
-        this.checkoutFormService.clear();
+      onSuccess: (response: ResponseDTO) => {
+        // NOTE: successful logout does not return responseDTO, but fail does
 
-        this.messageService.add({
-          severity: 'success',
-          summary: this.translateService.instant("toast.severity.info"),
-          detail: this.translateService.instant("dialog.logout.success.message"),
-          life: 2000
-        });
+        if (response && response.status.error && response.error) {
+          this.errorService.handleError(response.error);
+        } else {
+          this.queryClient.removeQueries({queryKey: ["user"]});
+          this.authService.logout();
+          this.cartService.clear();
+          this.checkoutFormService.clear();
 
-        this.router.navigate(["/"]);
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("dialog.logout.success.message"),
+            life: 2000
+          });
+
+          this.router.navigate(["/"]);
+        }
       },
       onError: () => {
         this.messageService.add({

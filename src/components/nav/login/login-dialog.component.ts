@@ -20,6 +20,8 @@ import {isFormValid} from '../../../utils/functions';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {myIcon} from '../../../primeng/icon';
 import {COOKIE_ID_TOKEN} from '../../../utils/constants';
+import {emailRgx} from '../../../utils/regex';
+import {ResponseDTO} from '../../../interfaces/http/api';
 
 @Component({
   selector: 'app-login-dialog',
@@ -56,7 +58,7 @@ export class LoginDialogComponent implements OnDestroy {
 
   form = new FormGroup({
     email: new FormControl<string>("", {
-      validators: [Validators.required],
+      validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
       updateOn: 'change'
     }),
@@ -104,29 +106,34 @@ export class LoginDialogComponent implements OnDestroy {
     this.loadingAnimationService.startLoading();
 
     this.login.mutate({payload: data}, {
-      onSuccess: () => {
-        // NOTE - ResponseDTO is not being returned when logging in
-        this.cartService.clear();
-        this.checkoutFormService.clear();
+      onSuccess: (response: ResponseDTO) => {
+        // NOTE: successful login does not return responseDTO, but fail, such as BadCredentialsException, does
 
-        const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
-
-        if (result) {
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("toast.form.login.success.detail"),
-            life: 3000,
-          });
-
-          this.closeLoginDialog();
+        if (response && response.status.error && response.error) {
+          this.errorService.handleError(response.error);
         } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translateService.instant("toast.severity.error"),
-            detail: this.translateService.instant("toast.error.api.token.invalid"),
-            life: 3000,
-          });
+          this.cartService.clear();
+          this.checkoutFormService.clear();
+
+          const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
+
+          if (result) {
+            this.messageService.add({
+              severity: 'success',
+              summary: this.translateService.instant("toast.severity.info"),
+              detail: this.translateService.instant("toast.form.login.success.detail"),
+              life: 3000,
+            });
+
+            this.closeLoginDialog();
+          } else {
+            this.messageService.add({
+              severity: 'error',
+              summary: this.translateService.instant("toast.severity.error"),
+              detail: this.translateService.instant("toast.error.api.token.invalid"),
+              life: 3000,
+            });
+          }
         }
       },
       onError: () => {
