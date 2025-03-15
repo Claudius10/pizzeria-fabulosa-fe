@@ -62,7 +62,7 @@ export function buildQueryResult(): QueryResult {
 
 export function buildQueryOnDemand(): QueryOnDemand {
   return {
-    refetch: () => new Promise(resolve => {
+    refetch: () => new Promise(() => {
     }),
     status: signal("pending"),
     error: signal(null),
