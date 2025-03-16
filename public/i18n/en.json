@@ -44,7 +44,7 @@
   "form.invalid.password.matching": "Password must match",
   "form.invalid.contact.number": "Contact number must contain exactly nine digits",
   "form.invalid.delivery.address": "Delivery address is requiered",
-  "form.invalid.delivery.number": "Delivery number is requiered: four digits máximum",
+  "form.invalid.delivery.number": "Delivery number is requiered: four digits maximum",
   "form.invalid.delivery.details": "Delivery details input is invalid",
   "form.invalid.delivery.programmed.hour": "The hour is requiered",
   "form.invalid.bill.change": "Bill to change must be greater than the total or the total after offers",

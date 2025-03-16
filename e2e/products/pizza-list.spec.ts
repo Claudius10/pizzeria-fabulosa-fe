@@ -37,7 +37,7 @@ test.describe('API OK', () => {
   });
 
   test('ShowCuatroQuesosPizza', async ({page}) => {
-    await expect(page.getByAltText('Pizza Cuatro Quesos')).toBeVisible();
+    await expect(page.getByAltText('Cuatro Quesos')).toBeVisible();
     await expect(page.getByText('Cuatro Quesos')).toBeVisible();
     await expect(page.getByRole('button', {name: 'Medium'})).toBeVisible();
     await expect(page.getByRole('button', {name: 'Large'})).toBeVisible();

@@ -1,10 +1,11 @@
-<form class="flex flex-col gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
+<form title="Address Form" class="flex flex-col gap-4" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="flex flex-col gap-6">
 
     <div class="flex flex-col gap-2">
       <p-iconfield [dt]="myIcon('{primary.400}')">
-        <p-inputicon styleClass="pi pi-directions"/>
+        <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
         <input
+          title="Address Input"
           class="w-full"
           id="street"
           type="text"
@@ -15,16 +16,16 @@
         >
       </p-iconfield>
       @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-        <div id="street-help" class="invalid-text">
-          {{ "form.invalid.delivery.address" | translate }}
-        </div>
+        <span title="Invalid Address" id="street-help"
+              class="invalid-text">{{ "form.invalid.delivery.address" | translate }}</span>
       }
     </div>
 
     <div class="flex flex-col gap-2">
       <p-iconfield [dt]="myIcon('{primary.400}')">
-        <p-inputicon styleClass="pi pi-home"/>
+        <p-inputicon title="Number icon" styleClass="pi pi-home"/>
         <input
+          title="Address Number Input"
           class="w-full"
           id="streetNumber"
           type="tel"
@@ -35,16 +36,17 @@
         >
       </p-iconfield>
       @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-        <div id="number-help" class="invalid-text">
+        <span title="Invalid Address Number" id="number-help" class="invalid-text">
           {{ "form.invalid.delivery.number" | translate }}
-        </div>
+        </span>
       }
     </div>
 
     <div class="flex flex-col gap-2">
       <p-iconfield [dt]="myIcon('{primary.400}')">
-        <p-inputicon styleClass="pi pi-info-circle"/>
+        <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
         <input
+          title="Details Input"
           class="w-full"
           id="details"
           type="text"
@@ -55,20 +57,22 @@
         >
       </p-iconfield>
       @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-        <small id="details-help" class="invalid-text">
+        <span title="Invalid Details" id="details-help" class="invalid-text">
           {{ "form.invalid.delivery.details" | translate }}
-        </small>
+        </span>
       }
     </div>
   </div>
 
   <div class="buttons">
     <p-button
-      severity="danger"
+      title="Cancel"
       type="button"
+      severity="danger"
       (click)="cancel()"
       label="{{ 'button.cancel' | translate | uppercase }}"/>
     <p-button
+      title="Continue"
       type="submit"
       label="{{ 'button.continue' | translate | uppercase }}"/>
   </div>

@@ -1,11 +1,17 @@
 <div class="card flex justify-between items-center">
   <div class="flex flex-col gap-4">
-    <span>{{ "form.label.delivery.address" | translate }}: {{ address().street }}</span>
-    <span>{{ "form.label.delivery.number" | translate }}: {{ address().number }}</span>
+    <span title="Location">{{ "form.label.delivery.address" | translate }}: {{ address().street }}</span>
+    <span title="Number">{{ "form.label.delivery.number" | translate }}: {{ address().number }}</span>
     @if (address().details !== null) {
-      <span>{{ "form.label.delivery.details" | translate }}: {{ address().details }}</span>
+      <span title="Details">{{ "form.label.delivery.details" | translate }}: {{ address().details }}</span>
     }
   </div>
-  <p-button type="button" severity="danger" size="small" icon="pi pi-trash" [raised]="true"
-            (click)="deleteAddress(address().id)"/>
+  <p-button
+    type="button"
+    title="Delete Address"
+    severity="danger"
+    size="small"
+    icon="pi pi-trash"
+    [raised]="true"
+    (click)="deleteAddress(address().id)"/>
 </div>

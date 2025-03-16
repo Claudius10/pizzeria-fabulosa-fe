@@ -1,12 +1,13 @@
 <div [ngClass]="['flex flex-col rounded-border', theProduct().type !== 'pizza' ? 'container' : 'container-desc' ]">
   <!-- IMAGE -->
-  <img title="Pizza {{theProduct().name.es}}" class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190" alt="Pizza {{theProduct().name.es}}">
+  <img title="{{theProduct().name.es}} Image" class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190"
+       alt="{{theProduct().name.es}} Image">
 
   <div class="flex flex-col items-center justify-between product-container">
 
     <!-- NAME -->
     <span title="Name"
-      class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
+          class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
 
     <!-- FORMAT -->
     @if (theProduct().formats) {

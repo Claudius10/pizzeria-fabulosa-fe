@@ -1,8 +1,9 @@
 <p-menubar [model]="userProfileMenu" [dt]="userMenuBar()">
   <ng-template #item let-item>
-    <a routerLinkActive="color" [routerLink]="item.route" class="flex justify-center items-center">
-      <span [class]="item.icon"></span>
-      <span class="ml-2">{{ item.label | translate }}</span>
+    <a title="{{item.label}}" routerLinkActive="color" [routerLink]="item.route"
+       class="flex justify-center items-center">
+      <span title="{{item.label | translate}} Icon" [class]="item.icon"></span>
+      <span title="{{item.label | translate}}" class="ml-2">{{ item.label | translate }}</span>
     </a>
   </ng-template>
 </p-menubar>

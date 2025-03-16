@@ -8,16 +8,16 @@
   (onHide)="closeLoginDialog()"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form title="Login Box" [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="flex flex-col px-10 py-6 gap-6 style">
 
         <div class="flex justify-center items-center">
           <span
-            title="Sign In Box"
+            title="Sign in"
             class="flex justify-center text-primary-50 text-center text-2xl font-bold title">
             {{ "component.form.login.title" | translate }}
           </span>
-          <i title="Close Sign In Box" class="pi pi-times cursor-pointer" style="color: #ffffff"
+          <i title="Close Login Box" class="pi pi-times cursor-pointer" style="color: #ffffff"
              (click)="closeLoginDialog()"></i>
         </div>
 

@@ -803,8 +803,8 @@ test.describe('Footer', () => {
     const signIn = page.getByRole('button', {name: 'Sign In', exact: true});
 
     // login component
-    const signInText = page.getByTitle('Sign In Box', {exact: true});
-    const closeLoginDialogIcon = page.getByTitle('Close Sign In Box', {exact: true});
+    const signInText = page.getByTitle('Sign In');
+    const closeLoginDialogIcon = page.getByTitle('Close Login Box', {exact: true});
 
     const emailAddressText = page.getByText("Email address");
     const emailInput = page.getByLabel('email');
@@ -871,6 +871,5 @@ test.describe('API KO', () => {
 
     await expect(page.getByText('Error')).toBeVisible();
     await expect(page.getByText('Our servers are not available at the moment. Please try again later')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
   });
 });

@@ -25,7 +25,7 @@ test.describe('Render', () => {
     const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
     const signInText = page.getByText("Sign In");
-    const closeLoginDialogIcon = page.getByTitle('Close Sign In Box');
+    const closeLoginDialogIcon = page.getByTitle('Close Login Box');
 
     const emailAddressText = page.getByText("Email address");
     const emailInput = page.getByLabel('email');
@@ -68,7 +68,7 @@ test.describe('Render', () => {
     const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
     const signInText = page.getByText("Sign In");
-    const closeLoginDialogIcon = page.getByTitle('Close Sign In Box');
+    const closeLoginDialogIcon = page.getByTitle('Close Login Box');
 
     const emailAddressText = page.getByText("Email address");
     const emailInput = page.getByLabel('email');

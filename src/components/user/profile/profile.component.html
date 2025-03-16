@@ -1,7 +1,9 @@
-<p-card>
+<p-card title="Profile">
   <div class="flex flex-col gap-8">
     <app-user-details/>
     <p-button
+      type="button"
+      title="Toggle Address List"
       (click)="toggleAddressList()"
       label="{{ 'component.user.profile.view.address.list' | translate }}"
       icon="{{viewAddressList ? 'pi pi-angle-down' : 'pi pi-angle-right'}}"
