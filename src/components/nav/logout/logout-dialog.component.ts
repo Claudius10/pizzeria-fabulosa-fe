@@ -82,7 +82,7 @@ export class LogoutDialogComponent implements OnDestroy {
       onError: () => {
         this.messageService.add({
           severity: 'error',
-          summary: this.translateService.instant("toast.severity.info"),
+          summary: this.translateService.instant("toast.severity.error"),
           detail: this.translateService.instant("dialog.logout.error.message"),
           life: 2000
         });

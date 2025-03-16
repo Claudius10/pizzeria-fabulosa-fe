@@ -394,10 +394,14 @@ test.describe('Submit: API OK', () => {
         {
           status: 200,
           headers: {
-            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT;',
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400;',
           },
         });
     });
+
+    const loginButton = page.getByTitle('Open Login Box');
+    const logoutButton = page.getByTitle('Sign Out');
+    const userProfileButton = page.getByTitle('Profile');
 
     const emailInput = page.getByLabel('email');
     const passwordInput = page.getByLabel('password');
@@ -407,14 +411,18 @@ test.describe('Submit: API OK', () => {
     await expect(page.getByText('Email is requiered')).not.toBeVisible();
     await expect(page.getByText('Password is requiered')).not.toBeVisible();
 
+
     // Act
 
     await enterButton.click();
 
     // Assert
 
-    await expect(page.getByText('Information')).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Information')).toBeVisible();
     await expect(page.getByText('You have successfully signed-in')).toBeVisible();
+    await expect(loginButton).not.toBeVisible();
+    await expect(logoutButton).toBeVisible();
+    await expect(userProfileButton).toBeVisible();
   });
 
   test('givenDummyAccountLogin_thenLogin', async ({page}) => {
@@ -426,11 +434,14 @@ test.describe('Submit: API OK', () => {
         {
           status: 200,
           headers: {
-            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400; Expires=Sun, 16 Mar 2055 18:17:55 GMT;',
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400;',
           },
         });
     });
 
+    const userProfileButton = page.getByTitle('Profile');
+    const loginButton = page.getByTitle('Open Login Box');
+    const logoutButton = page.getByTitle('Sign Out');
     const dummyLoginButton = page.getByRole("button", {name: 'Use a dummy account'});
 
     // Act
@@ -439,8 +450,11 @@ test.describe('Submit: API OK', () => {
 
     // Assert
 
-    await expect(page.getByText('Information')).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Information')).toBeVisible();
     await expect(page.getByText('You have successfully signed-in')).toBeVisible();
+    await expect(loginButton).not.toBeVisible();
+    await expect(logoutButton).toBeVisible();
+    await expect(userProfileButton).toBeVisible();
   });
 
   test('givenEnterClick_whenBadCredentials_thenShowBadCredentialsMessage', async ({page}) => {
@@ -469,8 +483,118 @@ test.describe('Submit: API OK', () => {
 
     // Assert
 
-    await expect(page.getByText('Warning')).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Warning')).toBeVisible();
     await expect(page.getByText('The credentials are invalid or no account exists for the entered email address. Please, try again.')).toBeVisible();
+  });
+});
+
+test.describe('Logout', () => {
+  test.beforeEach(async ({page}) => {
+    await page.route('*/**/api/v1/resource/offer', async route => {
+      await route.fulfill({json: offers});
+    });
+
+    await page.route('*/**/api/v1/resource/store', async route => {
+      await route.fulfill({json: stores});
+    });
+
+    await page.route('*/**/api/v1/auth/login?username=clau@gmail.com&password=password', async route => {
+      await route.fulfill(
+        {
+          status: 200,
+          headers: {
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400;',
+          },
+        });
+    });
+
+    await page.goto('/');
+
+    const loginButton = page.getByTitle('Open Login Box');
+    await expect(loginButton).toBeVisible();
+    await loginButton.click();
+
+    const emailInput = page.getByLabel('email');
+    const passwordInput = page.getByLabel('password');
+    const enterButton = page.getByRole("button", {name: 'ENTER'});
+    await emailInput.fill('clau@gmail.com');
+    await passwordInput.fill('password');
+    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+
+    await enterButton.click();
+  });
+
+  test('givenClickOnLogout_whenLoggedIn_thenLogout', async ({page}) => {
+
+    // Arrange
+
+    await page.route('*/**/api/v1/auth/logout', async route => {
+      await route.fulfill(
+        {
+          status: 200,
+          headers: {
+            'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=; Path=/; Max-Age=0;',
+          },
+        });
+    });
+
+    const userProfileButton = page.getByTitle('Profile');
+    const loginButton = page.getByTitle('Open Login Box');
+    const logoutButton = page.getByTitle('Sign Out');
+    const yesButton = page.getByRole("button", {name: 'Yes'});
+    const noButton = page.getByRole("button", {name: 'No'});
+    await logoutButton.click();
+
+    await expect(page.getByTitle('Header').getByText('Information')).toBeVisible();
+    await expect(page.getByText('Proceed with sign-out?')).toBeVisible();
+    await expect(yesButton).toBeVisible();
+    await expect(noButton).toBeVisible();
+
+    // Act
+
+    await yesButton.click();
+
+    // Assert
+
+    await expect(loginButton).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Information').nth(1)).toBeVisible();
+    await expect(page.getByText('You have successfully signed-out')).toBeVisible();
+    await expect(logoutButton).not.toBeVisible();
+    await expect(yesButton).not.toBeVisible();
+    await expect(noButton).not.toBeVisible();
+    await expect(userProfileButton).not.toBeVisible();
+  });
+
+  test('givenClickOnLogout_whenLoggedInAndError_thenDisplayErrorMessage', async ({page}) => {
+
+    // Arrange
+
+    const userProfileButton = page.getByTitle('Profile');
+    const loginButton = page.getByTitle('Open Login Box');
+    const logoutButton = page.getByTitle('Sign Out');
+    const yesButton = page.getByRole("button", {name: 'Yes'});
+    const noButton = page.getByRole("button", {name: 'No'});
+    await logoutButton.click();
+
+    await expect(page.getByTitle('Header').getByText('Information')).toBeVisible();
+    await expect(page.getByText('Proceed with sign-out?')).toBeVisible();
+    await expect(yesButton).toBeVisible();
+    await expect(noButton).toBeVisible();
+
+    // Act
+
+    await yesButton.click();
+
+    // Assert
+
+    await expect(logoutButton).toBeVisible();
+    await expect(userProfileButton).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Error')).toBeVisible();
+    await expect(page.getByText('Sign-out unsuccessful. If the problem persists, contact us.')).toBeVisible();
+    await expect(loginButton).not.toBeVisible();
+    await expect(yesButton).not.toBeVisible();
+    await expect(noButton).not.toBeVisible();
   });
 });
 
