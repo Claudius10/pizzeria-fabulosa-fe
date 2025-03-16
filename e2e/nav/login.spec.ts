@@ -37,7 +37,7 @@ test.describe('Render', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
     const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountButton = page.getByRole("button", {name: 'To Register Page'});
+    const createAccountButton = page.getByRole("button", {name: 'Create an account'});
     const orText = page.getByText("or", {exact: true});
     const dummyLoginButton = page.getByRole("button", {name: 'Use a dummy account'});
 
@@ -80,9 +80,9 @@ test.describe('Render', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
     const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountText = page.getByRole("button", {name: 'To Register Page'});
+    const createAccountButton = page.getByRole("button", {name: 'Create an account'});
     const orText = page.getByText("or", {exact: true});
-    const dummyLoginText = page.getByRole("button", {name: 'Use a dummy account'});
+    const dummyLoginButton = page.getByRole("button", {name: 'Use a dummy account'});
 
     await loginButton.click();
 
@@ -95,9 +95,9 @@ test.describe('Render', () => {
     await expect(showPasswordIcon).toBeVisible();
     await expect(enterButton).toBeVisible();
     await expect(questionText).toBeVisible();
-    await expect(createAccountText).toBeVisible();
+    await expect(createAccountButton).toBeVisible();
     await expect(orText).toBeVisible();
-    await expect(dummyLoginText).toBeVisible();
+    await expect(dummyLoginButton).toBeVisible();
 
     // Act
 
@@ -114,9 +114,33 @@ test.describe('Render', () => {
     await expect(showPasswordIcon).not.toBeVisible();
     await expect(enterButton).not.toBeVisible();
     await expect(questionText).not.toBeVisible();
-    await expect(createAccountText).not.toBeVisible();
+    await expect(createAccountButton).not.toBeVisible();
     await expect(orText).not.toBeVisible();
-    await expect(dummyLoginText).not.toBeVisible();
+    await expect(dummyLoginButton).not.toBeVisible();
+  });
+
+  test('givenClickOnCreateNewAccount_thenRedirectToRegistrationRoute', async ({page}) => {
+
+    // Arrange
+
+    const loginButton = page.getByTitle('Open Login Box');
+    await expect(loginButton).toBeVisible();
+
+    const createAccountButton = page.getByRole("button", {name: 'Create an account'});
+
+    await loginButton.click();
+    await expect(createAccountButton).toBeVisible();
+
+    // Act
+
+    await createAccountButton.click();
+
+    // Assert
+
+    await page.waitForURL('http://192.168.1.128:4200/registration');
+    await expect(page.getByText('Create your account')).toBeVisible();
+    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
+    await expect(createAccountButton).not.toBeVisible();
   });
 });
 

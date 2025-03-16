@@ -387,21 +387,37 @@ test.describe('Cancel', () => {
 });
 
 
-test.describe('Minimize', () => {
+test.describe('Minimize/Back To Order list', () => {
   test.beforeEach(async ({page}) => {
 
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
     // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/4', async route => {
-      await route.fulfill({json: userOrderHomeProgrammedCashChangeComment});
+    await page.route('*/**/api/v1/user/58/order/1', async route => {
+      await route.fulfill({json: userOrder});
     });
 
-    await page.goto('/user/orders/4');
+    await page.goto('/user/orders/1');
+    expect(await page.title()).toEqual('Your Order');
+    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
   });
 
-  test('ShowTabTitle', async ({page}) => {
-    expect(await page.title()).toEqual('Your Order');
+  test('givenOrderIdOne_whenClickOnMinimize_thenRedirectToOrderListRoute', async ({page}) => {
+
+    // Arrange
+
+    const orderPanel = page.getByTitle('Order 1');
+    await expect(orderPanel).toBeVisible();
+
+    // Act
+
+    await orderPanel.click();
+
+    // Assert
+
+    await page.waitForURL('http://192.168.1.128:4200/user/orders');
+    await expect(page.getByText('Profile')).toBeVisible();
+    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
   });
 });

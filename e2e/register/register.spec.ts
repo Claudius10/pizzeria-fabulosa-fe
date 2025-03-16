@@ -816,9 +816,9 @@ test.describe('Footer', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
 
     const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountText = page.getByRole("button", {name: 'To Register Page'});
+    const createAccountButton = page.getByRole("button", {name: 'Create an account'});
     const orText = page.getByText("or", {exact: true});
-    const dummyLoginText = page.getByRole("button", {name: 'Use a dummy account'});
+    const dummyLoginButton = page.getByRole("button", {name: 'Use a dummy account'});
 
     // Act
 
@@ -835,9 +835,9 @@ test.describe('Footer', () => {
     await expect(showPasswordIcon).toBeVisible();
     await expect(enterButton).toBeVisible();
     await expect(questionText).toBeVisible();
-    await expect(createAccountText).toBeVisible();
+    await expect(createAccountButton).toBeVisible();
     await expect(orText).toBeVisible();
-    await expect(dummyLoginText).toBeVisible();
+    await expect(dummyLoginButton).toBeVisible();
   });
 });
 
