@@ -566,7 +566,7 @@ test.describe('Logout', () => {
     await expect(userProfileButton).not.toBeVisible();
   });
 
-  test('givenClickOnLogout_whenLoggedInAndError_thenDisplayErrorMessage', async ({page}) => {
+  test('givenClickOnLogout_whenApiIsDown_thenDisplayErrorMessage', async ({page}) => {
 
     // Arrange
 

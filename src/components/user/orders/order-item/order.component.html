@@ -8,14 +8,14 @@
     <div class="flex flex-col gap-4 h-full">
       <div class="flex gap-4">
 
-        <div class="left-side flex flex-col gap-4 w-full">
+        <div title="Order" class="left-side flex flex-col gap-4 w-full">
 
-          <p-card [style]="{ width: '100%' }">
-            <div title="Back to Order List" class="flex flex-col items-center gap-4" routerLink="/user/orders">
+          <p-card title="Order Panel" [style]="{ width: '100%' }">
+            <div title="Order {{order.id}}" class="flex flex-col items-center gap-4" routerLink="/user/orders">
 
               <div class="flex items-center gap-2">
                 <span title="Identification Number" class="text-xl text-primary">{{ order.id }}</span>
-                <i title="Minimize Icon"
+                <i title="Minimize"
                    class="pi pi-arrow-up-right-and-arrow-down-left-from-center"
                    style="color: var(--p-primary-color)"></i>
               </div>
@@ -43,7 +43,7 @@
           </div>
         </div>
 
-        <div class="cart">
+        <div title="Cart" class="cart">
           <app-cart [viewOnly]="true"/>
         </div>
       </div>

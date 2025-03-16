@@ -34,7 +34,7 @@ export class OrderAddressDetailsComponent implements OnInit {
   selectedStore = signal<StoreDTO | null>(null);
 
   ngOnInit(): void {
-    if (this.orderDetails().storePickup) {
+    if (this.orderDetails().storePickUp) {
       this.loadingAnimationService.startLoading();
 
       this.stores.refetch().then(promise => {

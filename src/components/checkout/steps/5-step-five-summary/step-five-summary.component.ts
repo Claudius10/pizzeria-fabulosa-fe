@@ -122,7 +122,7 @@ export class StepFiveSummaryComponent {
           paymentMethod: this.checkoutFormService.how!.paymentMethod,
           billToChange: this.checkoutFormService.how!.billToChange,
           comment: this.form.get("comment")!.value,
-          storePickup: this.checkoutFormService.selectedAddress.isStore !== null
+          storePickUp: this.checkoutFormService.selectedAddress.isStore !== null
         },
         cart: {
           id: null,
@@ -175,7 +175,7 @@ export class StepFiveSummaryComponent {
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
         billToChange: this.checkoutFormService.how!.billToChange,
         comment: this.form.get("comment")!.value,
-        storePickup: this.checkoutFormService.selectedAddress.isStore !== null
+        storePickUp: this.checkoutFormService.selectedAddress.isStore !== null
       },
       cart: {
         id: null,

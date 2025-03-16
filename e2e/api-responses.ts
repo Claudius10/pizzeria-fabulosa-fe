@@ -87,37 +87,38 @@ export const registerOK = {
 };
 
 export const userOrder = {
-  "timeStamp": "2025-03-14T20:09:27.821385996",
+  "timeStamp": "2025-03-16T10:49:39.545213687",
   "status": {"code": 200, "description": "OK", "error": false},
   "payload": {
     "id": 1,
-    "createdOn": "2025-02-28T22:41:59.795526",
+    "createdOn": "2025-03-16T10:49:24.050955",
     "updatedOn": null,
-    "formattedCreatedOn": "23:41 - 28/02/2025",
+    "formattedCreatedOn": "11:49 - 16/03/2025",
     "formattedUpdatedOn": null,
     "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
     "orderDetails": {
       "id": 1,
       "deliveryTime": "form.select.time.asap",
-      "paymentMethod": "form.select.payment.method.cash",
+      "paymentMethod": "form.select.payment.method.card",
       "billToChange": null,
       "changeToGive": null,
-      "comment": null
+      "comment": null,
+      "storePickUp": false,
     },
     "cart": {
       "id": 1,
       "totalQuantity": 1,
       "totalCost": 13.3,
-      "totalCostOffers": null,
+      "totalCostOffers": 0.0,
       "cartItems": [{
-        "id": 10,
+        "id": 41,
         "type": "pizza",
-        "name": {"en": "Cuatro Quesos", "es": "Cuatro Quesos"},
+        "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
         "description": {
-          "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"],
-          "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"]
+          "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+          "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
         },
-        "formats": {"m": {"en": "Medium", "es": "Mediana"}, "s": {}, "l": {}},
+        "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
         "price": 13.3,
         "quantity": 1
       }]
@@ -126,24 +127,149 @@ export const userOrder = {
   "error": null
 };
 
-export const store = {
-  "timeStamp": "2025-03-14T21:48:33.266443656",
+export const userOrderPickUp = {
+  "timeStamp": "2025-03-16T10:56:39.503853376",
   "status": {"code": 200, "description": "OK", "error": false},
-  "payload": [{
-    "id": 1,
-    "image": "/assets/stores/alustre.png",
-    "name": "Alustre",
-    "phoneNumber": 666555666,
-    "schedule": {"es": "Lunes a Domingo - 12PM a 12AM", "en": "Monday to Sunday - 12PM to 12AM"},
-    "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null}
-  }, {
+  "payload": {
     "id": 2,
-    "image": "/assets/stores/viciosa.png",
-    "name": "Viciosa",
-    "phoneNumber": 555666555,
-    "schedule": {"es": "Lunes a Domingo - 12PM a 12AM", "en": "Monday to Sunday - 12PM to 12AM"},
-    "address": {"id": 3, "street": "Calle Viciosa", "number": 221, "details": null}
-  }],
+    "createdOn": "2025-03-16T10:56:32.713182",
+    "updatedOn": null,
+    "formattedCreatedOn": "11:56 - 16/03/2025",
+    "formattedUpdatedOn": null,
+    "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null},
+    "orderDetails": {
+      "id": 2,
+      "deliveryTime": "form.select.time.asap",
+      "paymentMethod": "form.select.payment.method.card",
+      "billToChange": null,
+      "changeToGive": null,
+      "comment": null,
+      "storePickUp": true,
+    },
+    "cart": {
+      "id": 2,
+      "totalQuantity": 3,
+      "totalCost": 29.55,
+      "totalCostOffers": 22.9,
+      "cartItems": [{
+        "id": 42,
+        "type": "pizza",
+        "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+        "description": {
+          "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+          "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+        },
+        "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+        "price": 13.3,
+        "quantity": 2
+      }, {
+        "id": 43,
+        "type": "beverage",
+        "name": {"es": "Coca-Cola Zero", "en": "Coca-Cola Zero"},
+        "description": {"es": [], "en": []},
+        "formats": {"s": null, "m": {"en": "1L", "es": "1L"}, "l": null},
+        "price": 2.95,
+        "quantity": 1
+      }]
+    }
+  },
+  "error": null
+};
+
+export const userOrderStoreProgrammedCash = {
+  "timeStamp": "2025-03-16T10:59:53.297336840",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "id": 3,
+    "createdOn": "2025-03-16T10:59:50.569123",
+    "updatedOn": null,
+    "formattedCreatedOn": "11:59 - 16/03/2025",
+    "formattedUpdatedOn": null,
+    "address": {"id": 3, "street": "Calle Viciosa", "number": 221, "details": null},
+    "orderDetails": {
+      "id": 3,
+      "deliveryTime": "12:05",
+      "paymentMethod": "form.select.payment.method.cash",
+      "billToChange": null,
+      "changeToGive": null,
+      "comment": null,
+      "storePickUp": true,
+    },
+    "cart": {
+      "id": 3,
+      "totalQuantity": 2,
+      "totalCost": 20.25,
+      "totalCostOffers": 0.0,
+      "cartItems": [{
+        "id": 44,
+        "type": "pizza",
+        "name": {"es": "Roni Pepperoni", "en": "Roni Pepperoni"},
+        "description": {
+          "es": ["Salsa de Tomate", "Doble de Mozzarella 100%", "Doble de Peperoni"],
+          "en": ["Tomato Sauce", "Double 100% Mozzarella", "Double Pepperoni"]
+        },
+        "formats": {"s": null, "m": null, "l": {"en": "Large", "es": "Familiar"}},
+        "price": 18.3,
+        "quantity": 1
+      }, {
+        "id": 45,
+        "type": "beverage",
+        "name": {"es": "Mahou Sin Gluten", "en": "Mahou Gluten Free"},
+        "description": {"es": [], "en": []},
+        "formats": {"s": {"en": "330ML", "es": "330ML"}, "m": null, "l": null},
+        "price": 1.95,
+        "quantity": 1
+      }]
+    }
+  },
+  "error": null
+};
+
+export const userOrderHomeProgrammedCashChangeComment = {
+  "timeStamp": "2025-03-16T11:03:12.335970749",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "id": 4,
+    "createdOn": "2025-03-16T11:02:52.444464",
+    "updatedOn": null,
+    "formattedCreatedOn": "12:02 - 16/03/2025",
+    "formattedUpdatedOn": null,
+    "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+    "orderDetails": {
+      "id": 4,
+      "deliveryTime": "12:30",
+      "paymentMethod": "form.select.payment.method.cash",
+      "billToChange": 20.0,
+      "changeToGive": 2.0,
+      "comment": "pizza well cut and hot",
+      "storePickUp": false,
+    },
+    "cart": {
+      "id": 4,
+      "totalQuantity": 1,
+      "totalCost": 18.0,
+      "totalCostOffers": 0.0,
+      "cartItems": [{
+        "id": 46,
+        "type": "pizza",
+        "name": {"en": "My Pizza", "es": "Mi Pizza"},
+        "description": {
+          "en": ["Gluten free", "Lactose free", "Medium", "100% Mozzarella", "Cream Sauce", "Double Smoked Bacon", "Chicken"],
+          "es": ["Sin Gluten", "Sin Lactosa", "Mediana", "Mozzarella 100%", "Salsa de Nata", "Doble de Bacon", "Pollo"]
+        },
+        "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+        "price": 18.0,
+        "quantity": 1
+      }]
+    }
+  },
+  "error": null
+};
+
+export const userOrderDeleteOk = {
+  "timeStamp": "2025-03-16T13:46:57.207969680",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": 36,
   "error": null
 };
 
