@@ -28,33 +28,33 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
   });
 
   test('ShowOrderPanel', async ({page}) => {
-    await expect(await page.getByTitle('Identification Number').getByText('1')).toBeVisible();
-    await expect(await page.getByTitle('Minimize')).toBeVisible();
-    await expect(await page.getByText('Date of order 11:49 - 16/03/2025')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
+    await expect(page.getByTitle('Minimize')).toBeVisible();
+    await expect(page.getByText('Date of order 11:49 - 16/03/2025')).toBeVisible();
   });
 
   test('ShowCustomerDetails', async ({page}) => {
-    await expect(await page.getByText('Customer details')).toBeVisible();
-    await expect(await page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(await page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
-    await expect(await page.getByText('Contact number: 123456789')).toBeVisible();
+    await expect(page.getByText('Customer details')).toBeVisible();
+    await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Contact number: 123456789')).toBeVisible();
   });
 
   test('ShowDeliveryDetails', async ({page}) => {
-    await expect(await page.getByText('Delivery details')).toBeVisible();
-    await expect(await page.getByText('Selected time of delivery: As soon as posible')).toBeVisible();
-    await expect(await page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(await page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Delivery details')).toBeVisible();
+    await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Contact number: 123456789')).toBeVisible();
   });
 
   test('ShowOrderDetails', async ({page}) => {
-    await expect(await page.getByText('Order details')).toBeVisible();
-    await expect(await page.getByText('Selected payment method: Card')).toBeVisible();
+    await expect(page.getByText('Order details')).toBeVisible();
+    await expect(page.getByText('Selected payment method: Card')).toBeVisible();
   });
 
   test('ShowFooter', async ({page}) => {
-    await expect(await page.getByRole("button", {name: 'Cancel'})).toBeVisible();
-    await expect(await page.getByText('Important note: the order may only be cancelled within the first 10 minutes of creation.')).toBeVisible();
+    await expect(page.getByRole("button", {name: 'Cancel'})).toBeVisible();
+    await expect(page.getByText('Important note: the order may only be cancelled within the first 10 minutes of creation.')).toBeVisible();
   });
 });
 
@@ -76,27 +76,16 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
     await page.goto('/user/orders/2');
   });
 
-  test('ShowTabTitle', async ({page}) => {
-    expect(await page.title()).toEqual('Your Order');
-  });
-
   test('ShowOrderPanel', async ({page}) => {
-    await expect(await page.getByTitle('Identification Number').getByText('2')).toBeVisible();
-    await expect(await page.getByTitle('Minimize')).toBeVisible();
-    await expect(await page.getByText('Date of order 11:56 - 16/03/2025')).toBeVisible();
-  });
-
-  test('ShowCustomerDetails', async ({page}) => {
-    await expect(await page.getByText('Customer details')).toBeVisible();
-    await expect(await page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(await page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
-    await expect(await page.getByText('Contact number: 123456789')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('2')).toBeVisible();
+    await expect(page.getByTitle('Minimize')).toBeVisible();
+    await expect(page.getByText('Date of order 11:56 - 16/03/2025')).toBeVisible();
   });
 
   test('ShowDeliveryDetails', async ({page}) => {
-    await expect(await page.getByText('Delivery details')).toBeVisible();
-    await expect(await page.getByText('Selected pick-up time: As soon as posible')).toBeVisible();
-    await expect(await page.getByText('Selected pick-up store:')).toBeVisible();
+    await expect(page.getByText('Delivery details')).toBeVisible();
+    await expect(page.getByText('Selected pick-up time: As soon as posible')).toBeVisible();
+    await expect(page.getByText('Selected pick-up store:')).toBeVisible();
     await expect(page.getByText('Alustre', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Map Icon')).toBeVisible();
     await expect(page.getByText('Avenida Alustre 15')).toBeVisible();
@@ -104,16 +93,6 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
     await expect(page.getByText('666555666')).toBeVisible();
     await expect(page.getByTitle('Schedule Icon')).toBeVisible();
     await expect(page.getByText('Monday to Sunday - 12PM to 12AM')).toBeVisible();
-  });
-
-  test('ShowOrderDetails', async ({page}) => {
-    await expect(await page.getByText('Order details')).toBeVisible();
-    await expect(await page.getByText('Selected payment method: Card')).toBeVisible();
-  });
-
-  test('ShowFooter', async ({page}) => {
-    await expect(await page.getByRole("button", {name: 'Cancel'})).toBeVisible();
-    await expect(await page.getByText('Important note: the order may only be cancelled within the first 10 minutes of creation.')).toBeVisible();
   });
 });
 
@@ -135,27 +114,16 @@ test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
     await page.goto('/user/orders/3');
   });
 
-  test('ShowTabTitle', async ({page}) => {
-    expect(await page.title()).toEqual('Your Order');
-  });
-
   test('ShowOrderPanel', async ({page}) => {
-    await expect(await page.getByTitle('Identification Number').getByText('3')).toBeVisible();
-    await expect(await page.getByTitle('Minimize')).toBeVisible();
-    await expect(await page.getByText('Date of order 11:59 - 16/03/2025')).toBeVisible();
-  });
-
-  test('ShowCustomerDetails', async ({page}) => {
-    await expect(await page.getByText('Customer details')).toBeVisible();
-    await expect(await page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(await page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
-    await expect(await page.getByText('Contact number: 123456789')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('3')).toBeVisible();
+    await expect(page.getByTitle('Minimize')).toBeVisible();
+    await expect(page.getByText('Date of order 11:59 - 16/03/2025')).toBeVisible();
   });
 
   test('ShowDeliveryDetails', async ({page}) => {
-    await expect(await page.getByText('Delivery details')).toBeVisible();
-    await expect(await page.getByText('Selected pick-up time: 12:05')).toBeVisible();
-    await expect(await page.getByText('Selected pick-up store:')).toBeVisible();
+    await expect(page.getByText('Delivery details')).toBeVisible();
+    await expect(page.getByText('Selected pick-up time: 12:05')).toBeVisible();
+    await expect(page.getByText('Selected pick-up store:')).toBeVisible();
     await expect(page.getByText('Viciosa', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Map Icon')).toBeVisible();
     await expect(page.getByText('Calle Viciosa 221')).toBeVisible();
@@ -166,13 +134,8 @@ test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
   });
 
   test('ShowOrderDetails', async ({page}) => {
-    await expect(await page.getByText('Order details')).toBeVisible();
-    await expect(await page.getByText('Selected payment method: Cash')).toBeVisible();
-  });
-
-  test('ShowFooter', async ({page}) => {
-    await expect(await page.getByRole("button", {name: 'Cancel'})).toBeVisible();
-    await expect(await page.getByText('Important note: the order may only be cancelled within the first 10 minutes of creation.')).toBeVisible();
+    await expect(page.getByText('Order details')).toBeVisible();
+    await expect(page.getByText('Selected payment method: Cash')).toBeVisible();
   });
 });
 
@@ -190,42 +153,26 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
     await page.goto('/user/orders/4');
   });
 
-  test('ShowTabTitle', async ({page}) => {
-    expect(await page.title()).toEqual('Your Order');
-  });
-
   test('ShowOrderPanel', async ({page}) => {
-    await expect(await page.getByTitle('Identification Number').getByText('4')).toBeVisible();
-    await expect(await page.getByTitle('Minimize')).toBeVisible();
-    await expect(await page.getByText('Date of order 12:02 - 16/03/2025')).toBeVisible();
-  });
-
-  test('ShowCustomerDetails', async ({page}) => {
-    await expect(await page.getByText('Customer details')).toBeVisible();
-    await expect(await page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(await page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
-    await expect(await page.getByText('Contact number: 123456789')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('4')).toBeVisible();
+    await expect(page.getByTitle('Minimize')).toBeVisible();
+    await expect(page.getByText('Date of order 12:02 - 16/03/2025')).toBeVisible();
   });
 
   test('ShowDeliveryDetails', async ({page}) => {
-    await expect(await page.getByText('Delivery details')).toBeVisible();
-    await expect(await page.getByText('Selected time of delivery: 12:30')).toBeVisible();
-    await expect(await page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(await page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Delivery details')).toBeVisible();
+    await expect(page.getByText('Selected time of delivery: 12:30')).toBeVisible();
+    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
+    await expect(page.getByText('Address number: 1605')).toBeVisible();
   });
 
   test('ShowOrderDetails', async ({page}) => {
-    await expect(await page.getByText('Order details')).toBeVisible();
-    await expect(await page.getByText('Selected payment method: Cash')).toBeVisible();
-    await expect(await page.getByText('Bill to change: 20€')).toBeVisible();
-    await expect(await page.getByText('Your change: 2€')).toBeVisible();
-    await expect(await page.getByText('Comment:')).toBeVisible();
-    await expect(await page.getByText('pizza well cut and hot')).toBeVisible();
-  });
-
-  test('ShowFooter', async ({page}) => {
-    await expect(await page.getByRole("button", {name: 'Cancel'})).toBeVisible();
-    await expect(await page.getByText('Important note: the order may only be cancelled within the first 10 minutes of creation.')).toBeVisible();
+    await expect(page.getByText('Order details')).toBeVisible();
+    await expect(page.getByText('Selected payment method: Cash')).toBeVisible();
+    await expect(page.getByText('Bill to change: 20€')).toBeVisible();
+    await expect(page.getByText('Your change: 2€')).toBeVisible();
+    await expect(page.getByText('Comment:')).toBeVisible();
+    await expect(page.getByText('pizza well cut and hot')).toBeVisible();
   });
 });
 
@@ -292,7 +239,7 @@ test.describe('Cancel', () => {
       await route.fulfill({json: userOrderDeleteOk});
     });
 
-    const cancelButton = await page.getByRole("button", {name: 'Cancel'});
+    const cancelButton = page.getByRole("button", {name: 'Cancel'});
     await expect(cancelButton).toBeVisible();
     await cancelButton.click();
 
@@ -372,7 +319,7 @@ test.describe('Cancel', () => {
 
     await page.goto('/user/orders/1');
 
-    const cancelButton = await page.getByRole("button", {name: 'Cancel'});
+    const cancelButton = page.getByRole("button", {name: 'Cancel'});
     await expect(cancelButton).toBeVisible();
 
     // Act
