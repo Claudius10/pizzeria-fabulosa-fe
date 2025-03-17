@@ -13,7 +13,9 @@ import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-wh
 import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
 import {StepThreeWhenComponent} from '../../components/checkout/steps/3-step-three-when/step-three-when.component';
 import {StepFourHowComponent} from '../../components/checkout/steps/4-step-four-how/step-four-how.component';
-import {StepFiveSummaryComponent} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
+import {
+  StepFiveSummaryComponent
+} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
 import {NewOrderSuccessComponent} from '../../components/checkout/success/new-order-success.component';
 import {ErrorComponent} from './error/error.component';
 import {OrderSummaryListComponent} from '../../components/user/orders/summary-list/list/order-summary-list.component';
@@ -44,17 +46,17 @@ export const routes: Routes = [
       {
         path: "profile",
         component: ProfileComponent,
-        title: "Your Profile",
+        title: "Profile",
       },
       {
         path: "orders",
         component: OrderSummaryListComponent,
-        title: "Your Orders",
+        title: "Order History",
       },
       {
         path: "orders/:orderId",
         component: OrderComponent,
-        title: "Your Order",
+        title: "Order Review",
         pathMatch: "full",
       },
       {
@@ -75,34 +77,34 @@ export const routes: Routes = [
           {
             path: "step-one",
             component: StepOneWhoComponent,
-            title: "Customer details",
+            title: "New order: step one",
           },
           {
             path: "step-two",
             component: StepTwoWhereComponent,
-            title: "Delivery location details",
+            title: "New order: step two",
           },
           {
             path: "step-three",
             component: StepThreeWhenComponent,
-            title: "Delivery time details",
+            title: "New order: step three",
           },
           {
             path: "step-four",
             component: StepFourHowComponent,
-            title: "Payment details",
+            title: "New order: step four",
           },
           {
             path: "step-five",
             component: StepFiveSummaryComponent,
-            title: "New Order Summary",
+            title: "New order: step five",
           }
         ]
       },
       {
         path: "success",
         component: NewOrderSuccessComponent,
-        title: "New Order Success",
+        title: "New order: Success",
       }
     ]
   },

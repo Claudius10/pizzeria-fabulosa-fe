@@ -8,7 +8,7 @@ test.describe('Render', () => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
     await page.goto('/user/profile');
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toEqual('Profile');
   });
 
   test('ShowUserDetails', async ({page}) => {

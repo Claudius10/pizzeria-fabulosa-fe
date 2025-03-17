@@ -24,7 +24,7 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
   });
 
   test('ShowTabTitle', async ({page}) => {
-    expect(await page.title()).toEqual('Your Order');
+    expect(await page.title()).toBe('Order Review');
   });
 
   test('ShowOrderPanel', async ({page}) => {
@@ -355,7 +355,7 @@ test.describe('Minimize/Back To Order list', () => {
     });
 
     await page.goto('/user/orders/1');
-    expect(await page.title()).toEqual('Your Order');
+    expect(await page.title()).toEqual('Order Review');
     await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
   });
 

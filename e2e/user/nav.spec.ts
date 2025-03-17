@@ -8,7 +8,7 @@ test.describe('Render', () => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
     await page.goto('/user/profile');
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
   });
 
   test('ShowUserNav', async ({page}) => {
@@ -25,7 +25,7 @@ test.describe('Routes', () => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
     await page.goto('/user/profile');
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
   });
 
   test('givenClickOnOrders_goToOurders', async ({page}) => {

@@ -20,7 +20,7 @@ test.describe('Render', () => {
     });
 
     await page.goto('/user/profile');
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toEqual('Profile');
   });
 
   test('ShowAddressList', async ({page}) => {
@@ -71,7 +71,7 @@ test.describe('Render: API KO', () => {
   test('ShowErrorComponent', async ({page}) => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
     await page.goto('/user/profile');
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
     await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
@@ -92,7 +92,7 @@ test.describe('Validation: Address', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
@@ -212,7 +212,7 @@ test.describe('Validation: Address Number', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
@@ -350,7 +350,7 @@ test.describe('Validation: Address Details', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
@@ -470,7 +470,7 @@ test.describe('Submit: API OK', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
@@ -595,7 +595,7 @@ test.describe('Submit: API KO', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();
@@ -642,7 +642,7 @@ test.describe('Delete', () => {
 
     await page.goto('/user/profile');
 
-    expect(await page.title()).toEqual('Your Profile');
+    expect(await page.title()).toBe('Profile');
 
     const showAddressListButton = page.getByRole('button', {name: 'My address list'});
     await showAddressListButton.click();

@@ -429,7 +429,7 @@ test.describe('Render: API KO', () => {
   test('ShowErrorComponent', async ({page}) => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
     await page.goto('/user/orders');
-    expect(await page.title()).toEqual('Your Orders');
+    expect(await page.title()).toEqual('Order History');
     await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
     await expect(page.getByText('Please try again later. We apologize for any inconvenience.').first()).toBeVisible({timeout: 10_000});
   });
