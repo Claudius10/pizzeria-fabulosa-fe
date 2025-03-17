@@ -1,14 +1,14 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SettingsComponent} from './settings.component';
+import {UserSettingsComponent} from './user-settings.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {AccountService} from '../../../services/http/account/account.service';
 import {TranslateModule} from '@ngx-translate/core';
 
-describe('SettingsComponent', () => {
-  let component: SettingsComponent;
-  let fixture: ComponentFixture<SettingsComponent>;
+describe('UserSettingsComponent', () => {
+  let component: UserSettingsComponent;
+  let fixture: ComponentFixture<UserSettingsComponent>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
@@ -16,7 +16,7 @@ describe('SettingsComponent', () => {
     const accountServiceSpy = jasmine.createSpyObj('AccountService', ['delete']);
 
     await TestBed.configureTestingModule({
-      imports: [SettingsComponent, TranslateModule.forRoot()],
+      imports: [UserSettingsComponent, TranslateModule.forRoot()],
       providers: [
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
@@ -25,7 +25,7 @@ describe('SettingsComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(SettingsComponent);
+    fixture = TestBed.createComponent(UserSettingsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

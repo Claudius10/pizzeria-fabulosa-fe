@@ -11,7 +11,6 @@ import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {isFormValid} from '../../../../utils/functions';
-import {Card} from 'primeng/card';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
@@ -23,14 +22,13 @@ import {myIcon} from '../../../../primeng/icon';
 @Component({
   selector: 'app-user-delete-form',
   imports: [
-    Card,
     TranslatePipe,
     ReactiveFormsModule,
     IconField,
     InputText,
     InputIcon,
     Button,
-    UpperCasePipe
+    UpperCasePipe,
   ],
   templateUrl: './user-delete-form.component.html',
   styleUrl: './user-delete-form.component.scss',

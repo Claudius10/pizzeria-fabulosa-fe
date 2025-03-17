@@ -7,7 +7,7 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {UserHomeComponent} from '../../components/user/home/user-home.component';
 import {userCredentialsGuardGuard} from '../../components/user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../../components/user/profile/profile.component';
-import {SettingsComponent} from '../../components/user/settings/settings.component';
+import {UserSettingsComponent} from '../../components/user/settings/user-settings.component';
 import {BeverageListComponent} from '../../components/products/beverages/beverage-list.component';
 import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
@@ -61,7 +61,7 @@ export const routes: Routes = [
       },
       {
         path: "settings",
-        component: SettingsComponent,
+        component: UserSettingsComponent,
         title: "Account Settings",
       }
     ]

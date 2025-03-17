@@ -1,6 +1,6 @@
 // TODO
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE} from '../api-responses';
+import {AUTH_TOKEN_COOKIE} from '../../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
@@ -14,5 +14,11 @@ test.describe('Render', () => {
 
   test('ShowDeleteAccount', async ({page}) => {
     await expect(page.getByText('Delete account')).toBeVisible();
+    const passwordInput = page.getByTitle('Password', {exact: true});
+    const passwordVisibilityIcon = page.getByTitle('Toggle Password Visibility');
+    const deleteButton = page.getByRole('button', {name: 'DELETE'});
+    await expect(passwordInput).toBeVisible();
+    await expect(passwordVisibilityIcon).toBeVisible();
+    await expect(deleteButton).toBeVisible();
   });
 });
