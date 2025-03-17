@@ -841,8 +841,8 @@ test.describe('Footer', () => {
   });
 });
 
-test.describe('API KO', () => {
-  test('givenSubmitClickWithValidForm_whenApiIsDown_thenShowWarningMessage', async ({page}) => {
+test.describe('Submit: API KO', () => {
+  test('givenSubmitClickWithValidForm_whenApiIsDown_thenShowErrorMessage', async ({page}) => {
 
     await page.goto('/registration');
     // Arrange

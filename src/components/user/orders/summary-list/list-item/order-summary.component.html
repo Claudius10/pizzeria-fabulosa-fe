@@ -1,30 +1,34 @@
-<p-card>
+<p-card title="Order {{orderSummary().id}} Summary">
   <div class="flex flex-col items-center gap-4" routerLink="{{orderSummary().id}}">
+
     <div class="flex items-center gap-2">
       <span class="text-xl text-primary">{{ orderSummary().id }}</span>
-      <i class="pi pi-arrow-down-left-and-arrow-up-right-to-center" style="color: var(--p-primary-color)"></i>
+      <i
+        title="View Order Icon"
+        class="pi pi-arrow-down-left-and-arrow-up-right-to-center"
+        style="color: var(--p-primary-color)"></i>
     </div>
 
     <div class="flex flex-col gap-4">
-      <span>{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
+      <span title="Date">{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
     </div>
 
     <div class="flex gap-4">
 
       @if (orderSummary().cart.totalCostOffers) {
         <div class="flex items-center gap-2">
-          <span>{{ "component.cart.total.offers" | translate }}:</span>
+          <span title="Total After Offers">{{ "component.cart.total.offers" | translate }}:</span>
           <p-button
+            title="Amount"
             type="button"
             [text]="true"
             label="{{ orderSummary().cart.totalCostOffers.toFixed(2) }}€"
             severity="success"/>
-
         </div>
       }
 
       <div class="flex items-center gap-2">
-        <span>Total:</span>
+        <span title="Total">Total:</span>
         <p-button
           type="button"
           [text]="true"

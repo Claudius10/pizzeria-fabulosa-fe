@@ -176,6 +176,15 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
   });
 });
 
+test.describe('Render: API KO', () => {
+  test('ShowErrorComponent', async ({page}) => {
+    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.goto('/user/orders/1');
+    await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
+    await expect(page.getByText('Please try again later. We apologize for any inconvenience.').first()).toBeVisible({timeout: 10_000});
+  });
+});
+
 test.describe('Cancel', () => {
   test.beforeEach(async ({page}) => {
     // auth is automatically set inside the initializeApp fn in config.app.ts

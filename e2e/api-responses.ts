@@ -329,6 +329,353 @@ export const emptyUserAddressList = {
   "error": null
 };
 
+export const emptyUserOrderSummaryList = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [],
+    "totalPages": 0,
+    "pageSize": 5,
+    "totalElements": 0,
+    "hasNext": false
+  },
+  "error": null
+};
+
+export const userOrderSummaryList = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [{
+      "id": 1,
+      "formattedCreatedOn": "13:44 - 16/03/2025",
+      "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+      "cart": {"id": 1, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+      "formattedUpdatedOn": null
+    }],
+    "totalPages": 1,
+    "pageSize": 5,
+    "totalElements": 1,
+    "hasNext": false
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeFivePageOne = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 1,
+        "formattedCreatedOn": "13:40 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 2, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 2,
+        "formattedCreatedOn": "13:41 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 3,
+        "formattedCreatedOn": "13:42 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 4,
+        "formattedCreatedOn": "13:43 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 4, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 5,
+        "formattedCreatedOn": "13:44 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 5, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      }
+    ],
+    "totalPages": 3,
+    "pageSize": 5,
+    "totalElements": 11,
+    "hasNext": true
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeFivePageTwo = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 6,
+        "formattedCreatedOn": "13:45 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 6, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 7,
+        "formattedCreatedOn": "13:46 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 7, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 8,
+        "formattedCreatedOn": "13:47 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 8, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 9,
+        "formattedCreatedOn": "13:48 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 9, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 10,
+        "formattedCreatedOn": "13:49 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 10, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      }
+    ],
+    "totalPages": 3,
+    "pageSize": 5,
+    "totalElements": 11,
+    "hasNext": true
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeFivePageThree = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 11,
+        "formattedCreatedOn": "13:50 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 11, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      }
+    ],
+    "totalPages": 3,
+    "pageSize": 5,
+    "totalElements": 11,
+    "hasNext": false
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeTenPageOne = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 1,
+        "formattedCreatedOn": "13:40 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 2, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 2,
+        "formattedCreatedOn": "13:41 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 3,
+        "formattedCreatedOn": "13:42 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 4,
+        "formattedCreatedOn": "13:43 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 4, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 5,
+        "formattedCreatedOn": "13:44 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 5, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 6,
+        "formattedCreatedOn": "13:45 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 6, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 7,
+        "formattedCreatedOn": "13:46 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 7, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 8,
+        "formattedCreatedOn": "13:47 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 8, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 9,
+        "formattedCreatedOn": "13:48 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 9, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 10,
+        "formattedCreatedOn": "13:49 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 10, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      }
+    ],
+    "totalPages": 3,
+    "pageSize": 10,
+    "totalElements": 11,
+    "hasNext": true
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeTenPageTwo = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 11,
+        "formattedCreatedOn": "13:50 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 11, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      }
+    ],
+    "totalPages": 3,
+    "pageSize": 10,
+    "totalElements": 11,
+    "hasNext": false
+  },
+  "error": null
+};
+
+export const userOrderSummaryListManySizeTwenty = {
+  "timeStamp": "2025-03-17T19:08:45.117990919",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": {
+    "orderList": [
+      {
+        "id": 1,
+        "formattedCreatedOn": "13:40 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 2, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 2,
+        "formattedCreatedOn": "13:41 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 3,
+        "formattedCreatedOn": "13:42 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 3, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 4,
+        "formattedCreatedOn": "13:43 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 4, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 5,
+        "formattedCreatedOn": "13:44 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 5, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 6,
+        "formattedCreatedOn": "13:45 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 6, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 7,
+        "formattedCreatedOn": "13:46 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 7, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 8,
+        "formattedCreatedOn": "13:47 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 8, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 9,
+        "formattedCreatedOn": "13:48 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 9, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 10,
+        "formattedCreatedOn": "13:49 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 10, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+      {
+        "id": 11,
+        "formattedCreatedOn": "13:50 - 16/03/2025",
+        "orderDetails": {"paymentMethod": "form.select.payment.method.card"},
+        "cart": {"id": 11, "totalQuantity": 1, "totalCost": 13.3, "totalCostOffers": 0.0},
+        "formattedUpdatedOn": null
+      },
+    ],
+    "totalPages": 3,
+    "pageSize": 20,
+    "totalElements": 11,
+    "hasNext": false
+  },
+  "error": null
+};
+
 export const AUTH_TOKEN_COOKIE = {
   name: "Pizzeria.Fabulosa.ID_TOKEN",
   value: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTI4IiwibmFtZSI6Ik1pZ3VlbCBkZSBDZXJ2YW50ZXMiLCJjb250YWN0TnVtYmVyIjoiMTIzNDU2Nzg5IiwiaWQiOiI1OCIsImV4cCI6MjYwNTk4NTczNiwiaWF0IjoxNzQxOTg1NzM2fQ.Jcxg4cGXtw6VFwODlSJ9VKlCXlIKU3PG81lxp6kDpeT6VhaJ9T4Z_WgSBvgYzuWyGhLLbu0OYTi4AXuM8SEnaWUNTgL06GnbkGBY4kSK5i_ObvL63eZPOrxO1cBX53A9JbDUSnF_hED_zGmnKWYsX2Mk6tZxqopKC85V5lHh4WEaF4O1cX2YhuSKz8nlRMmi0ucwLKDIPYt0rYSz1fkFmBlpiVYtpoIDrIGFsOMT7Cn4b1oVbxVN2ZqGOohsQSeMhIVUl5lImxn3X7Tt3JUOBMU6L4cNtJXiGOgJgMdJlXOJUY3l8TKcOJU14Azvr195OSytLXQRSHFccyvWhyedvM3glajNKgOmHc3kruDH_KUc1FOZlfta29pk40rhyee9NkTXqsBNKmisvmEBYN0HKhhCRnt1av9jAfK-nFxXSStK-AIoHnfjliD90E5KoF0J8rQXIhMuz1-PCVqD8vtPnjnUrlooQc967BBbhDH7lS9m-B6o9-Bszlv7UED-P394",

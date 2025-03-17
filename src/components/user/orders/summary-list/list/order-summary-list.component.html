@@ -1,22 +1,27 @@
-<div class="list flex flex-col justify-between gap-4 w-full">
-  <div class="flex flex-col gap-4 w-full">
+<div title="Orders Summary" class="list flex flex-col justify-between gap-4 w-full">
+  @if (orderList.status() === 'error') {
+    <app-server-error/>
+  }
 
-    @if (orderList.status() === 'error') {
-      <app-server-error/>
-    }
+  @if (orderList.status() === "success") {
 
-    @if (orderList.status() === "success") {
-      @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
+    @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
+
+      <ul class="flex flex-col gap-4 w-full" title="Orders Summary List">
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
-          <app-order-summary [orderSummary]="orderSummary"/>
+          <li>
+            <app-order-summary [orderSummary]="orderSummary"/>
+          </li>
         }
-      } @else {
-        <span class="text-center">{{ "component.user.order.list.empty" | translate }}</span>
-      }
+      </ul>
+
+    } @else {
+      <span class="text-center text-2xl">{{ "component.user.order.list.empty" | translate }}</span>
     }
-  </div>
+  }
 
   <p-paginator
+    title="Paginator"
     (onPageChange)="onPageChange($event)"
     [first]="currentElements"
     [rows]="pageSize()"

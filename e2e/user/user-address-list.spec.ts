@@ -67,6 +67,18 @@ test.describe('Render', () => {
   });
 });
 
+test.describe('Render: API KO', () => {
+  test('ShowErrorComponent', async ({page}) => {
+    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.goto('/user/profile');
+    expect(await page.title()).toEqual('Your Profile');
+    const showAddressListButton = page.getByRole('button', {name: 'My address list'});
+    await showAddressListButton.click();
+    await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
+    await expect(page.getByText('Please try again later. We apologize for any inconvenience.').first()).toBeVisible({timeout: 10_000});
+  });
+});
+
 test.describe('Validation: Address', () => {
   test.beforeEach(async ({page}) => {
 
@@ -445,7 +457,7 @@ test.describe('Validation: Address Details', () => {
   });
 });
 
-test.describe('Submit', () => {
+test.describe('Submit: API OK', () => {
   test.beforeEach(async ({page}) => {
 
     // auth is automatically set inside the initializeApp fn in config.app.ts
@@ -483,7 +495,7 @@ test.describe('Submit', () => {
     await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
   });
 
-  test('givenSubmitClick_whenFormIsValid_thenShowSuccessMessage', async ({page}) => {
+  test('givenSubmitClick_whenFormIsValid_thenShowNewAddress', async ({page}) => {
 
     // Arrange
 
@@ -563,6 +575,57 @@ test.describe('Submit', () => {
     await expect(page.getByTitle('Details icon')).not.toBeVisible();
     await expect(page.getByRole('button', {name: 'CANCEL'})).not.toBeVisible();
     await expect(page.getByRole('button', {name: 'CONTINUE'})).not.toBeVisible();
+  });
+});
+
+test.describe('Submit: API KO', () => {
+  test.beforeEach(async ({page}) => {
+
+    // auth is automatically set inside the initializeApp fn in config.app.ts
+    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+
+    await page.route('*/**/api/v1/user/58/address', async route => {
+      const method = route.request().method();
+      if (method === 'POST') {
+        await route.abort();
+      } else {
+        await route.continue();
+      }
+    });
+
+    await page.goto('/user/profile');
+
+    expect(await page.title()).toEqual('Your Profile');
+
+    const showAddressListButton = page.getByRole('button', {name: 'My address list'});
+    await showAddressListButton.click();
+    const toggleAddressForm = page.getByTitle('Toggle Address Form');
+    await expect(page.getByTitle('Toggle Address Form')).toBeVisible();
+    await toggleAddressForm.click();
+  });
+
+  test('givenSubmitClick_whenApiIsDown_thenShowErrorMessage', async ({page}) => {
+
+    // Arrange
+
+    const addressInput = page.getByRole('textbox', {name: 'Address Input'});
+    const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
+    const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
+
+    await addressInput.fill('Alustre');
+    await addressNumberInput.fill('15');
+    await addressDetails.fill('Floor 5, Door 2E');
+
+    const continueButton = page.getByRole('button', {name: 'CONTINUE'});
+
+    // Act
+
+    await continueButton.click();
+
+    // Assert
+
+    await expect(page.getByText('Error')).toBeVisible();
+    await expect(page.getByText('Our servers are not available at the moment. Please try again later')).toBeVisible();
   });
 });
 
