@@ -275,6 +275,88 @@ test.describe('Cancel', () => {
     expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
   });
 
+  test('givenOrderDelete_whenApiIsDown_thenShowErrorMessage', async ({page}) => {
+
+    // Arrange
+
+    // fulfill initial order GET
+    await page.route('*/**/api/v1/user/58/order/1', async route => {
+      if (route.request().method() === 'DELETE') {
+        // do not fulfill delete
+        await route.abort();
+      } else {
+        await route.fulfill({
+          json: {
+            "timeStamp": "2025-03-16T10:49:39.545213687",
+            "status": {"code": 200, "description": "OK", "error": false},
+            "payload": {
+              "id": 1,
+              "createdOn": Date.now(), // NOTE
+              "updatedOn": null,
+              "formattedCreatedOn": Date.now().toString(),
+              "formattedUpdatedOn": null,
+              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+              "orderDetails": {
+                "id": 1,
+                "deliveryTime": "form.select.time.asap",
+                "paymentMethod": "form.select.payment.method.card",
+                "billToChange": null,
+                "changeToGive": null,
+                "comment": null,
+                "storePickUp": false,
+              },
+              "cart": {
+                "id": 1,
+                "totalQuantity": 1,
+                "totalCost": 13.3,
+                "totalCostOffers": 0.0,
+                "cartItems": [{
+                  "id": 41,
+                  "type": "pizza",
+                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+                  "description": {
+                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+                  },
+                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+                  "price": 13.3,
+                  "quantity": 1
+                }]
+              }
+            },
+            "error": null
+          }
+        });
+      }
+    });
+
+    await page.goto('/user/orders/1');
+
+    const cancelButton = page.getByRole("button", {name: 'Cancel'});
+    await expect(cancelButton).toBeVisible();
+    await cancelButton.click();
+
+    const noButton = page.getByRole("button", {name: 'No'});
+    const yesButton = page.getByRole("button", {name: 'Yes'});
+    const closeButton = page.getByLabel('Confirmation').getByRole('button').filter({hasNotText: 'Yes'}).filter({hasNotText: 'No'});
+
+    await expect(page.getByText('Confirmation')).toBeVisible();
+    await expect(page.getByText('Do you wish to cancel the order?')).toBeVisible();
+    await expect(yesButton).toBeVisible();
+    await expect(noButton).toBeVisible();
+    await expect(closeButton).toBeVisible();
+
+    // Act
+
+    await yesButton.click();
+
+    // Assert
+
+    await expect(page.getByText('Error')).toBeVisible();
+    await expect(page.getByText('Our servers are not available at the moment. Please try again later')).toBeVisible();
+    await expect(yesButton).not.toBeVisible();
+  });
+
   test('givenOrderDelete_whenNotAllowed_thenShowWarning', async ({page}) => {
 
     // Arrange
