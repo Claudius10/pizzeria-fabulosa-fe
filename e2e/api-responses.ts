@@ -296,6 +296,39 @@ export const userAddressList = {
   "error": null
 };
 
+export const userAddressCreated = {
+  "timeStamp": "2025-03-17T18:16:01.183325621",
+  "status": {"code": 201, "description": "CREATED", "error": false},
+  "payload": null,
+  "error": null
+};
+
+export const newUserAddressList = {
+  "timeStamp": "2025-03-16T19:57:30.798875",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": [{"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null}, {
+    "id": 2,
+    "street": "Alustre",
+    "number": 15,
+    "details": "Floor 5, Door 2E"
+  }],
+  "error": null
+};
+
+export const userAddressDelete = {
+  "timeStamp": "2025-03-17T18:17:34.541471178",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": null,
+  "error": null
+};
+
+export const emptyUserAddressList = {
+  "timeStamp": "2025-03-16T19:57:30.798875",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": [],
+  "error": null
+};
+
 export const AUTH_TOKEN_COOKIE = {
   name: "Pizzeria.Fabulosa.ID_TOKEN",
   value: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTI4IiwibmFtZSI6Ik1pZ3VlbCBkZSBDZXJ2YW50ZXMiLCJjb250YWN0TnVtYmVyIjoiMTIzNDU2Nzg5IiwiaWQiOiI1OCIsImV4cCI6MjYwNTk4NTczNiwiaWF0IjoxNzQxOTg1NzM2fQ.Jcxg4cGXtw6VFwODlSJ9VKlCXlIKU3PG81lxp6kDpeT6VhaJ9T4Z_WgSBvgYzuWyGhLLbu0OYTi4AXuM8SEnaWUNTgL06GnbkGBY4kSK5i_ObvL63eZPOrxO1cBX53A9JbDUSnF_hED_zGmnKWYsX2Mk6tZxqopKC85V5lHh4WEaF4O1cX2YhuSKz8nlRMmi0ucwLKDIPYt0rYSz1fkFmBlpiVYtpoIDrIGFsOMT7Cn4b1oVbxVN2ZqGOohsQSeMhIVUl5lImxn3X7Tt3JUOBMU6L4cNtJXiGOgJgMdJlXOJUY3l8TKcOJU14Azvr195OSytLXQRSHFccyvWhyedvM3glajNKgOmHc3kruDH_KUc1FOZlfta29pk40rhyee9NkTXqsBNKmisvmEBYN0HKhhCRnt1av9jAfK-nFxXSStK-AIoHnfjliD90E5KoF0J8rQXIhMuz1-PCVqD8vtPnjnUrlooQc967BBbhDH7lS9m-B6o9-Bszlv7UED-P394",

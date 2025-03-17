@@ -685,25 +685,9 @@ test.describe('Validation: Matching Password', () => {
   });
 });
 
-test.describe('Buttons', () => {
+test.describe('Submit', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
-  });
-
-  test('givenCancelClick_thenRedirectToHomePage', async ({page}) => {
-
-    // Arrange
-
-    const cancel = page.getByRole("button", {name: 'Cancel'});
-    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
-
-    // Act
-
-    await cancel.click();
-
-    // Assert
-
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenSubmitClick_whenEmptyForm_thenTriggerValidationErrors', async ({page}) => {
@@ -787,6 +771,22 @@ test.describe('Buttons', () => {
 
     await expect(page.getByText('Information')).toBeVisible();
     await expect(page.getByText('Successful registration! You may now login.')).toBeVisible();
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
+  });
+
+  test('givenCancelClick_thenRedirectToHomePage', async ({page}) => {
+
+    // Arrange
+
+    const cancel = page.getByRole("button", {name: 'Cancel'});
+    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
+
+    // Act
+
+    await cancel.click();
+
+    // Assert
+
     expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 });
