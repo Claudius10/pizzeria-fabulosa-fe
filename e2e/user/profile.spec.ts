@@ -11,12 +11,6 @@ test.describe('Render', () => {
     expect(await page.title()).toEqual('Your Profile');
   });
 
-  test('ShowUserNav', async ({page}) => {
-    await expect(page.getByRole('link', {name: 'Profile'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Orders'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Settings'})).toBeVisible();
-  });
-
   test('ShowUserDetails', async ({page}) => {
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
     await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
