@@ -108,6 +108,7 @@ test.describe('Render: Large Screen', () => {
   test('Buttons', async ({page}) => {
     await expect(page.getByRole('button', {name: 'CANCEL'})).toBeVisible();
     await expect(page.getByRole('button', {name: 'NEXT'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'PREVIOUS'})).toBeVisible();
   });
 });
 
@@ -230,6 +231,7 @@ test.describe('Render: Small Screen', () => {
   test('Buttons', async ({page}) => {
     await expect(page.getByRole('button', {name: 'CANCEL'})).toBeVisible();
     await expect(page.getByRole('button', {name: 'NEXT'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'PREVIOUS'})).toBeVisible();
   });
 });
 
@@ -796,6 +798,7 @@ test.describe('Buttons', () => {
     await expect(addressInput).toHaveValue('Alustre');
     await expect(addressNumberInput).toHaveValue('15');
     await expect(addressDetails).toHaveValue('Floor 5, Door 2E');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('0'); // 0 = Home Delivery; 1 = Store pick-up
   });
 
   test('givenClickOnNext_whenStoreIsSelected_thenGoToStepThree', async ({page}) => {
@@ -867,6 +870,7 @@ test.describe('Buttons', () => {
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
     await expect(alustreDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
     await expect(viciosaDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('1'); // 0 = Home Delivery; 1 = Store pick-up
   });
 
   test('givenClickOnPrevious_whenFormIsValid_thenSaveFormValues', async ({page}) => {
@@ -894,6 +898,7 @@ test.describe('Buttons', () => {
     await expect(addressInput).toHaveValue('Alustre');
     await expect(addressNumberInput).toHaveValue('15');
     await expect(addressDetails).toHaveValue('Floor 5, Door 2E');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('0'); // 0 = Home Delivery; 1 = Store pick-up
   });
 
   test('givenClickOnPrevious_whenFormIsInvalid_thenDoNotSaveFormValues', async ({page}) => {
@@ -921,6 +926,7 @@ test.describe('Buttons', () => {
     await expect(addressInput).not.toHaveValue('Alustre');
     await expect(addressNumberInput).not.toHaveValue('15');
     await expect(addressDetails).not.toHaveValue('Floor 5, Door 2E');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('0'); // 0 = Home Delivery; 1 = Store pick-up
   });
 
   test('givenClickOnPrevious_whenStoreIsSelected_thenSaveStore', async ({page}) => {
@@ -953,6 +959,7 @@ test.describe('Buttons', () => {
 
     await expect(alustreDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
     await expect(viciosaDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('1'); // 0 = Home Delivery; 1 = Store pick-up
   });
 
   test('givenClickOnPrevious_whenStoreIsNotSelected_thenNoStoreSaved', async ({page}) => {
@@ -983,5 +990,6 @@ test.describe('Buttons', () => {
 
     await expect(alustreDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
     await expect(viciosaDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('1'); // 0 = Home Delivery; 1 = Store pick-up
   });
 });

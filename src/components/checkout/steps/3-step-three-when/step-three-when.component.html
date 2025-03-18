@@ -2,6 +2,7 @@
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.three.warning" | translate }}</span>
     <p-button
+      title="Start"
       type="button"
       (onClick)="firstStep()"
       [disabled]="checkoutFormService.step === 0"
@@ -12,10 +13,13 @@
     <div class="flex flex-col gap-8">
 
       <div class="flex flex-col gap-4">
+
         <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
+
         <p-iconfield [dt]="myIcon('{primary.400}')">
-          <p-inputicon styleClass="pi pi-angle-down"/>
+          <p-inputicon title="Delivery Time Icon" styleClass="pi pi-angle-down"/>
           <select
+            title="Delivery Time Select"
             [ngModel]="selectedOption.code"
             [ngModelOptions]="{standalone: true}"
             name="deliveryChoice"
@@ -30,9 +34,10 @@
         </p-iconfield>
         @if (this.checkoutFormService.programmedDelivery) {
           <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
-          <p-iconfield [dt]="myIcon('{primary.400}')">
+          <p-iconfield title="Delivery Hour Icon" [dt]="myIcon('{primary.400}')">
             <p-inputicon styleClass="pi pi-angle-down"/>
             <select
+              title="Delivery Hour Select"
               class="w-full"
               id="deliveryTime"
               formControlName="deliveryTime"
@@ -45,9 +50,9 @@
             </select>
           </p-iconfield>
           @if (!this.form.controls.deliveryTime.untouched && !this.form.controls.deliveryTime.valid) {
-            <div id="deliveryTime-help" class="invalid-text">
+            <span title="Invalid Delivery Hour" id="deliveryTime-help" class="invalid-text">
               {{ "form.invalid.delivery.programmed.hour" | translate }}
-            </div>
+            </span>
           }
         }
       </div>
@@ -56,16 +61,19 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
+        title="Previous"
         type="button"
         (onClick)="previousStep()"
         [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
+        title="Cancel"
         severity="danger"
         type="button"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
+        title="Next"
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step === 4"
