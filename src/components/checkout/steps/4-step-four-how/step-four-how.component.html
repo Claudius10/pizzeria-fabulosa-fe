@@ -2,6 +2,7 @@
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.four.warning" | translate }}</span>
     <p-button
+      title="Start"
       type="button"
       (onClick)="firstStep()"
       [disabled]="checkoutFormService.step === 0"
@@ -14,8 +15,9 @@
       <div class="flex flex-col gap-4">
         <label for="paymentMethod">{{ "component.form.step.four.advice" | translate }}</label>
         <p-iconfield [dt]="myIcon('{primary.400}')">
-          <p-inputicon styleClass="pi pi-angle-down"/>
+          <p-inputicon title="Payment Method Icon" styleClass="pi pi-angle-down"/>
           <select
+            title="Payment Method Select"
             class="w-full"
             id="paymentMethod"
             formControlName="paymentMethod"
@@ -32,8 +34,9 @@
 
           <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-angle-down"/>
+            <p-inputicon title="Change Request Icon" styleClass="pi pi-angle-down"/>
             <select
+              title="Change Request Select"
               [ngModel]="selectedChangeOption.code"
               [ngModelOptions]="{standalone: true}"
               class="w-full"
@@ -51,8 +54,9 @@
         @if (checkoutFormService.changeRequested) {
           <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-euro"/>
+            <p-inputicon title="Bill Icon" styleClass="pi pi-euro"/>
             <input
+              title="Bill Input"
               class="w-full invalid-border"
               placeholder="10"
               id="billToChange"
@@ -63,9 +67,9 @@
             >
           </p-iconfield>
           @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
-            <div id="fullName-help" class="invalid-text">
+            <span title="Invalid Bill" id="fullName-help" class="invalid-text">
               {{ "form.invalid.bill.change" | translate }}
-            </div>
+            </span>
           }
         }
       </div>
@@ -74,16 +78,19 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
+        title="Previous"
         type="button"
         (onClick)="previousStep()"
         [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
+        title="Cancel"
         severity="danger"
         type="button"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
+        title="Next"
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step === 4"
