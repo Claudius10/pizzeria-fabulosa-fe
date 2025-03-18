@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {RESOURCE_PRODUCT_BEVERAGES} from '../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -12,7 +12,7 @@ import {FilterService} from '../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../search/products-search.component';
 import {ProductsSearchPipe} from '../search/search-pipe/products-search.pipe';
 import {ProductsFilterComponent} from '../filters/products-filter.component';
-import {getAllBeverageFilters, getAllPizzaFilters} from '../../../utils/filter-items';
+import {getAllBeverageFilters} from '../../../utils/filter-items';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {NgClass} from '@angular/common';
 
@@ -33,7 +33,7 @@ import {NgClass} from '@angular/common';
   styleUrls: ['./beverage-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BeverageListComponent implements OnInit, OnDestroy {
+export class BeverageListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
   protected filterService = inject(FilterService);
@@ -72,10 +72,5 @@ export class BeverageListComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.loadingAnimationService.stopLoading();
-  }
-
   protected readonly getAllBeverageFilters = getAllBeverageFilters;
-  protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

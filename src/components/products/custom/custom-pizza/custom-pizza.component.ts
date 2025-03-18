@@ -42,18 +42,18 @@ export class CustomPizzaComponent {
         es: "Mi Pizza"
       },
       description: {
-        en: this.translateIngredients("en", pizza.ingredients),
-        es: this.translateIngredients("es", pizza.ingredients),
+        en: this.translateTokens("en", pizza.ingredients),
+        es: this.translateTokens("es", pizza.ingredients),
       },
       formats: {
         s: null,
         m: isMedium ? {
-          en: this.translateIngredient("en", pizza.format),
-          es: this.translateIngredient("es", pizza.format),
+          en: this.translateToken("en", pizza.format),
+          es: this.translateToken("es", pizza.format),
         } : null,
         l: !isMedium ? {
-          en: this.translateIngredient("en", pizza.format),
-          es: this.translateIngredient("es", pizza.format),
+          en: this.translateToken("en", pizza.format),
+          es: this.translateToken("es", pizza.format),
         } : null
       },
       quantity: 1,
@@ -69,17 +69,17 @@ export class CustomPizzaComponent {
     this.customPizzaDialogVisible = false;
   }
 
-  private translateIngredient(to: string, ingredient: string): string {
+  private translateToken(to: string, token: string): string {
     const translations = this.translateService.translations;
     const translation = translations[to];
-    return translation[ingredient];
+    return translation[token];
   }
 
-  private translateIngredients(to: string, ingredients: string[]): string[] {
+  private translateTokens(to: string, tokens: string[]): string[] {
     const translations = this.translateService.translations;
     const translation = translations[to];
-    return ingredients.map(ingredient => {
-      return translation[ingredient];
+    return tokens.map(token => {
+      return translation[token];
     });
   }
 }

@@ -2,7 +2,7 @@
   @if (query.status() !== "error") {
     <div class="products-search flex flex-col gap-3">
       <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
-      <app-products-filter [items]="getAllPizzaFilters()"/>
+      <app-products-filter [items]="getAllBeverageFilters()"/>
     </div>
   }
 

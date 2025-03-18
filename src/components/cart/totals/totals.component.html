@@ -35,15 +35,16 @@
           @if (secondForHalfPriceOffer() != 0) {
             <p-button
               type="button"
+              title="2nd 50% off"
               [text]="true">
-              2<sup>{{ "component.cart.total.offers.second.part.one" | translate }}</sup> <span
-              class="ml-1">{{ "component.cart.total.offers.second.part.two" | translate }}</span>
+              2<sup>{{ "component.cart.total.offers.second.part.one" | translate }}</sup> <span class="ml-1">{{ "component.cart.total.offers.second.part.two" | translate }}</span>
             </p-button>
           }
 
           @if (threeForTwoOffers() != 0) {
             <p-button
               type="button"
+              title="3 x 2"
               [text]="true"
               label="3 X 2"
               badge=" {{ threeForTwoOffers() }}"

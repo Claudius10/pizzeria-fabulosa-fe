@@ -6,7 +6,6 @@ import {ProductDTO} from '../../../interfaces/dto/resources';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
-import {v4 as uuidv4} from 'uuid';
 import {getDarkIcon, getLightIcon} from '../../../utils/functions';
 
 @Component({
@@ -55,7 +54,7 @@ export class ProductItemComponent implements OnInit {
 
   addProductToCart() {
     this.cartService.add({
-      id: uuidv4(),
+      id: this.theProduct().id + this.productFormat,
       images: {
         dark: getDarkIcon(this.theProduct().type),
         light: getLightIcon(this.theProduct().type)
