@@ -34,9 +34,9 @@ import {myIcon} from '../../../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
-  private router = inject(Router);
-  protected authService = inject(AuthService);
   protected checkoutFormService = inject(CheckoutFormService);
+  protected authService = inject(AuthService);
+  private router = inject(Router);
 
   form = new FormGroup({
     fullName: new FormControl("", {

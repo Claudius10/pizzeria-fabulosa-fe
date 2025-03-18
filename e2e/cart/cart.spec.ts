@@ -19,6 +19,10 @@ test.describe('Render', () => {
 
     // Arrange
 
+    const badge = page.locator('#pn_id_2_badge');
+    await expect(badge).toBeVisible();
+    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+
     const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
     await expect(addProduct).toBeVisible();
 
@@ -28,9 +32,11 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
+    await expect(badge.getByText('1')).toBeVisible();
     await beveragesLink.click();
     await page.waitForURL('http://192.168.1.128:4200/beverages');
     await addProduct.click();
+    await expect(badge.getByText('2')).toBeVisible();
     await cartButton.click();
 
     // Assert
@@ -99,6 +105,10 @@ test.describe('Render', () => {
 
     // Arrange
 
+    const badge = page.locator('#pn_id_2_badge');
+    await expect(badge).toBeVisible();
+    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+
     const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
     await expect(addProduct).toBeVisible();
 
@@ -107,8 +117,11 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
+    await expect(badge.getByText('1')).toBeVisible();
     await addProduct.click();
+    await expect(badge.getByText('2')).toBeVisible();
     await addProduct.click();
+    await expect(badge.getByText('3')).toBeVisible();
     await cartButton.click();
 
     // Assert
@@ -196,7 +209,6 @@ test.describe('Quantity Changes', () => {
     const cartButton = page.getByTitle('Cart');
     await addProduct.click();
     await cartButton.click();
-
   });
 
   test('givenItem_whenIncreasingQuantity_thenUpdatePriceAndShowOffer', async ({page}) => {
@@ -251,6 +263,10 @@ test.describe('Quantity Changes', () => {
 
     // Arrange
 
+    const badge = page.locator('#pn_id_2_badge');
+    await expect(badge).toBeVisible();
+    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+
     const increaseQ = page.getByTitle('Increase Quantity');
     const decreaseQ = page.getByTitle('Decrease Quantity');
     const q = page.getByTitle('Quantity', {exact: true});
@@ -260,11 +276,13 @@ test.describe('Quantity Changes', () => {
     // Act
 
     await increaseQ.click();
+    await expect(badge.getByText('2')).toBeVisible();
     await expect(q.getByText('2')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('19.95€')).toBeVisible();
     await expect(page.getByRole('button', {name: '2 nd is 50% off'})).toBeVisible();
     await increaseQ.click();
+    await expect(badge.getByText('3')).toBeVisible();
     await expect(q.getByText('3')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
@@ -273,6 +291,7 @@ test.describe('Quantity Changes', () => {
 
     // Assert
 
+    await expect(badge.getByText('2')).toBeVisible();
     await expect(q.getByText('2')).toBeVisible();
     await expect(page.getByRole('button', {name: '26.60€'})).toBeVisible();
     await expect(page.getByRole('button', {name: '19.95€'})).toBeVisible();
@@ -347,6 +366,6 @@ test.describe('Button', () => {
     await expect(page.getByTitle('Price').getByRole('button').getByText('13.30€')).toBeVisible();
     await expect(page.getByTitle('Times Icon')).toBeVisible();
     await expect(page.getByRole('button', {name: '1', exact: true})).toBeVisible();
-    await expect(page.getByRole('button', {name: 'PROCEED TO CHECKOUT'})).not.toBeVisible();
+    await expect(checkout).not.toBeVisible();
   });
 });

@@ -7,15 +7,17 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
-        severity="danger"
+        title="Cancel"
         type="button"
+        severity="danger"
         (onClick)="cancel()"
-        label="{{ 'button.cancel' | translate | uppercase  }}"/>
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
+        title="Continue"
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step === 4"
-        label="{{ 'button.continue' | translate | uppercase  }}"/>
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </div>
 } @else {
@@ -28,8 +30,9 @@
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-user"/>
+            <p-inputicon title="Full Name Icon" styleClass="pi pi-user"/>
             <input
+              title="Full Name"
               class="w-full"
               id="fullName"
               type="text"
@@ -40,16 +43,19 @@
             >
           </p-iconfield>
           @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
-            <div id="fullName-help" class="invalid-text">
+            <span title="Invalid Name"
+                  id="fullName-help"
+                  class="invalid-text">
               {{ "form.invalid.name" | translate }}
-            </div>
+            </span>
           }
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-envelope"/>
+            <p-inputicon title="Email Icon" styleClass="pi pi-envelope"/>
             <input
+              title="Email"
               class="w-full"
               id="email"
               type="email"
@@ -59,27 +65,34 @@
               [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
-            <div id="email-help" class="invalid-text">
+            <span title="Invalid Email"
+                  id="email-help"
+                  class="invalid-text">
               {{ "form.invalid.email" | translate }}
-            </div>
+            </span>
           }
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-phone"/>
-            <input class="w-full"
-                   id="contactNumber"
-                   type="tel"
-                   placeholder="{{ 'form.label.contact.number' | translate }}"
-                   formControlName="contactNumber"
-                   pInputText
-                   [dt]="myInput(true)">
+            <p-inputicon title="Phone Icon" styleClass="pi pi-phone"/>
+            <input
+              title="Contact Number"
+              class="w-full"
+              id="contactNumber"
+              type="tel"
+              placeholder="{{ 'form.label.contact.number' | translate }}"
+              formControlName="contactNumber"
+              pInputText
+              [dt]="myInput(true)">
           </p-iconfield>
           @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
-            <div id="contactNumber-help" class="invalid-text">
+            <span
+              title="Invalid Contact Number"
+              id="contactNumber-help"
+              class="invalid-text">
               {{ "form.invalid.contact.number" | translate }}
-            </div>
+            </span>
           }
         </div>
       </div>
@@ -87,11 +100,13 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
-        severity="danger"
+        title="Cancel"
         type="button"
+        severity="danger"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
+        title="Continue"
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step === 4"

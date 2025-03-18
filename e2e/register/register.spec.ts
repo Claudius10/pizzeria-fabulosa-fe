@@ -1,7 +1,7 @@
 import {expect, test} from '@playwright/test';
 import {registerOK} from '../api-responses';
 
-test.describe('Rendering', () => {
+test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
   });
@@ -15,11 +15,20 @@ test.describe('Rendering', () => {
   });
 
   test('ShowForm', async ({page}) => {
+    await expect(page.getByTitle('Full Name Icon')).toBeVisible();
     await expect(page.getByRole('textbox', {name: 'Full name'})).toBeVisible();
+
+    await expect(page.getByTitle('Email Icon').first()).toBeVisible();
     await expect(page.getByRole('textbox', {name: 'Email', exact: true})).toBeVisible();
+
     await expect(page.getByRole('textbox', {name: 'Matching Email'})).toBeVisible();
+
+    await expect(page.getByTitle('Phone Icon')).toBeVisible();
     await expect(page.getByRole('textbox', {name: 'Contact Number'})).toBeVisible();
+
+    await expect(page.getByTitle('Toggle Password Visibility')).toBeVisible();
     await expect(page.getByRole('textbox', {name: 'Password', exact: true})).toBeVisible();
+
     await expect(page.getByRole('textbox', {name: 'Matching Password'})).toBeVisible();
   });
 
