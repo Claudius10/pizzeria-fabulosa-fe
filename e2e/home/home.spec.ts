@@ -24,7 +24,7 @@ test.describe('API OK', () => {
   });
 
   test('ShowOffers', async ({page}) => {
-    await expect(page.getByTitle("Offer List").getByRole('listitem')).toHaveCount(2);
+    await expect(page.getByTitle("Offers").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText('Discover our offers')).toBeVisible();
     await expect(page.getByText('3x2 for Pizzas')).toBeVisible();
     await expect(page.getByText('Second Pizza at half the price')).toBeVisible();
@@ -36,7 +36,7 @@ test.describe('API OK', () => {
   });
 
   test('ShowStores', async ({page}) => {
-    await expect(page.getByTitle("Store List").getByRole('listitem')).toHaveCount(2);
+    await expect(page.getByTitle("Stores").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText('Come by our store')).toBeVisible();
     await expect(page.getByText('Alustre', {exact: true})).toBeVisible();
     await expect(page.getByText('Avenida Alustre 15')).toBeVisible();

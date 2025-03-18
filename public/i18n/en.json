@@ -49,6 +49,7 @@
   "form.invalid.delivery.programmed.hour": "The hour is requiered",
   "form.invalid.bill.change": "Bill to change must be greater than the total or the total after offers",
   "form.invalid.comment": "The comment contains forbidden symbols or has more than 150 characters",
+  "form.invalid.store.selection": "Please select a store to continue",
   "view.customer.header": "Customer details",
   "view.delivery.header": "Delivery details",
   "view.orderdetails.header": "Order details",

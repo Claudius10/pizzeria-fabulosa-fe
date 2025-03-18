@@ -49,6 +49,7 @@
   "form.invalid.delivery.programmed.hour": "La hora es obligatoria",
   "form.invalid.bill.change": "El billete a cambiar debe ser mayor al total o al total con ofertas",
   "form.invalid.comment": "El comentario contiene símbolos prohibidos o tiene más de 150 caracteres",
+  "form.invalid.store.selection": "Por favor seleccione una tienda para continuar",
   "view.customer.header": "Datos del cliente",
   "view.delivery.header": "Datos de la entrega",
   "view.order": "Pedido",

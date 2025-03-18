@@ -15,7 +15,7 @@
       <app-server-error/>
     }
 
-    <ul title="Offer List" class="flex flex-wrap justify-center gap-8">
+    <ul title="Offers" class="flex flex-wrap justify-center gap-8">
       @for (offer of offers.data()?.payload; track offer.id) {
         <li>
           <app-offer-item [offer]="offer"/>
@@ -33,7 +33,7 @@
       <app-server-error/>
     }
 
-    <ul title="Store List" class="flex flex-wrap justify-center gap-8">
+    <ul title="Stores" class="flex flex-wrap justify-center gap-8">
       @for (store of stores.data()?.payload; track store.id) {
         <li>
           <app-store-item [store]="store"/>

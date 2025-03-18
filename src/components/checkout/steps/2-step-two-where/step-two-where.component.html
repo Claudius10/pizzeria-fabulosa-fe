@@ -2,6 +2,7 @@
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.two.warning" | translate }}</span>
     <p-button
+      title="Start"
       type="button"
       (onClick)="previousStep()"
       [disabled]="checkoutFormService.step === 0"
@@ -14,9 +15,10 @@
 
       <div class="flex flex-col gap-4">
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
-        <p-iconfield [dt]="myIcon('{primary.400}')">
+        <p-iconfield title="Delivery Choice Icon" [dt]="myIcon('{primary.400}')">
           <p-inputicon styleClass="pi pi-angle-down"/>
           <select
+            title="Delivery Choice Select"
             [ngModel]="selectedOption.code"
             [ngModelOptions]="{standalone: true}"
             (change)="selectDelivery($event)"
@@ -44,8 +46,9 @@
 
               <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon styleClass="pi pi-directions"/>
+                  <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
                   <input
+                    title="Address Input"
                     class="w-full"
                     id="street"
                     type="text"
@@ -56,16 +59,17 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
-                  <div id="street-help" class="invalid-text">
-                    {{ "form.invalid.delivery.address" | translate }}
-                  </div>
+                  <span title="Invalid Address" id="street-help"
+                        class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
+                  </span>
                 }
               </div>
 
               <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon styleClass="pi pi-home"/>
+                  <p-inputicon title="Number Icon" styleClass="pi pi-home"/>
                   <input
+                    title="Address Number Input"
                     class="w-full"
                     id="streetNumber"
                     type="tel"
@@ -76,16 +80,17 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
-                  <div id="number-help" class="invalid-text">
-                    {{ "form.invalid.delivery.number" | translate }}
-                  </div>
+                  <span title="Invalid Address Number" id="number-help" class="invalid-text">
+                      {{ "form.invalid.delivery.number" | translate }}
+                  </span>
                 }
               </div>
 
               <div class="flex flex-col gap-2">
                 <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon styleClass="pi pi-info-circle"/>
+                  <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
                   <input
+                    title="Details Input"
                     class="w-full"
                     id="details"
                     type="text"
@@ -96,31 +101,41 @@
                   >
                 </p-iconfield>
                 @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
-                  <div id="details-help" class="invalid-text">
+                  <span title="Invalid Details" id="details-help" class="invalid-text">
                     {{ "form.invalid.delivery.details" | translate }}
-                  </div>
+                  </span>
                 }
               </div>
             </div>
           }
         } @else {
           <!-- STORE SELECT -->
-          <div class="flex flex-col gap-4 mb-6">
-            @if (stores.status() === "pending") {
-              <span class="text-primary">{{ "loading.stores" | translate }}</span>
-            } @else if (stores.status() === "error") {
-              <app-server-error/>
-            } @else {
+          @if (stores.status() === "error") {
+            <app-server-error/>
+          }
+
+          @if (stores.status() === 'success') {
+            <ul title="Stores" class="flex flex-col gap-4 mb-6">
               @for (store of stores.data()!.payload; track store.id) {
-                <app-store-checkout
-                  [store]="store"
-                  (onStoreSelect)="setSelectedId($event)"
-                  [selected]="this.checkoutFormService.selectedAddress.id"
-                  [valid]="validStoreSelection"
-                />
+                <li>
+                  <app-store-checkout
+                    [store]="store"
+                    (onStoreSelect)="setSelectedId($event)"
+                    [selected]="this.checkoutFormService.selectedAddress.id"
+                    [valid]="validStoreSelection"
+                  />
+                </li>
               }
+            </ul>
+
+            @if (!validStoreSelection) {
+              <span
+                title="Invalid Store Selection"
+                class="invalid-text">
+                {{ "form.invalid.store.selection" | translate }}
+              </span>
             }
-          </div>
+          }
         }
       </div>
     </div>
@@ -128,16 +143,19 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
+        title="Previous"
         type="button"
         (onClick)="previousStep()"
         [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
+        title="Cancel"
         severity="danger"
         type="button"
         (click)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
+        title="Next"
         type="button"
         (onClick)="nextStep()"
         [disabled]="checkoutFormService.step === 4 || isFetching()"

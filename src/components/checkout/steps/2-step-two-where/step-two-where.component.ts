@@ -23,7 +23,7 @@ import {isFormValid} from '../../../../utils/functions';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
-import {ERROR, SUCCESS} from '../../../../utils/constants';
+import {SUCCESS} from '../../../../utils/constants';
 import {ResponseDTO} from '../../../../interfaces/http/api';
 
 @Component({
@@ -104,12 +104,18 @@ export class StepTwoWhereComponent implements OnInit {
 
     } else {
       // restore previously set values
-      if (this.checkoutFormService.where !== null) {
-        this.form.patchValue({
-          street: this.checkoutFormService.where.street!,
-          number: this.checkoutFormService.where.number!.toString(),
-          details: this.checkoutFormService.where.details
-        });
+      if (this.checkoutFormService.homeDelivery) {
+        this.selectedOption = this.options[0];
+
+        if (this.checkoutFormService.where !== null) {
+          this.form.patchValue({
+            street: this.checkoutFormService.where.street!,
+            number: this.checkoutFormService.where.number!.toString(),
+            details: this.checkoutFormService.where.details
+          });
+        }
+      } else {
+        this.selectedOption = this.options[1];
       }
     }
   }
@@ -193,10 +199,6 @@ export class StepTwoWhereComponent implements OnInit {
           }
         }
 
-        if (status === ERROR) {
-          this.errorService.handleServerNoResponse();
-        }
-
         this.loadingAnimationService.stopLoading();
       }
     });
@@ -209,10 +211,10 @@ export class StepTwoWhereComponent implements OnInit {
   private setHomeDeliveryValidators(add: boolean): void {
     if (add) {
       this.form.controls.street.addValidators([Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)]);
-      this.form.controls.number.addValidators([Validators.required, Validators.maxLength(10), Validators.pattern(numbersRegex)]);
+      this.form.controls.number.addValidators([Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)]);
     } else {
       this.form.controls.street.removeValidators([Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)]);
-      this.form.controls.number.removeValidators([Validators.required, Validators.maxLength(10), Validators.pattern(numbersRegex)]);
+      this.form.controls.number.removeValidators([Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)]);
     }
   }
 
