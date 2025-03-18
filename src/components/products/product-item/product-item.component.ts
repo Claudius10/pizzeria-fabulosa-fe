@@ -55,6 +55,7 @@ export class ProductItemComponent implements OnInit {
   addProductToCart() {
     this.cartService.add({
       id: this.theProduct().id + this.productFormat,
+      formatCode: this.productFormat,
       images: {
         dark: getDarkIcon(this.theProduct().type),
         light: getLightIcon(this.theProduct().type)

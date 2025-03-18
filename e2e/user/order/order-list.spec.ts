@@ -370,6 +370,7 @@ test.describe('Render', () => {
     await pageSizeSelect.click();
     await expect(sizeFive).toBeVisible();
     await sizeFive.click();
+    await expect(page.getByRole('listbox', {name: 'Option List'})).not.toBeVisible();
 
     // Assert
 

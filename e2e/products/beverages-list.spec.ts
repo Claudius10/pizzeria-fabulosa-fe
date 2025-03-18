@@ -26,16 +26,16 @@ test.describe('API OK', () => {
   });
 
   test('showBeverageList', async ({page}) => {
-    await expect(page.getByTitle("Beverage List").getByRole('listitem')).toHaveCount(1);
+    await expect(page.getByTitle("Beverage List").getByRole('listitem')).toHaveCount(8);
   });
 
   test('ShowCocaCola', async ({page}) => {
     await expect(page.getByAltText('Coca-Cola Zero')).toBeVisible();
     await expect(page.getByText('Coca-Cola Zero')).toBeVisible();
-    await expect(page.getByRole('button', {name: '330ML'})).toBeVisible();
-    await expect(page.getByRole('button', {name: '1L'})).toBeVisible();
-    await expect(page.getByRole('button', {name: '2.95€'})).toBeVisible();
-    await expect(page.getByTitle('Add Product').getByRole('button')).toBeVisible();
+    await expect(page.getByTitle('Coca-Cola Zero Small').getByRole('button', {name: '330ML'})).toBeVisible();
+    await expect(page.getByTitle('Coca-Cola Zero Medium').getByRole('button', {name: '1L'})).toBeVisible();
+    await expect(page.getByTitle('Coca-Cola Zero Price').getByRole('button', {name: '2.95€'})).toBeVisible();
+    await expect(page.getByTitle('Add Fanta Naranja to Cart').getByRole('button')).toBeVisible();
   });
 });
 

@@ -11,9 +11,9 @@ test.describe('Render: Large Screen', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -68,9 +68,9 @@ test.describe('Render: Small Screen', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -122,9 +122,9 @@ test.describe('Validation: Full Name', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -244,9 +244,9 @@ test.describe('Validation: Email', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -363,9 +363,9 @@ test.describe('Validation: Contact Number', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -481,9 +481,9 @@ test.describe('Buttons', () => {
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByLabel('Add product to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
     await cartButton.click();
@@ -521,7 +521,7 @@ test.describe('Buttons', () => {
     await contactNumber.fill('123456789');
     await expect(contactNumber).toHaveValue('123456789');
     await cancel.click();
-    const cartButton = page.getByTitle('Cart');
+    const cartButton = page.getByRole('button', {name: 'Open Cart'});
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
 
     // Act

@@ -32,6 +32,7 @@ export class CustomPizzaComponent {
     const isMedium = pizza.format.includes("format.m");
     this.cartService.add({
       id: uuidv4(),
+      formatCode: pizza.format,
       images: {
         dark: getDarkIcon('pizza'),
         light: getLightIcon('pizza'),

@@ -26,7 +26,7 @@ test.describe('API OK', () => {
   });
 
   test('showPizzaList', async ({page}) => {
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(10);
   });
 
   test('ShowCustomPizzaItem', async ({page}) => {
@@ -39,12 +39,12 @@ test.describe('API OK', () => {
   test('ShowCuatroQuesosPizza', async ({page}) => {
     await expect(page.getByAltText('Cuatro Quesos')).toBeVisible();
     await expect(page.getByText('Cuatro Quesos')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'Medium'})).toBeVisible();
-    await expect(page.getByRole('button', {name: 'Large'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Medium'}).first()).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Large'}).first()).toBeVisible();
     await expect(page.getByText('Tomato Sauce, 100% Mozzarella, Parmesan Cheese, Emmental Cheese, Blue Cheese')).toBeVisible();
-    await expect(page.getByRole('button', {name: '13.30€'})).toBeVisible();
-    await expect(page.getByTitle('Add Product').getByRole('button')).toBeVisible();
-    await expect(page.getByTitle("Allergens")).toBeVisible();
+    await expect(page.getByRole('button', {name: '13.30€'}).first()).toBeVisible();
+    await expect(page.getByTitle('Add Cuatro Quesos').getByRole('button')).toBeVisible();
+    await expect(page.getByTitle("Cuatro Quesos Allergens")).toBeVisible();
   });
 });
 

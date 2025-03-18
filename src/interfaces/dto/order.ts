@@ -17,6 +17,7 @@ export type OrderDetailsDTO = {
 
 export interface CartItemDTO {
   id: string;
+  formatCode: string;
   images: {
     dark: string;
     light: string;

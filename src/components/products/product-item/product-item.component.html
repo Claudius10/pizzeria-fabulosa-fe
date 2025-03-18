@@ -14,7 +14,7 @@
       <div class="flex gap-2">
         @if (theProduct().formats.s) {
           <p-button
-            title="Small Format"
+            title="{{theProduct().name.es}} Small"
             (click)="setFormat('S')"
             type="button"
             size="small"
@@ -25,7 +25,7 @@
 
         @if (theProduct().formats.m) {
           <p-button
-            title="Medium Format"
+            title="{{theProduct().name.es}} Medium"
             (click)="setFormat('M')"
             type="button"
             size="small"
@@ -36,7 +36,7 @@
 
         @if (theProduct().formats.l) {
           <p-button
-            title="Large Format"
+            title="{{theProduct().name.es}} Large"
             (click)="setFormat('L')"
             type="button"
             size="small"
@@ -49,7 +49,7 @@
 
     <!-- INGREDIENTES -->
     @if (theProduct().description !== null) {
-      <div title="Ingredients" class="flex justify-center flex-wrap description text-center">
+      <div title="{{theProduct().name.es}} Ingredients" class="flex justify-center flex-wrap description text-center">
         {{ currentLang() === 'es' ? theProduct().description.es.join(", ") : theProduct().description.en.join(", ") }}
       </div>
     }
@@ -57,21 +57,24 @@
     <!-- PRICE + ADD BUTTON -->
     <div class="flex items-center justify-center gap-4 pb-2">
       @if (theProduct().prices) {
-        <app-product-price [price]="this.productPrice"/>
+        <app-product-price title="{{theProduct().name.es}} Price" [price]="this.productPrice"/>
       }
 
       <p-button
-        title="Add Product"
+        title="Add {{theProduct().name.es}} to Cart"
         type="button"
         icon="pi pi-plus"
         [raised]="true"
         size="small"
-        aria-label="Add product to Cart"
+        aria-label="Add to Cart"
         (click)="addProductToCart()"/>
 
       @if (theProduct().allergens.es.length > 0) {
-        <i title="Allergens" class="pi pi-exclamation-circle allergens-icon-small"
-           (click)="openAllergensDialog()"></i>
+        <i
+          title="{{theProduct().name.es}} Allergens"
+          class="pi pi-exclamation-circle allergens-icon-small"
+          (click)="openAllergensDialog()">
+        </i>
       }
     </div>
   </div>
