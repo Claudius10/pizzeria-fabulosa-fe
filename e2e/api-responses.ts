@@ -872,7 +872,8 @@ export const userOrderSuccess = {
       "paymentMethod": "form.select.payment.method.card",
       "billToChange": null,
       "changeToGive": null,
-      "comment": null
+      "comment": null,
+      "storePickUp": false
     },
     "cart": {
       "id": 1,
@@ -881,6 +882,45 @@ export const userOrderSuccess = {
       "totalCostOffers": 0.0,
       "cartItems": [{
         "id": 53,
+        "type": "pizza",
+        "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+        "description": {
+          "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+          "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+        },
+        "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+        "price": 13.3,
+        "quantity": 1
+      }]
+    }
+  },
+  "error": null
+};
+
+export const anonUserOrderSuccess = {
+  "timeStamp": "2025-03-19T19:16:37.503035324",
+  "status": {"code": 201, "description": "CREATED", "error": false},
+  "payload": {
+    "id": 2,
+    "formattedCreatedOn": "19:16 - 19/03/2025",
+    "customer": {"name": "Clau", "contactNumber": 123456789, "email": "clau@example.com"},
+    "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null},
+    "orderDetails": {
+      "id": 2,
+      "deliveryTime": "23:55",
+      "paymentMethod": "form.select.payment.method.cash",
+      "billToChange": 20.0,
+      "changeToGive": 6.7,
+      "comment": "Well cut",
+      "storePickUp": true
+    },
+    "cart": {
+      "id": 2,
+      "totalQuantity": 1,
+      "totalCost": 13.3,
+      "totalCostOffers": 0.0,
+      "cartItems": [{
+        "id": 54,
         "type": "pizza",
         "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
         "description": {

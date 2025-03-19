@@ -168,10 +168,10 @@ export class StepFiveSummaryComponent {
         email: this.checkoutFormService.who!.email,
       },
       address: {
-        id: this.checkoutFormService.selectedAddress.id,
-        street: this.checkoutFormService.where!.street,
-        number: this.checkoutFormService.where!.number,
-        details: this.checkoutFormService.where!.details
+        id: this.checkoutFormService.selectedAddress.id === null ? null : this.checkoutFormService.selectedAddress.id,
+        street: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.street,
+        number: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.number,
+        details: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.details,
       },
       orderDetails: {
         id: null,
