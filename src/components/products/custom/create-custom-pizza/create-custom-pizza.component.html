@@ -1,57 +1,26 @@
-<div class="flex flex-col items-center gap-8">
-
-  <span class="font-bold text-3xl text-center">{{ "component.custom.pizza.text" | translate }}</span>
+<div title="My Pizza" class="flex flex-col items-center gap-8">
 
   <div class="flex justify-center gap-40">
 
-    <form [formGroup]="form" class="flex flex-col gap-6">
+    <div class="flex flex-col gap-6">
 
       <span class="font-bold">{{ "component.custom.pizza.essentials" | translate }}</span>
 
-      <div class="flex flex-col w-fit gap-3">
+      <div title="The Essentials" class="flex flex-col w-fit gap-3">
 
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.custom.pizza.format" | translate }}</span>
           <p-selectButton
+            name="format"
+            id="format"
             size="small"
             [options]="formatOptions"
-            formControlName="format"
             optionLabel="label"
             optionValue="value"
+            [(ngModel)]="formatControl"
+            (onOptionClick)="onSelectFormat($event)"
             [allowEmpty]="false"
-            [ngClass]="['flex flex-wrap gap-2',!form.controls.format.untouched && !form.controls.format.valid ? 'ng-invalid ng-dirty' : '']">
-            <ng-template #item let-item>
-              {{ item.label | translate }}
-            </ng-template>
-          </p-selectButton>
-        </div>
-
-        <div class="flex flex-col gap-2 w-fit ">
-          <span>{{ "component.custom.pizza.base.sauce" | translate }}</span>
-          <p-selectButton
-            size="small"
-            [options]="sauceOptions"
-            formControlName="sauce"
-            optionLabel="label"
-            optionValue="value"
-            [allowEmpty]="false"
-            [ngClass]="['flex flex-wrap gap-2',!form.controls.sauce.untouched && !form.controls.sauce.valid ? 'ng-invalid ng-dirty' : '']">
-            <ng-template #item let-item>
-              {{ item.label | translate }}
-            </ng-template>
-          </p-selectButton>
-        </div>
-
-        <div class="flex flex-col gap-2 w-fit">
-          <span>{{ "component.custom.pizza.base.cheese" | translate }}</span>
-          <p-selectButton
-            size="small"
-            [options]="baseCheeseOptions"
-            formControlName="baseCheese"
-            optionLabel="label"
-            optionValue="value"
-            [allowEmpty]="false"
-            [ngClass]="['flex flex-wrap gap-2',!form.controls.baseCheese.untouched && !form.controls.baseCheese.valid ? 'ng-invalid ng-dirty' : '']">
+            [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -62,11 +31,15 @@
           <span>{{ "component.products.filters.allergen" | translate }}</span>
           <div class="flex gap-2">
             <p-selectButton
+              name="allernges"
+              id="allergens"
               size="small"
               [options]="allergenOptions"
-              formControlName="allergens"
               optionLabel="label"
               optionValue="value"
+              [(ngModel)]="allergensControl"
+              (onOptionClick)="onSelectAllergenExclusion($event)"
+              [disabled]="format === ''"
               [multiple]="true"
               [ngClass]="['flex flex-wrap gap-2']">
               <ng-template #item let-item>
@@ -75,37 +48,20 @@
             </p-selectButton>
           </div>
         </div>
-      </div>
 
-      <span class="font-bold">{{ "component.custom.pizza.ingredients" | translate }}</span>
-
-      <div class="flex flex-col w-fit gap-3">
-        <div class="flex flex-col gap-2">
-          <span>{{ "component.products.filters.meat" | translate }}</span>
+        <div class="flex flex-col gap-2 w-fit ">
+          <span>{{ "component.custom.pizza.base.sauce" | translate }}</span>
           <p-selectButton
+            name="sauce"
+            id="sauce"
             size="small"
-            [options]="meatOptions"
-            formControlName="meat"
+            [options]="sauceOptions"
             optionLabel="label"
             optionValue="value"
-            [multiple]="true"
-            class="flex flex-wrap gap-2">
-            <ng-template #item let-item>
-              {{ item.label | translate }}
-            </ng-template>
-          </p-selectButton>
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <span>{{ "component.products.filters.cheese" | translate }}</span>
-          <p-selectButton
-            size="small"
-            [options]="cheeseOptions"
-            formControlName="cheese"
-            optionLabel="label"
-            optionValue="value"
-            [multiple]="true"
-            class="flex flex-wrap gap-2">
+            [(ngModel)]="sauceControl"
+            (onOptionClick)="onSelectBaseSauce($event)"
+            [disabled]="format === ''"
+            [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
               {{ item.label | translate }}
             </ng-template>
@@ -113,13 +69,79 @@
         </div>
 
         <div class="flex flex-col gap-2 w-fit">
-          <span>{{ "component.products.filters.vegetable" | translate }}</span>
+          <span>{{ "component.custom.pizza.base.cheese" | translate }}</span>
           <p-selectButton
+            name="baseCheese"
+            id="baseCheese"
             size="small"
-            [options]="vegetableOptions"
-            formControlName="vegetable"
+            [options]="baseCheeseOptions"
             optionLabel="label"
             optionValue="value"
+            [(ngModel)]="baseCheeseControl"
+            (onOptionClick)="onSelectBaseCheese($event)"
+            [disabled]="format === ''"
+            [ngClass]="['flex flex-wrap gap-2']">
+            <ng-template #item let-item>
+              {{ item.label | translate }}
+            </ng-template>
+          </p-selectButton>
+        </div>
+
+      </div>
+
+      <span class="font-bold">{{ "component.custom.pizza.ingredients" | translate }}</span>
+
+      <div class="flex flex-col gap-2">
+        <span>{{ "component.products.filters.cheese" | translate }}</span>
+        <p-selectButton
+          size="small"
+          [options]="cheeseOptions"
+          optionLabel="label"
+          optionValue="value"
+          [(ngModel)]="cheeseControl"
+          (onOptionClick)="onSelectCheese($event)"
+          [disabled]="format === '' || lactoseFree"
+          [multiple]="true"
+          class="flex flex-wrap gap-2">
+          <ng-template #item let-item>
+            {{ item.label | translate }}
+          </ng-template>
+        </p-selectButton>
+      </div>
+
+      <div class="flex flex-col gap-2 w-fit">
+        <span>{{ "component.products.filters.vegetable" | translate }}</span>
+        <p-selectButton
+          name="vegerable"
+          id="vegetable"
+          size="small"
+          [options]="vegetableOptions"
+          optionLabel="label"
+          optionValue="value"
+          [(ngModel)]="vegetableControl"
+          (onOptionClick)="onSelectVegetable($event)"
+          [disabled]="format === ''"
+          [multiple]="true"
+          class="flex flex-wrap gap-2">
+          <ng-template #item let-item>
+            {{ item.label | translate }}
+          </ng-template>
+        </p-selectButton>
+      </div>
+
+      <div title="Ingredients" class="flex flex-col w-fit gap-3">
+        <div class="flex flex-col gap-2">
+          <span>{{ "component.products.filters.meat" | translate }}</span>
+          <p-selectButton
+            name="meat"
+            id="meat"
+            size="small"
+            [options]="meatOptions"
+            optionLabel="label"
+            optionValue="value"
+            [(ngModel)]="meatControl"
+            (onOptionClick)="onSelectMeat($event)"
+            [disabled]="format === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>
@@ -131,11 +153,15 @@
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.products.filters.oil" | translate }}</span>
           <p-selectButton
+            name="others"
+            id="others"
             size="small"
             [options]="otherOptions"
-            formControlName="others"
             optionLabel="label"
             optionValue="value"
+            [(ngModel)]="otherControl"
+            (onOptionClick)="onSelectOther($event)"
+            [disabled]="format === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>
@@ -146,11 +172,11 @@
 
       </div>
 
-    </form>
+    </div>
   </div>
 
   @if (allergens().length > 0) {
-    <div class="flex flex-col gap-2 items-center">
+    <div title="Allergens" class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 items-center">
         <span class="font-bold text-xl allergen-color">{{ "component.products.filters.allergen" | translate }}</span>
       </div>
@@ -164,6 +190,7 @@
 
   <div class="flex gap-2">
     <p-button
+      title="Reset"
       type="button"
       [raised]="true"
       [outlined]="true"
@@ -171,18 +198,20 @@
       (onClick)="reset()"
     />
     <p-button
+      title="Add"
       type="button"
       [raised]="true"
       [outlined]="true"
       label="{{'button.custom.pizza.add' | translate | uppercase}}"
       (onClick)="onSubmit()"
-      [severity]="ingredientQuantity() > 9 ? 'danger' : 'primary'"
-      [disabled]="ingredientQuantity() > 9"
+      [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3) ? 'danger' : 'primary'"
+      [disabled]="ingredientQuantity() > 9 || ingredientQuantity() < 3"
     />
   </div>
 
   <div class="price">
     <p-button
+      title="Price"
       type="button"
       size="small"
       label="{{ price().toFixed(2) }}€"
@@ -192,10 +221,11 @@
 
   <div class="quantity">
     <p-button
+      title="Ingredients"
       type="button"
       size="small"
       label="{{ ingredientQuantity() }}/9"
-      [severity]="ingredientQuantity() > 9 ? 'danger' : 'primary'"
+      [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3)  ? 'danger' : 'primary'"
       [raised]="true"/>
   </div>
 </div>

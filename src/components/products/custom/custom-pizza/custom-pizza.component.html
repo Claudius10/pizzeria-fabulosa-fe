@@ -36,7 +36,7 @@
     [position]="'center'"
     (onHide)="closeCustomPizzaDialog()"
     [(visible)]="customPizzaDialogVisible"
-    [header]="'component.custom.pizza.header' | translate | uppercase">
+    [header]="'component.custom.pizza.text' | translate">
     <app-create-custom-pizza (onNewCustomPizza)="addCustomPizza($event)"/>
   </p-dialog>
 }

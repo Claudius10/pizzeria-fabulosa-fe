@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, output, signal} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {isFormValid} from '../../../../utils/functions';
-import {pairwise, startWith} from 'rxjs';
-import {SelectButton} from 'primeng/selectbutton';
+import {ChangeDetectionStrategy, Component, OnInit, output, signal} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {SelectButton, SelectButtonOptionClickEvent} from 'primeng/selectbutton';
 import {TranslatePipe} from '@ngx-translate/core';
 import {NgClass, UpperCasePipe} from '@angular/common';
 import {Button} from 'primeng/button';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 export interface CustomPizza {
   ingredients: string[];
@@ -21,7 +20,8 @@ export interface CustomPizza {
     TranslatePipe,
     NgClass,
     Button,
-    UpperCasePipe
+    UpperCasePipe,
+    FormsModule
   ],
   templateUrl: './create-custom-pizza.component.html',
   styleUrl: './create-custom-pizza.component.scss',
@@ -29,258 +29,214 @@ export interface CustomPizza {
 })
 export class CreateCustomPizzaComponent implements OnInit {
   onNewCustomPizza = output<CustomPizza>();
-  private destroyRef = inject(DestroyRef);
-  allergens = signal<string[]>([
-    "component.products.filters.allergen.gluten",
-    "component.products.filters.allergen.lactose"
-  ]);
-  ingredientQuantity = signal<number>(3);
-  price = signal<number>(11);
-
-  form = new FormGroup({
-    format: new FormControl<string>("component.custom.pizza.format.m",
-      {
-        nonNullable: true,
-        updateOn: "change",
-        validators: [Validators.required]
-      },
-    ),
-    sauce: new FormControl<string>("component.products.filters.sauce.tomato",
-      {
-        nonNullable: true,
-        updateOn: "change",
-        validators: [Validators.required]
-      },
-    ),
-    baseCheese: new FormControl<string>("component.products.filters.cheese.mozzarella",
-      {
-        nonNullable: true,
-        updateOn: "change",
-        validators: [Validators.required]
-      },
-    ),
-    allergens: new FormControl<string[]>([],
-      {
-        nonNullable: true,
-        updateOn: "change",
-      },
-    ),
-    meat: new FormControl<string[]>([],
-      {
-        nonNullable: true,
-        updateOn: "change",
-      },
-    ),
-    cheese: new FormControl<string[]>([],
-      {
-        nonNullable: true,
-        updateOn: "change",
-      },
-    ),
-    vegetable: new FormControl<string[]>([],
-      {
-        nonNullable: true,
-        updateOn: "change",
-      },
-    ),
-    others: new FormControl<string[]>([],
-      {
-        nonNullable: true,
-        updateOn: "change"
-      },
-    ),
-  });
+  ingredients = signal<string[]>([]);
+  ingredientsObservable = toObservable(this.ingredients);
+  allergens = signal<string[]>(["component.products.filters.allergen.gluten"]);
+  ingredientQuantity = signal<number>(0);
+  price = signal<number>(0);
+  format = '';
+  lactoseFree = false;
 
   ngOnInit(): void {
-    const format = this.form.controls.format.valueChanges.subscribe({
-      next: format => {
-        this.form.controls.allergens.reset();
-        this.form.controls.sauce.reset();
-        this.form.controls.baseCheese.reset();
-        this.form.controls.meat.reset();
-        this.form.controls.cheese.reset();
-        this.form.controls.vegetable.reset();
-        this.form.controls.others.reset();
-
-        if (format.includes("format.m")) {
-          this.price.set(11);
-        } else if (format.includes("format.l")) {
-          this.price.set(15);
+    this.ingredientsObservable.subscribe({
+      next: ingredients => {
+        console.log(ingredients);
+        console.log(this.lactoseFree);
+        if (!this.lactoseFree) {
+          this.checkForLactose();
         }
       }
-    });
-
-    const sauce = this.form.controls.sauce.valueChanges.subscribe({
-      next: sauce => {
-        if (sauce.includes("sauce.cream") && !this.isLactoseFree()) {
-          this.addAllergen("lactose");
-        } else {
-          if (this.form.controls.baseCheese.value === "component.custom.pizza.base.no.cheese") {
-            this.removeAllergen("lactose");
-          }
-        }
-      }
-    });
-
-    const baseCheese = this.form.controls.baseCheese.valueChanges.subscribe({
-      next: baseCheese => {
-        // if No base cheese was selected && if there are no other cheeses selected, remove lactose allergen
-        if (baseCheese === "component.custom.pizza.base.no.cheese" &&
-          this.form.controls.cheese.value.length === 0 &&
-          this.form.controls.sauce.value === 'component.custom.pizza.base.no.sauce') {
-          this.removeAllergen("lactose");
-        }
-
-        // if an option other than No base cheese was selected, add lactose allergen
-        if (baseCheese !== "component.custom.pizza.base.no.cheese" && !this.isLactoseFree()) {
-          this.addAllergen("lactose");
-        }
-      }
-    });
-
-    const allergens = this.form.controls.allergens.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
-      next: arrays => {
-        const old = arrays[0];
-        const actual = arrays[1]!;
-        const cheese = this.form.controls.cheese;
-
-        if (this.isLactoseFree()) {
-          this.removeAllergen("lactose");
-          cheese.disable();
-          cheese.reset();
-        } else {
-          if (this.form.controls.baseCheese.value !== "component.custom.pizza.base.no.cheese"
-            || this.form.controls.sauce.value === "component.products.filters.sauce.cream") {
-            this.addAllergen("lactose");
-          }
-          cheese.enable();
-        }
-
-        if (this.isGlutenFree()) {
-          this.removeAllergen("gluten");
-        } else {
-          this.addAllergen("gluten");
-        }
-
-        const priceOfRemovingAllergen = this.isMediumSize() ? 2 : 4;
-
-        // first emission
-        if (old === undefined) {
-          this.increasePrice(priceOfRemovingAllergen);
-        } else {
-          // subsequent emissions
-          if (actual.length > old.length) {
-            this.increasePrice(priceOfRemovingAllergen);
-          }
-
-          if (actual.length < old.length) {
-            this.decreasePrice(priceOfRemovingAllergen);
-          }
-        }
-      }
-    });
-
-    const meat = this.form.controls.meat.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
-      next: arrays => {
-        this.updatePrice(arrays);
-      }
-    });
-
-    const cheese = this.form.controls.cheese.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
-      next: arrays => {
-        this.updatePrice(arrays);
-        this.updateLactoseAllergen(arrays);
-      }
-    });
-
-    const vegetable = this.form.controls.vegetable.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
-      next: arrays => {
-        this.updatePrice(arrays);
-      }
-    });
-
-    const others = this.form.controls.others.valueChanges.pipe(startWith(undefined), pairwise()).subscribe({
-      next: arrays => {
-        this.updatePrice(arrays);
-      }
-    });
-
-    this.destroyRef.onDestroy(() => {
-      format.unsubscribe();
-      sauce.unsubscribe();
-      baseCheese.unsubscribe();
-      allergens.unsubscribe();
-      meat.unsubscribe();
-      cheese.unsubscribe();
-      vegetable.unsubscribe();
-      others.unsubscribe();
     });
   }
 
-  private updatePrice(arrays: [string[] | undefined, string[] | undefined]) {
-    const old = arrays[0];
-    const actual = arrays[1]!;
-    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
+  onSelectFormat(format: SelectButtonOptionClickEvent) {
+    const value = format.option.value;
 
-    if (old === undefined) {
-      // first emission
-      // have to check for actual not being empty in case "Lactose free" is selected with empty cheese array
-      if (actual.length > 0) {
-        this.price.update(prevPrice => prevPrice + priceOfIngredient);
-        this.ingredientQuantity.update(prevQ => prevQ + 1);
+    switch (value) {
+      case this.m: {
+        this.onFormatChange(11);
+        this.handleOld(this.l);
+        this.handleSize(value);
+        break;
       }
-    } else {
-      // subsequent emissions
-      if (actual) {
-        // case when there are cheese items already selected and lactose free was selected
-        // so to rest the price of the cheese items when they are removed
-        if (actual.length === 0 && old.length > 0) {
-          this.price.update(prevPrice => prevPrice - (priceOfIngredient * old.length));
-          this.ingredientQuantity.update(prevQ => prevQ - (old.length));
-          return;
-        }
-
-        if (actual.length > old.length) {
-          this.price.update(prevPrice => prevPrice + priceOfIngredient);
-          this.ingredientQuantity.update(prevQ => prevQ + 1);
-          return;
-        }
-
-        if (actual.length < old.length) {
-          this.price.update(prevPrice => prevPrice - priceOfIngredient);
-          this.ingredientQuantity.update(prevQ => prevQ - 1);
-          return;
-        }
+      case this.l: {
+        this.onFormatChange(14);
+        this.handleOld(this.m);
+        this.handleSize(value);
+        break;
       }
     }
   }
 
-  private updateLactoseAllergen(arrays: [string[] | undefined, string[] | undefined]) {
-    const old = arrays[0]!;
-    const actual = arrays[1]!;
-
-    if (old === undefined) {
-      // first emission
-      if (actual.length > 0 && !this.isLactoseFree()) {
-        this.addAllergen("lactose");
+  onSelectAllergenExclusion(event: SelectButtonOptionClickEvent) {
+    const priceOfAllergen = this.isMediumSize() ? 2 : 4;
+    const value = event.option.value;
+    this.handleNewAllergen(value, priceOfAllergen);
+    if (value === this.gluten) {
+      this.handleAllergenExclusion(this.getAllergenName(value));
+    } else {
+      this.onLactoseFreeToggle();
+      if (!this.lactoseFree) {
+        this.lactoseFree = true;
+        this.removeAllergen(this.lactose);
+        this.handleNewAllergen(value, priceOfAllergen);
+      } else {
+        this.lactoseFree = false;
       }
+    }
+  }
+
+  onSelectBaseSauce(event: SelectButtonOptionClickEvent) {
+    const value = event.option.value;
+
+    switch (value) {
+      case this.tomatoSauce: {
+        this.handleOld(this.creamSauce);
+        this.handleNewEssential(value);
+        break;
+      }
+      case this.creamSauce: {
+        this.handleOld(this.tomatoSauce);
+        this.handleNewEssential(value);
+        break;
+      }
+    }
+  }
+
+  onSelectBaseCheese(event: SelectButtonOptionClickEvent) {
+    const value = event.option.value;
+
+    switch (value) {
+      case this.mozzarella: {
+        this.handleOld(this.doubleMozzarella);
+        this.handleNewEssential(value);
+        break;
+      }
+      case this.doubleMozzarella: {
+        this.handleOld(this.mozzarella);
+        this.handleNewEssential(value);
+        break;
+      }
+    }
+  }
+
+  onSelectMeat(event: SelectButtonOptionClickEvent) {
+    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
+    this.handleNewIngredient(event.option.value, priceOfIngredient);
+  }
+
+  onSelectCheese(event: SelectButtonOptionClickEvent) {
+    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
+    this.handleNewIngredient(event.option.value, priceOfIngredient);
+  }
+
+  onSelectVegetable(event: SelectButtonOptionClickEvent) {
+    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
+    this.handleNewIngredient(event.option.value, priceOfIngredient);
+  }
+
+  onSelectOther(event: SelectButtonOptionClickEvent) {
+    const priceOfIngredient = this.isMediumSize() ? 1.5 : 2.5;
+    this.handleNewIngredient(event.option.value, priceOfIngredient);
+  }
+
+  private handleOld(old: string) {
+    if (this.ingredients().includes(old)) {
+      this.ingredients.set(this.ingredients().filter(value => value !== old));
+    }
+  }
+
+  private handleSize(value: string) {
+    if (this.ingredients().includes(value)) {
+      this.ingredients.set(this.ingredients().filter(old => old !== value));
 
     } else {
-      // subsequent emissions
-      if (actual.length > old.length && !this.isLactoseFree()) {
-        this.addAllergen("lactose");
-      }
+      this.ingredients.update(actual => [...actual, value]);
+    }
+  }
 
-      if (actual.length === 0 && (this.isLactoseFree()
-        || this.form.controls.baseCheese.value === 'component.custom.pizza.base.no.cheese'
-        || this.form.controls.sauce.value === 'component.products.filters.no.sauce')) {
-        this.removeAllergen("lactose");
+  private handleNewEssential(value: string) {
+    if (this.ingredients().includes(value)) {
+      this.updateQuantity("-");
+      this.ingredients.set(this.ingredients().filter(old => old !== value));
+
+    } else {
+      this.updateQuantity("+");
+      this.ingredients.update(actual => [...actual, value]);
+    }
+  }
+
+  private handleNewIngredient(value: string, price: number) {
+    if (this.ingredients().includes(value)) {
+      this.updatePrice("-", price);
+      this.updateQuantity("-");
+      this.ingredients.set(this.ingredients().filter(old => old !== value));
+
+    } else {
+      this.updatePrice("+", price);
+      this.updateQuantity("+");
+      this.ingredients.update(actual => [...actual, value]);
+    }
+  }
+
+  private handleNewAllergen(value: string, price: number) {
+    if (this.ingredients().includes(value)) {
+      this.updatePrice("-", price);
+      this.ingredients.set(this.ingredients().filter(old => old !== value));
+
+    } else {
+      this.updatePrice("+", price);
+      this.ingredients.update(actual => [...actual, value]);
+    }
+  }
+
+  private updatePrice(operation: '+' | '-', price: number,) {
+    if (operation === '-') {
+      this.price.update(value => value - price);
+    } else if (operation === '+') {
+      this.price.update(value => value + price);
+    }
+  }
+
+  private updateQuantity(operation: '+' | '-') {
+    if (operation === '-') {
+      this.ingredientQuantity.update(value => value - 1);
+    } else if (operation === '+') {
+      this.ingredientQuantity.update(value => value + 1);
+    }
+  }
+
+  private handleAllergenExclusion(allergen: string) {
+    if (this.allergens().includes(allergen)) {
+      this.allergens.set(this.allergens().filter(value => value !== allergen));
+    } else {
+      this.allergens.update(value => [...value, allergen]);
+    }
+  }
+
+  private checkForLactose() {
+    const lactoseProducts = ["cheese", "cream"];
+    const ingredients = this.ingredients();
+
+    if (ingredients.length === 0) {
+      this.removeAllergen(this.lactose);
+      return;
+    }
+
+    for (let i = 0; i < ingredients.length; i++) {
+      const ingredient = ingredients[i];
+
+      if (ingredient.includes(lactoseProducts[0]) || ingredient.includes(lactoseProducts[1])) {
+        this.addAllergen(this.lactose);
+        break;
+      } else {
+        this.removeAllergen(this.lactose);
       }
     }
   }
 
   private addAllergen(allergen: string) {
-    const allergenFullName = this.getFullAllergenName(allergen);
+    const allergenFullName = this.getAllergenName(allergen);
     const index = this.allergens().findIndex(value => value === allergenFullName);
     if (index === -1) {
       this.allergens.update(value => [...value, allergenFullName]);
@@ -288,150 +244,140 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   private removeAllergen(allergen: string) {
-    const allergenFullName = this.getFullAllergenName(allergen);
+    const allergenFullName = this.getAllergenName(allergen);
     const allergens = this.allergens().filter(value => value !== allergenFullName);
     this.allergens.set(allergens);
   }
 
-  private getFullAllergenName(allergen: string) {
+  private getAllergenName(allergen: string) {
     switch (allergen) {
-      case "gluten":
+      case this.gluten:
         return "component.products.filters.allergen.gluten";
-      case "lactose":
+      case this.lactose:
         return "component.products.filters.allergen.lactose";
       default:
         return "";
     }
   }
 
-  private increasePrice(amount: number) {
-    this.price.update(value => value + amount);
-  }
-
-  private decreasePrice(amount: number) {
-    this.price.update(value => value - amount);
-  }
-
-  private isLactoseFree() {
-    return this.form.controls.allergens.value.includes("component.custom.pizza.base.no.lactose");
-  }
-
-  private isGlutenFree() {
-    return this.form.controls.allergens.value.includes("component.custom.pizza.base.no.gluten");
-  }
-
-  private isMediumSize() {
-    return this.form.controls.format.value.includes("format.m");
-  }
-
-  reset() {
-    this.form.reset();
-    this.ingredientQuantity.set(3);
-    this.price.set(11);
-    this.allergens.set([
-      "component.products.filters.allergen.gluten",
-      "component.products.filters.allergen.lactose"
-    ]);
-  }
-
   onSubmit() {
-    if (isFormValid(this.form)) {
-      let ingredients: string[] = [];
-
-      // allergens
-      this.form.controls.allergens.value.forEach((ingredient) => {
-        ingredients.push(ingredient);
-      });
-
-      // format
-      ingredients.push(this.form.controls.format.value);
-
-      // base cheese
-      ingredients.push(this.form.controls.baseCheese.value);
-
-      // base sauce
-      ingredients.push(this.form.controls.sauce.value);
-
-      // meats
-      this.form.controls.meat.value.forEach((ingredient) => {
-        ingredients.push(ingredient);
-      });
-
-      // cheeses
-      if (this.form.controls.cheese.value) {
-        this.form.controls.cheese.value.forEach((ingredient) => {
-          ingredients.push(ingredient);
-        });
-      }
-
-      // vegetables
-      this.form.controls.vegetable.value.forEach((ingredient) => {
-        ingredients.push(ingredient);
-      });
-
-      // others
-      this.form.controls.others.value.forEach((ingredient) => {
-        ingredients.push(ingredient);
-      });
-
+    if (this.ingredients().length >= 3 && this.format !== '' && this.price() > 0) {
       this.onNewCustomPizza.emit({
-        ingredients: ingredients,
+        ingredients: this.ingredients(),
         price: this.price(),
-        format: this.form.controls.format.value
+        format: this.format
       });
     }
   }
 
+  protected formatControl = "";
+  protected sauceControl = "";
+  protected baseCheeseControl = "";
+  protected allergensControl = "";
+  protected meatControl = "";
+  protected cheeseControl = "";
+  protected vegetableControl = "";
+  protected otherControl = "";
+
+  private formReset() {
+    this.formatControl = "";
+    this.sauceControl = "";
+    this.baseCheeseControl = "";
+    this.allergensControl = "";
+    this.meatControl = "";
+    this.cheeseControl = "";
+    this.vegetableControl = "";
+    this.otherControl = "";
+  }
+
+  protected reset() {
+    this.formReset();
+    this.ingredients.set([]);
+    this.allergens.set(["component.products.filters.allergen.gluten"]);
+    this.ingredientQuantity.set(0);
+    this.price.set(0);
+    this.format = '';
+  }
+
+  private onFormatChange(price: number) {
+    const format = price === 11 ? this.m : this.l;
+    this.formReset();
+    this.ingredients.set([]);
+    this.allergens.set(["component.products.filters.allergen.gluten"]);
+    this.ingredientQuantity.set(0);
+    this.price.set(price);
+    this.format = format;
+    this.formatControl = format; // it only unchecks if value !== '', so have to set it back here, otherwise on reset() it wont uncheck
+  }
+
+  private onLactoseFreeToggle() {
+    this.sauceControl = "";
+    this.baseCheeseControl = "";
+    this.allergensControl = "";
+    this.meatControl = "";
+    this.cheeseControl = "";
+    this.vegetableControl = "";
+    this.otherControl = "";
+    this.ingredients.set([]);
+    this.ingredientQuantity.set(0);
+    this.price.set(this.format === this.m ? 11 : 14);
+  }
+
+  private isMediumSize() {
+    return this.format === "component.custom.pizza.format.m";
+  }
+
+  private m = 'component.custom.pizza.format.m';
+  private l = 'component.custom.pizza.format.l';
+  private tomatoSauce = 'component.products.filters.sauce.tomato';
+  private creamSauce = 'component.products.filters.sauce.cream';
+  private mozzarella = 'component.products.filters.cheese.mozzarella';
+  private doubleMozzarella = 'component.products.filters.cheese.double.mozzarella';
+  private gluten = 'component.custom.pizza.base.no.gluten';
+  private lactose = 'component.custom.pizza.base.no.lactose';
+
   formatOptions = [
     {
-      label: "component.custom.pizza.format.m",
-      value: "component.custom.pizza.format.m"
+      label: this.m,
+      value: this.m,
     },
     {
-      label: "component.custom.pizza.format.l",
-      value: "component.custom.pizza.format.l"
+      label: this.l,
+      value: this.l
     }
   ];
 
   sauceOptions = [
     {
-      label: "component.products.filters.sauce.tomato",
-      value: "component.products.filters.sauce.tomato"
+      label: this.tomatoSauce,
+      value: this.tomatoSauce,
     },
     {
-      label: "component.products.filters.sauce.cream",
-      value: "component.products.filters.sauce.cream"
-    },
-    {
-      label: "component.custom.pizza.base.no.sauce",
-      value: "component.custom.pizza.base.no.sauce"
+      label: this.creamSauce,
+      value: this.creamSauce,
     }
   ];
 
   baseCheeseOptions = [
     {
-      label: "component.products.filters.cheese.mozzarella",
-      value: "component.products.filters.cheese.mozzarella"
+      label: this.mozzarella,
+      value: this.mozzarella
     },
     {
-      label: "component.products.filters.cheese.double.mozzarella",
-      value: "component.products.filters.cheese.double.mozzarella"
+      label: this.doubleMozzarella,
+      value: this.doubleMozzarella,
     },
-    {
-      label: "component.custom.pizza.base.no.cheese",
-      value: "component.custom.pizza.base.no.cheese",
-    }
   ];
 
   allergenOptions = [
     {
-      label: "component.custom.pizza.base.no.gluten",
-      value: "component.custom.pizza.base.no.gluten"
+      label: this.lactose,
+      value: this.lactose
     },
     {
-      label: "component.custom.pizza.base.no.lactose",
-      value: "component.custom.pizza.base.no.lactose"
-    },
+      label: this.gluten,
+      value: this.gluten
+    }
   ];
 
   meatOptions = [
