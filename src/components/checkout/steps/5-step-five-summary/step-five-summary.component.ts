@@ -62,6 +62,10 @@ export class StepFiveSummaryComponent {
     this.checkoutFormService.step = 4;
     if (this.checkoutFormService.isStepFilled(4)) {
 
+      if (this.checkoutFormService.comment !== null) {
+        this.form.controls.comment.patchValue(this.checkoutFormService.comment);
+      }
+
       if (this.checkoutFormService.where === null && this.checkoutFormService.selectedAddress.id !== null) {
         // either store or user address was selected
 
@@ -209,6 +213,9 @@ export class StepFiveSummaryComponent {
   }
 
   previousStep() {
+    if (isFormValid(this.form)) {
+      this.checkoutFormService.comment = this.form.get("comment")!.value;
+    }
     this.router.navigate(['order', 'new', 'step-four']);
   }
 

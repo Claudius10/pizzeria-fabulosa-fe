@@ -22,7 +22,7 @@ export class StoreCheckoutComponent implements OnInit {
   currentLang = signal(this.translateService.currentLang);
   selected = input<number | null>(null);
   highlight = input<boolean>();
-  valid = input<boolean>();
+  invalid = input<boolean>();
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

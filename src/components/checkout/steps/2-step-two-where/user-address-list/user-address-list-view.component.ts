@@ -27,7 +27,7 @@ import {QueryResult} from '../../../../../interfaces/query';
 export class UserAddressListViewComponent implements OnInit {
   onAddressSelect = output<AddressId>();
   selected = input<number | null>(null);
-  valid = input<boolean>();
+  invalid = input.required<boolean>();
   private loadingAnimationService = inject(LoadingAnimationService);
   private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);

@@ -41,7 +41,7 @@
             <app-user-address-list-view
               (onAddressSelect)="setSelectedId($event)"
               [selected]="this.checkoutFormService.selectedAddress.id"
-              [valid]="validStoreSelection"
+              [invalid]="validStoreOrAddressSelection"
             />
           } @else {
             <div class="flex flex-col gap-6">
@@ -117,20 +117,21 @@
           }
 
           @if (stores.status() === 'success') {
-            <ul title="Stores" class="flex flex-col gap-4 mb-6">
+            <ul title="Stores" class="flex flex-col gap-4">
               @for (store of stores.data()!.payload; track store.id) {
                 <li>
                   <app-store-checkout
                     [store]="store"
                     (onStoreSelect)="setSelectedId($event)"
                     [selected]="this.checkoutFormService.selectedAddress.id"
-                    [valid]="validStoreSelection"
+                    [invalid]="validStoreOrAddressSelection"
+                    [highlight]="true"
                   />
                 </li>
               }
             </ul>
 
-            @if (!validStoreSelection) {
+            @if (!validStoreOrAddressSelection) {
               <span
                 title="Invalid Store Selection"
                 class="invalid-text">

@@ -1,20 +1,35 @@
 <div class="flex flex-col gap-4">
   @if (addressList.status() === "success") {
     @if (addressList.data()!.payload !== null) {
+
       @for (address of addressList.data()!.payload; track address.id) {
         <div
+          title="Address {{address.id}}"
           (click)="selectAddress(address.id)"
           [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
           selected() === address.id ? '!border-primary transition-all duration-300' : '',
-          valid() ? '' : '!border-red-700 rounded-xl transition-all duration-300']">
+          !invalid() ? '!border-red-700 rounded-xl transition-all duration-300' : '']">
 
-          <span title="Location">{{ "form.label.delivery.address" | translate }}: {{ address.street }}</span>
-          <span title="Number">{{ "form.label.delivery.number" | translate }}: {{ address.number }}</span>
+          <span title="Location">{{ "form.label.delivery.address" | translate }}:
+            <span class="text-primary">{{ address.street }}</span>
+          </span>
+
+          <span title="Number">{{ "form.label.delivery.number" | translate }}:
+            <span class="text-primary">{{ address.number }}</span>
+          </span>
 
           @if (address.details !== null) {
             <span title="Details">{{ "form.label.delivery.details" | translate }}: {{ address.details }}</span>
           }
         </div>
+      }
+
+      @if (!invalid()) {
+        <span
+          title="Invalid Address Selection"
+          class="invalid-text">
+          {{ "form.invalid.address.selection" | translate }}
+        </span>
       }
     } @else {
       <span>{{ "component.form.step.two.user.address.list.empty" | translate }}</span>

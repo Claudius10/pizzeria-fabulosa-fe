@@ -25,6 +25,7 @@ export class CheckoutFormService {
   where: where | null = null;
   when: when | null = null;
   how: how | null = null;
+  comment: string | null = null;
 
   orderSuccess: CreatedOrderDTO | null = null;
 
@@ -57,6 +58,7 @@ export class CheckoutFormService {
     this.where = null;
     this.when = null;
     this.how = null;
+    this.comment = null;
 
     this.orderSuccess = null;
   }

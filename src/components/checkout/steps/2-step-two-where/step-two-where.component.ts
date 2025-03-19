@@ -62,7 +62,7 @@ export class StepTwoWhereComponent implements OnInit {
     {code: "1", description: "form.select.address.pickup"}
   ];
   selectedOption: Option = this.options[0];
-  validStoreSelection = true;
+  validStoreOrAddressSelection = true;
 
   form = new FormGroup({
     street: new FormControl("", {
@@ -123,10 +123,11 @@ export class StepTwoWhereComponent implements OnInit {
   selectDelivery(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
+    this.checkoutFormService.selectedAddress = {id: null, isStore: null}; // at this level takes into account a logged in user
+
     // if home delivery selected
     if (selectElement.value === this.options[0].code) {
       this.checkoutFormService.homeDelivery = true;
-      this.checkoutFormService.selectedAddress = {id: null, isStore: null};
 
       // if user is logged in
       if (this.authService.isAuthenticated) {
@@ -148,7 +149,7 @@ export class StepTwoWhereComponent implements OnInit {
 
   setSelectedId(address: AddressId): void {
     this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
-    this.validStoreSelection = true;
+    this.validStoreOrAddressSelection = true;
   }
 
   private saveFormValues() {
@@ -168,15 +169,25 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.checkoutFormService.homeDelivery && this.checkoutFormService.selectedAddress.id === null && isFormValid(this.form)) {
-      this.saveFormValues();
-      this.router.navigate(['order', 'new', 'step-three']);
-    }
-
-    if (!this.checkoutFormService.homeDelivery && this.checkoutFormService.selectedAddress.id !== null) {
-      this.router.navigate(['order', 'new', 'step-three']);
+    if (this.authService.isAuthenticated) {
+      if (this.checkoutFormService.selectedAddress.id !== null) {
+        this.router.navigate(['order', 'new', 'step-three']);
+      } else {
+        this.validStoreOrAddressSelection = false;
+      }
     } else {
-      this.validStoreSelection = false;
+      if (this.checkoutFormService.homeDelivery) {
+        if (isFormValid(this.form)) {
+          this.saveFormValues();
+          this.router.navigate(['order', 'new', 'step-three']);
+        }
+      } else {
+        if (this.checkoutFormService.selectedAddress.id !== null) {
+          this.router.navigate(['order', 'new', 'step-three']);
+        } else {
+          this.validStoreOrAddressSelection = false;
+        }
+      }
     }
   }
 

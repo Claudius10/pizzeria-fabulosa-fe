@@ -11,7 +11,11 @@
 
         <div class="flex flex-col gap-4">
           <span title="Pick-up Store">{{ "view.delivery.pickup.store.selected" | translate }}:</span>
-          <app-store-checkout [orientation]="'vertical'" [highlight]="true" [valid]="true" [store]="selectedStore()!"/>
+          <app-store-checkout
+            [orientation]="'vertical'"
+            [highlight]="true"
+            [invalid]="true"
+            [store]="selectedStore()!"/>
         </div>
 
       } @else {

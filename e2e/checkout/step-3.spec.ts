@@ -238,6 +238,8 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'Previous'});
+    const deliveryTimeChoice = page.getByLabel('Please select delivery time');
+    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed Hour
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
 
     // Act

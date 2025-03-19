@@ -858,6 +858,44 @@ export const dummyAccountDelete = {
   }
 };
 
+export const userOrderSuccess = {
+  "timeStamp": "2025-03-19T18:22:27.772051645",
+  "status": {"code": 201, "description": "CREATED", "error": false},
+  "payload": {
+    "id": 1,
+    "formattedCreatedOn": "18:22 - 19/03/2025",
+    "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
+    "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+    "orderDetails": {
+      "id": 1,
+      "deliveryTime": "form.select.time.asap",
+      "paymentMethod": "form.select.payment.method.card",
+      "billToChange": null,
+      "changeToGive": null,
+      "comment": null
+    },
+    "cart": {
+      "id": 1,
+      "totalQuantity": 1,
+      "totalCost": 13.3,
+      "totalCostOffers": 0.0,
+      "cartItems": [{
+        "id": 53,
+        "type": "pizza",
+        "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+        "description": {
+          "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+          "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+        },
+        "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+        "price": 13.3,
+        "quantity": 1
+      }]
+    }
+  },
+  "error": null
+};
+
 export const AUTH_TOKEN_COOKIE = {
   name: "Pizzeria.Fabulosa.ID_TOKEN",
   value: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTI4IiwibmFtZSI6Ik1pZ3VlbCBkZSBDZXJ2YW50ZXMiLCJjb250YWN0TnVtYmVyIjoiMTIzNDU2Nzg5IiwiaWQiOiI1OCIsImV4cCI6MjYwNTk4NTczNiwiaWF0IjoxNzQxOTg1NzM2fQ.Jcxg4cGXtw6VFwODlSJ9VKlCXlIKU3PG81lxp6kDpeT6VhaJ9T4Z_WgSBvgYzuWyGhLLbu0OYTi4AXuM8SEnaWUNTgL06GnbkGBY4kSK5i_ObvL63eZPOrxO1cBX53A9JbDUSnF_hED_zGmnKWYsX2Mk6tZxqopKC85V5lHh4WEaF4O1cX2YhuSKz8nlRMmi0ucwLKDIPYt0rYSz1fkFmBlpiVYtpoIDrIGFsOMT7Cn4b1oVbxVN2ZqGOohsQSeMhIVUl5lImxn3X7Tt3JUOBMU6L4cNtJXiGOgJgMdJlXOJUY3l8TKcOJU14Azvr195OSytLXQRSHFccyvWhyedvM3glajNKgOmHc3kruDH_KUc1FOZlfta29pk40rhyee9NkTXqsBNKmisvmEBYN0HKhhCRnt1av9jAfK-nFxXSStK-AIoHnfjliD90E5KoF0J8rQXIhMuz1-PCVqD8vtPnjnUrlooQc967BBbhDH7lS9m-B6o9-Bszlv7UED-P394",

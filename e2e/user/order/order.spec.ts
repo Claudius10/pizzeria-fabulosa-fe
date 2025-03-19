@@ -84,7 +84,7 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
 
   test('ShowDeliveryDetails', async ({page}) => {
     await expect(page.getByText('Delivery details')).toBeVisible();
-    await expect(page.getByText('Selected pick-up time: As soon as posible')).toBeVisible();
+    await expect(page.getByText('Selected pick-up time: As soon as possible')).toBeVisible();
     await expect(page.getByText('Selected pick-up store:')).toBeVisible();
     await expect(page.getByText('Alustre', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Map Icon')).toBeVisible();

@@ -9,6 +9,10 @@
   border-color: #f87171;
 }
 
+.invalid-text {
+  color: var(--p-red-700);
+}
+
 .store {
   display: flex;
   gap: 3rem;
