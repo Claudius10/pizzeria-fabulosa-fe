@@ -105,9 +105,9 @@ export class CreateCustomPizzaComponent implements OnInit {
       this.otherControl = "";
 
       // partial reset
-      this.excludedAllergens.set(this.isGlutenFree ? [this.glutenFree] : []);
       this.ingredients.set([]);
       this.ingredientQuantity.set(0);
+      this.excludedAllergens.set(this.isGlutenFree ? [this.glutenFree] : []);
 
       if (!this.isLactoseFree) {
         this.isLactoseFree = true;

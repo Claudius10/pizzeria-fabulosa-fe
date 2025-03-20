@@ -1,4 +1,4 @@
-<div title="My Pizza" class="flex flex-col items-center gap-8">
+<div class="flex flex-col items-center gap-8">
 
   <div class="flex justify-center gap-40">
 
@@ -22,7 +22,7 @@
             [allowEmpty]="false"
             [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
-              {{ item.label | translate }}
+              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -43,7 +43,7 @@
               [multiple]="true"
               [ngClass]="['flex flex-wrap gap-2']">
               <ng-template #item let-item>
-                {{ item.label | translate }}
+                <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
               </ng-template>
             </p-selectButton>
           </div>
@@ -63,7 +63,7 @@
             [disabled]="format === ''"
             [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
-              {{ item.label | translate }}
+              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -82,7 +82,7 @@
             [disabled]="format === ''"
             [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
-              {{ item.label | translate }}
+              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -104,7 +104,7 @@
           [multiple]="true"
           class="flex flex-wrap gap-2">
           <ng-template #item let-item>
-            {{ item.label | translate }}
+            <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
           </ng-template>
         </p-selectButton>
       </div>
@@ -124,7 +124,7 @@
           [multiple]="true"
           class="flex flex-wrap gap-2">
           <ng-template #item let-item>
-            {{ item.label | translate }}
+            <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
           </ng-template>
         </p-selectButton>
       </div>
@@ -145,7 +145,7 @@
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>
-              {{ item.label | translate }}
+              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -165,7 +165,7 @@
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>
-              {{ item.label | translate }}
+              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -221,7 +221,7 @@
 
   <div class="quantity">
     <p-button
-      title="Ingredients"
+      title="Ingredients Quantity"
       type="button"
       size="small"
       label="{{ ingredientQuantity() }}/9"

@@ -8,11 +8,11 @@
 
   <ul title="Pizza List"
       [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-12 gap-x-12"]'>
-<!--    @if (query.status() !== "error" || query.status() == "pending") {-->
+    @if (query.status() !== "error" || query.status() == "pending") {
       <li>
         <app-custom-pizza/>
       </li>
-<!--    }-->
+    }
 
     @if (query.status() === "error") {
       <app-server-error/>
