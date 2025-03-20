@@ -1,11 +1,18 @@
 <div [ngClass]="[inverseCardBg() ? 'card' : 'card-inverse']">
   <div class="flex flex-col gap-2">
+
     <span
-      [ngClass]="['cursor-pointer']">{{ header() | translate }}</span>
-    <div class="flex flex-col gap-2">
+      title="{{ header() | translate }}"
+      [ngClass]="['cursor-pointer']">
+      {{ header() | translate }}
+    </span>
+
+    <ul title="{{ header() | translate }} Filters" class="flex flex-col gap-2">
       @for (item of items(); track item) {
-        <app-filter-item [item]="item"/>
+        <li>
+          <app-filter-item [item]="item"/>
+        </li>
       }
-    </div>
+    </ul>
   </div>
 </div>

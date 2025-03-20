@@ -1,16 +1,17 @@
-<div class="flex flex-col gap-2">
+<div title="Filters Box" class="flex flex-col gap-2">
 
   <div class="filter-box">
     <div class="flex justify-between">
-      <div class="flex gap-2" (click)="toggle()">
+
+      <div class="flex gap-2 cursor-pointer" (click)="toggle()">
         <i title="Toggle Filters"
-           [ngClass]="['flex items-center color', open() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+           [ngClass]="['flex items-center color cursor-pointer', open() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
         <span title="Filters" class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
       </div>
 
       <i
-        title="Filters Active/Inactive"
-        [ngClass]="['flex items-center color', filterService.areFiltersEmpty ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
+        title="Remove All Filters"
+        [ngClass]="['flex items-center color cursor-pointer', filterService.areFiltersEmpty ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
         (click)="this.filterService.clear()"></i>
     </div>
 
@@ -18,8 +19,9 @@
       <div class="flex flex-wrap gap-1" @pillsAnimation>
         @for (filter of filters(); track $index) {
           @let severity = filter.include ? 'success' : 'danger';
+          @let state = filter.include ? 'On' : 'Off';
           <p-tag
-            title="Filter"
+            title="{{filter.name | translate}} {{state}}"
             @pillsAnimation
             [style]="{fontSize: '12px', cursor: 'pointer'}"
             [rounded]="true"

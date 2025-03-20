@@ -81,6 +81,7 @@ export class FilterService {
   clear() {
     this.filters.set([]);
     this.areFiltersEmpty = true;
+    this.searchText = '';
   }
 
   getFilters() {
