@@ -22,7 +22,7 @@ test.describe('API OK', () => {
   test('ShowFiltersBox', async ({page}) => {
     await expect(page.getByTitle("Toggle Filters")).toBeVisible();
     await expect(page.getByText("Filters")).toBeVisible();
-    await expect(page.getByTitle("Filters Active/Inactive")).toBeVisible();
+    await expect(page.getByTitle("Remove All Filters")).toBeVisible();
   });
 
   test('showBeverageList', async ({page}) => {
