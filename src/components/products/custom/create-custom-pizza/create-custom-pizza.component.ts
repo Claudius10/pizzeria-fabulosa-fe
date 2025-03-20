@@ -76,7 +76,8 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   onSelectAllergenExclusion(event: SelectButtonOptionClickEvent) {
-    const priceOfAllergen = this.format === this.m ? 2 : 4;
+    const basePrice = this.format === this.m ? 11 : 14;
+    const priceOfAllergenExclusion = this.format === this.m ? 2 : 4;
     const value = event.option.value;
 
     if (value === this.glutenFree) {
@@ -85,12 +86,12 @@ export class CreateCustomPizzaComponent implements OnInit {
         this.isGlutenFree = true;
         this.addAllergenExclusion(this.glutenFree);
         this.removeAllergenFromInfo(this.gluten);
-        this.updatePrice("+", priceOfAllergen);
+        this.updatePrice("+", priceOfAllergenExclusion);
       } else {
         this.isGlutenFree = false;
         this.removeAllergenExclusion(this.glutenFree);
         this.addAllergenToInfo(this.gluten);
-        this.updatePrice("-", priceOfAllergen);
+        this.updatePrice("-", priceOfAllergenExclusion);
       }
     }
 
@@ -107,9 +108,6 @@ export class CreateCustomPizzaComponent implements OnInit {
       this.excludedAllergens.set(this.isGlutenFree ? [this.glutenFree] : []);
       this.ingredients.set([]);
       this.ingredientQuantity.set(0);
-
-      const basePrice = this.format === this.m ? 11 : 14;
-      const priceOfAllergenExclusion = this.format === this.m ? 2 : 4;
 
       if (!this.isLactoseFree) {
         this.isLactoseFree = true;
