@@ -100,7 +100,7 @@
           optionValue="value"
           [(ngModel)]="cheeseControl"
           (onOptionClick)="onSelectCheese($event)"
-          [disabled]="format === '' || lactoseFree"
+          [disabled]="format === '' || isLactoseFree"
           [multiple]="true"
           class="flex flex-wrap gap-2">
           <ng-template #item let-item>
@@ -175,13 +175,13 @@
     </div>
   </div>
 
-  @if (allergens().length > 0) {
+  @if (allergensInfo().length > 0) {
     <div title="Allergens" class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 items-center">
         <span class="font-bold text-xl allergen-color">{{ "component.products.filters.allergen" | translate }}</span>
       </div>
       <div class="flex justify-center flex-wrap gap-2">
-        @for (allergen of this.allergens(); track $index) {
+        @for (allergen of this.allergensInfo(); track $index) {
           <span class="font-bold">{{ allergen | translate }}</span>
         }
       </div>
