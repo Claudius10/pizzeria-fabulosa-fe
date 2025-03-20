@@ -936,6 +936,22 @@ export const anonUserOrderSuccess = {
   "error": null
 };
 
+export const fatalError = {
+  "timeStamp": "2025-03-20T20:03:07.677259730",
+  "status": {"code": 500, "description": "INTERNAL_SERVER_ERROR", "error": true},
+  "payload": null,
+  "error": {
+    "id": 72,
+    "cause": "FatalBeanException",
+    "message": "Not implemented yet",
+    "origin": "G.E.H.unknownException",
+    "path": "/api/v1/resource/product",
+    "logged": true,
+    "fatal": true,
+    "createdOn": "2025-03-20T20:03:07.666203"
+  }
+};
+
 export const AUTH_TOKEN_COOKIE = {
   name: "Pizzeria.Fabulosa.ID_TOKEN",
   value: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTI4IiwibmFtZSI6Ik1pZ3VlbCBkZSBDZXJ2YW50ZXMiLCJjb250YWN0TnVtYmVyIjoiMTIzNDU2Nzg5IiwiaWQiOiI1OCIsImV4cCI6MjYwNTk4NTczNiwiaWF0IjoxNzQxOTg1NzM2fQ.Jcxg4cGXtw6VFwODlSJ9VKlCXlIKU3PG81lxp6kDpeT6VhaJ9T4Z_WgSBvgYzuWyGhLLbu0OYTi4AXuM8SEnaWUNTgL06GnbkGBY4kSK5i_ObvL63eZPOrxO1cBX53A9JbDUSnF_hED_zGmnKWYsX2Mk6tZxqopKC85V5lHh4WEaF4O1cX2YhuSKz8nlRMmi0ucwLKDIPYt0rYSz1fkFmBlpiVYtpoIDrIGFsOMT7Cn4b1oVbxVN2ZqGOohsQSeMhIVUl5lImxn3X7Tt3JUOBMU6L4cNtJXiGOgJgMdJlXOJUY3l8TKcOJU14Azvr195OSytLXQRSHFccyvWhyedvM3glajNKgOmHc3kruDH_KUc1FOZlfta29pk40rhyee9NkTXqsBNKmisvmEBYN0HKhhCRnt1av9jAfK-nFxXSStK-AIoHnfjliD90E5KoF0J8rQXIhMuz1-PCVqD8vtPnjnUrlooQc967BBbhDH7lS9m-B6o9-Bszlv7UED-P394",
