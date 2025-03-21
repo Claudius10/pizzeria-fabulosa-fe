@@ -19,9 +19,8 @@ test.describe('Render', () => {
 
     // Arrange
 
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+    await expect(page.getByText('0', {exact: true})).toBeVisible();
+    await expect(page.getByText('0', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
 
     const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
@@ -32,12 +31,14 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
-    await expect(badge.getByText('1')).toBeVisible();
+    await expect(page.getByText('1', {exact: true})).toBeVisible();
+    await expect(page.getByText('1', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await beveragesLink.click();
     await page.waitForURL('http://192.168.1.128:4200/beverages');
     const addBeverage = page.getByTitle('Add Coca-Cola Zero to Cart').getByRole('button');
     await addBeverage.click();
-    await expect(badge.getByText('2')).toBeVisible();
+    await expect(page.getByText('2', {exact: true})).toBeVisible();
+    await expect(page.getByText('2', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await cartButton.click();
 
     // Assert
@@ -109,9 +110,8 @@ test.describe('Render', () => {
 
     // Arrange
 
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+    await expect(page.getByText('0', {exact: true})).toBeVisible();
+    await expect(page.getByText('0', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
 
     const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
@@ -121,11 +121,14 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
-    await expect(badge.getByText('1')).toBeVisible();
+    await expect(page.getByText('1', {exact: true})).toBeVisible();
+    await expect(page.getByText('1', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await addProduct.click();
-    await expect(badge.getByText('2')).toBeVisible();
+    await expect(page.getByText('2', {exact: true})).toBeVisible();
+    await expect(page.getByText('2', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await addProduct.click();
-    await expect(badge.getByText('3')).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await cartButton.click();
 
     // Assert
@@ -415,10 +418,6 @@ test.describe('Quantity Changes', () => {
 
     // Arrange
 
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-
     const increaseQ = page.getByTitle('Increase Cuatro Quesos M Quantity');
     const decreaseQ = page.getByTitle('Decrease Cuatro Quesos M Quantity');
 
@@ -431,7 +430,8 @@ test.describe('Quantity Changes', () => {
     // Act
 
     await increaseQ.click();
-    await expect(badge.getByText('3')).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await expect(q.getByText('2')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
@@ -439,7 +439,8 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
 
     await increaseQ.click();
-    await expect(badge.getByText('4')).toBeVisible();
+    await expect(page.getByText('4', {exact: true})).toBeVisible();
+    await expect(page.getByText('4', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await expect(q.getByText('3')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('53.20€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('39.90€')).toBeVisible();
@@ -450,7 +451,8 @@ test.describe('Quantity Changes', () => {
 
     // Assert
 
-    await expect(badge.getByText('3')).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toBeVisible();
+    await expect(page.getByText('3', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await expect(q.getByText('2')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();

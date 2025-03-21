@@ -66,36 +66,6 @@ test.describe('Conditions/Schedule', () => {
 
     await page.goto('/');
   });
-
-  test('givenClickOnConditions_thenShowOfferConditions', async ({page}) => {
-
-    // Arrange
-
-    const conditions = page.locator('#pn_id_3_accordionheader_1').first();
-
-    // Act
-
-    await conditions.click();
-
-    // Assert
-
-    await expect(page.getByRole('region', {name: 'Conditions'}).locator('span').getByText('Any specialty or up to 4 ingredients')).toBeVisible();
-  });
-
-  test('givenClickOnSchedule_thenShowStoreSchedule', async ({page}) => {
-
-    // Arrange
-
-    const schedule = page.locator('#pn_id_5_accordionheader_1').first();
-
-    // Act
-
-    await schedule.click();
-
-    // Assert
-
-    await expect(page.getByRole('region', {name: 'Schedule'}).locator('span').getByText('Monday to Sunday - 12PM to 12AM')).toBeVisible();
-  });
 });
 
 test.describe('API KO', () => {

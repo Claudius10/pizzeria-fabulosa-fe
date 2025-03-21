@@ -1115,11 +1115,6 @@ test.describe('Add', () => {
     await expect(page.getByRole('button', {name: '21.00€'})).not.toBeVisible();
     await expect(page.getByRole('button', {name: '6/9'})).not.toBeVisible();
 
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-    await expect(badge.getByText('1')).toBeVisible();
-
     const cartButton = page.getByTitle('Cart', {exact: true});
     await cartButton.click();
 

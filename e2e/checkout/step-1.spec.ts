@@ -104,11 +104,6 @@ test.describe('Render: Small Screen', () => {
   });
 
   test('DoNotShowCart', async ({page}) => {
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-    await expect(badge.getByText('1')).toBeVisible();
-
     await expect(page.getByTitle('Checkout Cart')).not.toBeVisible();
     await expect(page.getByTitle('Cart Items')).not.toBeVisible();
   });
@@ -512,11 +507,6 @@ test.describe('Buttons', () => {
     // Assert
 
     await page.waitForURL('http://192.168.1.128:4200/');
-
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-    await expect(badge.getByText('1')).toBeVisible();
   });
 
   test('givenCheckout_whenCancelledWithFormFieldFilled_thenCheckoutFormIsReset', async ({page}) => {

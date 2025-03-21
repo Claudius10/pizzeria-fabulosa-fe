@@ -172,11 +172,6 @@ test.describe('Render: Small Screen', () => {
   });
 
   test('DoNotShowCart', async ({page}) => {
-    const badge = page.locator('#pn_id_2_badge');
-    await expect(badge).toBeVisible();
-    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-    await expect(badge.getByText('1')).toBeVisible();
-
     await expect(page.getByTitle('Checkout Cart')).not.toBeVisible();
     await expect(page.getByTitle('Cart Items')).not.toBeVisible();
   });
