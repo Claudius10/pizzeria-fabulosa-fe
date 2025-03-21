@@ -120,7 +120,7 @@ test.describe('Large screen tests', () => {
 
     // Arrange
 
-    const localeButton = page.getByTitle('Locale');
+    const localeButton = page.getByTitle('Language');
     await expect(localeButton).toBeVisible();
     const esChoice = page.getByRole("button", {name: "Castellano"});
     const enChoice = page.getByRole("button", {name: "English"});
@@ -144,7 +144,7 @@ test.describe('Large screen tests', () => {
     await expect(welcomeTextEn).toBeVisible();
     await expect(welcomeTextEs).not.toBeVisible();
 
-    const localeButton = page.getByTitle('Locale');
+    const localeButton = page.getByTitle('Language');
     await expect(localeButton).toBeVisible();
     const esChoice = page.getByRole("button", {name: "Castellano"});
     const enChoice = page.getByRole("button", {name: "English"});
@@ -177,7 +177,7 @@ test.describe('Large screen tests', () => {
     await expect(welcomeTextEn).toBeVisible();
     await expect(welcomeTextEs).not.toBeVisible();
 
-    const localeButton = page.getByTitle('Locale');
+    const localeButton = page.getByTitle('Language');
     await expect(localeButton).toBeVisible();
     const esChoice = page.getByRole("button", {name: "Castellano"});
     const enChoice = page.getByRole("button", {name: "English"});
@@ -215,7 +215,7 @@ test.describe('Large screen tests', () => {
   test('givenClickOnLocaleButton_whenLocaleIsVisible_thenHideLocaleComponentWithChoices', async ({page}) => {
     // Arrange
 
-    const localeButton = page.getByTitle('Locale');
+    const localeButton = page.getByTitle('Language');
     await expect(localeButton).toBeVisible();
     const esChoice = page.getByRole("button", {name: "Castellano"});
     const enChoice = page.getByRole("button", {name: "English"});
