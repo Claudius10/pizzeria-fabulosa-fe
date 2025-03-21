@@ -982,7 +982,7 @@ test.describe('Buttons', () => {
     // Act
 
     await deliverySelect.selectOption('Store pick-up');
-    await expect(page.getByLabel('Please select delivery type')).toHaveValue('0'); // 0 = Home Delivery; 1 = Store pick-up
+    await expect(page.getByLabel('Please select delivery type')).toHaveValue('1'); // 0 = Home Delivery; 1 = Store pick-up
     await expect(alustreDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
     await expect(viciosaDiv).not.toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
     await previous.click();

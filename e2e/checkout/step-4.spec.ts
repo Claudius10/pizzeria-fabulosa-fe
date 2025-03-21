@@ -198,6 +198,8 @@ test.describe('Render: Large Screen', () => {
 });
 
 test.describe('Render: Small screen', () => {
+  test.use({viewport: {width: 360, height: 760}});
+
   test.beforeEach(async ({page}) => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
