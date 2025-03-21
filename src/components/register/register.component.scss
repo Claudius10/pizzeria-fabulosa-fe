@@ -31,7 +31,7 @@ input.ng-invalid.ng-touched {
 
 @media (max-width: 992px) {
   .form {
-    width: 80vw;
+    width: 85vw;
   }
 
   .buttons {
@@ -42,5 +42,11 @@ input.ng-invalid.ng-touched {
 
   :host ::ng-deep .p-button {
     width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .form {
+    width: 75vw;
   }
 }
