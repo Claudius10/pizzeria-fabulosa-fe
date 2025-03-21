@@ -97,7 +97,7 @@
       <div class="flex flex-col items-center">
         <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
       </div>
-      <span title="Header">{{ "component.products.allergens.text" | translate }}</span>
+      <span title="Header" class="text-center">{{ "component.products.allergens.text" | translate }}</span>
       <div class="flex justify-center flex-wrap gap-4 font-bold">
         @if (currentLang() === 'es') {
           @for (allergen of this.theProduct().allergens.es; track $index) {
