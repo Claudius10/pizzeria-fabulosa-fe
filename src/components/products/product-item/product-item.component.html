@@ -81,6 +81,7 @@
 </div>
 @if (allergensDialogVisible) {
   <p-dialog
+    title="Product Allergens"
     [draggable]="false"
     [resizable]="false"
     [modal]="true"
@@ -94,17 +95,17 @@
   >
     <div class="flex flex-col items-center gap-4">
       <div class="flex flex-col items-center">
-        <i class="pi pi-exclamation-triangle allergens-icon-big"></i>
+        <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
       </div>
-      <span>{{ "component.products.allergens.text" | translate }}</span>
+      <span title="Header">{{ "component.products.allergens.text" | translate }}</span>
       <div class="flex justify-center flex-wrap gap-4 font-bold">
         @if (currentLang() === 'es') {
           @for (allergen of this.theProduct().allergens.es; track $index) {
-            <span>{{ allergen }}</span>
+            <span title="{{ allergen }}">{{ allergen }}</span>
           }
         } @else {
           @for (allergen of this.theProduct().allergens.en; track $index) {
-            <span>{{ allergen }}</span>
+            <span title="{{ allergen }}">{{ allergen }}</span>
           }
         }
       </div>

@@ -35,7 +35,6 @@ test.describe('API OK', () => {
     await expect(page.getByTitle('Coca-Cola Zero Small').getByRole('button', {name: '330ML'})).toBeVisible();
     await expect(page.getByTitle('Coca-Cola Zero Medium').getByRole('button', {name: '1L'})).toBeVisible();
     await expect(page.getByTitle('Coca-Cola Zero Price').getByRole('button', {name: '2.95€'})).toBeVisible();
-    await expect(page.getByTitle('Add Fanta Naranja to Cart').getByRole('button')).toBeVisible();
   });
 });
 

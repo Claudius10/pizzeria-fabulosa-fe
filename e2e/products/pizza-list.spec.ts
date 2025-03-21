@@ -46,6 +46,27 @@ test.describe('API OK', () => {
     await expect(page.getByTitle('Add Cuatro Quesos').getByRole('button')).toBeVisible();
     await expect(page.getByTitle("Cuatro Quesos Allergens")).toBeVisible();
   });
+
+  test('ShowAllergens', async ({page}) => {
+
+    // Arrange
+
+    const allergens = page.getByTitle("Cuatro Quesos Allergens");
+    const close = page.getByRole('dialog', {name: 'ALLERGENS'}).getByRole('button');
+
+    // Act && Assert
+
+    await allergens.click();
+    await expect(page.getByRole('dialog', {name: 'ALLERGENS'})).toBeVisible();
+    await expect(page.getByText('ALLERGENS', {exact: true})).toBeVisible();
+    await expect(page.getByTitle('Allergens Warning Icon')).toBeVisible();
+    await expect(page.getByText('This product contains the following allergens')).toBeVisible();
+    await expect(page.getByText('Gluten', {exact: true})).toBeVisible();
+    await expect(page.getByText('Lactose')).toBeVisible();
+
+    await close.click();
+    await expect(page.getByRole('dialog', {name: 'ALLERGENS'})).not.toBeVisible();
+  });
 });
 
 test.describe('API KO', () => {

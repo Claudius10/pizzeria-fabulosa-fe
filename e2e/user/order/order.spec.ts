@@ -42,14 +42,20 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
 
   test('ShowDeliveryDetails', async ({page}) => {
     await expect(page.getByText('Delivery details')).toBeVisible();
-    await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
-    await expect(page.getByText('Contact number: 123456789')).toBeVisible();
+    await expect(page.getByText('Selected time of delivery: As soon as possible')).toBeVisible();
+    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
+    await expect(page.getByText('Address number: 1605')).toBeVisible();
   });
 
   test('ShowOrderDetails', async ({page}) => {
     await expect(page.getByText('Order details')).toBeVisible();
     await expect(page.getByText('Selected payment method: Card')).toBeVisible();
+  });
+
+  test('ShowViewOnlyCartItem', async ({page}) => {
+    await expect(page.getByTitle('Price').getByRole('button').getByText('13.30€')).toBeVisible();
+    await expect(page.getByTitle('Times Icon')).toBeVisible();
+    await expect(page.getByRole('button', {name: '1', exact: true})).toBeVisible();
   });
 
   test('ShowFooter', async ({page}) => {
@@ -93,6 +99,11 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
     await expect(page.getByText('666555666')).toBeVisible();
     await expect(page.getByTitle('Schedule Icon')).toBeVisible();
     await expect(page.getByText('Monday to Sunday - 12PM to 12AM')).toBeVisible();
+  });
+
+  test('ShowViewOnlyCartItem', async ({page}) => {
+    await expect(page.getByTitle('Times Icon').first()).toBeVisible();
+    await expect(page.getByTitle('Times Icon').nth(1)).toBeVisible();
   });
 });
 
