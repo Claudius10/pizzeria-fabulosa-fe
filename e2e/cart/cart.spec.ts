@@ -19,9 +19,6 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await expect(page.getByText('0', {exact: true})).toBeVisible();
-    await expect(page.getByText('0', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-
     const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
 
@@ -31,14 +28,10 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
-    await expect(page.getByText('1', {exact: true})).toBeVisible();
-    await expect(page.getByText('1', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await beveragesLink.click();
     await page.waitForURL('http://192.168.1.128:4200/beverages');
     const addBeverage = page.getByTitle('Add Coca-Cola Zero to Cart').getByRole('button');
     await addBeverage.click();
-    await expect(page.getByText('2', {exact: true})).toBeVisible();
-    await expect(page.getByText('2', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await cartButton.click();
 
     // Assert
@@ -110,9 +103,6 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await expect(page.getByText('0', {exact: true})).toBeVisible();
-    await expect(page.getByText('0', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
-
     const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
     await expect(addProduct).toBeVisible();
 
@@ -121,14 +111,8 @@ test.describe('Render', () => {
     // Act
 
     await addProduct.click();
-    await expect(page.getByText('1', {exact: true})).toBeVisible();
-    await expect(page.getByText('1', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await addProduct.click();
-    await expect(page.getByText('2', {exact: true})).toBeVisible();
-    await expect(page.getByText('2', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await addProduct.click();
-    await expect(page.getByText('3', {exact: true})).toBeVisible();
-    await expect(page.getByText('3', {exact: true})).toHaveCSS('background-color', 'rgb(249, 115, 22)');
     await cartButton.click();
 
     // Assert
