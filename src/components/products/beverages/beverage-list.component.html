@@ -7,7 +7,7 @@
   }
 
   <ul title="Beverage List"
-      [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-12 gap-x-12"]'>
+      [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-10 gap-x-10"]'>
     @if (query.status() === "error") {
       <app-server-error/>
     }

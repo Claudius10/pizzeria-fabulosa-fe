@@ -1,4 +1,4 @@
-<div class="container">
+<div class="layout">
   @if (query.status() !== "error") {
     <div class="products-search flex flex-col gap-3">
       <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
@@ -6,22 +6,25 @@
     </div>
   }
 
-  <ul title="Pizza List"
-      [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-12 gap-x-12"]'>
-    @if (query.status() !== "error" || query.status() == "pending") {
-      <li>
-        <app-custom-pizza/>
-      </li>
-    }
+  <div class="container">
+    <ul title="Pizza List"
+        [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-10 gap-x-10"]'>
+      @if (query.status() !== "error" || query.status() == "pending") {
+        <li>
+          <app-custom-pizza/>
+        </li>
+      }
 
-    @if (query.status() === "error") {
-      <app-server-error/>
-    }
+      @if (query.status() === "error") {
+        <app-server-error/>
+      }
 
-    @for (product of query.data()?.payload | productsSearch: this.filterService.searchText:filters(); track product.id) {
-      <li>
-        <app-product [product]="product"/>
-      </li>
-    }
-  </ul>
+      @for (product of query.data()?.payload | productsSearch: this.filterService.searchText:filters(); track product.id) {
+        <li>
+          <app-product [product]="product"/>
+        </li>
+      }
+    </ul>
+  </div>
+
 </div>

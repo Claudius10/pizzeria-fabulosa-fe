@@ -1,12 +1,13 @@
 .container {
   display: flex;
   justify-content: center;
-  gap: 1.25rem;
-  width: 100%;
+  gap: 1.5rem;
+  width: fit-content;
+  height: fit-content;
 }
 
 .products {
-  width: 63vw;
+  width: 62vw;
 }
 
 @media (max-width: 929px) {
