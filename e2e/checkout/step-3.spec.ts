@@ -45,10 +45,30 @@ test.describe('Render: Large Screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
   });
 
+  test('ShowSteps', async ({page}) => {
+    await expect(page.getByTitle('Steps')).toBeVisible();
+    await expect(page.getByRole('link', {name: 'My info'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery location')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('Delivery time')).toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('3')).toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('Payment Method')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('4')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('Summary')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('5')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+  });
+
   test('ShowDeliveryTimeChoice', async ({page}) => {
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery time')).toBeVisible();
+    await expect(page.getByLabel('Please select delivery time')).toHaveValue('0'); // 0 = ASAP; 1 = Programmed Delivery
   });
 
   test('ShowProgrammedHourChoice', async ({page}) => {
@@ -60,12 +80,9 @@ test.describe('Render: Large Screen', () => {
     // Act
 
     await deliveryTimeChoice.selectOption('Programmed delivery');
+    await expect(page.getByLabel('Please select delivery time')).toHaveValue('1'); // 0 = ASAP; 1 = Programmed Delivery
 
     // Assert
-
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
 
     await expect(page.getByText('Please select delivery hour')).toBeVisible();
     await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
@@ -125,6 +142,12 @@ test.describe('Render: Small Screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
   });
 
+  test('ShowStep', async ({page}) => {
+    await expect(page.getByTitle('Step', {exact: true})).toBeVisible();
+    await expect(page.getByText('Step 3 Delivery time')).toBeVisible();
+    await expect(page.getByText('Step 3 Delivery time').getByText('3')).toHaveCSS('color', 'rgb(249, 115, 22)');
+  });
+
   test('ShowDeliveryTimeChoice', async ({page}) => {
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
@@ -143,13 +166,19 @@ test.describe('Render: Small Screen', () => {
 
     // Assert
 
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
     await expect(page.getByText('Please select delivery hour')).toBeVisible();
     await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
+  });
+
+  test('DoNotShowCart', async ({page}) => {
+    const badge = page.locator('#pn_id_2_badge');
+    await expect(badge).toBeVisible();
+    await expect(badge).toHaveCSS('background-color', 'rgb(249, 115, 22)');
+    await expect(badge.getByText('1')).toBeVisible();
+
+    await expect(page.getByTitle('Checkout Cart')).not.toBeVisible();
+    await expect(page.getByTitle('Cart Items')).not.toBeVisible();
   });
 
   test('Buttons', async ({page}) => {
@@ -217,19 +246,6 @@ test.describe('Buttons', () => {
 
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
     await expect(page.getByTitle('Steps')).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery Location')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('Delivery Time')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('3')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('Payment method')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('4')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
   });
 
   test('givenClickOnNext_thenSaveSelectedOption', async ({page}) => {
@@ -239,7 +255,7 @@ test.describe('Buttons', () => {
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'Previous'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
-    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed Hour
+    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed delivery
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
 
     // Act
@@ -254,6 +270,7 @@ test.describe('Buttons', () => {
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery time')).toBeVisible();
+    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed delivery
 
     await expect(page.getByText('Please select delivery hour')).not.toBeVisible();
     await expect(deliveryHourChoice).not.toBeVisible();
@@ -265,10 +282,9 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'Previous'});
+    const deliveryTimeChoice = page.getByLabel('Please select delivery time');
+    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed delivery
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
 
     // Act
 
@@ -282,6 +298,7 @@ test.describe('Buttons', () => {
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery time')).toBeVisible();
+    await expect(deliveryTimeChoice).toHaveValue('0'); // 0 = ASAP; 1 = Programmed delivery
 
     await expect(page.getByText('Please select delivery hour')).not.toBeVisible();
     await expect(deliveryHourChoice).not.toBeVisible();
@@ -298,6 +315,7 @@ test.describe('Buttons', () => {
     // Act
 
     await deliveryTimeChoice.selectOption('Programmed delivery');
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
 
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
@@ -308,6 +326,7 @@ test.describe('Buttons', () => {
     await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
 
     await deliveryHourChoice.selectOption('23:55');
+    await expect(deliveryHourChoice).toHaveValue('23:55');
 
     await next.click();
 
@@ -315,19 +334,6 @@ test.describe('Buttons', () => {
 
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
     await expect(page.getByTitle('Steps')).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery Location')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('Delivery Time')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('3')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('Payment method')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('4')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
   });
 
   test('givenClickOnNext_whenInvalidDeliveryHour_thenTriggerValidationErrors', async ({page}) => {
@@ -336,20 +342,11 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
-    const deliveryHourChoice = page.getByLabel('Please select delivery hour');
 
     // Act
 
     await deliveryTimeChoice.selectOption('Programmed delivery');
-
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
-    await expect(page.getByText('Please select delivery hour')).toBeVisible();
-    await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
-
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
     await next.click();
 
     // Assert
@@ -369,31 +366,21 @@ test.describe('Buttons', () => {
     // Act
 
     await deliveryTimeChoice.selectOption('Programmed delivery');
-
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
-    await expect(page.getByText('Please select delivery hour')).toBeVisible();
-    await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
 
     await deliveryHourChoice.selectOption('23:55');
+    await expect(deliveryHourChoice).toHaveValue('23:55');
+
     await next.click();
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+
     await previous.click();
 
     // Assert
 
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
-    await expect(page.getByText('Please select delivery hour')).toBeVisible();
-    await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toHaveValue('23:55');
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
+    await expect(deliveryHourChoice).toHaveValue('23:55');
   });
 
   test('givenClickOnPrevious_whenValidDeliveryHour_thenSaveSelectedOption', async ({page}) => {
@@ -408,16 +395,10 @@ test.describe('Buttons', () => {
     // Act
 
     await deliveryTimeChoice.selectOption('Programmed delivery');
-
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
-    await expect(page.getByText('Please select delivery hour')).toBeVisible();
-    await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
-
     await deliveryHourChoice.selectOption('23:55');
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
+    await expect(deliveryHourChoice).toHaveValue('23:55');
+
     await previous.click();
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
     await next.click();
@@ -425,13 +406,7 @@ test.describe('Buttons', () => {
     // Assert
 
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
-    await expect(page.getByText('Please select delivery time')).toBeVisible();
-    await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery time')).toBeVisible();
-
-    await expect(page.getByText('Please select delivery hour')).toBeVisible();
-    await expect(page.getByTitle('Delivery Hour Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toBeVisible();
-    await expect(page.getByLabel('Please select delivery hour')).toHaveValue('23:55');
+    await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
+    await expect(deliveryHourChoice).toHaveValue('23:55');
   });
 });

@@ -91,6 +91,23 @@ test.describe('Render: Large Screen', () => {
     await expect(page.getByTitle('Checkout Cart')).toBeVisible();
     await expect(page.getByTitle('Cart Items')).toBeVisible();
     await expect(page.getByTitle("Cart Items").getByRole('listitem')).toHaveCount(1);
+
+    await expect(page.getByTitle('Steps')).toBeVisible();
+    await expect(page.getByRole('link', {name: 'My info'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery location')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('Delivery time')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('3')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('Payment Method')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('4')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('Summary')).toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('5')).toHaveCSS('color', 'rgb(249, 115, 22)');
   });
 
   test('givenAnonUserAndStoreAndProgrammedHourAndCashNoChange_thenRender', async ({page}) => {
@@ -348,6 +365,10 @@ test.describe('Render: Small Screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
 
     // Assert
+
+    await expect(page.getByTitle('Step', {exact: true})).toBeVisible();
+    await expect(page.getByText('Step 5 Summary')).toBeVisible();
+    await expect(page.getByText('Step 5 Summary').getByText('5')).toHaveCSS('color', 'rgb(249, 115, 22)');
 
     await expect(page.getByText('Customer details')).toBeVisible();
     await expect(page.getByText('Full name: Clau')).toBeVisible();
@@ -794,13 +815,11 @@ test.describe('Order Success', () => {
     // step 4
 
     const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await paymentMethodChoice.selectOption('Cash');
-    const changeChoice = page.getByLabel('Do you need change?');
-    await changeChoice.selectOption('Yes');
-    const billInput = page.getByRole('textbox', {name: 'Bill to change'});
-    await billInput.fill('20');
+    await expect(paymentMethodChoice).toHaveValue('0');
     await next.click();
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+
+    // step 5
 
     const order = page.getByRole('button', {name: 'ORDER'});
     const commentBox = page.getByLabel('You may enter any comments you have regarding the order');
@@ -809,8 +828,6 @@ test.describe('Order Success', () => {
 
     // Act
 
-    await commentBox.fill('Well cut');
-    await expect(commentBox).toHaveValue('Well cut');
     await order.click();
 
     // Assert
@@ -836,6 +853,10 @@ test.describe('Order Success', () => {
     await expect(page.getByTitle('Order Success Cart')).toBeVisible();
     await expect(page.getByTitle('Cart Items')).toBeVisible();
     await expect(page.getByTitle("Cart Items").getByRole('listitem')).toHaveCount(1);
+
+    await expect(page.getByTitle('Price').getByRole('button').getByText('13.30€')).toBeVisible();
+    await expect(page.getByTitle('Times Icon')).toBeVisible();
+    await expect(page.getByRole('button', {name: '1', exact: true})).toBeVisible();
   });
 
   test('givenAnonUserAndStoreAndProgrammedHourAndCash_thenRedirectAndRender', async ({page}) => {
@@ -910,6 +931,8 @@ test.describe('Order Success', () => {
     await next.click();
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
 
+    // step 5
+
     const order = page.getByRole('button', {name: 'ORDER'});
     const commentBox = page.getByLabel('You may enter any comments you have regarding the order');
     await expect(commentBox).toBeVisible();
@@ -958,5 +981,9 @@ test.describe('Order Success', () => {
     await expect(page.getByTitle('Order Success Cart')).toBeVisible();
     await expect(page.getByTitle('Cart Items')).toBeVisible();
     await expect(page.getByTitle("Cart Items").getByRole('listitem')).toHaveCount(1);
+
+    await expect(page.getByTitle('Price').getByRole('button').getByText('13.30€')).toBeVisible();
+    await expect(page.getByTitle('Times Icon')).toBeVisible();
+    await expect(page.getByRole('button', {name: '1', exact: true})).toBeVisible();
   });
 });

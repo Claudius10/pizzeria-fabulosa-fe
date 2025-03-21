@@ -12,7 +12,6 @@ test.describe('Render: Large Screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await addProduct.click();
@@ -28,9 +27,17 @@ test.describe('Render: Large Screen', () => {
     await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).toHaveCSS('color', 'rgb(249, 115, 22)');
     await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).toHaveCSS('color', 'rgb(249, 115, 22)');
     await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery location')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('Delivery time')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Delivery time'}).getByText('3')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
     await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
     await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('Payment Method')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Payment method'}).getByText('4')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
     await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('Summary')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
+    await expect(page.getByRole('link', {name: 'Summary'}).getByText('5')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
   });
 
   test('ShowForm', async ({page}) => {
@@ -572,14 +579,5 @@ test.describe('Buttons', () => {
 
     await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
     await expect(page.getByTitle('Steps')).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('My info')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'My info'}).getByText('1')).not.toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('Delivery Location')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery location'}).getByText('2')).toHaveCSS('color', 'rgb(249, 115, 22)');
-    await expect(page.getByRole('link', {name: 'Delivery time'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Payment method'})).toBeVisible();
-    await expect(page.getByRole('link', {name: 'Summary'})).toBeVisible();
   });
 });

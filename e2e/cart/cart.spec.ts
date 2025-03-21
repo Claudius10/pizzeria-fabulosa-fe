@@ -379,6 +379,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
   });
 
   test('givenItemWithTwoQuantity_whenIncreasingQuantity_thenUpdatePriceAndShowOffer', async ({page}) => {
@@ -420,6 +421,7 @@ test.describe('Quantity Changes', () => {
 
     const increaseQ = page.getByTitle('Increase Cuatro Quesos M Quantity');
     const decreaseQ = page.getByTitle('Decrease Cuatro Quesos M Quantity');
+
     const q = page.getByTitle('Cuatro Quesos M Quantity', {exact: true});
     await expect(q.getByText('1')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('26.60€')).toBeVisible();
@@ -434,6 +436,8 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
+
     await increaseQ.click();
     await expect(badge.getByText('4')).toBeVisible();
     await expect(q.getByText('3')).toBeVisible();
@@ -441,6 +445,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
     await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
+
     await decreaseQ.click();
 
     // Assert
@@ -450,6 +455,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
   });
 
   test('givenItemWithTwoQuantity_whenDecreasingQuantity_thenUpdatePriceAndShowOffer', async ({page}) => {
@@ -458,6 +464,7 @@ test.describe('Quantity Changes', () => {
 
     const increaseQ = page.getByTitle('Increase Cuatro Quesos M Quantity');
     const decreaseQ = page.getByTitle('Decrease Cuatro Quesos M Quantity');
+
     const q = page.getByTitle('Cuatro Quesos M Quantity', {exact: true});
     await expect(q.getByText('1')).toBeVisible();
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('26.60€')).toBeVisible();
@@ -471,6 +478,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
     await decreaseQ.click();
 
     // Assert
@@ -479,6 +487,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('26.60€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('19.95€')).toBeVisible();
     await expect(page.getByRole('button', {name: '2 nd is 50% off'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '3 X 2 1'})).not.toBeVisible();
   });
 
   test('givenTwoDifferentItems_whenIncreasingQuantity_thenIncreaseQuantityOfEach', async ({page}) => {
@@ -508,6 +517,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByTitle('Total Amount').getByRole('button').getByText('53.20€')).toBeVisible();
     await expect(page.getByTitle('Total After Offers Amount').getByRole('button').getByText('39.90€')).toBeVisible();
     await expect(page.getByRole('button', {name: '3 X 2 1'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
   });
 
   test('givenTwoDifferentItems_whenDecreasingQuantity_thenShowEmptyCart', async ({page}) => {
@@ -536,6 +546,7 @@ test.describe('Quantity Changes', () => {
     await expect(page.getByText("Total")).toBeVisible();
     await expect(page.getByRole("button", {name: '0.00€'})).toBeVisible();
     await expect(page.getByRole('button', {name: 'PROCEED TO CHECKOUT'})).not.toBeVisible();
+    await expect(page.getByRole('button', {name: '2 nd is 50% off'})).not.toBeVisible();
   });
 });
 
