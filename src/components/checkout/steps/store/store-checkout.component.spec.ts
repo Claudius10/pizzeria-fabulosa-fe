@@ -36,7 +36,7 @@ describe('StoreCheckoutComponent', () => {
     fixture.componentRef.setInput("store", store);
     fixture.componentRef.setInput("orientation", "horizontal");
     fixture.componentRef.setInput("selected", null);
-    fixture.componentRef.setInput("valid", true);
+    fixture.componentRef.setInput("invalid", true);
     fixture.componentRef.setInput("highlight", false);
 
 

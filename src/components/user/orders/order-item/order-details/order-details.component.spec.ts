@@ -33,6 +33,6 @@ export const getMockOrderDetails = (): OrderDetailsDTO => {
     billToChange: 0,
     deliveryTime: "ASAP",
     paymentMethod: "Card",
-    storePickup: false
+    storePickUp: false
   };
 };

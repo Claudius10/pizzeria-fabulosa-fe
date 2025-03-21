@@ -286,6 +286,7 @@ describe('CartServiceTests', () => {
 export const getMockCartItem = (id: string, quantity: number): CartItemDTO => {
   return {
     type: "pizza",
+    formatCode: "M",
     name: {
       en: "Pizza",
       es: "Pizza"
