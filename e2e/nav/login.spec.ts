@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {badCredentials, offers, stores} from '../api-responses';
+import {badCredentials, offers, pizzas, stores} from '../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
@@ -385,7 +385,11 @@ test.describe('Submit: API OK', () => {
       await route.fulfill({json: stores});
     });
 
-    await page.goto('/');
+    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
+    await page.goto('/pizzas');
 
     const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
@@ -409,7 +413,7 @@ test.describe('Submit: API OK', () => {
     await expect(page.getByText('Password is requiered')).toBeVisible();
   });
 
-  test('givenEnterClick_whenFormIsValid_thenLogin', async ({page}) => {
+  test('givenEnterClick_whenFormIsValid_thenLoginAndRedirect', async ({page}) => {
 
     // Arrange
 
@@ -447,9 +451,12 @@ test.describe('Submit: API OK', () => {
     await expect(loginButton).not.toBeVisible();
     await expect(logoutButton).toBeVisible();
     await expect(userProfileButton).toBeVisible();
+
+    await page.waitForURL('http://192.168.1.128:4200/');
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
-  test('givenDummyAccountLogin_thenLogin', async ({page}) => {
+  test('givenDummyAccountLogin_thenLoginAndRedirect', async ({page}) => {
 
     // Arrange
 
@@ -479,6 +486,9 @@ test.describe('Submit: API OK', () => {
     await expect(loginButton).not.toBeVisible();
     await expect(logoutButton).toBeVisible();
     await expect(userProfileButton).toBeVisible();
+
+    await page.waitForURL('http://192.168.1.128:4200/');
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenEnterClick_whenBadCredentials_thenShowBadCredentialsMessage', async ({page}) => {
@@ -522,6 +532,10 @@ test.describe('Logout', () => {
       await route.fulfill({json: stores});
     });
 
+    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
     await page.route('*/**/api/v1/auth/login?username=clau@gmail.com&password=password', async route => {
       await route.fulfill(
         {
@@ -532,7 +546,7 @@ test.describe('Logout', () => {
         });
     });
 
-    await page.goto('/');
+    await page.goto('/pizzas');
 
     const loginButton = page.getByTitle('Open Login Box');
     await expect(loginButton).toBeVisible();
@@ -547,9 +561,12 @@ test.describe('Logout', () => {
     await expect(page.getByText('Password is requiered')).not.toBeVisible();
 
     await enterButton.click();
+
+    await page.waitForURL('http://192.168.1.128:4200/');
+    await page.goto('/pizzas');
   });
 
-  test('givenClickOnLogout_whenLoggedIn_thenLogout', async ({page}) => {
+  test('givenClickOnLogout_whenLoggedIn_thenLogoutAndRedirect', async ({page}) => {
 
     // Arrange
 
@@ -582,12 +599,15 @@ test.describe('Logout', () => {
     // Assert
 
     await expect(loginButton).toBeVisible();
-    await expect(page.getByRole('alert').getByText('Information').nth(1)).toBeVisible();
+    await expect(page.getByText('Information')).toBeVisible();
     await expect(page.getByText('You have successfully signed-out')).toBeVisible();
     await expect(logoutButton).not.toBeVisible();
     await expect(yesButton).not.toBeVisible();
     await expect(noButton).not.toBeVisible();
     await expect(userProfileButton).not.toBeVisible();
+
+    await page.waitForURL('http://192.168.1.128:4200/');
+    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenClickOnLogout_whenApiIsDown_thenDisplayErrorMessage', async ({page}) => {

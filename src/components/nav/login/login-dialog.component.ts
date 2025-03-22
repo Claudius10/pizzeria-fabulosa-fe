@@ -126,6 +126,7 @@ export class LoginDialogComponent implements OnDestroy {
             });
 
             this.closeLoginDialog();
+            this.router.navigate(["/"]);
           } else {
             this.messageService.add({
               severity: 'error',
