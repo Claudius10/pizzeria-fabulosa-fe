@@ -13,7 +13,7 @@ export interface QueryOnDemand extends QueryResult {
 }
 
 export interface BaseQueryOptions {
-  queryKey: string[];
+  queryKey: (string | number)[];
 }
 
 export interface BaseQueryOptionsId extends BaseQueryOptions {

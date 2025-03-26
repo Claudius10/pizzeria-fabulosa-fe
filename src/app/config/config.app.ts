@@ -33,6 +33,9 @@ function initializeApp(
     translateService.setTranslation('en', en);
     translateService.setTranslation('es', es);
 
+    // fallback translation
+    translateService.setDefaultLang('en');
+
     // locale
     if (!cookieService.check(COOKIE_LOCALE)) {
       translateService.use('en');

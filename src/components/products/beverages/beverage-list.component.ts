@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
-import {RESOURCE_PRODUCT_BEVERAGES} from '../../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../services/http/resources/resource.service';
 import {ProductItemComponent} from '../product-item/product-item.component';
@@ -15,6 +14,7 @@ import {ProductsFilterComponent} from '../filters/products-filter.component';
 import {getAllBeverageFilters} from '../../../utils/filter-items';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {NgClass} from '@angular/common';
+import {Paginator, PaginatorState} from 'primeng/paginator';
 
 @Component({
   selector: 'app-beverage-list',
@@ -28,6 +28,7 @@ import {NgClass} from '@angular/common';
     ProductsSearchPipe,
     ServerErrorComponent,
     NgClass,
+    Paginator,
   ],
   templateUrl: './beverage-list.component.html',
   styleUrls: ['./beverage-list.component.scss'],
@@ -39,7 +40,10 @@ export class BeverageListComponent implements OnInit {
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  protected query: QueryResult = this.resourceService.findProducts({queryKey: RESOURCE_PRODUCT_BEVERAGES});
+  protected pageNumber = this.resourceService.getPageNumber();
+  protected pageSize = this.resourceService.getPageSize();
+  protected currentElements = (this.pageNumber() * this.pageSize()) - this.pageSize();
+  protected query: QueryResult = this.resourceService.findProducts("beverage");
   private statusObservable = toObservable(this.query.status);
   filters = this.filterService.getFilters();
 
@@ -70,6 +74,13 @@ export class BeverageListComponent implements OnInit {
       this.loadingAnimationService.stopLoading();
       this.filterService.clear();
     });
+  }
+
+  onPageChange(event: PaginatorState) {
+    const page = event.page === undefined ? 1 : event.page + 1;
+    this.currentElements = event.first!;
+    this.resourceService.setPageNumber(page);
+    this.resourceService.setPageSize(event.rows!);
   }
 
   protected readonly getAllBeverageFilters = getAllBeverageFilters;

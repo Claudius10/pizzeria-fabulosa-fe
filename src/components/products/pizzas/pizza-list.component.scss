@@ -1,16 +1,32 @@
 .layout {
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  //border: 1px solid red;
 }
 
 .container {
   display: flex;
+  gap: 1rem;
   width: fit-content;
-  height: fit-content;
+}
+
+.products-search {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 210px;
 }
 
 .products {
-  width: 62vw;
+  width: 50vw;
+  min-height: 45rem;
+  //border: 1px solid blue;
+}
+
+.paginator {
+  width: 20vw;
 }
 
 @media (max-width: 929px) {
@@ -21,7 +37,16 @@
 
   .products-search {
     max-width: 210px;
-    display: flex;
+    flex-direction: column;
+  }
+
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .paginator {
+    width: 90vw;
   }
 
   .products {

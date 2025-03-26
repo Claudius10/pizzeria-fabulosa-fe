@@ -1,21 +1,33 @@
-<div class="container">
-  @if (query.status() !== "error") {
-    <div class="products-search flex flex-col gap-3">
-      <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
-      <app-products-filter [items]="getAllBeverageFilters()"/>
-    </div>
-  }
-
-  <ul title="Beverage List"
-      [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-10 gap-x-10"]'>
-    @if (query.status() === "error") {
-      <app-server-error/>
+<div class="flex flex-col">
+  <div class="container">
+    @if (query.status() !== "error") {
+      <div class="products-search flex flex-col gap-3">
+        <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
+        <app-products-filter [items]="getAllBeverageFilters()"/>
+      </div>
     }
 
-    @for (product of query.data()?.payload | productsSearch: this.filterService.searchText:filters(); track product.id) {
-      <li>
-        <app-product [product]="product"/>
-      </li>
-    }
-  </ul>
+    <ul title="Beverage List"
+        [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-10 gap-x-10"]'>
+      @if (query.status() === "error") {
+        <app-server-error/>
+      }
+
+      @if (query.status() === "success") {
+        @for (product of query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); track product.id) {
+          <li>
+            <app-product [product]="product"/>
+          </li>
+        }
+      }
+    </ul>
+  </div>
+
+  <p-paginator
+    title="Paginator"
+    (onPageChange)="onPageChange($event)"
+    [first]="currentElements"
+    [rows]="pageSize()"
+    [totalRecords]="query.status() === 'success' && query.data()!.payload !== null ? query.data()!.payload.totalElements : 0"
+    [rowsPerPageOptions]="[3, 6, 9]"/>
 </div>

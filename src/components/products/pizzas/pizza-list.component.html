@@ -1,30 +1,47 @@
 <div class="layout">
   @if (query.status() !== "error") {
-    <div class="products-search flex flex-col gap-3">
+    <div class="products-search">
       <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
       <app-products-filter [items]="getAllPizzaFilters()"/>
     </div>
   }
 
   <div class="container">
-    <ul title="Pizza List"
-        [ngClass]='[query.status() === "error" ? "justify-center" : "justify-start" , "products flex flex-wrap gap-y-10 gap-x-10"]'>
+
+    <ul title="Pizza List" [ngClass]='["products flex flex-wrap justify-center gap-y-10 gap-x-10"]'>
+      @if (query.status() === "error") {
+        <app-server-error/>
+      }
+
+      @if (query.status() === "pending") {
+        <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
+          <p-skeleton width="15rem" height="30rem"/>
+        </ng-container>
+      }
+
+      @if (query.status() === "success") {
+        @for (product of query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); track product.id) {
+          <li>
+            <app-product [product]="product"/>
+          </li>
+        }
+      }
+
       @if (query.status() !== "error" || query.status() == "pending") {
         <li>
           <app-custom-pizza/>
         </li>
       }
-
-      @if (query.status() === "error") {
-        <app-server-error/>
-      }
-
-      @for (product of query.data()?.payload | productsSearch: this.filterService.searchText:filters(); track product.id) {
-        <li>
-          <app-product [product]="product"/>
-        </li>
-      }
     </ul>
   </div>
 
+  <div class="paginator">
+    <p-paginator
+      title="Paginator"
+      (onPageChange)="onPageChange($event)"
+      [first]="first"
+      [rows]="rows"
+      [totalRecords]="totalElements"
+      [rowsPerPageOptions]="[3, 6, 9]"/>
+  </div>
 </div>
