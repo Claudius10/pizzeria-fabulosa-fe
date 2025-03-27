@@ -12,6 +12,7 @@ import {ServerErrorComponent} from '../../app/routes/error/server-no-response/se
 import {ResponseDTO} from '../../interfaces/http/api';
 import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 import {TranslatePipe} from '@ngx-translate/core';
+import {Skeleton} from "primeng/skeleton";
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ import {TranslatePipe} from '@ngx-translate/core';
     TranslatePipe,
     OfferItemComponent,
     ServerErrorComponent,
-    StoreItemComponent
+    StoreItemComponent,
+    Skeleton
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

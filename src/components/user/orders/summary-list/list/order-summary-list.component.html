@@ -3,28 +3,31 @@
     <app-server-error/>
   }
 
-  @if (orderList.status() === "success") {
+  <ul class="flex flex-col justify-center gap-4 w-full" title="Orders Summary List">
+    @if (orderList.status() === 'pending') {
+      <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
+        <p-skeleton height="131.5px"/>
+      </ng-container>
+    }
 
-    @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
-
-      <ul class="flex flex-col gap-4 w-full" title="Orders Summary List">
+    @if (orderList.status() === 'success') {
+      @if (orderList.data()!.payload !== null && orderList.data()!.payload.totalElements !== 0) {
         @for (orderSummary of orderList.data()!.payload.orderList; track orderSummary.id) {
           <li>
             <app-order-summary [orderSummary]="orderSummary"/>
           </li>
         }
-      </ul>
-
-    } @else {
-      <span class="text-center text-2xl">{{ "component.user.order.list.empty" | translate }}</span>
+      } @else {
+        <span class="text-center text-2xl">{{ "component.user.order.list.empty" | translate }}</span>
+      }
     }
-  }
+  </ul>
 
   <p-paginator
     title="Paginator"
     (onPageChange)="onPageChange($event)"
-    [first]="currentElements"
-    [rows]="pageSize()"
-    [totalRecords]="orderList.status() === 'success' && orderList.data()!.payload !== null ? orderList.data()!.payload.totalElements : 0"
-    [rowsPerPageOptions]="[5, 10, 20]"/>
+    [first]="first"
+    [rows]="maxItems"
+    [totalRecords]="totalElements"
+    [rowsPerPageOptions]="pageSizeOptions"/>
 </div>

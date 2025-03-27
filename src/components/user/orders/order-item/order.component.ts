@@ -23,6 +23,7 @@ import {ResponseDTO} from '../../../../interfaces/http/api';
 import {isDst} from '../../../../utils/functions';
 import {Button} from 'primeng/button';
 import {UserDetailsComponent} from '../../details/user-details.component';
+import {Skeleton} from 'primeng/skeleton';
 
 @Component({
   selector: 'app-order',
@@ -37,7 +38,8 @@ import {UserDetailsComponent} from '../../details/user-details.component';
     CartComponent,
     Button,
     UpperCasePipe,
-    ConfirmDialog
+    ConfirmDialog,
+    Skeleton
   ],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',

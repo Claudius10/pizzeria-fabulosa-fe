@@ -201,7 +201,7 @@ export const beverages = {
   }, {
     "id": 15,
     "type": "beverage",
-    "image": "/assets/products/beverages/aguarius.jpg",
+    "image": "/assets/products/beverages/aquarius.jpg",
     "name": {"es": "Aquarius Limón", "en": "Aquarius Lime"},
     "description": {"es": ["Azúcar"], "en": ["Sugar"]},
     "formats": {"s": {"es": "330ML", "en": "330ML"}},

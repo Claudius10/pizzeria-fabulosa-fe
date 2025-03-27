@@ -23,38 +23,16 @@ import {NgOptimizedImage} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreItemComponent implements OnInit {
-  store = input<StoreDTO>();
+  store = input.required<StoreDTO>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   currentLang = signal(this.translateService.currentLang);
-  theStore = signal<StoreDTO>(storePlaceholder());
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
       this.currentLang.set(langEvent.lang);
     });
 
-    this.theStore.set(this.store()!);
-
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 }
-
-export const storePlaceholder = (): StoreDTO => {
-  return {
-    image: "assets",
-    name: "...",
-    schedule: {
-      en: "...",
-      es: "..."
-    },
-    phoneNumber: 0,
-    address: {
-      street: "...",
-      number: 0,
-      details: "...",
-      id: 1
-    },
-    id: 1
-  };
-};

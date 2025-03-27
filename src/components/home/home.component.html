@@ -16,13 +16,19 @@
     }
 
     <ul title="Offers" class="flex flex-wrap justify-center gap-8">
-      @for (offer of offers.data()?.payload; track offer.id) {
-        <li>
-          <app-offer-item [offer]="offer"/>
-        </li>
+      @if (offers.status() === 'pending') {
+        <p-skeleton width="320px" height="425.15px"/>
+        <p-skeleton width="320px" height="425.15px"/>
+      }
+
+      @if (offers.status() === 'success') {
+        @for (offer of offers.data()!.payload; track offer.id) {
+          <li>
+            <app-offer-item [offer]="offer"/>
+          </li>
+        }
       }
     </ul>
-
   </div>
 
   <!-- STORES -->
@@ -34,12 +40,18 @@
     }
 
     <ul title="Stores" class="flex flex-wrap justify-center gap-8">
-      @for (store of stores.data()?.payload; track store.id) {
-        <li>
-          <app-store-item [store]="store"/>
-        </li>
+      @if (stores.status() === 'pending') {
+        <p-skeleton width="320px" height="401.25px"/>
+        <p-skeleton width="320px" height="401.25px"/>
+      }
+
+      @if (stores.status() === 'success') {
+        @for (store of stores.data()!.payload; track store.id) {
+          <li>
+            <app-store-item [store]="store"/>
+          </li>
+        }
       }
     </ul>
-
   </div>
 </div>

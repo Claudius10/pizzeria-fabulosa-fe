@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {ProductItemComponent} from '../product-item/product-item.component';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -41,7 +41,7 @@ const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
   styleUrls: ['./pizza-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PizzaListComponent {
+export class PizzaListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
   protected filterService = inject(FilterService);
@@ -58,7 +58,7 @@ export class PizzaListComponent {
   protected query: QueryResult = this.resourceService.findProducts("pizza");
   private statusObservable = toObservable(this.query.status);
 
-  constructor() {
+  ngOnInit() {
     const subscription = this.statusObservable.subscribe({
         next: result => {
           if (result === PENDING) {
@@ -84,11 +84,11 @@ export class PizzaListComponent {
               }
 
               if (this.totalElements > 10 && this.totalElements < 20) {
-                this.pageSizeOptions = [10, 20];
+                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20];
               }
 
               if (this.totalElements > 20) {
-                this.pageSizeOptions = [10, 20, 30];
+                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20, 30];
               }
             }
           }

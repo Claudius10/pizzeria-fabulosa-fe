@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../services/http/resources/resource.service';
@@ -38,7 +38,7 @@ const DEFAULT_PAGE_MAX_SIZE = 8;
   styleUrls: ['./beverage-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BeverageListComponent {
+export class BeverageListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
   protected filterService = inject(FilterService);
@@ -54,7 +54,7 @@ export class BeverageListComponent {
   protected query: QueryResult = this.resourceService.findProducts("beverage");
   private statusObservable = toObservable(this.query.status);
 
-  constructor() {
+  ngOnInit() {
     const subscription = this.statusObservable.subscribe({
         next: result => {
           if (result === PENDING) {
@@ -80,11 +80,11 @@ export class BeverageListComponent {
               }
 
               if (this.totalElements > 10 && this.totalElements < 20) {
-                this.pageSizeOptions = [10, 20];
+                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20];
               }
 
               if (this.totalElements > 20) {
-                this.pageSizeOptions = [10, 20, 30];
+                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20, 30];
               }
             }
           }

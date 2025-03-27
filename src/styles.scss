@@ -73,3 +73,8 @@ input:-webkit-autofill:active {
 ::-webkit-scrollbar {
   width: 0;
 }
+
+// transparent alt image text
+img {
+  color: transparent;
+}
