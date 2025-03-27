@@ -17,7 +17,7 @@ import {COOKIE_CART, COOKIE_ID_TOKEN, COOKIE_LOCALE} from '../../utils/constants
 import {CartService} from '../../services/cart/cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import primeES from "../../../public/i18n/primeng-es.json";
-import primeEN from "../../../public/i18n/primeng-es.json";
+import primeEN from "../../../public/i18n/primeng-en.json";
 import en from "../../../public/i18n/en.json";
 import es from "../../../public/i18n/es.json";
 
@@ -33,16 +33,26 @@ function initializeApp(
     translateService.setTranslation('en', en);
     translateService.setTranslation('es', es);
 
-    // fallback translation
+    // fallback language
     translateService.setDefaultLang('en');
 
     // locale
     if (!cookieService.check(COOKIE_LOCALE)) {
       translateService.use('en');
+      primeNgConfig.setTranslation(primeEN);
     } else {
       const locale = cookieService.get(COOKIE_LOCALE);
       translateService.use(locale);
-      primeNgConfig.setTranslation(locale === 'en' ? primeEN : primeES);
+      switch (locale) {
+        case 'en':
+          primeNgConfig.setTranslation(primeEN);
+          break;
+        case 'es':
+          primeNgConfig.setTranslation(primeES);
+          break;
+        default:
+          primeNgConfig.setTranslation(primeEN);
+      }
     }
 
     // auth token

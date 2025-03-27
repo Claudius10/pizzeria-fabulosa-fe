@@ -1,38 +1,56 @@
 .layout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  //border: 1px solid red;
+  justify-content: start;
+  width: 75vw;
+  gap: 1rem;
+  min-height: 60rem;
+  border: 1px solid red;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: 1rem;
+  height: fit-content; // fit here, but in beverages no, because the height of the product-items plays a part
   width: fit-content;
+  border: 1px solid green;
 }
 
 .products-search {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   gap: 1rem;
   max-width: 210px;
 }
 
 .products {
   width: 50vw;
-  min-height: 45rem;
-  //border: 1px solid blue;
+  justify-content: flex-start;
+  min-height: 52.15rem;
+  border: 1px solid blue;
 }
 
 .paginator {
-  width: 20vw;
+  width: 32rem;
+}
+
+@media (max-width: 1368px) {
+  .paginator {
+    width: 45vw;
+  }
+
+  .products {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 929px) {
   .layout {
     flex-direction: column;
     align-items: center;
+    width: 90vw;
   }
 
   .products-search {
@@ -40,17 +58,28 @@
     flex-direction: column;
   }
 
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-
   .paginator {
-    width: 90vw;
+    width: 45vw;
   }
 
   .products {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .layout {
+    flex-direction: column;
+    align-items: center;
+    width: 90vw;
+  }
+
+  .products {
+    justify-content: center;
+  }
+
+  .paginator {
+    width: 90vw;
   }
 }

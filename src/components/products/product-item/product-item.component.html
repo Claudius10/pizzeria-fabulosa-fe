@@ -1,114 +1,142 @@
-<div [ngClass]="['flex flex-col rounded-border', theProduct().type !== 'pizza' ? 'container' : 'container-desc' ]">
-  <!-- IMAGE -->
-  <img title="{{theProduct().name.es}} Image" class="pb-2" ngSrc="{{theProduct().image}}" width="210" height="190"
-       alt="{{theProduct().name.es}} Image">
+<div
+  [ngClass]="['flex flex-col items-center justify-between rounded-border', product().type !== 'pizza' ? 'container' : 'container-desc' ]">
 
-  <div class="flex flex-col items-center justify-between product-container">
+  <!-- IMAGE + NAME -->
+  <div class="flex flex-col items-center">
+    <!-- IMAGE -->
+    <img title="{{product().name.es}} Image"
+         ngSrc="{{product().image}}"
+         alt="{{product().name.es}} Image"
+         class="pb-2"
+         width="225"
+         height="150"
+         priority>
 
     <!-- NAME -->
     <span title="Name"
-          class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? theProduct().name.es : theProduct().name.en }}</span>
-
-    <!-- FORMAT -->
-    @if (theProduct().formats) {
-      <div class="flex gap-2">
-        @if (theProduct().formats.s) {
-          <p-button
-            title="{{theProduct().name.es}} Small"
-            (click)="setFormat('S')"
-            type="button"
-            size="small"
-            label="{{ currentLang() === 'es' ? theProduct().formats.s.es : theProduct().formats.s.en  }}"
-            [outlined]="this.productFormat!=='S'"
-            [raised]="true"/>
-        }
-
-        @if (theProduct().formats.m) {
-          <p-button
-            title="{{theProduct().name.es}} Medium"
-            (click)="setFormat('M')"
-            type="button"
-            size="small"
-            label="{{ currentLang() === 'es' ? theProduct().formats.m.es : theProduct().formats.m.en  }}"
-            [outlined]="this.productFormat!=='M'"
-            [raised]="true"/>
-        }
-
-        @if (theProduct().formats.l) {
-          <p-button
-            title="{{theProduct().name.es}} Large"
-            (click)="setFormat('L')"
-            type="button"
-            size="small"
-            label="{{ currentLang() === 'es' ? theProduct().formats.l.es : theProduct().formats.l.en  }}"
-            [outlined]="this.productFormat!=='L'"
-            [raised]="true"/>
-        }
-      </div>
-    }
-
-    <!-- INGREDIENTES -->
-    @if (theProduct().description !== null) {
-      <div title="{{theProduct().name.es}} Ingredients" class="flex justify-center flex-wrap description text-center">
-        {{ currentLang() === 'es' ? theProduct().description.es.join(", ") : theProduct().description.en.join(", ") }}
-      </div>
-    }
-
-    <!-- PRICE + ADD BUTTON -->
-    <div class="flex items-center justify-center gap-4 pb-2">
-      @if (theProduct().prices) {
-        <app-product-price title="{{theProduct().name.es}} Price" [price]="this.productPrice"/>
-      }
-
-      <p-button
-        title="Add {{theProduct().name.es}} to Cart"
-        type="button"
-        icon="pi pi-plus"
-        [raised]="true"
-        size="small"
-        aria-label="Add to Cart"
-        (click)="addProductToCart()"/>
-
-      @if (theProduct().allergens.es.length > 0) {
-        <i
-          title="{{theProduct().name.es}} Allergens"
-          class="pi pi-exclamation-circle allergens-icon-small"
-          (click)="openAllergensDialog()">
-        </i>
-      }
-    </div>
+          class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? product().name.es : product().name.en }}</span>
   </div>
+
+  <!-- INGREDIENTES -->
+  @if (product().description !== null) {
+    <div title="{{product().name.es}} Ingredients"
+         [ngClass]="['flex flex-wrap items-start text-center', product().type === 'pizza' ? 'description-pizza' : 'description']">
+      {{ currentLang() === 'es' ? product().description!.es.join(", ") : product().description!.en.join(", ") }}
+    </div>
+  }
+
+  <p-button
+    class="pb-2"
+    title="Details"
+    type="button"
+    icon="pi pi-plus"
+    [raised]="true"
+    size="small"
+    aria-label="Open Product Details"
+    (click)="openDialog()"/>
 </div>
-@if (allergensDialogVisible) {
+@if (dialogVisible) {
   <p-dialog
     title="Product Allergens"
     [draggable]="false"
     [resizable]="false"
     [modal]="true"
     [dismissableMask]="true"
-    [style]="{ width: '25rem' }"
+    [style]="{ width: '30rem' }"
     [breakpoints]="{ '576px': '90vw' }"
-    [position]="'top'"
-    (onHide)="closeAllergensDialog()"
-    [(visible)]="allergensDialogVisible"
-    [header]="'component.products.allergens.header' | translate | uppercase"
+    (onHide)="closeDialog()"
+    [(visible)]="dialogVisible"
+    [header]="currentLang() === 'es' ? product().name.es : product().name.en"
   >
     <div class="flex flex-col items-center gap-4">
-      <div class="flex flex-col items-center">
-        <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
-      </div>
-      <span title="Header" class="text-center">{{ "component.products.allergens.text" | translate }}</span>
-      <div class="flex justify-center flex-wrap gap-4 font-bold">
-        @if (currentLang() === 'es') {
-          @for (allergen of this.theProduct().allergens.es; track $index) {
-            <span title="{{ allergen }}">{{ allergen }}</span>
+
+      <!-- IMAGE -->
+      <img title="{{product().name.es}} Image"
+           ngSrc="{{product().image}}"
+           alt="{{product().name.es}} Image"
+           class="rounded-border"
+           width="225"
+           height="150"
+           priority>
+
+      <!-- INGREDIENTES -->
+      @if (product().description !== null) {
+        <div title="Ingredients"
+             class="flex justify-center flex-wrap dialog-description text-center">
+          {{ currentLang() === 'es' ? product().description!.es.join(", ") : product().description!.en.join(", ") }}
+        </div>
+      }
+
+      <!-- ALLERGENS-->
+      @if (product().allergens.es.length > 0) {
+        <div class="flex flex-col items-center">
+          <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
+        </div>
+
+        <span title="Header" class="text-center">{{ "component.products.allergens.text" | translate }}</span>
+        <div class="flex justify-center flex-wrap gap-4 font-bold">
+          @if (currentLang() === 'es') {
+            @for (allergen of this.product().allergens.es; track $index) {
+              <span title="{{ allergen }}">{{ allergen }}</span>
+            }
+          } @else {
+            @for (allergen of this.product().allergens.en; track $index) {
+              <span title="{{ allergen }}">{{ allergen }}</span>
+            }
           }
-        } @else {
-          @for (allergen of this.theProduct().allergens.en; track $index) {
-            <span title="{{ allergen }}">{{ allergen }}</span>
+        </div>
+      }
+
+      <!-- FORMAT -->
+      @if (product().formats) {
+        <div class="flex gap-2">
+          @if (product().formats.s) {
+            <p-button
+              title="Small"
+              (click)="setFormat('S')"
+              type="button"
+              size="small"
+              label="{{ currentLang() === 'es' ? product().formats.s.es : product().formats.s.en  }}"
+              [outlined]="this.productFormat!=='S'"
+              [raised]="true"/>
           }
-        }
-      </div>
+
+          @if (product().formats.m) {
+            <p-button
+              title="Medium"
+              (click)="setFormat('M')"
+              type="button"
+              size="small"
+              label="{{ currentLang() === 'es' ? product().formats.m.es : product().formats.m.en  }}"
+              [outlined]="this.productFormat!=='M'"
+              [raised]="true"/>
+          }
+
+          @if (product().formats.l) {
+            <p-button
+              title="Large"
+              (click)="setFormat('L')"
+              type="button"
+              size="small"
+              label="{{ currentLang() === 'es' ? product().formats.l.es : product().formats.l.en  }}"
+              [outlined]="this.productFormat!=='L'"
+              [raised]="true"/>
+          }
+        </div>
+      }
+
+      <!-- PRICE -->
+      <app-product-price title="Price" [price]="this.productPrice"/>
+
+      <!-- ADD -->
+      <p-button
+        title="Add to Cart"
+        type="button"
+        icon="pi pi-plus"
+        [raised]="true"
+        size="small"
+        aria-label="Add to Cart"
+        (click)="addProductToCart()"/>
     </div>
   </p-dialog>
 }

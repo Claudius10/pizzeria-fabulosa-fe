@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass, NgOptimizedImage, UpperCasePipe} from '@angular/common';
+import {NgClass, NgOptimizedImage} from '@angular/common';
 import {CartService} from '../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {ProductDTO} from '../../../interfaces/dto/resources';
@@ -16,7 +16,6 @@ import {getDarkIcon, getLightIcon} from '../../../utils/functions';
     ProductPriceComponent,
     Dialog,
     TranslatePipe,
-    UpperCasePipe,
     NgOptimizedImage
   ],
   templateUrl: './product-item.component.html',
@@ -24,25 +23,22 @@ import {getDarkIcon, getLightIcon} from '../../../utils/functions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {
-  product = input<ProductDTO>();
+  product = input.required<ProductDTO>();
   private translateService = inject(TranslateService);
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   currentLang = signal(this.translateService.currentLang);
   productFormat = "";
   productPrice = 0;
-  allergensDialogVisible = false;
-  theProduct = signal<ProductDTO>(productPlaceholder());
+  dialogVisible = false;
 
   ngOnInit(): void {
-    this.theProduct.set(this.product()!);
-
-    if (this.theProduct().formats) {
-      this.productFormat = this.theProduct().formats.m === undefined ? "S" : "M";
+    if (this.product().formats) {
+      this.productFormat = this.product().formats.m === undefined ? "S" : "M";
     }
 
-    if (this.theProduct().prices) {
-      this.productPrice = this.theProduct().prices.m === undefined ? this.theProduct().prices.s : this.theProduct().prices.m;
+    if (this.product().prices) {
+      this.productPrice = this.product().prices.m === undefined ? this.product().prices.s : this.product().prices.m;
     }
 
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
@@ -54,32 +50,33 @@ export class ProductItemComponent implements OnInit {
 
   addProductToCart() {
     this.cartService.add({
-      id: this.theProduct().id + this.productFormat,
+      id: this.product().id + this.productFormat,
       formatCode: this.productFormat,
       images: {
-        dark: getDarkIcon(this.theProduct().type),
-        light: getLightIcon(this.theProduct().type)
+        dark: getDarkIcon(this.product().type),
+        light: getLightIcon(this.product().type)
       },
-      type: this.theProduct().type,
-      name: this.theProduct().name,
-      description: this.theProduct().description,
+      type: this.product().type,
+      name: this.product().name,
+      description: this.product().description,
       formats: {
         s: this.productFormat === "S" ? {
-          en: this.theProduct().formats.s.en,
-          es: this.theProduct().formats.s.es,
+          en: this.product().formats.s.en,
+          es: this.product().formats.s.es,
         } : null,
         m: this.productFormat === "M" ? {
-          en: this.theProduct().formats.m.en,
-          es: this.theProduct().formats.m.es,
+          en: this.product().formats.m.en,
+          es: this.product().formats.m.es,
         } : null,
         l: this.productFormat === "L" ? {
-          en: this.theProduct().formats.l.en,
-          es: this.theProduct().formats.l.es,
+          en: this.product().formats.l.en,
+          es: this.product().formats.l.es,
         } : null,
       },
       price: this.productPrice,
       quantity: 1,
     });
+    this.closeDialog();
   }
 
   setFormat(format: string) {
@@ -90,23 +87,23 @@ export class ProductItemComponent implements OnInit {
   private updatePrice(format: string) {
     switch (format) {
       case 'S':
-        this.productPrice = this.theProduct().prices.s;
+        this.productPrice = this.product().prices.s;
         break;
       case 'M':
-        this.productPrice = this.theProduct().prices.m;
+        this.productPrice = this.product().prices.m;
         break;
       case 'L':
-        this.productPrice = this.theProduct().prices.l;
+        this.productPrice = this.product().prices.l;
         break;
     }
   }
 
-  openAllergensDialog() {
-    this.allergensDialogVisible = true;
+  openDialog() {
+    this.dialogVisible = true;
   }
 
-  closeAllergensDialog() {
-    this.allergensDialogVisible = false;
+  closeDialog() {
+    this.dialogVisible = false;
   }
 }
 

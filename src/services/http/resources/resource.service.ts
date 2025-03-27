@@ -13,7 +13,8 @@ export class ResourceService {
   private isServer = !isPlatformBrowser(this.platformId);
   private resourcesHttpService = inject(ResourcesHttpService);
   private pageNumber = signal(1);
-  private pageSize = signal(3);
+  private pageSizePizzas = signal<number>(7);
+  private pageSize = signal<number>(8);
 
   findProducts(type: string): QueryResult {
     if (this.isServer) {
@@ -24,9 +25,11 @@ export class ResourceService {
       };
     }
 
+    const pageSize = type === 'pizza' ? this.pageSizePizzas() : this.pageSize();
+
     const query = injectQuery(() => ({
-      queryKey: [type, this.pageNumber() - 1, this.pageSize()],
-      queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(type, this.pageNumber() - 1, this.pageSize()))
+      queryKey: [type, this.pageNumber() - 1, pageSize],
+      queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(type, this.pageNumber() - 1, pageSize))
     }));
 
     return {
@@ -101,16 +104,17 @@ export class ResourceService {
     this.pageSize.set(pageSize);
   };
 
+  setPageSizePizzas = (pageSize: number): void => {
+    this.pageSizePizzas.set(pageSize);
+  };
+
   getPageNumber() {
     return this.pageNumber.asReadonly();
   }
 
-  getPageSize() {
-    return this.pageSize.asReadonly();
-  }
-
   resetProductListArgs() {
     this.pageNumber.set(1);
-    this.pageSize.set(3);
+    this.pageSizePizzas.set(7);
+    this.pageSize.set(8);
   }
 }

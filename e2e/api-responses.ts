@@ -50,7 +50,7 @@ export const pizzas = {
   "payload": [{
     "id": 1,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
@@ -62,7 +62,7 @@ export const pizzas = {
   }, {
     "id": 2,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Natura", "en": "Natura"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Calabacín", "Tomate Natural", "Parmesano"],
@@ -74,7 +74,7 @@ export const pizzas = {
   }, {
     "id": 3,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Cabra Loca", "en": "Cabra Loca"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Cebolla", "Bacon", "Queso de Cabra"],
@@ -86,7 +86,7 @@ export const pizzas = {
   }, {
     "id": 4,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Roni Pepperoni", "en": "Roni Pepperoni"},
     "description": {
       "es": ["Salsa de Tomate", "Doble de Mozzarella 100%", "Doble de Peperoni"],
@@ -98,7 +98,7 @@ export const pizzas = {
   }, {
     "id": 5,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Carbonara", "en": "Carbonara"},
     "description": {
       "es": ["Salsa de Nata", "Mozzarella 100%", "Cebolla", "Champiñon Fresco", "Doble de Bacon"],
@@ -110,7 +110,7 @@ export const pizzas = {
   }, {
     "id": 6,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Trufa Gourmet", "en": "Trufa Gourmet"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Calabacín", "Champiñon Fresco", "Pollo", "Aceite de Trufa"],
@@ -122,7 +122,7 @@ export const pizzas = {
   }, {
     "id": 7,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Mediterránea", "en": "Mediterránea"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Berenjena", "Calabacín", "Tomate Natural", "Aceitunas Negras"],
@@ -134,7 +134,7 @@ export const pizzas = {
   }, {
     "id": 8,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Caníbal", "en": "Caníbal"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni", "Ternera"],
@@ -146,7 +146,7 @@ export const pizzas = {
   }, {
     "id": 9,
     "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.png",
+    "image": "/assets/products/pizza/pizzaProduct.webp",
     "name": {"es": "Sin Gluten", "en": "Gluten Free"},
     "description": {
       "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni"],

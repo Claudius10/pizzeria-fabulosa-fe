@@ -1,11 +1,8 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-footer',
-  imports: [
-    TranslatePipe
-  ],
+  imports: [],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
