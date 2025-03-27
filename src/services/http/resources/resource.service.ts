@@ -25,11 +25,9 @@ export class ResourceService {
       };
     }
 
-    const pageSize = type === 'pizza' ? this.pageSizePizzas() : this.pageSize();
-
     const query = injectQuery(() => ({
-      queryKey: [type, this.pageNumber() - 1, pageSize],
-      queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(type, this.pageNumber() - 1, pageSize))
+      queryKey: [type, this.pageNumber() - 1, type === 'pizza' ? this.pageSizePizzas() : this.pageSize()],
+      queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(type, this.pageNumber() - 1, type === 'pizza' ? this.pageSizePizzas() : this.pageSize()))
     }));
 
     return {
