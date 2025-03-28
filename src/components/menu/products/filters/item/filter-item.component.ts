@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
-import {FilterService} from '../../../../services/filter/filter.service';
+import {FilterService} from '../../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
 
 @Component({

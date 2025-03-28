@@ -3,8 +3,8 @@ import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {TranslatePipe} from '@ngx-translate/core';
-import {myInput} from '../../../primeng/input';
-import {myIcon} from '../../../primeng/icon';
+import {myInput} from '../../../../primeng/input';
+import {myIcon} from '../../../../primeng/icon';
 
 @Component({
   selector: 'app-products-search',

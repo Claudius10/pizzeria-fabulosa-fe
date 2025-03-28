@@ -4,9 +4,9 @@ import {TranslatePipe, TranslateService} from "@ngx-translate/core";
 import {NgOptimizedImage} from "@angular/common";
 import {v4 as uuidv4} from 'uuid';
 import {CreateCustomPizzaComponent, CustomPizza} from '../create-custom-pizza/create-custom-pizza.component';
-import {CartService} from '../../../../services/cart/cart.service';
+import {CartService} from '../../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
-import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
+import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-custom-pizza',

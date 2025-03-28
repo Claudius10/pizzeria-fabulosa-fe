@@ -36,16 +36,6 @@
   width: 32rem;
 }
 
-@media (max-width: 1280px) {
-  .paginator {
-    width: 45vw;
-  }
-
-  .products {
-    justify-content: center;
-  }
-}
-
 @media (max-width: 929px) {
   .layout {
     flex-direction: column;
@@ -58,13 +48,8 @@
     flex-direction: column;
   }
 
-  .paginator {
-    width: 45vw;
-  }
-
   .products {
     width: 100%;
-    justify-content: center;
   }
 }
 
@@ -73,10 +58,6 @@
     flex-direction: column;
     align-items: center;
     width: 90vw;
-  }
-
-  .products {
-    justify-content: center;
   }
 
   .paginator {

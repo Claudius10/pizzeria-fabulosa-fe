@@ -68,6 +68,14 @@
   <p-confirmDialog/>
 }
 
+@if (order.status() === "success" && order.data()!.payload === null) {
+  <p class="text-center">
+    <span>{{ 'component.user.order.not.found.part-one' | translate }}</span>
+    {{ orderId }}
+    <span>{{ 'component.user.order.not.found.part-two' | translate }}</span>
+  </p>
+}
+
 @if (order.status() === "pending") {
   <!-- SKELETON -->
   <div class="flex flex-col gap-4 h-full">

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
-import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
+import {CheckoutFormService} from '../../services/checkout/checkout-form.service';
 import {Steps} from 'primeng/steps';
 import {Card} from 'primeng/card';
-import {SmallScreenStepsComponent} from '../steps/small-screen/small-screen-steps.component';
+import {SmallScreenStepsComponent} from './steps/small-screen/small-screen-steps.component';
 import {LangChangeEvent, TranslateService} from '@ngx-translate/core';
-import {CartComponent} from '../../cart/cart.component';
+import {CartComponent} from '../cart/cart.component';
 import {RouterOutlet} from '@angular/router';
 
 @Component({

@@ -1,26 +1,27 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ProductItemComponent} from '../products/product-item/product-item.component';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ResourceService} from '../../../services/http/resources/resource.service';
-import {ProductItemComponent} from '../product-item/product-item.component';
 import {QueryResult} from '../../../interfaces/query';
 import {ErrorService} from '../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
 import {ResponseDTO} from '../../../interfaces/http/api';
+import {ProductsFilterComponent} from '../products/filters/products-filter.component';
+import {ProductsSearchPipe} from '../products/search/search-pipe/products-search.pipe';
+import {ProductsSearchComponent} from '../products/search/products-search.component';
 import {FilterService} from '../../../services/filter/filter.service';
-import {ProductsSearchComponent} from '../search/products-search.component';
-import {ProductsSearchPipe} from '../search/search-pipe/products-search.pipe';
-import {ProductsFilterComponent} from '../filters/products-filter.component';
-import {getAllBeverageFilters} from '../../../utils/filter-items';
+import {getAllPizzaFilters} from '../../../utils/filter-items';
+import {CustomPizzaComponent} from './custom/custom-pizza/custom-pizza.component';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
 import {NgForOf} from '@angular/common';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {Skeleton} from 'primeng/skeleton';
 
-const DEFAULT_PAGE_MAX_SIZE = 8;
+const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
 
 @Component({
-  selector: 'app-beverage-list',
+  selector: 'app-pizza-list',
   host: {
     class: 'upper-layout',
   },
@@ -29,29 +30,32 @@ const DEFAULT_PAGE_MAX_SIZE = 8;
     ProductsFilterComponent,
     ProductItemComponent,
     ProductsSearchPipe,
+    CustomPizzaComponent,
+    ServerErrorComponent,
     ServerErrorComponent,
     Paginator,
-    NgForOf,
     Skeleton,
+    NgForOf
   ],
-  templateUrl: './beverage-list.component.html',
-  styleUrls: ['./beverage-list.component.scss'],
+  templateUrl: './pizza-list.component.html',
+  styleUrls: ['./pizza-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BeverageListComponent implements OnInit {
+export class PizzaListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   private resourceService = inject(ResourceService);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   protected filters = this.filterService.getFilters();
+  protected pageNumber = this.resourceService.getPageNumber();
   protected first = 0;
   protected totalElements = 0;
   protected maxItems = DEFAULT_PAGE_MAX_SIZE;
   protected currentElements = DEFAULT_PAGE_MAX_SIZE;
   protected skeletonCount = DEFAULT_PAGE_MAX_SIZE;
   protected pageSizeOptions: number[] = [DEFAULT_PAGE_MAX_SIZE];
-  protected query: QueryResult = this.resourceService.findProducts("beverage");
+  protected query: QueryResult = this.resourceService.findProducts("pizza");
   private statusObservable = toObservable(this.query.status);
 
   ngOnInit() {
@@ -106,7 +110,7 @@ export class BeverageListComponent implements OnInit {
 
     this.skeletonCount = this.countSkeletons();
     this.resourceService.setPageNumber(event.page === undefined ? 1 : event.page + 1);
-    this.resourceService.setPageSize(this.maxItems);
+    this.resourceService.setPageSizePizzas(this.maxItems);
   }
 
   private countSkeletons() {
@@ -117,5 +121,5 @@ export class BeverageListComponent implements OnInit {
     }
   }
 
-  protected readonly getAllBeverageFilters = getAllBeverageFilters;
+  protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

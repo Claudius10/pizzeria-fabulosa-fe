@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
 
 import {FilterListComponent} from './list/filter-list.component';
-import {FilterService} from '../../../services/filter/filter.service';
+import {FilterService} from '../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
-import {myInput} from '../../../primeng/input';
+import {myInput} from '../../../../primeng/input';
 import {Drawer} from 'primeng/drawer';
 import {PrimeTemplate} from 'primeng/api';
 import {animate, keyframes, style, transition, trigger} from '@angular/animations';

@@ -151,6 +151,8 @@
   "component.user.order.list.empty": "Tramita tu primer pedido y aparecerá aquí!",
   "component.user.order.note": "Nota importante:",
   "component.user.order.note.text": "el pedido se puede cancelar únicamente en los primeros diez minutos desde su creación.",
+  "component.user.order.not.found.part-one": "No se ha podido encontrar el pedido",
+  "component.user.order.not.found.part-two": "en nuestra base de datos. Si cree que esto es un error, contacte con nosotros.",
   "component.user.delete.form": "Cuenta borrada con éxito",
   "component.server.error.header": "Nuestros servidores no están disponibles en estos momentos",
   "component.server.error.footer": "Por favor inténtelo más tarde. Discúlpenos por las molestias ocasionadas.",

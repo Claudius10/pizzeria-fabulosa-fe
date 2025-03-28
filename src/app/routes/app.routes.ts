@@ -1,14 +1,14 @@
 import {Routes} from '@angular/router';
-import {PizzaListComponent} from '../../components/products/pizzas/pizza-list.component';
+import {PizzaListComponent} from '../../components/menu/pizzas/pizza-list.component';
 import {HomeComponent} from '../../components/home/home.component';
 import {RegisterComponent} from '../../components/register/register.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
-import {UserHomeComponent} from '../../components/user/home/user-home.component';
+import {UserHomeComponent} from '../../components/user/user-home.component';
 import {userCredentialsGuardGuard} from '../../components/user/guard/user-credentials-guard.guard';
 import {ProfileComponent} from '../../components/user/profile/profile.component';
 import {UserSettingsComponent} from '../../components/user/settings/user-settings.component';
-import {BeverageListComponent} from '../../components/products/beverages/beverage-list.component';
+import {BeverageListComponent} from '../../components/menu/beverages/beverage-list.component';
 import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
 import {StepThreeWhenComponent} from '../../components/checkout/steps/3-step-three-when/step-three-when.component';
@@ -20,7 +20,7 @@ import {NewOrderSuccessComponent} from '../../components/checkout/success/new-or
 import {ErrorComponent} from './error/error.component';
 import {OrderSummaryListComponent} from '../../components/user/orders/summary-list/list/order-summary-list.component';
 import {OrderComponent} from '../../components/user/orders/order-item/order.component';
-import {CheckoutFormComponent} from '../../components/checkout/form/checkout-form.component';
+import {CheckoutFormComponent} from '../../components/checkout/checkout-form.component';
 
 export const routes: Routes = [
   {

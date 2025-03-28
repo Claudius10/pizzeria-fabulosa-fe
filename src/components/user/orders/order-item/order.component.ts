@@ -85,8 +85,10 @@ export class OrderComponent implements OnInit {
           if (orderResponse.status.error && orderResponse.error) {
             this.errorService.handleError(orderResponse.error);
           } else {
-            const cart = this.order.data()!.payload.cart as CartDTO;
-            this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+            if (this.order.data()!.payload !== null) {
+              const cart = this.order.data()!.payload.cart as CartDTO;
+              this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+            }
           }
         }
       }

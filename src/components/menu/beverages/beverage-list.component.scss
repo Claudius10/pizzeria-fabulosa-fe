@@ -35,12 +35,6 @@
   width: 32rem;
 }
 
-@media (max-width: 1280px) {
-  .paginator {
-    width: 45vw;
-  }
-}
-
 @media (max-width: 929px) {
   .layout {
     flex-direction: column;
@@ -57,12 +51,7 @@
     align-items: center;
   }
 
-  .paginator {
-    width: 90vw;
-  }
-
   .products {
     width: 100%;
-    justify-content: center;
   }
 }
