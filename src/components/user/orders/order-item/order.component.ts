@@ -1,29 +1,32 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
-import {AuthService} from '../../../../services/auth/auth.service';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {CartService} from '../../../../services/cart/cart.service';
-import {OrderService} from '../../../../services/http/order/order.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
-import {QueryResult} from '../../../../interfaces/query';
+import {QueryResult} from '../../../../utils/interfaces/query';
 import {OrderAddressDetailsComponent} from './address-details/order-address-details.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
-import {CartDTO} from '../../../../interfaces/dto/order';
+import {CartDTO} from '../../../../utils/interfaces/dto/order';
 import {Card} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
-import {MutationResult} from '../../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../../utils/interfaces/mutation';
 import {CartComponent} from '../../../cart/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../../app/routes/error/server-no-response/server-error.component';
-import {UpperCasePipe} from '@angular/common';
+import {isPlatformBrowser, UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
-import {ResponseDTO} from '../../../../interfaces/http/api';
+import {ResponseDTO} from '../../../../utils/interfaces/http/api';
 import {isDst} from '../../../../utils/functions';
 import {Button} from 'primeng/button';
 import {UserDetailsComponent} from '../../details/user-details.component';
 import {Skeleton} from 'primeng/skeleton';
+import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {OrderHttpService} from '../../../../services/http/order/order-http.service';
+import {USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
+import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
 
 @Component({
   selector: 'app-order',
@@ -46,25 +49,31 @@ import {Skeleton} from 'primeng/skeleton';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
+  private orderHttpService = inject(OrderHttpService);
   private translateService = inject(TranslateService);
   private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
-  private orderService = inject(OrderService);
-  private authService = inject(AuthService);
+  private queryClient = inject(QueryClient);
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
-  order: QueryResult = this.orderService.findUserOrder({
-    id: this.orderId,
-    userId: this.authService.userId,
-    queryKey: ["user", "order", this.orderId.toString()]
-  });
-  orderStatus = toObservable(this.order.status);
-  delete: MutationResult = this.orderService.deleteUserOrder();
+  order: QueryResult = !this.isServer ? injectQuery(() => ({
+    queryKey: ["user", "order", this.orderId.toString()],
+    queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(this.orderId))
+  })) : tempQueryResult();
+  orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
+  delete: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.deleteUserOrder(this.orderId)),
+    onSuccess: () => {
+      this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+    }
+  }));
 
   ngOnInit(): void {
     const subscription = this.orderStatus.subscribe({
@@ -123,12 +132,7 @@ export class OrderComponent implements OnInit {
 
           this.loadingAnimationService.startLoading();
 
-          this.delete.mutate({
-              payload: {
-                userId: this.authService.userId,
-                orderId: this.order.data()!.payload.id
-              }
-            },
+          this.delete.mutate({payload: null},
             {
               onSuccess: (response: ResponseDTO) => {
                 if (response.status.error && response.error) {

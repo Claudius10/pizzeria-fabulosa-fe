@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {BASE, RESOURCE_BASE, RESOURCE_OFFER, RESOURCE_PRODUCT, RESOURCE_STORE, V1} from '../../../utils/api-routes';
 import {environment} from '../../../environments/environment';
 

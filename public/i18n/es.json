@@ -69,6 +69,7 @@
   "component.navigation.quick.link.beverages": "Bebidas",
   "component.navigation.quick.link.about": "Acerca de Pizzeria Fabulosa",
   "component.navigation.cart.drawer.header": "Cesta",
+  "component.pizzas.filter.result.empty": "Sin resultados",
   "component.products.filters.drawer.header": "Filtros",
   "component.cart.empty.text": "Tu cesta está vacía",
   "component.cart.total.offers": "Total con ofertas",

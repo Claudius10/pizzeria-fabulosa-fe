@@ -1,5 +1,5 @@
-import {ErrorDTO, ResponseDTO} from '../interfaces/http/api';
-import {QueryOnDemand, QueryResult} from '../interfaces/query';
+import {ErrorDTO, ResponseDTO} from './interfaces/http/api';
+import {QueryOnDemand, QueryResult} from './interfaces/query';
 import {signal} from '@angular/core';
 
 export function buildErrorResponse(): ResponseDTO {

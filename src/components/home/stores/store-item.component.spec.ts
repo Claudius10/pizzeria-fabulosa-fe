@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StoreItemComponent} from './store-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {StoreDTO} from '../../../interfaces/dto/resources';
+import {StoreDTO} from '../../../utils/interfaces/dto/resources';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 
 describe('StoreItemComponent', () => {

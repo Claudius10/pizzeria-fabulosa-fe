@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderDetailsComponent} from './order-details.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {OrderDetailsDTO} from '../../../../../interfaces/dto/order';
+import {OrderDetailsDTO} from '../../../../../utils/interfaces/dto/order';
 
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;

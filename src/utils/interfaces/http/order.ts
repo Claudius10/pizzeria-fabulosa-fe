@@ -42,17 +42,3 @@ export interface UserOrderFormData {
   orderDetails: OrderDetailsFormData;
   cart: CartFormData;
 }
-
-export interface UserOrderUpdateFormData extends UserOrderFormData {
-  createdOn: string;
-}
-
-export interface NewUserOrderFormData {
-  userId: string | null;
-  order: UserOrderFormData;
-}
-
-export interface UpdateUserOrderFormData extends NewUserOrderFormData {
-  orderId: number;
-  order: UserOrderUpdateFormData;
-}

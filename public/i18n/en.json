@@ -68,6 +68,7 @@
   "component.navigation.quick.link.home": "Home",
   "component.navigation.quick.link.beverages": "Beverages",
   "component.navigation.cart.drawer.header": "Cart",
+  "component.pizzas.filter.result.empty": "No results",
   "component.products.filters.drawer.header": "Filters",
   "component.cart.empty.text": "Your cart is empty",
   "component.cart.total.offers": "Total with offers",

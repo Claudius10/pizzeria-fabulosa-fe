@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, s
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
-import {ProductDTO} from '../../../../interfaces/dto/resources';
+import {ProductDTO} from '../../../../utils/interfaces/dto/resources';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';

@@ -1,12 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, input, OnDestroy} from '@angular/core';
-import {AddressDTO} from '../../../../../interfaces/dto/order';
+import {AddressDTO} from '../../../../../utils/interfaces/dto/order';
 import {Button} from 'primeng/button';
-import {UserService} from '../../../../../services/http/user/user.service';
-import {ResponseDTO} from '../../../../../interfaces/http/api';
-import {AuthService} from '../../../../../services/auth/auth.service';
+import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
-import {MutationResult, UserAddressDeleteMutationOptions} from '../../../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../../../utils/interfaces/mutation';
 import {TranslatePipe} from '@ngx-translate/core';
+import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
+import {UserHttpService} from '../../../../../services/http/user/user-http.service';
 
 @Component({
   selector: 'app-user-address-item',
@@ -20,9 +22,14 @@ import {TranslatePipe} from '@ngx-translate/core';
 })
 export class UserAddressItemComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
-  private deleteUserAddress: MutationResult = this.userService.deleteUserAddress();
+  private userHttpService = inject(UserHttpService);
+  private queryClient = inject(QueryClient);
+  private deleteUserAddress: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.deleteUserAddress(request.payload)),
+    onSuccess: () => {
+      this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
+    }
+  }));
   address = input.required<AddressDTO>();
 
   ngOnDestroy(): void {
@@ -32,16 +39,8 @@ export class UserAddressItemComponent implements OnDestroy {
   deleteAddress(id: number) {
     this.loadingAnimationService.startLoading();
 
-    const payload: UserAddressDeleteMutationOptions = {
-      userId: this.authService.userId!,
-      addressId: id.toString()
-    };
-
-    this.deleteUserAddress.mutate({
-      payload: payload
-    }, {
+    this.deleteUserAddress.mutate({payload: id.toString()}, {
       onSuccess: (response: ResponseDTO) => {
-        console.log(response);
       },
       onError: () => {
       },

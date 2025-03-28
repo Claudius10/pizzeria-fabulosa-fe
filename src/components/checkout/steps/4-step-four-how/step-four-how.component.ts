@@ -15,7 +15,7 @@ import {
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../utils/regex';
 import {Router} from '@angular/router';
-import {Option} from '../../../../interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';

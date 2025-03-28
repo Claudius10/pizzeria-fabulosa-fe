@@ -9,25 +9,27 @@ import {
   Validators
 } from '@angular/forms';
 import {emailRgx, esCharsRegex, numbersRegex, passwordRegex} from '../../utils/regex';
-import {RegisterForm} from '../../interfaces/http/account';
-import {AccountService} from '../../services/http/account/account.service';
+import {RegisterForm} from '../../utils/interfaces/http/account';
 import {isFormValid} from '../../utils/functions';
 import {Button} from 'primeng/button';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {AuthService} from '../../services/auth/auth.service';
-import {MutationResult} from '../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../utils/interfaces/mutation';
 import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {ResponseDTO} from '../../interfaces/http/api';
+import {ResponseDTO} from '../../utils/interfaces/http/api';
 import {ErrorService} from '../../services/error/error.service';
 import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
 import {Card} from 'primeng/card';
 import {myInput} from '../../primeng/input';
 import {myIcon} from '../../primeng/icon';
+import {injectMutation} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {AccountHttpService} from '../../services/http/account/account-http.service';
 
 @Component({
 
@@ -53,13 +55,16 @@ import {myIcon} from '../../primeng/icon';
 })
 export class RegisterComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private accountHttpService = inject(AccountHttpService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
-  private accountService = inject(AccountService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
   private router = inject(Router);
-  private register: MutationResult = this.accountService.create();
+  private register: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.create(request.payload))
+  }));
+
   showPassword = false;
   showMatchingPassword = false;
 

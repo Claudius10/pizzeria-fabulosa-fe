@@ -1,18 +1,19 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
-import {AuthService} from '../../../../../services/auth/auth.service';
 import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
-import {UserService} from '../../../../../services/http/user/user.service';
 import {Button} from 'primeng/button';
 import {UserAddressFormComponent} from '../address-form/user-address-form.component';
 import {UserAddressItemComponent} from '../user-address-item/user-address-item.component';
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {QueryResult} from '../../../../../interfaces/query';
+import {QueryResult} from '../../../../../utils/interfaces/query';
 import {ServerErrorComponent} from '../../../../../app/routes/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
-import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {UserHttpService} from '../../../../../services/http/user/user-http.service';
 
 @Component({
   selector: 'app-user-address-list',
@@ -29,14 +30,13 @@ import {ResponseDTO} from '../../../../../interfaces/http/api';
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private userHttpService = inject(UserHttpService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  private userService = inject(UserService);
-  private authService = inject(AuthService);
-  protected addressList: QueryResult = this.userService.findUserAddressList({
+  protected addressList: QueryResult = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
-    id: this.authService.userId!
-  });
+    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
+  }));
   addressListStatus = toObservable(this.addressList.status);
   showAddressForm = false;
 

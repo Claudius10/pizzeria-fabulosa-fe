@@ -8,16 +8,10 @@
   }
 
   <div class="container">
-
     <ul title="Pizza List" class="products flex flex-wrap gap-y-8 gap-x-8">
+
       @if (query.status() === "error") {
         <app-server-error/>
-      }
-
-      @if ((query.status() !== "error" || query.status() == "pending") && this.pageNumber() === 1) {
-        <li>
-          <app-custom-pizza/>
-        </li>
       }
 
       @if (query.status() === "pending") {
@@ -27,10 +21,24 @@
       }
 
       @if (query.status() === "success") {
-        @for (product of query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); track product.id) {
-          <li>
-            <app-product [product]="product"/>
-          </li>
+        @if (query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); as products) {
+          @if (products.length > 0) {
+
+            @if (this.page() === 1) {
+              <li>
+                <app-custom-pizza/>
+              </li>
+            }
+
+            @for (product of products; track product.id) {
+              <li>
+                <app-product [product]="product"/>
+              </li>
+            }
+
+          } @else {
+            <p class="text-2xl">{{ 'component.pizzas.filter.result.empty' | translate }}</p>
+          }
         }
       }
     </ul>
@@ -40,9 +48,8 @@
         title="Paginator"
         (onPageChange)="onPageChange($event)"
         [first]="first"
-        [rows]="maxItems"
-        [totalRecords]="totalElements"
-        [rowsPerPageOptions]="pageSizeOptions"/>
+        [rows]="7"
+        [totalRecords]="totalElements"/>
     </div>
   </div>
 

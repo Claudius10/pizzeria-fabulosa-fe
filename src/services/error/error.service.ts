@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {ErrorDTO} from '../../interfaces/http/api';
+import {ErrorDTO} from '../../utils/interfaces/http/api';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslateService} from '@ngx-translate/core';

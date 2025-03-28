@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AccountService} from '../../../../services/http/account/account.service';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {DeleteAccountForm} from '../../../../interfaces/http/account';
 import {Router} from '@angular/router';
-import {MutationResult} from '../../../../interfaces/mutation';
-import {ResponseDTO} from '../../../../interfaces/http/api';
+import {MutationRequest, MutationResult} from '../../../../utils/interfaces/mutation';
+import {ResponseDTO} from '../../../../utils/interfaces/http/api';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
@@ -18,6 +16,9 @@ import {UpperCasePipe} from '@angular/common';
 import {MessageService} from 'primeng/api';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
+import {injectMutation} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {AccountHttpService} from '../../../../services/http/account/account-http.service';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -36,13 +37,16 @@ import {myIcon} from '../../../../primeng/icon';
 })
 export class UserDeleteFormComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private accountHttpService = inject(AccountHttpService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
-  private accountService = inject(AccountService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private delete: MutationResult = this.accountService.delete();
+  private delete: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
+  }));
+
   showPassword = false;
 
   togglePassword() {
@@ -65,12 +69,7 @@ export class UserDeleteFormComponent implements OnDestroy {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      const data: DeleteAccountForm = {
-        userId: this.authService.userId!,
-        password: this.form.get("password")!.value
-      };
-
-      this.delete.mutate({payload: data}, {
+      this.delete.mutate({payload: this.form.get("password")!.value}, {
         onSuccess: (response: ResponseDTO) => {
           if (response.status.error && response.error) {
             this.errorService.handleError(response.error);

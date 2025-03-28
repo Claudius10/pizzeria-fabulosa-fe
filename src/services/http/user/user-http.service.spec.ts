@@ -4,7 +4,7 @@ import {UserHttpService} from './user-http.service';
 import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {firstValueFrom} from 'rxjs';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {BASE, USER_ADDRESS, USER_BASE, V1} from '../../../utils/api-routes';
 import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 

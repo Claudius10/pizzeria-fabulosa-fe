@@ -1,7 +1,7 @@
 import {ProductsSearchPipe} from './products-search.pipe';
 import {TestBed} from '@angular/core/testing';
 import {TranslateService} from '@ngx-translate/core';
-import {ProductDTO} from '../../../../../interfaces/dto/resources';
+import {ProductDTO} from '../../../../../utils/interfaces/dto/resources';
 import {Filter} from '../../../../../services/filter/filter.service';
 
 describe('ProductsSearchPipe', () => {

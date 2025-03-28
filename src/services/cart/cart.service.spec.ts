@@ -1,6 +1,6 @@
 import {TestBed} from '@angular/core/testing';
 
-import {CartItemDTO} from '../../interfaces/dto/order';
+import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {CartService} from './cart.service';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {COOKIE_CART} from '../../utils/constants';

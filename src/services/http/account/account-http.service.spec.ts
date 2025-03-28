@@ -13,9 +13,9 @@ import {
   USER_BASE,
   V1
 } from '../../../utils/api-routes';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {DeleteAccountForm, RegisterForm} from '../../../interfaces/http/account';
+import {DeleteAccountForm, RegisterForm} from '../../../utils/interfaces/http/account';
 import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 
 describe('AccountHttpServiceTest', () => {

@@ -4,7 +4,7 @@ import {ResourcesHttpService} from './resources-http.service';
 import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {BASE, RESOURCE_BASE, RESOURCE_OFFER, RESOURCE_PRODUCT, RESOURCE_STORE, V1} from '../../../utils/api-routes';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
 import {buildResponse} from '../../../utils/test-utils';
 
@@ -32,7 +32,7 @@ describe('ResourcesHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.findProducts(type);
+    const response$ = service.findProducts(type, 1, 5);
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const req = httpTesting.expectOne(url);
     const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");

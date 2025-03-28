@@ -7,12 +7,11 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} fr
 import {StoreCheckoutComponent} from '../store/store-checkout.component';
 import {AddressId, CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../utils/regex';
-import {ResourceService} from '../../../../services/http/resources/resource.service';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
-import {Option} from '../../../../interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/forms/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
-import {QueryOnDemand} from '../../../../interfaces/query';
+import {QueryOnDemand} from '../../../../utils/interfaces/query';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -24,7 +23,10 @@ import {LoadingAnimationService} from '../../../../services/animation/loading-an
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 import {SUCCESS} from '../../../../utils/constants';
-import {ResponseDTO} from '../../../../interfaces/http/api';
+import {ResponseDTO} from '../../../../utils/interfaces/http/api';
+import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {firstValueFrom} from 'rxjs';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -48,19 +50,27 @@ import {ResponseDTO} from '../../../../interfaces/http/api';
 })
 export class StepTwoWhereComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private resourcesHttpService = inject(ResourcesHttpService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private resourceService = inject(ResourceService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-  stores: QueryOnDemand = this.resourceService.findStoresOnDemand({queryKey: RESOURCE_STORES});
+
+  stores: QueryOnDemand = injectQuery(() => ({
+    queryKey: [RESOURCE_STORES],
+    queryFn: () => firstValueFrom(this.resourcesHttpService.findStores()),
+    enabled: false
+  }));
+
   storesStatus = toObservable(this.stores.status);
+
   options: Option[] = [
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
   ];
+
   selectedOption: Option = this.options[0];
   validStoreOrAddressSelection = true;
 
@@ -150,6 +160,7 @@ export class StepTwoWhereComponent implements OnInit {
   setSelectedId(address: AddressId): void {
     this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
     this.validStoreOrAddressSelection = true;
+    console.log(this.checkoutFormService.selectedAddress);
   }
 
   private saveFormValues() {

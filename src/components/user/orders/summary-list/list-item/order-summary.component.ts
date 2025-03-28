@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
-import {OrderSummaryDTO} from '../../../../../interfaces/dto/order';
+import {OrderSummaryDTO} from '../../../../../utils/interfaces/dto/order';
 import {RouterLink} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Button} from 'primeng/button';

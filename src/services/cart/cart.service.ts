@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {CartItemDTO} from '../../interfaces/dto/order';
+import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
 import {COOKIE_CART, COOKIE_LIFE_30_DAYS, COOKIE_PATH} from '../../utils/constants';

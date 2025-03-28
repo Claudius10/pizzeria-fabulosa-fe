@@ -5,7 +5,7 @@ import {InputText} from "primeng/inputtext";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
-import {Option} from '../../../../interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/forms/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';

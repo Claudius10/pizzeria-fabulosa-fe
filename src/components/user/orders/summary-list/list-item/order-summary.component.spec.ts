@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderSummaryComponent} from './order-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {CartSummaryDTO, OrderSummaryDTO} from '../../../../../interfaces/dto/order';
+import {CartSummaryDTO, OrderSummaryDTO} from '../../../../../utils/interfaces/dto/order';
 import {getMockOrderDetails} from '../../order-item/order-details/order-details.component.spec';
 import {provideRouter} from '@angular/router';
 

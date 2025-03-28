@@ -1,16 +1,18 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
-import {AddressDTO, OrderDetailsDTO} from '../../../../../interfaces/dto/order';
+import {AddressDTO, OrderDetailsDTO} from '../../../../../utils/interfaces/dto/order';
 import {TranslatePipe} from '@ngx-translate/core';
-import {StoreDTO} from '../../../../../interfaces/dto/resources';
-import {QueryOnDemand} from '../../../../../interfaces/query';
+import {StoreDTO} from '../../../../../utils/interfaces/dto/resources';
+import {QueryOnDemand} from '../../../../../utils/interfaces/query';
 import {RESOURCE_STORES} from '../../../../../utils/query-keys';
-import {ResourceService} from '../../../../../services/http/resources/resource.service';
 import {StoreCheckoutComponent} from '../../../../checkout/steps/store/store-checkout.component';
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ERROR, SUCCESS} from '../../../../../utils/constants';
-import {ResponseDTO} from '../../../../../interfaces/http/api';
+import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {firstValueFrom} from 'rxjs';
+import {ResourcesHttpService} from '../../../../../services/http/resources/resources-http.service';
 
 @Component({
   selector: 'order-address-details',
@@ -27,10 +29,16 @@ export class OrderAddressDetailsComponent implements OnInit {
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourceService = inject(ResourceService);
+  private resourcesHttpService = inject(ResourcesHttpService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  stores: QueryOnDemand = this.resourceService.findStoresOnDemand({queryKey: RESOURCE_STORES});
+
+  protected stores: QueryOnDemand = injectQuery(() => ({
+    queryKey: [RESOURCE_STORES],
+    queryFn: () => firstValueFrom(this.resourcesHttpService.findStores()),
+    enabled: false
+  }));
+
   selectedStore = signal<StoreDTO | null>(null);
 
   ngOnInit(): void {

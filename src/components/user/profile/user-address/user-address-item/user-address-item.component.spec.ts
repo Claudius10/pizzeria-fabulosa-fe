@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserAddressItemComponent} from './user-address-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {AddressDTO} from '../../../../../interfaces/dto/order';
+import {AddressDTO} from '../../../../../utils/interfaces/dto/order';
 import {UserService} from '../../../../../services/http/user/user.service';
 
 describe('AddressItemComponent', () => {

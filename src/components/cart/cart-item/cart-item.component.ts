@@ -1,5 +1,5 @@
 import {Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {CartItemDTO} from '../../../interfaces/dto/order';
+import {CartItemDTO} from '../../../utils/interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';

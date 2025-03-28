@@ -2,11 +2,10 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/co
 import {Button} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
-import {AccountService} from '../../../services/http/account/account.service';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginForm} from '../../../interfaces/http/account';
+import {LoginForm} from '../../../utils/interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
-import {MutationResult} from '../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../utils/interfaces/mutation';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
@@ -21,7 +20,10 @@ import {CheckoutFormService} from '../../../services/checkout/checkout-form.serv
 import {myIcon} from '../../../primeng/icon';
 import {COOKIE_ID_TOKEN} from '../../../utils/constants';
 import {emailRgx} from '../../../utils/regex';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
+import {injectMutation} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {AccountHttpService} from '../../../services/http/account/account-http.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -43,15 +45,17 @@ import {ResponseDTO} from '../../../interfaces/http/api';
 export class LoginDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
+  private accountHttpService = inject(AccountHttpService);
   private translateService = inject(TranslateService);
   private cookieService = inject(SsrCookieService);
   private messageService = inject(MessageService);
-  private accountService = inject(AccountService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  private login: MutationResult = this.accountService.login();
+  private login: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload))
+  }));
   showPassword = false;
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.loginDialog;

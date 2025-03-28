@@ -1,12 +1,11 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {ProductItemComponent} from '../products/product-item/product-item.component';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {ResourceService} from '../../../services/http/resources/resource.service';
-import {QueryResult} from '../../../interfaces/query';
+import {QueryResult} from '../../../utils/interfaces/query';
 import {ErrorService} from '../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {ProductsFilterComponent} from '../products/filters/products-filter.component';
 import {ProductsSearchPipe} from '../products/search/search-pipe/products-search.pipe';
 import {ProductsSearchComponent} from '../products/search/products-search.component';
@@ -14,9 +13,16 @@ import {FilterService} from '../../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../utils/filter-items';
 import {CustomPizzaComponent} from './custom/custom-pizza/custom-pizza.component';
 import {ServerErrorComponent} from '../../../app/routes/error/server-no-response/server-error.component';
-import {NgForOf} from '@angular/common';
+import {isPlatformBrowser, NgForOf} from '@angular/common';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {Skeleton} from 'primeng/skeleton';
+import {ActivatedRoute, Router} from '@angular/router';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {lastValueFrom} from 'rxjs';
+import {ResourcesHttpService} from '../../../services/http/resources/resources-http.service';
+import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
+import {RESOURCE_PIZZA, RESOURCE_PRODUCT_PIZZA} from '../../../utils/query-keys';
+import {TranslatePipe} from '@ngx-translate/core';
 
 const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
 
@@ -35,30 +41,40 @@ const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
     ServerErrorComponent,
     Paginator,
     Skeleton,
-    NgForOf
+    NgForOf,
+    TranslatePipe
   ],
   templateUrl: './pizza-list.component.html',
   styleUrls: ['./pizza-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PizzaListComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
+  private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourceService = inject(ResourceService);
+  private resourcesHttpService = inject(ResourcesHttpService);
+  private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   protected filters = this.filterService.getFilters();
-  protected pageNumber = this.resourceService.getPageNumber();
-  protected first = 0;
+  private currentElements = DEFAULT_PAGE_MAX_SIZE;
+  protected skeletonCount = 8;
   protected totalElements = 0;
-  protected maxItems = DEFAULT_PAGE_MAX_SIZE;
-  protected currentElements = DEFAULT_PAGE_MAX_SIZE;
-  protected skeletonCount = DEFAULT_PAGE_MAX_SIZE;
-  protected pageSizeOptions: number[] = [DEFAULT_PAGE_MAX_SIZE];
-  protected query: QueryResult = this.resourceService.findProducts("pizza");
-  private statusObservable = toObservable(this.query.status);
+  protected first = 0;
+  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+
+  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
+    queryKey: [...RESOURCE_PRODUCT_PIZZA, this.page() - 1],
+    queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+  })) : tempQueryResult();
+
+  private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
   ngOnInit() {
+    this.first = (this.page() - 1) * DEFAULT_PAGE_MAX_SIZE;
+
     const subscription = this.statusObservable.subscribe({
         next: result => {
           if (result === PENDING) {
@@ -78,18 +94,6 @@ export class PizzaListComponent implements OnInit {
             } else {
               this.totalElements = response.payload.totalElements;
               this.currentElements = response.payload.productList.length;
-
-              if (this.totalElements > DEFAULT_PAGE_MAX_SIZE && this.totalElements <= 10) {
-                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10];
-              }
-
-              if (this.totalElements > 10 && this.totalElements < 20) {
-                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20];
-              }
-
-              if (this.totalElements > 20) {
-                this.pageSizeOptions = [DEFAULT_PAGE_MAX_SIZE, 10, 20, 30];
-              }
             }
           }
         }
@@ -100,21 +104,19 @@ export class PizzaListComponent implements OnInit {
       subscription.unsubscribe();
       this.loadingAnimationService.stopLoading();
       this.filterService.clear();
-      this.resourceService.resetProductListArgs();
     });
   }
 
   onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
-    this.maxItems = event.rows ?? DEFAULT_PAGE_MAX_SIZE;
-
+    const page = event.page === undefined ? 1 : event.page + 1;
     this.skeletonCount = this.countSkeletons();
-    this.resourceService.setPageNumber(event.page === undefined ? 1 : event.page + 1);
-    this.resourceService.setPageSizePizzas(this.maxItems);
+    this.page.set(page);
+    this.router.navigate(["pizzas"], {queryParams: {page: page}});
   }
 
   private countSkeletons() {
-    if (this.maxItems > this.totalElements) {
+    if (DEFAULT_PAGE_MAX_SIZE > this.totalElements) {
       return this.totalElements;
     } else {
       return this.totalElements - this.currentElements;

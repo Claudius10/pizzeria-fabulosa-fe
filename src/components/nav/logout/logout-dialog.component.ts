@@ -1,8 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {MutationResult} from '../../../interfaces/mutation';
+import {MutationRequest, MutationResult} from '../../../utils/interfaces/mutation';
 import {MessageService} from 'primeng/api';
-import {AccountService} from '../../../services/http/account/account.service';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth/auth.service';
 import {DialogModule} from 'primeng/dialog';
@@ -10,10 +9,12 @@ import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
-import {QueryClient} from '@tanstack/angular-query-experimental';
+import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
+import {lastValueFrom} from 'rxjs';
+import {AccountHttpService} from '../../../services/http/account/account-http.service';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -30,15 +31,18 @@ import {ErrorService} from '../../../services/error/error.service';
 export class LogoutDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
+  private accountHttpService = inject(AccountHttpService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
-  private accountService = inject(AccountService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  private logoutUser: MutationResult = this.accountService.logout();
+  private logoutUser: MutationResult = injectMutation(() => ({
+    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.logout())
+  }));
+
   // visible provides hiding dialog on esc key press
   visible: boolean = this.authService.logoutDialog;
 

@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {DeleteAccountForm, LoginForm, RegisterForm} from '../../../interfaces/http/account';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {LoginForm, RegisterForm} from '../../../utils/interfaces/http/account';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {
   ANON_BASE,
   ANON_REGISTER,
@@ -13,14 +13,15 @@ import {
   V1
 } from '../../../utils/api-routes';
 import {of} from 'rxjs';
-import {ensureId} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
 import {buildErrorResponse} from '../../../utils/test-utils';
+import {AuthService} from '../../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountHttpService {
+  private authService = inject(AuthService);
   private httpClient = inject(HttpClient);
   private PATH = environment.url;
 
@@ -46,12 +47,11 @@ export class AccountHttpService {
     return this.httpClient.post<ResponseDTO>(`${this.PATH + BASE + V1 + ANON_BASE + ANON_REGISTER}`, data);
   }
 
-  public delete(data: DeleteAccountForm) {
-    const result = ensureId([data.userId!]);
+  public delete(password: string) {
+    const userId = this.authService.userId;
+    if (userId === null) return of(buildErrorResponse());
 
-    if (!result) return of(buildErrorResponse());
-
-    return this.httpClient.delete<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}?id=${data.userId}&password=${data.password}`,
+    return this.httpClient.delete<ResponseDTO>(`${this.PATH + BASE + V1 + USER_BASE}?id=${userId}&password=${password}`,
       {withCredentials: true});
   }
 }

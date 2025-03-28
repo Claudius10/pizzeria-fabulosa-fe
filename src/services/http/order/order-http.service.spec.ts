@@ -3,11 +3,11 @@ import {OrderHttpService} from './order-http.service';
 import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
 import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} from '../../../utils/api-routes';
-import {ResponseDTO} from '../../../interfaces/http/api';
+import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {AnonOrderFormData, NewUserOrderFormData} from '../../../interfaces/http/order';
-import {BaseQueryOptionsIdAndUser} from '../../../interfaces/query';
-import {UserOrderDeleteMutationOptions} from '../../../interfaces/mutation';
+import {AnonOrderFormData, NewUserOrderFormData} from '../../../utils/interfaces/http/order';
+import {BaseQueryOptionsIdAndUser} from '../../../utils/interfaces/query';
+import {UserOrderDeleteMutationOptions} from '../../../utils/interfaces/mutation';
 import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
 
 describe('OrderHttpServiceTest', () => {
@@ -166,7 +166,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.findOrderSummaryList(userId, pageNumber, pageSize);
+    const response$ = service.findOrderSummaryList(pageNumber);
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const req = httpTesting.expectOne(url);
     const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");
@@ -188,7 +188,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.findOrderSummaryList(userId, pageNumber, pageSize);
+    const response$ = service.findOrderSummaryList(pageNumber);
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
 
     // Assert
@@ -209,7 +209,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.findUserOrder(options);
+    const response$ = service.findUserOrder("1");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const req = httpTesting.expectOne(url);
     const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");
@@ -233,7 +233,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.findUserOrder(options);
+    const response$ = service.findUserOrder("1");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
 
 
@@ -254,7 +254,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.deleteUserOrder(data);
+    const response$ = service.deleteUserOrder("1");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const req = httpTesting.expectOne(url);
     const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");
@@ -277,7 +277,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.deleteUserOrder(data);
+    const response$ = service.deleteUserOrder("1");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
 
     // Assert
