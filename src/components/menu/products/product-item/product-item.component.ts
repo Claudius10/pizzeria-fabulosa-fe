@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass, NgOptimizedImage} from '@angular/common';
+import {NgClass, NgOptimizedImage, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {ProductDTO} from '../../../../utils/interfaces/dto/resources';
@@ -16,7 +16,8 @@ import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
     ProductPriceComponent,
     Dialog,
     TranslatePipe,
-    NgOptimizedImage
+    NgOptimizedImage,
+    UpperCasePipe
   ],
   templateUrl: './product-item.component.html',
   styleUrls: ['./product-item.component.scss'],

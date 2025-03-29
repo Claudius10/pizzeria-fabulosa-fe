@@ -99,8 +99,8 @@ test.describe('Render', () => {
 
   test('ShowActionButtons', async ({page}) => {
     await expect(page.getByRole('button', {name: 'RESET'})).toBeVisible();
-    await expect(page.getByRole('button', {name: 'ADD'})).toBeVisible();
-    await expect(page.getByRole('button', {name: 'ADD'})).toBeDisabled();
+    await expect(page.getByLabel('Personalize however you like!').getByRole('button', {name: 'ADD'})).toBeVisible();
+    await expect(page.getByLabel('Personalize however you like!').getByRole('button', { name: 'ADD' })).toBeDisabled();
   });
 
   test('ShowInformativeButtons', async ({page}) => {
@@ -968,7 +968,7 @@ test.describe('Add', () => {
 
     // Arrange
 
-    const add = page.getByRole('button', {name: 'ADD'});
+    const add = page.getByLabel('Personalize however you like!').getByRole('button', { name: 'ADD' });
     const large = page.getByLabel('Personalize however you like!').getByRole('button', {name: 'Large'});
     const tomatoSauce = page.getByRole('button', {name: 'Tomato Sauce', exact: true});
     const doubleMozzarella = page.getByRole('button', {name: 'Double 100% Mozzarella', exact: true});
@@ -1005,7 +1005,7 @@ test.describe('Add', () => {
 
     // Arrange
 
-    const add = page.getByRole('button', {name: 'ADD'});
+    const add = page.getByLabel('Personalize however you like!').getByRole('button', { name: 'ADD' });
     const large = page.getByLabel('Personalize however you like!').getByRole('button', {name: 'Large'});
     const tomatoSauce = page.getByRole('button', {name: 'Tomato Sauce', exact: true});
     const doubleMozzarella = page.getByRole('button', {name: 'Double 100% Mozzarella', exact: true});
@@ -1050,7 +1050,7 @@ test.describe('Add', () => {
 
     // Arrange
 
-    const add = page.getByRole('button', {name: 'ADD'});
+    const add = page.getByLabel('Personalize however you like!').getByRole('button', { name: 'ADD' });
     const medium = page.getByLabel('Personalize however you like!').getByRole('button', {name: 'Medium'});
     const creamSauce = page.getByRole('button', {name: 'Cream Sauce', exact: true});
     const mozzarella = page.getByRole('button', {name: '100% Mozzarella', exact: true});

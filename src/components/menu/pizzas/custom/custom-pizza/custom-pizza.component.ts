@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Dialog} from "primeng/dialog";
 import {TranslatePipe, TranslateService} from "@ngx-translate/core";
-import {NgOptimizedImage} from "@angular/common";
+import {NgOptimizedImage, UpperCasePipe} from "@angular/common";
 import {v4 as uuidv4} from 'uuid';
 import {CreateCustomPizzaComponent, CustomPizza} from '../create-custom-pizza/create-custom-pizza.component';
 import {CartService} from '../../../../../services/cart/cart.service';
@@ -10,13 +10,14 @@ import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-custom-pizza',
-  imports: [
-    TranslatePipe,
-    Button,
-    Dialog,
-    CreateCustomPizzaComponent,
-    NgOptimizedImage
-  ],
+    imports: [
+        TranslatePipe,
+        Button,
+        Dialog,
+        CreateCustomPizzaComponent,
+        NgOptimizedImage,
+        UpperCasePipe
+    ],
   templateUrl: './custom-pizza.component.html',
   styleUrl: './custom-pizza.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

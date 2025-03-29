@@ -20,7 +20,7 @@ test.describe('Render', () => {
     // Arrange
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
 
     const beveragesLink = page.getByRole('button', {name: 'Beverages'});
     const cartButton = page.getByTitle('Cart', {exact: true});
@@ -72,7 +72,7 @@ test.describe('Render', () => {
     // Arrange
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
 
     const cartButton = page.getByTitle('Cart', {exact: true});
 
@@ -114,7 +114,7 @@ test.describe('Render', () => {
     // Arrange
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByTitle('Cart', {exact: true});
 
     // Act
@@ -158,7 +158,7 @@ test.describe('Render', () => {
     // Arrange
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
 
     const cartButton = page.getByTitle('Cart', {exact: true});
 
@@ -213,7 +213,7 @@ test.describe('Render', () => {
     const productTwoDetails = page.getByTitle('Caníbal Details').getByRole('button');
     const productThreeDetails = page.getByTitle('Coca-Cola Zero Details').getByRole('button');
 
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const productLargeFormat = page.getByRole('button', {name: 'Large'});
 
     const beveragesLink = page.getByRole('button', {name: 'Beverages'});
@@ -289,7 +289,7 @@ test.describe('Render', () => {
     const productThreeDetails = page.getByTitle('Coca-Cola Zero Details').getByRole('button');
     const productLargeFormat = page.getByRole('button', {name: 'Large'});
     const beverageLargeFormat = page.getByRole('button', {name: '330ML'});
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
 
     const cartButton = page.getByTitle('Cart', {exact: true});
 
@@ -384,7 +384,7 @@ test.describe('Quantity Changes', () => {
 
     const productOneDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const productTwoDetails = page.getByTitle('Caníbal Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByTitle('Cart', {exact: true});
 
     await productOneDetails.click();
@@ -601,7 +601,7 @@ test.describe('Button', () => {
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productOneDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByTitle('Cart', {exact: true});
 
     await productOneDetails.click();

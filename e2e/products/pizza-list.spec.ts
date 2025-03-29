@@ -67,7 +67,7 @@ test.describe('API OK', () => {
     await expect(page.getByRole('button', {name: 'Medium'})).toBeVisible();
     await expect(page.getByRole('button', {name: 'Large'})).toBeVisible();
     await expect(page.getByRole('button', {name: '14.75€'})).toBeVisible();
-    await expect(page.getByLabel('Add to Cart').getByRole('button')).toBeVisible();
+    await expect(page.getByLabel('Gluten Free').getByRole('button', {name: 'ADD'})).toBeVisible();
 
     await closeButton.click();
     await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();

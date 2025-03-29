@@ -28,9 +28,8 @@
   <p-button
     class="pb-2"
     title="{{product().name.en}} Details"
-    aria-label="Open {{product().name.en}} Details"
     type="button"
-    icon="pi pi-plus"
+    label="{{'button.custom.pizza.add' | translate | uppercase}}"
     [raised]="true"
     size="small"
     (click)="dialogVisibility(true)"/>
@@ -131,10 +130,9 @@
     <p-button
       title="Add to Cart"
       type="button"
-      icon="pi pi-plus"
+      label="{{'button.custom.pizza.add' | translate | uppercase}}"
       [raised]="true"
       size="small"
-      aria-label="Add to Cart"
       (click)="addProductToCart(product())"/>
   </div>
 </p-dialog>

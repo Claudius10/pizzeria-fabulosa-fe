@@ -12,7 +12,7 @@ test.describe('Render: Large Screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await productDetails.click();
@@ -213,7 +213,7 @@ test.describe('Render: Small screen', () => {
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await productDetails.click();
@@ -277,7 +277,7 @@ test.describe('Buttons', () => {
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
-    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
+    const addProduct = page.getByTitle('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
     await productDetails.click();
