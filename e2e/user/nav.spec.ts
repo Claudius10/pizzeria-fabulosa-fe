@@ -40,7 +40,7 @@ test.describe('Routes', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
+    await expect(page).toHaveURL('/user/orders');
   });
 
   test('givenClickOnSettings_goToSettings', async ({page}) => {
@@ -55,7 +55,7 @@ test.describe('Routes', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/settings');
+    await expect(page).toHaveURL('/user/settings');
   });
 
   test('givenClickOnProfile_whenOnSettings_goToProfile', async ({page}) => {
@@ -72,6 +72,6 @@ test.describe('Routes', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/profile');
+    await expect(page).toHaveURL('/user/profile');
   });
 });

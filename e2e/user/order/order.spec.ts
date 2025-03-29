@@ -239,7 +239,93 @@ test.describe('Cancel', () => {
 
     // Arrange
 
-    // fulfill initial order GET
+    await page.route('*/**/api/v1/user/58/order/1', async route => {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          json: {
+            "timeStamp": "2025-03-16T10:49:39.545213687",
+            "status": {"code": 200, "description": "OK", "error": false},
+            "payload": {
+              "id": 1,
+              "createdOn": Date.now(), // NOTE
+              "updatedOn": null,
+              "formattedCreatedOn": Date.now().toString(),
+              "formattedUpdatedOn": null,
+              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+              "orderDetails": {
+                "id": 1,
+                "deliveryTime": "form.select.time.asap",
+                "paymentMethod": "form.select.payment.method.card",
+                "billToChange": null,
+                "changeToGive": null,
+                "comment": null,
+                "storePickUp": false,
+              },
+              "cart": {
+                "id": 1,
+                "totalQuantity": 1,
+                "totalCost": 13.3,
+                "totalCostOffers": 0.0,
+                "cartItems": [{
+                  "id": 41,
+                  "type": "pizza",
+                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+                  "description": {
+                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+                  },
+                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+                  "price": 13.3,
+                  "quantity": 1
+                }]
+              }
+            },
+            "error": null
+          }
+        });
+      }
+
+      if (route.request().method() === 'DELETE') {
+        await route.fulfill({json: userOrderDeleteOk});
+      }
+    });
+
+    await page.goto('/user/orders/1');
+
+    await expect(page).toHaveURL('/user/orders/1');
+
+    const cancelButton = page.getByRole("button", {name: 'Cancel'});
+    await cancelButton.click();
+
+    const noButton = page.getByRole("button", {name: 'No'});
+    const yesButton = page.getByRole("button", {name: 'Yes'});
+    const closeButton = page.getByLabel('Confirmation').getByRole('button').filter({hasNotText: 'Yes'}).filter({hasNotText: 'No'});
+
+    await expect(page.getByText('Confirmation')).toBeVisible();
+    await expect(page.getByText('Do you wish to cancel the order?')).toBeVisible();
+    await expect(yesButton).toBeVisible();
+    await expect(noButton).toBeVisible();
+    await expect(closeButton).toBeVisible();
+
+    // Act
+
+    await yesButton.click();
+
+    // Assert
+
+    await expect(page.getByRole('alert').getByText('Information')).toBeVisible();
+    await expect(page.getByRole('alert').getByText('Order successfully cancelled. Redirecting in 2 seconds...')).toBeVisible();
+    await page.waitForURL('http://192.168.1.128:4200/user/orders');
+    await expect(page.getByText('Profile')).toBeVisible();
+    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
+  });
+
+  test('givenOrderDelete_whenNotAllowed_thenShowWarning', async ({page}) => {
+
+    // Arrange
+
+    const after = new Date(Date.now() - 4260000);
+
     await page.route('*/**/api/v1/user/58/order/1', async route => {
       await route.fulfill({
         json: {
@@ -247,9 +333,9 @@ test.describe('Cancel', () => {
           "status": {"code": 200, "description": "OK", "error": false},
           "payload": {
             "id": 1,
-            "createdOn": Date.now(), // NOTE
+            "createdOn": after, // NOTE
             "updatedOn": null,
-            "formattedCreatedOn": Date.now().toString(),
+            "formattedCreatedOn": after.toString(),
             "formattedUpdatedOn": null,
             "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
             "orderDetails": {
@@ -287,36 +373,17 @@ test.describe('Cancel', () => {
 
     await page.goto('/user/orders/1');
 
-    // fulfill order DELETE
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
-      await route.fulfill({json: userOrderDeleteOk});
-    });
-
     const cancelButton = page.getByRole("button", {name: 'Cancel'});
     await expect(cancelButton).toBeVisible();
-    await cancelButton.click();
-
-    const noButton = page.getByRole("button", {name: 'No'});
-    const yesButton = page.getByRole("button", {name: 'Yes'});
-    const closeButton = page.getByLabel('Confirmation').getByRole('button').filter({hasNotText: 'Yes'}).filter({hasNotText: 'No'});
-
-    await expect(page.getByText('Confirmation')).toBeVisible();
-    await expect(page.getByText('Do you wish to cancel the order?')).toBeVisible();
-    await expect(yesButton).toBeVisible();
-    await expect(noButton).toBeVisible();
-    await expect(closeButton).toBeVisible();
 
     // Act
 
-    await yesButton.click();
+    await cancelButton.click();
 
     // Assert
 
-    await expect(page.getByRole('alert').getByText('Information')).toBeVisible();
-    await expect(page.getByRole('alert').getByText('Order successfully cancelled. Redirecting in 2 seconds...')).toBeVisible();
-    await page.waitForURL('http://192.168.1.128:4200/user/orders');
-    await expect(page.getByText('Profile')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
+    await expect(page.getByRole('alert').getByText('Warning')).toBeVisible();
+    await expect(page.getByText('The order can no longer be cancelled')).toBeVisible();
   });
 
   test('givenOrderDelete_whenApiIsDown_thenShowErrorMessage', async ({page}) => {
@@ -399,72 +466,6 @@ test.describe('Cancel', () => {
     await expect(page.getByText('Error')).toBeVisible();
     await expect(page.getByText('Our servers are not available at the moment. Please try again later')).toBeVisible();
     await expect(yesButton).not.toBeVisible();
-  });
-
-  test('givenOrderDelete_whenNotAllowed_thenShowWarning', async ({page}) => {
-
-    // Arrange
-
-    const after = new Date(Date.now() - 4260000);
-
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
-      await route.fulfill({
-        json: {
-          "timeStamp": "2025-03-16T10:49:39.545213687",
-          "status": {"code": 200, "description": "OK", "error": false},
-          "payload": {
-            "id": 1,
-            "createdOn": after, // NOTE
-            "updatedOn": null,
-            "formattedCreatedOn": after.toString(),
-            "formattedUpdatedOn": null,
-            "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
-            "orderDetails": {
-              "id": 1,
-              "deliveryTime": "form.select.time.asap",
-              "paymentMethod": "form.select.payment.method.card",
-              "billToChange": null,
-              "changeToGive": null,
-              "comment": null,
-              "storePickUp": false,
-            },
-            "cart": {
-              "id": 1,
-              "totalQuantity": 1,
-              "totalCost": 13.3,
-              "totalCostOffers": 0.0,
-              "cartItems": [{
-                "id": 41,
-                "type": "pizza",
-                "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-                "description": {
-                  "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-                  "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-                },
-                "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
-                "price": 13.3,
-                "quantity": 1
-              }]
-            }
-          },
-          "error": null
-        }
-      });
-    });
-
-    await page.goto('/user/orders/1');
-
-    const cancelButton = page.getByRole("button", {name: 'Cancel'});
-    await expect(cancelButton).toBeVisible();
-
-    // Act
-
-    await cancelButton.click();
-
-    // Assert
-
-    await expect(page.getByRole('alert').getByText('Warning')).toBeVisible();
-    await expect(page.getByText('The order can no longer be cancelled')).toBeVisible();
   });
 });
 

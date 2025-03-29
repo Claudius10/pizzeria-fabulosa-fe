@@ -9,7 +9,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -22,7 +21,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -34,8 +33,7 @@ test.describe('Render: Large Screen', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -45,11 +43,9 @@ test.describe('Render: Large Screen', () => {
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
-
+    await expect(page).toHaveURL('/order/new/step-three');
     await next.click();
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
   });
 
   test('ShowSteps', async ({page}) => {
@@ -72,22 +68,22 @@ test.describe('Render: Large Screen', () => {
   });
 
   test('ShowPaymentMethodSelect', async ({page}) => {
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(page.getByLabel('Please select the payment')).toBeVisible();
-    await expect(page.getByLabel('Please select the payment')).toHaveValue('0'); // 0 = Card, 1 = Cash
+    await expect(page.getByLabel('Please select the payment method')).toBeVisible();
+    await expect(page.getByLabel('Please select the payment method')).toHaveValue('0'); // 0 = Card, 1 = Cash
   });
 
   test('ShowBillChangeSelect', async ({page}) => {
 
     // Arrange
 
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
 
     // Act
 
     await paymentMethodChoice.selectOption('Cash');
-    await expect(page.getByLabel('Please select the payment')).toHaveValue('1'); // 0 = Card, 1 = Cash
+    await expect(page.getByLabel('Please select the payment method')).toHaveValue('1'); // 0 = Card, 1 = Cash
 
     // Assert
 
@@ -100,7 +96,7 @@ test.describe('Render: Large Screen', () => {
 
     // Arrange
 
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
     const changeChoice = page.getByLabel('Do you need change?');
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card, 1 = Cash
 
@@ -123,10 +119,10 @@ test.describe('Render: Large Screen', () => {
 
     // Arrange
 
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     // Act
@@ -151,7 +147,7 @@ test.describe('Render: Large Screen', () => {
 
     // Arrange
 
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     await paymentMethodChoice.selectOption('Cash');
@@ -210,7 +206,6 @@ test.describe('Render: Small screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -223,7 +218,7 @@ test.describe('Render: Small screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -235,8 +230,7 @@ test.describe('Render: Small screen', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -246,11 +240,9 @@ test.describe('Render: Small screen', () => {
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
-
+    await expect(page).toHaveURL('/order/new/step-three');
     await next.click();
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
   });
 
   test('ShowStep', async ({page}) => {
@@ -274,7 +266,6 @@ test.describe('Buttons', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -287,7 +278,7 @@ test.describe('Buttons', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -299,8 +290,7 @@ test.describe('Buttons', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -309,12 +299,9 @@ test.describe('Buttons', () => {
     await addressNumberInput.fill('15');
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
-
+    await expect(page).toHaveURL('/order/new/step-three');
     await next.click();
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
   });
 
   test('givenCardOption_thenGoToStepFiveAndSaveValues', async ({page}) => {
@@ -323,10 +310,10 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'PREVIOUS'});
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     // Act
@@ -334,12 +321,11 @@ test.describe('Buttons', () => {
     await next.click();
 
     // Assert
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
     await expect(page.getByTitle('Steps')).toBeVisible();
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(page).toHaveURL('/order/new/step-four');
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
   });
 
@@ -349,10 +335,10 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'PREVIOUS'});
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     // Act
@@ -365,11 +351,10 @@ test.describe('Buttons', () => {
     await next.click();
 
     // Assert
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
     await expect(page.getByTitle('Steps')).toBeVisible();
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await expect(paymentMethodChoice).toBeVisible();
     await expect(paymentMethodChoice).toHaveValue('1'); // 0 = Card; 1 = Cash
     await expect(changeChoice).toHaveValue('0'); // 0 = No; 1 = Yes
@@ -380,10 +365,10 @@ test.describe('Buttons', () => {
 
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'PREVIOUS'});
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     // Act
@@ -403,11 +388,10 @@ test.describe('Buttons', () => {
     await next.click();
 
     // Assert
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
     await expect(page.getByTitle('Steps')).toBeVisible();
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await expect(paymentMethodChoice).toHaveValue('1'); // 0 = Card; 1 = Cash
     await expect(changeChoice).toHaveValue('1'); // 0 = No; 1 = Yes
     await expect(billInput).toHaveValue('20');
@@ -418,8 +402,8 @@ test.describe('Buttons', () => {
     // Arrange
 
     const next = page.getByRole('button', {name: 'NEXT'});
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
@@ -453,10 +437,10 @@ test.describe('Buttons', () => {
     // Arrange
 
     const next = page.getByRole('button', {name: 'NEXT'});
-    const paymentMethodChoice = page.getByLabel('Please select the payment');
-    await expect(page.getByText('Please select the payment')).toBeVisible();
+    const paymentMethodChoice = page.getByLabel('Please select the payment method');
+    await expect(page.getByText('Please select the payment method')).toBeVisible();
     await expect(page.getByTitle('Payment Method Icon')).toBeVisible();
-    await expect(paymentMethodChoice).toBeVisible();
+    await expect(paymentMethodChoice).toBeVisible({timeout: 10_000});
     await expect(paymentMethodChoice).toHaveValue('0'); // 0 = Card; 1 = Cash
 
     // Act

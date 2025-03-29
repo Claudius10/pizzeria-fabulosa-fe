@@ -215,7 +215,7 @@ test.describe('Navigation', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders/1');
+    await expect(page).toHaveURL('/user/orders/1');
   });
 });
 

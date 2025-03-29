@@ -9,7 +9,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -22,7 +21,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('ShowSteps', async ({page}) => {
@@ -77,7 +76,6 @@ test.describe('Render: Small Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -90,7 +88,7 @@ test.describe('Render: Small Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('ShowStep', async ({page}) => {
@@ -129,7 +127,6 @@ test.describe('Validation: Full Name', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -142,7 +139,7 @@ test.describe('Validation: Full Name', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -254,7 +251,6 @@ test.describe('Validation: Email', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -267,7 +263,7 @@ test.describe('Validation: Email', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -376,7 +372,6 @@ test.describe('Validation: Contact Number', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -389,7 +384,7 @@ test.describe('Validation: Contact Number', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -497,7 +492,6 @@ test.describe('Buttons', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -510,7 +504,7 @@ test.describe('Buttons', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
   });
 
   test('givenClickOnCancel_thenRedirect', async ({page}) => {
@@ -525,8 +519,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/');
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenCheckout_whenCancelledWithFormFieldFilled_thenCheckoutFormIsReset', async ({page}) => {
@@ -548,7 +541,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
     await expect(contactNumber).not.toHaveValue('123456789');
   });
 
@@ -587,7 +580,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
     await expect(page.getByTitle('Steps')).toBeVisible();
   });
 });

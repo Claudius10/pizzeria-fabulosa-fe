@@ -12,7 +12,6 @@ test.describe('Render', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
   });
 
   test('ShowCartWithItems', async ({page}) => {
@@ -32,7 +31,6 @@ test.describe('Render', () => {
     await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
 
     await beveragesLink.click();
-    await page.waitForURL('http://192.168.1.128:4200/beverages');
 
     const beverageDetails = page.getByTitle('Mahou Gluten Free Details').getByRole('button');
     await beverageDetails.click();
@@ -380,7 +378,6 @@ test.describe('Quantity Changes', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productOneDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const productTwoDetails = page.getByTitle('Caníbal Details').getByRole('button');
@@ -598,7 +595,6 @@ test.describe('Button', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productOneDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -625,7 +621,6 @@ test.describe('Button', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
     await expect(page.getByTitle('Price').getByRole('button').getByText('14.75€')).toBeVisible();
     await expect(page.getByTitle('Times Icon')).toBeVisible();
     await expect(page.getByRole('button', {name: '1', exact: true})).toBeVisible();

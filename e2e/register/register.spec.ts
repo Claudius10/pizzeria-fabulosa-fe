@@ -46,6 +46,7 @@ test.describe('Render', () => {
 test.describe('Validation: Full name', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -148,6 +149,7 @@ test.describe('Validation: Full name', () => {
 test.describe('Validation: Email', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -189,20 +191,19 @@ test.describe('Validation: Email', () => {
   test('whenValid_thenDoNotTriggerValidationError', async ({page}) => {
 
     // Arrange
-
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
     const header = page.getByRole("heading", {name: 'CREATE YOUR ACCOUNT'});
 
     // Act
 
     await emailInput.fill('email@gmail.com');
+    await expect(emailInput).toHaveValue('email@gmail.com');
     await header.click();
 
 
     // Assert
 
     await expect(page.getByText('Email is requiered')).not.toBeVisible();
-    await expect(emailInput).toHaveValue('email@gmail.com');
   });
 
   test('whenValidAfterInvalid_thenClearValidationError', async ({page}) => {
@@ -251,6 +252,7 @@ test.describe('Validation: Email', () => {
 test.describe('Validation: Matching Email', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -353,6 +355,7 @@ test.describe('Validation: Matching Email', () => {
 test.describe('Validation: Contact Number', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -455,6 +458,7 @@ test.describe('Validation: Contact Number', () => {
 test.describe('Validation: Password', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -576,6 +580,7 @@ test.describe('Validation: Password', () => {
 test.describe('Validation: Matching Password', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/registration');
+    await expect(page).toHaveURL('/registration');
   });
 
   test('whenEmpty_thenTriggerValidationError', async ({page}) => {
@@ -780,7 +785,7 @@ test.describe('Submit', () => {
 
     await expect(page.getByText('Information')).toBeVisible();
     await expect(page.getByText('Successful registration! You may now login.')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page).toHaveURL('/');
   });
 
   test('givenCancelClick_thenRedirectToHomePage', async ({page}) => {
@@ -788,7 +793,7 @@ test.describe('Submit', () => {
     // Arrange
 
     const cancel = page.getByRole("button", {name: 'Cancel'});
-    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
+    await expect(page).toHaveURL('/registration');
 
     // Act
 
@@ -796,7 +801,7 @@ test.describe('Submit', () => {
 
     // Assert
 
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page).toHaveURL('/');
   });
 });
 

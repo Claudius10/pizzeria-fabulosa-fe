@@ -23,7 +23,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -36,7 +35,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -47,7 +46,7 @@ test.describe('Render: Large Screen', () => {
     await emailInput.fill('clau@example.com');
     await contactNumber.fill('123456789');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -59,17 +58,17 @@ test.describe('Render: Large Screen', () => {
     await addressNumberInput.fill('15');
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -128,7 +127,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -141,7 +139,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -154,7 +152,7 @@ test.describe('Render: Large Screen', () => {
     await emailInput.fill('clau@example.com');
     await contactNumber.fill('123456789');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -164,23 +162,23 @@ test.describe('Render: Large Screen', () => {
     await alustre.click();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
 
     // step 3
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await deliveryTimeChoice.selectOption('Programmed delivery');
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
     await deliveryHourChoice.selectOption('23:55');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
     const paymentMethodChoice = page.getByLabel('Please select the payment');
     await paymentMethodChoice.selectOption('Cash');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -231,7 +229,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -244,7 +241,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -255,7 +252,7 @@ test.describe('Render: Large Screen', () => {
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -270,14 +267,14 @@ test.describe('Render: Large Screen', () => {
     await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await expect(deliveryTimeChoice).toHaveValue('0');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
@@ -288,7 +285,7 @@ test.describe('Render: Large Screen', () => {
     const billInput = page.getByRole('textbox', {name: 'Bill to change'});
     await billInput.fill('20');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -330,7 +327,6 @@ test.describe('Render: Small Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -343,7 +339,7 @@ test.describe('Render: Small Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -356,7 +352,7 @@ test.describe('Render: Small Screen', () => {
     await emailInput.fill('clau@example.com');
     await contactNumber.fill('123456789');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -368,17 +364,17 @@ test.describe('Render: Small Screen', () => {
     await addressNumberInput.fill('15');
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -423,7 +419,6 @@ test.describe('Render: Small Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -436,7 +431,7 @@ test.describe('Render: Small Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -449,7 +444,7 @@ test.describe('Render: Small Screen', () => {
     await emailInput.fill('clau@example.com');
     await contactNumber.fill('123456789');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -459,23 +454,23 @@ test.describe('Render: Small Screen', () => {
     await alustre.click();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
 
     // step 3
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await deliveryTimeChoice.selectOption('Programmed delivery');
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
     await deliveryHourChoice.selectOption('23:55');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
     const paymentMethodChoice = page.getByLabel('Please select the payment');
     await paymentMethodChoice.selectOption('Cash');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -525,7 +520,6 @@ test.describe('Render: Small Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -538,7 +532,7 @@ test.describe('Render: Small Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -549,7 +543,7 @@ test.describe('Render: Small Screen', () => {
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -564,14 +558,14 @@ test.describe('Render: Small Screen', () => {
     await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await expect(deliveryTimeChoice).toHaveValue('0');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
@@ -582,7 +576,7 @@ test.describe('Render: Small Screen', () => {
     const billInput = page.getByRole('textbox', {name: 'Bill to change'});
     await billInput.fill('20');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // Assert
 
@@ -628,7 +622,6 @@ test.describe('Buttons', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -641,7 +634,7 @@ test.describe('Buttons', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -652,7 +645,7 @@ test.describe('Buttons', () => {
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -667,14 +660,14 @@ test.describe('Buttons', () => {
     await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await expect(deliveryTimeChoice).toHaveValue('0');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
@@ -685,7 +678,7 @@ test.describe('Buttons', () => {
     const billInput = page.getByRole('textbox', {name: 'Bill to change'});
     await billInput.fill('20');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
   });
 
   test('givenClickOnPrevious_whenCommentValid_thenSaveComment', async ({page}) => {
@@ -703,12 +696,12 @@ test.describe('Buttons', () => {
     await commentBox.fill('Well cut');
     await expect(commentBox).toHaveValue('Well cut');
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await next.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
     await expect(commentBox).toHaveValue('Well cut');
   });
 
@@ -726,12 +719,12 @@ test.describe('Buttons', () => {
 
     await expect(commentBox).toHaveValue('');
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await next.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
     await expect(commentBox).toHaveValue('');
   });
 
@@ -777,7 +770,6 @@ test.describe('Order Success', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -790,7 +782,7 @@ test.describe('Order Success', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -801,7 +793,7 @@ test.describe('Order Success', () => {
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -816,21 +808,21 @@ test.describe('Order Success', () => {
     await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
 
     // step 3
 
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await expect(deliveryTimeChoice).toHaveValue('0');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
     const paymentMethodChoice = page.getByLabel('Please select the payment');
     await expect(paymentMethodChoice).toHaveValue('0');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // step 5
 
@@ -844,9 +836,7 @@ test.describe('Order Success', () => {
     await order.click();
 
     // Assert
-
-    await page.waitForURL('http://192.168.1.128:4200/order/success');
-
+    await expect(page).toHaveURL('/order/success');
     await expect(page.getByText('Order 1 successfully created')).toBeVisible();
     await expect(page.getByText('Date of order 18:22 - 19/03/2025')).toBeVisible();
 
@@ -889,7 +879,6 @@ test.describe('Order Success', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -902,7 +891,7 @@ test.describe('Order Success', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     // step 1
 
@@ -915,7 +904,7 @@ test.describe('Order Success', () => {
     await emailInput.fill('clau@example.com');
     await contactNumber.fill('123456789');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
 
     // step 2
 
@@ -925,16 +914,16 @@ test.describe('Order Success', () => {
     await alustre.click();
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
 
     // step 3
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     await deliveryTimeChoice.selectOption('Programmed delivery');
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
     await deliveryHourChoice.selectOption('23:55');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
 
     // step 4
 
@@ -945,7 +934,7 @@ test.describe('Order Success', () => {
     const billInput = page.getByRole('textbox', {name: 'Bill to change'});
     await billInput.fill('20');
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-five');
+    await expect(page).toHaveURL('/order/new/step-five');
 
     // step 5
 
@@ -961,9 +950,7 @@ test.describe('Order Success', () => {
     await order.click();
 
     // Assert
-
-    await page.waitForURL('http://192.168.1.128:4200/order/success');
-
+    await expect(page).toHaveURL('/order/success');
     await expect(page.getByText('Order 2 successfully created')).toBeVisible();
     await expect(page.getByText('Date of order 19:16 - 19/03/2025')).toBeVisible();
 

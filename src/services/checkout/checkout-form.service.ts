@@ -63,24 +63,33 @@ export class CheckoutFormService {
     this.orderSuccess = null;
   }
 
-  getDeliveryHours(): string[] {
-    const interval = 5;
-    const hourIntervals: string[] = [];
-    const date = new Date(); // in UTC +00:00
-
-    const coefficient = 1000 * 60 * 5;
-    const roundedCurrentMins = new Date(Math.ceil(date.getTime() / coefficient) * coefficient).getMinutes();
-    const currentHour = new Date().getHours() * 60;
-
-    const dst = isDst(date);
-    const extraMinsToAdd = dst ? 120 + 30 : 60 + 30;
-
-    for (let minutes = currentHour + roundedCurrentMins + extraMinsToAdd; minutes < 24 * 60; minutes = minutes + interval) {
-      date.setHours(0);
-      date.setMinutes(minutes);
-      hourIntervals.push(date.toLocaleTimeString("es", {timeStyle: "short"}));
+  getDeliveryHours(devEnvironment: boolean): string[] {
+    if (devEnvironment) {
+      return ['23:55'];
     }
 
-    return hourIntervals;
+    const date = new Date(); // in UTC +00:00
+
+    if (date.getHours() >= 12 && (date.getHours() <= 23 && date.getMinutes() <= 20)) {
+      const interval = 5;
+      const hourIntervals: string[] = [];
+
+      const coefficient = 1000 * 60 * 5;
+      const roundedCurrentMins = new Date(Math.ceil(date.getTime() / coefficient) * coefficient).getMinutes();
+      const currentHour = new Date().getHours() * 60;
+
+      const dst = isDst(date);
+      const extraMinsToAdd = dst ? 120 + 30 : 60 + 30;
+
+      for (let minutes = currentHour + roundedCurrentMins + extraMinsToAdd; minutes < 24 * 60; minutes = minutes + interval) {
+        date.setHours(0);
+        date.setMinutes(minutes);
+        hourIntervals.push(date.toLocaleTimeString("es", {timeStyle: "short"}));
+      }
+
+      return hourIntervals;
+    }
+
+    return [];
   }
 }

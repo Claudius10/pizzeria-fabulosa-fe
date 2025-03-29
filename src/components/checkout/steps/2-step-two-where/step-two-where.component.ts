@@ -160,7 +160,6 @@ export class StepTwoWhereComponent implements OnInit {
   setSelectedId(address: AddressId): void {
     this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
     this.validStoreOrAddressSelection = true;
-    console.log(this.checkoutFormService.selectedAddress);
   }
 
   private saveFormValues() {

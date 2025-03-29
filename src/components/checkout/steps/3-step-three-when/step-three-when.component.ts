@@ -12,6 +12,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../utils/functions';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -33,7 +34,7 @@ import {myIcon} from '../../../../primeng/icon';
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private router = inject(Router);
-  deliveryHours: string[] = this.checkoutFormService.getDeliveryHours();
+  deliveryHours: string[] = this.checkoutFormService.getDeliveryHours(environment.dev);
   options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
     {code: "1", description: "form.select.time.programmed"}

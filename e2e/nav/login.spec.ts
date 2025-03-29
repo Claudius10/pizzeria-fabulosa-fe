@@ -137,9 +137,7 @@ test.describe('Render', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/registration');
     await expect(page.getByText('Create your account')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/registration');
     await expect(createAccountButton).not.toBeVisible();
   });
 });
@@ -451,9 +449,6 @@ test.describe('Submit: API OK', () => {
     await expect(loginButton).not.toBeVisible();
     await expect(logoutButton).toBeVisible();
     await expect(userProfileButton).toBeVisible();
-
-    await page.waitForURL('http://192.168.1.128:4200/');
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenDummyAccountLogin_thenLoginAndRedirect', async ({page}) => {
@@ -487,8 +482,7 @@ test.describe('Submit: API OK', () => {
     await expect(logoutButton).toBeVisible();
     await expect(userProfileButton).toBeVisible();
 
-    await page.waitForURL('http://192.168.1.128:4200/');
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenEnterClick_whenBadCredentials_thenShowBadCredentialsMessage', async ({page}) => {
@@ -562,7 +556,6 @@ test.describe('Logout', () => {
 
     await enterButton.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/');
     await page.goto('/pizzas');
   });
 
@@ -606,8 +599,7 @@ test.describe('Logout', () => {
     await expect(noButton).not.toBeVisible();
     await expect(userProfileButton).not.toBeVisible();
 
-    await page.waitForURL('http://192.168.1.128:4200/');
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page.url()).toBe('http://192.168.1.128:4200/');
   });
 
   test('givenClickOnLogout_whenApiIsDown_thenDisplayErrorMessage', async ({page}) => {

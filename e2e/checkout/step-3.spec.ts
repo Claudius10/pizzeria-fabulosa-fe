@@ -9,7 +9,6 @@ test.describe('Render: Large Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -22,7 +21,7 @@ test.describe('Render: Large Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -34,8 +33,7 @@ test.describe('Render: Large Screen', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -45,7 +43,7 @@ test.describe('Render: Large Screen', () => {
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
   });
 
   test('ShowSteps', async ({page}) => {
@@ -109,7 +107,6 @@ test.describe('Render: Small Screen', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -122,7 +119,7 @@ test.describe('Render: Small Screen', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -134,8 +131,7 @@ test.describe('Render: Small Screen', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -144,8 +140,7 @@ test.describe('Render: Small Screen', () => {
     await addressNumberInput.fill('15');
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
-
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
   });
 
   test('ShowStep', async ({page}) => {
@@ -197,7 +192,6 @@ test.describe('Buttons', () => {
     });
 
     await page.goto('/pizzas');
-    await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
     const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
     const addProduct = page.getByTitle('Add to Cart').getByRole('button');
@@ -210,7 +204,7 @@ test.describe('Buttons', () => {
 
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
-    expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+    await expect(page).toHaveURL('/order/new/step-one');
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -222,8 +216,7 @@ test.describe('Buttons', () => {
     await contactNumber.fill('123456789');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
-
+    await expect(page).toHaveURL('/order/new/step-two');
     const addressInput = page.getByRole('textbox', {name: 'Address Input'});
     const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
     const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
@@ -233,7 +226,7 @@ test.describe('Buttons', () => {
     await addressDetails.fill('Floor 5, Door 2E');
     await next.click();
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
   });
 
   test('givenClickOnNext_thenGoToStepFour', async ({page}) => {
@@ -248,7 +241,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await expect(page.getByTitle('Steps')).toBeVisible();
   });
 
@@ -265,12 +258,12 @@ test.describe('Buttons', () => {
     // Act
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await previous.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery time')).toBeVisible();
@@ -293,12 +286,12 @@ test.describe('Buttons', () => {
     // Act
 
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
     await next.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
     await expect(page.getByText('Please select delivery time')).toBeVisible();
     await expect(page.getByTitle('Delivery Time Icon')).toBeVisible();
     await expect(page.getByLabel('Please select delivery time')).toBeVisible();
@@ -312,6 +305,7 @@ test.describe('Buttons', () => {
 
     // Arrange
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const next = page.getByRole('button', {name: 'NEXT'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
     const deliveryHourChoice = page.getByLabel('Please select delivery hour');
@@ -336,7 +330,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
+    await expect(page).toHaveURL('/order/new/step-four');
     await expect(page.getByTitle('Steps')).toBeVisible();
   });
 
@@ -344,6 +338,7 @@ test.describe('Buttons', () => {
 
     // Arrange
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const next = page.getByRole('button', {name: 'NEXT'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
 
@@ -362,6 +357,7 @@ test.describe('Buttons', () => {
 
     // Arrange
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'Previous'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
@@ -376,13 +372,12 @@ test.describe('Buttons', () => {
     await expect(deliveryHourChoice).toHaveValue('23:55');
 
     await next.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-four');
-
+    await expect(page).toHaveURL('/order/new/step-four');
     await previous.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
     await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
     await expect(deliveryHourChoice).toHaveValue('23:55');
   });
@@ -391,6 +386,7 @@ test.describe('Buttons', () => {
 
     // Arrange
 
+    await expect(page).toHaveURL('/order/new/step-three');
     const next = page.getByRole('button', {name: 'NEXT'});
     const previous = page.getByRole('button', {name: 'Previous'});
     const deliveryTimeChoice = page.getByLabel('Please select delivery time');
@@ -404,12 +400,12 @@ test.describe('Buttons', () => {
     await expect(deliveryHourChoice).toHaveValue('23:55');
 
     await previous.click();
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-two');
+    await expect(page).toHaveURL('/order/new/step-two');
     await next.click();
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await expect(page).toHaveURL('/order/new/step-three');
     await expect(deliveryTimeChoice).toHaveValue('1'); // 0 = ASAP; 1 = Programmed delivery
     await expect(deliveryHourChoice).toHaveValue('23:55');
   });
