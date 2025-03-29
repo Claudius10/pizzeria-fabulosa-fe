@@ -45,196 +45,176 @@ export const stores = {
 };
 
 export const pizzas = {
-  "timeStamp": "2025-03-10T18:45:33.624953393",
+  "timeStamp": "2025-03-29T12:27:10.779007117",
   "status": {"code": 200, "description": "OK", "error": false},
-  "payload": [{
-    "id": 1,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 13.3, "l": 18.3},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 2,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Natura", "en": "Natura"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Calabacín", "Tomate Natural", "Parmesano"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "Zucchini", "Sliced Tomato", "Parmesan Cheese"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 13.3, "l": 18.3},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 3,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Cabra Loca", "en": "Cabra Loca"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Cebolla", "Bacon", "Queso de Cabra"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "Onions", "Smoked Bacon", "Goat Cheese"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 13.3, "l": 18.3},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 4,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Roni Pepperoni", "en": "Roni Pepperoni"},
-    "description": {
-      "es": ["Salsa de Tomate", "Doble de Mozzarella 100%", "Doble de Peperoni"],
-      "en": ["Tomato Sauce", "Double 100% Mozzarella", "Double Pepperoni"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 13.3, "l": 18.3},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 5,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Carbonara", "en": "Carbonara"},
-    "description": {
-      "es": ["Salsa de Nata", "Mozzarella 100%", "Cebolla", "Champiñon Fresco", "Doble de Bacon"],
-      "en": ["Cream Sauce", "100% Mozzarella", "Onion", "Mushroom", "Double Smoked Bacon"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 14.75, "l": 20.25},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 6,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Trufa Gourmet", "en": "Trufa Gourmet"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Calabacín", "Champiñon Fresco", "Pollo", "Aceite de Trufa"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "Zucchini", "Mushroom", "Chicken", "White Truffle Oil"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 14.75, "l": 20.25},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 7,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Mediterránea", "en": "Mediterránea"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Berenjena", "Calabacín", "Tomate Natural", "Aceitunas Negras"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "Eggplant", "Zucchini", "Sliced Tomato", "Black Olives"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 14.75, "l": 20.25},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 8,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Caníbal", "en": "Caníbal"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni", "Ternera"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "York Ham", "Smoked Bacon", "Pepperoni", "Beef"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 14.75, "l": 20.25},
-    "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }, {
-    "id": 9,
-    "type": "pizza",
-    "image": "/assets/products/pizza/pizzaProduct.webp",
-    "name": {"es": "Sin Gluten", "en": "Gluten Free"},
-    "description": {
-      "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni"],
-      "en": ["Tomato Sauce", "100% Mozzarella", "York Ham", "Smoked Bacon", "Pepperoni"]
-    },
-    "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
-    "prices": {"m": 14.75, "l": 20.25},
-    "allergens": {"es": ["Lactosa"], "en": ["Lactose"]}
-  }],
+  "payload": {
+    "productList": [{
+      "id": 9,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Sin Gluten", "en": "Gluten Free"},
+      "description": {
+        "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni"],
+        "en": ["Tomato Sauce", "100% Mozzarella", "York Ham", "Smoked Bacon", "Pepperoni"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 14.75, "l": 20.25},
+      "allergens": {"es": ["Lactosa"], "en": ["Lactose"]}
+    }, {
+      "id": 8,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Caníbal", "en": "Caníbal"},
+      "description": {
+        "es": ["Salsa de Tomate", "Mozzarella 100%", "Jamón York", "Bacon", "Peperoni", "Ternera"],
+        "en": ["Tomato Sauce", "100% Mozzarella", "York Ham", "Smoked Bacon", "Pepperoni", "Beef"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 14.75, "l": 20.25},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }, {
+      "id": 7,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Mediterránea", "en": "Mediterránea"},
+      "description": {
+        "es": ["Salsa de Tomate", "Mozzarella 100%", "Berenjena", "Calabacín", "Tomate Natural", "Aceitunas Negras"],
+        "en": ["Tomato Sauce", "100% Mozzarella", "Eggplant", "Zucchini", "Sliced Tomato", "Black Olives"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 14.75, "l": 20.25},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }, {
+      "id": 6,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Trufa Gourmet", "en": "Trufa Gourmet"},
+      "description": {
+        "es": ["Salsa de Tomate", "Mozzarella 100%", "Calabacín", "Champiñon Fresco", "Pollo", "Aceite de Trufa"],
+        "en": ["Tomato Sauce", "100% Mozzarella", "Zucchini", "Mushroom", "Chicken", "White Truffle Oil"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 14.75, "l": 20.25},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }, {
+      "id": 5,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Carbonara", "en": "Carbonara"},
+      "description": {
+        "es": ["Salsa de Nata", "Mozzarella 100%", "Cebolla", "Champiñon Fresco", "Doble de Bacon"],
+        "en": ["Cream Sauce", "100% Mozzarella", "Onion", "Mushroom", "Double Smoked Bacon"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 14.75, "l": 20.25},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }, {
+      "id": 4,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Roni Pepperoni", "en": "Roni Pepperoni"},
+      "description": {
+        "es": ["Salsa de Tomate", "Doble Mozzarella 100%", "Doble de Peperoni"],
+        "en": ["Tomato Sauce", "Double 100% Mozzarella", "Double Pepperoni"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 13.3, "l": 18.3},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }, {
+      "id": 3,
+      "type": "pizza",
+      "image": "/assets/products/pizza/pizzaProduct.webp",
+      "name": {"es": "Cabra Loca", "en": "Cabra Loca"},
+      "description": {
+        "es": ["Salsa de Tomate", "Mozzarella 100%", "Cebolla", "Bacon", "Queso de Cabra"],
+        "en": ["Tomato Sauce", "100% Mozzarella", "Onions", "Smoked Bacon", "Goat Cheese"]
+      },
+      "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
+      "prices": {"m": 13.3, "l": 18.3},
+      "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
+    }], "totalPages": 2, "pageSize": 7, "totalElements": 9, "hasNext": true
+  },
   "error": null
 };
 
 export const beverages = {
-  "timeStamp": "2025-03-10T18:46:07.507337404",
+  "timeStamp": "2025-03-29T12:27:35.925542003",
   "status": {"code": 200, "description": "OK", "error": false},
-  "payload": [{
-    "id": 11,
-    "type": "beverage",
-    "image": "/assets/products/beverages/cocacola_zero.png",
-    "name": {"es": "Coca-Cola Zero", "en": "Coca-Cola Zero"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 12,
-    "type": "beverage",
-    "image": "/assets/products/beverages/fanta.png",
-    "name": {"es": "Fanta Naranja", "en": "Fanta Orange"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 13,
-    "type": "beverage",
-    "image": "/assets/products/beverages/nestea.jpg",
-    "name": {"es": "Nestea Limón", "en": "Nestea Lime"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 14,
-    "type": "beverage",
-    "image": "/assets/products/beverages/sprite.jpg",
-    "name": {"es": "Sprite", "en": "Sprite"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
-    "prices": {"s": 1.95, "m": 2.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 15,
-    "type": "beverage",
-    "image": "/assets/products/beverages/aquarius.jpg",
-    "name": {"es": "Aquarius Limón", "en": "Aquarius Lime"},
-    "description": {"es": ["Azúcar"], "en": ["Sugar"]},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": [], "en": []}
-  }, {
-    "id": 16,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou-clasica.jpg",
-    "name": {"es": "Mahou Clásica", "en": "Mahou Classic"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Gluten", "Alcohol"], "en": ["Gluten", "Alcohol"]}
-  }, {
-    "id": 17,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou_sin.png",
-    "name": {"es": "Mahou Sin", "en": "Mahou Without Alcohol"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Gluten"], "en": ["Gluten"]}
-  }, {
-    "id": 18,
-    "type": "beverage",
-    "image": "/assets/products/beverages/mahou_sin_gluten.jpeg",
-    "name": {"es": "Mahou Sin Gluten", "en": "Mahou Gluten Free"},
-    "description": {"es": [], "en": []},
-    "formats": {"s": {"es": "330ML", "en": "330ML"}},
-    "prices": {"s": 1.95},
-    "allergens": {"es": ["Alcohol"], "en": ["Alcohol"]}
-  }],
+  "payload": {
+    "productList": [{
+      "id": 18,
+      "type": "beverage",
+      "image": "/assets/products/beverages/mahou_sin_gluten.jpeg",
+      "name": {"es": "Mahou Sin Gluten", "en": "Mahou Gluten Free"},
+      "description": {"es": [], "en": []},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}},
+      "prices": {"s": 1.95},
+      "allergens": {"es": ["Alcohol"], "en": ["Alcohol"]}
+    }, {
+      "id": 17,
+      "type": "beverage",
+      "image": "/assets/products/beverages/mahou_sin.png",
+      "name": {"es": "Mahou Sin", "en": "Mahou Without Alcohol"},
+      "description": {"es": [], "en": []},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}},
+      "prices": {"s": 1.95},
+      "allergens": {"es": ["Gluten"], "en": ["Gluten"]}
+    }, {
+      "id": 16,
+      "type": "beverage",
+      "image": "/assets/products/beverages/mahou-clasica.jpg",
+      "name": {"es": "Mahou Clásica", "en": "Mahou Classic"},
+      "description": {"es": [], "en": []},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}},
+      "prices": {"s": 1.95},
+      "allergens": {"es": ["Gluten", "Alcohol"], "en": ["Gluten", "Alcohol"]}
+    }, {
+      "id": 15,
+      "type": "beverage",
+      "image": "/assets/products/beverages/aquarius.jpg",
+      "name": {"es": "Aquarius Limón", "en": "Aquarius Lime"},
+      "description": {"es": ["Azúcar"], "en": ["Sugar"]},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}},
+      "prices": {"s": 1.95},
+      "allergens": {"es": [], "en": []}
+    }, {
+      "id": 14,
+      "type": "beverage",
+      "image": "/assets/products/beverages/sprite.jpg",
+      "name": {"es": "Sprite", "en": "Sprite"},
+      "description": {"es": ["Azúcar"], "en": ["Sugar"]},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
+      "prices": {"s": 1.95, "m": 2.95},
+      "allergens": {"es": [], "en": []}
+    }, {
+      "id": 13,
+      "type": "beverage",
+      "image": "/assets/products/beverages/nestea.jpg",
+      "name": {"es": "Nestea Limón", "en": "Nestea Lime"},
+      "description": {"es": ["Azúcar"], "en": ["Sugar"]},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
+      "prices": {"s": 1.95, "m": 2.95},
+      "allergens": {"es": [], "en": []}
+    }, {
+      "id": 12,
+      "type": "beverage",
+      "image": "/assets/products/beverages/fanta.png",
+      "name": {"es": "Fanta Naranja", "en": "Fanta Orange"},
+      "description": {"es": ["Azúcar"], "en": ["Sugar"]},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
+      "prices": {"s": 1.95, "m": 2.95},
+      "allergens": {"es": [], "en": []}
+    }, {
+      "id": 11,
+      "type": "beverage",
+      "image": "/assets/products/beverages/cocacola_zero.png",
+      "name": {"es": "Coca-Cola Zero", "en": "Coca-Cola Zero"},
+      "description": {"es": [], "en": []},
+      "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
+      "prices": {"s": 1.95, "m": 2.95},
+      "allergens": {"es": [], "en": []}
+    }], "totalPages": 1, "pageSize": 8, "totalElements": 8, "hasNext": false
+  },
   "error": null
 };
 
