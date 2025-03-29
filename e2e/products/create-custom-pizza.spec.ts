@@ -3,7 +3,7 @@ import {pizzas} from '../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -149,7 +149,7 @@ test.describe('Render', () => {
 
 test.describe('Format', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -274,7 +274,7 @@ test.describe('Format', () => {
 
 test.describe('Gluten Free', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -369,7 +369,7 @@ test.describe('Gluten Free', () => {
 
 test.describe('Lactose Free', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -544,7 +544,7 @@ test.describe('Lactose Free', () => {
 
 test.describe('Gluten free and Lactose Free', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -755,7 +755,7 @@ test.describe('Gluten free and Lactose Free', () => {
 
 test.describe('No Lactose free and No gluten free', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -867,7 +867,7 @@ test.describe('No Lactose free and No gluten free', () => {
 
 test.describe('Reset', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -954,7 +954,7 @@ test.describe('Reset', () => {
 
 test.describe('Add', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 

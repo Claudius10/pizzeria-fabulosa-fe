@@ -3,7 +3,7 @@ import {beverages, pizzas} from '../api-responses';
 
 test.describe('Pizza Filters', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -91,14 +91,14 @@ test.describe('Pizza Filters', () => {
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toHaveCSS('color', 'rgb(21, 128, 61)');
 
     await smokedBeacon.click();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(7);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(5);
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).toHaveCSS('background-color', 'rgb(254, 226, 226)');
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).toHaveCSS('color', 'rgb(185, 28, 28)');
 
     await page.getByTitle('Smoked Bacon Off', {exact: true}).click();
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).not.toBeVisible();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(10);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
 
     await smokedBeacon.click();
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toBeVisible();
@@ -114,11 +114,13 @@ test.describe('Pizza Filters', () => {
     await beef.click();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
     await page.getByTitle('Pepperoni On', {exact: true}).click();
+    await expect(page.getByText('No Results')).toBeVisible();
     await page.getByTitle('Smoked Bacon On', {exact: true}).click();
+    await expect(page.getByText('No Results')).toBeVisible();
     await page.getByTitle('Beef On', {exact: true}).click();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(7);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(5);
     await clearAllFilters.click();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(10);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).not.toBeVisible();
     await expect(page.getByTitle('Pepperoni Off', {exact: true})).not.toBeVisible();
     await expect(page.getByTitle('Beef Off', {exact: true})).not.toBeVisible();
@@ -133,16 +135,16 @@ test.describe('Pizza Filters', () => {
     // Act && Assert
 
     await gluten.click();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(9);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(7);
     await expect(page.getByText("Gluten Free")).not.toBeVisible();
 
-    await gluten.click();
+    await page.getByTitle('Gluten On').click();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText("Gluten Free")).toBeVisible();
 
     await page.getByTitle('Gluten Off', {exact: true}).click();
     await expect(page.getByTitle('Gluten Off', {exact: true})).not.toBeVisible();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(10);
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
   });
 
   test('givenSearch_whenFilterOn_thenLeaveOnlyFilteredItemsThatMatchTheSearch', async ({page}) => {
@@ -155,25 +157,26 @@ test.describe('Pizza Filters', () => {
     // Act && Assert
 
     await zucchini.click();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(4);
-    await search.fill('na');
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
-    await expect(page.getByText('Natura')).toBeVisible();
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
+    await search.fill('me');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
+    await expect(page.getByText('Mediterránea')).toBeVisible();
+    await expect(page.getByText('Trufa Gourmet')).toBeVisible();
     await zucchini.click();
-    await expect(page.getByText('Natura')).not.toBeVisible();
-    await expect(page.getByText('Carbonara')).toBeVisible();
-    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+    await expect(page.getByText('Mediterránea')).not.toBeVisible();
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(0);
+    await expect(page.getByText('No Results')).toBeVisible();
     await zucchini.click();
     await expect(page.getByTitle('Zucchini Off', {exact: true})).not.toBeVisible();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
-    await expect(page.getByText('Carbonara')).toBeVisible();
-    await expect(page.getByText('Natura')).toBeVisible();
+    await expect(page.getByText('Mediterránea')).toBeVisible();
+    await expect(page.getByText('Trufa Gourmet')).toBeVisible();
   });
 });
 
 test.describe('Beverage Filters', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/product?type=beverage', async route => {
+    await page.route('*/**/api/v1/resource/product?type=beverage&pageNumber=0&pageSize=8', async route => {
       await route.fulfill({json: beverages});
     });
 

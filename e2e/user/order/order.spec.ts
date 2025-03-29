@@ -5,9 +5,28 @@ import {
   userOrder,
   userOrderDeleteOk,
   userOrderHomeProgrammedCashChangeComment,
+  userOrderNotFound,
   userOrderPickUp,
   userOrderStoreProgrammedCash
 } from '../../api-responses';
+
+test.describe('Render: Skeleton', () => {
+  test('ShowSkeleton', async ({page}) => {
+    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    // 58 is the userId in the ID_TOKEN
+
+    await page.goto('/user/orders/1');
+
+    await expect(page.getByTitle('Skeleton One').locator('div')).toBeVisible();
+    await expect(page.getByTitle('Skeleton Two').locator('div')).toBeVisible();
+    await expect(page.getByTitle('Skeleton Three').locator('div')).toBeVisible();
+    await expect(page.getByTitle('Skeleton Four').locator('div')).toBeVisible();
+
+    await expect(page.getByTitle('Skeleton Cancel').locator('div')).toBeVisible();
+    await expect(page.getByTitle('Skeleton Note').locator('div')).toBeVisible();
+    await expect(page.getByTitle('Skeleton Cart').locator('div')).toBeVisible();
+  });
+});
 
 test.describe('Render: HomeDelivery, ASAP, Card', () => {
   test.beforeEach(async ({page}) => {
@@ -184,6 +203,20 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
     await expect(page.getByText('Your change: 2€')).toBeVisible();
     await expect(page.getByText('Comment:')).toBeVisible();
     await expect(page.getByText('pizza well cut and hot')).toBeVisible();
+  });
+});
+
+test.describe('Render: Order Not Found', () => {
+  test('givenUnknownOrderId_thenShowOrderNotFoundMessage', async ({page}) => {
+    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    // 58 is the userId in the ID_TOKEN
+
+    await page.route('*/**/api/v1/user/58/order/99999', async route => {
+      await route.fulfill({json: userOrderNotFound});
+    });
+
+    await page.goto('/user/orders/99999');
+    await expect(page.getByText('Could not find order 99999 in our database. If you believe this is an error, contact us.')).toBeVisible({timeout: 10_000});
   });
 });
 
