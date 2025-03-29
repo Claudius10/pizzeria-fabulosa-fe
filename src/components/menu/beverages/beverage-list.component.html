@@ -8,7 +8,6 @@
   }
 
   <div class="container">
-
     <ul title="Beverage List" class="products flex flex-wrap justify-start gap-y-8 gap-x-8">
 
       @if (query.status() === "error") {
@@ -18,7 +17,7 @@
       @if (query.status() === "pending") {
         <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
           <li>
-            <p-skeleton width="15rem" height="20rem"/>
+            <p-skeleton width="15rem" height="25rem"/>
           </li>
         </ng-container>
       }
