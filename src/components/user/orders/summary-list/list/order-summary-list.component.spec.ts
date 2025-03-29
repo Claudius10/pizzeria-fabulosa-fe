@@ -1,40 +1,37 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {OrderSummaryListComponent} from './order-summary-list.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {OrderService} from '../../../../../services/http/order/order.service';
-import {buildQueryResult} from '../../../../../utils/test-utils';
-import {signal} from '@angular/core';
+import {buildResponse} from '../../../../../utils/test-utils';
+import {OrderHttpService} from '../../../../../services/http/order/order-http.service';
+import {of} from 'rxjs';
+import {provideRouter} from '@angular/router';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
-describe('OrderListComponent', () => {
+describe('OrderSummaryListComponent', () => {
   let component: OrderSummaryListComponent;
   let fixture: ComponentFixture<OrderSummaryListComponent>;
-  let orderService: jasmine.SpyObj<OrderService>;
+  let orderService: jasmine.SpyObj<OrderHttpService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const orderServiceSpy = jasmine.createSpyObj('OrderService', [
-      'getPageNumber',
-      'getPageSize',
-      'findOrderSummaryList',
-      'resetSummaryListArgs']
+    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['findOrderSummaryList']
     );
 
     await TestBed.configureTestingModule({
       imports: [OrderSummaryListComponent, TranslateModule.forRoot()],
       providers:
         [
+          {provide: QueryClient},
+          provideRouter([{path: '**', component: OrderSummaryListComponent}]),
           {provide: ErrorService, useValue: errorServiceSpy},
-          {provide: OrderService, useValue: orderServiceSpy},
+          {provide: OrderHttpService, useValue: orderServiceSpy},
         ]
     })
       .compileComponents();
 
-    orderService = TestBed.inject(OrderService) as jasmine.SpyObj<OrderService>;
-    orderService.findOrderSummaryList.and.returnValue(buildQueryResult());
-    orderService.getPageNumber.and.returnValue(signal(1));
-    orderService.getPageSize.and.returnValue(signal(5));
+    orderService = TestBed.inject(OrderHttpService) as jasmine.SpyObj<OrderHttpService>;
+    orderService.findOrderSummaryList.and.returnValue(of(buildResponse(null, false, 200, 'OK')));
 
     fixture = TestBed.createComponent(OrderSummaryListComponent);
     component = fixture.componentInstance;

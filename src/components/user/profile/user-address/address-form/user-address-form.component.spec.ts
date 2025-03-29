@@ -1,9 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {UserAddressFormComponent} from './user-address-form.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {UserService} from '../../../../../services/http/user/user.service';
+import {UserHttpService} from '../../../../../services/http/user/user-http.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('UserAddressFormComponent', () => {
   let component: UserAddressFormComponent;
@@ -16,8 +16,9 @@ describe('UserAddressFormComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserAddressFormComponent, TranslateModule.forRoot()],
       providers: [
+        {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: UserService, useValue: userServiceSpy},
+        {provide: UserHttpService, useValue: userServiceSpy},
       ]
     })
       .compileComponents();

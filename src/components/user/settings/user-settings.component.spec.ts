@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {UserSettingsComponent} from './user-settings.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
-import {AccountService} from '../../../services/http/account/account.service';
 import {TranslateModule} from '@ngx-translate/core';
+import {AccountHttpService} from '../../../services/http/account/account-http.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -18,9 +18,10 @@ describe('UserSettingsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserSettingsComponent, TranslateModule.forRoot()],
       providers: [
+        {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountService, useValue: accountServiceSpy},
+        {provide: AccountHttpService, useValue: accountServiceSpy},
       ]
     })
       .compileComponents();

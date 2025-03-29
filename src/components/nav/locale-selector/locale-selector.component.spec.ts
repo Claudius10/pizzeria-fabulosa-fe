@@ -1,5 +1,4 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {LocaleSelectorComponent} from './locale-selector.component';
 import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';

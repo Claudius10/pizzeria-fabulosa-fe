@@ -1,15 +1,17 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {PizzaListComponent} from './pizza-list.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../services/error/error.service';
-import {ResourceService} from '../../../services/http/resources/resource.service';
-import {buildQueryResult} from '../../../utils/test-utils';
+import {buildResponse} from '../../../utils/test-utils';
+import {ResourcesHttpService} from '../../../services/http/resources/resources-http.service';
+import {of} from 'rxjs';
+import {provideRouter} from '@angular/router';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('PizzaListComponent', () => {
   let component: PizzaListComponent;
   let fixture: ComponentFixture<PizzaListComponent>;
-  let resourceService: jasmine.SpyObj<ResourceService>;
+  let resourceService: jasmine.SpyObj<ResourcesHttpService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
@@ -18,14 +20,16 @@ describe('PizzaListComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PizzaListComponent, TranslateModule.forRoot()],
       providers: [
+        {provide: QueryClient},
+        provideRouter([{path: '**', component: PizzaListComponent}]),
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: ResourceService, useValue: resourceServiceSpy},
+        {provide: ResourcesHttpService, useValue: resourceServiceSpy},
       ],
     })
       .compileComponents();
 
-    resourceService = TestBed.inject(ResourceService) as jasmine.SpyObj<ResourceService>;
-    resourceService.findProducts.and.returnValue(buildQueryResult());
+    resourceService = TestBed.inject(ResourcesHttpService) as jasmine.SpyObj<ResourcesHttpService>;
+    resourceService.findProducts.and.returnValue(of(buildResponse(null, false, 200, 'OK')));
 
     fixture = TestBed.createComponent(PizzaListComponent);
     component = fixture.componentInstance;

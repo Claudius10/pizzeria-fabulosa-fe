@@ -1,11 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {UserAddressItemComponent} from './user-address-item.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {AddressDTO} from '../../../../../utils/interfaces/dto/order';
-import {UserService} from '../../../../../services/http/user/user.service';
+import {UserHttpService} from '../../../../../services/http/user/user-http.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
-describe('AddressItemComponent', () => {
+describe('UserAddressItemComponent', () => {
   let component: UserAddressItemComponent;
   let fixture: ComponentFixture<UserAddressItemComponent>;
 
@@ -15,7 +15,8 @@ describe('AddressItemComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserAddressItemComponent, TranslateModule.forRoot()],
       providers: [
-        {provide: UserService, useValue: userServiceSpy},
+        {provide: QueryClient},
+        {provide: UserHttpService, useValue: userServiceSpy},
       ]
     })
       .compileComponents();

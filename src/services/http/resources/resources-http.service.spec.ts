@@ -1,5 +1,4 @@
 import {TestBed} from '@angular/core/testing';
-
 import {ResourcesHttpService} from './resources-http.service';
 import {provideHttpClient} from '@angular/common/http';
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing';
@@ -28,7 +27,7 @@ describe('ResourcesHttpServiceTest', () => {
   it('givenFindProducts_thenReturnOk', async () => {
 
     const type = "";
-    const url = `${PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}?type=${type}`;
+    const url = `${PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_PRODUCT}?type=${type}&pageNumber=1&pageSize=5`;
 
     // Act
 

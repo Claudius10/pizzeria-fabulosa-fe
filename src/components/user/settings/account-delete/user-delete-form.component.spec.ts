@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {UserDeleteFormComponent} from './user-delete-form.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
-import {AccountService} from '../../../../services/http/account/account.service';
+import {AccountHttpService} from '../../../../services/http/account/account-http.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('UserDeleteFormComponent', () => {
   let component: UserDeleteFormComponent;
@@ -18,9 +18,10 @@ describe('UserDeleteFormComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserDeleteFormComponent, TranslateModule.forRoot()],
       providers: [
+        {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountService, useValue: accountServiceSpy},
+        {provide: AccountHttpService, useValue: accountServiceSpy},
       ]
     })
       .compileComponents();

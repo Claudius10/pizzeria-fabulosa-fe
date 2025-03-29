@@ -17,20 +17,26 @@ import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
 import {DeleteAccountForm, RegisterForm} from '../../../utils/interfaces/http/account';
 import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
+import {AuthService} from '../../auth/auth.service';
 
 describe('AccountHttpServiceTest', () => {
   let service: AccountHttpService;
   let httpTesting: HttpTestingController;
+  let authService: jasmine.SpyObj<AuthService>;
   const PATH = "http://192.168.1.128:8080";
 
   beforeEach(() => {
+    const authServiceSpy = jasmine.createSpyObj('AuthService', [], ['userId']);
+
     TestBed.configureTestingModule({
       providers: [
+        {provide: AuthService, useValue: authServiceSpy},
         provideHttpClient(),
         provideHttpClientTesting()
       ]
     });
 
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     service = TestBed.inject(AccountHttpService);
     httpTesting = TestBed.inject(HttpTestingController);
   });
@@ -129,6 +135,7 @@ describe('AccountHttpServiceTest', () => {
 
     // Arrange
 
+    Object.defineProperty(authService, 'userId', {value: "1"});
     const data: DeleteAccountForm = {
       userId: "1",
       password: ""
@@ -137,7 +144,7 @@ describe('AccountHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.delete(data);
+    const response$ = service.delete("");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const req = httpTesting.expectOne(url);
     const responseValue: ResponseDTO = buildResponse("OK", false, 200, "OK");
@@ -153,6 +160,8 @@ describe('AccountHttpServiceTest', () => {
 
     // Arrange
 
+    Object.defineProperty(authService, 'userId', {value: null});
+
     const data: DeleteAccountForm = {
       userId: null,
       password: ""
@@ -161,7 +170,7 @@ describe('AccountHttpServiceTest', () => {
 
     // Act
 
-    const response$ = service.delete(data);
+    const response$ = service.delete("");
     const response: Promise<ResponseDTO> = firstValueFrom(response$);
     const responseValue: ResponseDTO = buildErrorResponse();
 

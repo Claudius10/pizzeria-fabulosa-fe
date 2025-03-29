@@ -4,6 +4,9 @@ import {TranslateModule} from '@ngx-translate/core';
 import {provideRouter} from '@angular/router';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ErrorService} from '../../../../services/error/error.service';
+import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('OrderComponent', () => {
   let component: OrderComponent;
@@ -17,6 +20,9 @@ describe('OrderComponent', () => {
     await TestBed.configureTestingModule({
       imports: [OrderComponent, TranslateModule.forRoot()],
       providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: ConfirmationService, useValue: confirmationServiceSpy},
         {provide: MessageService, useValue: messageSpy},

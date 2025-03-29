@@ -1,17 +1,18 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {OrderAddressDetailsComponent} from './order-address-details.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {getMockOrderDetails} from '../order-details/order-details.component.spec';
 import {getMockedAddress} from '../../../profile/user-address/user-address-item/user-address-item.component.spec';
-import {ResourceService} from '../../../../../services/http/resources/resource.service';
-import {buildQueryResult} from '../../../../../utils/test-utils';
+import {buildResponse} from '../../../../../utils/test-utils';
 import {ErrorService} from '../../../../../services/error/error.service';
+import {ResourcesHttpService} from '../../../../../services/http/resources/resources-http.service';
+import {of} from 'rxjs';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('OrderAddressDetailsComponent', () => {
   let component: OrderAddressDetailsComponent;
   let fixture: ComponentFixture<OrderAddressDetailsComponent>;
-  let resourceService: jasmine.SpyObj<ResourceService>;
+  let resourceService: jasmine.SpyObj<ResourcesHttpService>;
 
   beforeEach(async () => {
     const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findStoresOnDemand', 'findStores']);
@@ -20,13 +21,14 @@ describe('OrderAddressDetailsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [OrderAddressDetailsComponent, TranslateModule.forRoot()],
       providers: [
-        {provide: ResourceService, useValue: resourceServiceSpy},
+        {provide: QueryClient},
+        {provide: ResourcesHttpService, useValue: resourceServiceSpy},
         {provide: ErrorService, useValue: errorServiceSpy},
       ],
     }).compileComponents();
 
-    resourceService = TestBed.inject(ResourceService) as jasmine.SpyObj<ResourceService>;
-    resourceService.findStores.and.returnValue(buildQueryResult());
+    resourceService = TestBed.inject(ResourcesHttpService) as jasmine.SpyObj<ResourcesHttpService>;
+    resourceService.findStores.and.returnValue(of(buildResponse(null, false, 200, 'OK')));
 
     fixture = TestBed.createComponent(OrderAddressDetailsComponent);
     component = fixture.componentInstance;

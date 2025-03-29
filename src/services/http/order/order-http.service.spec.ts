@@ -5,25 +5,29 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {ANON_BASE, ANON_ORDER, BASE, ORDER_BASE, ORDER_SUMMARY, USER_BASE, V1} from '../../../utils/api-routes';
 import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {firstValueFrom} from 'rxjs';
-import {AnonOrderFormData, NewUserOrderFormData} from '../../../utils/interfaces/http/order';
-import {BaseQueryOptionsIdAndUser} from '../../../utils/interfaces/query';
-import {UserOrderDeleteMutationOptions} from '../../../utils/interfaces/mutation';
+import {AnonOrderFormData, UserOrderFormData} from '../../../utils/interfaces/http/order';
 import {buildErrorResponse, buildResponse} from '../../../utils/test-utils';
+import {AuthService} from '../../auth/auth.service';
 
 describe('OrderHttpServiceTest', () => {
   let service: OrderHttpService;
   let httpTesting: HttpTestingController;
+  let authService: jasmine.SpyObj<AuthService>;
   const PATH = "http://192.168.1.128:8080";
 
   beforeEach(() => {
+    const authServiceSpy = jasmine.createSpyObj('AuthService', [], ['userId']);
+
     TestBed.configureTestingModule({
       providers: [
+        {provide: AuthService, useValue: authServiceSpy},
         OrderHttpService,
         provideHttpClient(),
         provideHttpClientTesting()
       ]
     });
 
+    authService = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     service = TestBed.inject(OrderHttpService);
     httpTesting = TestBed.inject(HttpTestingController);
   });
@@ -32,29 +36,29 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const data: NewUserOrderFormData = {
-      userId: "1",
-      order: {
-        cart: {
-          cartItems: [],
-          id: 1,
-          totalCost: 0,
-          totalQuantity: 0,
-          totalCostOffers: 0,
-        },
-        orderDetails: {
-          id: 1,
-          billToChange: 0,
-          deliveryTime: "asap",
-          comment: "",
-          paymentMethod: "Card",
-          storePickUp: false
-        },
-        addressId: 1
-      }
+    Object.defineProperty(authService, 'userId', {value: "1"});
+
+    const userId = 1;
+    const data: UserOrderFormData = {
+      cart: {
+        cartItems: [],
+        id: 1,
+        totalCost: 0,
+        totalQuantity: 0,
+        totalCostOffers: 0,
+      },
+      orderDetails: {
+        id: 1,
+        billToChange: 0,
+        deliveryTime: "asap",
+        comment: "",
+        paymentMethod: "Card",
+        storePickUp: false
+      },
+      addressId: 1
     };
 
-    const url = `${PATH + BASE + V1 + USER_BASE}/${data.userId + ORDER_BASE}`;
+    const url = `${PATH + BASE + V1 + USER_BASE}/${userId + ORDER_BASE}`;
 
     // Act
 
@@ -74,26 +78,25 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const data: NewUserOrderFormData = {
-      userId: null,
-      order: {
-        cart: {
-          cartItems: [],
-          id: 1,
-          totalCost: 0,
-          totalQuantity: 0,
-          totalCostOffers: 0,
-        },
-        orderDetails: {
-          id: 1,
-          billToChange: 0,
-          deliveryTime: "asap",
-          comment: "",
-          paymentMethod: "Card",
-          storePickUp: false
-        },
-        addressId: 1
-      }
+    Object.defineProperty(authService, 'userId', {value: null});
+
+    const data: UserOrderFormData = {
+      cart: {
+        cartItems: [],
+        id: 1,
+        totalCost: 0,
+        totalQuantity: 0,
+        totalCostOffers: 0,
+      },
+      orderDetails: {
+        id: 1,
+        billToChange: 0,
+        deliveryTime: "asap",
+        comment: "",
+        paymentMethod: "Card",
+        storePickUp: false
+      },
+      addressId: 1
     };
 
     // Act
@@ -159,8 +162,10 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
+    Object.defineProperty(authService, 'userId', {value: "1"});
+
     const pageNumber = 1;
-    const pageSize = 1;
+    const pageSize = 5;
     const userId = "1";
     const url = `${PATH + BASE + V1 + USER_BASE}/${userId + ORDER_BASE + ORDER_SUMMARY}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
@@ -182,9 +187,9 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
+    Object.defineProperty(authService, 'userId', {value: null});
+
     const pageNumber = 1;
-    const pageSize = 1;
-    const userId = null;
 
     // Act
 
@@ -200,7 +205,9 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const options: BaseQueryOptionsIdAndUser = {
+    Object.defineProperty(authService, 'userId', {value: "1"});
+
+    const options = {
       userId: "1",
       id: "1",
       queryKey: [""]
@@ -225,11 +232,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const options: BaseQueryOptionsIdAndUser = {
-      userId: null,
-      id: "1",
-      queryKey: [""]
-    };
+    Object.defineProperty(authService, 'userId', {value: null});
 
     // Act
 
@@ -246,7 +249,9 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const data: UserOrderDeleteMutationOptions = {
+    Object.defineProperty(authService, 'userId', {value: "1"});
+
+    const data = {
       userId: "1",
       orderId: "1"
     };
@@ -270,10 +275,7 @@ describe('OrderHttpServiceTest', () => {
 
     // Arrange
 
-    const data: UserOrderDeleteMutationOptions = {
-      userId: null,
-      orderId: "1"
-    };
+    Object.defineProperty(authService, 'userId', {value: null});
 
     // Act
 

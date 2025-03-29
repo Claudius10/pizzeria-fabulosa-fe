@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
-
 import {LoginDialogComponent} from './login-dialog.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
-import {AccountService} from '../../../services/http/account/account.service';
+import {AccountHttpService} from '../../../services/http/account/account-http.service';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
@@ -18,9 +18,10 @@ describe('LoginDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LoginDialogComponent, TranslateModule.forRoot()],
       providers: [
+        {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountService, useValue: accountServiceSpy},
+        {provide: AccountHttpService, useValue: accountServiceSpy},
       ],
     })
       .compileComponents();
