@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {NgClass, NgOptimizedImage, UpperCasePipe} from '@angular/common';
+import {NgOptimizedImage, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
 import {ProductDTO} from '../../../../utils/interfaces/dto/resources';
@@ -11,7 +11,6 @@ import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
 @Component({
   selector: 'app-product',
   imports: [
-    NgClass,
     Button,
     ProductPriceComponent,
     Dialog,

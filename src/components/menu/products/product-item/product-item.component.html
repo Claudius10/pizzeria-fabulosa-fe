@@ -18,8 +18,7 @@
 
   <!-- INGREDIENTES -->
   @if (product().description !== null) {
-    <div title="{{product().name.en}} Ingredients"
-         [ngClass]="['flex flex-wrap items-start text-center', product().type === 'pizza' ? 'description-pizza' : 'description']">
+    <div title="{{product().name.en}} Ingredients" class="flex flex-wrap items-start text-center description">
       {{ currentLang() === 'es' ? product().description!.es.join(", ") : product().description!.en.join(", ") }}
     </div>
   }
