@@ -59,6 +59,7 @@ export class BeverageListComponent implements OnInit {
   private currentElements = DEFAULT_PAGE_MAX_SIZE;
   protected skeletonCount = DEFAULT_PAGE_MAX_SIZE;
   protected totalElements = 0;
+  private totalPages = 0;
   protected first = 0;
   protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
   protected query: QueryResult = !this.isServer ? injectQuery(() => ({
@@ -89,6 +90,7 @@ export class BeverageListComponent implements OnInit {
             } else {
               this.totalElements = response.payload.totalElements;
               this.currentElements = response.payload.productList.length;
+              this.totalPages = response.payload.totalPages;
             }
           }
         }
@@ -104,18 +106,22 @@ export class BeverageListComponent implements OnInit {
 
   onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
-    const page = event.page === undefined ? 1 : event.page + 1;
-    this.skeletonCount = this.countSkeletons();
-    this.page.set(page);
-    this.router.navigate(["pizzas"], {queryParams: {page: page}});
+    const nextPage = event.page === undefined ? 1 : event.page + 1;
+    this.skeletonCount = this.countSkeletons(this.page(), nextPage);
+    this.page.set(nextPage);
+    this.router.navigate(["pizzas"], {queryParams: {page: nextPage}});
   }
 
-  private countSkeletons() {
-    if (DEFAULT_PAGE_MAX_SIZE > this.totalElements) {
-      return this.totalElements;
-    } else {
-      return this.totalElements - this.currentElements;
+  private countSkeletons(currentPage: number, nextPage: number) {
+    if (nextPage < this.totalPages) {
+      return DEFAULT_PAGE_MAX_SIZE;
     }
+
+    if (nextPage === this.totalPages) {
+      return this.totalElements - (this.currentElements * currentPage);
+    }
+
+    return DEFAULT_PAGE_MAX_SIZE;
   }
 
   protected readonly getAllBeverageFilters = getAllBeverageFilters;

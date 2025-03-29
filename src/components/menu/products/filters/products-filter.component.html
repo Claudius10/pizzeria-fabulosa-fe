@@ -51,7 +51,7 @@
       <span class="font-bold font text-2xl ml-1">{{ "component.products.filters.drawer.header" | translate }}</span>
     </ng-template>
 
-    <div class="flex flex-col gap-2">
+    <div title="Filters Drawer" class="flex flex-col gap-2">
       @if (!filterService.areFiltersEmpty) {
         <div class="flex flex-wrap gap-1" @pillsAnimation>
           @for (filter of filters(); track $index) {

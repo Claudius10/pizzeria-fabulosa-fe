@@ -64,6 +64,13 @@ test.describe('API OK', () => {
   });
 });
 
+test.describe('Skeletons', () => {
+  test('ShowSkeletons', async ({page}) => {
+    await page.goto('/beverages');
+    await expect(page.getByTitle("Beverage List").getByRole('listitem')).toHaveCount(8);
+  });
+});
+
 test.describe('API KO', () => {
   test('givenBeveragesRoute_whenApiIsDown_thenDisplayServerError', async ({page}) => {
     await page.goto('/beverages');

@@ -16,7 +16,9 @@
 
       @if (query.status() === "pending") {
         <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
-          <p-skeleton width="15rem" height="25rem"/>
+          <li>
+            <p-skeleton width="15rem" height="25rem"/>
+          </li>
         </ng-container>
       }
 

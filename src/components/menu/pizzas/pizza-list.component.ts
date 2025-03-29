@@ -60,8 +60,9 @@ export class PizzaListComponent implements OnInit {
   private router = inject(Router);
   protected filters = this.filterService.getFilters();
   private currentElements = DEFAULT_PAGE_MAX_SIZE;
-  protected skeletonCount = 8;
+  protected skeletonCount = DEFAULT_PAGE_MAX_SIZE + 1;
   protected totalElements = 0;
+  private totalPages = 0;
   protected first = 0;
   protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
@@ -94,6 +95,7 @@ export class PizzaListComponent implements OnInit {
             } else {
               this.totalElements = response.payload.totalElements;
               this.currentElements = response.payload.productList.length;
+              this.totalPages = response.payload.totalPages;
             }
           }
         }
@@ -109,18 +111,26 @@ export class PizzaListComponent implements OnInit {
 
   onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
-    const page = event.page === undefined ? 1 : event.page + 1;
-    this.skeletonCount = this.countSkeletons();
-    this.page.set(page);
-    this.router.navigate(["pizzas"], {queryParams: {page: page}});
+    const nextPage = event.page === undefined ? 1 : event.page + 1;
+    this.skeletonCount = this.countSkeletons(this.page(), nextPage);
+    this.page.set(nextPage);
+    this.router.navigate(["pizzas"], {queryParams: {page: nextPage}});
   }
 
-  private countSkeletons() {
-    if (DEFAULT_PAGE_MAX_SIZE > this.totalElements) {
-      return this.totalElements;
-    } else {
-      return this.totalElements - this.currentElements;
+  private countSkeletons(currentPage: number, nextPage: number) {
+    if (nextPage < this.totalPages) {
+      if (nextPage !== 1) {
+        return DEFAULT_PAGE_MAX_SIZE;
+      } else {
+        return DEFAULT_PAGE_MAX_SIZE + 1; // first page is + 1 to account for the custom pizza item
+      }
     }
+
+    if (nextPage === this.totalPages) {
+      return this.totalElements - (this.currentElements * currentPage);
+    }
+
+    return DEFAULT_PAGE_MAX_SIZE;
   }
 
   protected readonly getAllPizzaFilters = getAllPizzaFilters;

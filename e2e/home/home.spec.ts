@@ -54,17 +54,17 @@ test.describe('API OK', () => {
   });
 });
 
-test.describe('Conditions/Schedule', () => {
+test.describe('Skeletons', () => {
   test.beforeEach(async ({page}) => {
-    await page.route('*/**/api/v1/resource/offer', async route => {
-      await route.fulfill({json: offers});
-    });
-
-    await page.route('*/**/api/v1/resource/store', async route => {
-      await route.fulfill({json: stores});
-    });
-
     await page.goto('/');
+  });
+
+  test('ShowOfferSkeletons', async ({page}) => {
+    await expect(page.getByTitle("Offers").getByRole('listitem')).toHaveCount(2);
+  });
+
+  test('ShowOStoreSkeletons', async ({page}) => {
+    await expect(page.getByTitle("Stores").getByRole('listitem')).toHaveCount(2);
   });
 });
 

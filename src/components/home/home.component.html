@@ -17,8 +17,12 @@
 
     <ul title="Offers" class="flex flex-wrap justify-center gap-8">
       @if (offers.status() === 'pending') {
-        <p-skeleton width="320px" height="425.15px"/>
-        <p-skeleton width="320px" height="425.15px"/>
+        <li>
+          <p-skeleton width="320px" height="425.15px"/>
+        </li>
+        <li>
+          <p-skeleton width="320px" height="425.15px"/>
+        </li>
       }
 
       @if (offers.status() === 'success') {
@@ -41,8 +45,12 @@
 
     <ul title="Stores" class="flex flex-wrap justify-center gap-8">
       @if (stores.status() === 'pending') {
-        <p-skeleton width="320px" height="401.25px"/>
-        <p-skeleton width="320px" height="401.25px"/>
+        <li>
+          <p-skeleton width="320px" height="401.25px"/>
+        </li>
+        <li>
+          <p-skeleton width="320px" height="401.25px"/>
+        </li>
       }
 
       @if (stores.status() === 'success') {

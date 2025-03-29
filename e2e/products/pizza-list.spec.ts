@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {pizzas} from '../api-responses';
+import {pizzas, pizzasPageTwo} from '../api-responses';
 
 test.describe('API OK', () => {
   test.beforeEach(async ({page}) => {
@@ -71,6 +71,93 @@ test.describe('API OK', () => {
 
     await closeButton.click();
     await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
+  });
+});
+
+test.describe('Navigation', () => {
+  test('givenPageTwo_fromPageOne_thenShowItems', async ({page}) => {
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=1&pageSize=7', async route => {
+      await route.fulfill({json: pizzasPageTwo});
+    });
+
+    await page.goto('/pizzas');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+
+    await page.getByRole('button', {name: 'Page 2'}).click();
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+  });
+
+  test('givenPageOne_fromPageTwo_thenShowItems', async ({page}) => {
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=1&pageSize=7', async route => {
+      await route.fulfill({json: pizzasPageTwo});
+    });
+
+    await page.goto('/pizzas');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+
+    await page.getByRole('button', {name: 'Page 2'}).click();
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+
+    await page.getByRole('button', {name: 'Page 1'}).click();
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=1');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+  });
+});
+
+test.describe('Skeletons', () => {
+  test('givenPageOne_thenShowSkeletons', async ({page}) => {
+    await page.goto('/pizzas?page=1');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=1');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+  });
+
+  test('givenPageTwo_thenShowSkeletons', async ({page}) => {
+    await page.goto('/pizzas?page=2');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+  });
+
+  test('givenPageTwo_fromPageOne_thenShowSkeletons', async ({page}) => {
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
+    await page.goto('/pizzas');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
+
+    await page.getByRole('button', {name: 'Page 2'}).click();
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+
+  });
+
+  test('givenPageOne_fromPageTwo_thenShowSkeletons', async ({page}) => {
+
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=1&pageSize=7', async route => {
+      await route.fulfill({json: pizzasPageTwo});
+    });
+
+    await page.goto('/pizzas?page=2');
+    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
+
+    await page.getByRole('button', {name: 'Page 1'}).click();
+    await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
   });
 });
 
