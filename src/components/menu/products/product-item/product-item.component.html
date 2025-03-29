@@ -28,11 +28,11 @@
   <p-button
     class="pb-2"
     title="{{product().name.en}} Details"
+    aria-label="Open {{product().name.en}} Details"
     type="button"
     icon="pi pi-plus"
     [raised]="true"
     size="small"
-    aria-label="Open Product Details"
     (click)="dialogVisibility(true)"/>
 </div>
 <p-dialog
