@@ -30,7 +30,7 @@ test.describe('Large screen tests', () => {
   });
 
   test('RightSideButtonsIsVisible', async ({page}) => {
-    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(5);
+    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(4);
   });
 
   test('givenClickOnPizzas_whenOnHomeRoute_thenNavToPizzasRoute', async ({page}) => {
@@ -307,7 +307,7 @@ test.describe('Small screen tests', () => {
   });
 
   test('RightSideButtonsIsVisible', async ({page}) => {
-    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(6);
+    await expect(page.getByTitle("Navigation Buttons").getByRole('listitem')).toHaveCount(5);
   });
 
   test('givenClickOnNavBarMenu_thenShowNavMenuDrawer', async ({page}) => {

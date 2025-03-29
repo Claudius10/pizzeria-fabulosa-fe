@@ -14,7 +14,7 @@ test.describe('Render: Large Screen', () => {
 
   test('givenFatalError_thenShowErrorPage', async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: fatalError});
     });
 
@@ -59,7 +59,7 @@ test.describe('Render: Small Screen', () => {
 
   test('givenFatalError_thenShowErrorPage', async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: fatalError});
     });
 

@@ -6,7 +6,9 @@
   <ul class="flex flex-col justify-center gap-4 w-full" title="Orders Summary List">
     @if (orderList.status() === 'pending') {
       <ng-container *ngFor="let _ of [].constructor(5)">
-        <p-skeleton height="131.5px"/>
+        <li>
+          <p-skeleton height="131.5px"/>
+        </li>
       </ng-container>
     }
 
