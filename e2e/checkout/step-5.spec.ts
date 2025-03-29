@@ -18,15 +18,22 @@ test.describe('Render: Large Screen', () => {
 
     // step 1
 
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
+
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
@@ -112,28 +119,31 @@ test.describe('Render: Large Screen', () => {
 
   test('givenAnonUserAndStoreAndProgrammedHourAndCashNoChange_thenRender', async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/resource/store', async route => {
       await route.fulfill({json: stores});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -212,28 +222,31 @@ test.describe('Render: Large Screen', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/user/58/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const next = page.getByRole('button', {name: 'NEXT'});
 
@@ -312,24 +325,27 @@ test.describe('Render: Small Screen', () => {
 
   test('givenAnonUserAndAddressAndAsapAndCard_thenRender', async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
-
-    // step 1
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -398,28 +414,31 @@ test.describe('Render: Small Screen', () => {
 
   test('givenAnonUserAndStoreAndProgrammedHourAndCashNoChange_thenRender', async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/resource/store', async route => {
       await route.fulfill({json: stores});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});
@@ -497,28 +516,31 @@ test.describe('Render: Small Screen', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/user/58/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const next = page.getByRole('button', {name: 'NEXT'});
 
@@ -597,28 +619,31 @@ test.describe('Buttons', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/user/58/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const next = page.getByRole('button', {name: 'NEXT'});
 
@@ -739,10 +764,6 @@ test.describe('Order Success', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/user/58/address', async route => {
       await route.fulfill({json: userAddressList});
     });
@@ -751,20 +772,27 @@ test.describe('Order Success', () => {
       await route.fulfill({json: userOrderSuccess});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const next = page.getByRole('button', {name: 'NEXT'});
 
@@ -848,10 +876,6 @@ test.describe('Order Success', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
-      await route.fulfill({json: pizzas});
-    });
-
     await page.route('*/**/api/v1/anon/order', async route => {
       await route.fulfill({json: anonUserOrderSuccess});
     });
@@ -860,20 +884,27 @@ test.describe('Order Success', () => {
       await route.fulfill({json: stores});
     });
 
-    // step 1
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
+      await route.fulfill({json: pizzas});
+    });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
+
+    // step 1
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});
     const emailInput = page.getByRole('textbox', {name: 'Email', exact: true});

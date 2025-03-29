@@ -4,19 +4,22 @@ import {pizzas} from '../api-responses';
 test.describe('Render: Large Screen', () => {
   test.beforeEach(async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
@@ -202,19 +205,22 @@ test.describe('Render: Small screen', () => {
 
   test.beforeEach(async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
@@ -263,19 +269,22 @@ test.describe('Render: Small screen', () => {
 test.describe('Buttons', () => {
   test.beforeEach(async ({page}) => {
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
     await page.goto('/pizzas');
     await page.waitForURL('http://192.168.1.128:4200/pizzas');
 
-    const addProduct = page.getByTitle('Add Cuatro Quesos').getByRole('button');
-    await expect(addProduct).toBeVisible();
+    const productDetails = page.getByTitle('Gluten Free Details').getByRole('button');
+    const addProduct = page.getByLabel('Add to Cart').getByRole('button');
     const cartButton = page.getByRole('button', {name: 'Open Cart'});
 
+    await productDetails.click();
     await addProduct.click();
+    await expect(page.getByRole('dialog', {name: 'Gluten Free'})).not.toBeVisible();
     await cartButton.click();
+
     const checkout = page.getByRole('button', {name: 'PROCEED TO CHECKOUT'});
     await checkout.click();
     expect(page.url()).toBe('http://192.168.1.128:4200/order/new/step-one');
