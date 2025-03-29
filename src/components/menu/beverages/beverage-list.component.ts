@@ -62,10 +62,12 @@ export class BeverageListComponent implements OnInit {
   private totalPages = 0;
   protected first = 0;
   protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+
   protected query: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_BEVERAGE, this.page() - 1],
     queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
   })) : tempQueryResult();
+
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
   ngOnInit() {
