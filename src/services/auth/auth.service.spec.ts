@@ -22,7 +22,7 @@ describe('AuthServiceTests', () => {
     expect(service.userEmail).toBe("john@email.com");
     expect(service.userName).toBe("John Doe");
     expect(service.userContactNumber).toBe("123123123");
-    expect(service.isAuthenticated).toBeTrue();
+    expect(service.isAuthenticated()).toBeTrue();
   });
 
   it('givenInvalidToken_thenReturnFalse', () => {
@@ -37,7 +37,7 @@ describe('AuthServiceTests', () => {
     expect(service.userEmail).toBe(null);
     expect(service.userName).toBe(null);
     expect(service.userContactNumber).toBe(null);
-    expect(service.isAuthenticated).toBeFalse();
+    expect(service.isAuthenticated()).toBeFalse();
   });
 
   it('givenLoggedInUser_thenLogout', () => {
@@ -49,7 +49,7 @@ describe('AuthServiceTests', () => {
     expect(service.userEmail).toBe("john@email.com");
     expect(service.userName).toBe("John Doe");
     expect(service.userContactNumber).toBe("123123123");
-    expect(service.isAuthenticated).toBeTrue();
+    expect(service.isAuthenticated()).toBeTrue();
 
     // Act
 
@@ -61,6 +61,6 @@ describe('AuthServiceTests', () => {
     expect(service.userEmail).toBe(null);
     expect(service.userName).toBe(null);
     expect(service.userContactNumber).toBe(null);
-    expect(service.isAuthenticated).toBeFalse();
+    expect(service.isAuthenticated()).toBeFalse();
   });
 });

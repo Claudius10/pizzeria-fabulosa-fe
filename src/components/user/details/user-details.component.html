@@ -3,21 +3,21 @@
     title="Name"
     class="flex gap-1">{{ "form.label.name" | translate }}:
     <span
-      class="text-primary uppercase">{{ this.authService.isAuthenticated ? this.authService.userName : anon()?.name }}
+      class="text-primary uppercase">{{ this.authService.isAuthenticated() ? this.authService.userName : anon()?.name }}
   </span>
   </span>
   <span
     title="Email"
     class="flex gap-1">{{ "form.label.email" | translate }}:
     <span
-      class="text-primary uppercase"> {{ this.authService.isAuthenticated ? this.authService.userEmail : anon()?.email }}
+      class="text-primary uppercase"> {{ this.authService.isAuthenticated() ? this.authService.userEmail : anon()?.email }}
     </span>
   </span>
   <span
     title="Contact Number"
     class="flex gap-1">{{ "form.label.contact.number" | translate }}:
     <span
-      class="text-primary uppercase"> {{ this.authService.isAuthenticated ? this.authService.userContactNumber : anon()?.contactNumber }}
+      class="text-primary uppercase"> {{ this.authService.isAuthenticated() ? this.authService.userContactNumber : anon()?.contactNumber }}
     </span>
   </span>
 </div>

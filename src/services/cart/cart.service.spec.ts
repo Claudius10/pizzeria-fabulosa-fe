@@ -2,21 +2,13 @@ import {TestBed} from '@angular/core/testing';
 
 import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {CartService} from './cart.service';
-import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_CART} from '../../utils/constants';
 
 describe('CartServiceTests', () => {
   let cartService: CartService;
-  let cookieService: SsrCookieService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     cartService = TestBed.inject(CartService);
-    cookieService = TestBed.inject(SsrCookieService);
-  });
-
-  afterAll(() => {
-    cookieService.deleteAll();
   });
 
   it('givenItems_thenSetCart', () => {
@@ -32,7 +24,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(1);
     expect(cartService.totalAfterOffers).toBe(0);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenItems_whenTwoForHalfOfferApplies_thenWorkAsExpected', () => {
@@ -48,7 +39,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(2);
     expect(cartService.totalAfterOffers).toBe(1.5);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenItems_whenThreeForTwoOfferApplies_thenWorkAsExpected', () => {
@@ -64,7 +54,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(1);
     expect(cartService.total).toBe(3);
     expect(cartService.totalAfterOffers).toBe(2);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenItems_whenTwoForHalfAndThreeForTwoOfferApplies_thenWorkAsExpected', () => {
@@ -80,7 +69,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(1);
     expect(cartService.total).toBe(5);
     expect(cartService.totalAfterOffers).toBe(3.5);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenEmptyCart_thenAddItem', () => {
@@ -101,7 +89,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(1);
     expect(cartService.totalAfterOffers).toBe(0);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenItem_whenAddingTheSameItem_thenIncreaseQuantityOfItem', () => {
@@ -123,7 +110,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(2);
     expect(cartService.totalAfterOffers).toBe(1.5);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenCartWithOneItem_thenIncreaseQuantity', () => {
@@ -145,7 +131,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(2);
     expect(cartService.totalAfterOffers).toBe(1.5);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenCartWithTwoItems_thenIncreaseQuantityOfItemOne', () => {
@@ -169,7 +154,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(1);
     expect(cartService.total).toBe(3);
     expect(cartService.totalAfterOffers).toBe(2);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenCartWithOneItem_thenEmptyCartAfterDecreasingQuantity', () => {
@@ -191,7 +175,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(0);
     expect(cartService.totalAfterOffers).toBe(0);
-    expect(cookieService.check(COOKIE_CART)).toBeFalse();
   });
 
   it('givenCartWithItemWithTwoQuantity_thenDecreaseQuantity', () => {
@@ -213,7 +196,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(1);
     expect(cartService.totalAfterOffers).toBe(0);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenCartWithTwoItemsWithTwoQuantity_thenDecreaseQuantityOfItemOne', () => {
@@ -237,7 +219,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(1);
     expect(cartService.total).toBe(3);
     expect(cartService.totalAfterOffers).toBe(2);
-    expect(cookieService.check(COOKIE_CART)).toBeTrue();
   });
 
   it('givenCart_thenEmptyCart', () => {
@@ -261,7 +242,6 @@ describe('CartServiceTests', () => {
     expect(cartService.threeForTwoOffers).toBe(0);
     expect(cartService.total).toBe(0);
     expect(cartService.totalAfterOffers).toBe(0);
-    expect(cookieService.check(COOKIE_CART)).toBeFalse();
   });
 
   it('givenCart_thenReturnTrueThatCartIsNotEmpty', () => {

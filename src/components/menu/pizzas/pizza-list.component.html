@@ -1,57 +1,56 @@
-<div class="layout">
-
-  @if (query.status() !== "error") {
+@if (query.status() !== "error") {
+  <div class="layout">
     <div class="products-search">
       <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
       <app-products-filter [items]="getAllPizzaFilters()"/>
     </div>
-  }
 
-  <div class="container">
-    <ul title="Pizza List" class="products flex flex-wrap gap-y-8 gap-x-8">
+    <div class="container">
+      <ul title="Pizza List" class="products flex flex-wrap gap-y-8 gap-x-8">
 
-      @if (query.status() === "error") {
-        <app-server-error/>
-      }
+        @if (query.status() === "pending") {
+          <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
+            <li>
+              <p-skeleton width="15rem" height="25rem"/>
+            </li>
+          </ng-container>
+        }
 
-      @if (query.status() === "pending") {
-        <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
-          <li>
-            <p-skeleton width="15rem" height="25rem"/>
-          </li>
-        </ng-container>
-      }
+        @if (query.status() === "success") {
+          @if (query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); as products) {
+            @if (products.length > 0) {
 
-      @if (query.status() === "success") {
-        @if (query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); as products) {
-          @if (products.length > 0) {
+              @if (this.page() === 1) {
+                <li>
+                  <app-custom-pizza/>
+                </li>
+              }
 
-            @if (this.page() === 1) {
-              <li>
-                <app-custom-pizza/>
-              </li>
+              @for (product of products; track product.id) {
+                <li>
+                  <app-product [product]="product"/>
+                </li>
+              }
+
+            } @else {
+              <p class="text-2xl">{{ 'component.pizzas.filter.result.empty' | translate }}</p>
             }
-
-            @for (product of products; track product.id) {
-              <li>
-                <app-product [product]="product"/>
-              </li>
-            }
-
-          } @else {
-            <p class="text-2xl">{{ 'component.pizzas.filter.result.empty' | translate }}</p>
           }
         }
-      }
-    </ul>
+      </ul>
 
-    <div class="paginator">
-      <p-paginator
-        title="Paginator"
-        (onPageChange)="onPageChange($event)"
-        [first]="first"
-        [rows]="7"
-        [totalRecords]="totalElements"/>
+      <div class="paginator">
+        <p-paginator
+          title="Paginator"
+          (onPageChange)="onPageChange($event)"
+          [first]="first"
+          [rows]="7"
+          [totalRecords]="totalElements"/>
+      </div>
     </div>
   </div>
-</div>
+} @else {
+  <div class="flex justify-center">
+    <app-server-error/>
+  </div>
+}

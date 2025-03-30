@@ -96,7 +96,7 @@ export class StepTwoWhereComponent implements OnInit {
     // set up component
     this.checkoutFormService.step = 1;
 
-    if (!this.authService.isAuthenticated) {
+    if (!this.authService.isAuthenticated()) {
       this.setHomeDeliveryValidators(true);
     }
 
@@ -140,7 +140,7 @@ export class StepTwoWhereComponent implements OnInit {
       this.checkoutFormService.homeDelivery = true;
 
       // if user is logged in
-      if (this.authService.isAuthenticated) {
+      if (this.authService.isAuthenticated()) {
         this.setHomeDeliveryValidators(false);
       } else {
         // if anon user
@@ -179,7 +179,7 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   nextStep() {
-    if (this.authService.isAuthenticated) {
+    if (this.authService.isAuthenticated()) {
       if (this.checkoutFormService.selectedAddress.id !== null) {
         this.router.navigate(['order', 'new', 'step-three']);
       } else {

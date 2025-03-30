@@ -65,7 +65,7 @@ export class StepOneWhoComponent implements OnInit {
       });
     }
 
-    if (!this.authService.isAuthenticated) {
+    if (!this.authService.isAuthenticated()) {
       this.form.controls.fullName.addValidators([Validators.required, Validators.minLength(2), Validators.maxLength(50)]);
       this.form.controls.email.addValidators([Validators.required, Validators.pattern(emailRgx)]);
       this.form.controls.contactNumber.addValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)]);

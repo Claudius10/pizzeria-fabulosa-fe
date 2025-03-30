@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {Button} from 'primeng/button';
 import {Router, RouterLink} from '@angular/router';
@@ -34,7 +34,7 @@ import {UserDetailsComponent} from "../../user/details/user-details.component";
   styleUrl: './new-order-success.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewOrderSuccessComponent implements OnInit {
+export class NewOrderSuccessComponent {
   protected checkoutFormService = inject(CheckoutFormService);
   protected authService = inject(AuthService);
   private cartService = inject(CartService);
@@ -45,15 +45,17 @@ export class NewOrderSuccessComponent implements OnInit {
     this.router.navigate(['/pizzas']);
   }
 
-  ngOnInit(): void {
-    if (this.checkoutFormService.orderSuccess) {
-      const cart = this.checkoutFormService.orderSuccess.cart!;
-      this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
-    }
+  constructor() {
+    afterNextRender(() => {
+      if (this.checkoutFormService.orderSuccess) {
+        const cart = this.checkoutFormService.orderSuccess.cart!;
+        this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+      }
 
-    this.destroyRef.onDestroy(() => {
-      this.cartService.clear();
-      this.checkoutFormService.clear();
+      this.destroyRef.onDestroy(() => {
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+      });
     });
   }
 }

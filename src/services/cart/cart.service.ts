@@ -1,15 +1,13 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
-import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_CART, COOKIE_LIFE_30_DAYS, COOKIE_PATH} from '../../utils/constants';
+import {CART} from '../../utils/constants';
 import {getDarkIcon, getLightIcon} from '../../utils/functions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  private cookieService = inject(SsrCookieService);
   items = signal<CartItemDTO[]>([]);
   total = 0;
   totalAfterOffers = 0;
@@ -24,7 +22,7 @@ export class CartService {
     this.total = total;
     this.items.set(items);
     this.calculateCostWithOffers(items, total);
-    this.updateCartCookie();
+    this.updateCart();
   }
 
   add(item: CartItemDTO) {
@@ -42,7 +40,7 @@ export class CartService {
       this.calculateCostWithOffers(this.items(), this.total);
     }
 
-    this.updateCartCookie();
+    this.updateCart();
   }
 
   decreaseQuantity(id: string) {
@@ -63,7 +61,7 @@ export class CartService {
       this.calculateCostWithOffers(this.items(), this.total);
     }
 
-    this.updateCartCookie();
+    this.updateCart();
   }
 
   increaseQuantity(id: string) {
@@ -75,7 +73,7 @@ export class CartService {
     this.updateQuantity(this.items());
     this.updateTotal(this.items());
     this.calculateCostWithOffers(this.items(), this.total);
-    this.updateCartCookie();
+    this.updateCart();
   }
 
   private updateQuantity(items: CartItemDTO[]) {
@@ -127,14 +125,14 @@ export class CartService {
     this.totalAfterOffers = 0;
     this.quantity.set(0);
     this.calculateCostWithOffers([], 0);
-    this.updateCartCookie();
+    this.updateCart();
   }
 
   isEmpty() {
     return this.items().length === 0;
   }
 
-  private updateCartCookie() {
+  private updateCart() {
     const cart = new Cart()
       .withItems(this.items())
       .withTotal(this.total)
@@ -143,11 +141,7 @@ export class CartService {
       .withThreeForTwo(this.threeForTwoOffers)
       .withSecondHalfPrice(this.secondHalfPriceOffer);
 
-    if (cart.items.length > 0) {
-      this.setCartCookie(cart);
-    } else {
-      this.cookieService.delete(COOKIE_CART);
-    }
+    this.setCart(cart);
   }
 
   private getPizzaItems(items: CartItemDTO[]) {
@@ -166,12 +160,12 @@ export class CartService {
     return Math.min(...pizzaPrices);
   }
 
-  private setCartCookie(cart: ICart) {
-    this.cookieService.set(COOKIE_CART, JSON.stringify(cart), COOKIE_LIFE_30_DAYS, COOKIE_PATH);
+  private setCart(cart: ICart) {
+    localStorage.setItem(CART, JSON.stringify(cart));
   }
 
-  getCartCookie(): ICart {
-    return JSON.parse(this.cookieService.get(COOKIE_CART));
+  getCart(): ICart | null {
+    return localStorage.getItem(CART) === null ? null : JSON.parse(localStorage.getItem(CART)!);
   }
 
   // when loading order in user orders or in order-success

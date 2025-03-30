@@ -67,7 +67,7 @@
         </button>
       </li>
 
-      @if (!authService.isAuthenticated) {
+      @if (!authService.isAuthenticated()) {
         <!-- SIGN IN BUTTON -->
         <li (click)="showLoginDialog()">
           <button

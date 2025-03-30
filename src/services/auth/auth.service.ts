@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {jwtDecode, JwtPayload} from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  isAuthenticated = false;
+  isAuthenticated = signal(false);
   loginDialog = false;
   logoutDialog = false;
   userId: string | null = null;
@@ -24,7 +24,7 @@ export class AuthService {
     this.userEmail = idToken.sub!;
     this.userName = idToken.name;
     this.userContactNumber = idToken.contactNumber;
-    this.isAuthenticated = true;
+    this.isAuthenticated.set(true);
     return true;
   }
 
@@ -33,7 +33,7 @@ export class AuthService {
     this.userEmail = null;
     this.userName = null;
     this.userContactNumber = null;
-    this.isAuthenticated = false;
+    this.isAuthenticated.set(false);
   }
 
   private decode(token: string): MyJwtPayload | null {

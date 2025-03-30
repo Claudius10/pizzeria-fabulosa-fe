@@ -327,48 +327,70 @@ test.describe('Cancel', () => {
     const after = new Date(Date.now() - 4260000);
 
     await page.route('*/**/api/v1/user/58/order/1', async route => {
-      await route.fulfill({
-        json: {
-          "timeStamp": "2025-03-16T10:49:39.545213687",
-          "status": {"code": 200, "description": "OK", "error": false},
-          "payload": {
-            "id": 1,
-            "createdOn": after, // NOTE
-            "updatedOn": null,
-            "formattedCreatedOn": after.toString(),
-            "formattedUpdatedOn": null,
-            "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
-            "orderDetails": {
+      if (route.request().method() === 'GET') {
+        await route.fulfill({
+          json: {
+            "timeStamp": "2025-03-16T10:49:39.545213687",
+            "status": {"code": 200, "description": "OK", "error": false},
+            "payload": {
               "id": 1,
-              "deliveryTime": "form.select.time.asap",
-              "paymentMethod": "form.select.payment.method.card",
-              "billToChange": null,
-              "changeToGive": null,
-              "comment": null,
-              "storePickUp": false,
+              "createdOn": after, // NOTE
+              "updatedOn": null,
+              "formattedCreatedOn": after.toString(),
+              "formattedUpdatedOn": null,
+              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+              "orderDetails": {
+                "id": 1,
+                "deliveryTime": "form.select.time.asap",
+                "paymentMethod": "form.select.payment.method.card",
+                "billToChange": null,
+                "changeToGive": null,
+                "comment": null,
+                "storePickUp": false,
+              },
+              "cart": {
+                "id": 1,
+                "totalQuantity": 1,
+                "totalCost": 13.3,
+                "totalCostOffers": 0.0,
+                "cartItems": [{
+                  "id": 41,
+                  "type": "pizza",
+                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
+                  "description": {
+                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
+                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
+                  },
+                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
+                  "price": 13.3,
+                  "quantity": 1
+                }]
+              }
             },
-            "cart": {
-              "id": 1,
-              "totalQuantity": 1,
-              "totalCost": 13.3,
-              "totalCostOffers": 0.0,
-              "cartItems": [{
-                "id": 41,
-                "type": "pizza",
-                "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-                "description": {
-                  "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-                  "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-                },
-                "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
-                "price": 13.3,
-                "quantity": 1
-              }]
+            "error": null
+          }
+        });
+      }
+
+      if (route.request().method() === 'DELETE') {
+        await route.fulfill({
+          json: {
+            "timeStamp": "2025-03-30T11:25:14.123733072",
+            "status": {"code": 400, "description": "BAD_REQUEST", "error": true},
+            "payload": null,
+            "error": {
+              "id": 1697341244253227009,
+              "cause": "InvalidOrderDeleteTime",
+              "message": null,
+              "origin": "ValidateOrderOperation.validateUserOrderDelete",
+              "path": null,
+              "logged": false,
+              "fatal": false,
+              "createdOn": null
             }
-          },
-          "error": null
-        }
-      });
+          }
+        });
+      }
     });
 
     await page.goto('/user/orders/1');
@@ -379,11 +401,13 @@ test.describe('Cancel', () => {
     // Act
 
     await cancelButton.click();
+    await page.getByRole('button', {name: 'Yes'}).click();
 
     // Assert
 
     await expect(page.getByRole('alert').getByText('Warning')).toBeVisible();
-    await expect(page.getByText('The order can no longer be cancelled')).toBeVisible();
+    await expect(page.getByText('The order cannot be canceled 10 minutes after creation')).toBeVisible();
+    await expect(page.getByRole('alertdialog', {name: 'Confirmation'})).not.toBeVisible();
   });
 
   test('givenOrderDelete_whenApiIsDown_thenShowErrorMessage', async ({page}) => {

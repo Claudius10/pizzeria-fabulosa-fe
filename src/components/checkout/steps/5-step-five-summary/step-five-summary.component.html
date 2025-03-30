@@ -17,7 +17,7 @@
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
 
-          @if (authService.isAuthenticated) {
+          @if (authService.isAuthenticated()) {
             <app-user-details/>
           } @else {
             <app-user-details [anon]="checkoutFormService.who!"/>

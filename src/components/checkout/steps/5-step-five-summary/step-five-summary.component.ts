@@ -99,7 +99,7 @@ export class StepFiveSummaryComponent implements OnInit {
 
         } else {
           // user address
-          if (this.authService.isAuthenticated) {
+          if (this.authService.isAuthenticated()) {
             const fetchedUserAddressList = this.userAddressList.data()!.payload as AddressDTO[]; // NOTE - in cache
             const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.selectedAddress.id);
             this.selectedAddress = fetchedUserAddressList[selectedAddressIndex];
@@ -121,7 +121,7 @@ export class StepFiveSummaryComponent implements OnInit {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      if (this.authService.isAuthenticated) {
+      if (this.authService.isAuthenticated()) {
         if (this.checkoutFormService.selectedAddress.id !== null) {
           this.newUserOrder();
         }
