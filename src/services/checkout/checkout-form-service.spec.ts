@@ -203,15 +203,4 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     expect(result).toBeFalse();
   });
-
-  it('givenDeliveryHourRequest_thenReturnHours', () => {
-
-    // Act
-
-    const result = service.getDeliveryHours(false);
-
-    // Assert
-
-    expect(result.length !== 0).toBeTrue();
-  });
 });

@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {pizzas} from '../api-responses';
+import {nowFromBE, pizzas} from '../api-responses';
 
 test.describe('Render: Large Screen', () => {
   test.beforeEach(async ({page}) => {
@@ -189,6 +189,10 @@ test.describe('Buttons', () => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/now', async route => {
+      await route.fulfill({json: nowFromBE});
     });
 
     await page.goto('/pizzas');

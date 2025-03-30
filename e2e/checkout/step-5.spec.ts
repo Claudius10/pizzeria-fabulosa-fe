@@ -2,6 +2,7 @@ import {expect, test} from '@playwright/test';
 import {
   anonUserOrderSuccess,
   AUTH_TOKEN_COOKIE,
+  nowFromBE,
   pizzas,
   stores,
   userAddressList,
@@ -124,6 +125,10 @@ test.describe('Render: Large Screen', () => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/now', async route => {
+      await route.fulfill({json: nowFromBE});
     });
 
     await page.goto('/pizzas');
@@ -416,6 +421,10 @@ test.describe('Render: Small Screen', () => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/now', async route => {
+      await route.fulfill({json: nowFromBE});
     });
 
     await page.goto('/pizzas');
@@ -876,6 +885,10 @@ test.describe('Order Success', () => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
+    });
+
+    await page.route('*/**/api/v1/resource/now', async route => {
+      await route.fulfill({json: nowFromBE});
     });
 
     await page.goto('/pizzas');

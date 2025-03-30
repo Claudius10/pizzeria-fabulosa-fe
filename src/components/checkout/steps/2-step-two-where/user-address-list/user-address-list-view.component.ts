@@ -31,8 +31,8 @@ export class UserAddressListViewComponent implements OnInit {
   invalid = input.required<boolean>();
   private loadingAnimationService = inject(LoadingAnimationService);
   private userHttpService = inject(UserHttpService);
-  private destroyRef = inject(DestroyRef);
   private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
   addressList: QueryResult = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
     queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())

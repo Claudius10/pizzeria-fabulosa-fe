@@ -4,6 +4,23 @@ import {HomeComponent} from '../../components/home/home.component';
 import {userCredentialsGuardGuard} from '../../components/user/guard/user-credentials-guard.guard';
 import {BeverageListComponent} from '../../components/menu/beverages/beverage-list.component';
 import {RegisterComponent} from '../../components/register/register.component';
+import {UserHomeComponent} from '../../components/user/user-home.component';
+import {ProfileComponent} from '../../components/user/profile/profile.component';
+import {OrderSummaryListComponent} from '../../components/user/orders/summary-list/list/order-summary-list.component';
+import {OrderComponent} from '../../components/user/orders/order-item/order.component';
+import {UserSettingsComponent} from '../../components/user/settings/user-settings.component';
+import {CheckoutFormComponent} from '../../components/checkout/checkout-form.component';
+import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-who/step-one-who.component';
+import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
+import {StepThreeWhenComponent} from '../../components/checkout/steps/3-step-three-when/step-three-when.component';
+import {StepFourHowComponent} from '../../components/checkout/steps/4-step-four-how/step-four-how.component';
+import {
+  StepFiveSummaryComponent
+} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
+import {NewOrderSuccessComponent} from '../../components/checkout/success/new-order-success.component';
+import {ForbiddenComponent} from './forbidden/forbidden.component';
+import {ErrorComponent} from './error/error.component';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -28,28 +45,28 @@ export const routes: Routes = [
   },
   {
     path: "user",
-    loadComponent: () => import('../../components/user/user-home.component').then(c => c.UserHomeComponent),
+    component: UserHomeComponent,
     canMatch: [userCredentialsGuardGuard],
     children: [
       {
         path: "profile",
-        loadComponent: () => import('../../components/user/profile/profile.component').then(c => c.ProfileComponent),
+        component: ProfileComponent,
         title: "Profile",
       },
       {
         path: "orders",
-        loadComponent: () => import('../../components/user/orders/summary-list/list/order-summary-list.component').then(c => c.OrderSummaryListComponent),
+        component: OrderSummaryListComponent,
         title: "Order History",
       },
       {
         path: "orders/:orderId",
-        loadComponent: () => import('../../components/user/orders/order-item/order.component').then(c => c.OrderComponent),
+        component: OrderComponent,
         title: "Order Review",
         pathMatch: "full",
       },
       {
         path: "settings",
-        loadComponent: () => import('../../components/user/settings/user-settings.component').then(c => c.UserSettingsComponent),
+        component: UserSettingsComponent,
         title: "Account Settings",
       }
     ]
@@ -59,56 +76,56 @@ export const routes: Routes = [
     children: [
       {
         path: "new",
-        loadComponent: () => import('../../components/checkout/checkout-form.component').then(c => c.CheckoutFormComponent),
+        component: CheckoutFormComponent,
         title: "New Order",
         children: [
           {
             path: "step-one",
-            loadComponent: () => import('../../components/checkout/steps/1-step-one-who/step-one-who.component').then(c => c.StepOneWhoComponent),
+            component: StepOneWhoComponent,
             title: "New order: step one",
           },
           {
             path: "step-two",
-            loadComponent: () => import('../../components/checkout/steps/2-step-two-where/step-two-where.component').then(c => c.StepTwoWhereComponent),
+            component: StepTwoWhereComponent,
             title: "New order: step two",
           },
           {
             path: "step-three",
-            loadComponent: () => import('../../components/checkout/steps/3-step-three-when/step-three-when.component').then(c => c.StepThreeWhenComponent),
+            component: StepThreeWhenComponent,
             title: "New order: step three",
           },
           {
             path: "step-four",
-            loadComponent: () => import('../../components/checkout/steps/4-step-four-how/step-four-how.component').then(c => c.StepFourHowComponent),
+            component: StepFourHowComponent,
             title: "New order: step four",
           },
           {
             path: "step-five",
-            loadComponent: () => import('../../components/checkout/steps/5-step-five-summary/step-five-summary.component').then(c => c.StepFiveSummaryComponent),
+            component: StepFiveSummaryComponent,
             title: "New order: step five",
           }
         ]
       },
       {
         path: "success",
-        loadComponent: () => import('../../components/checkout/success/new-order-success.component').then(c => c.NewOrderSuccessComponent),
+        component: NewOrderSuccessComponent,
         title: "New order: Success",
       }
     ]
   },
   {
     path: "forbidden",
-    loadComponent: () => import('../../app/routes/forbidden/forbidden.component').then(c => c.ForbiddenComponent),
+    component: ForbiddenComponent,
     title: "Access forbidden",
   },
   {
     path: "error",
-    loadComponent: () => import('../../app/routes/error/error.component').then(c => c.ErrorComponent),
+    component: ErrorComponent,
     title: "Unexpected Error",
   },
   {
     path: "**",
-    loadComponent: () => import('../../app/routes/not-found/not-found.component').then(c => c.NotFoundComponent),
+    component: NotFoundComponent,
     title: "Not Found",
   }
 ];

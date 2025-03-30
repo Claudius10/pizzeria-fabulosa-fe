@@ -251,6 +251,13 @@ export const beverages = {
   "error": null
 };
 
+export const nowFromBE = {
+  "timeStamp": "2025-03-30T20:41:42.178589912",
+  "status": {"code": 200, "description": "OK", "error": false},
+  "payload": "2025-03-30T22:41:42.178560423",
+  "error": null
+};
+
 export const registerOK = {
   "timeStamp": "2025-03-14T17:23:44.311560411",
   "status": {"code": 201, "description": "CREATED", "error": false},

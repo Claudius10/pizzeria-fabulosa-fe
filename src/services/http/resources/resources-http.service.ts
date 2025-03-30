@@ -1,7 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ResponseDTO} from '../../../utils/interfaces/http/api';
-import {BASE, RESOURCE_BASE, RESOURCE_OFFER, RESOURCE_PRODUCT, RESOURCE_STORE, V1} from '../../../utils/api-routes';
+import {
+  BASE,
+  RESOURCE_BASE,
+  RESOURCE_LOCAL_DATE_TIME_NOW,
+  RESOURCE_OFFER,
+  RESOURCE_PRODUCT,
+  RESOURCE_STORE,
+  V1
+} from '../../../utils/api-routes';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -21,5 +29,9 @@ export class ResourcesHttpService {
 
   public findStores() {
     return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_STORE}`);
+  }
+
+  public findNow() {
+    return this.httpClient.get<ResponseDTO>(`${this.PATH + BASE + V1 + RESOURCE_BASE + RESOURCE_LOCAL_DATE_TIME_NOW}`);
   }
 }

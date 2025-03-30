@@ -62,18 +62,16 @@ export class CheckoutFormService {
     this.orderSuccess = null;
   }
 
-  getDeliveryHours(dst: boolean): string[] {
-    const date = new Date(); // in UTC +00:00
-    const interval = 5;
+  getDeliveryHours(now: string): string[] {
     const hourIntervals: string[] = [];
+    const date = new Date(now);
+    const currentHour = date.getHours() * 60;
+    const interval = 5;
 
     const coefficient = 1000 * 60 * 5;
     const roundedCurrentMins = new Date(Math.ceil(date.getTime() / coefficient) * coefficient).getMinutes();
-    const currentHour = new Date().getHours() * 60;
 
-    const extraMinsToAdd = dst ? 120 + 30 : 60 + 30;
-
-    for (let minutes = currentHour + roundedCurrentMins + extraMinsToAdd; minutes < 24 * 60; minutes = minutes + interval) {
+    for (let minutes = currentHour + roundedCurrentMins + 30; minutes < 24 * 60; minutes = minutes + interval) {
       date.setHours(0);
       date.setMinutes(minutes);
       hourIntervals.push(date.toLocaleTimeString("es", {timeStyle: "short"}));

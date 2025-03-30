@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
@@ -12,6 +12,15 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../utils/functions';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
+import {QueryResult} from '../../../../utils/interfaces/query';
+import {injectQuery} from '@tanstack/angular-query-experimental';
+import {RESOURCE_LOCAL_DATE_TIME_NOW} from '../../../../utils/query-keys';
+import {lastValueFrom} from 'rxjs';
+import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
+import {toObservable} from '@angular/core/rxjs-interop';
+import {SUCCESS} from '../../../../utils/constants';
+import {ResponseDTO} from '../../../../utils/interfaces/http/api';
+import {ErrorService} from '../../../../services/error/error.service';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -32,31 +41,46 @@ import {myIcon} from '../../../../primeng/icon';
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
+  private resourceService = inject(ResourcesHttpService);
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  deliveryHours: string[] = this.checkoutFormService.getDeliveryHours(true); // TODO get dst bool value from BE
+  deliveryHours: string[] = [];
   options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
     {code: "1", description: "form.select.time.programmed"}
   ];
   selectedOption: Option = this.options[0];
 
+  private now: QueryResult = injectQuery(() => ({
+    queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
+    queryFn: () => lastValueFrom(this.resourceService.findNow()),
+    staleTime: 0
+  }));
+
+  private status = toObservable(this.now.status);
+
   ngOnInit(): void {
+    const subscription = this.status.subscribe({
+      next: status => {
+        if (status === SUCCESS) {
+
+          const response: ResponseDTO = this.now.data()!;
+
+          if (response.status.error && response.error) {
+            this.errorService.handleError(response.error);
+          } else {
+            this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.now.data()!.payload);
+          }
+        }
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+
     this.checkoutFormService.step = 2;
-
-    // BUG - timer makes refreshing page bug out TypeError [ERR_INVALID_ARG_TYPE]: The "str" argument must be of type string. Received undefined
-    // // every 5 minutes reset delivery hours
-    // const sub = timer(0, 300000).subscribe({
-    //   next: (value) => {
-    //     // if (this.checkoutFormService.programmedDelivery) {
-    //     //   this.deliveryHours = this.checkoutFormService.getDeliveryHours();
-    //     // }
-    //   }
-    // });
-    //
-    // this.onDestroy.onDestroy(() => {
-    //   sub.unsubscribe();
-    // });
-
     // restore previously set values
     if (this.checkoutFormService.when !== null) {
       if (this.checkoutFormService.when.deliveryTime !== this.options[0].description) {

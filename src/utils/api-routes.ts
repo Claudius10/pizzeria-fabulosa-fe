@@ -36,6 +36,8 @@ export const RESOURCE_STORE = "/store";
 
 export const RESOURCE_OFFER = "/offer";
 
+export const RESOURCE_LOCAL_DATE_TIME_NOW = "/now";
+
 // USER
 
 export const USER_BASE = "/user";
