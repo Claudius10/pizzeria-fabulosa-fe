@@ -52,28 +52,6 @@ a, a:visited {
   display: none;
 }
 
-.bump {
-  animation: bump 300ms ease-out;
-}
-
-@keyframes bump {
-  0% {
-    transform: scale(1);
-  }
-  10% {
-    transform: scale(1.2);
-  }
-  30% {
-    transform: scale(1.4);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 @media (max-width: 992px) {
   .style {
     padding: 0.5rem 10.5rem 0.5rem 10.5rem;

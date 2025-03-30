@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, effect, inject, Signal, signal, untracked} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Signal} from '@angular/core';
 import {AuthService} from '../../services/auth/auth.service';
 import {RouterLink, RouterLinkActive} from '@angular/router';
-import {NgClass, NgOptimizedImage, NgStyle} from '@angular/common';
+import {NgOptimizedImage} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {LoginDialogComponent} from './login/login-dialog.component';
 import {LogoutDialogComponent} from './logout/logout-dialog.component';
@@ -21,8 +21,6 @@ import {ThemeSelectorComponent} from './theme-selector/theme-selector.component'
     RouterLinkActive,
     TranslatePipe,
     BadgeDirective,
-    NgClass,
-    NgStyle,
     LoginDialogComponent,
     LogoutDialogComponent,
     LocaleSelectorComponent,
@@ -43,30 +41,6 @@ export class NavigationBarComponent {
   isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   linksDrawerVisible = false;
   drawerCartVisible = false;
-  bump = signal(false);
-
-  constructor() {
-    // cart bump animation whenever quantity changes
-    effect((onCleanup) => {
-      if (this.cartService.quantity() === 0) {
-        return;
-      }
-
-      untracked(() => {
-        this.bump.set(true);
-      });
-
-      const timer = setTimeout(() => {
-        untracked(() => {
-          this.bump.set(false);
-        });
-      }, 300);
-
-      onCleanup(() => {
-        clearTimeout(timer);
-      });
-    });
-  }
 
   toggleMobileLinksDrawer() {
     this.linksDrawerVisible = !this.linksDrawerVisible;

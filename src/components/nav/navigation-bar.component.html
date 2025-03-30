@@ -48,10 +48,7 @@
           title="Cart"
           type="button"
           aria-label="Open Cart"
-          [ngClass]="!bump() ?
-                'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center' :
-                'flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center bump'"
-          [ngStyle]="this.cartService.quantity() !== 0 ? {'color': 'var(--primary-color)'} : {}">
+          class="flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center">
           <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
         </button>
       </li>
@@ -81,7 +78,9 @@
             <app-login-dialog/>
           }
         </li>
-      } @else {
+      }
+
+      @if (authService.isAuthenticated()) {
         <!-- USER BUTTON -->
         <li>
           <button
