@@ -43,6 +43,7 @@ import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
     ConfirmDialog,
     Skeleton
   ],
+  providers: [ConfirmationService],
   templateUrl: './order.component.html',
   styleUrl: './order.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

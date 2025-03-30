@@ -3,7 +3,6 @@ import {RouterOutlet} from '@angular/router';
 import {NavigationBarComponent} from '../../components/nav/navigation-bar.component';
 import {FooterComponent} from '../../components/footer/footer.component';
 import {ToastModule} from "primeng/toast";
-import {ErrorService} from '../../services/error/error.service';
 import {TranslateService} from '@ngx-translate/core';
 import {AuthService} from '../../services/auth/auth.service';
 import {CartService} from '../../services/cart/cart.service';
@@ -14,6 +13,8 @@ import en from '../../../public/i18n/en.json';
 import es from '../../../public/i18n/es.json';
 import primeES from "../../../public/i18n/primeng-es.json";
 import primeEN from "../../../public/i18n/primeng-en.json";
+import {MessageService} from 'primeng/api';
+import {ErrorService} from '../../services/error/error.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,7 @@ import primeEN from "../../../public/i18n/primeng-en.json";
     FooterComponent,
     ToastModule
   ],
-  providers: [ErrorService],
+  providers: [MessageService, ErrorService],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

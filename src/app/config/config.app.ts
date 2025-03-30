@@ -6,7 +6,6 @@ import {provideTanStackQuery, QueryClient} from '@tanstack/angular-query-experim
 import {provideAnimations} from '@angular/platform-browser/animations';
 import {provideTranslateService, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {providePrimeNG} from 'primeng/config';
 import {defaultPreset} from '../../primeng/default.preset.theme';
@@ -17,8 +16,6 @@ const httpLoaderFactory: (http: HttpClient) => TranslateHttpLoader = (http: Http
 
 export const configApp: ApplicationConfig = {
   providers: [
-    MessageService,
-    ConfirmationService,
     provideClientHydration(withEventReplay()),
     provideAnimations(),
     provideAnimationsAsync(),
