@@ -208,7 +208,7 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Act
 
-    const result = service.getDeliveryHours(true);
+    const result = service.getDeliveryHours();
 
     // Assert
 
