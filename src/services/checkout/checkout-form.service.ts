@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {how, when, where} from '../../utils/interfaces/forms/steps';
 import {CreatedOrderDTO, CustomerDTO} from '../../utils/interfaces/dto/order';
-import {isDst} from '../../utils/functions';
 
 export type AddressId = {
   id: number | null;
@@ -63,7 +62,7 @@ export class CheckoutFormService {
     this.orderSuccess = null;
   }
 
-  getDeliveryHours(): string[] {
+  getDeliveryHours(dst: boolean): string[] {
     const date = new Date(); // in UTC +00:00
     const interval = 5;
     const hourIntervals: string[] = [];
@@ -72,7 +71,6 @@ export class CheckoutFormService {
     const roundedCurrentMins = new Date(Math.ceil(date.getTime() / coefficient) * coefficient).getMinutes();
     const currentHour = new Date().getHours() * 60;
 
-    const dst = isDst(date);
     const extraMinsToAdd = dst ? 120 + 30 : 60 + 30;
 
     for (let minutes = currentHour + roundedCurrentMins + extraMinsToAdd; minutes < 24 * 60; minutes = minutes + interval) {
