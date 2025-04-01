@@ -40,7 +40,7 @@
           @if (authService.isAuthenticated()) {
             <app-user-address-list-view
               (onAddressSelect)="setSelectedId($event)"
-              [selected]="this.checkoutFormService.selectedAddress.id"
+              [selected]="checkoutFormService.selectedAddress.id"
               [invalid]="validStoreOrAddressSelection"
             />
           } @else {
@@ -60,7 +60,7 @@
                     [dt]="myInput(true)"
                   >
                 </p-iconfield>
-                @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+                @if (!form.controls.street.untouched && !form.controls.street.valid) {
                   <span title="Invalid Address" id="street-help"
                         class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
                   </span>
@@ -81,7 +81,7 @@
                     [dt]="myInput(true)"
                   >
                 </p-iconfield>
-                @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+                @if (!form.controls.number.untouched && !form.controls.number.valid) {
                   <span title="Invalid Address Number" id="number-help" class="invalid-text">
                       {{ "form.invalid.delivery.number" | translate }}
                   </span>
@@ -102,7 +102,7 @@
                     [dt]="myInput(true)"
                   >
                 </p-iconfield>
-                @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+                @if (!form.controls.details.untouched && !form.controls.details.valid) {
                   <span title="Invalid Details" id="details-help" class="invalid-text">
                     {{ "form.invalid.delivery.details" | translate }}
                   </span>
@@ -123,7 +123,7 @@
                   <app-store-checkout
                     [store]="store"
                     (onStoreSelect)="setSelectedId($event)"
-                    [selected]="this.checkoutFormService.selectedAddress.id"
+                    [selected]="checkoutFormService.selectedAddress.id"
                     [invalid]="validStoreOrAddressSelection"
                     [highlight]="true"
                   />

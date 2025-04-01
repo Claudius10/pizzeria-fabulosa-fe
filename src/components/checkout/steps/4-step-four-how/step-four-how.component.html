@@ -1,4 +1,4 @@
-@if (!this.checkoutFormService.isStepFilled(3)) {
+@if (!checkoutFormService.isStepFilled(3)) {
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.four.warning" | translate }}</span>
     <p-button
@@ -67,7 +67,7 @@
               [dt]="myInput(true)"
             >
           </p-iconfield>
-          @if (!this.form.controls.billToChange.untouched && !this.form.controls.billToChange.valid) {
+          @if (!form.controls.billToChange.untouched && !form.controls.billToChange.valid) {
             <span title="Invalid Bill" id="fullName-help" class="invalid-text">
               {{ "form.invalid.bill.change" | translate }}
             </span>
