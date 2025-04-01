@@ -21,7 +21,7 @@ import {ThemeService} from '../../../services/theme/theme.service';
 export class CartItemComponent implements OnInit {
   private translateService = inject(TranslateService);
   private themeService = inject(ThemeService);
-  private cartService: CartService = inject(CartService);
+  private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   viewOnly = input.required<boolean>();
   item = input.required<CartItemDTO>();

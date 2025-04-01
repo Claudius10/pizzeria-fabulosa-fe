@@ -10,14 +10,14 @@ import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
 
 @Component({
   selector: 'app-custom-pizza',
-    imports: [
-        TranslatePipe,
-        Button,
-        Dialog,
-        CreateCustomPizzaComponent,
-        NgOptimizedImage,
-        UpperCasePipe
-    ],
+  imports: [
+    TranslatePipe,
+    Button,
+    Dialog,
+    CreateCustomPizzaComponent,
+    NgOptimizedImage,
+    UpperCasePipe
+  ],
   templateUrl: './custom-pizza.component.html',
   styleUrl: './custom-pizza.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -25,11 +25,11 @@ import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
 export class CustomPizzaComponent {
   private cartService = inject(CartService);
   private translateService = inject(TranslateService);
-  customPizzaDialogVisible = false;
+  protected customPizzaDialogVisible = false;
 
-  addCustomPizza(pizza: CustomPizza) {
-    this.closeCustomPizzaDialog();
+  protected addCustomPizza(pizza: CustomPizza) {
     const isMedium = pizza.format.includes("format.m");
+
     this.cartService.add({
       id: uuidv4(),
       formatCode: this.translateToken("en", pizza.format),
@@ -60,13 +60,15 @@ export class CustomPizzaComponent {
       quantity: 1,
       price: pizza.price,
     });
+
+    this.closeCustomPizzaDialog();
   }
 
-  openCustomPizzaDialog() {
+  protected openCustomPizzaDialog() {
     this.customPizzaDialogVisible = true;
   }
 
-  closeCustomPizzaDialog() {
+  protected closeCustomPizzaDialog() {
     this.customPizzaDialogVisible = false;
   }
 

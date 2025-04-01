@@ -15,7 +15,7 @@
           [dt]="myInput(false)"
         >
       </p-iconfield>
-      @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+      @if (!form.controls.street.untouched && !form.controls.street.valid) {
         <span title="Invalid Address" id="street-help"
               class="invalid-text">{{ "form.invalid.delivery.address" | translate }}</span>
       }
@@ -35,7 +35,7 @@
           [dt]="myInput(false)"
         >
       </p-iconfield>
-      @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+      @if (!form.controls.number.untouched && !form.controls.number.valid) {
         <span title="Invalid Address Number" id="number-help" class="invalid-text">
           {{ "form.invalid.delivery.number" | translate }}
         </span>
@@ -56,7 +56,7 @@
           [dt]="myInput(false)"
         >
       </p-iconfield>
-      @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+      @if (!form.controls.details.untouched && !form.controls.details.valid) {
         <span title="Invalid Details" id="details-help" class="invalid-text">
           {{ "form.invalid.delivery.details" | translate }}
         </span>

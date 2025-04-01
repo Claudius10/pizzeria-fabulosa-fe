@@ -48,7 +48,7 @@ export class UserAddressFormComponent {
     }
   }));
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     id: new FormControl<number | null>(null),
     street: new FormControl("", {
         validators: [Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)],
@@ -69,11 +69,11 @@ export class UserAddressFormComponent {
     }),
   });
 
-  cancel() {
+  protected cancel() {
     this.hideForm.emit();
   }
 
-  onSubmit() {
+  protected onSubmit() {
     if (isFormValid(this.form)) {
       const data: AddressFormData = {
         id: null,

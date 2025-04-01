@@ -45,32 +45,32 @@ export class StepThreeWhenComponent implements OnInit {
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  deliveryHours: string[] = [];
-  options: Option[] = [
+  protected deliveryHours: string[] = [];
+  protected options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
     {code: "1", description: "form.select.time.programmed"}
   ];
-  selectedOption: Option = this.options[0];
+  protected selectedOption: Option = this.options[0];
 
-  private now: QueryResult = injectQuery(() => ({
+  private localDateTimeNow: QueryResult = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
     queryFn: () => lastValueFrom(this.resourceService.findNow()),
     staleTime: 0
   }));
 
-  private status = toObservable(this.now.status);
+  private status = toObservable(this.localDateTimeNow.status);
 
   ngOnInit(): void {
     const subscription = this.status.subscribe({
       next: status => {
         if (status === SUCCESS) {
 
-          const response: ResponseDTO = this.now.data()!;
+          const response: ResponseDTO = this.localDateTimeNow.data()!;
 
           if (response.status.error && response.error) {
             this.errorService.handleError(response.error);
           } else {
-            this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.now.data()!.payload);
+            this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!.payload);
           }
         }
       }
@@ -95,7 +95,7 @@ export class StepThreeWhenComponent implements OnInit {
     }
   }
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     deliveryTime: new FormControl(this.options[0].description, {
       validators: [Validators.required, Validators.minLength(4)],
       nonNullable: true,
@@ -103,8 +103,9 @@ export class StepThreeWhenComponent implements OnInit {
     }),
   });
 
-  selectDeliveryChoice(event: Event) {
+  protected selectDeliveryChoice(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
+
     if (selectElement.value === this.options[0].code) {
       this.form.controls.deliveryTime.setValue(this.options[0].description);
       this.checkoutFormService.programmedDelivery = false;
@@ -120,7 +121,7 @@ export class StepThreeWhenComponent implements OnInit {
     };
   }
 
-  previousStep() {
+  protected previousStep() {
     if (this.form.controls.deliveryTime.invalid) {
       this.checkoutFormService.programmedDelivery = false;
       this.checkoutFormService.when = null;
@@ -130,19 +131,19 @@ export class StepThreeWhenComponent implements OnInit {
     this.router.navigate(['order', 'new', 'step-two']);
   }
 
-  nextStep() {
+  protected nextStep() {
     if (isFormValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['order', 'new', 'step-four']);
     }
   }
 
-  cancel() {
+  protected cancel() {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 
-  firstStep() {
+  protected firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
   }
 

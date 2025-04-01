@@ -109,7 +109,7 @@ export class PizzaListComponent implements OnInit {
     });
   }
 
-  onPageChange(event: PaginatorState) {
+  protected onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
     const nextPage = event.page === undefined ? 1 : event.page + 1;
     this.skeletonCount = this.countSkeletons(this.page(), nextPage);

@@ -26,7 +26,7 @@ export class StoreItemComponent implements OnInit {
   store = input.required<StoreDTO>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
-  currentLang = signal(this.translateService.currentLang);
+  protected currentLang = signal(this.translateService.currentLang);
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

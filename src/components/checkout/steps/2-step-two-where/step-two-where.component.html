@@ -5,7 +5,6 @@
       title="Start"
       type="button"
       (onClick)="previousStep()"
-      [disabled]="checkoutFormService.step === 0"
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
@@ -37,6 +36,7 @@
       <!-- ADDRESS SELECT -->
       <div class="flex flex-col gap-4">
         @if (checkoutFormService.homeDelivery) {
+
           @if (authService.isAuthenticated()) {
             <app-user-address-list-view
               (onAddressSelect)="setSelectedId($event)"
@@ -149,7 +149,6 @@
         title="Previous"
         type="button"
         (onClick)="previousStep()"
-        [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
         title="Cancel"
@@ -161,7 +160,7 @@
         title="Next"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4 || isFetching()"
+        [disabled]="isFetching()"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>

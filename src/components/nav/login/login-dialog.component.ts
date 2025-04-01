@@ -56,11 +56,11 @@ export class LoginDialogComponent implements OnDestroy {
   private login: MutationResult = injectMutation(() => ({
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload))
   }));
-  showPassword = false;
+  protected showPassword = false;
   // visible provides hiding dialog on esc key press
-  visible: boolean = this.authService.loginDialog;
+  protected visible: boolean = this.authService.loginDialog;
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     email: new FormControl<string>("", {
       validators: [Validators.required, Validators.pattern(emailRgx)],
       nonNullable: true,
@@ -77,25 +77,25 @@ export class LoginDialogComponent implements OnDestroy {
     this.loadingAnimationService.stopLoading();
   }
 
-  togglePassword() {
+  protected togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
-  closeLoginDialog(): void {
+  protected closeLoginDialog(): void {
     this.authService.loginDialog = false;
     this.visible = false;
   }
 
-  goToRegister(): void {
+  protected goToRegister(): void {
     this.closeLoginDialog();
     this.router.navigate(["/registration"]);
   }
 
-  dummySignIn() {
+  protected dummySignIn() {
     this.signIn(null);
   }
 
-  public onSubmit(): void {
+  protected onSubmit(): void {
     if (isFormValid(this.form)) {
       const data: LoginForm = {
         email: this.form.get("email")!.value,
@@ -106,7 +106,7 @@ export class LoginDialogComponent implements OnDestroy {
     }
   }
 
-  signIn(data: LoginForm | null): void {
+  private signIn(data: LoginForm | null): void {
     this.loadingAnimationService.startLoading();
 
     this.login.mutate({payload: data}, {

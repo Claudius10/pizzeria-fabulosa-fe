@@ -27,6 +27,7 @@ export class CheckoutFormComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
+
   steps = [
     {label: this.translateService.instant("form.step.one")},
     {label: this.translateService.instant("form.step.two")},

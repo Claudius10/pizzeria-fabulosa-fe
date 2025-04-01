@@ -16,7 +16,6 @@
         title="Continue"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </div>
@@ -109,7 +108,6 @@
         title="Continue"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>

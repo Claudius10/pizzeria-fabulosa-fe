@@ -65,14 +65,14 @@ export class RegisterComponent implements OnDestroy {
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.create(request.payload))
   }));
 
-  showPassword = false;
-  showMatchingPassword = false;
+  protected showPassword = false;
+  protected showMatchingPassword = false;
 
-  togglePassword() {
+  protected togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
-  toggleMatchingPassword() {
+  protected toggleMatchingPassword() {
     this.showMatchingPassword = !this.showMatchingPassword;
   }
 
@@ -80,7 +80,7 @@ export class RegisterComponent implements OnDestroy {
     this.loadingAnimationService.stopLoading();
   }
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     name: new FormControl<string>("", {
       validators: [Validators.required, Validators.minLength(2), Validators.pattern(esCharsRegex)],
       nonNullable: true,
@@ -113,15 +113,15 @@ export class RegisterComponent implements OnDestroy {
     })
   }, {validators: [validatePasswordMatching, validateEmailMatching]});
 
-  cancel() {
+  protected cancel() {
     this.router.navigate(['/']);
   }
 
-  showLoginDialog() {
+  protected showLoginDialog() {
     this.authService.loginDialog = true;
   }
 
-  public onSubmit(): void {
+  protected onSubmit(): void {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 

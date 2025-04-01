@@ -99,7 +99,7 @@
           optionLabel="label"
           optionValue="value"
           [(ngModel)]="cheeseControl"
-          (onOptionClick)="onSelectCheese($event)"
+          (onOptionClick)="onSelectIngredient($event)"
           [disabled]="format === '' || isLactoseFree"
           [multiple]="true"
           class="flex flex-wrap gap-2">
@@ -119,7 +119,7 @@
           optionLabel="label"
           optionValue="value"
           [(ngModel)]="vegetableControl"
-          (onOptionClick)="onSelectVegetable($event)"
+          (onOptionClick)="onSelectIngredient($event)"
           [disabled]="format === ''"
           [multiple]="true"
           class="flex flex-wrap gap-2">
@@ -140,7 +140,7 @@
             optionLabel="label"
             optionValue="value"
             [(ngModel)]="meatControl"
-            (onOptionClick)="onSelectMeat($event)"
+            (onOptionClick)="onSelectIngredient($event)"
             [disabled]="format === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">
@@ -160,7 +160,7 @@
             optionLabel="label"
             optionValue="value"
             [(ngModel)]="otherControl"
-            (onOptionClick)="onSelectOther($event)"
+            (onOptionClick)="onSelectIngredient($event)"
             [disabled]="format === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">

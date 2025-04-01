@@ -37,8 +37,8 @@ export class UserAddressListComponent implements OnInit {
     queryKey: USER_ADDRESS_LIST,
     queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
   }));
-  addressListStatus = toObservable(this.addressList.status);
-  showAddressForm = false;
+  private addressListStatus = toObservable(this.addressList.status);
+  protected showAddressForm = false;
 
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
@@ -68,11 +68,11 @@ export class UserAddressListComponent implements OnInit {
     });
   }
 
-  toggleAddressForm() {
+  protected toggleAddressForm() {
     this.showAddressForm = !this.showAddressForm;
   }
 
-  hideFormOnCancel() {
+  protected hideFormOnCancel() {
     this.showAddressForm = false;
   }
 }

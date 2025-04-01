@@ -44,7 +44,7 @@ export class OrderSummaryListComponent implements OnInit {
   protected first = 0;
   protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
-  orderList: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected orderList: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
       return lastValueFrom(this.orderHttpService.findOrderSummaryList(this.page() - 1));
@@ -84,7 +84,7 @@ export class OrderSummaryListComponent implements OnInit {
     });
   }
 
-  onPageChange(event: PaginatorState) {
+  protected onPageChange(event: PaginatorState) {
     this.first = event.first ?? 0;
     const page = event.page === undefined ? 1 : event.page + 1;
     this.page.set(page);

@@ -41,7 +41,7 @@ export class NewOrderSuccessComponent {
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
-  goBack() {
+  protected goBack() {
     this.router.navigate(['/pizzas']);
   }
 

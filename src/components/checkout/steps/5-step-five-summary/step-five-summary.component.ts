@@ -46,8 +46,8 @@ import {UserHttpService} from '../../../../services/http/user/user-http.service'
 })
 export class StepFiveSummaryComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  protected checkoutFormService = inject(CheckoutFormService);
   private resourcesHttpService = inject(ResourcesHttpService);
+  protected checkoutFormService = inject(CheckoutFormService);
   private orderHttpService = inject(OrderHttpService);
   private userHttpService = inject(UserHttpService);
   private errorService = inject(ErrorService);
@@ -82,6 +82,7 @@ export class StepFiveSummaryComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkoutFormService.step = 4;
+
     if (this.checkoutFormService.isStepFilled(4)) {
 
       if (this.checkoutFormService.comment !== null) {
@@ -89,18 +90,18 @@ export class StepFiveSummaryComponent implements OnInit {
       }
 
       if (this.checkoutFormService.where === null && this.checkoutFormService.selectedAddress.id !== null) {
-        // either store or user address was selected
+        // either store or user address was selected since where is null
 
         if (this.checkoutFormService.selectedAddress.isStore) {
           // store address
-          const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - If store was selected, then data is in cache
+          const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - data is in cache
           const selectedStoreIndex = fetchedStores.findIndex(store => store.address.id === this.checkoutFormService.selectedAddress.id);
           this.selectedStore = fetchedStores[selectedStoreIndex];
 
         } else {
           // user address
           if (this.authService.isAuthenticated()) {
-            const fetchedUserAddressList = this.userAddressList.data()!.payload as AddressDTO[]; // NOTE - in cache
+            const fetchedUserAddressList = this.userAddressList.data()!.payload as AddressDTO[]; // NOTE - data in cache
             const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.selectedAddress.id);
             this.selectedAddress = fetchedUserAddressList[selectedAddressIndex];
           }
@@ -109,7 +110,7 @@ export class StepFiveSummaryComponent implements OnInit {
     }
   }
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     comment: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
       nonNullable: false,
@@ -117,18 +118,15 @@ export class StepFiveSummaryComponent implements OnInit {
     }),
   });
 
-  onSubmit(): void {
+  protected onSubmit(): void {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
       if (this.authService.isAuthenticated()) {
-        if (this.checkoutFormService.selectedAddress.id !== null) {
-          this.newUserOrder();
-        }
+        this.newUserOrder();
       } else {
         this.newAnonOrder();
       }
-
     }
   }
 
@@ -226,19 +224,19 @@ export class StepFiveSummaryComponent implements OnInit {
     });
   }
 
-  previousStep() {
+  protected previousStep() {
     if (isFormValid(this.form)) {
       this.checkoutFormService.comment = this.form.get("comment")!.value;
     }
     this.router.navigate(['order', 'new', 'step-four']);
   }
 
-  cancel() {
+  protected cancel() {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 
-  firstStep() {
+  protected firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
   }
 }
@@ -246,7 +244,7 @@ export class StepFiveSummaryComponent implements OnInit {
 function cleanIds(items: CartItemDTO[]) {
   const newItems: CartItemDTO[] = [];
   items.forEach((item) => {
-    item.id = "1"; // will be set to NULL when serializing to POJO
+    item.id = "1"; // set as a number in string so JSON can deserialize the value to Long
     newItems.push(item);
   });
   return newItems;

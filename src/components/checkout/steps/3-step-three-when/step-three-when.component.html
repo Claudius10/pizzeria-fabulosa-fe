@@ -5,7 +5,6 @@
       title="Start"
       type="button"
       (onClick)="firstStep()"
-      [disabled]="checkoutFormService.step === 0"
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
@@ -32,6 +31,7 @@
             <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
           </select>
         </p-iconfield>
+
         @if (this.checkoutFormService.programmedDelivery) {
           <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
           <p-iconfield title="Delivery Hour Icon" [dt]="myIcon('{primary.400}')">
@@ -64,7 +64,6 @@
         title="Previous"
         type="button"
         (onClick)="previousStep()"
-        [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
         title="Cancel"
@@ -76,7 +75,6 @@
         title="Next"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>

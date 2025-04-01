@@ -11,9 +11,9 @@ import {ThemeService} from '../../../services/theme/theme.service';
 })
 export class ThemeSelectorComponent {
   private themeService = inject(ThemeService);
-  isDarkMode = this.themeService.getDarkMode();
+  protected isDarkMode = this.themeService.getDarkMode();
 
-  toggleDarkMode = (on: boolean) => {
+  protected toggleDarkMode = (on: boolean) => {
     this.themeService.toggleDarkMode(on);
   };
 }

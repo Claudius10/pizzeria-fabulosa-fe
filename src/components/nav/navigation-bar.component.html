@@ -43,7 +43,7 @@
     <!-- RIGHT SIDE ICON LIST -->
     <ul title="Navigation Buttons" class="flex list-none m-0 p-0 gap-2 items-center">
       <!-- CART ICON -->
-      <li (click)="toggleCartDrawer()" pBadge value="{{this.cartService.quantity()}}">
+      <li (click)="toggleCartDrawer()" pBadge value="{{cartService.quantity()}}">
         <button
           title="Cart"
           type="button"

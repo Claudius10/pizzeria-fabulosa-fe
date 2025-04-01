@@ -5,7 +5,6 @@
       title="Start"
       type="button"
       (onClick)="firstStep()"
-      [disabled]="checkoutFormService.step === 0"
       label="{{ 'button.step.start' | translate | uppercase }}"/>
   </div>
 } @else {
@@ -13,7 +12,6 @@
     <div class="flex flex-col gap-4 h-full w-full">
 
       <p-card title="Customer Details">
-
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
 
@@ -24,11 +22,9 @@
           }
 
         </div>
-
       </p-card>
 
       <p-card title="Delivery Details">
-
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
 
@@ -94,7 +90,6 @@
       </p-card>
 
       <p-card title="Order Details">
-
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.orderdetails.header" | translate }}</span>
 
@@ -134,12 +129,12 @@
         </div>
       </p-card>
     </div>
+
     <div class="buttons">
       <p-button
         title="Previous"
         type="button"
         (onClick)="previousStep()"
-        [disabled]="checkoutFormService.step === 0"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
         title="Cancel"
@@ -152,7 +147,7 @@
         type="button"
         [severity]="'success'"
         (onClick)="onSubmit()"
-        [disabled]="checkoutFormService.step !== 4 || cartService.isEmpty()"
+        [disabled]="cartService.isEmpty()"
         label="{{ 'button.order.confirm' | translate | uppercase }}"/>
     </div>
   </div>

@@ -19,9 +19,9 @@ import {UserDetailsComponent} from '../details/user-details.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
-  viewAddressList = false;
+  protected viewAddressList = false;
 
-  toggleAddressList() {
+  protected toggleAddressList() {
     this.viewAddressList = !this.viewAddressList;
   }
 }

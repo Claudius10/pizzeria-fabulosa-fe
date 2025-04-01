@@ -56,25 +56,25 @@ export class StepTwoWhereComponent implements OnInit {
   protected authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
+  protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
 
-  stores: QueryOnDemand = injectQuery(() => ({
+  protected stores: QueryOnDemand = injectQuery(() => ({
     queryKey: [RESOURCE_STORES],
     queryFn: () => firstValueFrom(this.resourcesHttpService.findStores()),
     enabled: false
   }));
 
-  storesStatus = toObservable(this.stores.status);
+  protected storesStatus = toObservable(this.stores.status);
 
-  options: Option[] = [
+  protected options: Option[] = [
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
   ];
 
-  selectedOption: Option = this.options[0];
-  validStoreOrAddressSelection = true;
+  protected selectedOption: Option = this.options[0];
+  protected validStoreOrAddressSelection = true;
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     street: new FormControl("", {
         nonNullable: true,
         updateOn: "change"
@@ -102,7 +102,7 @@ export class StepTwoWhereComponent implements OnInit {
 
     // if store or user home address was selected
     if (this.checkoutFormService.selectedAddress.id !== null) {
-      // set validators
+      // disable validators
       this.setHomeDeliveryValidators(false);
 
       if (!this.checkoutFormService.selectedAddress.isStore) {
@@ -124,13 +124,14 @@ export class StepTwoWhereComponent implements OnInit {
             details: this.checkoutFormService.where.details
           });
         }
+
       } else {
         this.selectedOption = this.options[1];
       }
     }
   }
 
-  selectDelivery(event: Event) {
+  protected selectDelivery(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
     this.checkoutFormService.selectedAddress = {id: null, isStore: null}; // at this level takes into account a logged in user
@@ -139,13 +140,12 @@ export class StepTwoWhereComponent implements OnInit {
     if (selectElement.value === this.options[0].code) {
       this.checkoutFormService.homeDelivery = true;
 
-      // if user is logged in
       if (this.authService.isAuthenticated()) {
         this.setHomeDeliveryValidators(false);
       } else {
-        // if anon user
         this.setHomeDeliveryValidators(true);
       }
+
     } else {
       // if store delivery selected
       this.fetchStores();
@@ -155,55 +155,6 @@ export class StepTwoWhereComponent implements OnInit {
     }
 
     this.form.reset();
-  }
-
-  setSelectedId(address: AddressId): void {
-    this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
-    this.validStoreOrAddressSelection = true;
-  }
-
-  private saveFormValues() {
-    this.checkoutFormService.where = {
-      street: this.form.get("street")!.value,
-      number: Number(this.form.get("number")!.value),
-      details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
-    };
-  }
-
-  previousStep() {
-    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
-      this.saveFormValues();
-    }
-
-    this.router.navigate(['order', 'new', 'step-one']);
-  }
-
-  nextStep() {
-    if (this.authService.isAuthenticated()) {
-      if (this.checkoutFormService.selectedAddress.id !== null) {
-        this.router.navigate(['order', 'new', 'step-three']);
-      } else {
-        this.validStoreOrAddressSelection = false;
-      }
-    } else {
-      if (this.checkoutFormService.homeDelivery) {
-        if (isFormValid(this.form)) {
-          this.saveFormValues();
-          this.router.navigate(['order', 'new', 'step-three']);
-        }
-      } else {
-        if (this.checkoutFormService.selectedAddress.id !== null) {
-          this.router.navigate(['order', 'new', 'step-three']);
-        } else {
-          this.validStoreOrAddressSelection = false;
-        }
-      }
-    }
-  }
-
-  cancel() {
-    this.checkoutFormService.clear();
-    this.router.navigate(['/']);
   }
 
   private fetchStores() {
@@ -227,6 +178,65 @@ export class StepTwoWhereComponent implements OnInit {
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
     });
+  }
+
+  protected setSelectedId(address: AddressId): void {
+    this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
+    this.validStoreOrAddressSelection = true;
+  }
+
+  private saveFormValues() {
+    this.checkoutFormService.where = {
+      street: this.form.get("street")!.value,
+      number: Number(this.form.get("number")!.value),
+      details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
+    };
+  }
+
+  previousStep() {
+    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
+      this.saveFormValues();
+    }
+
+    this.router.navigate(['order', 'new', 'step-one']);
+  }
+
+  protected nextStep() {
+    if (this.authService.isAuthenticated()) {
+
+      // if user home address selected, then next step
+      if (this.checkoutFormService.selectedAddress.id !== null) {
+
+        this.router.navigate(['order', 'new', 'step-three']);
+      } else {
+        // address not selected
+        this.validStoreOrAddressSelection = false;
+      }
+
+    } else {
+
+      if (this.checkoutFormService.homeDelivery) {
+
+        if (isFormValid(this.form)) {
+          this.saveFormValues();
+          this.router.navigate(['order', 'new', 'step-three']);
+        }
+
+      } else {
+        // if pick-up store selected, then next step
+        if (this.checkoutFormService.selectedAddress.id !== null) {
+          this.router.navigate(['order', 'new', 'step-three']);
+        } else {
+          // pick-up store not selected
+          this.validStoreOrAddressSelection = false;
+        }
+      }
+    }
+  }
+
+  protected cancel() {
+    this.checkoutFormService.clear();
+    this.router.navigate(['/']);
   }
 
   private setHomeDeliveryValidators(add: boolean): void {

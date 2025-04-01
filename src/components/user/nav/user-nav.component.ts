@@ -17,7 +17,7 @@ import {userMenuBar} from '../../../primeng/menubar';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserNavComponent {
-  userProfileMenu = [
+  protected userProfileMenu = [
     {
       label: "component.user.nav.profile",
       icon: 'pi pi-user',
@@ -34,5 +34,6 @@ export class UserNavComponent {
       route: "settings",
     },
   ];
+
   protected readonly userMenuBar = userMenuBar;
 }

@@ -62,16 +62,16 @@ export class OrderComponent {
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
+  protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? "0" : this.activatedRoute.snapshot.paramMap.get("orderId")!;
 
-  order: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected order: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: ["user", "order", this.orderId.toString()],
     queryFn: () => lastValueFrom(this.orderHttpService.findUserOrder(this.orderId))
   })) : tempQueryResult();
 
-  orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
+  private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 
-  delete: MutationResult = injectMutation(() => ({
+  private delete: MutationResult = injectMutation(() => ({
     mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.deleteUserOrder(this.orderId)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
@@ -116,7 +116,7 @@ export class OrderComponent {
     });
   }
 
-  beginDelete(event: Event) {
+  protected beginDelete(event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       header: this.translateService.instant("toast.order.cancel.confirm.header"),

@@ -44,17 +44,17 @@ export class LogoutDialogComponent implements OnDestroy {
   }));
 
   // visible provides hiding dialog on esc key press
-  visible: boolean = this.authService.logoutDialog;
+  protected visible: boolean = this.authService.logoutDialog;
 
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
   }
 
-  acceptLogout() {
+  protected acceptLogout() {
     this.logout();
   }
 
-  hideLogoutDialog() {
+  protected hideLogoutDialog() {
     this.authService.logoutDialog = false;
     this.visible = false;
   }

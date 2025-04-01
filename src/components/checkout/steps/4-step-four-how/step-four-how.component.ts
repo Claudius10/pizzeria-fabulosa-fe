@@ -45,19 +45,21 @@ export class StepFourHowComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  paymentOptions: Option[] = [
+
+  protected paymentOptions: Option[] = [
     {code: "0", description: "form.select.payment.method.card"},
     {code: "1", description: "form.select.payment.method.cash"}
   ];
-  changeOptions: Option[] = [
+
+  protected changeOptions: Option[] = [
     {code: "0", description: "prompt.no"},
     {code: "1", description: "prompt.yes"}
   ];
-  selectedChangeOption: Option = this.changeOptions[0];
 
+  protected selectedChangeOption: Option = this.changeOptions[0];
 
   ngOnInit(): void {
-    this.checkoutFormService.step = 3;
+    this.checkoutFormService.step = 3; // counting starts from 0 LOL
 
     // if data was previously set, restore
     if (this.checkoutFormService.how !== null) {
@@ -82,7 +84,7 @@ export class StepFourHowComponent implements OnInit {
     }
   }
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     paymentMethod: new FormControl(this.paymentOptions[0].code, {
       validators: [Validators.required],
       nonNullable: true,
@@ -94,8 +96,9 @@ export class StepFourHowComponent implements OnInit {
     }),
   });
 
-  togglePaymentOption(eventTarget: EventTarget) {
+  protected togglePaymentOption(eventTarget: EventTarget) {
     const value = (eventTarget as HTMLSelectElement).value;
+
     if (value === this.paymentOptions[0].code) {
       this.checkoutFormService.cashPayment = false;
       this.hideChangeRequest();
@@ -104,8 +107,9 @@ export class StepFourHowComponent implements OnInit {
     }
   }
 
-  toggleChangeRequest(eventTarget: EventTarget) {
+  protected toggleChangeRequest(eventTarget: EventTarget) {
     const value = (eventTarget as HTMLSelectElement).value;
+
     if (value === this.changeOptions[1].code) {
       this.form.controls.billToChange.reset();
       this.form.controls.billToChange.addValidators([Validators.required, Validators.pattern(numbersRegex)]);
@@ -129,30 +133,31 @@ export class StepFourHowComponent implements OnInit {
     };
   }
 
-  previousStep() {
+  protected previousStep() {
     this.router.navigate(['order', 'new', 'step-three']);
+
     if (this.form.controls.billToChange.invalid) {
       this.checkoutFormService.cashPayment = false;
       this.checkoutFormService.changeRequested = false;
       this.checkoutFormService.how = null;
     } else {
-      this.saveFormValues()
+      this.saveFormValues();
     }
   }
 
-  nextStep() {
+  protected nextStep() {
     if (isFormValid(this.form)) {
       this.saveFormValues();
       this.router.navigate(['order', 'new', 'step-five']);
     }
   }
 
-  cancel() {
+  protected cancel() {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
 
-  firstStep() {
+  protected firstStep() {
     this.router.navigate(['order', 'new', 'step-one']);
   }
 

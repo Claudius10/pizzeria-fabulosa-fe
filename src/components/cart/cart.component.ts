@@ -25,7 +25,7 @@ export class CartComponent implements OnInit {
   onNewOrderClick = output<boolean>();
   viewOnly = input.required<boolean>();
   inSidebar = input<boolean>(false);
-  protected cartService: CartService = inject(CartService);
+  protected cartService = inject(CartService);
   private router = inject(Router);
   private viewOnlyRoute = false;
 
@@ -39,11 +39,12 @@ export class CartComponent implements OnInit {
     }
   }
 
+  // in view only mode, cart item quantity cannot be changed
   getIsViewOnly() {
     return this.viewOnly() || this.viewOnlyRoute;
   }
 
-  newOrderOnLick() {
+  toCheckout() {
     this.router.navigate(['order', 'new', 'step-one']);
     this.onNewOrderClick.emit(false); // hides de cart side panel
   }

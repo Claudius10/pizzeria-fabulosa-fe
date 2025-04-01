@@ -21,7 +21,7 @@
           </p-iconfield>
           <div title="Invalid Name"
                class="invalid-text"
-               *ngIf="this.form.controls.name.touched && this.form.controls.name.invalid">
+               *ngIf="form.controls.name.touched && form.controls.name.invalid">
             {{ "form.invalid.name" | translate }}
           </div>
         </div>
@@ -36,18 +36,18 @@
               placeholder="{{'form.label.email' | translate }}"
               formControlName="email"
               pInputText
-              [ngClass]="['w-full', this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching')  ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
           </p-iconfield>
           <div title="Invalid Email"
                class="invalid-text"
-               *ngIf="this.form.controls.email.touched && this.form.controls.email.invalid">
+               *ngIf="form.controls.email.touched && form.controls.email.invalid">
             {{ "form.invalid.email" | translate }}
           </div>
           <div title="Email Mismatch"
                class="invalid-text"
-               *ngIf="this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching')">
+               *ngIf="form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')">
             {{ "form.invalid.email.matching" | translate }}
           </div>
         </div>
@@ -62,13 +62,13 @@
               placeholder="{{'form.label.email.matching' | translate }}"
               formControlName="matchingEmail"
               pInputText
-              [ngClass]="['w-full', this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingEmail.touched && form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
           </p-iconfield>
           <div title="Email Mismatch"
                class="invalid-text"
-               *ngIf="this.form.controls.matchingEmail.touched && (this.form.hasError('emailsNotMatching') || this.form.controls.matchingEmail.invalid)">
+               *ngIf="form.controls.matchingEmail.touched && (form.hasError('emailsNotMatching') || form.controls.matchingEmail.invalid)">
             {{ "form.invalid.email.matching" | translate }}
           </div>
         </div>
@@ -89,7 +89,7 @@
           </p-iconfield>
           <div title="Invalid Contact Number"
                class="invalid-text"
-               *ngIf="this.form.controls.contactNumber.touched && this.form.controls.contactNumber.invalid">
+               *ngIf="form.controls.contactNumber.touched && form.controls.contactNumber.invalid">
             {{ "form.invalid.contact.number" | translate }}
           </div>
         </div>
@@ -103,7 +103,7 @@
               formControlName="password"
               pInputText
               type="{{showPassword ? 'text' : 'password'}}"
-              [ngClass]="['w-full', this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
             <p-inputicon
@@ -113,12 +113,12 @@
           </p-iconfield>
           <div title="Invalid Password"
                class="invalid-text"
-               *ngIf="this.form.controls.password.touched && this.form.controls.password.invalid">
+               *ngIf="form.controls.password.touched && form.controls.password.invalid">
             {{ "form.invalid.password" | translate }}
           </div>
           <div title="Password Mismatch"
                class="invalid-text"
-               *ngIf="this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching')">
+               *ngIf="form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')">
             {{ "form.invalid.password.matching" | translate }}
           </div>
         </div>
@@ -132,7 +132,7 @@
               formControlName="matchingPassword"
               pInputText
               type="{{showMatchingPassword ? 'text' : 'password'}}"
-              [ngClass]="['w-full', this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
             <p-inputicon
@@ -143,7 +143,7 @@
           <div
             title="Password Mismatch"
             class="invalid-text"
-            *ngIf="this.form.controls.matchingPassword.touched && (this.form.hasError('passwordsNotMatching') || this.form.controls.matchingPassword.invalid)">
+            *ngIf="form.controls.matchingPassword.touched && (form.hasError('passwordsNotMatching') || form.controls.matchingPassword.invalid)">
             {{ "form.invalid.password.matching" | translate }}
           </div>
         </div>

@@ -13,6 +13,7 @@ import {CartService} from '../../services/cart/cart.service';
 import {BadgeDirective} from 'primeng/badge';
 import {Drawer} from 'primeng/drawer';
 import {ThemeSelectorComponent} from './theme-selector/theme-selector.component';
+import {PrimeTemplate} from 'primeng/api';
 
 @Component({
   selector: 'app-navigation-bar',
@@ -28,7 +29,8 @@ import {ThemeSelectorComponent} from './theme-selector/theme-selector.component'
     ProgressBar,
     Drawer,
     CartComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    PrimeTemplate
   ],
   templateUrl: './navigation-bar.component.html',
   styleUrls: ['./navigation-bar.component.scss'],
@@ -38,31 +40,31 @@ export class NavigationBarComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
   protected authService = inject(AuthService);
   protected cartService = inject(CartService);
-  isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-  linksDrawerVisible = false;
-  drawerCartVisible = false;
+  protected isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
+  protected linksDrawerVisible = false;
+  protected drawerCartVisible = false;
 
-  toggleMobileLinksDrawer() {
+  protected toggleMobileLinksDrawer() {
     this.linksDrawerVisible = !this.linksDrawerVisible;
   }
 
-  toggleCartDrawer() {
+  protected toggleCartDrawer() {
     this.drawerCartVisible = !this.drawerCartVisible;
   }
 
-  hideCartDrawer(event: boolean) {
+  protected hideCartDrawer(event: boolean) {
     this.drawerCartVisible = event;
   }
 
-  hideMobileLinksDrawer() {
+  protected hideMobileLinksDrawer() {
     this.linksDrawerVisible = false;
   }
 
-  showLoginDialog() {
+  protected showLoginDialog() {
     this.authService.loginDialog = true;
   }
 
-  showLogoutDialog() {
+  protected showLogoutDialog() {
     this.authService.logoutDialog = true;
   }
 }

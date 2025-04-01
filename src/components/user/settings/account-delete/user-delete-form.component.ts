@@ -47,9 +47,9 @@ export class UserDeleteFormComponent implements OnDestroy {
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
   }));
 
-  showPassword = false;
+  protected showPassword = false;
 
-  togglePassword() {
+  protected togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
@@ -57,7 +57,7 @@ export class UserDeleteFormComponent implements OnDestroy {
     this.loadingAnimationService.stopLoading();
   }
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     password: new FormControl<string>("", {
       nonNullable: true,
       updateOn: "change",
@@ -65,7 +65,7 @@ export class UserDeleteFormComponent implements OnDestroy {
     })
   });
 
-  public onSubmit() {
+  protected onSubmit() {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 

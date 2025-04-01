@@ -18,7 +18,7 @@
         <p-inputicon title="Toggle Password Visibility" (click)="togglePassword()"
                      styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
       </p-iconfield>
-      @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
+      @if (!form.controls.password.untouched && !form.controls.password.valid) {
         <span title="Invalid Password" id="password-help" class="invalid-text">
           {{ "form.invalid.password.requiered" | translate }}
         </span>

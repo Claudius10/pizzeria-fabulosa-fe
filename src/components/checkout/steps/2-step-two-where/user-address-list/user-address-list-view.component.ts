@@ -33,11 +33,11 @@ export class UserAddressListViewComponent implements OnInit {
   private userHttpService = inject(UserHttpService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  addressList: QueryResult = injectQuery(() => ({
+  protected addressList: QueryResult = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
     queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
   }));
-  status = toObservable(this.addressList.status);
+  protected status = toObservable(this.addressList.status);
 
   ngOnInit(): void {
     const subscription = this.status.subscribe({
@@ -67,7 +67,7 @@ export class UserAddressListViewComponent implements OnInit {
     });
   }
 
-  selectAddress(id: number) {
+  protected selectAddress(id: number) {
     this.onAddressSelect.emit({id: id, isStore: false});
   }
 }
