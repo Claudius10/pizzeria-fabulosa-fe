@@ -85,6 +85,7 @@
       }
 
       @if (authService.isAuthenticated()) {
+        @if (!authService.isAuthedAsAdmin) {
         <!-- USER BUTTON -->
         <li>
           <button
@@ -96,6 +97,7 @@
             <i class="pi pi-user" style="font-size: 1.25rem; color: var(--p-primary-color)"></i>
           </button>
         </li>
+        }
         <!-- SIGN OUT BUTTON -->
         <li (click)="showLogoutDialog()">
           <button
