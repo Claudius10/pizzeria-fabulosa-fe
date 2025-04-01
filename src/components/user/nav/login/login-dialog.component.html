@@ -32,7 +32,7 @@
             name="email"
             class="bg-white/20 border-0 p-4 text-primary-50"/>
           <div class="invalid-text"
-               *ngIf="this.form.controls.email.touched && this.form.controls.email.invalid">
+               *ngIf="form.controls.email.touched && form.controls.email.invalid">
             {{ "form.invalid.email" | translate }}
           </div>
         </div>
@@ -52,7 +52,7 @@
                          styleClass="{{showPassword ? 'pi pi-eye-slash cursor-pointer' : 'pi pi-eye cursor-pointer'}}"/>
           </p-iconfield>
           <div class="invalid-text"
-               *ngIf="this.form.controls.password.touched && this.form.controls.password.invalid">
+               *ngIf="form.controls.password.touched && form.controls.password.invalid">
             {{ "form.invalid.password.requiered" | translate }}
           </div>
         </div>

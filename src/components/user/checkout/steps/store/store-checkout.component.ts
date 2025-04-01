@@ -14,15 +14,15 @@ import {TranslateService} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
+  orientation = input<"horizontal" | "vertical">('horizontal');
+  selected = input<number | null>(null);
+  highlight = input<boolean>();
   store = input.required<StoreDTO>();
+  invalid = input<boolean>();
   onStoreSelect = output<AddressId>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
-  orientation = input<"horizontal" | "vertical">('horizontal');
-  currentLang = signal(this.translateService.currentLang);
-  selected = input<number | null>(null);
-  highlight = input<boolean>();
-  invalid = input<boolean>();
+  protected currentLang = signal(this.translateService.currentLang);
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {
@@ -32,7 +32,7 @@ export class StoreCheckoutComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  selectStore() {
+  protected selectStore() {
     this.onStoreSelect.emit({id: this.store().address.id, isStore: true});
   }
 }

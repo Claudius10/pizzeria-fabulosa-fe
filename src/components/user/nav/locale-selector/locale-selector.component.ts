@@ -24,7 +24,7 @@ export class LocaleSelectorComponent {
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private primeNgConfig = inject(PrimeNG);
-  visible = false;
+  protected visible = false;
   @ViewChild('locale') locale: ElementRef | undefined;
 
   @HostListener('document:click', ['$event'])
@@ -36,11 +36,11 @@ export class LocaleSelectorComponent {
     }
   }
 
-  toggle() {
+  protected toggle() {
     this.visible = !this.visible;
   }
 
-  changeLanguage(lang: string): void {
+  protected changeLanguage(lang: string): void {
     this.cookieService.set(LOCALE, lang);
     this.useLanguage(lang);
     this.visible = false;

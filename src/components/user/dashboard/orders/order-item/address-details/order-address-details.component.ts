@@ -39,7 +39,7 @@ export class OrderAddressDetailsComponent implements OnInit {
     enabled: false
   }));
 
-  selectedStore = signal<StoreDTO | null>(null);
+  protected selectedStore = signal<StoreDTO | null>(null);
 
   ngOnInit(): void {
     if (this.orderDetails().storePickUp) {

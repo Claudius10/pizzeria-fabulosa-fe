@@ -16,7 +16,6 @@
         title="Continue"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </div>
@@ -42,7 +41,7 @@
               [dt]="myInput(true, '{primary.400}')"
             >
           </p-iconfield>
-          @if (!this.form.controls.fullName.untouched && !this.form.controls.fullName.valid) {
+          @if (!form.controls.fullName.untouched && !form.controls.fullName.valid) {
             <span title="Invalid Name"
                   id="fullName-help"
                   class="invalid-text">
@@ -64,7 +63,7 @@
               pInputText
               [dt]="myInput(true, '{primary.400}')">
           </p-iconfield>
-          @if (!this.form.controls.email.untouched && !this.form.controls.email.valid) {
+          @if (!form.controls.email.untouched && !form.controls.email.valid) {
             <span title="Invalid Email"
                   id="email-help"
                   class="invalid-text">
@@ -86,7 +85,7 @@
               pInputText
               [dt]="myInput(true, '{primary.400}')">
           </p-iconfield>
-          @if (!this.form.controls.contactNumber.untouched && !this.form.controls.contactNumber.valid) {
+          @if (!form.controls.contactNumber.untouched && !form.controls.contactNumber.valid) {
             <span
               title="Invalid Contact Number"
               id="contactNumber-help"
@@ -109,7 +108,6 @@
         title="Continue"
         type="button"
         (onClick)="nextStep()"
-        [disabled]="checkoutFormService.step === 4"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
     </div>
   </form>

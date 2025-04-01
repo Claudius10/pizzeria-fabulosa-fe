@@ -79,17 +79,6 @@ export function getErrorDetails(cause: string, translateService: TranslateServic
   }
 }
 
-function getTimezoneOffset() {
-  const today = new Date();
-  const jan = new Date(today.getFullYear(), 0, 1);
-  const jul = new Date(today.getFullYear(), 6, 1);
-  return Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-}
-
-export function isDst(date: Date) {
-  return date.getTimezoneOffset() < getTimezoneOffset();
-}
-
 export function isFormValid(form: FormGroup) {
   const valid = form.valid;
   const matchingEmailsError = form.hasError('emailsNotMatching');
@@ -131,13 +120,4 @@ export function getDarkIcon(type: string) {
     default:
       return '';
   }
-}
-
-export function ensureId(ids: string[]) {
-  for (let id of ids) {
-    if (id === null) {
-      return false;
-    }
-  }
-  return true;
 }

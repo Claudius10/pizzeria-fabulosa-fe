@@ -38,7 +38,7 @@ export class StepOneWhoComponent implements OnInit {
   protected authService = inject(AuthService);
   private router = inject(Router);
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     fullName: new FormControl("", {
       nonNullable: true,
       updateOn: "change"
@@ -74,6 +74,7 @@ export class StepOneWhoComponent implements OnInit {
 
   nextStep() {
     if (isFormValid(this.form)) {
+
       this.checkoutFormService.who = {
         name: this.form.get("fullName")!.value,
         contactNumber: Number(this.form.get("contactNumber")!.value),

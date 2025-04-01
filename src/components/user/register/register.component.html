@@ -16,7 +16,7 @@
               placeholder="{{'form.label.name' | translate }}"
               formControlName="name"
               pInputText
-              [dt]="myInput(false, '{primary.400}')"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           <div title="Invalid Name"
@@ -62,7 +62,7 @@
               placeholder="{{'form.label.email.matching' | translate }}"
               formControlName="matchingEmail"
               pInputText
-              [ngClass]="['w-full', this.form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingEmail.touched && this.form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false, '{primary.400}')"
             >
           </p-iconfield>
@@ -84,7 +84,7 @@
               placeholder="{{'form.label.contact.number' | translate }}"
               formControlName="contactNumber"
               pInputText
-              [dt]="myInput(false, '{primary.400}')"
+              [dt]="myInput(false)"
             >
           </p-iconfield>
           <div title="Invalid Contact Number"
@@ -103,7 +103,7 @@
               formControlName="password"
               pInputText
               type="{{showPassword ? 'text' : 'password'}}"
-              [ngClass]="['w-full', this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false, '{primary.400}')"
             >
             <p-inputicon
@@ -132,7 +132,7 @@
               formControlName="matchingPassword"
               pInputText
               type="{{showMatchingPassword ? 'text' : 'password'}}"
-              [ngClass]="['w-full', this.form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && this.form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false, '{primary.400}')"
             >
             <p-inputicon

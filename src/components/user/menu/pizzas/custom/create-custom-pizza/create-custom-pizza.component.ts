@@ -32,15 +32,15 @@ export class CreateCustomPizzaComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private gluten = "component.products.filters.allergen.gluten";
   private lactose = "component.products.filters.allergen.lactose";
-  ingredients = signal<string[]>([]);
-  ingredientsObservable = toObservable(this.ingredients);
-  allergensInfo = signal<string[]>([this.gluten]);
-  excludedAllergens = signal<string[]>([]);
-  ingredientQuantity = signal<number>(0);
-  price = signal<number>(0);
-  isLactoseFree = false;
-  isGlutenFree = false;
-  format = ''; // the format is NOT an ingredient
+  private ingredients = signal<string[]>([]);
+  private ingredientsObservable = toObservable(this.ingredients);
+  protected allergensInfo = signal<string[]>([this.gluten]);
+  private excludedAllergens = signal<string[]>([]);
+  protected ingredientQuantity = signal<number>(0);
+  protected price = signal<number>(0);
+  protected isLactoseFree = false;
+  private isGlutenFree = false;
+  protected format = ''; // the format is NOT an ingredient
 
   ngOnInit(): void {
     const subscription = this.ingredientsObservable.subscribe(ingredients => {
@@ -54,7 +54,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  protected onSubmit() {
     if (this.ingredients().length >= 3 && this.format !== '' && this.price() > 0) {
       this.onNewCustomPizza.emit({
         ingredients: this.excludedAllergens().length > 0 ? [...this.excludedAllergens(), ...this.ingredients()] : this.ingredients(),
@@ -64,7 +64,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  onSelectFormat(format: SelectButtonOptionClickEvent) {
+  protected onSelectFormat(format: SelectButtonOptionClickEvent) {
     switch (format.option.value) {
       case this.m:
         this.onFormatChange(11);
@@ -75,7 +75,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  onSelectAllergenExclusion(event: SelectButtonOptionClickEvent) {
+  protected onSelectAllergenExclusion(event: SelectButtonOptionClickEvent) {
     const basePrice = this.format === this.m ? 11 : 14;
     const priceOfAllergenExclusion = this.format === this.m ? 2 : 4;
     const value = event.option.value;
@@ -118,7 +118,7 @@ export class CreateCustomPizzaComponent implements OnInit {
       } else {
         this.isLactoseFree = false;
         this.removeAllergenExclusion(this.lactoseFree);
-        // not adding Lactose to allergensInfo here; this.checkForLactose(ingredients) will handle it
+        // not adding Lactose to allergensInfo here; this.checkForLactose(ingredients) in the subscription will handle it
         this.price.set(this.isGlutenFree ? basePrice + priceOfAllergenExclusion : basePrice);
       }
     }
@@ -147,7 +147,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  onSelectBaseSauce(event: SelectButtonOptionClickEvent) {
+  protected onSelectBaseSauce(event: SelectButtonOptionClickEvent) {
     const value = event.option.value;
 
     switch (value) {
@@ -164,7 +164,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  onSelectBaseCheese(event: SelectButtonOptionClickEvent) {
+  protected onSelectBaseCheese(event: SelectButtonOptionClickEvent) {
     const value = event.option.value;
 
     switch (value) {
@@ -181,22 +181,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  onSelectMeat(event: SelectButtonOptionClickEvent) {
-    const priceOfIngredient = this.format === this.m ? 1.5 : 2.5;
-    this.handleNewIngredient(event.option.value, priceOfIngredient);
-  }
-
-  onSelectCheese(event: SelectButtonOptionClickEvent) {
-    const priceOfIngredient = this.format === this.m ? 1.5 : 2.5;
-    this.handleNewIngredient(event.option.value, priceOfIngredient);
-  }
-
-  onSelectVegetable(event: SelectButtonOptionClickEvent) {
-    const priceOfIngredient = this.format === this.m ? 1.5 : 2.5;
-    this.handleNewIngredient(event.option.value, priceOfIngredient);
-  }
-
-  onSelectOther(event: SelectButtonOptionClickEvent) {
+  protected onSelectIngredient(event: SelectButtonOptionClickEvent) {
     const priceOfIngredient = this.format === this.m ? 1.5 : 2.5;
     this.handleNewIngredient(event.option.value, priceOfIngredient);
   }
@@ -256,7 +241,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  private updatePrice(operation: '+' | '-', price: number,) {
+  private updatePrice(operation: '+' | '-', price: number) {
     if (operation === '-') {
       this.price.update(value => value - price);
     } else if (operation === '+') {
@@ -281,7 +266,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   protected vegetableControl = "";
   protected otherControl = "";
 
-  private formReset() {
+  private deselectValues() {
     this.formatControl = "";
     this.sauceControl = "";
     this.baseCheeseControl = "";
@@ -293,7 +278,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   protected reset() {
-    this.formReset();
+    this.deselectValues();
     this.ingredients.set([]);
     this.excludedAllergens.set([]);
     this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
@@ -305,7 +290,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   private onFormatChange(price: number) {
-    this.formReset();
+    this.deselectValues();
     this.ingredients.set([]);
     this.excludedAllergens.set([]);
     this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
@@ -326,7 +311,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   private glutenFree = 'component.custom.pizza.base.no.gluten';
   private lactoseFree = 'component.custom.pizza.base.no.lactose';
 
-  formatOptions = [
+  protected formatOptions = [
     {
       label: this.m,
       value: this.m,
@@ -337,7 +322,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   ];
 
-  sauceOptions = [
+  protected sauceOptions = [
     {
       label: this.tomatoSauce,
       value: this.tomatoSauce,
@@ -348,7 +333,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   ];
 
-  baseCheeseOptions = [
+  protected baseCheeseOptions = [
     {
       label: this.mozzarella,
       value: this.mozzarella
@@ -359,7 +344,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     },
   ];
 
-  allergenOptions = [
+  protected allergenOptions = [
     {
       label: this.lactoseFree,
       value: this.lactoseFree
@@ -370,7 +355,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   ];
 
-  meatOptions = [
+  protected meatOptions = [
     {
       label: "component.products.filters.meat.bacon",
       value: "component.products.filters.meat.bacon"
@@ -401,7 +386,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     },
   ];
 
-  cheeseOptions = [
+  protected cheeseOptions = [
     {
       label: "component.products.filters.cheese.parmesan",
       value: "component.products.filters.cheese.parmesan"
@@ -420,7 +405,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     },
   ];
 
-  vegetableOptions = [
+  protected vegetableOptions = [
     {
       label: "component.products.filters.vegetables.zucchini",
       value: "component.products.filters.vegetables.zucchini"
@@ -447,7 +432,7 @@ export class CreateCustomPizzaComponent implements OnInit {
     },
   ];
 
-  otherOptions = [
+  protected otherOptions = [
     {
       label: "component.products.filters.oil.truffle",
       value: "component.products.filters.oil.truffle"

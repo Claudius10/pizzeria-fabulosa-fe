@@ -42,19 +42,19 @@ export class HomeComponent implements OnInit {
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
-  offers: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected offers: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [RESOURCE_OFFERS],
     queryFn: () => firstValueFrom(this.resourcesHttpService.findOffers())
   })) : tempQueryResult();
 
-  stores: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected stores: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [RESOURCE_STORE],
     queryFn: () => firstValueFrom(this.resourcesHttpService.findStores())
   })) : tempQueryResult();
 
-  offersStatus = !this.isServer ? toObservable(this.offers.status) : tempStatus$();
-  storeStatus = !this.isServer ? toObservable(this.stores.status) : tempStatus$();
-  status = merge(this.offersStatus, this.storeStatus);
+  private offersStatus = !this.isServer ? toObservable(this.offers.status) : tempStatus$();
+  private storeStatus = !this.isServer ? toObservable(this.stores.status) : tempStatus$();
+  private status = merge(this.offersStatus, this.storeStatus);
 
   ngOnInit(): void {
     const subscription = this.status.pipe().subscribe({

@@ -1,7 +1,7 @@
 @if (query.status() !== "error") {
   <div class="layout">
     <div class="products-search">
-      <app-products-search (onSearch)="this.filterService.setSearchText($event)"/>
+      <app-products-search (onSearch)="filterService.setSearchText($event)"/>
       <app-products-filter [items]="getAllPizzaFilters()"/>
     </div>
 
@@ -17,7 +17,7 @@
         }
 
         @if (query.status() === "success") {
-          @if (query.data()!.payload.productList | productsSearch: this.filterService.searchText:filters(); as products) {
+          @if (query.data()!.payload.productList | productsSearch: filterService.searchText:filters(); as products) {
             @if (products.length > 0) {
 
               @if (this.page() === 1) {

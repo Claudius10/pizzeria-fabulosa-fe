@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, input, OnDestroy} from '@angular/core';
-import {AddressDTO} from '../../../../../../utils/interfaces/dto/order';
+import {AddressDTO} from '../../../../../utils/interfaces/dto/order';
 import {Button} from 'primeng/button';
-import {ResponseDTO} from '../../../../../../utils/interfaces/http/api';
-import {LoadingAnimationService} from '../../../../../../services/common/animation/loading-animation.service';
-import {MutationRequest, MutationResult} from '../../../../../../utils/interfaces/mutation';
+import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
+import {MutationRequest, MutationResult} from '../../../../../utils/interfaces/mutation';
 import {TranslatePipe} from '@ngx-translate/core';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
