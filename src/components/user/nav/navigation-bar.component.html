@@ -21,23 +21,25 @@
         ngSrc="/assets/icons/pizzabig.png"
         height="60"
         width="60">
-      <div class="flex gap-12">
-        <button
-          title="Pizzas"
-          class="text-lg"
-          aria-label="To Pizzas Page"
-          routerLinkActive="color"
-          routerLink="pizzas">
-          Pizzas
-        </button>
-        <button
-          title="Beverages"
-          aria-label="To Beverages Page"
-          class="text-lg"
-          routerLinkActive="color"
-          routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
-        </button>
-      </div>
+      @if (!authService.isAuthedAsAdmin) {
+        <div class="flex gap-12">
+          <button
+            title="Pizzas"
+            class="text-lg"
+            aria-label="To Pizzas Page"
+            routerLinkActive="color"
+            routerLink="pizzas">
+            Pizzas
+          </button>
+          <button
+            title="Beverages"
+            aria-label="To Beverages Page"
+            class="text-lg"
+            routerLinkActive="color"
+            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+          </button>
+        </div>
+      }
     </div>
 
     <!-- RIGHT SIDE ICON LIST -->
