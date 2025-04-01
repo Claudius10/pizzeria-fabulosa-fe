@@ -1,0 +1,9 @@
+<p-card title="Settings Section" class="flex flex-col">
+  <div class="flex flex-col gap-4">
+    <app-user-delete-form/>
+    @if (this.authService.isAdmin) {
+      <p-divider/>
+      <app-admin-login/>
+    }
+  </div>
+</p-card>

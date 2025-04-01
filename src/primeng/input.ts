@@ -1,4 +1,4 @@
-export const myInput = (inverse: boolean) => {
+export const myInput = (inverse: boolean, color: string) => {
   return {
     background: inverse ? "{surface.card.inverse}" : "{surface.card.bg}",
     border: {
@@ -6,7 +6,7 @@ export const myInput = (inverse: boolean) => {
     },
     hover: {
       border: {
-        color: "{primary.400}",
+        color: color,
       }
     }
   };

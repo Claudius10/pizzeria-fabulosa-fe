@@ -1,6 +1,6 @@
 import {CanMatchFn, Router} from '@angular/router';
 import {inject, PLATFORM_ID} from "@angular/core";
-import {AuthService} from "../../../services/auth/auth.service";
+import {AuthService} from "../../../services/common/auth/auth.service";
 import {isPlatformBrowser} from '@angular/common';
 
 export const userCredentialsGuardGuard: CanMatchFn = (route, segments) => {

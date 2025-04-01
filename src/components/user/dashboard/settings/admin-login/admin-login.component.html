@@ -1,0 +1,48 @@
+<p-button
+  type="button"
+  title="Admin"
+  label="Admin"
+  (click)="dialogVisibility(true)"
+  icon="pi pi-shield"
+  iconPos="left"
+  severity="help"
+  [raised]="true"/>
+
+<p-dialog
+  header="Admin"
+  [modal]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [breakpoints]="{ '576px': '90vw' }"
+  [(visible)]="dialogVisible"
+  (onHide)="dialogVisibility(false)"
+  [style]="{ width: '25rem' }">
+  <form class="flex gap-2" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col gap-2 w-fit">
+      <p-iconfield [dt]="myIcon('{purple.400}')">
+        <input
+          title="Password"
+          id="password"
+          type="{{showPassword ? 'text' : 'password'}}"
+          placeholder="{{ 'form.label.password' | translate}} "
+          formControlName="password"
+          class="w-full"
+          pInputText
+          [dt]="myInput(false, '{purple.400}')">
+        <p-inputicon title="Toggle Password Visibility" (click)="togglePassword()"
+                     styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+      </p-iconfield>
+      @if (!this.form.controls.password.untouched && !this.form.controls.password.valid) {
+        <span title="Invalid Password" id="password-help" class="invalid-text">
+          {{ "form.invalid.password.requiered" | translate }}
+        </span>
+      }
+    </div>
+
+    <p-button
+      type="submit"
+      title="Delete"
+      severity="help"
+      label="{{ 'button.enter' | translate | uppercase }}"/>
+  </form>
+</p-dialog>

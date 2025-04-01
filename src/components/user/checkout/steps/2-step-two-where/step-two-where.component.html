@@ -1,0 +1,168 @@
+@if (!checkoutFormService.isStepFilled(1)) {
+  <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
+    <span class="text-center">{{ "component.form.step.two.warning" | translate }}</span>
+    <p-button
+      title="Start"
+      type="button"
+      (onClick)="previousStep()"
+      [disabled]="checkoutFormService.step === 0"
+      label="{{ 'button.step.start' | translate | uppercase }}"/>
+  </div>
+} @else {
+  <form class="flex flex-col justify-between gap-20 h-full w-full" [formGroup]="form" (ngSubmit)="nextStep()">
+
+    <div class="flex flex-col gap-6">
+
+      <div class="flex flex-col gap-4">
+
+        <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
+
+        <p-iconfield title="Delivery Choice Icon" [dt]="myIcon('{primary.400}')">
+          <p-inputicon styleClass="pi pi-angle-down"/>
+          <select
+            title="Delivery Choice Select"
+            [ngModel]="selectedOption.code"
+            [ngModelOptions]="{standalone: true}"
+            (change)="selectDelivery($event)"
+            class="w-full"
+            id="deliveryOption"
+            pInputText
+            [dt]="myInput(true, '{primary.400}')"
+          >
+            <option *ngFor="let option of options" [value]="option.code">{{ option.description | translate }}</option>
+          </select>
+        </p-iconfield>
+      </div>
+
+      <!-- ADDRESS SELECT -->
+      <div class="flex flex-col gap-4">
+        @if (checkoutFormService.homeDelivery) {
+          @if (authService.isAuthenticated()) {
+            <app-user-address-list-view
+              (onAddressSelect)="setSelectedId($event)"
+              [selected]="this.checkoutFormService.selectedAddress.id"
+              [invalid]="validStoreOrAddressSelection"
+            />
+          } @else {
+            <div class="flex flex-col gap-6">
+
+              <div class="flex flex-col gap-2">
+                <p-iconfield [dt]="myIcon('{primary.400}')">
+                  <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
+                  <input
+                    title="Address Input"
+                    class="w-full"
+                    id="street"
+                    type="text"
+                    placeholder="{{ 'form.label.delivery.address' | translate }}"
+                    formControlName="street"
+                    pInputText
+                    [dt]="myInput(true, '{primary.400}')"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.street.untouched && !this.form.controls.street.valid) {
+                  <span title="Invalid Address" id="street-help"
+                        class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
+                  </span>
+                }
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <p-iconfield [dt]="myIcon('{primary.400}')">
+                  <p-inputicon title="Number Icon" styleClass="pi pi-home"/>
+                  <input
+                    title="Address Number Input"
+                    class="w-full"
+                    id="streetNumber"
+                    type="tel"
+                    placeholder="{{ 'form.label.delivery.number' | translate }}"
+                    formControlName="number"
+                    pInputText
+                    [dt]="myInput(true, '{primary.400}')"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.number.untouched && !this.form.controls.number.valid) {
+                  <span title="Invalid Address Number" id="number-help" class="invalid-text">
+                      {{ "form.invalid.delivery.number" | translate }}
+                  </span>
+                }
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <p-iconfield [dt]="myIcon('{primary.400}')">
+                  <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
+                  <input
+                    title="Details Input"
+                    class="w-full"
+                    id="details"
+                    type="text"
+                    placeholder="{{ 'form.label.delivery.details' | translate }}"
+                    formControlName="details"
+                    pInputText
+                    [dt]="myInput(true, '{primary.400}')"
+                  >
+                </p-iconfield>
+                @if (!this.form.controls.details.untouched && !this.form.controls.details.valid) {
+                  <span title="Invalid Details" id="details-help" class="invalid-text">
+                    {{ "form.invalid.delivery.details" | translate }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+        } @else {
+          <!-- STORE SELECT -->
+          @if (stores.status() === "error") {
+            <app-server-error/>
+          }
+
+          @if (stores.status() === 'success') {
+            <ul title="Stores" class="flex flex-col gap-4">
+              @for (store of stores.data()!.payload; track store.id) {
+                <li>
+                  <app-store-checkout
+                    [store]="store"
+                    (onStoreSelect)="setSelectedId($event)"
+                    [selected]="this.checkoutFormService.selectedAddress.id"
+                    [invalid]="validStoreOrAddressSelection"
+                    [highlight]="true"
+                  />
+                </li>
+              }
+            </ul>
+
+            @if (!validStoreOrAddressSelection) {
+              <span
+                title="Invalid Store Selection"
+                class="invalid-text">
+                {{ "form.invalid.store.selection" | translate }}
+              </span>
+            }
+          }
+        }
+      </div>
+    </div>
+
+    <!-- STEP NAVIGATION BUTTONS -->
+    <div class="buttons">
+      <p-button
+        title="Previous"
+        type="button"
+        (onClick)="previousStep()"
+        [disabled]="checkoutFormService.step === 0"
+        label="{{ 'button.step.previous' | translate | uppercase }}"/>
+      <p-button
+        title="Cancel"
+        severity="danger"
+        type="button"
+        (click)="cancel()"
+        label="{{ 'button.cancel' | translate | uppercase }}"/>
+      <p-button
+        title="Next"
+        type="button"
+        (onClick)="nextStep()"
+        [disabled]="checkoutFormService.step === 4 || isFetching()"
+        label="{{ 'button.step.next' | translate | uppercase }}"/>
+    </div>
+  </form>
+}

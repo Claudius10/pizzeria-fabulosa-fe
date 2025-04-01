@@ -1,26 +1,29 @@
 import {Routes} from '@angular/router';
-import {PizzaListComponent} from '../../components/menu/pizzas/pizza-list.component';
-import {HomeComponent} from '../../components/home/home.component';
+import {PizzaListComponent} from '../../components/user/menu/pizzas/pizza-list.component';
+import {HomeComponent} from '../../components/user/home/home.component';
 import {userCredentialsGuardGuard} from '../../components/user/guard/user-credentials-guard.guard';
-import {BeverageListComponent} from '../../components/menu/beverages/beverage-list.component';
-import {RegisterComponent} from '../../components/register/register.component';
-import {UserHomeComponent} from '../../components/user/user-home.component';
-import {ProfileComponent} from '../../components/user/profile/profile.component';
-import {OrderSummaryListComponent} from '../../components/user/orders/summary-list/list/order-summary-list.component';
-import {OrderComponent} from '../../components/user/orders/order-item/order.component';
-import {UserSettingsComponent} from '../../components/user/settings/user-settings.component';
-import {CheckoutFormComponent} from '../../components/checkout/checkout-form.component';
-import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-who/step-one-who.component';
-import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
-import {StepThreeWhenComponent} from '../../components/checkout/steps/3-step-three-when/step-three-when.component';
-import {StepFourHowComponent} from '../../components/checkout/steps/4-step-four-how/step-four-how.component';
+import {BeverageListComponent} from '../../components/user/menu/beverages/beverage-list.component';
+import {RegisterComponent} from '../../components/user/register/register.component';
+import {UserHomeComponent} from '../../components/user/dashboard/user-home.component';
+import {ProfileComponent} from '../../components/user/dashboard/profile/profile.component';
+import {
+  OrderSummaryListComponent
+} from '../../components/user/dashboard/orders/summary-list/list/order-summary-list.component';
+import {OrderComponent} from '../../components/user/dashboard/orders/order-item/order.component';
+import {UserSettingsComponent} from '../../components/user/dashboard/settings/user-settings.component';
+import {CheckoutFormComponent} from '../../components/user/checkout/checkout-form.component';
+import {StepOneWhoComponent} from '../../components/user/checkout/steps/1-step-one-who/step-one-who.component';
+import {StepTwoWhereComponent} from '../../components/user/checkout/steps/2-step-two-where/step-two-where.component';
+import {StepThreeWhenComponent} from '../../components/user/checkout/steps/3-step-three-when/step-three-when.component';
+import {StepFourHowComponent} from '../../components/user/checkout/steps/4-step-four-how/step-four-how.component';
 import {
   StepFiveSummaryComponent
-} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
-import {NewOrderSuccessComponent} from '../../components/checkout/success/new-order-success.component';
+} from '../../components/user/checkout/steps/5-step-five-summary/step-five-summary.component';
+import {NewOrderSuccessComponent} from '../../components/user/checkout/success/new-order-success.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {ErrorComponent} from './error/error.component';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {AdminHomeComponent} from '../../components/admin/admin-home.component';
 
 export const routes: Routes = [
   {
@@ -112,6 +115,12 @@ export const routes: Routes = [
         title: "New order: Success",
       }
     ]
+  },
+  {
+    path: "admin",
+    title: "Administrator",
+    component: AdminHomeComponent,
+    children: []
   },
   {
     path: "forbidden",
