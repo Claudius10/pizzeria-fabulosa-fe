@@ -9,14 +9,14 @@
         <input
           title="Password"
           id="password"
-          type="{{showPassword ? 'text' : 'password'}}"
+          type="{{showPassword() ? 'text' : 'password'}}"
           placeholder="{{ 'form.label.password' | translate}} "
           formControlName="password"
           class="w-full"
           pInputText
           [dt]="myInput(false)">
         <p-inputicon title="Toggle Password Visibility" (click)="togglePassword()"
-                     styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+                     styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
       </p-iconfield>
       @if (!form.controls.password.untouched && !form.controls.password.valid) {
         <span title="Invalid Password" id="password-help" class="invalid-text">

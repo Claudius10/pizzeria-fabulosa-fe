@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
 import {Button} from 'primeng/button';
 import {UserAddressFormComponent} from '../address-form/user-address-form.component';
@@ -33,12 +33,15 @@ export class UserAddressListComponent implements OnInit {
   private userHttpService = inject(UserHttpService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
+
   protected addressList: QueryResult = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
     queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
   }));
+
   private addressListStatus = toObservable(this.addressList.status);
-  protected showAddressForm = false;
+
+  protected showAddressForm = signal(false);
 
   ngOnInit(): void {
     const subscription = this.addressListStatus.subscribe({
@@ -69,10 +72,10 @@ export class UserAddressListComponent implements OnInit {
   }
 
   protected toggleAddressForm() {
-    this.showAddressForm = !this.showAddressForm;
+    this.showAddressForm.set(!this.showAddressForm());
   }
 
   protected hideFormOnCancel() {
-    this.showAddressForm = false;
+    this.showAddressForm.set(false);
   }
 }

@@ -28,8 +28,8 @@ export class ProductItemComponent implements OnInit {
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   protected readonly currentLang = signal(this.translateService.currentLang);
-  protected productFormat = "";
-  protected productPrice = 0;
+  protected productFormat = signal("");
+  protected productPrice = signal(0);
   protected dialogVisible = false;
 
   ngOnInit(): void {
@@ -44,8 +44,8 @@ export class ProductItemComponent implements OnInit {
 
   protected addProductToCart(product: ProductDTO) {
     this.cartService.add({
-      id: product.id + this.productFormat,
-      formatCode: this.productFormat,
+      id: product.id + this.productFormat(),
+      formatCode: this.productFormat(),
       images: {
         dark: getDarkIcon(product.type),
         light: getLightIcon(product.type)
@@ -54,20 +54,20 @@ export class ProductItemComponent implements OnInit {
       name: product.name,
       description: product.description,
       formats: {
-        s: this.productFormat === "S" ? {
+        s: this.productFormat() === "S" ? {
           en: product.formats.s.en,
           es: product.formats.s.es,
         } : null,
-        m: this.productFormat === "M" ? {
+        m: this.productFormat() === "M" ? {
           en: product.formats.m.en,
           es: product.formats.m.es,
         } : null,
-        l: this.productFormat === "L" ? {
+        l: this.productFormat() === "L" ? {
           en: product.formats.l.en,
           es: product.formats.l.es,
         } : null,
       },
-      price: this.productPrice,
+      price: this.productPrice(),
       quantity: 1,
     });
 
@@ -76,20 +76,20 @@ export class ProductItemComponent implements OnInit {
   }
 
   protected setFormat(format: string) {
-    this.productFormat = format;
+    this.productFormat.set(format);
     this.updatePrice(format);
   }
 
   private updatePrice(format: string) {
     switch (format) {
       case 'S':
-        this.productPrice = this.product().prices.s;
+        this.productPrice.set(this.product().prices.s);
         break;
       case 'M':
-        this.productPrice = this.product().prices.m;
+        this.productPrice.set(this.product().prices.m);
         break;
       case 'L':
-        this.productPrice = this.product().prices.l;
+        this.productPrice.set(this.product().prices.l);
         break;
     }
   }
@@ -102,8 +102,8 @@ export class ProductItemComponent implements OnInit {
   }
 
   private setDefaults(product: ProductDTO) {
-    this.productFormat = product.formats.m === undefined ? "S" : "M";
-    this.productPrice = product.prices.m === undefined ? product.prices.s : product.prices.m;
+    this.productFormat.set(product.formats.m === undefined ? "S" : "M");
+    this.productPrice.set(product.prices.m === undefined ? product.prices.s : product.prices.m);
   }
 }
 

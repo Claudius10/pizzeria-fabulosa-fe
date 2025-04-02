@@ -22,7 +22,7 @@ export class ProductsSearchComponent implements OnInit {
   onSearch = output<string>();
   private destroyRef = inject(DestroyRef);
 
-  form = new FormGroup({
+  protected form = new FormGroup({
     searchText: new FormControl<string>("", {
       nonNullable: true,
       updateOn: "change",

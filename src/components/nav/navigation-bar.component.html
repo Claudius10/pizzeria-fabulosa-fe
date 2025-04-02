@@ -74,7 +74,7 @@
             class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-in" style="font-size: 1.25rem"></i>
           </button>
-          @if (authService.loginDialog) {
+          @if (authService.loginDialogVisibility()) {
             <app-login-dialog/>
           }
         </li>
@@ -101,7 +101,7 @@
             class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
             <i class="pi pi-sign-out" style="font-size: 1.25rem"></i>
           </button>
-          @if (authService.logoutDialog) {
+          @if (authService.logoutDialogVisibility()) {
             <app-logout-dialog/>
           }
         </li>

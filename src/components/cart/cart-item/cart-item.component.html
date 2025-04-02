@@ -91,7 +91,7 @@
             <i
               title="Toggle {{item().name.en}} {{item().formatCode}} Ingredients"
               style="color: var(--p-primary-color)"
-              [ngClass]="[viewIngredients ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+              [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
             <span
               title="{{item().name.en}} {{item().formatCode}} Ingredients"
               class="cursor-pointer">
@@ -103,7 +103,7 @@
     </div>
   </div>
 
-  @if (viewIngredients) {
+  @if (viewIngredients()) {
     <div class="flex flex-wrap justify-center align-middle text-center pb-2 ingredients-container">
       @if (currentLang() === 'es') {
         {{ item().description.es.join(", ") }}

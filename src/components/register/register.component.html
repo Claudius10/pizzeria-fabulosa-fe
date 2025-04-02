@@ -102,14 +102,14 @@
               placeholder="{{'form.label.password' | translate }}"
               formControlName="password"
               pInputText
-              type="{{showPassword ? 'text' : 'password'}}"
+              type="{{showPassword() ? 'text' : 'password'}}"
               [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
             <p-inputicon
               title="Toggle Password Visibility"
               (click)="togglePassword()"
-              styleClass="{{showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+              styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
           <div title="Invalid Password"
                class="invalid-text"
@@ -131,14 +131,14 @@
               placeholder="{{'form.label.password.matching' | translate }}"
               formControlName="matchingPassword"
               pInputText
-              type="{{showMatchingPassword ? 'text' : 'password'}}"
+              type="{{showMatchingPassword() ? 'text' : 'password'}}"
               [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
             >
             <p-inputicon
               title="Toggle Matching Password Visibility"
               (click)="toggleMatchingPassword()"
-              styleClass="{{showMatchingPassword ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+              styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
           </p-iconfield>
           <div
             title="Password Mismatch"

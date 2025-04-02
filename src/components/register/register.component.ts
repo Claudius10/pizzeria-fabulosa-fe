@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -65,15 +65,15 @@ export class RegisterComponent implements OnDestroy {
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.create(request.payload))
   }));
 
-  protected showPassword = false;
-  protected showMatchingPassword = false;
+  protected showPassword = signal(false);
+  protected showMatchingPassword = signal(false);
 
   protected togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.showPassword.set(!this.showPassword());
   }
 
   protected toggleMatchingPassword() {
-    this.showMatchingPassword = !this.showMatchingPassword;
+    this.showMatchingPassword.set((!this.showMatchingPassword()));
   }
 
   ngOnDestroy(): void {
@@ -118,7 +118,7 @@ export class RegisterComponent implements OnDestroy {
   }
 
   protected showLoginDialog() {
-    this.authService.loginDialog = true;
+    this.authService.loginDialogVisibility.set(true);
   }
 
   protected onSubmit(): void {

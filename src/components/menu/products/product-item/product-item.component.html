@@ -93,7 +93,7 @@
             type="button"
             size="small"
             label="{{ currentLang() === 'es' ? product().formats.s.es : product().formats.s.en  }}"
-            [outlined]="this.productFormat!=='S'"
+            [outlined]="this.productFormat() !== 'S'"
             [raised]="true"/>
         }
 
@@ -104,7 +104,7 @@
             type="button"
             size="small"
             label="{{ currentLang() === 'es' ? product().formats.m.es : product().formats.m.en  }}"
-            [outlined]="this.productFormat!=='M'"
+            [outlined]="this.productFormat() !== 'M'"
             [raised]="true"/>
         }
 
@@ -115,14 +115,14 @@
             type="button"
             size="small"
             label="{{ currentLang() === 'es' ? product().formats.l.es : product().formats.l.en  }}"
-            [outlined]="this.productFormat!=='L'"
+            [outlined]="this.productFormat() !== 'L'"
             [raised]="true"/>
         }
       </div>
     }
 
     <!-- PRICE -->
-    <app-product-price title="Price" [price]="this.productPrice"/>
+    <app-product-price title="Price" [price]="this.productPrice()"/>
 
     <!-- ADD -->
     <p-button

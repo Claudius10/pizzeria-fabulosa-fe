@@ -145,8 +145,8 @@ export class StepFiveSummaryComponent implements OnInit {
         id: null,
         cartItems: cleanIds(this.cartService.items()),
         totalQuantity: this.cartService.quantity(),
-        totalCost: Number(this.cartService.total.toFixed(2)),
-        totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
+        totalCost: Number(this.cartService.total().toFixed(2)),
+        totalCostOffers: Number(this.cartService.totalAfterOffers().toFixed(2)),
       }
     };
 
@@ -197,8 +197,8 @@ export class StepFiveSummaryComponent implements OnInit {
         id: null,
         cartItems: cleanIds(this.cartService.items()),
         totalQuantity: this.cartService.quantity(),
-        totalCost: Number(this.cartService.total.toFixed(2)),
-        totalCostOffers: Number(this.cartService.totalAfterOffers.toFixed(2)),
+        totalCost: Number(this.cartService.total().toFixed(2)),
+        totalCostOffers: Number(this.cartService.totalAfterOffers().toFixed(2)),
       }
     };
 

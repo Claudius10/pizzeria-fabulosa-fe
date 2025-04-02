@@ -17,7 +17,7 @@
         }
 
         @if (query.status() === "success") {
-          @if (query.data()!.payload.productList | productsSearch: filterService.searchText:filters(); as products) {
+          @if (query.data()!.payload.productList | productsSearch: filterService.searchText():filters(); as products) {
             @if (products.length > 0) {
 
               @if (this.page() === 1) {

@@ -61,10 +61,10 @@ export class NavigationBarComponent {
   }
 
   protected showLoginDialog() {
-    this.authService.loginDialog = true;
+    this.authService.loginDialogVisibility.set(true);
   }
 
   protected showLogoutDialog() {
-    this.authService.logoutDialog = true;
+    this.authService.logoutDialogVisibility.set(true);
   }
 }

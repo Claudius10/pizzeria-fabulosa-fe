@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {Router} from '@angular/router';
@@ -47,10 +47,10 @@ export class UserDeleteFormComponent implements OnDestroy {
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
   }));
 
-  protected showPassword = false;
+  protected showPassword = signal(false);
 
   protected togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.showPassword.set(!this.showPassword());
   }
 
   ngOnDestroy(): void {

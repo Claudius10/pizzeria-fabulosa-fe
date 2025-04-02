@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, signal, ViewChild} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {NgClass} from '@angular/common';
@@ -24,26 +24,26 @@ export class LocaleSelectorComponent {
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private primeNgConfig = inject(PrimeNG);
-  protected visible = false;
+  protected visible = signal(false);
   @ViewChild('locale') locale: ElementRef | undefined;
 
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {
     if (this.locale) {
       if (!this.locale.nativeElement.contains(event.target)) {
-        this.visible = false;
+        this.visible.set(false);
       }
     }
   }
 
   protected toggle() {
-    this.visible = !this.visible;
+    this.visible.set(!this.visible());
   }
 
   protected changeLanguage(lang: string): void {
     this.cookieService.set(LOCALE, lang);
     this.useLanguage(lang);
-    this.visible = false;
+    this.visible.set(false);
     this.messageService.add({
       severity: 'info',
       summary: lang === 'es' ? 'Información' : 'Information', // can't use this.translateService.instant here, first time calling won't have an effect

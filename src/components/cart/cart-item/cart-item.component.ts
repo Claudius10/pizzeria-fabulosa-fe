@@ -1,4 +1,4 @@
-import {Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CartItemDTO} from '../../../utils/interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
@@ -17,6 +17,7 @@ import {ThemeService} from '../../../services/theme/theme.service';
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartItemComponent implements OnInit {
   private translateService = inject(TranslateService);
@@ -27,7 +28,7 @@ export class CartItemComponent implements OnInit {
   item = input.required<CartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
   isDarkMode = this.themeService.getDarkMode();
-  viewIngredients = false;
+  viewIngredients = signal(false);
 
   ngOnInit(): void {
     const translateSub = this.translateService.onLangChange.subscribe(langEvent => {
@@ -48,6 +49,6 @@ export class CartItemComponent implements OnInit {
   }
 
   toggleIngredients() {
-    this.viewIngredients = !this.viewIngredients;
+    this.viewIngredients.set(!this.viewIngredients());
   }
 }

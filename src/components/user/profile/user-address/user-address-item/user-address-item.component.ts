@@ -27,6 +27,7 @@ export class UserAddressItemComponent implements OnDestroy {
   private userHttpService = inject(UserHttpService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
+
   private deleteUserAddress: MutationResult = injectMutation(() => ({
     mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.deleteUserAddress(request.payload)),
     onSuccess: () => {

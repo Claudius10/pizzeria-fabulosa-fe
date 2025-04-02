@@ -14,10 +14,10 @@
 
   <div class="flex flex-col gap-4">
     <app-cart-totals
-      [total]="cartService.total"
-      [threeForTwoOffers]="cartService.threeForTwoOffers"
-      [secondForHalfPriceOffer]="cartService.secondHalfPriceOffer"
-      [totalAfterOffers]="cartService.totalAfterOffers"
+      [total]="cartService.total()"
+      [threeForTwoOffers]="cartService.threeForTwoOffers()"
+      [secondForHalfPriceOffer]="cartService.secondHalfPriceOffer()"
+      [totalAfterOffers]="cartService.totalAfterOffers()"
     />
 
     @if (cartService.quantity() !== 0 && !getIsViewOnly()) {

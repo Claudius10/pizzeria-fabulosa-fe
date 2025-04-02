@@ -92,7 +92,7 @@ export class StepFourHowComponent implements OnInit {
     }),
     billToChange: new FormControl<string | null>(null, {
       updateOn: "change",
-      validators: [billValidator(this.cartService.total, this.cartService.totalAfterOffers)]
+      validators: [billValidator(this.cartService.total(), this.cartService.totalAfterOffers())]
     }),
   });
 

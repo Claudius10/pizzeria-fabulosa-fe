@@ -6,8 +6,8 @@ import {jwtDecode, JwtPayload} from 'jwt-decode';
 })
 export class AuthService {
   isAuthenticated = signal(false);
-  loginDialog = false;
-  logoutDialog = false;
+  loginDialogVisibility = signal(false);
+  logoutDialogVisibility = signal(false);
   userId: string | null = null;
   userEmail: string | null = null;
   userName: string | null = null;
