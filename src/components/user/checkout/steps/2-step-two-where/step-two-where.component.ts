@@ -64,7 +64,7 @@ export class StepTwoWhereComponent implements OnInit {
     enabled: false
   }));
 
-  protected storesStatus = toObservable(this.stores.status);
+  private storesStatus = toObservable(this.stores.status);
 
   protected options: Option[] = [
     {code: "0", description: "form.select.address.home"},

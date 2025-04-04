@@ -55,13 +55,13 @@ export class BeverageListComponent implements OnInit {
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
   protected filters = this.filterService.getFilters();
   private currentElements = DEFAULT_PAGE_MAX_SIZE;
   protected skeletonCount = DEFAULT_PAGE_MAX_SIZE;
   protected totalElements = 0;
   private totalPages = 0;
   protected first = 0;
-  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
   protected query: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_BEVERAGE, this.page() - 1],

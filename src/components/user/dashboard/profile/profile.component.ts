@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, signal} from '@angular/core';
 import {UserAddressListComponent} from './user-address/user-address-list/user-address-list.component';
 import {Card} from 'primeng/card';
 import {Button} from 'primeng/button';
@@ -19,9 +19,9 @@ import {UserDetailsComponent} from '../details/user-details.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
-  protected viewAddressList = false;
+  protected viewAddressList = signal(false);
 
   protected toggleAddressList() {
-    this.viewAddressList = !this.viewAddressList;
+    this.viewAddressList.set(!this.viewAddressList());
   }
 }

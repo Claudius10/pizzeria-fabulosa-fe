@@ -39,7 +39,7 @@
               optionValue="value"
               [(ngModel)]="allergensControl"
               (onOptionClick)="onSelectAllergenExclusion($event)"
-              [disabled]="format === ''"
+              [disabled]="format() === ''"
               [multiple]="true"
               [ngClass]="['flex flex-wrap gap-2']">
               <ng-template #item let-item>
@@ -60,7 +60,7 @@
             optionValue="value"
             [(ngModel)]="sauceControl"
             (onOptionClick)="onSelectBaseSauce($event)"
-            [disabled]="format === ''"
+            [disabled]="format() === ''"
             [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
@@ -79,7 +79,7 @@
             optionValue="value"
             [(ngModel)]="baseCheeseControl"
             (onOptionClick)="onSelectBaseCheese($event)"
-            [disabled]="format === ''"
+            [disabled]="format() === ''"
             [ngClass]="['flex flex-wrap gap-2']">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
@@ -100,7 +100,7 @@
           optionValue="value"
           [(ngModel)]="cheeseControl"
           (onOptionClick)="onSelectIngredient($event)"
-          [disabled]="format === '' || isLactoseFree"
+          [disabled]="format() === '' || isLactoseFree()"
           [multiple]="true"
           class="flex flex-wrap gap-2">
           <ng-template #item let-item>
@@ -120,7 +120,7 @@
           optionValue="value"
           [(ngModel)]="vegetableControl"
           (onOptionClick)="onSelectIngredient($event)"
-          [disabled]="format === ''"
+          [disabled]="format() === ''"
           [multiple]="true"
           class="flex flex-wrap gap-2">
           <ng-template #item let-item>
@@ -141,7 +141,7 @@
             optionValue="value"
             [(ngModel)]="meatControl"
             (onOptionClick)="onSelectIngredient($event)"
-            [disabled]="format === ''"
+            [disabled]="format() === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>
@@ -161,7 +161,7 @@
             optionValue="value"
             [(ngModel)]="otherControl"
             (onOptionClick)="onSelectIngredient($event)"
-            [disabled]="format === ''"
+            [disabled]="format() === ''"
             [multiple]="true"
             class="flex flex-wrap gap-2">
             <ng-template #item let-item>

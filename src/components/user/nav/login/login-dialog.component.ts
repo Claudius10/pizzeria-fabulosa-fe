@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {Button} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
@@ -56,9 +56,9 @@ export class LoginDialogComponent implements OnDestroy {
   private login: MutationResult = injectMutation(() => ({
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload))
   }));
-  protected showPassword = false;
+  protected showPassword = signal(false);
   // visible provides hiding dialog on esc key press
-  protected visible: boolean = this.authService.loginDialog;
+  protected visible: boolean = this.authService.loginDialogVisibility();
 
   protected form = new FormGroup({
     email: new FormControl<string>("", {
@@ -78,12 +78,12 @@ export class LoginDialogComponent implements OnDestroy {
   }
 
   protected togglePassword() {
-    this.showPassword = !this.showPassword;
+    this.showPassword.set(!this.showPassword());
   }
 
   protected closeLoginDialog(): void {
-    this.authService.loginDialog = false;
-    this.visible = false;
+    this.authService.loginDialogVisibility.set(false);
+    this.visible = this.authService.loginDialogVisibility();
   }
 
   protected goToRegister(): void {

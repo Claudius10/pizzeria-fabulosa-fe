@@ -38,13 +38,13 @@ export class CreateCustomPizzaComponent implements OnInit {
   private excludedAllergens = signal<string[]>([]);
   protected ingredientQuantity = signal<number>(0);
   protected price = signal<number>(0);
-  protected isLactoseFree = false;
-  private isGlutenFree = false;
-  protected format = ''; // the format is NOT an ingredient
+  protected format = signal(''); // the format is NOT an ingredient
+  protected isLactoseFree = signal(false);
+  private isGlutenFree = signal(false);
 
   ngOnInit(): void {
     const subscription = this.ingredientsObservable.subscribe(ingredients => {
-      if (!this.isLactoseFree) {
+      if (!this.isLactoseFree()) {
         this.checkForLactose(ingredients);
       }
     });
@@ -55,11 +55,11 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   protected onSubmit() {
-    if (this.ingredients().length >= 3 && this.format !== '' && this.price() > 0) {
+    if (this.ingredients().length >= 3 && this.format() !== '' && this.price() > 0) {
       this.onNewCustomPizza.emit({
         ingredients: this.excludedAllergens().length > 0 ? [...this.excludedAllergens(), ...this.ingredients()] : this.ingredients(),
         price: this.price(),
-        format: this.format
+        format: this.format()
       });
     }
   }
@@ -76,19 +76,19 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   protected onSelectAllergenExclusion(event: SelectButtonOptionClickEvent) {
-    const basePrice = this.format === this.m ? 11 : 14;
-    const priceOfAllergenExclusion = this.format === this.m ? 2 : 4;
+    const basePrice = this.format() === this.m ? 11 : 14;
+    const priceOfAllergenExclusion = this.format() === this.m ? 2 : 4;
     const value = event.option.value;
 
     if (value === this.glutenFree) {
 
-      if (!this.isGlutenFree) {
-        this.isGlutenFree = true;
+      if (!this.isGlutenFree()) {
+        this.isGlutenFree.set(true);
         this.addAllergenExclusion(this.glutenFree);
         this.removeAllergenFromInfo(this.gluten);
         this.updatePrice("+", priceOfAllergenExclusion);
       } else {
-        this.isGlutenFree = false;
+        this.isGlutenFree.set(false);
         this.removeAllergenExclusion(this.glutenFree);
         this.addAllergenToInfo(this.gluten);
         this.updatePrice("-", priceOfAllergenExclusion);
@@ -107,19 +107,19 @@ export class CreateCustomPizzaComponent implements OnInit {
       // partial reset
       this.ingredients.set([]);
       this.ingredientQuantity.set(0);
-      this.excludedAllergens.set(this.isGlutenFree ? [this.glutenFree] : []);
+      this.excludedAllergens.set(this.isGlutenFree() ? [this.glutenFree] : []);
 
-      if (!this.isLactoseFree) {
-        this.isLactoseFree = true;
+      if (!this.isLactoseFree()) {
+        this.isLactoseFree.set(true);
         this.addAllergenExclusion(this.lactoseFree);
         this.removeAllergenFromInfo(this.lactose);
         const priceWithLactoseFree = basePrice + priceOfAllergenExclusion;
-        this.price.set(this.isGlutenFree ? priceWithLactoseFree + priceOfAllergenExclusion : priceWithLactoseFree);
+        this.price.set(this.isGlutenFree() ? priceWithLactoseFree + priceOfAllergenExclusion : priceWithLactoseFree);
       } else {
-        this.isLactoseFree = false;
+        this.isLactoseFree.set(false);
         this.removeAllergenExclusion(this.lactoseFree);
         // not adding Lactose to allergensInfo here; this.checkForLactose(ingredients) in the subscription will handle it
-        this.price.set(this.isGlutenFree ? basePrice + priceOfAllergenExclusion : basePrice);
+        this.price.set(this.isGlutenFree() ? basePrice + priceOfAllergenExclusion : basePrice);
       }
     }
   }
@@ -128,8 +128,8 @@ export class CreateCustomPizzaComponent implements OnInit {
     const lactoseProducts = ["cheese", "cream"];
 
     if (ingredients.length === 0) {
-      this.excludedAllergens.set(this.isGlutenFree ? [this.glutenFree] : []);
-      this.allergensInfo.set(this.isGlutenFree ? [] : [this.gluten]);
+      this.excludedAllergens.set(this.isGlutenFree() ? [this.glutenFree] : []);
+      this.allergensInfo.set(this.isGlutenFree() ? [] : [this.gluten]);
       return;
     }
 
@@ -182,7 +182,7 @@ export class CreateCustomPizzaComponent implements OnInit {
   }
 
   protected onSelectIngredient(event: SelectButtonOptionClickEvent) {
-    const priceOfIngredient = this.format === this.m ? 1.5 : 2.5;
+    const priceOfIngredient = this.format() === this.m ? 1.5 : 2.5;
     this.handleNewIngredient(event.option.value, priceOfIngredient);
   }
 
@@ -284,9 +284,9 @@ export class CreateCustomPizzaComponent implements OnInit {
     this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
     this.ingredientQuantity.set(0);
     this.price.set(0);
-    this.format = '';
-    this.isLactoseFree = false;
-    this.isGlutenFree = false;
+    this.format.set('');
+    this.isLactoseFree.set(false);
+    this.isGlutenFree.set(false);
   }
 
   private onFormatChange(price: number) {
@@ -296,10 +296,10 @@ export class CreateCustomPizzaComponent implements OnInit {
     this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
     this.ingredientQuantity.set(0);
     this.price.set(price);
-    this.isLactoseFree = false;
-    this.isGlutenFree = false;
-    this.format = price === 11 ? this.m : this.l;
-    this.formatControl = this.format; // it only unchecks if value !== '', so have to set it back here, otherwise on reset() it wont uncheck
+    this.isLactoseFree.set(false);
+    this.isGlutenFree.set(false);
+    this.format.set(price === 11 ? this.m : this.l);
+    this.formatControl = this.format(); // it only unchecks if value !== '', so have to set it back here, otherwise on reset() it wont uncheck
   }
 
   private m = 'component.custom.pizza.format.m';

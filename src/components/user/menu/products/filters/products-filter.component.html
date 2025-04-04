@@ -11,11 +11,11 @@
 
       <i
         title="Remove All Filters"
-        [ngClass]="['flex items-center color cursor-pointer', filterService.areFiltersEmpty ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
+        [ngClass]="['flex items-center color cursor-pointer', filterService.areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
         (click)="this.filterService.clear()"></i>
     </div>
 
-    @if (!filterService.areFiltersEmpty) {
+    @if (!filterService.areFiltersEmpty()) {
       <div class="flex flex-wrap gap-1" @pillsAnimation>
         @for (filter of filters(); track $index) {
           @let severity = filter.include ? 'success' : 'danger';
@@ -52,7 +52,7 @@
     </ng-template>
 
     <div title="Filters Drawer" class="flex flex-col gap-2">
-      @if (!filterService.areFiltersEmpty) {
+      @if (!filterService.areFiltersEmpty()) {
         <div class="flex flex-wrap gap-1" @pillsAnimation>
           @for (filter of filters(); track $index) {
             @let severity = filter.include ? 'success' : 'danger';

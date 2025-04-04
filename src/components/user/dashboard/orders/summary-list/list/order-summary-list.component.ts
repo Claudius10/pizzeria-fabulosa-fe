@@ -44,12 +44,14 @@ export class OrderSummaryListComponent implements OnInit {
   protected first = 0;
   protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+
   protected orderList: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
       return lastValueFrom(this.orderHttpService.findOrderSummaryList(this.page() - 1));
     },
   })) : tempQueryResult();
+
   private orderListStatus = !this.isServer ? toObservable(this.orderList.status) : tempStatus$();
 
   ngOnInit() {
