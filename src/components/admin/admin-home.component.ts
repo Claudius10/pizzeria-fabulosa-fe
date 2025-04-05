@@ -1,13 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/common/auth/auth.service';
+import {Card} from 'primeng/card';
 
 @Component({
   selector: 'app-admin-home',
   host: {
     class: 'upper-layout',
   },
-  imports: [],
+  imports: [
+    Card
+  ],
   templateUrl: './admin-home.component.html',
   styleUrl: './admin-home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
