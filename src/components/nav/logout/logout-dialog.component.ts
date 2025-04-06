@@ -68,9 +68,9 @@ export class LogoutDialogComponent implements OnDestroy {
         if (response && response.status.error && response.error) {
           this.errorService.handleError(response.error);
         } else {
-          this.cartService.clear();
-          this.queryClient.removeQueries({queryKey: ["user"]});
           this.authService.logout();
+          this.queryClient.removeQueries({queryKey: ["user"]});
+          this.cartService.clear();
           this.checkoutFormService.clear();
 
           this.messageService.add({

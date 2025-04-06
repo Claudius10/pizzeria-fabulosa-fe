@@ -16,9 +16,11 @@ import {UpperCasePipe} from '@angular/common';
 import {MessageService} from 'primeng/api';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
-import {injectMutation} from '@tanstack/angular-query-experimental';
+import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {AccountHttpService} from '../../../../services/http/account/account-http.service';
+import {CartService} from '../../../../services/cart/cart.service';
+import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -37,11 +39,14 @@ import {AccountHttpService} from '../../../../services/http/account/account-http
 })
 export class UserDeleteFormComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
+  private checkoutFormService = inject(CheckoutFormService);
   private accountHttpService = inject(AccountHttpService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
+  private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
+  private cartService = inject(CartService);
   private router = inject(Router);
   private delete: MutationResult = injectMutation(() => ({
     mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
@@ -76,6 +81,9 @@ export class UserDeleteFormComponent implements OnDestroy {
 
           } else {
             this.authService.logout();
+            this.queryClient.removeQueries({queryKey: ["user"]});
+            this.cartService.clear();
+            this.checkoutFormService.clear();
 
             this.messageService.add({
               severity: 'success',

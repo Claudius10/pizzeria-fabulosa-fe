@@ -57,7 +57,7 @@ export class UserAddressListComponent implements OnInit {
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const response: ResponseDTO = this.addressList.data()!;
-
+          
           if (response.status.error && response.error) {
             this.errorService.handleError(response.error);
           }
