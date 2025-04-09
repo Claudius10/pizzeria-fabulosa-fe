@@ -1,5 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, input, signal} from '@angular/core';
-
+import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {FilterListComponent} from './list/filter-list.component';
 import {FilterService} from '../../../../services/filter/filter.service';
 import {NgClass} from '@angular/common';
@@ -59,7 +58,6 @@ export class ProductsFilterComponent {
   items = input.required<FilterItem[]>();
   protected filterService = inject(FilterService);
   protected filters = this.filterService.getFilters();
-  open = signal(false);
   drawerFiltersVisible = false;
   collapsed = true;
 
@@ -69,12 +67,7 @@ export class ProductsFilterComponent {
 
   toggle() {
     this.toggleCollapse();
-    if (window.innerWidth <= 929) {
-      this.toggleFiltersDrawer();
-      this.open.set(false);
-    } else {
-      this.open.set(!this.open());
-    }
+    this.toggleFiltersDrawer();
   }
 
   toggleCollapse() {

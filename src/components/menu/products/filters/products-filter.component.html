@@ -4,8 +4,7 @@
     <div class="flex justify-between">
 
       <div class="flex gap-2 cursor-pointer" (click)="toggle()">
-        <i title="Toggle Filters"
-           [ngClass]="['flex items-center color cursor-pointer', open() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+        <i title="Toggle Filters" class="flex items-center color cursor-pointer"></i>
         <span title="Filters" class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
       </div>
 
@@ -32,17 +31,6 @@
       </div>
     }
   </div>
-
-  @if (open()) {
-    <ul title="Filters List" class="flex flex-col gap-2" @filtersAnimation>
-      @for (item of items(); track item.header) {
-        <li>
-          <app-filter-list [header]="item.header" [items]="item.items" [inverseCardBg]="true"/>
-        </li>
-      }
-    </ul>
-  }
-
 </div>
 @if (drawerFiltersVisible) {
   <p-drawer [(visible)]="drawerFiltersVisible" position="left">
