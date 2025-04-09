@@ -12,20 +12,14 @@ test.describe('Pizza Filters: Large Screen', () => {
     await toggleFilters.click();
   });
 
-  test('Render Filter Box', async ({page}) => {
-    await expect(page.getByTitle('Filters Box')).toBeVisible();
-    await expect(page.getByTitle('Toggle Filters')).toBeVisible();
-    await expect(page.getByText('Filters')).toBeVisible();
-    await expect(page.getByTitle('Remove All Filters')).toBeVisible();
-  });
-
   test('Render Filters', async ({page}) => {
 
     // Assert
 
+    await expect(page.getByRole('complementary').getByRole('button')).toBeVisible();
+    await expect(page.getByRole('complementary').getByText('Filters')).toBeVisible();
     await expect(page.getByText('Meat')).toBeVisible();
     await expect(page.getByTitle("Meat Filters").getByRole('listitem')).toHaveCount(7);
-
 
     await expect(page.getByText('Smoked Bacon', {exact: true})).toBeVisible();
     await expect(page.getByText('Double Smoked Bacon', {exact: true})).toBeVisible();
@@ -77,6 +71,9 @@ test.describe('Pizza Filters: Large Screen', () => {
 
     // Arrange
 
+    const open = page.getByTitle('Toggle Filters');
+    const close = page.getByRole('complementary').getByRole('button');
+
     const smokedBeacon = page.getByTitle('Smoked Bacon', {exact: true});
     const pepperoni = page.getByTitle('Pepperoni', {exact: true});
     const beef = page.getByTitle('Beef', {exact: true});
@@ -85,12 +82,17 @@ test.describe('Pizza Filters: Large Screen', () => {
     // Act && Assert
 
     await smokedBeacon.click();
+    await close.click();
+
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(4);
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toHaveCSS('background-color', 'rgb(220, 252, 231)');
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toHaveCSS('color', 'rgb(21, 128, 61)');
 
+    await open.click();
     await smokedBeacon.click();
+    await close.click();
+
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(5);
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).toHaveCSS('background-color', 'rgb(254, 226, 226)');
@@ -100,18 +102,27 @@ test.describe('Pizza Filters: Large Screen', () => {
     await expect(page.getByTitle('Smoked Bacon Off', {exact: true})).not.toBeVisible();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
 
+    await open.click();
     await smokedBeacon.click();
+    await close.click();
+
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toHaveCSS('background-color', 'rgb(220, 252, 231)');
     await expect(page.getByTitle('Smoked Bacon On', {exact: true})).toHaveCSS('color', 'rgb(21, 128, 61)');
 
+    await open.click();
     await pepperoni.click();
+    await close.click();
+
     await expect(page.getByTitle('Pepperoni On', {exact: true})).toBeVisible();
     await expect(page.getByTitle('Pepperoni On', {exact: true})).toHaveCSS('background-color', 'rgb(220, 252, 231)');
     await expect(page.getByTitle('Pepperoni On', {exact: true})).toHaveCSS('color', 'rgb(21, 128, 61)');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
 
+    await open.click();
     await beef.click();
+    await close.click();
+
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
     await page.getByTitle('Pepperoni On', {exact: true}).click();
     await expect(page.getByText('No Results')).toBeVisible();
@@ -130,11 +141,13 @@ test.describe('Pizza Filters: Large Screen', () => {
 
     // Arrange
 
+    const close = page.getByRole('complementary').getByRole('button');
     const gluten = page.getByTitle('Gluten', {exact: true});
 
     // Act && Assert
 
     await gluten.click();
+    await close.click();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(7);
     await expect(page.getByText("Gluten Free")).not.toBeVisible();
 
@@ -151,22 +164,35 @@ test.describe('Pizza Filters: Large Screen', () => {
 
     // Arrange
 
+    const open = page.getByTitle('Toggle Filters');
+    const close = page.getByRole('complementary').getByRole('button');
+
     const zucchini = page.getByTitle('Zucchini', {exact: true});
     const search = page.getByRole('textbox', {name: 'Search Input'});
 
     // Act && Assert
 
     await zucchini.click();
+    await close.click();
+
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
     await search.fill('me');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
     await expect(page.getByText('Mediterránea')).toBeVisible();
     await expect(page.getByText('Trufa Gourmet')).toBeVisible();
+
+    await open.click();
     await zucchini.click();
+    await close.click();
+
     await expect(page.getByText('Mediterránea')).not.toBeVisible();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(0);
     await expect(page.getByText('No Results')).toBeVisible();
+
+    await open.click();
     await zucchini.click();
+    await close.click();
+
     await expect(page.getByTitle('Zucchini Off', {exact: true})).not.toBeVisible();
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(3);
     await expect(page.getByText('Mediterránea')).toBeVisible();
