@@ -1,29 +1,23 @@
-import {ErrorDTO, ResponseDTO} from './interfaces/http/api';
 import {QueryOnDemand, QueryResult} from './interfaces/query';
 import {signal} from '@angular/core';
+import {APIError, ResponseDTO} from '../api';
 
 export function buildErrorResponse(): ResponseDTO {
   return {
-    payload: null,
-    timeStamp: new Date().toTimeString(),
-    status: {
-      error: true,
-      code: 401,
-      description: "Exception"
-    },
-    error: {
+    apiError: {
       id: 0,
       fatal: false,
       logged: false,
       cause: "Exception",
       message: "Exception",
       origin: "origin",
-      path: ""
+      path: "",
+      createdOn: ""
     }
   };
 }
 
-export function buildError(fatal: boolean, cause: string): ErrorDTO {
+export function buildError(fatal: boolean, cause: string): APIError {
   return {
     id: 0,
     fatal: fatal,
@@ -31,24 +25,14 @@ export function buildError(fatal: boolean, cause: string): ErrorDTO {
     cause: cause,
     message: "Exception",
     origin: "origin",
-    path: ""
+    path: "",
+    createdOn: ""
   };
 }
 
-export function buildResponse(
-  payload: any,
-  statusError: boolean,
-  statusCode: number,
-  statusDesc: string): ResponseDTO {
+export function buildResponse(): ResponseDTO {
   return {
-    payload: payload,
-    timeStamp: new Date().toTimeString(),
-    status: {
-      error: statusError,
-      code: statusCode,
-      description: statusDesc
-    },
-    error: null
+    apiError: buildError(false, "")
   };
 }
 

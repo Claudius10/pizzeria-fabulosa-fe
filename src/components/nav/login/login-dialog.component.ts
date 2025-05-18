@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {LoginForm} from '../../../utils/interfaces/http/account';
 import {AuthService} from '../../../services/auth/auth.service';
-import {MutationRequest, MutationResult} from '../../../utils/interfaces/mutation';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
@@ -20,10 +19,9 @@ import {CheckoutFormService} from '../../../services/checkout/checkout-form.serv
 import {myIcon} from '../../../primeng/icon';
 import {COOKIE_ID_TOKEN} from '../../../utils/constants';
 import {emailRgx} from '../../../utils/regex';
-import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {AccountHttpService} from '../../../services/http/account/account-http.service';
+import {LoginEndpointService} from '../../../api';
 
 @Component({
   selector: 'app-login-dialog',
@@ -45,7 +43,7 @@ import {AccountHttpService} from '../../../services/http/account/account-http.se
 export class LoginDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(AccountHttpService);
+  private accountHttpService = inject(LoginEndpointService);
   private translateService = inject(TranslateService);
   private cookieService = inject(SsrCookieService);
   private messageService = inject(MessageService);
@@ -53,8 +51,8 @@ export class LoginDialogComponent implements OnDestroy {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  private login: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.login(request.payload))
+  private login = injectMutation(() => ({
+    mutationFn: (data: { username: string, password: string }) => lastValueFrom(this.accountHttpService.loginPost(data.username, data.password))
   }));
   protected showPassword = signal(false);
   // visible provides hiding dialog on esc key press
@@ -109,39 +107,46 @@ export class LoginDialogComponent implements OnDestroy {
   private signIn(data: LoginForm | null): void {
     this.loadingAnimationService.startLoading();
 
-    this.login.mutate({payload: data}, {
-      onSuccess: (response: ResponseDTO) => {
-        // NOTE: successful login does not return responseDTO, but fail, such as BadCredentialsException, does
+    if (!data) {
+      // dummy account login
+      data = {
+        email: "donQuijote@gmail.com",
+        password: "Password1"
+      };
+    }
 
-        if (response && response.status.error && response.error) {
-          this.errorService.handleError(response.error);
+    console.log(data);
+
+    this.login.mutate({username: data.email, password: data.password}, {
+      onSuccess: () => {
+        console.log("success");
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+
+        const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
+
+        if (result) {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.login.success.detail"),
+            life: 3000,
+          });
+
+          this.closeLoginDialog();
+          this.router.navigate(["/"]);
         } else {
-          this.cartService.clear();
-          this.checkoutFormService.clear();
-
-          const result = this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
-
-          if (result) {
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant("toast.severity.info"),
-              detail: this.translateService.instant("toast.form.login.success.detail"),
-              life: 3000,
-            });
-
-            this.closeLoginDialog();
-            this.router.navigate(["/"]);
-          } else {
-            this.messageService.add({
-              severity: 'error',
-              summary: this.translateService.instant("toast.severity.error"),
-              detail: this.translateService.instant("toast.error.api.token.invalid"),
-              life: 3000,
-            });
-          }
+          this.messageService.add({
+            severity: 'error',
+            summary: this.translateService.instant("toast.severity.error"),
+            detail: this.translateService.instant("toast.error.api.token.invalid"),
+            life: 3000,
+          });
         }
+
       },
-      onError: () => {
+      onError: (Error) => {
+        console.log(Error);
         this.errorService.handleServerNoResponse();
       },
       onSettled: () => {

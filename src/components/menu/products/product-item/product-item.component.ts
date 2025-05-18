@@ -2,11 +2,11 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, s
 import {NgOptimizedImage, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
 import {Button} from 'primeng/button';
-import {ProductDTO} from '../../../../utils/interfaces/dto/resources';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
+import {Product} from '../../../../api';
 
 @Component({
   selector: 'app-product',
@@ -23,7 +23,7 @@ import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {
-  readonly product = input.required<ProductDTO>();
+  readonly product = input.required<Product>();
   private translateService = inject(TranslateService);
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
@@ -42,9 +42,9 @@ export class ProductItemComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  protected addProductToCart(product: ProductDTO) {
+  protected addProductToCart(product: Product) {
     this.cartService.add({
-      id: product.id + this.productFormat(),
+      pseudoId: product.id + this.productFormat(),
       formatCode: this.productFormat(),
       images: {
         dark: getDarkIcon(product.type),
@@ -53,20 +53,7 @@ export class ProductItemComponent implements OnInit {
       type: product.type,
       name: product.name,
       description: product.description,
-      formats: {
-        s: this.productFormat() === "S" ? {
-          en: product.formats.s.en,
-          es: product.formats.s.es,
-        } : null,
-        m: this.productFormat() === "M" ? {
-          en: product.formats.m.en,
-          es: product.formats.m.es,
-        } : null,
-        l: this.productFormat() === "L" ? {
-          en: product.formats.l.en,
-          es: product.formats.l.es,
-        } : null,
-      },
+      formats: this.getFormats(product),
       price: this.productPrice(),
       quantity: 1,
     });
@@ -83,13 +70,13 @@ export class ProductItemComponent implements OnInit {
   private updatePrice(format: string) {
     switch (format) {
       case 'S':
-        this.productPrice.set(this.product().prices.s);
+        this.productPrice.set(this.product().prices['s']);
         break;
       case 'M':
-        this.productPrice.set(this.product().prices.m);
+        this.productPrice.set(this.product().prices['m']);
         break;
       case 'L':
-        this.productPrice.set(this.product().prices.l);
+        this.productPrice.set(this.product().prices['l']);
         break;
     }
   }
@@ -101,13 +88,57 @@ export class ProductItemComponent implements OnInit {
     this.dialogVisible = value;
   }
 
-  private setDefaults(product: ProductDTO) {
-    this.productFormat.set(product.formats.m === undefined ? "S" : "M");
-    this.productPrice.set(product.prices.m === undefined ? product.prices.s : product.prices.m);
+  private setDefaults(product: Product) {
+    this.productFormat.set(product.formats['m'] === undefined ? "S" : "M");
+    this.productPrice.set(product.prices['m'] === undefined ? product.prices['s'] : product.prices['m']);
+  }
+
+  private getFormats(product: Product): { [key: string]: { [key: string]: string; }; } {
+    let format;
+
+    switch (this.productFormat()) {
+      case "S": {
+        format = {
+          's': {
+            'en': product.formats['s']['en'],
+            'es': product.formats['s']['es'],
+          }
+        };
+        break;
+      }
+      case "M": {
+        format = {
+          'm': {
+            'en': product.formats['m']['en'],
+            'es': product.formats['m']['es'],
+          }
+        };
+      }
+        ;
+        break;
+      case "L": {
+        format = {
+          'l': {
+            'en': product.formats['l']['en'],
+            'es': product.formats['l']['es'],
+          }
+        };
+      }
+        break;
+      default:
+        format = {
+          'm': {
+            'en': product.formats['m']['en'],
+            'es': product.formats['m']['es'],
+          }
+        };
+    }
+
+    return format;
   }
 }
 
-export const productPlaceholder = (): ProductDTO => {
+export const productPlaceholder = (): Product => {
   return {
     name: {
       en: "...",
@@ -142,6 +173,6 @@ export const productPlaceholder = (): ProductDTO => {
       en: ["..."],
       es: ["..."]
     },
-    id: "1"
+    id: 1
   };
 };

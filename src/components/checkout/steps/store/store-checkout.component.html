@@ -21,7 +21,7 @@
 
     <div class="flex items-center gap-2">
       <i title="{{ store().name }} Schedule Icon" class="pi pi-calendar-clock"></i>
-      <span>{{ currentLang() === 'en' ? store().schedule.en : store().schedule.es }}</span>
+      <span>{{ currentLang() === 'en' ? store().schedule['en'] : store().schedule['es'] }}</span>
 
     </div>
   </div>

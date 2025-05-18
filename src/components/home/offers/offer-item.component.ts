@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
-import {OfferDTO} from '../../../utils/interfaces/dto/resources';
 import {AccordionModule} from 'primeng/accordion';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {NgOptimizedImage} from '@angular/common';
+import {Offer} from '../../../api';
 
 @Component({
   selector: 'app-offer-item',
@@ -18,7 +18,7 @@ import {NgOptimizedImage} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {
-  offer = input.required<OfferDTO>();
+  offer = input.required<Offer>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   protected currentLang = signal(this.translateService.currentLang);

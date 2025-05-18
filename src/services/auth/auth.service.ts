@@ -8,7 +8,7 @@ export class AuthService {
   isAuthenticated = signal(false);
   loginDialogVisibility = signal(false);
   logoutDialogVisibility = signal(false);
-  userId: string | null = null;
+  userId: number | null = null;
   userEmail: string | null = null;
   userName: string | null = null;
   userContactNumber: string | null = null;
@@ -20,7 +20,7 @@ export class AuthService {
       return false;
     }
 
-    this.userId = idToken.id;
+    this.userId = Number(idToken.id);
     this.userEmail = idToken.sub!;
     this.userName = idToken.name;
     this.userContactNumber = idToken.contactNumber;

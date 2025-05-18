@@ -118,7 +118,7 @@
 
           @if (stores.status() === 'success') {
             <ul title="Stores" class="flex flex-col gap-4">
-              @for (store of stores.data()!.payload; track store.id) {
+              @for (store of stores.data()!.stores; track store.id) {
                 <li>
                   <app-store-checkout
                     [store]="store"

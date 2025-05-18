@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy} from '@angular/core';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {MutationRequest, MutationResult} from '../../../utils/interfaces/mutation';
 import {MessageService} from 'primeng/api';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth/auth.service';
@@ -11,10 +10,9 @@ import {CartService} from '../../../services/cart/cart.service';
 import {UpperCasePipe} from '@angular/common';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
-import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {lastValueFrom} from 'rxjs';
-import {AccountHttpService} from '../../../services/http/account/account-http.service';
+import {LogoutService} from '../../../api';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -31,7 +29,7 @@ import {AccountHttpService} from '../../../services/http/account/account-http.se
 export class LogoutDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(AccountHttpService);
+  private accountHttpService = inject(LogoutService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
@@ -39,8 +37,8 @@ export class LogoutDialogComponent implements OnDestroy {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  private logoutUser: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.logout())
+  private logoutUser = injectMutation(() => ({
+    mutationFn: (payload: null) => lastValueFrom(this.accountHttpService.logout())
   }));
 
   // visible provides hiding dialog on esc key press
@@ -61,29 +59,24 @@ export class LogoutDialogComponent implements OnDestroy {
 
   private logout() {
     this.loadingAnimationService.startLoading();
-    this.logoutUser.mutate({payload: null}, {
-      onSuccess: (response: ResponseDTO) => {
-        // NOTE: successful logout does not return responseDTO, but fail does
+    this.logoutUser.mutate(null, {
+      onSuccess: () => {
+        this.authService.logout();
+        this.queryClient.removeQueries({queryKey: ["user"]});
+        this.cartService.clear();
+        this.checkoutFormService.clear();
 
-        if (response && response.status.error && response.error) {
-          this.errorService.handleError(response.error);
-        } else {
-          this.authService.logout();
-          this.queryClient.removeQueries({queryKey: ["user"]});
-          this.cartService.clear();
-          this.checkoutFormService.clear();
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translateService.instant("toast.severity.info"),
+          detail: this.translateService.instant("dialog.logout.success.message"),
+          life: 2000
+        });
 
-          this.messageService.add({
-            severity: 'success',
-            summary: this.translateService.instant("toast.severity.info"),
-            detail: this.translateService.instant("dialog.logout.success.message"),
-            life: 2000
-          });
-
-          this.router.navigate(["/"]);
-        }
+        this.router.navigate(["/"]);
       },
-      onError: () => {
+      onError: (Error) => {
+        console.log(Error);
         this.messageService.add({
           severity: 'error',
           summary: this.translateService.instant("toast.severity.error"),

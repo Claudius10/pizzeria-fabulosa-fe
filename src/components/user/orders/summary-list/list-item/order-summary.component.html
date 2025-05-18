@@ -15,14 +15,14 @@
 
     <div class="flex gap-4">
 
-      @if (orderSummary().cart.totalCostOffers) {
+      @if (orderSummary().costAfterOffers) {
         <div class="flex items-center gap-2">
           <span title="Total After Offers">{{ "component.cart.total.offers" | translate }}:</span>
           <p-button
             title="Amount"
             type="button"
             [text]="true"
-            label="{{ orderSummary().cart.totalCostOffers.toFixed(2) }}€"
+            label="{{ orderSummary().costAfterOffers.toFixed(2) }}€"
             severity="success"/>
         </div>
       }
@@ -32,8 +32,8 @@
         <p-button
           type="button"
           [text]="true"
-          label="{{ orderSummary().cart.totalCost.toFixed(2) }}€"
-          [severity]="orderSummary().cart.totalCostOffers ? 'danger' : 'success'"/>
+          label="{{ orderSummary().cost.toFixed(2) }}€"
+          [severity]="orderSummary().costAfterOffers ? 'danger' : 'success'"/>
       </div>
     </div>
   </div>

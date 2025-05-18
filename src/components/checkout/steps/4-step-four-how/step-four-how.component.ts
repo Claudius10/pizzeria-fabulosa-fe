@@ -2,16 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../utils/regex';
 import {Router} from '@angular/router';
@@ -76,7 +67,7 @@ export class StepFourHowComponent implements OnInit {
           // selected option is 'Yes'
           this.selectedChangeOption = this.changeOptions[1];
           // set the previously selected bill to change
-          this.form.controls.billToChange.patchValue(this.checkoutFormService.how.billToChange.toString());
+          this.form.controls.billToChange.patchValue(this.checkoutFormService.how.billToChange!.toString());
           // show input
           this.checkoutFormService.changeRequested = true;
         }
@@ -129,7 +120,7 @@ export class StepFourHowComponent implements OnInit {
   private saveFormValues() {
     this.checkoutFormService.how = {
       paymentMethod: getPaymentOption(this.form.get("paymentMethod")!.value, this.paymentOptions),
-      billToChange: this.form.get("billToChange")!.value === null ? null : Number(this.form.get("billToChange")!.value),
+      billToChange: this.form.get("billToChange")!.value === null ? undefined : Number(this.form.get("billToChange")!.value),
     };
   }
 

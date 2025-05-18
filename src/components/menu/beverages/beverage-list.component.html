@@ -18,7 +18,7 @@
         }
 
         @if (query.status() === "success") {
-          @if (query.data()!.payload.productList | productsSearch: filterService.searchText():filters(); as products) {
+          @if (query.data()!.productList | productsSearch: filterService.searchText():filters(); as products) {
             @if (products.length > 0) {
 
               @for (product of products; track product.id) {

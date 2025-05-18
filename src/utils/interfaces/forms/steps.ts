@@ -1,7 +1,7 @@
 export interface where {
-  street: string | null;
-  number: number | null;
-  details: string | null;
+  street: string | undefined;
+  number: number | undefined;
+  details: string | undefined;
 }
 
 export interface when {
@@ -10,11 +10,11 @@ export interface when {
 
 export interface how {
   paymentMethod: string;
-  billToChange: number | null;
+  billToChange: number | undefined;
 }
 
 export interface summary {
-  comment: string | null;
+  comment: string | undefined;
 }
 
 export interface Option {

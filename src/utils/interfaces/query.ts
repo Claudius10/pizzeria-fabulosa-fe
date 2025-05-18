@@ -1,11 +1,11 @@
 import {Signal} from '@angular/core';
-import {ResponseDTO} from './http/api';
 import {QueryObserverResult, RefetchOptions} from '@tanstack/angular-query-experimental';
+import {ResponseDTO} from '../../api';
 
 export interface QueryResult {
   status: Signal<"error" | "success" | "pending">;
-  error: Signal<Error | null>;
-  data: Signal<ResponseDTO | undefined>;
+  error: Signal<null>;
+  data: Signal<undefined>;
 }
 
 export interface QueryOnDemand extends QueryResult {

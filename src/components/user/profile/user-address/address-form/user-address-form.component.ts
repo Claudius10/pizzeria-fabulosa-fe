@@ -1,15 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject, output} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../../utils/regex';
-import {MutationRequest, MutationResult} from '../../../../../utils/interfaces/mutation';
 import {isFormValid} from '../../../../../utils/functions';
-import {AddressFormData} from '../../../../../utils/interfaces/http/order';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
-import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
@@ -18,7 +15,8 @@ import {myIcon} from '../../../../../primeng/icon';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {USER_ADDRESS_LIST} from '../../../../../utils/query-keys';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
+import {AddressDTO, UserAddressAPIService} from '../../../../../api';
+import {AuthService} from '../../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-address-form',
@@ -38,12 +36,13 @@ import {UserHttpService} from '../../../../../services/http/user/user-http.servi
 export class UserAddressFormComponent {
   hideForm = output();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userHttpService = inject(UserHttpService);
+  private userHttpService = inject(UserAddressAPIService);
+  private authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
 
-  private createAddress: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.userHttpService.createUserAddress(request.payload)),
+  private createAddress = injectMutation(() => ({
+    mutationFn: (data: { userId: number, address: AddressDTO }) => lastValueFrom(this.userHttpService.createUserAddress(data.userId, data.address)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
     }
@@ -76,24 +75,21 @@ export class UserAddressFormComponent {
 
   protected onSubmit() {
     if (isFormValid(this.form)) {
-      const data: AddressFormData = {
-        id: null,
+      const data: AddressDTO = {
+        id: undefined,
         street: this.form.get("street")!.value,
         number: Number(this.form.get("number")!.value),
-        details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
+        details: this.form.get("details")!.value === null ? undefined : this.form.get("details")!.value!,
       };
 
       this.loadingAnimationService.startLoading();
 
-      this.createAddress.mutate({payload: data}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          } else {
-            this.hideForm.emit();
-          }
+      this.createAddress.mutate({userId: this.authService.userId!, address: data}, {
+        onSuccess: () => {
+          this.hideForm.emit();
         },
-        onError: () => {
+        onError: (Error) => {
+          console.error(Error);
           this.errorService.handleServerNoResponse();
         },
         onSettled: () => {

@@ -1,11 +1,11 @@
 <div class="flex flex-col gap-4">
   @if (addressList.status() === "success") {
-    @if (addressList.data()!.payload !== null) {
+    @if (addressList.data()! !== null) {
 
-      @for (address of addressList.data()!.payload; track address.id) {
+      @for (address of addressList.data()!; track address.id) {
         <div
           title="Address {{address.id}}"
-          (click)="selectAddress(address.id)"
+          (click)="selectAddress(address.id!)"
           [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
           selected() === address.id ? '!border-primary transition-all duration-300' : '',
           !invalid() ? '!border-red-700 rounded-xl transition-all duration-300' : '']">

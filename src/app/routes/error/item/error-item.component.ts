@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
-import {ErrorDTO} from '../../../../utils/interfaces/http/api';
 import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
+import {APIError} from '../../../../api';
 
 @Component({
   selector: 'app-error-item',
@@ -14,5 +14,5 @@ import {CardModule} from 'primeng/card';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorItemComponent {
-  error = input.required<ErrorDTO>();
+  error = input.required<APIError>();
 }

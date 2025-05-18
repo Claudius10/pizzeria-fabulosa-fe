@@ -1,27 +1,16 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators
-} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {emailRgx, esCharsRegex, numbersRegex, passwordRegex} from '../../utils/regex';
-import {RegisterForm} from '../../utils/interfaces/http/account';
 import {isFormValid} from '../../utils/functions';
 import {Button} from 'primeng/button';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {AuthService} from '../../services/auth/auth.service';
-import {MutationRequest, MutationResult} from '../../utils/interfaces/mutation';
 import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {ResponseDTO} from '../../utils/interfaces/http/api';
 import {ErrorService} from '../../services/error/error.service';
 import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
 import {Card} from 'primeng/card';
@@ -29,7 +18,7 @@ import {myInput} from '../../primeng/input';
 import {myIcon} from '../../primeng/icon';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {AccountHttpService} from '../../services/http/account/account-http.service';
+import {AnonymousUserAPIService, RegisterDTO} from '../../api';
 
 @Component({
 
@@ -55,14 +44,14 @@ import {AccountHttpService} from '../../services/http/account/account-http.servi
 })
 export class RegisterComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private accountHttpService = inject(AccountHttpService);
+  private accountHttpService = inject(AnonymousUserAPIService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
   private router = inject(Router);
-  private register: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.create(request.payload))
+  private register = injectMutation(() => ({
+    mutationFn: (data: RegisterDTO) => lastValueFrom(this.accountHttpService.registerAnonUser(data))
   }));
 
   protected showPassword = signal(false);
@@ -125,7 +114,7 @@ export class RegisterComponent implements OnDestroy {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      const data: RegisterForm = {
+      const data: RegisterDTO = {
         name: this.form.get("name")!.value,
         email: this.form.get("email")!.value,
         matchingEmail: this.form.get("matchingEmail")!.value,
@@ -134,24 +123,19 @@ export class RegisterComponent implements OnDestroy {
         matchingPassword: this.form.get("matchingPassword")!.value
       };
 
-      this.register.mutate({payload: data}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
+      this.register.mutate(data, {
+        onSuccess: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("toast.form.register.success.detail"),
+            life: 3000
+          });
 
-          } else {
-
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant("toast.severity.info"),
-              detail: this.translateService.instant("toast.form.register.success.detail"),
-              life: 3000
-            });
-
-            this.router.navigate(["/"]);
-          }
+          this.router.navigate(["/"]);
         },
-        onError: () => {
+        onError: (Error) => {
+          console.log(Error);
           this.errorService.handleServerNoResponse();
         },
         onSettled: () => {

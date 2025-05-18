@@ -1,0 +1,15 @@
+export * from './anonymousUserAPI.service';
+import { AnonymousUserAPIService } from './anonymousUserAPI.service';
+export * from './loginEndpoint.service';
+import { LoginEndpointService } from './loginEndpoint.service';
+export * from './logout.service';
+import { LogoutService } from './logout.service';
+export * from './resourcesAPI.service';
+import { ResourcesAPIService } from './resourcesAPI.service';
+export * from './userAccountAPI.service';
+import { UserAccountAPIService } from './userAccountAPI.service';
+export * from './userAddressAPI.service';
+import { UserAddressAPIService } from './userAddressAPI.service';
+export * from './userOrdersAPI.service';
+import { UserOrdersAPIService } from './userOrdersAPI.service';
+export const APIS = [AnonymousUserAPIService, LoginEndpointService, LogoutService, ResourcesAPIService, UserAccountAPIService, UserAddressAPIService, UserOrdersAPIService];

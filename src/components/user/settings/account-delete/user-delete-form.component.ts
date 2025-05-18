@@ -2,8 +2,6 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@an
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {Router} from '@angular/router';
-import {MutationRequest, MutationResult} from '../../../../utils/interfaces/mutation';
-import {ResponseDTO} from '../../../../utils/interfaces/http/api';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
@@ -18,9 +16,9 @@ import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {AccountHttpService} from '../../../../services/http/account/account-http.service';
 import {CartService} from '../../../../services/cart/cart.service';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
+import {UserAccountAPIService} from '../../../../api';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -40,7 +38,7 @@ import {CheckoutFormService} from '../../../../services/checkout/checkout-form.s
 export class UserDeleteFormComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(AccountHttpService);
+  private accountHttpService = inject(UserAccountAPIService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
@@ -48,8 +46,8 @@ export class UserDeleteFormComponent implements OnDestroy {
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
-  private delete: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.accountHttpService.delete(request.payload))
+  private delete = injectMutation(() => ({
+    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.accountHttpService.deleteUser(data.id, data.password))
   }));
 
   protected showPassword = signal(false);
@@ -74,28 +72,25 @@ export class UserDeleteFormComponent implements OnDestroy {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      this.delete.mutate({payload: this.form.get("password")!.value}, {
-        onSuccess: (response: ResponseDTO) => {
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
+      this.delete.mutate({id: this.authService.userId!, password: this.form.get("password")!.value}, {
+        onSuccess: () => {
+          this.authService.logout();
+          this.queryClient.removeQueries({queryKey: ["user"]});
+          this.cartService.clear();
+          this.checkoutFormService.clear();
 
-          } else {
-            this.authService.logout();
-            this.queryClient.removeQueries({queryKey: ["user"]});
-            this.cartService.clear();
-            this.checkoutFormService.clear();
+          this.messageService.add({
+            severity: 'success',
+            summary: this.translateService.instant("toast.severity.info"),
+            detail: this.translateService.instant("component.user.delete.form"),
+            life: 2000
+          });
 
-            this.messageService.add({
-              severity: 'success',
-              summary: this.translateService.instant("toast.severity.info"),
-              detail: this.translateService.instant("component.user.delete.form"),
-              life: 2000
-            });
+          this.router.navigate(["/"]);
 
-            this.router.navigate(["/"]);
-          }
         },
-        onError: () => {
+        onError: (Error) => {
+          console.log(Error);
           this.errorService.handleServerNoResponse();
         },
         onSettled: () => {

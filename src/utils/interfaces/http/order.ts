@@ -1,4 +1,4 @@
-import {CartItemDTO} from '../dto/order';
+import {CartItemDTO} from '../../../api';
 
 export type AddressFormData = {
   id: number | null;

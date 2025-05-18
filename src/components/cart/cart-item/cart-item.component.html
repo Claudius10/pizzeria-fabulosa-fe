@@ -1,4 +1,4 @@
-<div title="{{item().name.en}} {{item().formatCode | translate}}"
+<div title="{{this.item().name['en']}} {{item().formatCode | translate}}"
      class="flex flex-col items-center rounded-lg cart-item justify-center">
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
@@ -17,23 +17,23 @@
 
       <!-- 1ST ROW -> NAME + FORMAT -->
       <div class="flex items-start gap-1">
-        <span title="{{item().name.en}} {{item().formatCode}}"
-              class="font-bold">{{ currentLang() === 'en' ? item().name.en : item().name.es }}</span>
+        <span title="{{this.item().name['en']}} {{item().formatCode}}"
+              class="font-bold">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
 
         <div class="flex">
-          @if (item().formats.s !== null) {
-            <span title="{{item().name.en}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? item().formats.s!.en : item().formats.s!.es }}</span>
+          @if (this.item().formats['s'] !== null) {
+            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
+                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['s']!['en'] : this.item().formats['s']!['es'] }}</span>
           }
 
-          @if (item().formats.m !== null) {
-            <span title="{{item().name.en}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? item().formats.m!.en : item().formats.m!.es }}</span>
+          @if (this.item().formats['m'] !== null) {
+            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
+                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['m']!['en'] : this.item().formats['m']!['es'] }}</span>
           }
 
-          @if (item().formats.l !== null) {
-            <span title="{{item().name.en}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? item().formats.l!.en : item().formats.l!.es }}</span>
+          @if (this.item().formats['l'] !== null) {
+            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
+                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['l']!['en'] : this.item().formats['l']!['es'] }}</span>
           }
         </div>
       </div>
@@ -44,7 +44,7 @@
         <!-- PRICE -->
         <p-button
           type="button"
-          title="{{item().name.en}} {{item().formatCode}} Price"
+          title="{{this.item().name['en']}} {{item().formatCode}} Price"
           size="small"
           label="{{ item().price.toFixed(2) }}€" [outlined]="true"
           [raised]="true"/>
@@ -54,7 +54,7 @@
           <div class="flex gap-4 items-center justify-center">
             <i title="Times Icon" class="pi pi-times"></i>
             <button
-              title="{{item().name.en}} {{item().formatCode}} Quantity"
+              title="{{this.item().name['en']}} {{item().formatCode}} Quantity"
               type="button"
               pButton
               size="small">
@@ -66,34 +66,34 @@
           <div class="flex gap-2 items-center justify-center">
             <p-button
               type="button"
-              title="Increase {{item().name.en}} {{item().formatCode}} Quantity"
+              title="Increase {{this.item().name['en']}} {{item().formatCode}} Quantity"
               size="small"
               icon="pi pi-plus"
               [raised]="true"
-              (click)="increaseItemQuantity(item().id)"/>
+              (click)="increaseItemQuantity(item().pseudoId)"/>
 
-            <span title="{{item().name.en}} {{item().formatCode}} Quantity">{{ item().quantity }}</span>
+            <span title="{{this.item().name['en']}} {{item().formatCode}} Quantity">{{ item().quantity }}</span>
 
             <p-button
               type="button"
-              title="Decrease {{item().name.en}} {{item().formatCode}} Quantity"
+              title="Decrease {{this.item().name['en']}} {{item().formatCode}} Quantity"
               size="small"
               icon="pi pi-minus"
               [raised]="true"
-              (click)="decreaseItemQuantity(item().id)"/>
+              (click)="decreaseItemQuantity(item().pseudoId)"/>
           </div>
         }
       </div>
 
-      @if (item().description.en.length > 0) {
+      @if (this.item().description['en'].length > 0) {
         <div class="flex flex-col gap-2" (click)="toggleIngredients()">
           <div class="flex items-center gap-1">
             <i
-              title="Toggle {{item().name.en}} {{item().formatCode}} Ingredients"
+              title="Toggle {{this.item().name['en']}} {{item().formatCode}} Ingredients"
               style="color: var(--p-primary-color)"
               [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
             <span
-              title="{{item().name.en}} {{item().formatCode}} Ingredients"
+              title="{{this.item().name['en']}} {{item().formatCode}} Ingredients"
               class="cursor-pointer">
               {{ "component.custom.pizza.ingredients" | translate }}
             </span>
@@ -106,9 +106,9 @@
   @if (viewIngredients()) {
     <div class="flex flex-wrap justify-center align-middle text-center pb-2 ingredients-container">
       @if (currentLang() === 'es') {
-        {{ item().description.es.join(", ") }}
+        {{ this.item().description['es'].join(", ") }}
       } @else {
-        {{ item().description.en.join(", ") }}
+        {{ this.item().description['en'].join(", ") }}
       }
     </div>
   }

@@ -1,5 +1,4 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {ErrorDTO} from '../../utils/interfaces/http/api';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
 
@@ -17,6 +16,7 @@ import {
 import {AuthService} from '../auth/auth.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateService} from '@ngx-translate/core';
+import {APIError} from '../../api';
 
 @Injectable({
   providedIn: 'root',
@@ -27,9 +27,9 @@ export class ErrorService {
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private router = inject(Router);
-  errors = signal<ErrorDTO[]>([]);
+  errors = signal<APIError[]>([]);
 
-  handleError(error: ErrorDTO) {
+  handleError(error: APIError) {
     if (error === null) {
       throw new Error("Expected error cannot be null");
     }
@@ -78,7 +78,7 @@ export class ErrorService {
     }, 3000);
   }
 
-  private addError(error: ErrorDTO) {
+  private addError(error: APIError) {
     this.errors.update(errors => [...errors, error]);
   }
 

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {how, when, where} from '../../utils/interfaces/forms/steps';
-import {CreatedOrderDTO, CustomerDTO} from '../../utils/interfaces/dto/order';
+import {CreatedOrderDTO, CustomerDTO} from '../../api';
 
 export type AddressId = {
   id: number | null;

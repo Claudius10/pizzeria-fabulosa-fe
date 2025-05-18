@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {ProductDTO} from '../../../../../utils/interfaces/dto/resources';
 import {TranslateService} from '@ngx-translate/core';
 import {Filter} from '../../../../../services/filter/filter.service';
+import {Product} from '../../../../../api';
 
 @Pipe({
   name: 'productsSearch'
@@ -13,7 +13,7 @@ export class ProductsSearchPipe implements PipeTransform {
     this.translateService = translateService;
   }
 
-  transform(items: ProductDTO[], searchText: string, filters: Filter[]): ProductDTO[] {
+  transform(items: Product[], searchText: string, filters: Filter[]): Product[] {
     if (items === null || items.length === 0) {
       return [];
     }
@@ -27,24 +27,24 @@ export class ProductsSearchPipe implements PipeTransform {
     return searchText ? this.search(searchText, withExcludedIngredients) : withExcludedIngredients;
   }
 
-  private search(searchText: string, items: ProductDTO[]): ProductDTO[] {
+  private search(searchText: string, items: Product[]): Product[] {
     return items.filter(item => {
-      return item.name.es.toLowerCase().includes(searchText.toLowerCase());
+      return item.name['es'].toLowerCase().includes(searchText.toLowerCase());
     });
   }
 
-  private filterByIncludedAllergens(items: ProductDTO[], toInclude: Filter[], locale: string): ProductDTO[] {
+  private filterByIncludedAllergens(items: Product[], toInclude: Filter[], locale: string): Product[] {
     if (toInclude.length === 0) {
       return items;
     }
 
-    const filteredItems: ProductDTO[] = [];
+    const filteredItems: Product[] = [];
 
     items.forEach(item => {
       let included = 0;
 
       if (locale === 'en') {
-        item.allergens.en.filter((allergen) => {
+        item.allergens['en'].filter((allergen) => {
 
           const index = toInclude.findIndex(allergenToInclude => {
             return allergenToInclude.name === allergen;
@@ -55,7 +55,7 @@ export class ProductsSearchPipe implements PipeTransform {
           }
         });
       } else {
-        item.allergens.es.filter((allergen) => {
+        item.allergens['es'].filter((allergen) => {
 
           const index = toInclude.findIndex(allergenToInclude => {
             return allergenToInclude.name === allergen;
@@ -75,18 +75,18 @@ export class ProductsSearchPipe implements PipeTransform {
     return filteredItems;
   }
 
-  private filterByIncludedIngredients(items: ProductDTO[], toInclude: Filter[], locale: string): ProductDTO[] {
+  private filterByIncludedIngredients(items: Product[], toInclude: Filter[], locale: string): Product[] {
     if (toInclude.length === 0) {
       return items;
     }
 
-    const filteredItems: ProductDTO[] = [];
+    const filteredItems: Product[] = [];
 
     items.forEach(item => {
       let included = 0;
 
       if (locale === 'en') {
-        item.description.en.filter((ingredient) => {
+        item.description['en'].filter((ingredient) => {
 
           const index = toInclude.findIndex(ingredientToInclude => {
             return ingredientToInclude.name === ingredient;
@@ -97,7 +97,7 @@ export class ProductsSearchPipe implements PipeTransform {
           }
         });
       } else {
-        item.description.es.filter((ingredient) => {
+        item.description['es'].filter((ingredient) => {
 
           const index = toInclude.findIndex(ingredientToInclude => {
             return ingredientToInclude.name === ingredient;
@@ -117,19 +117,19 @@ export class ProductsSearchPipe implements PipeTransform {
     return filteredItems;
   }
 
-  private filterByExcludedAllergens(items: ProductDTO[], toExclude: Filter[], locale: string): ProductDTO[] {
+  private filterByExcludedAllergens(items: Product[], toExclude: Filter[], locale: string): Product[] {
     if (toExclude.length === 0) {
       return items;
     }
 
-    const filteredItems: ProductDTO[] = [];
+    const filteredItems: Product[] = [];
 
     items.forEach(item => {
       let includeItem = true;
 
       if (locale === 'en') {
-        for (let i = 0; item.allergens.en.length > i; i++) {
-          let allergen = item.allergens.en[i];
+        for (let i = 0; item.allergens['en'].length > i; i++) {
+          let allergen = item.allergens['en'][i];
 
           const index = toExclude.findIndex(allergenToExclude => {
             return allergenToExclude.name === allergen;
@@ -141,8 +141,8 @@ export class ProductsSearchPipe implements PipeTransform {
           }
         }
       } else {
-        for (let i = 0; item.allergens.es.length > i; i++) {
-          let allergen = item.allergens.es[i];
+        for (let i = 0; item.allergens['es'].length > i; i++) {
+          let allergen = item.allergens['es'][i];
 
           const index = toExclude.findIndex(allergenToExclude => {
             return allergenToExclude.name === allergen;
@@ -163,19 +163,19 @@ export class ProductsSearchPipe implements PipeTransform {
     return filteredItems;
   }
 
-  private filterByExcludedIngredients(items: ProductDTO[], toExclude: Filter[], locale: string): ProductDTO[] {
+  private filterByExcludedIngredients(items: Product[], toExclude: Filter[], locale: string): Product[] {
     if (toExclude.length === 0) {
       return items;
     }
 
-    const filteredItems: ProductDTO[] = [];
+    const filteredItems: Product[] = [];
 
     items.forEach(item => {
       let includeItem = true;
 
       if (locale === 'en') {
-        for (let i = 0; item.description.en.length > i; i++) {
-          let ingredient = item.description.en[i];
+        for (let i = 0; item.description['en'].length > i; i++) {
+          let ingredient = item.description['en'][i];
 
           const index = toExclude.findIndex(ingredientToExclude => {
             return ingredientToExclude.name === ingredient;
@@ -187,8 +187,8 @@ export class ProductsSearchPipe implements PipeTransform {
           }
         }
       } else {
-        for (let i = 0; item.description.es.length > i; i++) {
-          let ingredient = item.description.es[i];
+        for (let i = 0; item.description['es'].length > i; i++) {
+          let ingredient = item.description['es'][i];
 
           const index = toExclude.findIndex(ingredientToExclude => {
             return ingredientToExclude.name === ingredient;

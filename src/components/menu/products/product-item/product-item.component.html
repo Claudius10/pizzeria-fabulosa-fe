@@ -3,9 +3,9 @@
   <!-- IMAGE + NAME -->
   <div class="flex flex-col items-center">
     <!-- IMAGE -->
-    <img title="{{product().name.en}} Image"
+    <img title="{{product().name['en']}} Image"
          ngSrc="{{product().image}}"
-         alt="{{product().name.en}} Image"
+         alt="{{product().name['en']}} Image"
          class="pb-2"
          width="225"
          height="150"
@@ -13,19 +13,19 @@
 
     <!-- NAME -->
     <span title="Name"
-          class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? product().name.es : product().name.en }}</span>
+          class="font-semibold text-xl text-center">{{ currentLang() === 'es' ? product().name['es'] : product().name['en'] }}</span>
   </div>
 
   <!-- INGREDIENTES -->
   @if (product().description !== null) {
-    <div title="{{product().name.en}} Ingredients" class="flex flex-wrap items-start text-center description">
-      {{ currentLang() === 'es' ? product().description!.es.join(", ") : product().description!.en.join(", ") }}
+    <div title="{{product().name['en']}} Ingredients" class="flex flex-wrap items-start text-center description">
+      {{ currentLang() === 'es' ? product().description!['es'].join(", ") : product().description!['en'].join(", ") }}
     </div>
   }
 
   <p-button
     class="pb-2"
-    title="{{product().name.en}} Details"
+    title="{{product().name['en']}} Details"
     type="button"
     label="{{'button.custom.pizza.add' | translate | uppercase}}"
     [raised]="true"
@@ -33,7 +33,7 @@
     (click)="dialogVisibility(true)"/>
 </div>
 <p-dialog
-  title="{{product().name.en}} Window"
+  title="{{product().name['en']}} Window"
   [draggable]="false"
   [resizable]="false"
   [modal]="true"
@@ -42,14 +42,14 @@
   [breakpoints]="{ '576px': '90vw' }"
   (onHide)="dialogVisibility(false)"
   [(visible)]="dialogVisible"
-  [header]="currentLang() === 'es' ? product().name.es : product().name.en"
+  [header]="currentLang() === 'es' ? product().name['es'] : product().name['en']"
 >
   <div class="flex flex-col items-center gap-4">
 
     <!-- IMAGE -->
-    <img title="{{product().name.en}} Image"
+    <img title="{{product().name['en']}} Image"
          ngSrc="{{product().image}}"
-         alt="{{product().name.en}} Image"
+         alt="{{product().name['en']}} Image"
          class="rounded-border"
          width="225"
          height="150"
@@ -59,12 +59,12 @@
     @if (product().description !== null) {
       <div title="Ingredients"
            class="flex justify-center flex-wrap dialog-description text-center">
-        {{ currentLang() === 'es' ? product().description!.es.join(", ") : product().description!.en.join(", ") }}
+        {{ currentLang() === 'es' ? product().description!['es'].join(", ") : product().description!['en'].join(", ") }}
       </div>
     }
 
     <!-- ALLERGENS-->
-    @if (product().allergens.es.length > 0) {
+    @if (product().allergens['es'].length > 0) {
       <div class="flex flex-col items-center">
         <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
       </div>
@@ -72,11 +72,11 @@
       <span title="Header" class="text-center">{{ "component.products.allergens.text" | translate }}</span>
       <div class="flex justify-center flex-wrap gap-4 font-bold">
         @if (currentLang() === 'es') {
-          @for (allergen of this.product().allergens.es; track $index) {
+          @for (allergen of product().allergens['es']; track $index) {
             <span title="{{ allergen }}">{{ allergen }}</span>
           }
         } @else {
-          @for (allergen of this.product().allergens.en; track $index) {
+          @for (allergen of product().allergens['en']; track $index) {
             <span title="{{ allergen }}">{{ allergen }}</span>
           }
         }
@@ -86,35 +86,35 @@
     <!-- FORMAT -->
     @if (product().formats) {
       <div class="flex gap-2">
-        @if (product().formats.s) {
+        @if (product().formats['s']) {
           <p-button
             title="Small"
             (click)="setFormat('S')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.s.es : product().formats.s.en  }}"
+            label="{{ currentLang() === 'es' ? product().formats['s']['es'] : product().formats['s']['en']  }}"
             [outlined]="this.productFormat() !== 'S'"
             [raised]="true"/>
         }
 
-        @if (product().formats.m) {
+        @if (product().formats['m']) {
           <p-button
             title="Medium"
             (click)="setFormat('M')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.m.es : product().formats.m.en  }}"
+            label="{{ currentLang() === 'es' ? product().formats['m']['es'] : product().formats['m']['en']  }}"
             [outlined]="this.productFormat() !== 'M'"
             [raised]="true"/>
         }
 
-        @if (product().formats.l) {
+        @if (product().formats['l']) {
           <p-button
             title="Large"
             (click)="setFormat('L')"
             type="button"
             size="small"
-            label="{{ currentLang() === 'es' ? product().formats.l.es : product().formats.l.en  }}"
+            label="{{ currentLang() === 'es' ? product().formats['l']['es'] : product().formats['l']['en']  }}"
             [outlined]="this.productFormat() !== 'L'"
             [raised]="true"/>
         }

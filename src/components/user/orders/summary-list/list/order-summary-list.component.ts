@@ -8,15 +8,14 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isPlatformBrowser, NgForOf} from '@angular/common';
 import {Skeleton} from 'primeng/skeleton';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {QueryResult} from '../../../../../utils/interfaces/query';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {OrderHttpService} from '../../../../../services/http/order/order-http.service';
-import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
+import {tempStatus$} from '../../../../../utils/placeholder';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
+import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../api';
+import {AuthService} from '../../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-order-summary-list',
@@ -36,26 +35,27 @@ export class OrderSummaryListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private orderHttpService = inject(OrderHttpService);
+  private orderHttpService = inject(UserOrdersAPIService);
   private activatedRoute = inject(ActivatedRoute);
   private errorService = inject(ErrorService);
+  private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  protected first = 0;
+  protected first = 5;
   protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected orderList: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected orderList = injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
-      return lastValueFrom(this.orderHttpService.findOrderSummaryList(this.page() - 1));
+      return lastValueFrom(this.orderHttpService.findUserOrdersSummary(this.page() - 1, this.first, this.authService.userId!));
     },
-  })) : tempQueryResult();
+  }));
 
   private orderListStatus = !this.isServer ? toObservable(this.orderList.status) : tempStatus$();
 
   ngOnInit() {
-    this.first = (this.page() - 1) * 5;
+    // this.first = (this.page() - 1) * 5;
 
     const subscription = this.orderListStatus.subscribe({
       next: orderListStatus => {
@@ -69,13 +69,8 @@ export class OrderSummaryListComponent implements OnInit {
 
         if (orderListStatus === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const response: ResponseDTO = this.orderList.data()!;
-
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          } else {
-            this.totalElements = response.payload.totalElements;
-          }
+          const response: OrderSummaryListDTO = this.orderList.data()!;
+          this.totalElements = response.totalElements;
         }
       }
     });

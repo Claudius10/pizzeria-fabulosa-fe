@@ -6,14 +6,13 @@ import {UserAddressItemComponent} from '../user-address-item/user-address-item.c
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {QueryResult} from '../../../../../utils/interfaces/query';
 import {ServerErrorComponent} from '../../../../../app/routes/error/server-no-response/server-error.component';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {TranslatePipe} from '@ngx-translate/core';
-import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {UserAddressAPIService} from '../../../../../api';
 
 @Component({
   selector: 'app-user-address-list',
@@ -30,13 +29,14 @@ import {UserHttpService} from '../../../../../services/http/user/user-http.servi
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userHttpService = inject(UserHttpService);
+  private authService = inject(AuthService);
+  private userHttpService = inject(UserAddressAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
-  protected addressList: QueryResult = injectQuery(() => ({
+  protected addressList = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
-    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
+    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressListById(Number(this.authService.userId!)))
   }));
 
   private addressListStatus = toObservable(this.addressList.status);
@@ -56,11 +56,6 @@ export class UserAddressListComponent implements OnInit {
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const response: ResponseDTO = this.addressList.data()!;
-          
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          }
         }
       }
     });

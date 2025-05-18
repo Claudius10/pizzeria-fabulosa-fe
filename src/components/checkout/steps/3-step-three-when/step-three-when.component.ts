@@ -12,15 +12,13 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../utils/functions';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
-import {QueryResult} from '../../../../utils/interfaces/query';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {RESOURCE_LOCAL_DATE_TIME_NOW} from '../../../../utils/query-keys';
 import {lastValueFrom} from 'rxjs';
-import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {SUCCESS} from '../../../../utils/constants';
-import {ResponseDTO} from '../../../../utils/interfaces/http/api';
 import {ErrorService} from '../../../../services/error/error.service';
+import {ResourcesAPIService} from '../../../../api';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -41,7 +39,7 @@ import {ErrorService} from '../../../../services/error/error.service';
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
-  private resourceService = inject(ResourcesHttpService);
+  private resourceService = inject(ResourcesAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -52,9 +50,9 @@ export class StepThreeWhenComponent implements OnInit {
   ];
   protected selectedOption: Option = this.options[0];
 
-  private localDateTimeNow: QueryResult = injectQuery(() => ({
+  private localDateTimeNow = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
-    queryFn: () => lastValueFrom(this.resourceService.findNow()),
+    queryFn: () => lastValueFrom(this.resourceService.getNowAccountingDST()),
     staleTime: 0
   }));
 
@@ -64,14 +62,7 @@ export class StepThreeWhenComponent implements OnInit {
     const subscription = this.status.subscribe({
       next: status => {
         if (status === SUCCESS) {
-
-          const response: ResponseDTO = this.localDateTimeNow.data()!;
-
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          } else {
-            this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!.payload);
-          }
+          this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!);
         }
       }
     });

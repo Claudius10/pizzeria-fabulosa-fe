@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
-import {StoreDTO} from '../../../../utils/interfaces/dto/resources';
 import {NgClass} from '@angular/common';
 import {AddressId} from '../../../../services/checkout/checkout-form.service';
 import {TranslateService} from '@ngx-translate/core';
+import {Store} from '../../../../api';
 
 @Component({
   selector: 'app-store-checkout',
@@ -17,7 +17,7 @@ export class StoreCheckoutComponent implements OnInit {
   orientation = input<"horizontal" | "vertical">('horizontal');
   selected = input<number | null>(null);
   highlight = input<boolean>();
-  store = input.required<StoreDTO>();
+  store = input.required<Store>();
   invalid = input<boolean>();
   onStoreSelect = output<AddressId>();
   private translateService = inject(TranslateService);
@@ -33,6 +33,6 @@ export class StoreCheckoutComponent implements OnInit {
   }
 
   protected selectStore() {
-    this.onStoreSelect.emit({id: this.store().address.id, isStore: true});
+    this.onStoreSelect.emit({id: this.store().address.id!, isStore: true});
   }
 }

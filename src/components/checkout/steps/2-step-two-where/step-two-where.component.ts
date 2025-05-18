@@ -11,7 +11,6 @@ import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../utils/interfaces/forms/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
-import {QueryOnDemand} from '../../../../utils/interfaces/query';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -22,11 +21,10 @@ import {isFormValid} from '../../../../utils/functions';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
-import {SUCCESS} from '../../../../utils/constants';
-import {ResponseDTO} from '../../../../utils/interfaces/http/api';
-import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
+import {ERROR} from '../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
+import {ResourcesAPIService} from '../../../../api';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -50,7 +48,7 @@ import {firstValueFrom} from 'rxjs';
 })
 export class StepTwoWhereComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesHttpService);
+  private resourcesHttpService = inject(ResourcesAPIService);
   protected checkoutFormService = inject(CheckoutFormService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
@@ -58,9 +56,9 @@ export class StepTwoWhereComponent implements OnInit {
   private router = inject(Router);
   protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
 
-  protected stores: QueryOnDemand = injectQuery(() => ({
+  protected stores = injectQuery(() => ({
     queryKey: [RESOURCE_STORES],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findStores()),
+    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores()),
     enabled: false
   }));
 
@@ -163,12 +161,8 @@ export class StepTwoWhereComponent implements OnInit {
 
     const subscription = this.storesStatus.subscribe({
       next: status => {
-        if (status === SUCCESS) {
-          const response: ResponseDTO = this.stores.data()!;
-
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          }
+        if (status === ERROR) {
+          console.log(this.stores.error());
         }
 
         this.loadingAnimationService.stopLoading();
@@ -189,7 +183,7 @@ export class StepTwoWhereComponent implements OnInit {
     this.checkoutFormService.where = {
       street: this.form.get("street")!.value,
       number: Number(this.form.get("number")!.value),
-      details: this.form.get("details")!.value === null ? null : this.form.get("details")!.value,
+      details: this.form.get("details")!.value === null ? undefined : this.form.get("details")!.value!,
     };
   }
 

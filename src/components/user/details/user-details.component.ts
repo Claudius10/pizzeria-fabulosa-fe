@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, input} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 import {AuthService} from '../../../services/auth/auth.service';
-import {CustomerDTO} from '../../../utils/interfaces/dto/order';
+import {CustomerDTO} from '../../../api';
 
 @Component({
   selector: 'app-user-details',

@@ -31,7 +31,7 @@ export class CustomPizzaComponent {
     const isMedium = pizza.format.includes("format.m");
 
     this.cartService.add({
-      id: uuidv4(),
+      pseudoId: uuidv4(),
       formatCode: this.translateToken("en", pizza.format),
       images: {
         dark: getDarkIcon('pizza'),
@@ -46,17 +46,7 @@ export class CustomPizzaComponent {
         en: this.translateTokens("en", pizza.ingredients),
         es: this.translateTokens("es", pizza.ingredients),
       },
-      formats: {
-        s: null,
-        m: isMedium ? {
-          en: this.translateToken("en", pizza.format),
-          es: this.translateToken("es", pizza.format),
-        } : null,
-        l: !isMedium ? {
-          en: this.translateToken("en", pizza.format),
-          es: this.translateToken("es", pizza.format),
-        } : null
-      },
+      formats: this.getFormats(isMedium, pizza),
       quantity: 1,
       price: pizza.price,
     });
@@ -84,5 +74,23 @@ export class CustomPizzaComponent {
     return tokens.map(token => {
       return translation[token];
     });
+  }
+
+  private getFormats(isMedium: boolean, pizza: CustomPizza): { [key: string]: { [key: string]: string; }; } {
+    if (isMedium) {
+      return {
+        'm': {
+          'en': this.translateToken("en", pizza.format),
+          'es': this.translateToken("es", pizza.format),
+        }
+      };
+    } else {
+      return {
+        'l': {
+          'en': this.translateToken("en", pizza.format),
+          'es': this.translateToken("es", pizza.format),
+        }
+      };
+    }
   }
 }

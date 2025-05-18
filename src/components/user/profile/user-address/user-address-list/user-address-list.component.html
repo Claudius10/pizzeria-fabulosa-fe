@@ -1,11 +1,11 @@
 <div title="Address List" class="flex flex-col gap-6">
   @if (addressList.status() === "success") {
-    @if (addressList.data()!.payload === null) {
+    @if (addressList.data() === null) {
       <div class="flex flex-col gap-6">
         <span>{{ "component.user.profile.view.address.list.empty" | translate }}</span>
       </div>
     } @else {
-      @for (address of addressList.data()!.payload; track address.id) {
+      @for (address of addressList.data(); track address.id) {
         <app-user-address-item [address]="address"/>
       }
     }

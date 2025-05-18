@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
-import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {CartService} from './cart.service';
+import {MyCartItemDTO} from '../../utils/interfaces/MyCartItemDTO';
 
 describe('CartServiceTests', () => {
   let cartService: CartService;
@@ -14,7 +14,7 @@ describe('CartServiceTests', () => {
   it('givenItems_thenSetCart', () => {
     // Act
 
-    cartService.set([getMockCartItem("1", 1)], 1, 1);
+    cartService.set([getMockCartItem(1, 1)], 1, 1);
 
     // Assert
 
@@ -29,7 +29,7 @@ describe('CartServiceTests', () => {
   it('givenItems_whenTwoForHalfOfferApplies_thenWorkAsExpected', () => {
     // Act
 
-    cartService.set([getMockCartItem("1", 1), getMockCartItem("1", 1)], 2, 2);
+    cartService.set([getMockCartItem(1, 1), getMockCartItem(1, 1)], 2, 2);
 
     // Assert
 
@@ -44,7 +44,7 @@ describe('CartServiceTests', () => {
   it('givenItems_whenThreeForTwoOfferApplies_thenWorkAsExpected', () => {
     // Act
 
-    cartService.set([getMockCartItem("1", 1), getMockCartItem("1", 1), getMockCartItem("1", 1)], 3, 3);
+    cartService.set([getMockCartItem(1, 1), getMockCartItem(1, 1), getMockCartItem(1, 1)], 3, 3);
 
     // Assert
 
@@ -59,7 +59,7 @@ describe('CartServiceTests', () => {
   it('givenItems_whenTwoForHalfAndThreeForTwoOfferApplies_thenWorkAsExpected', () => {
     // Act
 
-    cartService.set([getMockCartItem("1", 1), getMockCartItem("1", 1), getMockCartItem("1", 1), getMockCartItem("1", 1), getMockCartItem("1", 1)], 5, 5);
+    cartService.set([getMockCartItem(1, 1), getMockCartItem(1, 1), getMockCartItem(1, 1), getMockCartItem(1, 1), getMockCartItem(1, 1)], 5, 5);
 
     // Assert
 
@@ -75,7 +75,7 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 1);
+    let mockCartItem = getMockCartItem(1, 1);
 
     // Act
 
@@ -95,7 +95,7 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 1);
+    let mockCartItem = getMockCartItem(1, 1);
     cartService.add(mockCartItem);
 
     // Act
@@ -116,12 +116,12 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 1);
+    let mockCartItem = getMockCartItem(1, 1);
     cartService.add(mockCartItem);
 
     // Act
 
-    cartService.increaseQuantity("1");
+    cartService.increaseQuantity(1);
 
     // Assert
 
@@ -137,14 +137,14 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 1);
-    let mockCartItemTwo = getMockCartItem("2", 1);
+    let mockCartItem = getMockCartItem(1, 1);
+    let mockCartItemTwo = getMockCartItem(2, 1);
     cartService.add(mockCartItem);
     cartService.add(mockCartItemTwo);
 
     // Act
 
-    cartService.increaseQuantity("1");
+    cartService.increaseQuantity(1);
 
     // Assert
 
@@ -160,12 +160,12 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 1);
+    let mockCartItem = getMockCartItem(1, 1);
     cartService.add(mockCartItem);
 
     // Act
 
-    cartService.decreaseQuantity("1");
+    cartService.decreaseQuantity(1);
 
     // Assert
 
@@ -181,12 +181,12 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 2);
+    let mockCartItem = getMockCartItem(1, 2);
     cartService.add(mockCartItem);
 
     // Act
 
-    cartService.decreaseQuantity("1");
+    cartService.decreaseQuantity(1);
 
     // Assert
 
@@ -202,14 +202,14 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 2);
-    let mockCartItemTwo = getMockCartItem("2", 2);
+    let mockCartItem = getMockCartItem(1, 2);
+    let mockCartItemTwo = getMockCartItem(2, 2);
     cartService.add(mockCartItem);
     cartService.add(mockCartItemTwo);
 
     // Act
 
-    cartService.decreaseQuantity("1");
+    cartService.decreaseQuantity(1);
 
     // Assert
 
@@ -225,8 +225,8 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 2);
-    let mockCartItemTwo = getMockCartItem("2", 2);
+    let mockCartItem = getMockCartItem(1, 2);
+    let mockCartItemTwo = getMockCartItem(2, 2);
     cartService.add(mockCartItem);
     cartService.add(mockCartItemTwo);
 
@@ -248,7 +248,7 @@ describe('CartServiceTests', () => {
 
     // Arrange
 
-    let mockCartItem = getMockCartItem("1", 2);
+    let mockCartItem = getMockCartItem(1, 2);
     cartService.add(mockCartItem);
 
     // Act
@@ -263,7 +263,7 @@ describe('CartServiceTests', () => {
 });
 
 
-export const getMockCartItem = (id: string, quantity: number): CartItemDTO => {
+export const getMockCartItem = (id: number, quantity: number): MyCartItemDTO => {
   return {
     type: "pizza",
     formatCode: "M",

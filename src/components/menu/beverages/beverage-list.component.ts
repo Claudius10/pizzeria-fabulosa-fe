@@ -2,10 +2,8 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ProductItemComponent} from '../products/product-item/product-item.component';
-import {QueryResult} from '../../../utils/interfaces/query';
 import {ErrorService} from '../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../utils/constants';
-import {ResponseDTO} from '../../../utils/interfaces/http/api';
 import {FilterService} from '../../../services/filter/filter.service';
 import {ProductsSearchComponent} from '../products/search/products-search.component';
 import {ProductsSearchPipe} from '../products/search/search-pipe/products-search.pipe';
@@ -15,13 +13,13 @@ import {ServerErrorComponent} from '../../../app/routes/error/server-no-response
 import {isPlatformBrowser, NgForOf} from '@angular/common';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {Skeleton} from 'primeng/skeleton';
-import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
+import {tempStatus$} from '../../../utils/placeholder';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {RESOURCE_BEVERAGE, RESOURCE_PRODUCT_BEVERAGE} from '../../../utils/query-keys';
 import {lastValueFrom} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ResourcesHttpService} from '../../../services/http/resources/resources-http.service';
 import {TranslatePipe} from '@ngx-translate/core';
+import {ProductListDTO, ResourcesAPIService} from '../../../api';
 
 const DEFAULT_PAGE_MAX_SIZE = 8;
 
@@ -49,7 +47,7 @@ export class BeverageListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesHttpService);
+  private resourcesHttpService = inject(ResourcesAPIService);
   private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
@@ -63,10 +61,10 @@ export class BeverageListComponent implements OnInit {
   private totalPages = 0;
   protected first = 0;
 
-  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected query = injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_BEVERAGE, this.page() - 1],
-    queryFn: () => lastValueFrom(this.resourcesHttpService.findProducts(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
-  })) : tempQueryResult();
+    queryFn: () => lastValueFrom(this.resourcesHttpService.findAllProductsByType(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+  }));
 
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
@@ -81,19 +79,15 @@ export class BeverageListComponent implements OnInit {
 
           if (result === ERROR) {
             this.loadingAnimationService.stopLoading();
+            console.log(this.query.error());
           }
 
           if (result === SUCCESS) {
             this.loadingAnimationService.stopLoading();
-            const response: ResponseDTO = this.query.data()!;
-
-            if (response.status.error && response.error) {
-              this.errorService.handleError(response.error);
-            } else {
-              this.totalElements = response.payload.totalElements;
-              this.currentElements = response.payload.productList.length;
-              this.totalPages = response.payload.totalPages;
-            }
+            const response: ProductListDTO = this.query.data()!;
+            this.totalElements = response.totalElements;
+            this.currentElements = response.productList.length;
+            this.totalPages = response.totalPages;
           }
         }
       },

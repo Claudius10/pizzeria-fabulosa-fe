@@ -1,21 +1,21 @@
 import {Injectable, signal} from '@angular/core';
-import {CartItemDTO} from '../../utils/interfaces/dto/order';
 import {Cart, ICart} from '../../utils/Cart';
 import {CART} from '../../utils/constants';
 import {getDarkIcon, getLightIcon} from '../../utils/functions';
+import {MyCartItemDTO} from '../../utils/interfaces/MyCartItemDTO';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  items = signal<CartItemDTO[]>([]);
+  items = signal<MyCartItemDTO[]>([]);
   quantity = signal(0);
   total = signal(0);
   totalAfterOffers = signal(0);
   threeForTwoOffers = signal(0);
   secondHalfPriceOffer = signal(0);
 
-  set(items: CartItemDTO[], quantity: number, total: number) {
+  set(items: MyCartItemDTO[], quantity: number, total: number) {
     this.clear();
     this.setIcons(items);
     this.quantity.set(quantity);
@@ -25,8 +25,8 @@ export class CartService {
     this.updateCart();
   }
 
-  add(item: CartItemDTO) {
-    const itemIndex = this.items().findIndex((existingItem) => existingItem.id === item.id);
+  add(item: MyCartItemDTO) {
+    const itemIndex = this.items().findIndex((existingItem) => existingItem.pseudoId === item.pseudoId);
 
     if (itemIndex !== -1) {
       this.items()[itemIndex].quantity++;
@@ -44,7 +44,7 @@ export class CartService {
   }
 
   decreaseQuantity(id: string) {
-    const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
+    const itemIndex = this.items().findIndex(existingItem => existingItem.pseudoId === id);
     const theItem = this.items()[itemIndex];
 
     if (theItem.quantity === 1) {
@@ -65,7 +65,7 @@ export class CartService {
   }
 
   increaseQuantity(id: string) {
-    const itemIndex = this.items().findIndex(existingItem => existingItem.id === id);
+    const itemIndex = this.items().findIndex(existingItem => existingItem.pseudoId === id);
 
     this.items()[itemIndex].quantity++;
     this.items.update(prevItems => [...prevItems]);
@@ -76,16 +76,16 @@ export class CartService {
     this.updateCart();
   }
 
-  private updateQuantity(items: CartItemDTO[]) {
+  private updateQuantity(items: MyCartItemDTO[]) {
     this.quantity.set(items.reduce((previousValue, {quantity}) => previousValue + quantity, 0));
   }
 
-  private updateTotal(items: CartItemDTO[]) {
+  private updateTotal(items: MyCartItemDTO[]) {
     const itemCosts = items.map((item) => item.price * item.quantity);
     this.total.set(itemCosts.reduce((previousValue, currentValue) => previousValue + currentValue, 0));
   }
 
-  private calculateCostWithOffers(items: CartItemDTO[], total: number) {
+  private calculateCostWithOffers(items: MyCartItemDTO[], total: number) {
     if (items.length === 0 || total === 0) {
       this.secondHalfPriceOffer.set(0);
       this.threeForTwoOffers.set(0);
@@ -144,15 +144,15 @@ export class CartService {
     this.setCart(cart);
   }
 
-  private getPizzaItems(items: CartItemDTO[]) {
+  private getPizzaItems(items: MyCartItemDTO[]) {
     return items.filter((item) => item.type === "pizza");
   }
 
-  private getPizzaQuantity(pizzaItems: CartItemDTO[]) {
+  private getPizzaQuantity(pizzaItems: MyCartItemDTO[]) {
     return pizzaItems.reduce((previousValue, {quantity}) => previousValue + quantity, 0);
   }
 
-  private getPizzaPrices(pizzaItems: CartItemDTO[]) {
+  private getPizzaPrices(pizzaItems: MyCartItemDTO[]) {
     return pizzaItems.map(item => item.price);
   }
 
@@ -170,7 +170,7 @@ export class CartService {
 
   // when loading order in user orders or in order-success
   // icons must be set because they don't exist in the db
-  private setIcons(items: CartItemDTO[]) {
+  private setIcons(items: MyCartItemDTO[]) {
     for (const item of items) {
       item.images = {
         dark: getDarkIcon(item.type),

@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
-import {CartItemDTO} from '../../../utils/interfaces/dto/order';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import {ThemeService} from '../../../services/theme/theme.service';
+import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
 
 @Component({
   selector: 'app-cart-item',
@@ -25,7 +25,7 @@ export class CartItemComponent implements OnInit {
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   viewOnly = input.required<boolean>();
-  item = input.required<CartItemDTO>();
+  item = input.required<MyCartItemDTO>();
   currentLang = signal(this.translateService.currentLang);
   isDarkMode = this.themeService.getDarkMode();
   viewIngredients = signal(false);

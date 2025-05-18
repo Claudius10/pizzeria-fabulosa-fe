@@ -7,12 +7,11 @@ import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {CartComponent} from '../../cart/cart.component';
-import {
-  OrderAddressDetailsComponent
-} from '../../user/orders/order-item/address-details/order-address-details.component';
+import {OrderAddressDetailsComponent} from '../../user/orders/order-item/address-details/order-address-details.component';
 import {OrderDetailsComponent} from '../../user/orders/order-item/order-details/order-details.component';
 import {Card} from "primeng/card";
 import {UserDetailsComponent} from "../../user/details/user-details.component";
+import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
 
 @Component({
   selector: 'app-new-order-success',
@@ -49,7 +48,8 @@ export class NewOrderSuccessComponent {
     afterNextRender(() => {
       if (this.checkoutFormService.orderSuccess) {
         const cart = this.checkoutFormService.orderSuccess.cart!;
-        this.cartService.set(cart.cartItems, cart.totalQuantity, cart.totalCost);
+        const cartItems = cart.cartItems as MyCartItemDTO[];
+        this.cartService.set(cartItems, cart.totalQuantity, cart.totalCost);
       }
 
       this.destroyRef.onDestroy(() => {

@@ -2,20 +2,14 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ADDRESS_LIST, USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
-import {StoreDTO} from '../../../../utils/interfaces/dto/resources';
 import {StoreCheckoutComponent} from '../store/store-checkout.component';
 import {Card} from 'primeng/card';
 import {Button} from 'primeng/button';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {esCharsAndNumbersAndBasicSymbolsRgx} from '../../../../utils/regex';
 import {CartService} from '../../../../services/cart/cart.service';
-import {MutationRequest, MutationResult} from '../../../../utils/interfaces/mutation';
-import {QueryResult} from '../../../../utils/interfaces/query';
-import {ResponseDTO} from '../../../../utils/interfaces/http/api';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
-import {AddressDTO, CartItemDTO} from '../../../../utils/interfaces/dto/order';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {AnonOrderFormData, UserOrderFormData} from '../../../../utils/interfaces/http/order';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
@@ -24,9 +18,8 @@ import {Textarea} from 'primeng/textarea';
 import {UserDetailsComponent} from '../../../user/details/user-details.component';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
-import {OrderHttpService} from '../../../../services/http/order/order-http.service';
-import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
-import {UserHttpService} from '../../../../services/http/user/user-http.service';
+import {AddressDTO, AnonymousUserAPIService, CreatedOrderDTO, NewAnonOrderDTO, NewUserOrderDTO, ResourcesAPIService, Store, UserAddressAPIService, UserOrdersAPIService} from '../../../../api';
+import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -46,38 +39,39 @@ import {UserHttpService} from '../../../../services/http/user/user-http.service'
 })
 export class StepFiveSummaryComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesHttpService);
+  private resourcesHttpService = inject(ResourcesAPIService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private orderHttpService = inject(OrderHttpService);
-  private userHttpService = inject(UserHttpService);
+  private orderHttpService = inject(AnonymousUserAPIService);
+  private userOrdersAPI = inject(UserOrdersAPIService);
+  private userAddressAPI = inject(UserAddressAPIService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
   protected cartService = inject(CartService);
   private queryClient = inject(QueryClient);
   private router = inject(Router);
 
-  private createAnonOrder: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createAnonOrder(request.payload))
+  private createAnonOrder = injectMutation(() => ({
+    mutationFn: (data: NewAnonOrderDTO) => lastValueFrom(this.orderHttpService.createAnonOrder(data))
   }));
 
-  private createUserOrder: MutationResult = injectMutation(() => ({
-    mutationFn: (request: MutationRequest) => lastValueFrom(this.orderHttpService.createUserOrder(request.payload)),
+  private createUserOrder = injectMutation(() => ({
+    mutationFn: (data: { userId: number, order: NewUserOrderDTO }) => lastValueFrom(this.userOrdersAPI.createUserOrder(data.userId, data.order)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
     }
   }));
 
-  private stores: QueryResult = injectQuery(() => ({
+  private stores = injectQuery(() => ({
     queryKey: [RESOURCE_STORES],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findStores()),
+    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores()),
   }));
 
-  private userAddressList: QueryResult = injectQuery(() => ({
+  private userAddressList = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
-    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
+    queryFn: () => lastValueFrom(this.userAddressAPI.findUserAddressListById(this.authService.userId!))
   }));
 
-  protected selectedStore: StoreDTO | null = null;
+  protected selectedStore: Store | null = null;
   protected selectedAddress: AddressDTO | null = null;
 
   ngOnInit(): void {
@@ -94,14 +88,14 @@ export class StepFiveSummaryComponent implements OnInit {
 
         if (this.checkoutFormService.selectedAddress.isStore) {
           // store address
-          const fetchedStores = this.stores.data()!.payload as StoreDTO[]; // NOTE - data is in cache
+          const fetchedStores: Store[] = this.stores.data()!.stores; // NOTE - data is in cache
           const selectedStoreIndex = fetchedStores.findIndex(store => store.address.id === this.checkoutFormService.selectedAddress.id);
           this.selectedStore = fetchedStores[selectedStoreIndex];
 
         } else {
           // user address
           if (this.authService.isAuthenticated()) {
-            const fetchedUserAddressList = this.userAddressList.data()!.payload as AddressDTO[]; // NOTE - data in cache
+            const fetchedUserAddressList = this.userAddressList.data()! as AddressDTO[]; // NOTE - data in cache
             const selectedAddressIndex = fetchedUserAddressList.findIndex(address => address.id === this.checkoutFormService.selectedAddress.id);
             this.selectedAddress = fetchedUserAddressList[selectedAddressIndex];
           }
@@ -131,18 +125,16 @@ export class StepFiveSummaryComponent implements OnInit {
   }
 
   private newUserOrder() {
-    const payload: UserOrderFormData = {
+    const payload: NewUserOrderDTO = {
       addressId: this.checkoutFormService.selectedAddress.id!,
       orderDetails: {
-        id: null,
         deliveryTime: this.checkoutFormService.when!.deliveryTime,
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
-        billToChange: this.checkoutFormService.how!.billToChange,
-        comment: this.form.get("comment")!.value,
+        billToChange: this.checkoutFormService.how!.billToChange === null ? undefined : this.checkoutFormService.how!.billToChange,
+        comment: this.form.get("comment")!.value === null ? undefined : this.form.get("comment")!.value!,
         storePickUp: this.checkoutFormService.selectedAddress.isStore === null ? false : this.checkoutFormService.selectedAddress.isStore
       },
       cart: {
-        id: null,
         cartItems: cleanIds(this.cartService.items()),
         totalQuantity: this.cartService.quantity(),
         totalCost: Number(this.cartService.total().toFixed(2)),
@@ -150,20 +142,15 @@ export class StepFiveSummaryComponent implements OnInit {
       }
     };
 
-    this.createUserOrder.mutate({payload: payload}, {
-      onSuccess: (response: ResponseDTO) => {
-        if (response.status.error && response.error) {
-          this.errorService.handleError(response.error);
-
-        } else {
-
-          this.cartService.clear();
-          this.checkoutFormService.clear();
-          this.checkoutFormService.orderSuccess = response.payload;
-          this.router.navigate(['order', 'success']);
-        }
+    this.createUserOrder.mutate({userId: this.authService.userId!, order: payload}, {
+      onSuccess: (response: CreatedOrderDTO) => {
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+        this.checkoutFormService.orderSuccess = response;
+        this.router.navigate(['order', 'success']);
       },
-      onError: () => {
+      onError: (Error) => {
+        console.log(Error);
         this.errorService.handleServerNoResponse();
       },
       onSettled: () => {
@@ -173,28 +160,26 @@ export class StepFiveSummaryComponent implements OnInit {
   }
 
   private newAnonOrder() {
-    const payload: AnonOrderFormData = {
+    const payload: NewAnonOrderDTO = {
       customer: {
         name: this.checkoutFormService.who!.name,
         contactNumber: this.checkoutFormService.who!.contactNumber,
         email: this.checkoutFormService.who!.email,
       },
       address: {
-        id: this.checkoutFormService.selectedAddress.id === null ? null : this.checkoutFormService.selectedAddress.id,
-        street: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.street,
-        number: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.number,
-        details: this.checkoutFormService.where === null ? null : this.checkoutFormService.where.details,
+        id: this.checkoutFormService.selectedAddress.id === null ? undefined : this.checkoutFormService.selectedAddress.id,
+        street: this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.street!,
+        number: this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.number!,
+        details: this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.details!,
       },
       orderDetails: {
-        id: null,
         deliveryTime: this.checkoutFormService.when!.deliveryTime,
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
         billToChange: this.checkoutFormService.how!.billToChange,
-        comment: this.form.get("comment")!.value,
+        comment: this.form.get("comment")!.value === undefined ? undefined : this.form.get("comment")!.value!,
         storePickUp: this.checkoutFormService.selectedAddress.isStore === null ? false : this.checkoutFormService.selectedAddress.isStore
       },
       cart: {
-        id: null,
         cartItems: cleanIds(this.cartService.items()),
         totalQuantity: this.cartService.quantity(),
         totalCost: Number(this.cartService.total().toFixed(2)),
@@ -202,20 +187,15 @@ export class StepFiveSummaryComponent implements OnInit {
       }
     };
 
-    this.createAnonOrder.mutate({payload: payload}, {
-      onSuccess: (response: ResponseDTO) => {
-        if (response.status.error && response.error) {
-          this.errorService.handleError(response.error);
-
-        } else {
-
-          this.cartService.clear();
-          this.checkoutFormService.clear();
-          this.checkoutFormService.orderSuccess = response.payload;
-          this.router.navigate(['order', 'success']);
-        }
+    this.createAnonOrder.mutate(payload, {
+      onSuccess: (response: CreatedOrderDTO) => {
+        this.cartService.clear();
+        this.checkoutFormService.clear();
+        this.checkoutFormService.orderSuccess = response;
+        this.router.navigate(['order', 'success']);
       },
-      onError: () => {
+      onError: (Error) => {
+        console.log(Error);
         this.errorService.handleServerNoResponse();
       },
       onSettled: () => {
@@ -241,10 +221,10 @@ export class StepFiveSummaryComponent implements OnInit {
   }
 }
 
-function cleanIds(items: CartItemDTO[]) {
-  const newItems: CartItemDTO[] = [];
+function cleanIds(items: MyCartItemDTO[]) {
+  const newItems: MyCartItemDTO[] = [];
   items.forEach((item) => {
-    item.id = "1"; // set as a number in string so JSON can deserialize the value to Long
+    item.id = 1; // set as a number in string so JSON can deserialize the value to Long
     newItems.push(item);
   });
   return newItems;

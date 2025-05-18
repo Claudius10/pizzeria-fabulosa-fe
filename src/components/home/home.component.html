@@ -26,7 +26,7 @@
       }
 
       @if (offers.status() === 'success') {
-        @for (offer of offers.data()!.payload; track offer.id) {
+        @for (offer of offers.data()!.offers; track offer.id) {
           <li>
             <app-offer-item [offer]="offer"/>
           </li>
@@ -54,7 +54,7 @@
       }
 
       @if (stores.status() === 'success') {
-        @for (store of stores.data()!.payload; track store.id) {
+        @for (store of stores.data()!.stores; track store.id) {
           <li>
             <app-store-item [store]="store"/>
           </li>

@@ -15,6 +15,7 @@ import primeES from "../../../public/i18n/primeng-es.json";
 import primeEN from "../../../public/i18n/primeng-en.json";
 import {MessageService} from 'primeng/api';
 import {ErrorService} from '../../services/error/error.service';
+import {MyCartItemDTO} from '../../utils/interfaces/MyCartItemDTO';
 
 @Component({
   selector: 'app-root',
@@ -83,7 +84,20 @@ export class AppComponent implements OnInit {
   private initCart() {
     const cart = this.cartService.getCart();
     if (cart) {
-      this.cartService.set(cart.items, cart.quantity, cart.total);
+      const cartItems = cart.items as MyCartItemDTO[];
+      this.cartService.set(cartItems, cart.quantity, cart.total);
     }
   }
 }
+
+// TODO - figure out how to generate the API such that I don't need to manually add {withCredentials: true} to new Configuration() in api BaseService
+// TODO - figure out how to have the login endpoint 200 response return text type, and not have to manually add it in api.yaml
+/*
+ responses:
+"200":
+  description: OK
+  content:
+    text/plain:
+      schema:
+        type: string
+*/

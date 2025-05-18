@@ -1,19 +1,19 @@
 <p-card
   title="Offer"
-  header="{{currentLang() === 'en' ? offer().name.en : offer().name.es}}"
+  header="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}}"
   [style]="{ width: '320px' }">
 
   <ng-template pTemplate="header">
     <img
       title="Offer Image"
       class="rounded-border" ngSrc="{{offer().image}}"
-      alt="{{currentLang() === 'en' ? offer().name.en : offer().name.es}} Offer"
+      alt="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}} Offer"
       width="320"
       height="255"
       priority>
   </ng-template>
 
-  <span title="Description">{{ currentLang() === 'en' ? offer().description.en : offer().description.es }}</span>
+  <span title="Description">{{ currentLang() === 'en' ? this.offer().description['en'] : this.offer().description['es'] }}</span>
 
   <ng-template pTemplate="footer">
 
@@ -25,7 +25,7 @@
         </p-accordion-header>
 
         <p-accordion-content>
-          <span title="Offer Details">{{ currentLang() === 'en' ? offer().caveat.en : offer().caveat.es }}</span>
+          <span title="Offer Details">{{ currentLang() === 'en' ? this.offer().caveat['en'] : this.offer().caveat['es'] }}</span>
         </p-accordion-content>
 
       </p-accordion-panel>

@@ -8,11 +8,10 @@ import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../../app/routes/error/server-no-response/server-error.component';
-import {ResponseDTO} from '../../../../../utils/interfaces/http/api';
-import {QueryResult} from '../../../../../utils/interfaces/query';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
+import {UserAddressAPIService} from '../../../../../api';
+import {AuthService} from '../../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-user-address-list-view',
@@ -30,12 +29,13 @@ export class UserAddressListViewComponent implements OnInit {
   selected = input<number | null>(null);
   invalid = input.required<boolean>();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userHttpService = inject(UserHttpService);
+  private userHttpService = inject(UserAddressAPIService);
+  private authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
-  protected addressList: QueryResult = injectQuery(() => ({
+  protected addressList = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
-    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressList())
+    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressListById(this.authService.userId!))
   }));
   protected status = toObservable(this.addressList.status);
 
@@ -48,15 +48,11 @@ export class UserAddressListViewComponent implements OnInit {
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
+          console.log(this.addressList.error());
         }
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const response: ResponseDTO = this.addressList.data()!;
-
-          if (response.status.error && response.error) {
-            this.errorService.handleError(response.error);
-          }
         }
       }
     });
