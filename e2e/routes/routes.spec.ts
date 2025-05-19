@@ -15,7 +15,7 @@ test.describe('Render: Large Screen', () => {
   test('givenFatalError_thenShowErrorPage', async ({page}) => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
-      await route.fulfill({json: fatalError});
+      await route.fulfill({json: fatalError, status: 500});
     });
 
     await page.goto('/pizzas');
@@ -25,16 +25,16 @@ test.describe('Render: Large Screen', () => {
     await expect(page.getByText('We apologize for any inconvenience. Please try again later.')).toBeVisible();
 
     await expect(page.getByText('Path')).toBeVisible();
-    await expect(page.getByRole('button', {name: '/api/v1/resource/product'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '/login'})).toBeVisible();
 
     await expect(page.getByText('Origin')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'G.E.H.unknownException'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'G.E.H BadCredentialsException'})).toBeVisible();
 
     await expect(page.getByText('Cause')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'FatalBeanException'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Test'})).toBeVisible();
 
     await expect(page.getByText('Message')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'Not implemented yet'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Error'})).toBeVisible();
 
     await expect(page.getByText('Logged')).toBeVisible();
     await expect(page.getByRole('button', {name: 'True'}).first()).toBeVisible();
@@ -60,7 +60,7 @@ test.describe('Render: Small Screen', () => {
   test('givenFatalError_thenShowErrorPage', async ({page}) => {
 
     await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
-      await route.fulfill({json: fatalError});
+      await route.fulfill({json: fatalError, status: 500});
     });
 
     await page.goto('/pizzas');
@@ -70,16 +70,16 @@ test.describe('Render: Small Screen', () => {
     await expect(page.getByText('We apologize for any inconvenience. Please try again later.')).toBeVisible();
 
     await expect(page.getByText('Path')).toBeVisible();
-    await expect(page.getByRole('button', {name: '/api/v1/resource/product'})).toBeVisible();
+    await expect(page.getByRole('button', {name: '/login'})).toBeVisible();
 
     await expect(page.getByText('Origin')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'G.E.H.unknownException'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'G.E.H BadCredentialsException'})).toBeVisible();
 
     await expect(page.getByText('Cause')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'FatalBeanException'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Test'})).toBeVisible();
 
     await expect(page.getByText('Message')).toBeVisible();
-    await expect(page.getByRole('button', {name: 'Not implemented yet'})).toBeVisible();
+    await expect(page.getByRole('button', {name: 'Error'})).toBeVisible();
 
     await expect(page.getByText('Logged')).toBeVisible();
     await expect(page.getByRole('button', {name: 'True'}).first()).toBeVisible();

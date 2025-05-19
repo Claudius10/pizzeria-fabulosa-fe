@@ -27,9 +27,8 @@ test.describe('API OK', () => {
     await expect(page.getByTitle("Offers").getByRole('listitem')).toHaveCount(2);
     await expect(page.getByText('Discover our offers')).toBeVisible();
     await expect(page.getByText('3x2 for Pizzas')).toBeVisible();
-    await expect(page.getByText('Second Pizza at half the price')).toBeVisible();
-    await expect(page.getByText('Valid every day for Medium and Familiar sized Pizzas')).toBeVisible();
-    await expect(page.getByText('Valid on weekends for Medium and Familiar sized Pizzas')).toBeVisible();
+    await expect(page.getByText('Second Pizza at half the price').first()).toBeVisible();
+    await expect(page.getByText('Valid every day for Medium and Familiar sized Pizzas').first()).toBeVisible();
     await expect(page.getByText('Conditions').first()).toBeVisible();
     await expect(page.getByAltText('3x2 for Pizzas Offer')).toBeVisible();
     await expect(page.getByAltText('Second Pizza at half the price Offer')).toBeVisible();

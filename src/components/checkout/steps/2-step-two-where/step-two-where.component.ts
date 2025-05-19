@@ -9,7 +9,7 @@ import {AddressId, CheckoutFormService} from '../../../../services/checkout/chec
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../utils/regex';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
-import {Option} from '../../../../utils/interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
@@ -48,17 +48,17 @@ import {ResourcesAPIService} from '../../../../api';
 })
 export class StepTwoWhereComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private errorService = inject(ErrorService);
+  private resourcesAPI = inject(ResourcesAPIService);
   protected authService = inject(AuthService);
+  private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
 
   protected stores = injectQuery(() => ({
-    queryKey: [RESOURCE_STORES],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores()),
+    queryKey: RESOURCE_STORES,
+    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores()),
     enabled: false
   }));
 
@@ -162,7 +162,7 @@ export class StepTwoWhereComponent implements OnInit {
     const subscription = this.storesStatus.subscribe({
       next: status => {
         if (status === ERROR) {
-          console.log(this.stores.error());
+          this.errorService.handleError(this.stores.error()!);
         }
 
         this.loadingAnimationService.stopLoading();

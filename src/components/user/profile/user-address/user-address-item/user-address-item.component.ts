@@ -22,13 +22,13 @@ import {AuthService} from '../../../../../services/auth/auth.service';
 export class UserAddressItemComponent implements OnDestroy {
   address = input.required<AddressDTO>();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userHttpService = inject(UserAddressAPIService);
-  private authService = inject(AuthService);
+  private userAddressAPI = inject(UserAddressAPIService);
   private errorService = inject(ErrorService);
+  private authService = inject(AuthService);
   private queryClient = inject(QueryClient);
 
   private deleteUserAddress = injectMutation(() => ({
-    mutationFn: (data: { addressId: number, userId: number }) => lastValueFrom(this.userHttpService.deleteUserAddress(data.addressId, data.userId)),
+    mutationFn: (data: { addressId: number, userId: number }) => lastValueFrom(this.userAddressAPI.deleteUserAddress(data.addressId, data.userId)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
     }
@@ -44,9 +44,8 @@ export class UserAddressItemComponent implements OnDestroy {
     this.deleteUserAddress.mutate({addressId: id, userId: this.authService.userId!}, {
       onSuccess: () => {
       },
-      onError: (Error) => {
-        console.error(Error);
-        this.errorService.handleServerNoResponse();
+      onError: (error) => {
+        this.errorService.handleError(error);
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();

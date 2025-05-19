@@ -4,8 +4,8 @@ import {ResponseDTO} from '../../api';
 
 export interface QueryResult {
   status: Signal<"error" | "success" | "pending">;
-  error: Signal<null>;
-  data: Signal<undefined>;
+  error: Signal<any>;
+  data: Signal<any>;
 }
 
 export interface QueryOnDemand extends QueryResult {

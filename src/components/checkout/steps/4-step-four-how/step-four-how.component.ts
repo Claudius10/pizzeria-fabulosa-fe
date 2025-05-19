@@ -6,7 +6,7 @@ import {AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModul
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {numbersRegex} from '../../../../utils/regex';
 import {Router} from '@angular/router';
-import {Option} from '../../../../utils/interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../../services/cart/cart.service';
@@ -63,7 +63,7 @@ export class StepFourHowComponent implements OnInit {
         this.checkoutFormService.cashPayment = true;
 
         // if bill to change was selected
-        if (this.checkoutFormService.how.billToChange !== null) {
+        if (this.checkoutFormService.how.billToChange !== undefined) {
           // selected option is 'Yes'
           this.selectedChangeOption = this.changeOptions[1];
           // set the previously selected bill to change

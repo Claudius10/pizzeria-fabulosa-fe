@@ -2,32 +2,31 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserAddressListComponent} from './user-address-list.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {buildResponse} from '../../../../../utils/test-utils';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
 import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {UserAddressAPIService} from '../../../../../api';
 
 describe('UserAddressListComponent', () => {
   let component: UserAddressListComponent;
   let fixture: ComponentFixture<UserAddressListComponent>;
-  let userService: jasmine.SpyObj<UserHttpService>;
+  let userService: jasmine.SpyObj<UserAddressAPIService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressList']);
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressListById']);
 
     await TestBed.configureTestingModule({
       imports: [UserAddressListComponent, TranslateModule.forRoot()],
       providers: [
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: UserHttpService, useValue: userServiceSpy},
+        {provide: UserAddressAPIService, useValue: userServiceSpy},
       ],
     })
       .compileComponents();
 
-    userService = TestBed.inject(UserHttpService) as jasmine.SpyObj<UserHttpService>;
-    userService.findUserAddressList.and.returnValue(of(buildResponse(null, false, 200, 'OK')));
+    userService = TestBed.inject(UserAddressAPIService) as jasmine.SpyObj<UserAddressAPIService>;
+    userService.findUserAddressListById.and.returnValue(of());
 
     fixture = TestBed.createComponent(UserAddressListComponent);
     component = fixture.componentInstance;

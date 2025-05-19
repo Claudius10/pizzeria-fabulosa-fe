@@ -2,8 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StoreItemComponent} from './store-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {StoreDTO} from '../../../utils/interfaces/dto/resources';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {Store} from '../../../api';
 
 describe('StoreItemComponent', () => {
   let component: StoreItemComponent;
@@ -20,7 +20,7 @@ describe('StoreItemComponent', () => {
 
     fixture = TestBed.createComponent(StoreItemComponent);
     component = fixture.componentInstance;
-    const store: StoreDTO = {
+    const store: Store = {
       id: 1,
       address: {
         id: 1,

@@ -2,29 +2,29 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {StepFiveSummaryComponent} from './step-five-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../services/error/error.service';
-import {ResourcesHttpService} from '../../../../services/http/resources/resources-http.service';
-import {UserHttpService} from '../../../../services/http/user/user-http.service';
-import {OrderHttpService} from '../../../../services/http/order/order-http.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {AnonymousUserAPIService, ResourcesAPIService, UserAddressAPIService, UserOrdersAPIService} from '../../../../api';
 
 describe('StepFiveSummaryComponent', () => {
   let component: StepFiveSummaryComponent;
   let fixture: ComponentFixture<StepFiveSummaryComponent>;
 
   beforeEach(async () => {
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressList']);
+    const userServiceSpy = jasmine.createSpyObj('UserAddressAPIService,', ['findUserAddressList']);
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findStores', 'findStoresOnDemand']);
-    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['createAnonOrder', 'createUserOrder']);
+    const resourceServiceSpy = jasmine.createSpyObj('ResourcesAPIService', ['findStores', 'findStoresOnDemand']);
+    const userOrderServiceSpy = jasmine.createSpyObj('UserOrdersAPIService', ['createAnonOrder', 'createUserOrder']);
+    const anonOrderServiceSpy = jasmine.createSpyObj('AnonymousUserAPIService', ['createAnonOrder', 'createUserOrder']);
 
 
     await TestBed.configureTestingModule({
       imports: [StepFiveSummaryComponent, TranslateModule.forRoot()],
       providers: [
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: ResourcesHttpService, useValue: resourceServiceSpy},
-        {provide: UserHttpService, useValue: userServiceSpy},
-        {provide: OrderHttpService, useValue: orderServiceSpy},
+        {provide: ResourcesAPIService, useValue: resourceServiceSpy},
+        {provide: UserAddressAPIService, useValue: userServiceSpy},
+        {provide: UserOrdersAPIService, useValue: userOrderServiceSpy},
+        {provide: AnonymousUserAPIService, useValue: anonOrderServiceSpy},
         {provide: QueryClient},
       ]
     })

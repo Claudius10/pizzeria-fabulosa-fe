@@ -1,5 +1,4 @@
 import {expect, test} from '@playwright/test';
-import {registerOK} from '../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
@@ -166,7 +165,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('');
   });
 
@@ -184,7 +183,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('email@');
   });
 
@@ -203,7 +202,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
   });
 
   test('whenValidAfterInvalid_thenClearValidationError', async ({page}) => {
@@ -218,12 +217,12 @@ test.describe('Validation: Email', () => {
     await emailInput.fill('email');
     await expect(emailInput).toHaveValue('email');
     await header.click();
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await emailInput.fill('clau@gmail.com');
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
     await expect(emailInput).toHaveValue('clau@gmail.com');
   });
 
@@ -239,12 +238,12 @@ test.describe('Validation: Email', () => {
     await emailInput.fill('clau@gmail.com');
     await expect(emailInput).toHaveValue('clau@gmail.com');
     await header.click();
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
     await emailInput.fill('email');
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('email');
   });
 });
@@ -717,7 +716,7 @@ test.describe('Submit', () => {
     // Assert
 
     await expect(page.getByText('Name is required: minimum length is two')).toBeVisible();
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(page.getByText('Please make sure email address matches')).toBeVisible();
     await expect(page.getByText('Contact number must contain exactly nine digits')).toBeVisible();
     await expect(page.getByText('Password must contain one uppercase and lower case letter, one number, and be eight characters long')).toBeVisible();
@@ -758,7 +757,7 @@ test.describe('Submit', () => {
     // Arrange
 
     await page.route('*/**/api/v1/anon/register', async route => {
-      await route.fulfill({json: registerOK});
+      await route.fulfill({status: 201});
     });
 
     const fullNameInput = page.getByRole('textbox', {name: 'Full name'});

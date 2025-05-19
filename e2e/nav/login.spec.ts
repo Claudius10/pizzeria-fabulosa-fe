@@ -173,7 +173,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('');
   });
 
@@ -191,7 +191,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('email@');
   });
 
@@ -210,7 +210,7 @@ test.describe('Validation: Email', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
     await expect(emailInput).toHaveValue('email@example.com');
   });
 
@@ -226,12 +226,12 @@ test.describe('Validation: Email', () => {
     await emailInput.fill('email');
     await expect(emailInput).toHaveValue('email');
     await signInText.click();
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await emailInput.fill('clau@gmail.com');
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
     await expect(emailInput).toHaveValue('clau@gmail.com');
   });
 
@@ -247,12 +247,12 @@ test.describe('Validation: Email', () => {
     await emailInput.fill('clau@gmail.com');
     await expect(emailInput).toHaveValue('clau@gmail.com');
     await signInText.click();
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
     await emailInput.fill('email');
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
     await expect(emailInput).toHaveValue('email');
   });
 });
@@ -288,7 +288,7 @@ test.describe('Validation: Password', () => {
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
     await expect(passwordInput).toHaveValue('');
   });
 
@@ -306,7 +306,7 @@ test.describe('Validation: Password', () => {
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await expect(passwordInput).toHaveValue('asd');
   });
 
@@ -322,12 +322,12 @@ test.describe('Validation: Password', () => {
     await passwordInput.fill('');
     await expect(passwordInput).toHaveValue('');
     await signInText.click();
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
     await passwordInput.fill('password');
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await expect(passwordInput).toHaveValue('password');
   });
 
@@ -343,12 +343,12 @@ test.describe('Validation: Password', () => {
     await passwordInput.fill('password');
     await expect(passwordInput).toHaveValue('password');
     await signInText.click();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await passwordInput.fill('');
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
     await expect(passwordInput).toHaveValue('');
   });
 
@@ -363,7 +363,7 @@ test.describe('Validation: Password', () => {
     // Act
 
     await passwordInput.fill('Password1');
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await signInText.click();
     await showPasswordIcon.click(); // is an actual eye check the only way?
 
@@ -383,7 +383,7 @@ test.describe('Submit: API OK', () => {
       await route.fulfill({json: stores});
     });
 
-    await page.route('*/**/api/v1/resource/product?type=pizza', async route => {
+    await page.route('*/**/api/v1/resource/product?type=pizza&pageNumber=0&pageSize=7', async route => {
       await route.fulfill({json: pizzas});
     });
 
@@ -407,15 +407,15 @@ test.describe('Submit: API OK', () => {
 
     // Assert
 
-    await expect(page.getByText('Email is requiered')).toBeVisible();
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Email is required')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
   });
 
   test('givenEnterClick_whenFormIsValid_thenLoginAndRedirect', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/auth/login?username=clau@gmail.com&password=password', async route => {
+    await page.route('http://192.168.1.128:8080/login?username=clau%40example.com&password=password', async route => {
       await route.fulfill(
         {
           status: 200,
@@ -423,6 +423,7 @@ test.describe('Submit: API OK', () => {
             'set-cookie': 'Pizzeria.Fabulosa.ID_TOKEN=eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6ImFwaS5waXp6ZXJpYWZhYnVsb3NhLmNvbSIsIm5hbWUiOiJNaWd1ZWwgZGUgQ2VydmFudGVzIiwiY29udGFjdE51bWJlciI6IjEyMzQ1Njc4OSIsImlkIjoiNCIsImV4cCI6MTc0MjE0OTA3NSwiaWF0IjoxNzQyMDYyNjc1fQ.BQoeYJZ8Kry5BuMuFb5S6oT0Gg8B439hMhETEUBjnW2falDEWRIgGA8r-NsBfbD86nAm6Cew-_EqFvBV7Ie-n5DsEUknK36rJS_6BoQ6PyqquiOnOPw_TH4_KquH31Vnc4NkgVnbkZTyQT5Fpj4jvYK6EcNbiFawNKQqwkn6CSTIYkAjZSmRre50ffSnlL02GS6dUjaUgXqcHnJfmVNP_DwfuSA8FzBWF9YBEGjAMtK1uwwgd3aVFKzXuUFF2lmfwMQLUv48frvdacSj76A27M4oVCgU1pJG1Ud0YdGlfUlNmHltntjOjF-kLaiGgqKsZmzEa0OYzJ3EcMKoVysafw; Path=/; Max-Age=86400;',
           },
         });
+
     });
 
     const loginButton = page.getByTitle('Open Login Box');
@@ -432,10 +433,10 @@ test.describe('Submit: API OK', () => {
     const emailInput = page.getByLabel('email');
     const passwordInput = page.getByLabel('password');
     const enterButton = page.getByRole("button", {name: 'ENTER'});
-    await emailInput.fill('clau@gmail.com');
+    await emailInput.fill('clau@example.com');
     await passwordInput.fill('password');
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
 
 
     // Act
@@ -455,7 +456,8 @@ test.describe('Submit: API OK', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/auth/login?username=donQuijote@gmail.com&password=Password1', async route => {
+    await page.route('http://192.168.1.128:8080/login?username=donQuijote%40gmail.com&password=Password1', async route => {
+
       await route.fulfill(
         {
           status: 200,
@@ -489,10 +491,10 @@ test.describe('Submit: API OK', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/auth/login?username=clau@gmail.com&password=password', async route => {
+    await page.route('http://192.168.1.128:8080/login?username=clau%40example.com&password=password', async route => {
       await route.fulfill(
         {
-          status: 200,
+          status: 401,
           json: badCredentials
         });
     });
@@ -500,10 +502,10 @@ test.describe('Submit: API OK', () => {
     const emailInput = page.getByLabel('email');
     const passwordInput = page.getByLabel('password');
     const enterButton = page.getByRole("button", {name: 'ENTER'});
-    await emailInput.fill('clau@gmail.com');
+    await emailInput.fill('clau@example.com');
     await passwordInput.fill('password');
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
 
     // Act
 
@@ -530,7 +532,7 @@ test.describe('Logout', () => {
       await route.fulfill({json: pizzas});
     });
 
-    await page.route('*/**/api/v1/auth/login?username=clau@gmail.com&password=password', async route => {
+    await page.route('*/**/login?username=clau%40gmail.com&password=password', async route => {
       await route.fulfill(
         {
           status: 200,
@@ -551,8 +553,8 @@ test.describe('Logout', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
     await emailInput.fill('clau@gmail.com');
     await passwordInput.fill('password');
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
 
     await enterButton.click();
 
@@ -563,7 +565,7 @@ test.describe('Logout', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/auth/logout', async route => {
+    await page.route('*/**/logout', async route => {
       await route.fulfill(
         {
           status: 200,
@@ -627,7 +629,7 @@ test.describe('Logout', () => {
     await expect(logoutButton).toBeVisible();
     await expect(userProfileButton).toBeVisible();
     await expect(page.getByRole('alert').getByText('Error')).toBeVisible();
-    await expect(page.getByText('Sign-out unsuccessful. If the problem persists, contact us.')).toBeVisible();
+    await expect(page.getByText('Our servers are not available at the moment. Please try again later.')).toBeVisible();
     await expect(loginButton).not.toBeVisible();
     await expect(yesButton).not.toBeVisible();
     await expect(noButton).not.toBeVisible();
@@ -661,8 +663,8 @@ test.describe('Submit: API KO', () => {
     const enterButton = page.getByRole("button", {name: 'ENTER'});
     await emailInput.fill('clau@gmail.com');
     await passwordInput.fill('password');
-    await expect(page.getByText('Email is requiered')).not.toBeVisible();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Email is required')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
 
     // Act
 

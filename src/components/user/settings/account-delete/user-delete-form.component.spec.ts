@@ -3,8 +3,8 @@ import {UserDeleteFormComponent} from './user-delete-form.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
-import {AccountHttpService} from '../../../../services/http/account/account-http.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {UserAccountAPIService} from '../../../../api';
 
 describe('UserDeleteFormComponent', () => {
   let component: UserDeleteFormComponent;
@@ -21,7 +21,7 @@ describe('UserDeleteFormComponent', () => {
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountHttpService, useValue: accountServiceSpy},
+        {provide: UserAccountAPIService, useValue: accountServiceSpy},
       ]
     })
       .compileComponents();

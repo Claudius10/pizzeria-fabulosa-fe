@@ -3,20 +3,19 @@ import {UserAddressListViewComponent} from './user-address-list-view.component';
 import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../../services/error/error.service';
-import {buildResponse} from '../../../../../utils/test-utils';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
 import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {UserAddressAPIService} from '../../../../../api';
 
 describe('UserAddressListViewComponent', () => {
   let component: UserAddressListViewComponent;
   let fixture: ComponentFixture<UserAddressListViewComponent>;
-  let userService: jasmine.SpyObj<UserHttpService>;
+  let userService: jasmine.SpyObj<UserAddressAPIService>;
 
   beforeEach(async () => {
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressList']);
+    const userServiceSpy = jasmine.createSpyObj('UserService', ['findUserAddressListById']);
 
     await TestBed.configureTestingModule({
       imports: [UserAddressListViewComponent, TranslateModule.forRoot()],
@@ -24,14 +23,14 @@ describe('UserAddressListViewComponent', () => {
         {provide: QueryClient},
         {provide: MessageService, useValue: messageSpy},
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: UserHttpService, useValue: userServiceSpy},
+        {provide: UserAddressAPIService, useValue: userServiceSpy},
       ],
     })
       .compileComponents();
 
-    userService = TestBed.inject(UserHttpService) as jasmine.SpyObj<UserHttpService>;
+    userService = TestBed.inject(UserAddressAPIService) as jasmine.SpyObj<UserAddressAPIService>;
 
-    userService.findUserAddressList.and.returnValue(of(buildResponse(null, false, 200, 'OK')));
+    userService.findUserAddressListById.and.returnValue(of());
 
     fixture = TestBed.createComponent(UserAddressListViewComponent);
     component = fixture.componentInstance;

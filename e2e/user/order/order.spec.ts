@@ -1,19 +1,10 @@
 import {expect, test} from '@playwright/test';
-import {
-  AUTH_TOKEN_COOKIE,
-  stores,
-  userOrder,
-  userOrderDeleteOk,
-  userOrderHomeProgrammedCashChangeComment,
-  userOrderNotFound,
-  userOrderPickUp,
-  userOrderStoreProgrammedCash
-} from '../../api-responses';
+import {AUTH_TOKEN_COOKIE, stores, userOrder, userOrderDeleteOk, userOrderHomeProgrammedCashChangeComment, userOrderPickUp, userOrderStoreProgrammedCash} from '../../api-responses';
 
 test.describe('Render: Skeleton', () => {
   test('ShowSkeleton', async ({page}) => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    // 58 is the userId in the ID_TOKEN
+    // 1 is the userId in the ID_TOKEN
 
     await page.goto('/user/orders/1');
 
@@ -34,8 +25,7 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
+    await page.route('*/**/api/v1/user/1/order/1', async route => {
       await route.fulfill({json: userOrder});
     });
 
@@ -89,8 +79,8 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/2', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/order/2', async route => {
       await route.fulfill({json: userOrderPickUp});
     });
 
@@ -132,8 +122,8 @@ test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/3', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/order/3', async route => {
       await route.fulfill({json: userOrderStoreProgrammedCash});
     });
 
@@ -175,8 +165,8 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/4', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/order/4', async route => {
       await route.fulfill({json: userOrderHomeProgrammedCashChangeComment});
     });
 
@@ -209,10 +199,10 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
 test.describe('Render: Order Not Found', () => {
   test('givenUnknownOrderId_thenShowOrderNotFoundMessage', async ({page}) => {
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    // 58 is the userId in the ID_TOKEN
+    // 1 is the userId in the ID_TOKEN
 
-    await page.route('*/**/api/v1/user/58/order/99999', async route => {
-      await route.fulfill({json: userOrderNotFound});
+    await page.route('*/**/api/v1/user/1/order/99999', async route => {
+      await route.fulfill({status: 204});
     });
 
     await page.goto('/user/orders/99999');
@@ -239,50 +229,9 @@ test.describe('Cancel', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
+    await page.route('*/**/api/v1/user/1/order/1', async route => {
       if (route.request().method() === 'GET') {
-        await route.fulfill({
-          json: {
-            "timeStamp": "2025-03-16T10:49:39.545213687",
-            "status": {"code": 200, "description": "OK", "error": false},
-            "payload": {
-              "id": 1,
-              "createdOn": Date.now(), // NOTE
-              "updatedOn": null,
-              "formattedCreatedOn": Date.now().toString(),
-              "formattedUpdatedOn": null,
-              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
-              "orderDetails": {
-                "id": 1,
-                "deliveryTime": "form.select.time.asap",
-                "paymentMethod": "form.select.payment.method.card",
-                "billToChange": null,
-                "changeToGive": null,
-                "comment": null,
-                "storePickUp": false,
-              },
-              "cart": {
-                "id": 1,
-                "totalQuantity": 1,
-                "totalCost": 13.3,
-                "totalCostOffers": 0.0,
-                "cartItems": [{
-                  "id": 41,
-                  "type": "pizza",
-                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-                  "description": {
-                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-                  },
-                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
-                  "price": 13.3,
-                  "quantity": 1
-                }]
-              }
-            },
-            "error": null
-          }
-        });
+        await route.fulfill({json: userOrder});
       }
 
       if (route.request().method() === 'DELETE') {
@@ -324,71 +273,26 @@ test.describe('Cancel', () => {
 
     // Arrange
 
-    const after = new Date(Date.now() - 4260000);
-
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
+    await page.route('*/**/api/v1/user/1/order/1', async route => {
       if (route.request().method() === 'GET') {
-        await route.fulfill({
-          json: {
-            "timeStamp": "2025-03-16T10:49:39.545213687",
-            "status": {"code": 200, "description": "OK", "error": false},
-            "payload": {
-              "id": 1,
-              "createdOn": after, // NOTE
-              "updatedOn": null,
-              "formattedCreatedOn": after.toString(),
-              "formattedUpdatedOn": null,
-              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
-              "orderDetails": {
-                "id": 1,
-                "deliveryTime": "form.select.time.asap",
-                "paymentMethod": "form.select.payment.method.card",
-                "billToChange": null,
-                "changeToGive": null,
-                "comment": null,
-                "storePickUp": false,
-              },
-              "cart": {
-                "id": 1,
-                "totalQuantity": 1,
-                "totalCost": 13.3,
-                "totalCostOffers": 0.0,
-                "cartItems": [{
-                  "id": 41,
-                  "type": "pizza",
-                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-                  "description": {
-                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-                  },
-                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
-                  "price": 13.3,
-                  "quantity": 1
-                }]
-              }
-            },
-            "error": null
-          }
-        });
+        await route.fulfill({json: userOrder});
       }
 
       if (route.request().method() === 'DELETE') {
         await route.fulfill({
           json: {
-            "timeStamp": "2025-03-30T11:25:14.123733072",
-            "status": {"code": 400, "description": "BAD_REQUEST", "error": true},
-            "payload": null,
-            "error": {
-              "id": 1697341244253227009,
+            "apiError": {
+              "id": 2791732487339788000,
               "cause": "InvalidOrderDeleteTime",
               "message": null,
-              "origin": "ValidateOrderOperation.validateUserOrderDelete",
+              "origin": "UserOrdersController",
               "path": null,
               "logged": false,
               "fatal": false,
-              "createdOn": null
+              "createdOn": "2025-05-19T23:41:03.626133706"
             }
-          }
+          },
+          status: 400
         });
       }
     });
@@ -415,53 +319,12 @@ test.describe('Cancel', () => {
     // Arrange
 
     // fulfill initial order GET
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
+    await page.route('*/**/api/v1/user/1/order/1', async route => {
       if (route.request().method() === 'DELETE') {
         // do not fulfill delete
         await route.abort();
       } else {
-        await route.fulfill({
-          json: {
-            "timeStamp": "2025-03-16T10:49:39.545213687",
-            "status": {"code": 200, "description": "OK", "error": false},
-            "payload": {
-              "id": 1,
-              "createdOn": Date.now(), // NOTE
-              "updatedOn": null,
-              "formattedCreatedOn": Date.now().toString(),
-              "formattedUpdatedOn": null,
-              "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
-              "orderDetails": {
-                "id": 1,
-                "deliveryTime": "form.select.time.asap",
-                "paymentMethod": "form.select.payment.method.card",
-                "billToChange": null,
-                "changeToGive": null,
-                "comment": null,
-                "storePickUp": false,
-              },
-              "cart": {
-                "id": 1,
-                "totalQuantity": 1,
-                "totalCost": 13.3,
-                "totalCostOffers": 0.0,
-                "cartItems": [{
-                  "id": 41,
-                  "type": "pizza",
-                  "name": {"es": "Cuatro Quesos", "en": "Cuatro Quesos"},
-                  "description": {
-                    "es": ["Salsa de Tomate", "Mozzarella 100%", "Parmesano", "Emmental", "Queso Azul"],
-                    "en": ["Tomato Sauce", "100% Mozzarella", "Parmesan Cheese", "Emmental Cheese", "Blue Cheese"]
-                  },
-                  "formats": {"s": null, "m": {"en": "Medium", "es": "Mediana"}, "l": null},
-                  "price": 13.3,
-                  "quantity": 1
-                }]
-              }
-            },
-            "error": null
-          }
-        });
+        await route.fulfill({json: userOrder});
       }
     });
 
@@ -500,8 +363,8 @@ test.describe('Minimize/Back To Order list', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/order/1', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/order/1', async route => {
       await route.fulfill({json: userOrder});
     });
 

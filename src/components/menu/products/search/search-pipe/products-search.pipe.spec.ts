@@ -1,8 +1,8 @@
 import {ProductsSearchPipe} from './products-search.pipe';
 import {TestBed} from '@angular/core/testing';
 import {TranslateService} from '@ngx-translate/core';
-import {ProductDTO} from '../../../../../utils/interfaces/dto/resources';
 import {Filter} from '../../../../../services/filter/filter.service';
+import {Product} from '../../../../../api';
 
 describe('ProductsSearchPipe', () => {
   let pipe: ProductsSearchPipe;
@@ -32,7 +32,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     // Act
 
@@ -46,20 +46,20 @@ describe('ProductsSearchPipe', () => {
 
     // Assert
 
-    expect(result0[0].name.es).toEqual("Cuatro Quesos");
-    expect(result1[0].name.es).toEqual("Cuatro Quesos");
-    expect(result2[0].name.es).toEqual("Cuatro Quesos");
-    expect(result3[0].name.es).toEqual("Cuatro Quesos");
-    expect(result4[0].name.es).toEqual("Cuatro Quesos");
-    expect(result5[0].name.es).toEqual("Cuatro Quesos");
-    expect(result6[0].name.es).toEqual("Cuatro Quesos");
+    expect(result0[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result1[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result2[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result3[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result4[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result5[0].name['es']).toEqual("Cuatro Quesos");
+    expect(result6[0].name['es']).toEqual("Cuatro Quesos");
   });
 
   it("givenItem_whenSearchTextDoesNotMatch_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     // Act
 
@@ -74,7 +74,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -92,14 +92,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toEqual("Cuatro Quesos");
+    expect(result[0].name['es']).toEqual("Cuatro Quesos");
   });
 
   it("givenItem_whenExcludedFilterMatchesInEs_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -123,7 +123,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -141,14 +141,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toEqual("Cuatro Quesos");
+    expect(result[0].name['es']).toEqual("Cuatro Quesos");
   });
 
   it("givenItem_whenExcludedFilterMatchesInEn_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -172,7 +172,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -190,14 +190,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toEqual("Cuatro Quesos");
+    expect(result[0].name['es']).toEqual("Cuatro Quesos");
   });
 
   it("givenItem_whenExcludedAllergenMatchesInEs_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -221,7 +221,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -239,14 +239,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toEqual("Cuatro Quesos");
+    expect(result[0].name['es']).toEqual("Cuatro Quesos");
   });
 
   it("givenItem_whenExcludedAllergenMatchesInEn_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -270,7 +270,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -288,14 +288,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.en).toBe("Cuatro Quesos");
+    expect(result[0].name['en']).toBe("Cuatro Quesos");
   });
 
   it("givenItem_whenIncludedFilterMatchesAndSearchTextDoesNotMatch_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "filter",
@@ -319,7 +319,7 @@ describe('ProductsSearchPipe', () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -337,14 +337,14 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.en).toBe("Cuatro Quesos");
+    expect(result[0].name['en']).toBe("Cuatro Quesos");
   });
 
   it("givenItem_whenIncludedAllergenMatchesAndSearchTextDoesNotMatch_thenReturnEmpty", () => {
 
     // Arrange
 
-    const items: ProductDTO[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
+    const items: Product[] = [getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"])];
 
     const filter: Filter = {
       type: "allergen",
@@ -370,7 +370,7 @@ describe('ProductsSearchPipe', () => {
 
     const productOne = getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"]);
     const productTwo = getMockProduct("Natura", ["Calabacín", "Tomate Natural", "Parmesano"], ["Zucchini", "Sliced Tomato", "Parmesan Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"]);
-    const items: ProductDTO[] = [productOne, productTwo];
+    const items: Product[] = [productOne, productTwo];
 
     const filter: Filter = {
       type: "filter",
@@ -388,7 +388,7 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toBe("Natura");
+    expect(result[0].name['es']).toBe("Natura");
   });
 
   it("givenItem_whenExcludedFilterMatches_thenReturnOtherItem", () => {
@@ -397,7 +397,7 @@ describe('ProductsSearchPipe', () => {
 
     const productOne = getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"]);
     const productTwo = getMockProduct("Natura", ["Calabacín", "Tomate Natural", "Parmesano"], ["Zucchini", "Sliced Tomato", "Parmesan Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"]);
-    const items: ProductDTO[] = [productOne, productTwo];
+    const items: Product[] = [productOne, productTwo];
 
     const filter: Filter = {
       type: "filter",
@@ -415,7 +415,7 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toBe("Cuatro Quesos");
+    expect(result[0].name['es']).toBe("Cuatro Quesos");
   });
 
   it("givenItem_whenExcludedAllergenMatches_thenReturnOtherItem", () => {
@@ -424,7 +424,7 @@ describe('ProductsSearchPipe', () => {
 
     const productOne = getMockProduct("Cuatro Quesos", ["Queso Azul", "Emmental"], ["Blue Cheese", "Emmental Cheese"], ["Gluten", "Lactosa"], ["Gluten", "Lactose"]);
     const productTwo = getMockProduct("Natura", ["Calabacín", "Tomate Natural", "Parmesano"], ["Zucchini", "Sliced Tomato", "Parmesan Cheese"], ["Gluten"], ["Gluten"]);
-    const items: ProductDTO[] = [productOne, productTwo];
+    const items: Product[] = [productOne, productTwo];
 
     const filter: Filter = {
       type: "allergen",
@@ -442,13 +442,13 @@ describe('ProductsSearchPipe', () => {
     // Assert
 
     expect(result.length).toBe(1);
-    expect(result[0].name.es).toBe("Natura");
+    expect(result[0].name['es']).toBe("Natura");
   });
 });
 
-export function getMockProduct(name: string, ingEs: string[], ingEn: string[], allergenEs: string[], allergenEn: string[]): ProductDTO {
+export function getMockProduct(name: string, ingEs: string[], ingEn: string[], allergenEs: string[], allergenEn: string[]): Product {
   return {
-    id: "1",
+    id: 1,
     type: "pizza",
     name: {
       en: name,

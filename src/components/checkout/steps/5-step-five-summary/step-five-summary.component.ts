@@ -39,9 +39,9 @@ import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
 })
 export class StepFiveSummaryComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private orderHttpService = inject(AnonymousUserAPIService);
+  private resourcesAPI = inject(ResourcesAPIService);
+  private anonymousUserAPI = inject(AnonymousUserAPIService);
   private userOrdersAPI = inject(UserOrdersAPIService);
   private userAddressAPI = inject(UserAddressAPIService);
   private errorService = inject(ErrorService);
@@ -51,7 +51,7 @@ export class StepFiveSummaryComponent implements OnInit {
   private router = inject(Router);
 
   private createAnonOrder = injectMutation(() => ({
-    mutationFn: (data: NewAnonOrderDTO) => lastValueFrom(this.orderHttpService.createAnonOrder(data))
+    mutationFn: (data: NewAnonOrderDTO) => lastValueFrom(this.anonymousUserAPI.createAnonOrder(data))
   }));
 
   private createUserOrder = injectMutation(() => ({
@@ -62,8 +62,8 @@ export class StepFiveSummaryComponent implements OnInit {
   }));
 
   private stores = injectQuery(() => ({
-    queryKey: [RESOURCE_STORES],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores()),
+    queryKey: RESOURCE_STORES,
+    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores()),
   }));
 
   private userAddressList = injectQuery(() => ({
@@ -149,9 +149,8 @@ export class StepFiveSummaryComponent implements OnInit {
         this.checkoutFormService.orderSuccess = response;
         this.router.navigate(['order', 'success']);
       },
-      onError: (Error) => {
-        console.log(Error);
-        this.errorService.handleServerNoResponse();
+      onError: (error) => {
+        this.errorService.handleError(error);
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();
@@ -194,9 +193,8 @@ export class StepFiveSummaryComponent implements OnInit {
         this.checkoutFormService.orderSuccess = response;
         this.router.navigate(['order', 'success']);
       },
-      onError: (Error) => {
-        console.log(Error);
-        this.errorService.handleServerNoResponse();
+      onError: (error) => {
+        this.errorService.handleError(error);
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();

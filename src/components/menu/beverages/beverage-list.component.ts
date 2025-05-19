@@ -13,13 +13,14 @@ import {ServerErrorComponent} from '../../../app/routes/error/server-no-response
 import {isPlatformBrowser, NgForOf} from '@angular/common';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {Skeleton} from 'primeng/skeleton';
-import {tempStatus$} from '../../../utils/placeholder';
+import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {RESOURCE_BEVERAGE, RESOURCE_PRODUCT_BEVERAGE} from '../../../utils/query-keys';
 import {lastValueFrom} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ProductListDTO, ResourcesAPIService} from '../../../api';
+import {QueryResult} from '../../../utils/interfaces/query';
 
 const DEFAULT_PAGE_MAX_SIZE = 8;
 
@@ -47,7 +48,7 @@ export class BeverageListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
+  private resourcesAPI = inject(ResourcesAPIService);
   private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
@@ -61,10 +62,10 @@ export class BeverageListComponent implements OnInit {
   private totalPages = 0;
   protected first = 0;
 
-  protected query = injectQuery(() => ({
+  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_BEVERAGE, this.page() - 1],
-    queryFn: () => lastValueFrom(this.resourcesHttpService.findAllProductsByType(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
-  }));
+    queryFn: () => lastValueFrom(this.resourcesAPI.findAllProductsByType(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+  })) : tempQueryResult();
 
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
@@ -79,7 +80,7 @@ export class BeverageListComponent implements OnInit {
 
           if (result === ERROR) {
             this.loadingAnimationService.stopLoading();
-            console.log(this.query.error());
+            this.errorService.handleError(this.query.error()!);
           }
 
           if (result === SUCCESS) {

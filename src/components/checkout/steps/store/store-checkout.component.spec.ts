@@ -1,8 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StoreCheckoutComponent} from './store-checkout.component';
-import {StoreDTO} from '../../../../utils/interfaces/dto/resources';
 import {TranslateModule} from '@ngx-translate/core';
+import {Store} from '../../../../api';
 
 describe('StoreCheckoutComponent', () => {
   let component: StoreCheckoutComponent;
@@ -17,7 +17,7 @@ describe('StoreCheckoutComponent', () => {
     fixture = TestBed.createComponent(StoreCheckoutComponent);
     component = fixture.componentInstance;
 
-    const store: StoreDTO = {
+    const store: Store = {
       id: 1,
       address: {
         id: 1,

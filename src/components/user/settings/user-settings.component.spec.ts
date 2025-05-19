@@ -3,8 +3,8 @@ import {UserSettingsComponent} from './user-settings.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
-import {AccountHttpService} from '../../../services/http/account/account-http.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {UserAccountAPIService} from '../../../api';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -21,7 +21,7 @@ describe('UserSettingsComponent', () => {
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountHttpService, useValue: accountServiceSpy},
+        {provide: UserAccountAPIService, useValue: accountServiceSpy},
       ]
     })
       .compileComponents();

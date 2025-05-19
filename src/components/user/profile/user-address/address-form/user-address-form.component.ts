@@ -36,13 +36,13 @@ import {AuthService} from '../../../../../services/auth/auth.service';
 export class UserAddressFormComponent {
   hideForm = output();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private userHttpService = inject(UserAddressAPIService);
+  private userAddressAPI = inject(UserAddressAPIService);
   private authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
 
   private createAddress = injectMutation(() => ({
-    mutationFn: (data: { userId: number, address: AddressDTO }) => lastValueFrom(this.userHttpService.createUserAddress(data.userId, data.address)),
+    mutationFn: (data: { userId: number, address: AddressDTO }) => lastValueFrom(this.userAddressAPI.createUserAddress(data.userId, data.address)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ADDRESS_LIST});
     }
@@ -88,9 +88,8 @@ export class UserAddressFormComponent {
         onSuccess: () => {
           this.hideForm.emit();
         },
-        onError: (Error) => {
-          console.error(Error);
-          this.errorService.handleServerNoResponse();
+        onError: (error) => {
+          this.errorService.handleError(error);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

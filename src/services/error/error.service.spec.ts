@@ -54,7 +54,13 @@ describe('ErrorService', () => {
 
     // Arrange
 
-    service.handleError(buildError(true, "FATAL_CAUSE"));
+    const mockError = {
+      error: {
+        apiError: {}
+      }
+    };
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+    service.handleError(mockError);
 
     // Act & Assert
 
@@ -70,7 +76,14 @@ describe('ErrorService', () => {
 
     // Act
 
-    service.handleError(buildError(true, "FATAL_CAUSE"));
+    const mockError = {
+      error: {
+        apiError: {}
+      }
+    };
+    // @ts-ignore
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+    service.handleError(mockError);
     const errorComponent = await routerTestingHarnessPromise.navigateByUrl('/error', ErrorComponent);
 
 
@@ -92,7 +105,14 @@ describe('ErrorService', () => {
 
     // Act
 
-    service.handleError(buildError(false, BAD_CREDENTIALS));
+    const mockError = {
+      error: {
+        apiError: {}
+      }
+    };
+    // @ts-ignore
+    mockError.error.apiError = buildError(false, BAD_CREDENTIALS);
+    service.handleError(mockError);
 
     // Assert
 
@@ -120,7 +140,14 @@ describe('ErrorService', () => {
 
     // Act
 
-    service.handleError(buildError(false, INVALID_TOKEN));
+    const mockError = {
+      error: {
+        apiError: {}
+      }
+    };
+    // @ts-ignore
+    mockError.error.apiError = buildError(false, INVALID_TOKEN);
+    service.handleError(mockError);
 
     // Assert
 
@@ -161,7 +188,14 @@ describe('ErrorService', () => {
 
     // Arrange
 
-    service.handleError(buildError(true, "FATAL_CAUSE"));
+    const mockError = {
+      error: {
+        apiError: {}
+      }
+    };
+    // @ts-ignore
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+    service.handleError(mockError);
     expect(service.errors().length).toBe(1);
 
     // Act

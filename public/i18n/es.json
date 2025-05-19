@@ -192,6 +192,7 @@
   "toast.error.api.user.invalid.token": "Sesión inválida, por favor reinicie la sesión. Redirigiendo en 3 segundos...",
   "toast.error.api.user.dummy": "La cuenta ficticia no se puede borrar",
   "toast.error.api.token.invalid": "El token de autenticación es invalido: la sesión no puede iniciarse",
+  "toast.error.api.token.missing": "El token de autenticación es ausente: la sesión no puede iniciarse",
   "toast.error.api.unknown": "Error desconocido. Por favor informános de qué pasó.",
   "dialog.logout.confirm": "¿Desea terminar la sesión?",
   "dialog.logout.success.message": "Sesión cerrada con éxito",

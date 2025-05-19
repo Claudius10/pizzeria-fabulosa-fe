@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderDetailsComponent} from './order-details.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {OrderDetailsDTO} from '../../../../../utils/interfaces/dto/order';
+import {OrderDetailsDTO} from '../../../../../api';
 
 describe('OrderDetailsComponent', () => {
   let component: OrderDetailsComponent;
@@ -27,7 +27,6 @@ describe('OrderDetailsComponent', () => {
 
 export const getMockOrderDetails = (): OrderDetailsDTO => {
   return {
-    id: 1,
     comment: "",
     changeToGive: 0,
     billToChange: 0,

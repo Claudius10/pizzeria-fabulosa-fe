@@ -121,7 +121,7 @@ describe('CartServiceTests', () => {
 
     // Act
 
-    cartService.increaseQuantity(1);
+    cartService.increaseQuantity("1");
 
     // Assert
 
@@ -144,7 +144,7 @@ describe('CartServiceTests', () => {
 
     // Act
 
-    cartService.increaseQuantity(1);
+    cartService.increaseQuantity("2");
 
     // Assert
 
@@ -165,7 +165,7 @@ describe('CartServiceTests', () => {
 
     // Act
 
-    cartService.decreaseQuantity(1);
+    cartService.decreaseQuantity("1");
 
     // Assert
 
@@ -186,7 +186,7 @@ describe('CartServiceTests', () => {
 
     // Act
 
-    cartService.decreaseQuantity(1);
+    cartService.decreaseQuantity("1");
 
     // Assert
 
@@ -209,7 +209,7 @@ describe('CartServiceTests', () => {
 
     // Act
 
-    cartService.decreaseQuantity(1);
+    cartService.decreaseQuantity("2");
 
     // Assert
 
@@ -265,6 +265,7 @@ describe('CartServiceTests', () => {
 
 export const getMockCartItem = (id: number, quantity: number): MyCartItemDTO => {
   return {
+    pseudoId: id.toString(),
     type: "pizza",
     formatCode: "M",
     name: {

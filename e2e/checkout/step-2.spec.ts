@@ -304,7 +304,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('');
   });
 
@@ -322,7 +322,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('#');
   });
 
@@ -340,7 +340,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await expect(addressInput).toHaveValue('Alustre');
   });
 
@@ -356,12 +356,12 @@ test.describe('Validation: Address', () => {
     await addressInput.fill('#');
     await expect(addressInput).toHaveValue('#');
     await form.click();
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await addressInput.fill('Alustre');
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await expect(addressInput).toHaveValue('Alustre');
   });
 
@@ -377,12 +377,12 @@ test.describe('Validation: Address', () => {
     await addressInput.fill('Alustre');
     await expect(addressInput).toHaveValue('Alustre');
     await form.click();
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await addressInput.fill('#');
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('#');
   });
 });
@@ -437,7 +437,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('');
   });
 
@@ -455,7 +455,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('#');
   });
 
@@ -473,7 +473,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('12345');
   });
 
@@ -491,7 +491,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await expect(addressNumberInput).toHaveValue('15');
   });
 
@@ -507,12 +507,12 @@ test.describe('Validation: Address Number', () => {
     await addressNumberInput.fill('#');
     await expect(addressNumberInput).toHaveValue('#');
     await form.click();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await addressNumberInput.fill('12');
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await expect(addressNumberInput).toHaveValue('12');
   });
 
@@ -528,12 +528,12 @@ test.describe('Validation: Address Number', () => {
     await addressNumberInput.fill('12');
     await expect(addressNumberInput).toHaveValue('12');
     await form.click();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await addressNumberInput.fill('#');
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('#');
   });
 });
@@ -733,8 +733,8 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
   });
 
   test('givenClickOnNext_whenNoSelectedStore_thenTriggerValidationErrors', async ({page}) => {

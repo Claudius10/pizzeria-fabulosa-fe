@@ -1,12 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {
-  AUTH_TOKEN_COOKIE,
-  emptyUserAddressList,
-  newUserAddressList,
-  userAddressCreated,
-  userAddressDelete,
-  userAddressList
-} from '../api-responses';
+import {AUTH_TOKEN_COOKIE, newUserAddressList, userAddressList} from '../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
@@ -14,8 +7,8 @@ test.describe('Render', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -85,8 +78,8 @@ test.describe('Validation: Address', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -116,7 +109,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('');
   });
 
@@ -134,7 +127,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('#');
   });
 
@@ -152,7 +145,7 @@ test.describe('Validation: Address', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await expect(addressInput).toHaveValue('Alustre');
   });
 
@@ -168,12 +161,12 @@ test.describe('Validation: Address', () => {
     await addressInput.fill('#');
     await expect(addressInput).toHaveValue('#');
     await div.click();
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await addressInput.fill('Alustre');
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await expect(addressInput).toHaveValue('Alustre');
   });
 
@@ -189,12 +182,12 @@ test.describe('Validation: Address', () => {
     await addressInput.fill('Alustre');
     await expect(addressInput).toHaveValue('Alustre');
     await div.click();
-    await expect(page.getByText('Delivery address is requiered')).not.toBeVisible();
+    await expect(page.getByText('Delivery address is required')).not.toBeVisible();
     await addressInput.fill('#');
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
     await expect(addressInput).toHaveValue('#');
   });
 });
@@ -205,8 +198,8 @@ test.describe('Validation: Address Number', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -236,7 +229,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('');
   });
 
@@ -254,7 +247,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('#');
   });
 
@@ -272,7 +265,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('12345');
   });
 
@@ -290,7 +283,7 @@ test.describe('Validation: Address Number', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await expect(addressNumberInput).toHaveValue('15');
   });
 
@@ -306,12 +299,12 @@ test.describe('Validation: Address Number', () => {
     await addressNumberInput.fill('#');
     await expect(addressNumberInput).toHaveValue('#');
     await div.click();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await addressNumberInput.fill('12');
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await expect(addressNumberInput).toHaveValue('12');
   });
 
@@ -327,12 +320,12 @@ test.describe('Validation: Address Number', () => {
     await addressNumberInput.fill('12');
     await expect(addressNumberInput).toHaveValue('12');
     await div.click();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).not.toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).not.toBeVisible();
     await addressNumberInput.fill('#');
 
     // Assert
 
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
     await expect(addressNumberInput).toHaveValue('#');
   });
 });
@@ -343,8 +336,8 @@ test.describe('Validation: Address Details', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -463,8 +456,8 @@ test.describe('Submit: API OK', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -491,19 +484,19 @@ test.describe('Submit: API OK', () => {
 
     // Assert
 
-    await expect(page.getByText('Delivery address is requiered')).toBeVisible();
-    await expect(page.getByText('Delivery number is requiered: four digits maximum')).toBeVisible();
+    await expect(page.getByText('Delivery address is required')).toBeVisible();
+    await expect(page.getByText('Delivery number is required: four digits maximum')).toBeVisible();
   });
 
   test('givenSubmitClick_whenFormIsValid_thenShowNewAddress', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       const method = route.request().method();
       if (method === 'POST') {
         // fulfill the creation request
-        await route.fulfill({status: 201, json: userAddressCreated});
+        await route.fulfill({status: 201});
       } else {
         // fulfill the re-fetch of the user address list after creation
         await route.fulfill({status: 200, json: newUserAddressList});
@@ -584,7 +577,7 @@ test.describe('Submit: API KO', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       const method = route.request().method();
       if (method === 'POST') {
         await route.abort();
@@ -635,8 +628,8 @@ test.describe('Delete', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -655,13 +648,13 @@ test.describe('Delete', () => {
     // Arrange
 
     // DELETE
-    await page.route('*/**/api/v1/user/58/address/1', async route => {
-      await route.fulfill({status: 200, json: userAddressDelete});
+    await page.route('*/**/api/v1/user/1/address/1', async route => {
+      await route.fulfill({status: 200});
     });
 
     // GET after DELETE
-    await page.route('*/**/api/v1/user/58/address', async route => {
-      await route.fulfill({status: 200, json: emptyUserAddressList});
+    await page.route('*/**/api/v1/user/1/address', async route => {
+      await route.fulfill({status: 204});
     });
 
     const deleteAddress = page.getByTitle('Delete Address');

@@ -1,7 +1,6 @@
 import {expect, test} from '@playwright/test';
 import {
   AUTH_TOKEN_COOKIE,
-  emptyUserOrderSummaryList,
   userOrderSummaryList,
   userOrderSummaryListManySizeFivePageOne,
   userOrderSummaryListManySizeFivePageThree,
@@ -30,8 +29,8 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
-      await route.fulfill({json: emptyUserOrderSummaryList});
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+      await route.fulfill({status: 204});
     });
 
     // Act
@@ -48,7 +47,7 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryList});
     });
 
@@ -72,7 +71,7 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
@@ -105,11 +104,11 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=1&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
     });
 
@@ -147,15 +146,15 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=1&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
     });
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=2&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=2&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageThree});
     });
 
@@ -200,7 +199,7 @@ test.describe('Navigation', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryList});
     });
 
@@ -224,15 +223,15 @@ test.describe('URL Paths', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=1&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
     });
 
-    await page.route('*/**/api/v1/user/58/order/summary?pageNumber=2&pageSize=5', async route => {
+    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=2&pageSize=5', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageThree});
     });
   });

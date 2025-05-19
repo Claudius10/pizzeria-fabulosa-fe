@@ -5,7 +5,7 @@ import {InputText} from "primeng/inputtext";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
-import {Option} from '../../../../utils/interfaces/forms/steps';
+import {Option} from '../../../../utils/interfaces/steps';
 import {Button} from 'primeng/button';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import {injectQuery} from '@tanstack/angular-query-experimental';
 import {RESOURCE_LOCAL_DATE_TIME_NOW} from '../../../../utils/query-keys';
 import {lastValueFrom} from 'rxjs';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {SUCCESS} from '../../../../utils/constants';
+import {ERROR, SUCCESS} from '../../../../utils/constants';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ResourcesAPIService} from '../../../../api';
 
@@ -61,6 +61,10 @@ export class StepThreeWhenComponent implements OnInit {
   ngOnInit(): void {
     const subscription = this.status.subscribe({
       next: status => {
+        if (status === ERROR) {
+          this.errorService.handleError(this.localDateTimeNow.error()!);
+        }
+
         if (status === SUCCESS) {
           this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!);
         }

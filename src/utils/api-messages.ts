@@ -8,6 +8,8 @@ export const BAD_CREDENTIALS = "BadCredentialsException";
 
 export const INVALID_TOKEN = "InvalidBearerTokenException";
 
+export const MISSING_TOKEN = "InsufficientAuthenticationException";
+
 // API RESPONSES
 
 export const USER_EMAIL_ALREADY_EXISTS = "EmailAlreadyExists";

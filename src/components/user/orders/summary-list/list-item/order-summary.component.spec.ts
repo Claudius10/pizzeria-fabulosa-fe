@@ -2,9 +2,8 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OrderSummaryComponent} from './order-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {CartSummaryDTO, OrderSummaryDTO} from '../../../../../utils/interfaces/dto/order';
-import {getMockOrderDetails} from '../../order-item/order-details/order-details.component.spec';
 import {provideRouter} from '@angular/router';
+import {OrderSummaryDTO} from '../../../../../api';
 
 describe('OrderSummaryComponent', () => {
   let component: OrderSummaryComponent;
@@ -22,11 +21,12 @@ describe('OrderSummaryComponent', () => {
     fixture = TestBed.createComponent(OrderSummaryComponent);
     component = fixture.componentInstance;
     const orderSummary: OrderSummaryDTO = {
-      formattedUpdatedOn: "",
+      id: 1,
+      cost: 10,
       formattedCreatedOn: "",
-      orderDetails: getMockOrderDetails(),
-      cart: getMockCartSummaryDTO(),
-      id: "1"
+      costAfterOffers: 0,
+      paymentMethod: "cash",
+      quantity: 1
     };
     fixture.componentRef.setInput("orderSummary", orderSummary);
     fixture.detectChanges();
@@ -36,11 +36,3 @@ describe('OrderSummaryComponent', () => {
     expect(component).toBeDefined();
   });
 });
-
-export const getMockCartSummaryDTO = (): CartSummaryDTO => {
-  return {
-    totalCost: 0,
-    totalCostOffers: 0,
-    totalQuantity: 0
-  };
-};

@@ -1,7 +1,16 @@
-import {CartItemDTO} from '../api';
+import {MyCartItemDTO} from './interfaces/MyCartItemDTO';
+
+export interface ICart {
+  items: MyCartItemDTO[];
+  total: number;
+  totalAfterOffers: number;
+  quantity: number;
+  threeForTwo: number;
+  secondHalfPrice: number;
+}
 
 export class Cart implements Partial<ICart> {
-  items?: CartItemDTO[];
+  items?: MyCartItemDTO[];
   total?: number;
   quantity?: number;
   totalAfterOffers?: number;
@@ -17,7 +26,7 @@ export class Cart implements Partial<ICart> {
     this.secondHalfPrice = 0;
   }
 
-  withItems(value: CartItemDTO[]): this & Pick<ICart, 'items'> {
+  withItems(value: MyCartItemDTO[]): this & Pick<ICart, 'items'> {
     return Object.assign(this, {items: value});
   }
 
@@ -40,13 +49,4 @@ export class Cart implements Partial<ICart> {
   withSecondHalfPrice(value: number): this & Pick<ICart, 'secondHalfPrice'> {
     return Object.assign(this, {secondHalfPrice: value});
   }
-}
-
-export interface ICart {
-  items: CartItemDTO[];
-  total: number;
-  totalAfterOffers: number;
-  quantity: number;
-  threeForTwo: number;
-  secondHalfPrice: number;
 }

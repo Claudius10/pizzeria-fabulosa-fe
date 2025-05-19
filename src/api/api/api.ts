@@ -1,15 +1,22 @@
 export * from './anonymousUserAPI.service';
-import { AnonymousUserAPIService } from './anonymousUserAPI.service';
-export * from './loginEndpoint.service';
-import { LoginEndpointService } from './loginEndpoint.service';
-export * from './logout.service';
-import { LogoutService } from './logout.service';
+import {AnonymousUserAPIService} from './anonymousUserAPI.service';
+import {LoginAPIService} from './loginAPI.service';
+import {LogoutAPIService} from './logoutAPI.service';
+import {ResourcesAPIService} from './resourcesAPI.service';
+import {UserAccountAPIService} from './userAccountAPI.service';
+import {UserAddressAPIService} from './userAddressAPI.service';
+import {UserOrdersAPIService} from './userOrdersAPI.service';
+
+export * from './loginAPI.service';
+
+export * from './logoutAPI.service';
+
 export * from './resourcesAPI.service';
-import { ResourcesAPIService } from './resourcesAPI.service';
+
 export * from './userAccountAPI.service';
-import { UserAccountAPIService } from './userAccountAPI.service';
+
 export * from './userAddressAPI.service';
-import { UserAddressAPIService } from './userAddressAPI.service';
+
 export * from './userOrdersAPI.service';
-import { UserOrdersAPIService } from './userOrdersAPI.service';
-export const APIS = [AnonymousUserAPIService, LoginEndpointService, LogoutService, ResourcesAPIService, UserAccountAPIService, UserAddressAPIService, UserOrdersAPIService];
+
+export const APIS = [AnonymousUserAPIService, LoginAPIService, LogoutAPIService, ResourcesAPIService, UserAccountAPIService, UserAddressAPIService, UserOrdersAPIService];

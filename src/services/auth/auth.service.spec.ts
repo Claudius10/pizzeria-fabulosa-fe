@@ -18,7 +18,7 @@ describe('AuthServiceTests', () => {
     // Assert
 
     expect(result).toBeTrue();
-    expect(service.userId).toBe("1");
+    expect(service.userId).toBe(1);
     expect(service.userEmail).toBe("john@email.com");
     expect(service.userName).toBe("John Doe");
     expect(service.userContactNumber).toBe("123123123");
@@ -45,7 +45,7 @@ describe('AuthServiceTests', () => {
     // Arrange
     const result = service.authenticate("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
     expect(result).toBeTrue();
-    expect(service.userId).toBe("1");
+    expect(service.userId).toBe(1);
     expect(service.userEmail).toBe("john@email.com");
     expect(service.userName).toBe("John Doe");
     expect(service.userContactNumber).toBe("123123123");

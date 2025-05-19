@@ -36,3 +36,9 @@ module.exports = function (config) {
     restartOnFileChange: true
   });
 };
+
+/*
+  ng test --no-watch --code-coverage
+  ng e2e --ui
+  ng e2e
+ */

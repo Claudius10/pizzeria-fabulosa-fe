@@ -48,7 +48,7 @@ export class CartService {
     const theItem = this.items()[itemIndex];
 
     if (theItem.quantity === 1) {
-      const cartItemsMinusTheItem = this.items().filter((item) => item.id !== theItem.id);
+      const cartItemsMinusTheItem = this.items().filter((item) => item.pseudoId !== theItem.pseudoId);
       this.items.set(cartItemsMinusTheItem);
       this.updateQuantity(this.items());
       this.updateTotal(this.items());

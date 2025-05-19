@@ -7,6 +7,7 @@ import {
   BAD_CREDENTIALS,
   DUMMY_ACCOUNT_ERROR,
   INVALID_TOKEN,
+  MISSING_TOKEN,
   ORDER_DELETE_TIME_ERROR,
   ORDER_NOT_FOUND,
   USER_EMAIL_ALREADY_EXISTS,
@@ -29,16 +30,23 @@ export class ErrorService {
   private router = inject(Router);
   errors = signal<APIError[]>([]);
 
-  handleError(error: APIError) {
+  handleError(error: any) {
     if (error === null) {
       throw new Error("Expected error cannot be null");
     }
 
-    if (error.fatal) {
-      this.addError(error);
+    const apiError: APIError = error.error.apiError;
+
+    if (!apiError) {
+      this.handleServerNoResponse();
+      return;
+    }
+
+    if (apiError.fatal) {
+      this.addError(apiError);
       this.router.navigate(["/error"]);
     } else {
-      const cause = error.cause;
+      const cause = apiError.cause;
       const summary = this.getErrorSummary(cause);
       const severity = this.getSeverity(summary);
       const errorDetails = this.getErrorDetails(cause);
@@ -114,6 +122,8 @@ export class ErrorService {
         return this.translateService.instant("toast.severity.error");
       case DUMMY_ACCOUNT_ERROR:
         return this.translateService.instant("toast.severity.warning");
+      case MISSING_TOKEN:
+        return this.translateService.instant("toast.severity.error");
       default:
         return this.translateService.instant("toast.severity.error");
     }
@@ -139,6 +149,8 @@ export class ErrorService {
         return this.translateService.instant("toast.error.api.user.invalid.token");
       case DUMMY_ACCOUNT_ERROR:
         return this.translateService.instant("toast.error.api.user.dummy");
+      case MISSING_TOKEN:
+        return this.translateService.instant("toast.error.api.token.missing");
       default:
         return this.translateService.instant("toast.error.api.unknown");
     }

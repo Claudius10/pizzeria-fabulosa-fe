@@ -3,7 +3,7 @@ import {Button} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {LoginForm} from '../../../utils/interfaces/http/account';
+import {LoginForm} from '../../../utils/interfaces/login';
 import {AuthService} from '../../../services/auth/auth.service';
 import {MessageService, PrimeTemplate} from 'primeng/api';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
@@ -21,7 +21,7 @@ import {COOKIE_ID_TOKEN} from '../../../utils/constants';
 import {emailRgx} from '../../../utils/regex';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {LoginEndpointService} from '../../../api';
+import {LoginAPIService} from '../../../api';
 
 @Component({
   selector: 'app-login-dialog',
@@ -43,16 +43,16 @@ import {LoginEndpointService} from '../../../api';
 export class LoginDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(LoginEndpointService);
   private translateService = inject(TranslateService);
   private cookieService = inject(SsrCookieService);
   private messageService = inject(MessageService);
+  private loginAPI = inject(LoginAPIService);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
   private login = injectMutation(() => ({
-    mutationFn: (data: { username: string, password: string }) => lastValueFrom(this.accountHttpService.loginPost(data.username, data.password))
+    mutationFn: (data: { username: string, password: string }) => lastValueFrom(this.loginAPI.login(data.username, data.password))
   }));
   protected showPassword = signal(false);
   // visible provides hiding dialog on esc key press
@@ -115,11 +115,8 @@ export class LoginDialogComponent implements OnDestroy {
       };
     }
 
-    console.log(data);
-
     this.login.mutate({username: data.email, password: data.password}, {
       onSuccess: () => {
-        console.log("success");
         this.cartService.clear();
         this.checkoutFormService.clear();
 
@@ -145,9 +142,8 @@ export class LoginDialogComponent implements OnDestroy {
         }
 
       },
-      onError: (Error) => {
-        console.log(Error);
-        this.errorService.handleServerNoResponse();
+      onError: (error) => {
+        this.errorService.handleError(error);
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();

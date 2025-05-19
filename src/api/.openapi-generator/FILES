@@ -1,11 +1,12 @@
 .gitignore
+.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
 api/anonymousUserAPI.service.ts
 api/api.ts
-api/loginEndpoint.service.ts
-api/logout.service.ts
+api/loginAPI.service.ts
+api/logoutAPI.service.ts
 api/resourcesAPI.service.ts
 api/userAccountAPI.service.ts
 api/userAddressAPI.service.ts

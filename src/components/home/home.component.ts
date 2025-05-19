@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {RESOURCE_OFFERS} from '../../utils/query-keys';
+import {RESOURCE_OFFERS, RESOURCE_STORES} from '../../utils/query-keys';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {firstValueFrom, merge} from 'rxjs';
 import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
@@ -11,10 +11,10 @@ import {ERROR, PENDING, SUCCESS} from '../../utils/constants';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Skeleton} from "primeng/skeleton";
 import {injectQuery} from '@tanstack/angular-query-experimental';
-import {RESOURCE_STORE} from '../../utils/api-routes';
 import {isPlatformBrowser} from '@angular/common';
-import {tempStatus$} from '../../utils/placeholder';
+import {tempQueryResult, tempStatus$} from '../../utils/placeholder';
 import {ResourcesAPIService} from '../../api';
+import {QueryResult} from '../../utils/interfaces/query';
 
 @Component({
   selector: 'app-home',
@@ -36,19 +36,19 @@ export class HomeComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
+  private resourcesAPI = inject(ResourcesAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
-  protected offers = injectQuery(() => ({
-    queryKey: [RESOURCE_OFFERS],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllOffers())
-  }));
+  protected offers: QueryResult = !this.isServer ? injectQuery(() => ({
+    queryKey: RESOURCE_OFFERS,
+    queryFn: () => firstValueFrom(this.resourcesAPI.findAllOffers())
+  })) : tempQueryResult();
 
-  protected stores = injectQuery(() => ({
-    queryKey: [RESOURCE_STORE],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores())
-  }));
+  protected stores: QueryResult = !this.isServer ? injectQuery(() => ({
+    queryKey: RESOURCE_STORES,
+    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores())
+  })) : tempQueryResult();
 
   private offersStatus = !this.isServer ? toObservable(this.offers.status) : tempStatus$();
   private storeStatus = !this.isServer ? toObservable(this.stores.status) : tempStatus$();
@@ -63,7 +63,15 @@ export class HomeComponent implements OnInit {
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
-          // this.errorService.handleError(this.offers.error()!);
+
+          let offersError = this.offers.error();
+          let storesError = this.stores.error();
+
+          if (offersError) {
+            this.errorService.handleError(offersError);
+          } else if (storesError) {
+            this.errorService.handleError(storesError);
+          }
         }
 
         if (status === SUCCESS && this.offers.status() === SUCCESS && this.stores.status() === SUCCESS) {

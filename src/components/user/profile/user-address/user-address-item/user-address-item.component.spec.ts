@@ -1,10 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserAddressItemComponent} from './user-address-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {AddressDTO} from '../../../../../utils/interfaces/dto/order';
-import {UserHttpService} from '../../../../../services/http/user/user-http.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {MessageService} from 'primeng/api';
+import {AddressDTO, UserAddressAPIService} from '../../../../../api';
 
 describe('UserAddressItemComponent', () => {
   let component: UserAddressItemComponent;
@@ -18,7 +17,7 @@ describe('UserAddressItemComponent', () => {
       imports: [UserAddressItemComponent, TranslateModule.forRoot()],
       providers: [
         {provide: QueryClient},
-        {provide: UserHttpService, useValue: userServiceSpy},
+        {provide: UserAddressAPIService, useValue: userServiceSpy},
         {provide: MessageService, useValue: messageSpy},
       ]
     })

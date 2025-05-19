@@ -2,8 +2,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {OfferItemComponent} from './offer-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {OfferDTO} from '../../../utils/interfaces/dto/resources';
+
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {Offer} from '../../../api';
 
 describe('OfferItemComponent', () => {
   let component: OfferItemComponent;
@@ -20,7 +21,7 @@ describe('OfferItemComponent', () => {
 
     fixture = TestBed.createComponent(OfferItemComponent);
     component = fixture.componentInstance;
-    const offer: OfferDTO = {
+    const offer: Offer = {
       caveat: {
         en: "",
         es: ""

@@ -12,7 +12,7 @@ import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental'
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {ErrorService} from '../../../services/error/error.service';
 import {lastValueFrom} from 'rxjs';
-import {LogoutService} from '../../../api';
+import {LogoutAPIService} from '../../../api';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -29,16 +29,16 @@ import {LogoutService} from '../../../api';
 export class LogoutDialogComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(LogoutService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
+  private logoutAPI = inject(LogoutAPIService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private cartService = inject(CartService);
   private router = inject(Router);
   private logoutUser = injectMutation(() => ({
-    mutationFn: (payload: null) => lastValueFrom(this.accountHttpService.logout())
+    mutationFn: (payload: null) => lastValueFrom(this.logoutAPI.logout())
   }));
 
   // visible provides hiding dialog on esc key press
@@ -60,6 +60,7 @@ export class LogoutDialogComponent implements OnDestroy {
   private logout() {
     this.loadingAnimationService.startLoading();
     this.logoutUser.mutate(null, {
+
       onSuccess: () => {
         this.authService.logout();
         this.queryClient.removeQueries({queryKey: ["user"]});
@@ -75,14 +76,8 @@ export class LogoutDialogComponent implements OnDestroy {
 
         this.router.navigate(["/"]);
       },
-      onError: (Error) => {
-        console.log(Error);
-        this.messageService.add({
-          severity: 'error',
-          summary: this.translateService.instant("toast.severity.error"),
-          detail: this.translateService.instant("dialog.logout.error.message"),
-          life: 2000
-        });
+      onError: (error) => {
+        this.errorService.handleError(error);
       },
       onSettled: () => {
         this.loadingAnimationService.stopLoading();

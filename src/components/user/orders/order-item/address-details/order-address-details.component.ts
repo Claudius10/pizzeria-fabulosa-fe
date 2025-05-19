@@ -28,13 +28,13 @@ export class OrderAddressDetailsComponent implements OnInit {
   address = input.required<AddressDTO>();
   orderDetails = input.required<OrderDetailsDTO>();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
+  private resourcesAPI = inject(ResourcesAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
   protected stores = injectQuery(() => ({
-    queryKey: [RESOURCE_STORES],
-    queryFn: () => firstValueFrom(this.resourcesHttpService.findAllStores()),
+    queryKey: RESOURCE_STORES,
+    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores()),
     enabled: false
   }));
 
@@ -59,6 +59,7 @@ export class OrderAddressDetailsComponent implements OnInit {
 
         if (status === ERROR) {
           this.errorService.handleServerNoResponse();
+          this.errorService.handleError(this.stores.error()!);
         }
 
         this.loadingAnimationService.stopLoading();

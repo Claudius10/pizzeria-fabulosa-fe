@@ -25,57 +25,55 @@ import {BaseService} from '../api.base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UserAccountAPIService extends BaseService {
+export class LoginAPIService extends BaseService {
 
   constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
     super(basePath, configuration);
   }
 
   /**
-   * Delete user account
-   * @param id Id of the user account to delete
-   * @param password Password of the user account to delete
+   * @param username Email
+   * @param password Password
    * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
    * @param reportProgress flag to report request and response progress.
    */
-  public deleteUser(id: number, password: string, observe?: 'body', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
+  public login(username: string, password: string, observe?: 'body', reportProgress?: boolean, options?: {
+    httpHeaderAccept?: 'text/plain' | 'application/json',
     context?: HttpContext,
     transferCache?: boolean
   }): Observable<any>;
-  public deleteUser(id: number, password: string, observe?: 'response', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
+  public login(username: string, password: string, observe?: 'response', reportProgress?: boolean, options?: {
+    httpHeaderAccept?: 'text/plain' | 'application/json',
     context?: HttpContext,
     transferCache?: boolean
   }): Observable<HttpResponse<any>>;
-  public deleteUser(id: number, password: string, observe?: 'events', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
+  public login(username: string, password: string, observe?: 'events', reportProgress?: boolean, options?: {
+    httpHeaderAccept?: 'text/plain' | 'application/json',
     context?: HttpContext,
     transferCache?: boolean
   }): Observable<HttpEvent<any>>;
-  public deleteUser(id: number, password: string, observe: any = 'body', reportProgress: boolean = false, options?: {
-    httpHeaderAccept?: 'application/json',
+  public login(username: string, password: string, observe: any = 'body', reportProgress: boolean = false, options?: {
+    httpHeaderAccept?: 'text/plain' | 'application/json',
     context?: HttpContext,
     transferCache?: boolean
   }): Observable<any> {
-    if (id === null || id === undefined) {
-      throw new Error('Required parameter id was null or undefined when calling deleteUser.');
+    if (username === null || username === undefined) {
+      throw new Error('Required parameter username was null or undefined when calling login.');
     }
     if (password === null || password === undefined) {
-      throw new Error('Required parameter password was null or undefined when calling deleteUser.');
+      throw new Error('Required parameter password was null or undefined when calling login.');
     }
 
     let localVarQueryParameters = new HttpParams({encoder: this.encoder});
     localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-      <any>id, 'id');
+      <any>username, 'username');
     localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
       <any>password, 'password');
 
     let localVarHeaders = this.defaultHeaders;
 
-    // authentication (Pizzeria.Fabulosa.ACCESS_TOKEN) required
-
     const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+      'text/plain',
       'application/json'
     ]);
     if (localVarHttpHeaderAcceptSelected !== undefined) {
@@ -98,9 +96,9 @@ export class UserAccountAPIService extends BaseService {
       }
     }
 
-    let localVarPath = `/api/v1/user`;
+    let localVarPath = `/login`;
     const {basePath, withCredentials} = this.configuration;
-    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
+    return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
       {
         context: localVarHttpContext,
         params: localVarQueryParameters,

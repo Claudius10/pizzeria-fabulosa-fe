@@ -16,7 +16,7 @@ describe('CartItemComponent', () => {
 
     fixture = TestBed.createComponent(CartItemComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput("item", getMockCartItem("1", 1));
+    fixture.componentRef.setInput("item", getMockCartItem(1, 1));
     fixture.componentRef.setInput("viewOnly", false);
     fixture.detectChanges();
   });

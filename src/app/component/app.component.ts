@@ -89,15 +89,3 @@ export class AppComponent implements OnInit {
     }
   }
 }
-
-// TODO - figure out how to generate the API such that I don't need to manually add {withCredentials: true} to new Configuration() in api BaseService
-// TODO - figure out how to have the login endpoint 200 response return text type, and not have to manually add it in api.yaml
-/*
- responses:
-"200":
-  description: OK
-  content:
-    text/plain:
-      schema:
-        type: string
-*/

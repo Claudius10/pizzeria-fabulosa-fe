@@ -354,7 +354,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await expect(page.getByText('The hour is requiered')).toBeVisible();
+    await expect(page.getByText('The hour is required')).toBeVisible();
   });
 
   test('givenClickOnNext_whenValidDeliveryHour_thenSaveSelectedOption', async ({page}) => {

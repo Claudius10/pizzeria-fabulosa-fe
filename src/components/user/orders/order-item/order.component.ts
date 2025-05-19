@@ -20,10 +20,11 @@ import {Skeleton} from 'primeng/skeleton';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
-import {tempStatus$} from '../../../../utils/placeholder';
+import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
 import {UserOrdersAPIService} from '../../../../api';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
+import {QueryResult} from '../../../../utils/interfaces/query';
 
 @Component({
   selector: 'app-order',
@@ -51,11 +52,11 @@ export class OrderComponent {
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
-  private orderHttpService = inject(UserOrdersAPIService);
-  private authService = inject(AuthService);
+  private userOrdersAPI = inject(UserOrdersAPIService);
   private translateService = inject(TranslateService);
-  private activatedRoute = inject(ActivatedRoute);
   private messageService = inject(MessageService);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private cartService = inject(CartService);
@@ -63,15 +64,15 @@ export class OrderComponent {
   private router = inject(Router);
   protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
 
-  protected order = injectQuery(() => ({
+  protected order: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: ["user", "order", this.orderId.toString()],
-    queryFn: () => lastValueFrom(this.orderHttpService.findUserOrderDTO(this.orderId, this.authService.userId!))
-  }));
+    queryFn: () => lastValueFrom(this.userOrdersAPI.findUserOrderDTO(this.orderId, this.authService.userId!))
+  })) : tempQueryResult();
 
   private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 
   private delete = injectMutation(() => ({
-    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.orderHttpService.deleteUserOrderById(data.orderId, data.userId)),
+    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.deleteUserOrderById(data.orderId, data.userId)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
     }
@@ -88,6 +89,7 @@ export class OrderComponent {
 
           if (status === ERROR) {
             this.loadingAnimationService.stopLoading();
+            this.errorService.handleError(this.order.error()!);
           }
 
           if (status === SUCCESS && this.order.status() === SUCCESS) {
@@ -126,13 +128,11 @@ export class OrderComponent {
       },
       accept: () => {
         // if user accepts, send DELETE request for order
-
         this.loadingAnimationService.startLoading();
 
         this.delete.mutate({orderId: this.orderId, userId: this.authService.userId!},
           {
             onSuccess: (response: number) => {
-              console.log('Order Deleted', response);
               // trigger toast
               this.messageService.add({
                 severity: 'success',
@@ -145,12 +145,9 @@ export class OrderComponent {
               setTimeout(() => {
                 this.router.navigate(["user", "orders"]);
               }, 2000);
-
-
             },
-            onError: (Error) => {
-              console.log(Error);
-              this.errorService.handleServerNoResponse();
+            onError: (error) => {
+              this.errorService.handleError(error);
             },
             onSettled: () => {
               this.loadingAnimationService.stopLoading();

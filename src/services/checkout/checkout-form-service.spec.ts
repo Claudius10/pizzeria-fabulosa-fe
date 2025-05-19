@@ -163,7 +163,7 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     service.how = {
       paymentMethod: "Card",
-      billToChange: null
+      billToChange: 0
     };
 
     // Act

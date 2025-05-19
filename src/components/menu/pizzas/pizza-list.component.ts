@@ -17,10 +17,11 @@ import {Skeleton} from 'primeng/skeleton';
 import {ActivatedRoute, Router} from '@angular/router';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {tempStatus$} from '../../../utils/placeholder';
+import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
 import {RESOURCE_PIZZA, RESOURCE_PRODUCT_PIZZA} from '../../../utils/query-keys';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ProductListDTO, ResourcesAPIService} from '../../../api';
+import {QueryResult} from '../../../utils/interfaces/query';
 
 const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
 
@@ -50,7 +51,7 @@ export class PizzaListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesHttpService = inject(ResourcesAPIService);
+  private resourcesAPI = inject(ResourcesAPIService);
   private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
@@ -64,10 +65,10 @@ export class PizzaListComponent implements OnInit {
   protected first = 0;
   protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected query = injectQuery(() => ({
+  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_PIZZA, this.page() - 1],
-    queryFn: () => lastValueFrom(this.resourcesHttpService.findAllProductsByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
-  }));
+    queryFn: () => lastValueFrom(this.resourcesAPI.findAllProductsByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+  })) : tempQueryResult();
 
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
@@ -82,7 +83,7 @@ export class PizzaListComponent implements OnInit {
 
           if (result === ERROR) {
             this.loadingAnimationService.stopLoading();
-            console.log(this.query.error());
+            this.errorService.handleError(this.query.error()!);
           }
 
           if (result === SUCCESS) {

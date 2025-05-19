@@ -29,14 +29,14 @@ import {UserAddressAPIService} from '../../../../../api';
 })
 export class UserAddressListComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private authService = inject(AuthService);
-  private userHttpService = inject(UserAddressAPIService);
+  private userAddressAPI = inject(UserAddressAPIService);
   private errorService = inject(ErrorService);
+  private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
 
   protected addressList = injectQuery(() => ({
     queryKey: USER_ADDRESS_LIST,
-    queryFn: () => lastValueFrom(this.userHttpService.findUserAddressListById(Number(this.authService.userId!)))
+    queryFn: () => lastValueFrom(this.userAddressAPI.findUserAddressListById(Number(this.authService.userId!)))
   }));
 
   private addressListStatus = toObservable(this.addressList.status);
@@ -52,6 +52,7 @@ export class UserAddressListComponent implements OnInit {
 
         if (status === ERROR) {
           this.loadingAnimationService.stopLoading();
+          this.errorService.handleError(this.addressList.error()!);
         }
 
         if (status === SUCCESS) {

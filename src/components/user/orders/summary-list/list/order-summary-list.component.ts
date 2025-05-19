@@ -12,10 +12,13 @@ import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ActivatedRoute, Router} from '@angular/router';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {tempStatus$} from '../../../../../utils/placeholder';
+import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
 import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../api';
 import {AuthService} from '../../../../../services/auth/auth.service';
+import {QueryResult} from '../../../../../utils/interfaces/query';
+
+const DEFAULT_PAGE_MAX_SIZE = 5;
 
 @Component({
   selector: 'app-order-summary-list',
@@ -35,27 +38,27 @@ export class OrderSummaryListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private orderHttpService = inject(UserOrdersAPIService);
+  private userOrdersAPI = inject(UserOrdersAPIService);
   private activatedRoute = inject(ActivatedRoute);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  protected first = 5;
+  protected first = 0;
   protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected orderList = injectQuery(() => ({
+  protected orderList: QueryResult = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
-      return lastValueFrom(this.orderHttpService.findUserOrdersSummary(this.page() - 1, this.first, this.authService.userId!));
+      return lastValueFrom(this.userOrdersAPI.findUserOrdersSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.authService.userId!));
     },
-  }));
+  })) : tempQueryResult();
 
   private orderListStatus = !this.isServer ? toObservable(this.orderList.status) : tempStatus$();
 
   ngOnInit() {
-    // this.first = (this.page() - 1) * 5;
+    this.first = (this.page() - 1) * DEFAULT_PAGE_MAX_SIZE;
 
     const subscription = this.orderListStatus.subscribe({
       next: orderListStatus => {
@@ -65,12 +68,16 @@ export class OrderSummaryListComponent implements OnInit {
 
         if (orderListStatus === ERROR) {
           this.loadingAnimationService.stopLoading();
+          this.errorService.handleError(this.orderList.error()!);
         }
 
         if (orderListStatus === SUCCESS) {
           this.loadingAnimationService.stopLoading();
           const response: OrderSummaryListDTO = this.orderList.data()!;
-          this.totalElements = response.totalElements;
+          // if list is empty the return is 204 without a body
+          if (response) {
+            this.totalElements = response.totalElements;
+          }
         }
       }
     });

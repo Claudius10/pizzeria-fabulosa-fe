@@ -38,7 +38,7 @@ import {UserAccountAPIService} from '../../../../api';
 export class UserDeleteFormComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
-  private accountHttpService = inject(UserAccountAPIService);
+  private userAccountAPI = inject(UserAccountAPIService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
@@ -47,7 +47,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   private cartService = inject(CartService);
   private router = inject(Router);
   private delete = injectMutation(() => ({
-    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.accountHttpService.deleteUser(data.id, data.password))
+    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteUser(data.id, data.password))
   }));
 
   protected showPassword = signal(false);
@@ -89,9 +89,8 @@ export class UserDeleteFormComponent implements OnDestroy {
           this.router.navigate(["/"]);
 
         },
-        onError: (Error) => {
-          console.log(Error);
-          this.errorService.handleServerNoResponse();
+        onError: (error) => {
+          this.errorService.handleError(error);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

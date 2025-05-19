@@ -4,7 +4,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {AccountHttpService} from '../../../services/http/account/account-http.service';
+import {LogoutAPIService} from '../../../api';
 
 describe('LogoutDialogComponent', () => {
   let component: LogoutDialogComponent;
@@ -20,7 +20,7 @@ describe('LogoutDialogComponent', () => {
       providers: [
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AccountHttpService, useValue: accountServiceSpy},
+        {provide: LogoutAPIService, useValue: accountServiceSpy},
         QueryClient,
       ]
     })

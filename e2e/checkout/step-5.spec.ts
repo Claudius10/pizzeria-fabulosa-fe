@@ -225,7 +225,7 @@ test.describe('Render: Large Screen', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -520,7 +520,7 @@ test.describe('Render: Small Screen', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -622,7 +622,7 @@ test.describe('Buttons', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
@@ -766,11 +766,11 @@ test.describe('Order Success', () => {
     // auth is automatically set inside the initializeApp fn in config.app.ts
     await page.context().addCookies([AUTH_TOKEN_COOKIE]);
 
-    await page.route('*/**/api/v1/user/58/address', async route => {
+    await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
     });
 
-    await page.route('*/**/api/v1/user/58/order', async route => {
+    await page.route('*/**/api/v1/user/1/order', async route => {
       await route.fulfill({json: userOrderSuccess});
     });
 

@@ -21,17 +21,17 @@
               class="font-bold">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
 
         <div class="flex">
-          @if (this.item().formats['s'] !== null) {
+          @if (this.item().formats['s']) {
             <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
                   class="font-bold">{{ currentLang() === 'en' ? this.item().formats['s']!['en'] : this.item().formats['s']!['es'] }}</span>
           }
 
-          @if (this.item().formats['m'] !== null) {
+          @if (this.item().formats['m']) {
             <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
                   class="font-bold">{{ currentLang() === 'en' ? this.item().formats['m']!['en'] : this.item().formats['m']!['es'] }}</span>
           }
 
-          @if (this.item().formats['l'] !== null) {
+          @if (this.item().formats['l']) {
             <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
                   class="font-bold">{{ currentLang() === 'en' ? this.item().formats['l']!['en'] : this.item().formats['l']!['es'] }}</span>
           }

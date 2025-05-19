@@ -44,14 +44,14 @@ import {AnonymousUserAPIService, RegisterDTO} from '../../api';
 })
 export class RegisterComponent implements OnDestroy {
   private loadingAnimationService = inject(LoadingAnimationService);
-  private accountHttpService = inject(AnonymousUserAPIService);
+  private anonymousUserAPI = inject(AnonymousUserAPIService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
   private router = inject(Router);
   private register = injectMutation(() => ({
-    mutationFn: (data: RegisterDTO) => lastValueFrom(this.accountHttpService.registerAnonUser(data))
+    mutationFn: (data: RegisterDTO) => lastValueFrom(this.anonymousUserAPI.registerAnonUser(data))
   }));
 
   protected showPassword = signal(false);
@@ -134,9 +134,8 @@ export class RegisterComponent implements OnDestroy {
 
           this.router.navigate(["/"]);
         },
-        onError: (Error) => {
-          console.log(Error);
-          this.errorService.handleServerNoResponse();
+        onError: (error) => {
+          this.errorService.handleError(error);
         },
         onSettled: () => {
           this.loadingAnimationService.stopLoading();

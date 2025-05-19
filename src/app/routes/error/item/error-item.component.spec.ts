@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ErrorItemComponent} from './error-item.component';
-import {ErrorDTO} from '../../../../utils/interfaces/http/api';
+import {APIError} from '../../../../api';
 
 describe('ErrorItemComponent', () => {
   let component: ErrorItemComponent;
@@ -13,7 +13,7 @@ describe('ErrorItemComponent', () => {
     fixture = TestBed.createComponent(ErrorItemComponent);
     component = fixture.componentInstance;
 
-    const error: ErrorDTO = {
+    const error: APIError = {
       id: 1,
       fatal: false,
       path: "/",
@@ -21,6 +21,7 @@ describe('ErrorItemComponent', () => {
       message: "",
       cause: "",
       logged: false,
+      createdOn: ""
     };
 
     fixture.componentRef.setInput("error", error);

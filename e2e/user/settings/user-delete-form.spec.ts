@@ -1,5 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE, dummyAccountDelete, userAccountDelete} from '../../api-responses';
+import {AUTH_TOKEN_COOKIE, dummyAccountDelete} from '../../api-responses';
 
 test.describe('Validation: Password', () => {
   test.beforeEach(async ({page}) => {
@@ -24,7 +24,7 @@ test.describe('Validation: Password', () => {
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
     await expect(password).toHaveValue('');
   });
 
@@ -42,7 +42,7 @@ test.describe('Validation: Password', () => {
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await expect(password).toHaveValue('Password1');
   });
 
@@ -58,13 +58,13 @@ test.describe('Validation: Password', () => {
     await password.fill('');
     await expect(password).toHaveValue('');
     await container.click();
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
     await password.fill('Password1');
     await expect(password).toHaveValue('Password1');
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
   });
 
   test('whenInvalidAfterValid_thenTriggerValidationError', async ({page}) => {
@@ -79,13 +79,13 @@ test.describe('Validation: Password', () => {
     await password.fill('Password1');
     await expect(password).toHaveValue('Password1');
     await container.click();
-    await expect(page.getByText('Password is requiered')).not.toBeVisible();
+    await expect(page.getByText('Password is required')).not.toBeVisible();
     await password.fill('');
     await expect(password).toHaveValue('');
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
   });
 
   test('givenHiddenPassword_whenIconClick_thenShowPassword', async ({page}) => {
@@ -153,16 +153,16 @@ test.describe('Submit', () => {
 
     // Assert
 
-    await expect(page.getByText('Password is requiered')).toBeVisible();
+    await expect(page.getByText('Password is required')).toBeVisible();
   });
 
   test('givenSubmitClick_whenFormIsValid_thenShowSuccessMessageAndRedirect', async ({page}) => {
 
     // Arrange
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user?id=58&password=Password1', async route => {
-      await route.fulfill({json: userAccountDelete});
+    // 1 is the userId in the ID_TOKEN
+    await page.route('*/**/api/v1/user?id=1&password=Password1', async route => {
+      await route.fulfill({status: 200});
     });
 
     const password = page.getByRole('textbox', {name: 'Password', exact: true});
@@ -186,9 +186,8 @@ test.describe('Submit', () => {
 
     // Arrange
 
-    // 58 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user?id=58&password=Password1', async route => {
-      await route.fulfill({json: dummyAccountDelete});
+    await page.route('*/**/api/v1/user?id=1&password=Password1', async route => {
+      await route.fulfill({json: dummyAccountDelete, status: 500});
     });
 
     const password = page.getByRole('textbox', {name: 'Password', exact: true});
