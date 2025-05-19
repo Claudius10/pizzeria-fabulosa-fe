@@ -10,9 +10,6 @@ import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
 import {AddressDTO, OrderDetailsDTO, ResourcesAPIService, Store, StoreListDTO} from '../../../../../api';
 
-class StoreDTO {
-}
-
 @Component({
   selector: 'order-address-details',
   imports: [
