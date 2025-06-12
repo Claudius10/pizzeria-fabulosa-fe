@@ -4,7 +4,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {LoginAPIService} from '../../../api';
 
 describe('LoginDialogComponent', () => {
   let component: LoginDialogComponent;
@@ -13,7 +12,6 @@ describe('LoginDialogComponent', () => {
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
-    const accountServiceSpy = jasmine.createSpyObj('AccountService', ['login']);
 
     await TestBed.configureTestingModule({
       imports: [LoginDialogComponent, TranslateModule.forRoot()],
@@ -21,7 +19,6 @@ describe('LoginDialogComponent', () => {
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: LoginAPIService, useValue: accountServiceSpy},
       ],
     })
       .compileComponents();

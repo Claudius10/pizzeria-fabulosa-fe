@@ -1,7 +1,7 @@
 <div
   title="{{ store().name }} Store"
   [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
-  selected() === store().address.id ? '!border-primary transition-all duration-300' : '',
+  selected() === store().address ? '!border-primary transition-all duration-300' : '',
   !invalid() ? 'invalid-border rounded-xl transition-all duration-300' : '']"
   (click)="selectStore()">
 
@@ -11,7 +11,7 @@
 
     <div class="flex items-center gap-2">
       <i title="{{ store().name }} Map Icon" class="pi pi-map"></i>
-      {{ store().address.street }} {{ store().address.number }}
+      {{ store().address }}
     </div>
 
     <div class="flex items-center gap-2">

@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StoreCheckoutComponent} from './store-checkout.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {Store} from '../../../../api';
+import {Store} from '../../../../api/asset';
 
 describe('StoreCheckoutComponent', () => {
   let component: StoreCheckoutComponent;
@@ -19,12 +19,7 @@ describe('StoreCheckoutComponent', () => {
 
     const store: Store = {
       id: 1,
-      address: {
-        id: 1,
-        details: "",
-        number: 1,
-        street: ""
-      },
+      address: "myAddress",
       phoneNumber: 1,
       schedule: {
         en: "",

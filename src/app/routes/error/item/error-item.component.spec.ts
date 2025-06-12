@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {ErrorItemComponent} from './error-item.component';
-import {APIError} from '../../../../api';
+import {APIError} from '../../../../api/user';
 
 describe('ErrorItemComponent', () => {
   let component: ErrorItemComponent;

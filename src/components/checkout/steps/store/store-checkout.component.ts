@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
 import {NgClass} from '@angular/common';
-import {AddressId} from '../../../../services/checkout/checkout-form.service';
 import {TranslateService} from '@ngx-translate/core';
-import {Store} from '../../../../api';
+import {Store} from '../../../../api/asset';
+import {Address} from '../../../../services/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-store-checkout',
@@ -14,12 +14,12 @@ import {Store} from '../../../../api';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
-  orientation = input<"horizontal" | "vertical">('horizontal');
-  selected = input<number | null>(null);
-  highlight = input<boolean>();
   store = input.required<Store>();
+  orientation = input<"horizontal" | "vertical">('horizontal');
+  selected = input<string | null>(null);
+  highlight = input<boolean>();
   invalid = input<boolean>();
-  onStoreSelect = output<AddressId>();
+  onStoreSelect = output<Address>();
   private translateService = inject(TranslateService);
   private destroyRef = inject(DestroyRef);
   protected currentLang = signal(this.translateService.currentLang);
@@ -33,6 +33,6 @@ export class StoreCheckoutComponent implements OnInit {
   }
 
   protected selectStore() {
-    this.onStoreSelect.emit({id: this.store().address.id!, isStore: true});
+    this.onStoreSelect.emit({name: this.store().address!, isStore: true});
   }
 }

@@ -19,8 +19,8 @@ import {RESOURCE_BEVERAGE, RESOURCE_PRODUCT_BEVERAGE} from '../../../utils/query
 import {lastValueFrom} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
-import {ProductListDTO, ResourcesAPIService} from '../../../api';
 import {QueryResult} from '../../../utils/interfaces/query';
+import {ProductAPIService, ProductListDTO} from '../../../api/asset';
 
 const DEFAULT_PAGE_MAX_SIZE = 8;
 
@@ -48,7 +48,7 @@ export class BeverageListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesAPI = inject(ResourcesAPIService);
+  private productAPI = inject(ProductAPIService);
   private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
@@ -62,9 +62,9 @@ export class BeverageListComponent implements OnInit {
   private totalPages = 0;
   protected first = 0;
 
-  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected query: QueryResult<ProductListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_BEVERAGE, this.page() - 1],
-    queryFn: () => lastValueFrom(this.resourcesAPI.findAllProductsByType(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+    queryFn: () => lastValueFrom(this.productAPI.findAllByType(RESOURCE_BEVERAGE, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
   })) : tempQueryResult();
 
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
@@ -87,8 +87,8 @@ export class BeverageListComponent implements OnInit {
             this.loadingAnimationService.stopLoading();
             const response: ProductListDTO = this.query.data()!;
             this.totalElements = response.totalElements;
-            this.currentElements = response.productList.length;
-            this.totalPages = response.totalPages;
+            this.currentElements = response.content.length;
+            this.totalPages = response.number;
           }
         }
       },

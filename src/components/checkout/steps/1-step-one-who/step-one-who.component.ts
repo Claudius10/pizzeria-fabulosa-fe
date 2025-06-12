@@ -59,9 +59,9 @@ export class StepOneWhoComponent implements OnInit {
     // restore previously set values
     if (this.checkoutFormService.who !== null) {
       this.form.setValue({
-        fullName: this.checkoutFormService.who.name,
-        email: this.checkoutFormService.who.email,
-        contactNumber: this.checkoutFormService.who.contactNumber.toString()
+        fullName: this.checkoutFormService.who.anonCustomerName,
+        email: this.checkoutFormService.who.anonCustomerEmail,
+        contactNumber: this.checkoutFormService.who.anonCustomerContactNumber.toString()
       });
     }
 
@@ -76,9 +76,9 @@ export class StepOneWhoComponent implements OnInit {
     if (isFormValid(this.form)) {
 
       this.checkoutFormService.who = {
-        name: this.form.get("fullName")!.value,
-        contactNumber: Number(this.form.get("contactNumber")!.value),
-        email: this.form.get("email")!.value,
+        anonCustomerName: this.form.get("fullName")!.value,
+        anonCustomerContactNumber: Number(this.form.get("contactNumber")!.value),
+        anonCustomerEmail: this.form.get("email")!.value,
       };
 
       this.router.navigate(['order', 'new', 'step-two']);

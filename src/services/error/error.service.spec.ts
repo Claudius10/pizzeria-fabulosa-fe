@@ -59,7 +59,8 @@ describe('ErrorService', () => {
         apiError: {}
       }
     };
-    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE", "FATAL_MESSAGE");
     service.handleError(mockError);
 
     // Act & Assert
@@ -81,8 +82,8 @@ describe('ErrorService', () => {
         apiError: {}
       }
     };
-    // @ts-ignore
-    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE", "FATAL_MESSAGE");
     service.handleError(mockError);
     const errorComponent = await routerTestingHarnessPromise.navigateByUrl('/error', ErrorComponent);
 
@@ -110,8 +111,8 @@ describe('ErrorService', () => {
         apiError: {}
       }
     };
-    // @ts-ignore
-    mockError.error.apiError = buildError(false, BAD_CREDENTIALS);
+
+    mockError.error.apiError = buildError(false, "BadCredentialsException", BAD_CREDENTIALS);
     service.handleError(mockError);
 
     // Assert
@@ -131,11 +132,6 @@ describe('ErrorService', () => {
       messageAdded = message;
     });
 
-    // let queryKey: string[];
-    // queryClientSpy.removeQueries.and.callFake(message => {
-    //   queryKey = message?.queryKey.forEach();
-    // });
-
     queryClientSpy.defaultQueryOptions.and.resolveTo();
 
     // Act
@@ -145,8 +141,8 @@ describe('ErrorService', () => {
         apiError: {}
       }
     };
-    // @ts-ignore
-    mockError.error.apiError = buildError(false, INVALID_TOKEN);
+
+    mockError.error.apiError = buildError(false, INVALID_TOKEN, INVALID_TOKEN);
     service.handleError(mockError);
 
     // Assert
@@ -158,8 +154,6 @@ describe('ErrorService', () => {
     expect(messageAdded!.summary).toBe('toast.severity.error');
     expect(messageAdded!.detail).toBe('toast.error.api.user.invalid.token');
     expect(messageAdded!.life).toBe(3000);
-    // expect(queryKey!.length).toBe(1);
-    // expect(queryKey![0]).toBe('user');
   });
 
   it('givenNoServerResponse_thenAddMessage', () => {
@@ -193,8 +187,8 @@ describe('ErrorService', () => {
         apiError: {}
       }
     };
-    // @ts-ignore
-    mockError.error.apiError = buildError(true, "FATAL_CAUSE");
+
+    mockError.error.apiError = buildError(true, "FATAL_CAUSE", "FATAL_MESSAGE");
     service.handleError(mockError);
     expect(service.errors().length).toBe(1);
 

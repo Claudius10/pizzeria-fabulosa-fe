@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {Button} from 'primeng/button';
 import {CardModule} from 'primeng/card';
-import {APIError} from '../../../../api';
+import {APIError} from '../../../../api/user';
 
 @Component({
   selector: 'app-error-item',

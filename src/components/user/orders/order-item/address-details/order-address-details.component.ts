@@ -8,7 +8,8 @@ import {ErrorService} from '../../../../../services/error/error.service';
 import {ERROR, SUCCESS} from '../../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
-import {AddressDTO, OrderDetailsDTO, ResourcesAPIService, Store, StoreListDTO} from '../../../../../api';
+import {OrderDetailsDTO} from '../../../../../api/business';
+import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/asset';
 
 @Component({
   selector: 'order-address-details',
@@ -22,16 +23,16 @@ import {AddressDTO, OrderDetailsDTO, ResourcesAPIService, Store, StoreListDTO} f
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderAddressDetailsComponent implements OnInit {
-  address = input.required<AddressDTO>();
+  address = input.required<string>();
   orderDetails = input.required<OrderDetailsDTO>();
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesAPI = inject(ResourcesAPIService);
+  private storeAPI = inject(StoreAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
   protected stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
-    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores()),
+    queryFn: () => firstValueFrom(this.storeAPI.findAll()),
     enabled: false
   }));
 
@@ -47,7 +48,7 @@ export class OrderAddressDetailsComponent implements OnInit {
         if (status === SUCCESS) {
           const response: StoreListDTO = promise.data;
           const fetchedStores: Store[] = response.stores;
-          const selectedStoreIndex = fetchedStores.findIndex(store => store.address.id === this.address().id);
+          const selectedStoreIndex = fetchedStores.findIndex(store => store.address === this.address());
 
           if (selectedStoreIndex !== -1) {
             this.selectedStore.set(fetchedStores[selectedStoreIndex]);

@@ -21,10 +21,10 @@ import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-
 import {lastValueFrom} from 'rxjs';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
 import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
-import {UserOrdersAPIService} from '../../../../api';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
 import {QueryResult} from '../../../../utils/interfaces/query';
+import {OrderDTO, UserOrdersAPIService} from '../../../../api/business';
 
 @Component({
   selector: 'app-order',
@@ -64,15 +64,15 @@ export class OrderComponent {
   private router = inject(Router);
   protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
 
-  protected order: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected order: QueryResult<OrderDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: ["user", "order", this.orderId.toString()],
-    queryFn: () => lastValueFrom(this.userOrdersAPI.findUserOrderDTO(this.orderId, this.authService.userId!))
+    queryFn: () => lastValueFrom(this.userOrdersAPI.findById(this.orderId))
   })) : tempQueryResult();
 
   private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 
   private delete = injectMutation(() => ({
-    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.deleteUserOrderById(data.orderId, data.userId)),
+    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.deleteById(data.orderId)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
     }
@@ -130,7 +130,7 @@ export class OrderComponent {
         // if user accepts, send DELETE request for order
         this.loadingAnimationService.startLoading();
 
-        this.delete.mutate({orderId: this.orderId, userId: this.authService.userId!},
+        this.delete.mutate({orderId: this.orderId, userId: this.authService.id!},
           {
             onSuccess: (response: number) => {
               // trigger toast

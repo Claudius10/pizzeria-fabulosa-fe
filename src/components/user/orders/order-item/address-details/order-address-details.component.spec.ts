@@ -2,36 +2,35 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OrderAddressDetailsComponent} from './order-address-details.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {getMockOrderDetails} from '../order-details/order-details.component.spec';
-import {getMockedAddress} from '../../../profile/user-address/user-address-item/user-address-item.component.spec';
 import {ErrorService} from '../../../../../services/error/error.service';
 import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {ResourcesAPIService} from '../../../../../api';
+import {StoreAPIService} from '../../../../../api/asset';
 
 describe('OrderAddressDetailsComponent', () => {
   let component: OrderAddressDetailsComponent;
   let fixture: ComponentFixture<OrderAddressDetailsComponent>;
-  let resourceService: jasmine.SpyObj<ResourcesAPIService>;
+  let storeAPIService: jasmine.SpyObj<StoreAPIService>;
 
   beforeEach(async () => {
-    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findAllStores']);
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+    const storeAPISpy = jasmine.createSpyObj('storeAPI', ['findAll']);
 
     await TestBed.configureTestingModule({
       imports: [OrderAddressDetailsComponent, TranslateModule.forRoot()],
       providers: [
         {provide: QueryClient},
-        {provide: ResourcesAPIService, useValue: resourceServiceSpy},
         {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: StoreAPIService, useValue: storeAPISpy},
       ],
     }).compileComponents();
 
-    resourceService = TestBed.inject(ResourcesAPIService) as jasmine.SpyObj<ResourcesAPIService>;
-    resourceService.findAllStores.and.returnValue(of());
+    storeAPIService = TestBed.inject(StoreAPIService) as jasmine.SpyObj<StoreAPIService>;
+    storeAPIService.findAll.and.returnValue(of());
 
     fixture = TestBed.createComponent(OrderAddressDetailsComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput("address", getMockedAddress());
+    fixture.componentRef.setInput("address", "myAddress");
     fixture.componentRef.setInput("orderDetails", getMockOrderDetails());
     fixture.detectChanges();
   });

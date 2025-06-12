@@ -1,15 +1,15 @@
 import {signal} from '@angular/core';
-import {QueryResult} from './interfaces/query';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Observable} from 'rxjs';
+import {QueryResult} from './interfaces/query';
 
-export const tempQueryResult = (): QueryResult => {
+export function tempQueryResult(): QueryResult<any> {
   return {
     status: signal('pending'),
-    data: signal(undefined),
+    data: signal(null),
     error: signal(null),
   };
-};
+}
 
 export const tempStatus$ = (): Observable<string> => {
   return toObservable(signal('pending'));

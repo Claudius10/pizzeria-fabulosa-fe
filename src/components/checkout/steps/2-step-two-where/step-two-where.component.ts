@@ -5,14 +5,12 @@ import {InputIcon} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {StoreCheckoutComponent} from '../store/store-checkout.component';
-import {AddressId, CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../utils/regex';
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../utils/interfaces/steps';
 import {NgForOf, UpperCasePipe} from '@angular/common';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {UserAddressListViewComponent} from './user-address-list/user-address-list-view.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../../app/routes/error/server-no-response/server-error.component';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -24,7 +22,9 @@ import {myIcon} from '../../../../primeng/icon';
 import {ERROR} from '../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
-import {ResourcesAPIService} from '../../../../api';
+import {StoreAPIService} from '../../../../api/asset';
+import {Address, CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
+import {UserAddressSelectComponent} from './user-address-select/user-address-select.component';
 
 @Component({
   selector: 'app-checkout-step-two-where',
@@ -38,9 +38,9 @@ import {ResourcesAPIService} from '../../../../api';
     FormsModule,
     InputText,
     NgForOf,
-    UserAddressListViewComponent,
     ServerErrorComponent,
-    StoreCheckoutComponent
+    StoreCheckoutComponent,
+    UserAddressSelectComponent
   ],
   templateUrl: './step-two-where.component.html',
   styleUrl: './step-two-where.component.scss',
@@ -49,7 +49,7 @@ import {ResourcesAPIService} from '../../../../api';
 export class StepTwoWhereComponent implements OnInit {
   private loadingAnimationService = inject(LoadingAnimationService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private resourcesAPI = inject(ResourcesAPIService);
+  private storeAPI = inject(StoreAPIService);
   protected authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
@@ -58,7 +58,7 @@ export class StepTwoWhereComponent implements OnInit {
 
   protected stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
-    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores()),
+    queryFn: () => firstValueFrom(this.storeAPI.findAll()),
     enabled: false
   }));
 
@@ -99,7 +99,7 @@ export class StepTwoWhereComponent implements OnInit {
     }
 
     // if store or user home address was selected
-    if (this.checkoutFormService.selectedAddress.id !== null) {
+    if (this.checkoutFormService.selectedAddress.name !== null) {
       // disable validators
       this.setHomeDeliveryValidators(false);
 
@@ -132,7 +132,7 @@ export class StepTwoWhereComponent implements OnInit {
   protected selectDelivery(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
-    this.checkoutFormService.selectedAddress = {id: null, isStore: null}; // at this level takes into account a logged in user
+    this.checkoutFormService.selectedAddress = {name: null, isStore: null}; // at this level takes into account a logged in user
 
     // if home delivery selected
     if (selectElement.value === this.options[0].code) {
@@ -174,8 +174,8 @@ export class StepTwoWhereComponent implements OnInit {
     });
   }
 
-  protected setSelectedId(address: AddressId): void {
-    this.checkoutFormService.selectedAddress = ({id: address.id, isStore: address.isStore});
+  protected setSelectedId(address: Address): void {
+    this.checkoutFormService.selectedAddress = ({name: address.name, isStore: address.isStore});
     this.validStoreOrAddressSelection = true;
   }
 
@@ -199,7 +199,7 @@ export class StepTwoWhereComponent implements OnInit {
     if (this.authService.isAuthenticated()) {
 
       // if user home address selected, then next step
-      if (this.checkoutFormService.selectedAddress.id !== null) {
+      if (this.checkoutFormService.selectedAddress.name !== null) {
 
         this.router.navigate(['order', 'new', 'step-three']);
       } else {
@@ -218,7 +218,7 @@ export class StepTwoWhereComponent implements OnInit {
 
       } else {
         // if pick-up store selected, then next step
-        if (this.checkoutFormService.selectedAddress.id !== null) {
+        if (this.checkoutFormService.selectedAddress.name !== null) {
           this.router.navigate(['order', 'new', 'step-three']);
         } else {
           // pick-up store not selected

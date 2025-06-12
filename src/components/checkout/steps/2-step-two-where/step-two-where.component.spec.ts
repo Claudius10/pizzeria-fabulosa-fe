@@ -5,16 +5,16 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideHttpClient} from '@angular/common/http';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {ResourcesAPIService} from '../../../../api';
+import {StoreAPIService} from '../../../../api/asset';
 
 describe('Step-two-where', () => {
   let component: StepTwoWhereComponent;
   let fixture: ComponentFixture<StepTwoWhereComponent>;
-  let resourcesHttpService: jasmine.SpyObj<ResourcesAPIService>;
+  let storeAPI: jasmine.SpyObj<StoreAPIService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const ResourcesHttpServiceSpy = jasmine.createSpyObj('ResourcesAPIService', ['findStores', 'findStoresOnDemand']);
+    const storeAPISpy = jasmine.createSpyObj('storesAPI', ['findStores']);
 
     await TestBed.configureTestingModule({
       imports: [StepTwoWhereComponent, TranslateModule.forRoot()],
@@ -23,7 +23,7 @@ describe('Step-two-where', () => {
         provideHttpClientTesting(),
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: resourcesHttpService, useValue: ResourcesHttpServiceSpy},
+        {provide: storeAPI, useValue: storeAPISpy},
       ]
     })
       .compileComponents();

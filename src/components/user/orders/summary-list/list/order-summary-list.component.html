@@ -14,7 +14,7 @@
 
     @if (orderList.status() === 'success') {
       @if (orderList.data()! !== null && orderList.data()!.totalElements !== 0) {
-        @for (orderSummary of orderList.data()!.orderList; track orderSummary.id) {
+        @for (orderSummary of orderList.data()!.content; track orderSummary.id) {
           <li>
             <app-order-summary [orderSummary]="orderSummary"/>
           </li>

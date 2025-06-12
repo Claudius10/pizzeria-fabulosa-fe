@@ -52,18 +52,8 @@
               </span>
 
               <span>{{ "form.label.delivery.address" | translate }}:
-                <span class="text-primary uppercase">{{ selectedAddress.street }}</span>
+                <span class="text-primary uppercase">{{ selectedAddress }}</span>
             </span>
-
-              <span>{{ "form.label.delivery.number" | translate }}:
-                <span class="text-primary">{{ selectedAddress.number }}</span>
-            </span>
-
-              @if (selectedAddress.details !== null) {
-                <span>{{ "form.label.delivery.details" | translate }}:
-                <span class="text-primary uppercase">{{ selectedAddress.details }}</span>
-              </span>
-              }
             }
           } @else {
 

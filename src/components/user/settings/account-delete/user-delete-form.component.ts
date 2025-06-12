@@ -18,7 +18,7 @@ import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental'
 import {lastValueFrom} from 'rxjs';
 import {CartService} from '../../../../services/cart/cart.service';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
-import {UserAccountAPIService} from '../../../../api';
+import {UserAccountAPIService} from '../../../../api/user';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -47,7 +47,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   private cartService = inject(CartService);
   private router = inject(Router);
   private delete = injectMutation(() => ({
-    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteUser(data.id, data.password))
+    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteById(data.id))
   }));
 
   protected showPassword = signal(false);
@@ -72,7 +72,7 @@ export class UserDeleteFormComponent implements OnDestroy {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      this.delete.mutate({id: this.authService.userId!, password: this.form.get("password")!.value}, {
+      this.delete.mutate({id: this.authService.id!, password: this.form.get("password")!.value}, {
         onSuccess: () => {
           this.authService.logout();
           this.queryClient.removeQueries({queryKey: ["user"]});

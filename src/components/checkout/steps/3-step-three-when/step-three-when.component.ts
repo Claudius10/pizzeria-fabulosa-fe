@@ -18,7 +18,7 @@ import {lastValueFrom} from 'rxjs';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, SUCCESS} from '../../../../utils/constants';
 import {ErrorService} from '../../../../services/error/error.service';
-import {ResourcesAPIService} from '../../../../api';
+import {UtilAPIService} from '../../../../api/asset';
 
 @Component({
   selector: 'app-checkout-step-three-when',
@@ -39,7 +39,7 @@ import {ResourcesAPIService} from '../../../../api';
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
-  private resourceService = inject(ResourcesAPIService);
+  private utilAPI = inject(UtilAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
@@ -52,7 +52,7 @@ export class StepThreeWhenComponent implements OnInit {
 
   private localDateTimeNow = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
-    queryFn: () => lastValueFrom(this.resourceService.getNowAccountingDST()),
+    queryFn: () => lastValueFrom(this.utilAPI.getNowAccountingDST()),
     staleTime: 0
   }));
 

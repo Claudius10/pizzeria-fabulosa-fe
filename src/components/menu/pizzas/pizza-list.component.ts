@@ -20,8 +20,8 @@ import {lastValueFrom} from 'rxjs';
 import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
 import {RESOURCE_PIZZA, RESOURCE_PRODUCT_PIZZA} from '../../../utils/query-keys';
 import {TranslatePipe} from '@ngx-translate/core';
-import {ProductListDTO, ResourcesAPIService} from '../../../api';
 import {QueryResult} from '../../../utils/interfaces/query';
+import {ProductAPIService, ProductListDTO} from '../../../api/asset';
 
 const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
 
@@ -51,7 +51,7 @@ export class PizzaListComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesAPI = inject(ResourcesAPIService);
+  private productAPI = inject(ProductAPIService);
   private activatedRoute = inject(ActivatedRoute);
   protected filterService = inject(FilterService);
   private errorService = inject(ErrorService);
@@ -65,9 +65,9 @@ export class PizzaListComponent implements OnInit {
   protected first = 0;
   protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected query: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected query: QueryResult<ProductListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_PIZZA, this.page() - 1],
-    queryFn: () => lastValueFrom(this.resourcesAPI.findAllProductsByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+    queryFn: () => lastValueFrom(this.productAPI.findAllByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
   })) : tempQueryResult();
 
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
@@ -90,8 +90,8 @@ export class PizzaListComponent implements OnInit {
             this.loadingAnimationService.stopLoading();
             const response: ProductListDTO = this.query.data()!;
             this.totalElements = response.totalElements;
-            this.currentElements = response.productList.length;
-            this.totalPages = response.totalPages;
+            this.currentElements = response.content.length;
+            this.totalPages = response.number;
           }
         }
       },

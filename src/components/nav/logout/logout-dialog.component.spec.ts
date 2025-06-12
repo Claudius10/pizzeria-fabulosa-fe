@@ -4,7 +4,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {ErrorService} from '../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {LogoutAPIService} from '../../../api';
 
 describe('LogoutDialogComponent', () => {
   let component: LogoutDialogComponent;
@@ -13,14 +12,12 @@ describe('LogoutDialogComponent', () => {
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
-    const accountServiceSpy = jasmine.createSpyObj('AccountService', ['logout']);
 
     await TestBed.configureTestingModule({
       imports: [LogoutDialogComponent, TranslateModule.forRoot({})],
       providers: [
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: LogoutAPIService, useValue: accountServiceSpy},
         QueryClient,
       ]
     })

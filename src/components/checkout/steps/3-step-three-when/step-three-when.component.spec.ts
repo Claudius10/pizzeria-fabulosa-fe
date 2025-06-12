@@ -5,25 +5,32 @@ import {TranslateModule} from '@ngx-translate/core';
 import {StepThreeWhenComponent} from './step-three-when.component';
 import {ErrorService} from '../../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {ResourcesAPIService} from '../../../../api';
+import {StoreAPIService, UtilAPIService} from '../../../../api/asset';
+import {of} from 'rxjs';
 
 describe('Step-three-when', () => {
   let component: StepThreeWhenComponent;
   let fixture: ComponentFixture<StepThreeWhenComponent>;
-  const resourceServiceSpy = jasmine.createSpyObj('ResourcesAPIService', ['findStores', 'findOffers']);
   const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
+  const storeAPISpy = jasmine.createSpyObj('storesAPI', ['findAll']);
+  let utilAPI: jasmine.SpyObj<UtilAPIService>;
 
   beforeEach(async () => {
+    const utilAPISpy = jasmine.createSpyObj('UtilAPIService', ['getNowAccountingDST']);
 
     await TestBed.configureTestingModule({
       imports: [StepThreeWhenComponent, TranslateModule.forRoot()],
       providers: [
         {provide: QueryClient},
-        {provide: ResourcesAPIService, useValue: resourceServiceSpy},
+        {provide: StoreAPIService, useValue: storeAPISpy},
         {provide: ErrorService, useValue: errorServiceSpy},
+        {provide: UtilAPIService, useValue: utilAPISpy},
       ]
     })
       .compileComponents();
+
+    utilAPI = TestBed.inject(UtilAPIService) as jasmine.SpyObj<UtilAPIService>;
+    utilAPI.getNowAccountingDST.and.returnValue(of());
 
     fixture = TestBed.createComponent(StepThreeWhenComponent);
     component = fixture.componentInstance;

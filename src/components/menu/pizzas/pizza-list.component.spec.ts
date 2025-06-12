@@ -5,16 +5,16 @@ import {ErrorService} from '../../../services/error/error.service';
 import {of} from 'rxjs';
 import {provideRouter} from '@angular/router';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {ResourcesAPIService} from '../../../api';
+import {ProductAPIService} from '../../../api/asset';
 
 describe('PizzaListComponent', () => {
   let component: PizzaListComponent;
   let fixture: ComponentFixture<PizzaListComponent>;
-  let resourceService: jasmine.SpyObj<ResourcesAPIService>;
+  let productAPI: jasmine.SpyObj<ProductAPIService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const resourceServiceSpy = jasmine.createSpyObj('ResourceService', ['findAllProductsByType']);
+    const productAPISpy = jasmine.createSpyObj('productAPI', ['findAllByType']);
 
     await TestBed.configureTestingModule({
       imports: [PizzaListComponent, TranslateModule.forRoot()],
@@ -22,13 +22,13 @@ describe('PizzaListComponent', () => {
         {provide: QueryClient},
         provideRouter([{path: '**', component: PizzaListComponent}]),
         {provide: ErrorService, useValue: errorServiceSpy},
-        {provide: ResourcesAPIService, useValue: resourceServiceSpy},
+        {provide: ProductAPIService, useValue: productAPISpy},
       ],
     })
       .compileComponents();
 
-    resourceService = TestBed.inject(ResourcesAPIService) as jasmine.SpyObj<ResourcesAPIService>;
-    resourceService.findAllProductsByType.and.returnValue(of());
+    productAPI = TestBed.inject(ProductAPIService) as jasmine.SpyObj<ProductAPIService>;
+    productAPI.findAllByType.and.returnValue(of());
 
     fixture = TestBed.createComponent(PizzaListComponent);
     component = fixture.componentInstance;

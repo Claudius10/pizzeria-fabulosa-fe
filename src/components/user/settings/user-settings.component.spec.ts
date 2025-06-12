@@ -4,7 +4,7 @@ import {ErrorService} from '../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {UserAccountAPIService} from '../../../api';
+import {UserAccountAPIService} from '../../../api/user';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;

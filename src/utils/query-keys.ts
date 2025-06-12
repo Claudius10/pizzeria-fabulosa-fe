@@ -7,5 +7,5 @@ export const RESOURCE_OFFERS = ["resource", "offers"];
 export const RESOURCE_STORES = ["resource", "stores"];
 export const RESOURCE_LOCAL_DATE_TIME_NOW = ["resource", "now"];
 
-export const USER_ADDRESS_LIST = ["user", "address", "list"];
+export const USER_INFO = ["user", "info"];
 export const USER_ORDER_SUMMARY_LIST = ["user", "orders", "summary"];

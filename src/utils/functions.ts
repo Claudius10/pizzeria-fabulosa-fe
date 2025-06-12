@@ -1,5 +1,32 @@
 import {FormGroup} from '@angular/forms';
 
+export function logout() {
+  const csrfToken = getCookie('XSRF-TOKEN');
+
+  if (!csrfToken) {
+    console.error('CSRF token not found');
+    return;
+  }
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'http://127.0.0.1:8080/logout';
+
+  const csrfInput = document.createElement('input');
+  csrfInput.type = 'hidden';
+  csrfInput.name = '_csrf';
+  csrfInput.value = csrfToken;
+
+  form.appendChild(csrfInput);
+  document.body.appendChild(form);
+  form.submit();
+}
+
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
 export function isFormValid(form: FormGroup) {
   const valid = form.valid;
   const matchingEmailsError = form.hasError('emailsNotMatching');

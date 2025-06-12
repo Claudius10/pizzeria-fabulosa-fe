@@ -13,8 +13,8 @@ import {Skeleton} from "primeng/skeleton";
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {isPlatformBrowser} from '@angular/common';
 import {tempQueryResult, tempStatus$} from '../../utils/placeholder';
-import {ResourcesAPIService} from '../../api';
 import {QueryResult} from '../../utils/interfaces/query';
+import {OfferAPIService, OfferListDTO, StoreAPIService, StoreListDTO} from '../../api/asset';
 
 @Component({
   selector: 'app-home',
@@ -36,18 +36,19 @@ export class HomeComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
-  private resourcesAPI = inject(ResourcesAPIService);
+  private offerAPI = inject(OfferAPIService);
+  private storeAPI = inject(StoreAPIService);
   private errorService = inject(ErrorService);
   private destroyRef = inject(DestroyRef);
 
-  protected offers: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected offers: QueryResult<OfferListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: RESOURCE_OFFERS,
-    queryFn: () => firstValueFrom(this.resourcesAPI.findAllOffers())
+    queryFn: () => firstValueFrom(this.offerAPI.findAll1())
   })) : tempQueryResult();
 
-  protected stores: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected stores: QueryResult<StoreListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: RESOURCE_STORES,
-    queryFn: () => firstValueFrom(this.resourcesAPI.findAllStores())
+    queryFn: () => firstValueFrom(this.storeAPI.findAll())
   })) : tempQueryResult();
 
   private offersStatus = !this.isServer ? toObservable(this.offers.status) : tempStatus$();

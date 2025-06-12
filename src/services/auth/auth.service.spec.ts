@@ -1,6 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {AuthService} from './auth.service';
+import {UserInfoDTO} from '../../api/user';
 
 describe('AuthServiceTests', () => {
   let service: AuthService;
@@ -13,42 +14,58 @@ describe('AuthServiceTests', () => {
   it('givenValidToken_thenSetCredentialsAndReturnTrue', () => {
     // Act
 
-    const result = service.authenticate("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
+    const userInfo: UserInfoDTO = {
+      id: "1",
+      name: "John Doe",
+      email: "john@email.com",
+      phone_number: "123123123",
+      address: "address",
+      sub: "john@email.com",
+      email_verified: false,
+      phone_number_verified: false,
+      locale: "",
+      updated_at: "",
+      zoneinfo: ""
+    };
+
+    const result = service.authenticate(userInfo);
 
     // Assert
 
     expect(result).toBeTrue();
-    expect(service.userId).toBe(1);
-    expect(service.userEmail).toBe("john@email.com");
-    expect(service.userName).toBe("John Doe");
-    expect(service.userContactNumber).toBe("123123123");
+    expect(service.id).toBe(1);
+    expect(service.email).toBe("john@email.com");
+    expect(service.name).toBe("John Doe");
+    expect(service.phoneNumber).toBe("123123123");
+    expect(service.address).toBe("address");
     expect(service.isAuthenticated()).toBeTrue();
-  });
-
-  it('givenInvalidToken_thenReturnFalse', () => {
-    // Act
-
-    const result = service.authenticate("invalid token");
-
-    // Assert
-
-    expect(result).toBeFalse();
-    expect(service.userId).toBe(null);
-    expect(service.userEmail).toBe(null);
-    expect(service.userName).toBe(null);
-    expect(service.userContactNumber).toBe(null);
-    expect(service.isAuthenticated()).toBeFalse();
   });
 
   it('givenLoggedInUser_thenLogout', () => {
 
     // Arrange
-    const result = service.authenticate("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2huQGVtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTUxNjIzOTAyMiwiaWQiOiIxIiwiY29udGFjdE51bWJlciI6IjEyMzEyMzEyMyJ9.L5ZiuLk7Jg6Vdp_IA9R68u-QPlMbvzs_3LNafZPUCUQ");
+
+    const userInfo: UserInfoDTO = {
+      id: "1",
+      name: "John Doe",
+      email: "john@email.com",
+      phone_number: "123123123",
+      address: "address",
+      sub: "john@email.com",
+      email_verified: false,
+      phone_number_verified: false,
+      locale: "",
+      updated_at: "",
+      zoneinfo: ""
+    };
+
+    const result = service.authenticate(userInfo);
     expect(result).toBeTrue();
-    expect(service.userId).toBe(1);
-    expect(service.userEmail).toBe("john@email.com");
-    expect(service.userName).toBe("John Doe");
-    expect(service.userContactNumber).toBe("123123123");
+    expect(service.id).toBe(1);
+    expect(service.email).toBe("john@email.com");
+    expect(service.name).toBe("John Doe");
+    expect(service.phoneNumber).toBe("123123123");
+    expect(service.address).toBe("address");
     expect(service.isAuthenticated()).toBeTrue();
 
     // Act
@@ -57,10 +74,11 @@ describe('AuthServiceTests', () => {
 
     // Assert
 
-    expect(service.userId).toBe(null);
-    expect(service.userEmail).toBe(null);
-    expect(service.userName).toBe(null);
-    expect(service.userContactNumber).toBe(null);
+    expect(service.id).toBe(null);
+    expect(service.email).toBe(null);
+    expect(service.name).toBe(null);
+    expect(service.phoneNumber).toBe(null);
+    expect(service.address).toBe(null);
     expect(service.isAuthenticated()).toBeFalse();
   });
 });

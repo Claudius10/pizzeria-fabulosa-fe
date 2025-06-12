@@ -8,7 +8,7 @@
   (onHide)="closeLoginDialog()"
   [(visible)]="visible">
   <ng-template pTemplate="headless">
-    <form title="Login Box" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div title="Login Box">
       <div class="flex flex-col px-10 py-6 gap-6 style">
 
         <div class="flex justify-center items-center">
@@ -21,79 +21,26 @@
              (click)="closeLoginDialog()"></i>
         </div>
 
-        <div class="inline-flex flex-col gap-2">
-          <label title="Email" for="email"
-                 class="text-primary-50 font-semibold">{{ "form.label.email" | translate }}</label>
-          <input
-            title="Email input"
-            formControlName="email"
-            type="email"
-            id="email"
-            name="email"
-            class="bg-white/20 border-0 p-4 text-primary-50"/>
-          <div class="invalid-text"
-               *ngIf="form.controls.email.touched && form.controls.email.invalid">
-            {{ "form.invalid.email" | translate }}
-          </div>
-        </div>
-
-        <div class="inline-flex flex-col gap-2 w-full">
-          <label title="Password" for="password"
-                 class="text-primary-50 font-semibold">{{ "form.label.password" | translate }}</label>
-          <p-iconfield [dt]="myIcon('#ffffff')">
-            <input
-              title="Password input"
-              formControlName="password"
-              id="password"
-              name="password"
-              class="bg-white/20 border-0 p-4 text-primary-50 w-full"
-              type="{{showPassword() ? 'text' : 'password'}}"/>
-            <p-inputicon title="Toggle Password" (click)="togglePassword()"
-                         styleClass="{{showPassword() ? 'pi pi-eye-slash cursor-pointer' : 'pi pi-eye cursor-pointer'}}"/>
-          </p-iconfield>
-          <div class="invalid-text"
-               *ngIf="form.controls.password.touched && form.controls.password.invalid">
-            {{ "form.invalid.password.requiered" | translate }}
-          </div>
+        <div class="flex items-center buttons gap-2">
+          <a [href]="backEndClientBaseUri" pButton [text]="true" title="Existing Account"
+             class="w-full !p-4 !text-primary-50 !border !border-white/30 hover:!bg-white/10">
+            {{ 'component.form.login.account.existing' | translate | uppercase }}
+          </a>
         </div>
 
         <div class="flex items-center buttons gap-2">
           <p-button
-            type="submit"
-            title="Enter"
-            label="{{ 'button.enter' | translate | uppercase }}"
+            type="button"
+            title="New Account"
+            label="{{ 'component.form.login.account.new' | translate | uppercase }}"
             [text]="true"
             styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
-            class="w-full"/>
-          <!-- https://github.com/angular/angular/issues/30616 -->
+            class="w-full"
+            (click)="goToRegister()"
+          />
         </div>
 
-        <div class="flex flex-col justify-center gap-2">
-          <span title="Are you new?"
-                class="text-center text-primary-50 font-semibold">{{ 'component.form.login.footer.question' | translate }}</span>
-
-          <div class="flex justify-center gap-2">
-            <button
-              type="button"
-              title="Create an account"
-              aria-label="Create an account"
-              class="underline text-center text-primary-50 font-semibold"
-              (click)="goToRegister()">{{ 'component.form.login.footer.action' | translate }}
-            </button>
-
-            <span class="text-primary-50">{{ "prompt.or" | translate }}</span>
-
-            <button
-              type="button"
-              title="Use a dummy account"
-              aria-label="Use a dummy account"
-              class="underline text-center text-primary-50 font-semibold"
-              (click)="dummySignIn()">{{ 'component.form.login.footer.action.use.dummy' | translate }}
-            </button>
-          </div>
-
-        </div>
       </div>
-    </form>
+    </div>
   </ng-template>
 </p-dialog>

@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {StoreItemComponent} from './store-item.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {Store} from '../../../api';
+import {Store} from '../../../api/asset';
 
 describe('StoreItemComponent', () => {
   let component: StoreItemComponent;
@@ -22,12 +22,7 @@ describe('StoreItemComponent', () => {
     component = fixture.componentInstance;
     const store: Store = {
       id: 1,
-      address: {
-        id: 1,
-        details: "",
-        number: 1,
-        street: ""
-      },
+      address: "myAddress",
       phoneNumber: 1,
       schedule: {
         en: "",

@@ -14,9 +14,9 @@ import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
-import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../api';
 import {AuthService} from '../../../../../services/auth/auth.service';
 import {QueryResult} from '../../../../../utils/interfaces/query';
+import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../api/business';
 
 const DEFAULT_PAGE_MAX_SIZE = 5;
 
@@ -48,10 +48,10 @@ export class OrderSummaryListComponent implements OnInit {
   protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected orderList: QueryResult = !this.isServer ? injectQuery(() => ({
+  protected orderList: QueryResult<OrderSummaryListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
-      return lastValueFrom(this.userOrdersAPI.findUserOrdersSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.authService.userId!));
+      return lastValueFrom(this.userOrdersAPI.findSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.authService.id!));
     },
   })) : tempQueryResult();
 

@@ -20,21 +20,10 @@
 
       } @else {
         <span title="Time of Delivery">{{ "view.delivery.time.selected" | translate }}:
-                <span
-                  class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
+                <span class="text-primary uppercase">{{ orderDetails().deliveryTime | translate }}</span></span>
 
         <span title="Address">{{ "form.label.delivery.address" | translate }}:
-                <span
-                  class="text-primary uppercase">{{ address().street }}</span></span>
-
-        <span title="Address Number">{{ "form.label.delivery.number" | translate }}:
-                <span
-                  class="text-primary">{{ address().number }}</span></span>
-
-        @if (address().details) {
-          <span title="Address Details">{{ "form.label.delivery.details" | translate }}: <span
-            class="text-primary uppercase">{{ address().details }}</span></span>
-        }
+                <span class="text-primary uppercase">{{ address() }}</span></span>
       }
 
     </div>

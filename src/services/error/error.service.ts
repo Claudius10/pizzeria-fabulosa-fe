@@ -17,7 +17,7 @@ import {
 import {AuthService} from '../auth/auth.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateService} from '@ngx-translate/core';
-import {APIError} from '../../api';
+import {APIError} from '../../api/user';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +31,11 @@ export class ErrorService {
   errors = signal<APIError[]>([]);
 
   handleError(error: any) {
+    // TODO - when a non API Error is the error
+    console.log(error);
     if (error === null) {
       throw new Error("Expected error cannot be null");
     }
-
     const apiError: APIError = error.error.apiError;
 
     if (!apiError) {
@@ -46,10 +47,10 @@ export class ErrorService {
       this.addError(apiError);
       this.router.navigate(["/error"]);
     } else {
-      const cause = apiError.cause;
-      const summary = this.getErrorSummary(cause);
+      const message = apiError.message;
+      const summary = this.getErrorSummary(message);
       const severity = this.getSeverity(summary);
-      const errorDetails = this.getErrorDetails(cause);
+      const errorDetails = this.getErrorDetails(message);
 
       if (errorDetails.includes("Unknown error") || errorDetails.includes("Error desconocido")) {
         console.error("Unknown Error", error);
@@ -62,7 +63,7 @@ export class ErrorService {
         life: 3000
       });
 
-      if (INVALID_TOKEN === cause) {
+      if (INVALID_TOKEN === message) {
         this.queryClient.removeQueries({queryKey: ["user"]});
         this.logout();
       }

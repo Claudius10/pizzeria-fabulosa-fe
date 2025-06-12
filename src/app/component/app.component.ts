@@ -4,11 +4,10 @@ import {NavigationBarComponent} from '../../components/nav/navigation-bar.compon
 import {FooterComponent} from '../../components/footer/footer.component';
 import {ToastModule} from "primeng/toast";
 import {TranslateService} from '@ngx-translate/core';
-import {AuthService} from '../../services/auth/auth.service';
 import {CartService} from '../../services/cart/cart.service';
 import {PrimeNG} from 'primeng/config';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {COOKIE_ID_TOKEN, LOCALE} from '../../utils/constants';
+import {LOCALE} from '../../utils/constants';
 import en from '../../../public/i18n/en.json';
 import es from '../../../public/i18n/es.json';
 import primeES from "../../../public/i18n/primeng-es.json";
@@ -16,6 +15,7 @@ import primeEN from "../../../public/i18n/primeng-en.json";
 import {MessageService} from 'primeng/api';
 import {ErrorService} from '../../services/error/error.service';
 import {MyCartItemDTO} from '../../utils/interfaces/MyCartItemDTO';
+import {UserinfoComponent} from '../userinfo/userinfo.component';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,8 @@ import {MyCartItemDTO} from '../../utils/interfaces/MyCartItemDTO';
     NavigationBarComponent,
     RouterOutlet,
     FooterComponent,
-    ToastModule
+    ToastModule,
+    UserinfoComponent
   ],
   providers: [MessageService, ErrorService],
   templateUrl: './app.component.html',
@@ -33,11 +34,9 @@ export class AppComponent implements OnInit {
   private translateService = inject(TranslateService);
   private cookieService = inject(SsrCookieService);
   private primeNgConfig = inject(PrimeNG);
-  private authService = inject(AuthService);
   private cartService = inject(CartService);
 
   ngOnInit(): void {
-    this.initAuth();
     this.initLanguage();
   }
 
@@ -45,12 +44,6 @@ export class AppComponent implements OnInit {
     afterNextRender(() => {
       this.initCart();
     });
-  }
-
-  private initAuth() {
-    if (this.cookieService.check(COOKIE_ID_TOKEN)) {
-      this.authService.authenticate(this.cookieService.get(COOKIE_ID_TOKEN));
-    }
   }
 
   private initLanguage() {

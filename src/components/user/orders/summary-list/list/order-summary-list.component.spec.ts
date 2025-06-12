@@ -5,16 +5,16 @@ import {ErrorService} from '../../../../../services/error/error.service';
 import {of} from 'rxjs';
 import {provideRouter} from '@angular/router';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {UserOrdersAPIService} from '../../../../../api';
+import {UserOrdersAPIService} from '../../../../../api/business';
 
 describe('OrderSummaryListComponent', () => {
   let component: OrderSummaryListComponent;
   let fixture: ComponentFixture<OrderSummaryListComponent>;
-  let orderService: jasmine.SpyObj<UserOrdersAPIService>;
+  let userOrdersAPI: jasmine.SpyObj<UserOrdersAPIService>;
 
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
-    const orderServiceSpy = jasmine.createSpyObj('OrderService', ['findUserOrdersSummary']
+    const userOrdersAPISpy = jasmine.createSpyObj('UserOrdersAPIService', ['findSummary']
     );
 
     await TestBed.configureTestingModule({
@@ -24,13 +24,13 @@ describe('OrderSummaryListComponent', () => {
           {provide: QueryClient},
           provideRouter([{path: '**', component: OrderSummaryListComponent}]),
           {provide: ErrorService, useValue: errorServiceSpy},
-          {provide: UserOrdersAPIService, useValue: orderServiceSpy},
+          {provide: UserOrdersAPIService, useValue: userOrdersAPISpy},
         ]
     })
       .compileComponents();
 
-    orderService = TestBed.inject(UserOrdersAPIService) as jasmine.SpyObj<UserOrdersAPIService>;
-    orderService.findUserOrdersSummary.and.returnValue(of());
+    userOrdersAPI = TestBed.inject(UserOrdersAPIService) as jasmine.SpyObj<UserOrdersAPIService>;
+    userOrdersAPI.findSummary.and.returnValue(of());
 
     fixture = TestBed.createComponent(OrderSummaryListComponent);
     component = fixture.componentInstance;

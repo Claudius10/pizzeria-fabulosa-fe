@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@an
 import {ErrorService} from '../../../services/error/error.service';
 import {ErrorItemComponent} from './item/error-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
-import {APIError} from '../../../api';
+import {APIError} from '../../../api/user';
 
 @Component({
   selector: 'app-error',

@@ -1,4 +1,4 @@
-import {CartItemDTO} from '../../api';
+import {CartItemDTO} from '../../api/business';
 
 export interface MyCartItemDTO extends CartItemDTO {
   pseudoId: string;

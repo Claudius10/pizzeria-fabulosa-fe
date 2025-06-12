@@ -18,9 +18,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     // Act
@@ -48,9 +48,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     // Act
@@ -67,9 +67,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     service.where = {
@@ -92,9 +92,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     service.where = {
@@ -121,9 +121,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     service.where = {
@@ -146,9 +146,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     service.where = {
@@ -180,9 +180,9 @@ describe('CheckoutFormServiceServiceTests', () => {
     // Arrange
 
     service.who = {
-      name: "",
-      email: "",
-      contactNumber: 0
+      anonCustomerName: "",
+      anonCustomerEmail: "",
+      anonCustomerContactNumber: 0
     };
 
     service.where = {

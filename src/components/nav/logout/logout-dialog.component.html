@@ -4,7 +4,7 @@
   [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
   [(visible)]="visible"
   [modal]="true"
-  (onHide)="hideLogoutDialog();"
+  (onHide)="cancelLogout()"
   [dismissableMask]="true"
   [position]="'topright'">
   <ng-template pTemplate="headless">
@@ -18,7 +18,7 @@
       <div class="flex items-center gap-2">
         <p-button
           type="button"
-          (click)="hideLogoutDialog();"
+          (click)="cancelLogout()"
           label="{{ 'prompt.no' | translate | uppercase }}"
           title="No"
           severity="danger"/>

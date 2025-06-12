@@ -38,9 +38,10 @@
         @if (checkoutFormService.homeDelivery) {
 
           @if (authService.isAuthenticated()) {
-            <app-user-address-list-view
+            <app-user-address-select
               (onAddressSelect)="setSelectedId($event)"
-              [selected]="checkoutFormService.selectedAddress.id"
+              [address]="authService.address!"
+              [selected]="checkoutFormService.selectedAddress.name"
               [invalid]="validStoreOrAddressSelection"
             />
           } @else {
@@ -123,7 +124,7 @@
                   <app-store-checkout
                     [store]="store"
                     (onStoreSelect)="setSelectedId($event)"
-                    [selected]="checkoutFormService.selectedAddress.id"
+                    [selected]="checkoutFormService.selectedAddress.name"
                     [invalid]="validStoreOrAddressSelection"
                     [highlight]="true"
                   />

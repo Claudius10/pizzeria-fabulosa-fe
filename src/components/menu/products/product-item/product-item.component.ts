@@ -6,7 +6,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ProductPriceComponent} from './price/product-price.component';
 import {Dialog} from 'primeng/dialog';
 import {getDarkIcon, getLightIcon} from '../../../../utils/functions';
-import {Product} from '../../../../api';
+import {Product} from '../../../../api/asset';
 
 @Component({
   selector: 'app-product',

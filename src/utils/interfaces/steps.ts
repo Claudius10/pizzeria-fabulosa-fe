@@ -13,10 +13,6 @@ export interface how {
   billToChange: number | undefined;
 }
 
-export interface summary {
-  comment: string | undefined;
-}
-
 export interface Option {
   code: string;
   description: string;

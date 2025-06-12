@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {Filter} from '../../../../../services/filter/filter.service';
-import {Product} from '../../../../../api';
+import {Product} from '../../../../../api/asset';
 
 @Pipe({
   name: 'productsSearch'

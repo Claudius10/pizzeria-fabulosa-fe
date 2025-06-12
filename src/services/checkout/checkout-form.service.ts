@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {how, when, where} from '../../utils/interfaces/steps';
-import {CreatedOrderDTO, CustomerDTO} from '../../api';
+import {CreatedOrderDTO, CustomerDTO} from '../../api/business';
 
-export type AddressId = {
-  id: number | null;
+export type Address = {
+  name: string | null;
   isStore: boolean | null;
 }
 
@@ -16,7 +16,7 @@ export class CheckoutFormService {
   cashPayment = false; // true shows Do you need change? select
   changeRequested = false; // true shows Bill to change input
 
-  selectedAddress: AddressId = {id: null, isStore: null};
+  selectedAddress: Address = {name: null, isStore: null};
   homeDelivery = true;
   programmedDelivery = false;
 
@@ -33,11 +33,11 @@ export class CheckoutFormService {
       case 1:
         return this.who !== null;
       case 2:
-        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null);
+        return this.who !== null && (this.where !== null || this.selectedAddress.name !== null);
       case 3:
-        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null) && this.when !== null;
+        return this.who !== null && (this.where !== null || this.selectedAddress.name !== null) && this.when !== null;
       case 4:
-        return this.who !== null && (this.where !== null || this.selectedAddress.id !== null) && this.when !== null && this.how !== null;
+        return this.who !== null && (this.where !== null || this.selectedAddress.name !== null) && this.when !== null && this.how !== null;
       default:
         return false;
     }
@@ -49,7 +49,7 @@ export class CheckoutFormService {
     this.cashPayment = false;
     this.changeRequested = false;
 
-    this.selectedAddress = {id: null, isStore: null};
+    this.selectedAddress = {name: null, isStore: null};
     this.homeDelivery = true;
     this.programmedDelivery = false;
 
