@@ -20,14 +20,15 @@ import {myIcon} from '../../../../primeng/icon';
 })
 export class ProductsSearchComponent implements OnInit {
   onSearch = output<string>();
-  private destroyRef = inject(DestroyRef);
-
   protected form = new FormGroup({
     searchText: new FormControl<string>("", {
       nonNullable: true,
       updateOn: "change",
     })
   });
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     const subscription = this.form.get('searchText')!.valueChanges.subscribe({
@@ -40,7 +41,4 @@ export class ProductsSearchComponent implements OnInit {
       subscription.unsubscribe();
     });
   }
-
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
 }

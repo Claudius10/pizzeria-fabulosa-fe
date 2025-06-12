@@ -1,16 +1,16 @@
 <p-card
-  title="Offer"
+  [style]="{ width: '320px' }"
   header="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}}"
-  [style]="{ width: '320px' }">
+  title="Offer">
 
   <ng-template pTemplate="header">
     <img
-      title="Offer Image"
-      class="rounded-border" ngSrc="{{offer().image}}"
       alt="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}} Offer"
-      width="320"
-      height="255"
-      priority>
+      class="rounded-border" height="255"
+      ngSrc="{{offer().image}}"
+      priority
+      title="Offer Image"
+      width="320">
   </ng-template>
 
   <span title="Description">{{ currentLang() === 'en' ? this.offer().description['en'] : this.offer().description['es'] }}</span>

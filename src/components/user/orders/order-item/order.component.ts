@@ -53,22 +53,20 @@ export class OrderComponent {
   private loadingAnimationService = inject(LoadingAnimationService);
   private confirmationService = inject(ConfirmationService);
   private userOrdersAPI = inject(UserOrdersAPIService);
+  protected order: QueryResult<OrderDTO | undefined> = !this.isServer ? injectQuery(() => ({
+    queryKey: ["user", "order", this.orderId.toString()],
+    queryFn: () => lastValueFrom(this.userOrdersAPI.findById(this.orderId))
+  })) : tempQueryResult();
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private activatedRoute = inject(ActivatedRoute);
+  protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
   private authService = inject(AuthService);
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private cartService = inject(CartService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
-
-  protected order: QueryResult<OrderDTO | undefined> = !this.isServer ? injectQuery(() => ({
-    queryKey: ["user", "order", this.orderId.toString()],
-    queryFn: () => lastValueFrom(this.userOrdersAPI.findById(this.orderId))
-  })) : tempQueryResult();
-
   private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 
   private delete = injectMutation(() => ({

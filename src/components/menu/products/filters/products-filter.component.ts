@@ -56,10 +56,11 @@ const PILL_ANIMATION_TRANSITION_DURATION = "400ms";
 })
 export class ProductsFilterComponent {
   items = input.required<FilterItem[]>();
-  protected filterService = inject(FilterService);
-  protected filters = this.filterService.getFilters();
   drawerFiltersVisible = false;
   collapsed = true;
+  protected filterService = inject(FilterService);
+  protected filters = this.filterService.getFilters();
+  protected readonly myInput = myInput;
 
   toggleFiltersDrawer() {
     this.drawerFiltersVisible = !this.drawerFiltersVisible;
@@ -73,6 +74,4 @@ export class ProductsFilterComponent {
   toggleCollapse() {
     this.collapsed = !this.collapsed;
   }
-
-  protected readonly myInput = myInput;
 }

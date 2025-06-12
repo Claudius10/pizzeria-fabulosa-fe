@@ -35,6 +35,8 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent implements OnInit {
+  protected first = 0;
+  protected totalElements = 0;
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
@@ -44,8 +46,6 @@ export class OrderSummaryListComponent implements OnInit {
   private authService = inject(AuthService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
-  protected first = 0;
-  protected totalElements = 0;
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
   protected orderList: QueryResult<OrderSummaryListDTO | undefined> = !this.isServer ? injectQuery(() => ({

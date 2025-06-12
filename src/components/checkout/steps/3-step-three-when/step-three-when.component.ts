@@ -39,23 +39,30 @@ import {UtilAPIService} from '../../../../api/asset';
 })
 export class StepThreeWhenComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
-  private utilAPI = inject(UtilAPIService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
   protected deliveryHours: string[] = [];
   protected options: Option[] = [
     {code: "0", description: "form.select.time.asap"},
     {code: "1", description: "form.select.time.programmed"}
   ];
   protected selectedOption: Option = this.options[0];
-
+  protected form = new FormGroup({
+    deliveryTime: new FormControl(this.options[0].description, {
+      validators: [Validators.required, Validators.minLength(4)],
+      nonNullable: true,
+      updateOn: "change"
+    }),
+  });
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
+  private utilAPI = inject(UtilAPIService);
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
   private localDateTimeNow = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
     queryFn: () => lastValueFrom(this.utilAPI.getNowAccountingDST()),
     staleTime: 0
   }));
-
   private status = toObservable(this.localDateTimeNow.status);
 
   ngOnInit(): void {
@@ -90,14 +97,6 @@ export class StepThreeWhenComponent implements OnInit {
     }
   }
 
-  protected form = new FormGroup({
-    deliveryTime: new FormControl(this.options[0].description, {
-      validators: [Validators.required, Validators.minLength(4)],
-      nonNullable: true,
-      updateOn: "change"
-    }),
-  });
-
   protected selectDeliveryChoice(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
@@ -108,12 +107,6 @@ export class StepThreeWhenComponent implements OnInit {
       this.form.controls.deliveryTime.setValue("");
       this.checkoutFormService.programmedDelivery = true;
     }
-  }
-
-  private saveFormValues() {
-    this.checkoutFormService.when = {
-      deliveryTime: this.form.get("deliveryTime")!.value
-    };
   }
 
   protected previousStep() {
@@ -142,6 +135,9 @@ export class StepThreeWhenComponent implements OnInit {
     this.router.navigate(['order', 'new', 'step-one']);
   }
 
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
+  private saveFormValues() {
+    this.checkoutFormService.when = {
+      deliveryTime: this.form.get("deliveryTime")!.value
+    };
+  }
 }

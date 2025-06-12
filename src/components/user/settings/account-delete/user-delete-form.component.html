@@ -1,22 +1,22 @@
-<div title="Delete Account Section" class="flex flex-col gap-2">
+<div class="flex flex-col gap-2" title="Delete Account Section">
 
   <span class="ml-1">{{ "component.user.form.delete.account" | translate }}</span>
 
-  <form class="flex flex-col gap-3" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="flex flex-col gap-3">
 
     <div class="flex flex-col gap-1 w-fit">
       <p-iconfield [dt]="myIcon('{primary.400}')">
         <input
-          title="Password"
-          id="password"
-          type="{{showPassword() ? 'text' : 'password'}}"
-          placeholder="{{ 'form.label.password' | translate}} "
-          formControlName="password"
+          [dt]="myInput(false)"
           class="w-full"
+          formControlName="password"
+          id="password"
           pInputText
-          [dt]="myInput(false)">
-        <p-inputicon title="Toggle Password Visibility" (click)="togglePassword()"
-                     styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+          placeholder="{{ 'form.label.password' | translate}} "
+          title="Password"
+          type="{{showPassword() ? 'text' : 'password'}}">
+        <p-inputicon (click)="togglePassword()" styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"
+                     title="Toggle Password Visibility"/>
       </p-iconfield>
       @if (!form.controls.password.untouched && !form.controls.password.valid) {
         <span title="Invalid Password" id="password-help" class="invalid-text">
@@ -26,9 +26,9 @@
     </div>
 
     <p-button
-      type="submit"
-      title="Delete"
+      label="{{ 'button.delete' | translate | uppercase }}"
       severity="danger"
-      label="{{ 'button.delete' | translate | uppercase }}"/>
+      title="Delete"
+      type="submit"/>
   </form>
 </div>

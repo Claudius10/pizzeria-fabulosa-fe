@@ -1,4 +1,4 @@
-<div title="Orders Summary" class="list flex flex-col justify-between gap-4 w-full">
+<div class="list flex flex-col justify-between gap-4 w-full" title="Orders Summary">
   @if (orderList.status() === 'error') {
     <app-server-error/>
   }
@@ -26,9 +26,9 @@
   </ul>
 
   <p-paginator
-    title="Paginator"
     (onPageChange)="onPageChange($event)"
     [first]="first"
     [rows]="5"
-    [totalRecords]="totalElements"/>
+    [totalRecords]="totalElements"
+    title="Paginator"/>
 </div>

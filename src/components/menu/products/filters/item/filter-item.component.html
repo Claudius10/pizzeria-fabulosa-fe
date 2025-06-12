@@ -1,6 +1,6 @@
 <span
-  title="{{ item() | translate }}"
+  (click)="toggleFilter()"
   [ngClass]="['ml-4 cursor-pointer']"
-  (click)="toggleFilter()">
+  title="{{ item() | translate }}">
   {{ item() | translate }}
 </span>

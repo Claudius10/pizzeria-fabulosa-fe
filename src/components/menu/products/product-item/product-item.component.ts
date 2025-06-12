@@ -24,13 +24,13 @@ import {Product} from '../../../../api/asset';
 })
 export class ProductItemComponent implements OnInit {
   readonly product = input.required<Product>();
-  private translateService = inject(TranslateService);
-  private cartService = inject(CartService);
-  private destroyRef = inject(DestroyRef);
-  protected readonly currentLang = signal(this.translateService.currentLang);
   protected productFormat = signal("");
   protected productPrice = signal(0);
   protected dialogVisible = false;
+  private translateService = inject(TranslateService);
+  protected readonly currentLang = signal(this.translateService.currentLang);
+  private cartService = inject(CartService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.setDefaults(this.product());
@@ -67,6 +67,13 @@ export class ProductItemComponent implements OnInit {
     this.updatePrice(format);
   }
 
+  protected dialogVisibility(value: boolean) {
+    if (!value) {
+      this.setDefaults(this.product());
+    }
+    this.dialogVisible = value;
+  }
+
   private updatePrice(format: string) {
     switch (format) {
       case 'S':
@@ -79,13 +86,6 @@ export class ProductItemComponent implements OnInit {
         this.productPrice.set(this.product().prices['l']);
         break;
     }
-  }
-
-  protected dialogVisibility(value: boolean) {
-    if (!value) {
-      this.setDefaults(this.product());
-    }
-    this.dialogVisible = value;
   }
 
   private setDefaults(product: Product) {
@@ -114,7 +114,7 @@ export class ProductItemComponent implements OnInit {
           }
         };
       }
-        ;
+
         break;
       case "L": {
         format = {

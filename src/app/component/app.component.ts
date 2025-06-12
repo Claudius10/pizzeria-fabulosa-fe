@@ -36,14 +36,14 @@ export class AppComponent implements OnInit {
   private primeNgConfig = inject(PrimeNG);
   private cartService = inject(CartService);
 
-  ngOnInit(): void {
-    this.initLanguage();
-  }
-
   constructor() {
     afterNextRender(() => {
       this.initCart();
     });
+  }
+
+  ngOnInit(): void {
+    this.initLanguage();
   }
 
   private initLanguage() {

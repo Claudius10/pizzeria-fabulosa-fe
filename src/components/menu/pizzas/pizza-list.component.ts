@@ -48,28 +48,27 @@ const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PizzaListComponent implements OnInit {
+  protected filterService = inject(FilterService);
+  protected filters = this.filterService.getFilters();
+  protected skeletonCount = DEFAULT_PAGE_MAX_SIZE + 1;
+  protected totalElements = 0;
+  protected first = 0;
+  protected readonly getAllPizzaFilters = getAllPizzaFilters;
   private platformId = inject(PLATFORM_ID);
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
   private productAPI = inject(ProductAPIService);
-  private activatedRoute = inject(ActivatedRoute);
-  protected filterService = inject(FilterService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
-  protected filters = this.filterService.getFilters();
-  private currentElements = DEFAULT_PAGE_MAX_SIZE;
-  protected skeletonCount = DEFAULT_PAGE_MAX_SIZE + 1;
-  protected totalElements = 0;
-  private totalPages = 0;
-  protected first = 0;
-  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
-
   protected query: QueryResult<ProductListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_PIZZA, this.page() - 1],
     queryFn: () => lastValueFrom(this.productAPI.findAllByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
   })) : tempQueryResult();
-
+  private activatedRoute = inject(ActivatedRoute);
+  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+  private currentElements = DEFAULT_PAGE_MAX_SIZE;
+  private totalPages = 0;
   private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
   ngOnInit() {
@@ -127,6 +126,4 @@ export class PizzaListComponent implements OnInit {
 
     return DEFAULT_PAGE_MAX_SIZE;
   }
-
-  protected readonly getAllPizzaFilters = getAllPizzaFilters;
 }

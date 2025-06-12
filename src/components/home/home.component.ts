@@ -37,20 +37,17 @@ export class HomeComponent implements OnInit {
   private isServer = !isPlatformBrowser(this.platformId);
   private loadingAnimationService = inject(LoadingAnimationService);
   private offerAPI = inject(OfferAPIService);
-  private storeAPI = inject(StoreAPIService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-
   protected offers: QueryResult<OfferListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: RESOURCE_OFFERS,
     queryFn: () => firstValueFrom(this.offerAPI.findAll1())
   })) : tempQueryResult();
-
+  private storeAPI = inject(StoreAPIService);
   protected stores: QueryResult<StoreListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storeAPI.findAll())
   })) : tempQueryResult();
-
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
   private offersStatus = !this.isServer ? toObservable(this.offers.status) : tempStatus$();
   private storeStatus = !this.isServer ? toObservable(this.stores.status) : tempStatus$();
   private status = merge(this.offersStatus, this.storeStatus);

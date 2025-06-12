@@ -43,32 +43,9 @@ import {AnonymousUserAPIService, RegisterDTO} from '../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private anonymousUserAPI = inject(AnonymousUserAPIService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private errorService = inject(ErrorService);
   protected authService = inject(AuthService);
-  private router = inject(Router);
-  private register = injectMutation(() => ({
-    mutationFn: (data: RegisterDTO) => lastValueFrom(this.anonymousUserAPI.registerAnonUser(data))
-  }));
-
   protected showPassword = signal(false);
   protected showMatchingPassword = signal(false);
-
-  protected togglePassword() {
-    this.showPassword.set(!this.showPassword());
-  }
-
-  protected toggleMatchingPassword() {
-    this.showMatchingPassword.set((!this.showMatchingPassword()));
-  }
-
-  ngOnDestroy(): void {
-    this.loadingAnimationService.stopLoading();
-  }
-
   protected form = new FormGroup({
     name: new FormControl<string>("", {
       validators: [Validators.required, Validators.minLength(2), Validators.pattern(esCharsRegex)],
@@ -101,6 +78,29 @@ export class RegisterComponent implements OnDestroy {
       updateOn: 'change'
     })
   }, {validators: [validatePasswordMatching, validateEmailMatching]});
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
+  private loadingAnimationService = inject(LoadingAnimationService);
+  private anonymousUserAPI = inject(AnonymousUserAPIService);
+  private translateService = inject(TranslateService);
+  private messageService = inject(MessageService);
+  private errorService = inject(ErrorService);
+  private router = inject(Router);
+  private register = injectMutation(() => ({
+    mutationFn: (data: RegisterDTO) => lastValueFrom(this.anonymousUserAPI.registerAnonUser(data))
+  }));
+
+  ngOnDestroy(): void {
+    this.loadingAnimationService.stopLoading();
+  }
+
+  protected togglePassword() {
+    this.showPassword.set(!this.showPassword());
+  }
+
+  protected toggleMatchingPassword() {
+    this.showMatchingPassword.set((!this.showMatchingPassword()));
+  }
 
   protected cancel() {
     this.router.navigate(['/']);
@@ -143,9 +143,6 @@ export class RegisterComponent implements OnDestroy {
       });
     }
   }
-
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
 }
 
 const validateEmailMatching: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {

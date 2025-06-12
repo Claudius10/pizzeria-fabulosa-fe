@@ -1,95 +1,95 @@
 <p-card>
-  <form title="Registration Form" class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form" title="Registration Form">
     <div class="flex flex-col gap-12">
-      <h1 title="New Account"
-          class="text-center font-semibold text-4xl">{{ "component.form.register.title" | translate | uppercase }}</h1>
+      <h1 class="text-center font-semibold text-4xl"
+          title="New Account">{{ "component.form.register.title" | translate | uppercase }}</h1>
 
-      <div title="Inputs" class="flex flex-col gap-8">
+      <div class="flex flex-col gap-8" title="Inputs">
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Full Name Icon" styleClass="pi pi-user"/>
+            <p-inputicon styleClass="pi pi-user" title="Full Name Icon"/>
             <input
-              title="Full Name"
-              class="w-full"
-              id="name"
-              type="text"
-              placeholder="{{'form.label.name' | translate }}"
-              formControlName="name"
-              pInputText
               [dt]="myInput(false)"
+              class="w-full"
+              formControlName="name"
+              id="name"
+              pInputText
+              placeholder="{{'form.label.name' | translate }}"
+              title="Full Name"
+              type="text"
             >
           </p-iconfield>
-          <div title="Invalid Name"
+          <div *ngIf="form.controls.name.touched && form.controls.name.invalid"
                class="invalid-text"
-               *ngIf="form.controls.name.touched && form.controls.name.invalid">
+               title="Invalid Name">
             {{ "form.invalid.name" | translate }}
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Email Icon" styleClass="pi pi-envelope"/>
+            <p-inputicon styleClass="pi pi-envelope" title="Email Icon"/>
             <input
-              title="Email"
-              id="email"
-              type="email"
-              placeholder="{{'form.label.email' | translate }}"
-              formControlName="email"
-              pInputText
-              [ngClass]="['w-full', form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
+              [ngClass]="['w-full', form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')  ? 'invalid-border' : '' ]"
+              formControlName="email"
+              id="email"
+              pInputText
+              placeholder="{{'form.label.email' | translate }}"
+              title="Email"
+              type="email"
             >
           </p-iconfield>
-          <div title="Invalid Email"
+          <div *ngIf="form.controls.email.touched && form.controls.email.invalid"
                class="invalid-text"
-               *ngIf="form.controls.email.touched && form.controls.email.invalid">
+               title="Invalid Email">
             {{ "form.invalid.email" | translate }}
           </div>
-          <div title="Email Mismatch"
+          <div *ngIf="form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')"
                class="invalid-text"
-               *ngIf="form.controls.matchingEmail.touched && form.hasError('emailsNotMatching')">
+               title="Email Mismatch">
             {{ "form.invalid.email.matching" | translate }}
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Email Icon" styleClass="pi pi-envelope"/>
+            <p-inputicon styleClass="pi pi-envelope" title="Email Icon"/>
             <input
-              title="Matching Email"
-              id="matchingEmail"
-              type="email"
-              placeholder="{{'form.label.email.matching' | translate }}"
-              formControlName="matchingEmail"
-              pInputText
+              [dt]="myInput(false)"
               [ngClass]="['w-full', form.controls.matchingEmail.touched && form.hasError('emailsNotMatching') ? 'invalid-border' : '' ]"
-              [dt]="myInput(false)"
+              formControlName="matchingEmail"
+              id="matchingEmail"
+              pInputText
+              placeholder="{{'form.label.email.matching' | translate }}"
+              title="Matching Email"
+              type="email"
             >
           </p-iconfield>
-          <div title="Email Mismatch"
+          <div *ngIf="form.controls.matchingEmail.touched && (form.hasError('emailsNotMatching') || form.controls.matchingEmail.invalid)"
                class="invalid-text"
-               *ngIf="form.controls.matchingEmail.touched && (form.hasError('emailsNotMatching') || form.controls.matchingEmail.invalid)">
+               title="Email Mismatch">
             {{ "form.invalid.email.matching" | translate }}
           </div>
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Phone Icon" styleClass="pi pi-phone"/>
+            <p-inputicon styleClass="pi pi-phone" title="Phone Icon"/>
             <input
-              title="Contact Number"
-              class="w-full"
-              id="contactNumber"
-              type="tel"
-              placeholder="{{'form.label.contact.number' | translate }}"
-              formControlName="contactNumber"
-              pInputText
               [dt]="myInput(false)"
+              class="w-full"
+              formControlName="contactNumber"
+              id="contactNumber"
+              pInputText
+              placeholder="{{'form.label.contact.number' | translate }}"
+              title="Contact Number"
+              type="tel"
             >
           </p-iconfield>
-          <div title="Invalid Contact Number"
+          <div *ngIf="form.controls.contactNumber.touched && form.controls.contactNumber.invalid"
                class="invalid-text"
-               *ngIf="form.controls.contactNumber.touched && form.controls.contactNumber.invalid">
+               title="Invalid Contact Number">
             {{ "form.invalid.contact.number" | translate }}
           </div>
         </div>
@@ -97,28 +97,28 @@
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <input
-              title="Password"
-              id="password"
-              placeholder="{{'form.label.password' | translate }}"
-              formControlName="password"
-              pInputText
-              type="{{showPassword() ? 'text' : 'password'}}"
-              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')  ? 'invalid-border' : '' ]"
+              formControlName="password"
+              id="password"
+              pInputText
+              placeholder="{{'form.label.password' | translate }}"
+              title="Password"
+              type="{{showPassword() ? 'text' : 'password'}}"
             >
             <p-inputicon
-              title="Toggle Password Visibility"
               (click)="togglePassword()"
-              styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+              styleClass="{{showPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"
+              title="Toggle Password Visibility"/>
           </p-iconfield>
-          <div title="Invalid Password"
+          <div *ngIf="form.controls.password.touched && form.controls.password.invalid"
                class="invalid-text"
-               *ngIf="form.controls.password.touched && form.controls.password.invalid">
+               title="Invalid Password">
             {{ "form.invalid.password" | translate }}
           </div>
-          <div title="Password Mismatch"
+          <div *ngIf="form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')"
                class="invalid-text"
-               *ngIf="form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching')">
+               title="Password Mismatch">
             {{ "form.invalid.password.matching" | translate }}
           </div>
         </div>
@@ -126,24 +126,24 @@
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <input
-              title="Matching Password"
-              id="matchingPassword"
-              placeholder="{{'form.label.password.matching' | translate }}"
-              formControlName="matchingPassword"
-              pInputText
-              type="{{showMatchingPassword() ? 'text' : 'password'}}"
-              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
               [dt]="myInput(false)"
+              [ngClass]="['w-full', form.controls.matchingPassword.touched && form.hasError('passwordsNotMatching') ? 'invalid-border' : '' ]"
+              formControlName="matchingPassword"
+              id="matchingPassword"
+              pInputText
+              placeholder="{{'form.label.password.matching' | translate }}"
+              title="Matching Password"
+              type="{{showMatchingPassword() ? 'text' : 'password'}}"
             >
             <p-inputicon
-              title="Toggle Matching Password Visibility"
               (click)="toggleMatchingPassword()"
-              styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"/>
+              styleClass="{{showMatchingPassword() ? 'pi pi-eye-slash' : 'pi pi-eye'}}"
+              title="Toggle Matching Password Visibility"/>
           </p-iconfield>
           <div
-            title="Password Mismatch"
+            *ngIf="form.controls.matchingPassword.touched && (form.hasError('passwordsNotMatching') || form.controls.matchingPassword.invalid)"
             class="invalid-text"
-            *ngIf="form.controls.matchingPassword.touched && (form.hasError('passwordsNotMatching') || form.controls.matchingPassword.invalid)">
+            title="Password Mismatch">
             {{ "form.invalid.password.matching" | translate }}
           </div>
         </div>
@@ -151,26 +151,26 @@
     </div>
 
     <!-- STEP NAVIGATION BUTTONS -->
-    <div title="Actions" class="buttons">
+    <div class="buttons" title="Actions">
       <p-button
-        title="Cancel registration"
-        severity="danger"
-        type="button"
         (onClick)="cancel()"
-        label="{{'button.cancel' | translate | uppercase }}"/>
+        label="{{'button.cancel' | translate | uppercase }}"
+        severity="danger"
+        title="Cancel registration"
+        type="button"/>
       <p-button
+        label="{{'button.continue' | translate | uppercase }}"
         title="Continue with registration"
-        type="submit"
-        label="{{'button.continue' | translate | uppercase }}"/>
+        type="submit"/>
     </div>
 
-    <div title="Footer" class="flex flex-col items-center gap-4">
+    <div class="flex flex-col items-center gap-4" title="Footer">
       <span title="Question">{{ "component.form.register.footer" | translate }}</span>
       <button
-        type="button"
-        title="Open Login Dialog"
+        (click)="showLoginDialog()"
         class="text-primary"
-        (click)="showLoginDialog()">
+        title="Open Login Dialog"
+        type="button">
         {{ "component.form.register.link" | translate }}
       </button>
     </div>

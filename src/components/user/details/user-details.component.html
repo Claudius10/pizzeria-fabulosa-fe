@@ -1,21 +1,21 @@
-<div title="User Details" class="flex flex-col gap-2">
+<div class="flex flex-col gap-2" title="User Details">
   <span
-    title="Name"
-    class="flex gap-1">{{ "form.label.name" | translate }}:
+    class="flex gap-1"
+    title="Name">{{ "form.label.name" | translate }}:
     <span
-      class="text-primary uppercase">{{ authService.isAuthenticated() ? authService.name: anon()?.anonCustomerName }}
+      class="text-primary uppercase">{{ authService.isAuthenticated() ? authService.name : anon()?.anonCustomerName }}
   </span>
   </span>
   <span
-    title="Email"
-    class="flex gap-1">{{ "form.label.email" | translate }}:
+    class="flex gap-1"
+    title="Email">{{ "form.label.email" | translate }}:
     <span
       class="text-primary uppercase"> {{ authService.isAuthenticated() ? authService.email : anon()?.anonCustomerEmail }}
     </span>
   </span>
   <span
-    title="Contact Number"
-    class="flex gap-1">{{ "form.label.contact.number" | translate }}:
+    class="flex gap-1"
+    title="Contact Number">{{ "form.label.contact.number" | translate }}:
     <span
       class="text-primary uppercase"> {{ authService.isAuthenticated() ? authService.phoneNumber : anon()?.anonCustomerContactNumber }}
     </span>

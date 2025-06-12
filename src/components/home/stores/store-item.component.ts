@@ -25,8 +25,8 @@ import {Store} from '../../../api/asset';
 export class StoreItemComponent implements OnInit {
   store = input.required<Store>();
   private translateService = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
   protected currentLang = signal(this.translateService.currentLang);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

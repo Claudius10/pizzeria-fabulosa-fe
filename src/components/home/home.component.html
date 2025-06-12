@@ -2,20 +2,20 @@
 
   <!-- WELCOME MESSAGE  -->
   <div class="flex flex-col items-center">
-    <span title="Greetings"
-          class="text-center font-bold italic text-primary font-size">{{ "component.home.welcome.part.one" | translate }}</span>
-    <span title="Pizzeria Fabulosa" class="text-center font-bold italic text-primary font-size">Pizzeria Fabulosa</span>
+    <span class="text-center font-bold italic text-primary font-size"
+          title="Greetings">{{ "component.home.welcome.part.one" | translate }}</span>
+    <span class="text-center font-bold italic text-primary font-size" title="Pizzeria Fabulosa">Pizzeria Fabulosa</span>
   </div>
 
   <!-- OFFERS  -->
-  <div title="Offers Section" class="flex flex-col items-center gap-8">
+  <div class="flex flex-col items-center gap-8" title="Offers Section">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.offers" | translate }}</span>
 
     @if (offers.status() === 'error') {
       <app-server-error/>
     }
 
-    <ul title="Offers" class="flex flex-wrap justify-center gap-8">
+    <ul class="flex flex-wrap justify-center gap-8" title="Offers">
       @if (offers.status() === 'pending') {
         <li>
           <p-skeleton width="320px" height="425.15px"/>
@@ -36,14 +36,14 @@
   </div>
 
   <!-- STORES -->
-  <div title="Stores Section" class="flex flex-col items-center gap-8">
+  <div class="flex flex-col items-center gap-8" title="Stores Section">
     <span class="text-center uppercase font-bold cart-header">{{ "component.home.welcome.stores" | translate }}</span>
 
     @if (stores.status() === 'error') {
       <app-server-error/>
     }
 
-    <ul title="Stores" class="flex flex-wrap justify-center gap-8">
+    <ul class="flex flex-wrap justify-center gap-8" title="Stores">
       @if (stores.status() === 'pending') {
         <li>
           <p-skeleton width="320px" height="401.25px"/>

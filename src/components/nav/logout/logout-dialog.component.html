@@ -1,33 +1,33 @@
 <p-dialog
-  [draggable]="false"
-  [resizable]="false"
-  [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
-  [(visible)]="visible"
-  [modal]="true"
   (onHide)="cancelLogout()"
+  [(visible)]="visible"
+  [breakpoints]="{ '1199px': '45vw', '575px': '90vw' }"
   [dismissableMask]="true"
-  [position]="'topright'">
+  [draggable]="false"
+  [modal]="true"
+  [position]="'topright'"
+  [resizable]="false">
   <ng-template pTemplate="headless">
-    <div title="Logout Box" class="flex flex-col items-center p-4 gap-6">
+    <div class="flex flex-col items-center p-4 gap-6" title="Logout Box">
 
       <div class="flex flex-col items-center gap-1">
-        <span title="Header" class="font-bold text-2xl block">{{ 'toast.severity.info' | translate }}</span>
-        <p title="Confirmation Question" class="mb-0">{{ 'dialog.logout.confirm' | translate }}</p>
+        <span class="font-bold text-2xl block" title="Header">{{ 'toast.severity.info' | translate }}</span>
+        <p class="mb-0" title="Confirmation Question">{{ 'dialog.logout.confirm' | translate }}</p>
       </div>
 
       <div class="flex items-center gap-2">
         <p-button
-          type="button"
           (click)="cancelLogout()"
           label="{{ 'prompt.no' | translate | uppercase }}"
+          severity="danger"
           title="No"
-          severity="danger"/>
+          type="button"/>
         <p-button
-          type="button"
           (click)="acceptLogout()"
           label="{{ 'prompt.yes' | translate | uppercase }}"
-          title="Yes"
           severity="success"
+          title="Yes"
+          type="button"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-<div title="Pizzeria Fabulosa" class="flex flex-col items-center min-h-screen">
+<div class="flex flex-col items-center min-h-screen" title="Pizzeria Fabulosa">
   <app-navigation-bar/>
   <router-outlet/>
   <div class="mt-auto w-full">
@@ -6,4 +6,4 @@
   </div>
 </div>
 <app-userinfo/>
-<p-toast position="top-center" [breakpoints]="{ '920px': { width: '100%' } }"/>
+<p-toast [breakpoints]="{ '920px': { width: '100%' } }" position="top-center"/>

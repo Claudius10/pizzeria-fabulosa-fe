@@ -1,31 +1,31 @@
 <div class="flex flex-col items-center justify-between rounded-border container-desc">
   <!-- IMAGE + NAME -->
   <div class="flex flex-col items-center">
-    <img title="Custom Pizza"
+    <img alt="Custom Pizza Image"
          class="pb-2"
-         ngSrc="/assets/products/pizza/custom-pizza.png"
-         width="225"
          height="150"
+         ngSrc="/assets/products/pizza/custom-pizza.png"
          priority
-         alt="Custom Pizza Image">
+         title="Custom Pizza"
+         width="225">
 
     <!-- NAME -->
-    <span title="My Pizza" class="font-semibold text-xl">{{ "component.custom.pizza.header" | translate }}</span>
+    <span class="font-semibold text-xl" title="My Pizza">{{ "component.custom.pizza.header" | translate }}</span>
   </div>
 
   <!-- DESCRIPTION -->
-  <span title="Description" class="flex justify-center flex-wrap description text-center">
+  <span class="flex justify-center flex-wrap description text-center" title="Description">
       {{ "component.custom.pizza.text" | translate }}
     </span>
 
   <p-button
-    class="pb-2"
-    title="Open Custom Pizza Builder"
-    label="{{'button.step.start' | translate | uppercase}}"
-    type="button"
+    (click)="openCustomPizzaDialog()"
     [raised]="true"
+    class="pb-2"
+    label="{{'button.step.start' | translate | uppercase}}"
     size="small"
-    (click)="openCustomPizzaDialog()"/>
+    title="Open Custom Pizza Builder"
+    type="button"/>
 </div>
 
 @if (customPizzaDialogVisible) {

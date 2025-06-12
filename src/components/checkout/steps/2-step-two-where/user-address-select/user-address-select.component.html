@@ -1,8 +1,8 @@
 <div class="flex flex-col gap-4">
-  <div title="User Address" (click)="selectAddress(address()!)"
-       [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
+  <div (click)="selectAddress(address()!)" [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
           selected() === address() ? '!border-primary transition-all duration-300' : '',
-          !invalid() ? '!border-red-700 rounded-xl transition-all duration-300' : '']">
+          !invalid() ? '!border-red-700 rounded-xl transition-all duration-300' : '']"
+       title="User Address">
 
           <span title="Location">{{ "form.label.delivery.address" | translate }}:
             <span class="text-primary">{{ address() }}</span>

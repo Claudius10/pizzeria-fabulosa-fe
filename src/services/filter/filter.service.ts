@@ -39,6 +39,16 @@ export class FilterService {
     }
   }
 
+  clear() {
+    this.filters.set([]);
+    this.areFiltersEmpty.set(true);
+    this.searchText.set("");
+  }
+
+  getFilters() {
+    return this.filters.asReadonly();
+  }
+
   private containsFilter(name: string): number {
     let index = -1;
 
@@ -72,19 +82,9 @@ export class FilterService {
     this.filters.set(filters);
 
     if (this.filters().length === 0) {
-      this.areFiltersEmpty.set(true)
+      this.areFiltersEmpty.set(true);
     }
 
     return null;
-  }
-
-  clear() {
-    this.filters.set([]);
-    this.areFiltersEmpty.set(true);
-    this.searchText.set("")
-  }
-
-  getFilters() {
-    return this.filters.asReadonly();
   }
 }

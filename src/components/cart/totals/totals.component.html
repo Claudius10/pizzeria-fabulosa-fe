@@ -4,11 +4,11 @@
   <div class="flex items-center gap-2">
     <span title="Total">Total</span>
     <p-button
-      title="Total Amount"
-      type="button"
+      [severity]="(threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) ? 'danger' : 'success'"
       [text]="true"
       label="{{ total().toFixed(2) }}€"
-      [severity]="(threeForTwoOffers() != 0 || secondForHalfPriceOffer() != 0) ? 'danger' : 'success'"/>
+      title="Total Amount"
+      type="button"/>
   </div>
 
   <!-- OFFERS -->

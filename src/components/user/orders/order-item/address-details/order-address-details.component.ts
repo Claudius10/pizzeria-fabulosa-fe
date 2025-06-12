@@ -25,18 +25,16 @@ import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/asset';
 export class OrderAddressDetailsComponent implements OnInit {
   address = input.required<string>();
   orderDetails = input.required<OrderDetailsDTO>();
+  protected selectedStore = signal<Store | null>(null);
   private loadingAnimationService = inject(LoadingAnimationService);
   private storeAPI = inject(StoreAPIService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-
   protected stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storeAPI.findAll()),
     enabled: false
   }));
-
-  protected selectedStore = signal<Store | null>(null);
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     if (this.orderDetails().storePickUp) {

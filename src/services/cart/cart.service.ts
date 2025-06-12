@@ -76,6 +76,23 @@ export class CartService {
     this.updateCart();
   }
 
+  clear() {
+    this.items.set([]);
+    this.total.set(0);
+    this.totalAfterOffers.set(0);
+    this.quantity.set(0);
+    this.calculateCostWithOffers([], 0);
+    this.updateCart();
+  }
+
+  isEmpty() {
+    return this.items().length === 0;
+  }
+
+  getCart(): ICart | null {
+    return localStorage.getItem(CART) === null ? null : JSON.parse(localStorage.getItem(CART)!);
+  }
+
   private updateQuantity(items: MyCartItemDTO[]) {
     this.quantity.set(items.reduce((previousValue, {quantity}) => previousValue + quantity, 0));
   }
@@ -119,19 +136,6 @@ export class CartService {
     this.threeForTwoOffers.set(timesToApplyThreeForTwoOffer);
   }
 
-  clear() {
-    this.items.set([]);
-    this.total.set(0);
-    this.totalAfterOffers.set(0);
-    this.quantity.set(0);
-    this.calculateCostWithOffers([], 0);
-    this.updateCart();
-  }
-
-  isEmpty() {
-    return this.items().length === 0;
-  }
-
   private updateCart() {
     const cart = new Cart()
       .withItems(this.items())
@@ -164,11 +168,8 @@ export class CartService {
     localStorage.setItem(CART, JSON.stringify(cart));
   }
 
-  getCart(): ICart | null {
-    return localStorage.getItem(CART) === null ? null : JSON.parse(localStorage.getItem(CART)!);
-  }
-
   // when loading order in user orders or in order-success
+
   // icons must be set because they don't exist in the db
   private setIcons(items: MyCartItemDTO[]) {
     for (const item of items) {

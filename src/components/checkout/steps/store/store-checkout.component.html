@@ -1,26 +1,26 @@
 <div
-  title="{{ store().name }} Store"
+  (click)="selectStore()"
   [ngClass]="['card flex flex-col gap-4 border-2 border-transparent rounded-xl',
   selected() === store().address ? '!border-primary transition-all duration-300' : '',
   !invalid() ? 'invalid-border rounded-xl transition-all duration-300' : '']"
-  (click)="selectStore()">
+  title="{{ store().name }} Store">
 
-  <span title="{{ store().name }}" [ngClass]="['text-xl', highlight() ? 'text-primary' : '']">{{ store().name }}</span>
+  <span [ngClass]="['text-xl', highlight() ? 'text-primary' : '']" title="{{ store().name }}">{{ store().name }}</span>
 
   <div [ngClass]="['store justify-between', orientation() === 'horizontal' ? '' : 'flex flex-col gap-6']">
 
     <div class="flex items-center gap-2">
-      <i title="{{ store().name }} Map Icon" class="pi pi-map"></i>
+      <i class="pi pi-map" title="{{ store().name }} Map Icon"></i>
       {{ store().address }}
     </div>
 
     <div class="flex items-center gap-2">
-      <i title="{{ store().name }} Phone Icon" class="pi pi-phone"></i>
+      <i class="pi pi-phone" title="{{ store().name }} Phone Icon"></i>
       {{ store().phoneNumber }}
     </div>
 
     <div class="flex items-center gap-2">
-      <i title="{{ store().name }} Schedule Icon" class="pi pi-calendar-clock"></i>
+      <i class="pi pi-calendar-clock" title="{{ store().name }} Schedule Icon"></i>
       <span>{{ currentLang() === 'en' ? store().schedule['en'] : store().schedule['es'] }}</span>
 
     </div>

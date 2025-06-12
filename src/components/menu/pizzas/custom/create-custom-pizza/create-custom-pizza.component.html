@@ -6,21 +6,21 @@
 
       <span class="font-bold">{{ "component.custom.pizza.essentials" | translate }}</span>
 
-      <div title="The Essentials" class="flex flex-col w-fit gap-3">
+      <div class="flex flex-col w-fit gap-3" title="The Essentials">
 
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.custom.pizza.format" | translate }}</span>
           <p-selectButton
-            name="format"
-            id="format"
-            size="small"
+            (onOptionClick)="onSelectFormat($event)"
+            [(ngModel)]="formatControl"
+            [allowEmpty]="false"
+            [ngClass]="['flex flex-wrap gap-2']"
             [options]="formatOptions"
+            id="format"
+            name="format"
             optionLabel="label"
             optionValue="value"
-            [(ngModel)]="formatControl"
-            (onOptionClick)="onSelectFormat($event)"
-            [allowEmpty]="false"
-            [ngClass]="['flex flex-wrap gap-2']">
+            size="small">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
@@ -31,17 +31,17 @@
           <span>{{ "component.products.filters.allergen" | translate }}</span>
           <div class="flex gap-2">
             <p-selectButton
-              name="allernges"
-              id="allergens"
-              size="small"
-              [options]="allergenOptions"
-              optionLabel="label"
-              optionValue="value"
-              [(ngModel)]="allergensControl"
               (onOptionClick)="onSelectAllergenExclusion($event)"
+              [(ngModel)]="allergensControl"
               [disabled]="format() === ''"
               [multiple]="true"
-              [ngClass]="['flex flex-wrap gap-2']">
+              [ngClass]="['flex flex-wrap gap-2']"
+              [options]="allergenOptions"
+              id="allergens"
+              name="allernges"
+              optionLabel="label"
+              optionValue="value"
+              size="small">
               <ng-template #item let-item>
                 <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
               </ng-template>
@@ -52,16 +52,16 @@
         <div class="flex flex-col gap-2 w-fit ">
           <span>{{ "component.custom.pizza.base.sauce" | translate }}</span>
           <p-selectButton
-            name="sauce"
-            id="sauce"
-            size="small"
+            (onOptionClick)="onSelectBaseSauce($event)"
+            [(ngModel)]="sauceControl"
+            [disabled]="format() === ''"
+            [ngClass]="['flex flex-wrap gap-2']"
             [options]="sauceOptions"
+            id="sauce"
+            name="sauce"
             optionLabel="label"
             optionValue="value"
-            [(ngModel)]="sauceControl"
-            (onOptionClick)="onSelectBaseSauce($event)"
-            [disabled]="format() === ''"
-            [ngClass]="['flex flex-wrap gap-2']">
+            size="small">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
@@ -71,16 +71,16 @@
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.custom.pizza.base.cheese" | translate }}</span>
           <p-selectButton
-            name="baseCheese"
-            id="baseCheese"
-            size="small"
+            (onOptionClick)="onSelectBaseCheese($event)"
+            [(ngModel)]="baseCheeseControl"
+            [disabled]="format() === ''"
+            [ngClass]="['flex flex-wrap gap-2']"
             [options]="baseCheeseOptions"
+            id="baseCheese"
+            name="baseCheese"
             optionLabel="label"
             optionValue="value"
-            [(ngModel)]="baseCheeseControl"
-            (onOptionClick)="onSelectBaseCheese($event)"
-            [disabled]="format() === ''"
-            [ngClass]="['flex flex-wrap gap-2']">
+            size="small">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
@@ -94,15 +94,15 @@
       <div class="flex flex-col gap-2">
         <span>{{ "component.products.filters.cheese" | translate }}</span>
         <p-selectButton
-          size="small"
-          [options]="cheeseOptions"
-          optionLabel="label"
-          optionValue="value"
-          [(ngModel)]="cheeseControl"
           (onOptionClick)="onSelectIngredient($event)"
+          [(ngModel)]="cheeseControl"
           [disabled]="format() === '' || isLactoseFree()"
           [multiple]="true"
-          class="flex flex-wrap gap-2">
+          [options]="cheeseOptions"
+          class="flex flex-wrap gap-2"
+          optionLabel="label"
+          optionValue="value"
+          size="small">
           <ng-template #item let-item>
             <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
           </ng-template>
@@ -112,38 +112,38 @@
       <div class="flex flex-col gap-2 w-fit">
         <span>{{ "component.products.filters.vegetable" | translate }}</span>
         <p-selectButton
-          name="vegerable"
-          id="vegetable"
-          size="small"
-          [options]="vegetableOptions"
-          optionLabel="label"
-          optionValue="value"
-          [(ngModel)]="vegetableControl"
           (onOptionClick)="onSelectIngredient($event)"
+          [(ngModel)]="vegetableControl"
           [disabled]="format() === ''"
           [multiple]="true"
-          class="flex flex-wrap gap-2">
+          [options]="vegetableOptions"
+          class="flex flex-wrap gap-2"
+          id="vegetable"
+          name="vegerable"
+          optionLabel="label"
+          optionValue="value"
+          size="small">
           <ng-template #item let-item>
             <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
           </ng-template>
         </p-selectButton>
       </div>
 
-      <div title="Ingredients" class="flex flex-col w-fit gap-3">
+      <div class="flex flex-col w-fit gap-3" title="Ingredients">
         <div class="flex flex-col gap-2">
           <span>{{ "component.products.filters.meat" | translate }}</span>
           <p-selectButton
-            name="meat"
-            id="meat"
-            size="small"
-            [options]="meatOptions"
-            optionLabel="label"
-            optionValue="value"
-            [(ngModel)]="meatControl"
             (onOptionClick)="onSelectIngredient($event)"
+            [(ngModel)]="meatControl"
             [disabled]="format() === ''"
             [multiple]="true"
-            class="flex flex-wrap gap-2">
+            [options]="meatOptions"
+            class="flex flex-wrap gap-2"
+            id="meat"
+            name="meat"
+            optionLabel="label"
+            optionValue="value"
+            size="small">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
@@ -153,17 +153,17 @@
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.products.filters.oil" | translate }}</span>
           <p-selectButton
-            name="others"
-            id="others"
-            size="small"
-            [options]="otherOptions"
-            optionLabel="label"
-            optionValue="value"
-            [(ngModel)]="otherControl"
             (onOptionClick)="onSelectIngredient($event)"
+            [(ngModel)]="otherControl"
             [disabled]="format() === ''"
             [multiple]="true"
-            class="flex flex-wrap gap-2">
+            [options]="otherOptions"
+            class="flex flex-wrap gap-2"
+            id="others"
+            name="others"
+            optionLabel="label"
+            optionValue="value"
+            size="small">
             <ng-template #item let-item>
               <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
             </ng-template>
@@ -190,42 +190,42 @@
 
   <div class="flex gap-2">
     <p-button
+      (onClick)="reset()"
+      [outlined]="true"
+      [raised]="true"
+      label="{{'button.custom.pizza.reset' | translate | uppercase}}"
       title="Reset"
       type="button"
-      [raised]="true"
-      [outlined]="true"
-      label="{{'button.custom.pizza.reset' | translate | uppercase}}"
-      (onClick)="reset()"
     />
     <p-button
+      (onClick)="onSubmit()"
+      [disabled]="ingredientQuantity() > 9 || ingredientQuantity() < 3"
+      [outlined]="true"
+      [raised]="true"
+      [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3) ? 'danger' : 'primary'"
+      label="{{'button.custom.pizza.add' | translate | uppercase}}"
       title="Add"
       type="button"
-      [raised]="true"
-      [outlined]="true"
-      label="{{'button.custom.pizza.add' | translate | uppercase}}"
-      (onClick)="onSubmit()"
-      [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3) ? 'danger' : 'primary'"
-      [disabled]="ingredientQuantity() > 9 || ingredientQuantity() < 3"
     />
   </div>
 
   <div class="price">
     <p-button
-      title="Price"
-      type="button"
-      size="small"
+      [raised]="true"
       label="{{ price().toFixed(2) }}€"
       severity="primary"
-      [raised]="true"/>
+      size="small"
+      title="Price"
+      type="button"/>
   </div>
 
   <div class="quantity">
     <p-button
-      title="Ingredients Quantity"
-      type="button"
-      size="small"
-      label="{{ ingredientQuantity() }}/9"
+      [raised]="true"
       [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3)  ? 'danger' : 'primary'"
-      [raised]="true"/>
+      label="{{ ingredientQuantity() }}/9"
+      size="small"
+      title="Ingredients Quantity"
+      type="button"/>
   </div>
 </div>

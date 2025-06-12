@@ -20,12 +20,12 @@ import {LOCALE} from '../../../utils/constants';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocaleSelectorComponent {
+  @ViewChild('locale') locale: ElementRef | undefined;
+  protected visible = signal(false);
   private cookieService = inject(SsrCookieService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private primeNgConfig = inject(PrimeNG);
-  protected visible = signal(false);
-  @ViewChild('locale') locale: ElementRef | undefined;
 
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {

@@ -24,10 +24,11 @@ import {environment} from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginDialogComponent {
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  protected visible: boolean = this.authService.loginDialogVisibility();  // provides hiding dialog on esc key press
   protected backEndClientBaseUri = environment.url;
+  protected readonly myIcon = myIcon;
+  private authService = inject(AuthService);
+  protected visible: boolean = this.authService.loginDialogVisibility();  // provides hiding dialog on esc key press
+  private router = inject(Router);
 
   protected closeLoginDialog(): void {
     this.authService.loginDialogVisibility.set(false);
@@ -38,6 +39,4 @@ export class LoginDialogComponent {
     this.closeLoginDialog();
     this.router.navigate(["/registration"]);
   }
-
-  protected readonly myIcon = myIcon;
 }

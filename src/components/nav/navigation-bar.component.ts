@@ -37,12 +37,12 @@ import {PrimeTemplate} from 'primeng/api';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavigationBarComponent {
-  private loadingAnimationService = inject(LoadingAnimationService);
   protected authService = inject(AuthService);
   protected cartService = inject(CartService);
-  protected isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
   protected linksDrawerVisible = false;
   protected drawerCartVisible = false;
+  private loadingAnimationService = inject(LoadingAnimationService);
+  protected isLoading: Signal<boolean> = this.loadingAnimationService.getIsLoading();
 
   protected toggleMobileLinksDrawer() {
     this.linksDrawerVisible = !this.linksDrawerVisible;

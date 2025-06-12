@@ -1,9 +1,9 @@
-<p-menubar [model]="userProfileMenu" [dt]="userMenuBar()" breakpoint="320px">
+<p-menubar [dt]="userMenuBar()" [model]="userProfileMenu" breakpoint="320px">
   <ng-template #item let-item>
-    <a title="{{item.label}}" routerLinkActive="color" [routerLink]="item.route"
-       class="flex justify-center items-center">
-      <span title="{{item.label | translate}} Icon" [class]="item.icon"></span>
-      <span title="{{item.label | translate}}" class="ml-2">{{ item.label | translate }}</span>
+    <a [routerLink]="item.route" class="flex justify-center items-center" routerLinkActive="color"
+       title="{{item.label}}">
+      <span [class]="item.icon" title="{{item.label | translate}} Icon"></span>
+      <span class="ml-2" title="{{item.label | translate}}">{{ item.label | translate }}</span>
     </a>
   </ng-template>
 </p-menubar>

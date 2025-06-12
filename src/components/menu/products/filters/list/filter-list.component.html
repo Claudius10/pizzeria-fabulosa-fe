@@ -2,12 +2,12 @@
   <div class="flex flex-col gap-2">
 
     <span
-      title="{{ header() | translate }}"
-      [ngClass]="['cursor-pointer']">
+      [ngClass]="['cursor-pointer']"
+      title="{{ header() | translate }}">
       {{ header() | translate }}
     </span>
 
-    <ul title="{{ header() | translate }} Filters" class="flex flex-col gap-2">
+    <ul class="flex flex-col gap-2" title="{{ header() | translate }} Filters">
       @for (item of items(); track item) {
         <li>
           <app-filter-item [item]="item"/>

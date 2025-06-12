@@ -23,12 +23,12 @@ import {APIError} from '../../api/user';
   providedIn: 'root',
 })
 export class ErrorService {
+  errors = signal<APIError[]>([]);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
   private router = inject(Router);
-  errors = signal<APIError[]>([]);
 
   handleError(error: any) {
     // TODO - when a non API Error is the error
@@ -79,18 +79,6 @@ export class ErrorService {
     });
   }
 
-  private logout() {
-    this.authService.logout();
-    // back-end deletes cookies
-    setTimeout(() => {
-      this.router.navigate(["/"]);
-    }, 3000);
-  }
-
-  private addError(error: APIError) {
-    this.errors.update(errors => [...errors, error]);
-  }
-
   clear() {
     this.errors.set([]);
   }
@@ -101,6 +89,18 @@ export class ErrorService {
 
   getErrors() {
     return this.errors.asReadonly();
+  }
+
+  private logout() {
+    this.authService.logout();
+    // back-end deletes cookies
+    setTimeout(() => {
+      this.router.navigate(["/"]);
+    }, 3000);
+  }
+
+  private addError(error: APIError) {
+    this.errors.update(errors => [...errors, error]);
   }
 
   private getErrorSummary(cause: string): string {

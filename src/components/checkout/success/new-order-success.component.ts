@@ -40,10 +40,6 @@ export class NewOrderSuccessComponent {
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
 
-  protected goBack() {
-    this.router.navigate(['/pizzas']);
-  }
-
   constructor() {
     afterNextRender(() => {
       if (this.checkoutFormService.orderSuccess) {
@@ -57,5 +53,9 @@ export class NewOrderSuccessComponent {
         this.checkoutFormService.clear();
       });
     });
+  }
+
+  protected goBack() {
+    this.router.navigate(['/pizzas']);
   }
 }

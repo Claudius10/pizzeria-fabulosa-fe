@@ -14,9 +14,7 @@ import {StepOneWhoComponent} from '../../components/checkout/steps/1-step-one-wh
 import {StepTwoWhereComponent} from '../../components/checkout/steps/2-step-two-where/step-two-where.component';
 import {StepThreeWhenComponent} from '../../components/checkout/steps/3-step-three-when/step-three-when.component';
 import {StepFourHowComponent} from '../../components/checkout/steps/4-step-four-how/step-four-how.component';
-import {
-  StepFiveSummaryComponent
-} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
+import {StepFiveSummaryComponent} from '../../components/checkout/steps/5-step-five-summary/step-five-summary.component';
 import {NewOrderSuccessComponent} from '../../components/checkout/success/new-order-success.component';
 import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {ErrorComponent} from './error/error.component';

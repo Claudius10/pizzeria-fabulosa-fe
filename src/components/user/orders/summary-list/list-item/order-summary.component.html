@@ -2,11 +2,11 @@
   <div class="flex flex-col items-center gap-4" routerLink="{{orderSummary().id}}">
 
     <div class="flex items-center gap-2">
-      <span title="Order {{ orderSummary().id }}" class="text-xl text-primary">{{ orderSummary().id }}</span>
+      <span class="text-xl text-primary" title="Order {{ orderSummary().id }}">{{ orderSummary().id }}</span>
       <i
-        title="View Order Icon"
         class="pi pi-arrow-down-left-and-arrow-up-right-to-center"
-        style="color: var(--p-primary-color)"></i>
+        style="color: var(--p-primary-color)"
+        title="View Order Icon"></i>
     </div>
 
     <div class="flex flex-col gap-4">
@@ -30,10 +30,10 @@
       <div class="flex items-center gap-2">
         <span title="Total">Total:</span>
         <p-button
-          type="button"
+          [severity]="orderSummary().costAfterOffers ? 'danger' : 'success'"
           [text]="true"
           label="{{ orderSummary().cost.toFixed(2) }}€"
-          [severity]="orderSummary().costAfterOffers ? 'danger' : 'success'"/>
+          type="button"/>
       </div>
     </div>
   </div>

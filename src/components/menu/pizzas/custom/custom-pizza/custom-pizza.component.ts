@@ -23,9 +23,9 @@ import {getDarkIcon, getLightIcon} from '../../../../../utils/functions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomPizzaComponent {
+  protected customPizzaDialogVisible = false;
   private cartService = inject(CartService);
   private translateService = inject(TranslateService);
-  protected customPizzaDialogVisible = false;
 
   protected addCustomPizza(pizza: CustomPizza) {
     const isMedium = pizza.format.includes("format.m");

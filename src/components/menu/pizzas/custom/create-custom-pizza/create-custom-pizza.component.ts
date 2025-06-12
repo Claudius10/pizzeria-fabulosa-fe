@@ -29,18 +29,154 @@ export interface CustomPizza {
 })
 export class CreateCustomPizzaComponent implements OnInit {
   onNewCustomPizza = output<CustomPizza>();
-  private destroyRef = inject(DestroyRef);
-  private gluten = "component.products.filters.allergen.gluten";
-  private lactose = "component.products.filters.allergen.lactose";
-  private ingredients = signal<string[]>([]);
-  private ingredientsObservable = toObservable(this.ingredients);
-  protected allergensInfo = signal<string[]>([this.gluten]);
-  private excludedAllergens = signal<string[]>([]);
   protected ingredientQuantity = signal<number>(0);
   protected price = signal<number>(0);
   protected format = signal(''); // the format is NOT an ingredient
   protected isLactoseFree = signal(false);
+  protected formatControl = "";
+  protected sauceControl = "";
+  protected baseCheeseControl = "";
+  protected allergensControl = "";
+  protected meatControl = "";
+  protected cheeseControl = "";
+  protected vegetableControl = "";
+  protected otherControl = "";
+  protected meatOptions = [
+    {
+      label: "component.products.filters.meat.bacon",
+      value: "component.products.filters.meat.bacon"
+    },
+    {
+      label: "component.products.filters.meat.double.bacon",
+      value: "component.products.filters.meat.double.bacon"
+    },
+    {
+      label: "component.products.filters.meat.pepperoni",
+      value: "component.products.filters.meat.pepperoni"
+    },
+    {
+      label: "component.products.filters.meat.double.pepperoni",
+      value: "component.products.filters.meat.double.pepperoni"
+    },
+    {
+      label: "component.products.filters.meat.beef",
+      value: "component.products.filters.meat.beef"
+    },
+    {
+      label: "component.products.filters.meat.york.ham",
+      value: "component.products.filters.meat.york.ham"
+    },
+    {
+      label: "component.products.filters.meat.chicken",
+      value: "component.products.filters.meat.chicken"
+    },
+  ];
+  protected cheeseOptions = [
+    {
+      label: "component.products.filters.cheese.parmesan",
+      value: "component.products.filters.cheese.parmesan"
+    },
+    {
+      label: "component.products.filters.cheese.emmental",
+      value: "component.products.filters.cheese.emmental"
+    },
+    {
+      label: "component.products.filters.cheese.goat",
+      value: "component.products.filters.cheese.goat"
+    },
+    {
+      label: "component.products.filters.cheese.blue",
+      value: "component.products.filters.cheese.blue"
+    },
+  ];
+  protected vegetableOptions = [
+    {
+      label: "component.products.filters.vegetables.zucchini",
+      value: "component.products.filters.vegetables.zucchini"
+    },
+    {
+      label: "component.products.filters.vegetables.tomato",
+      value: "component.products.filters.vegetables.tomato"
+    },
+    {
+      label: "component.products.filters.vegetables.onion",
+      value: "component.products.filters.vegetables.onion"
+    },
+    {
+      label: "component.products.filters.vegetables.mushroom",
+      value: "component.products.filters.vegetables.mushroom"
+    },
+    {
+      label: "component.products.filters.vegetables.eggplant",
+      value: "component.products.filters.vegetables.eggplant"
+    },
+    {
+      label: "component.products.filters.vegetables.olives.black",
+      value: "component.products.filters.vegetables.olives.black"
+    },
+  ];
+  protected otherOptions = [
+    {
+      label: "component.products.filters.oil.truffle",
+      value: "component.products.filters.oil.truffle"
+    },
+  ];
+  private destroyRef = inject(DestroyRef);
+  private gluten = "component.products.filters.allergen.gluten";
+  protected allergensInfo = signal<string[]>([this.gluten]);
+  private lactose = "component.products.filters.allergen.lactose";
+  private ingredients = signal<string[]>([]);
+  private ingredientsObservable = toObservable(this.ingredients);
+  private excludedAllergens = signal<string[]>([]);
   private isGlutenFree = signal(false);
+  private m = 'component.custom.pizza.format.m';
+  private l = 'component.custom.pizza.format.l';
+  protected formatOptions = [
+    {
+      label: this.m,
+      value: this.m,
+    },
+    {
+      label: this.l,
+      value: this.l
+    }
+  ];
+  private tomatoSauce = 'component.products.filters.sauce.tomato';
+  private creamSauce = 'component.products.filters.sauce.cream';
+  protected sauceOptions = [
+    {
+      label: this.tomatoSauce,
+      value: this.tomatoSauce,
+    },
+    {
+      label: this.creamSauce,
+      value: this.creamSauce,
+    }
+  ];
+  private mozzarella = 'component.products.filters.cheese.mozzarella';
+  private doubleMozzarella = 'component.products.filters.cheese.double.mozzarella';
+  protected baseCheeseOptions = [
+    {
+      label: this.mozzarella,
+      value: this.mozzarella
+    },
+    {
+      label: this.doubleMozzarella,
+      value: this.doubleMozzarella,
+    },
+  ];
+  private glutenFree = 'component.custom.pizza.base.no.gluten';
+  private lactoseFree = 'component.custom.pizza.base.no.lactose';
+  protected allergenOptions = [
+    {
+      label: this.lactoseFree,
+      value: this.lactoseFree
+    },
+    {
+      label: this.glutenFree,
+      value: this.glutenFree
+    }
+  ];
 
   ngOnInit(): void {
     const subscription = this.ingredientsObservable.subscribe(ingredients => {
@@ -124,29 +260,6 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  private checkForLactose(ingredients: string[]) {
-    const lactoseProducts = ["cheese", "cream"];
-
-    if (ingredients.length === 0) {
-      this.excludedAllergens.set(this.isGlutenFree() ? [this.glutenFree] : []);
-      this.allergensInfo.set(this.isGlutenFree() ? [] : [this.gluten]);
-      return;
-    }
-
-    for (let i = 0; i < ingredients.length; i++) {
-      const ingredient = ingredients[i];
-
-      if (ingredient.includes(lactoseProducts[0]) || ingredient.includes(lactoseProducts[1])) {
-        this.removeAllergenExclusion(this.lactoseFree);
-        this.addAllergenToInfo(this.lactose);
-        break;
-      } else {
-        this.addAllergenExclusion(this.lactoseFree);
-        this.removeAllergenFromInfo(this.lactose);
-      }
-    }
-  }
-
   protected onSelectBaseSauce(event: SelectButtonOptionClickEvent) {
     const value = event.option.value;
 
@@ -184,6 +297,41 @@ export class CreateCustomPizzaComponent implements OnInit {
   protected onSelectIngredient(event: SelectButtonOptionClickEvent) {
     const priceOfIngredient = this.format() === this.m ? 1.5 : 2.5;
     this.handleNewIngredient(event.option.value, priceOfIngredient);
+  }
+
+  protected reset() {
+    this.deselectValues();
+    this.ingredients.set([]);
+    this.excludedAllergens.set([]);
+    this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
+    this.ingredientQuantity.set(0);
+    this.price.set(0);
+    this.format.set('');
+    this.isLactoseFree.set(false);
+    this.isGlutenFree.set(false);
+  }
+
+  private checkForLactose(ingredients: string[]) {
+    const lactoseProducts = ["cheese", "cream"];
+
+    if (ingredients.length === 0) {
+      this.excludedAllergens.set(this.isGlutenFree() ? [this.glutenFree] : []);
+      this.allergensInfo.set(this.isGlutenFree() ? [] : [this.gluten]);
+      return;
+    }
+
+    for (let i = 0; i < ingredients.length; i++) {
+      const ingredient = ingredients[i];
+
+      if (ingredient.includes(lactoseProducts[0]) || ingredient.includes(lactoseProducts[1])) {
+        this.removeAllergenExclusion(this.lactoseFree);
+        this.addAllergenToInfo(this.lactose);
+        break;
+      } else {
+        this.addAllergenExclusion(this.lactoseFree);
+        this.removeAllergenFromInfo(this.lactose);
+      }
+    }
   }
 
   private addAllergenExclusion(allergenExclusion: string) {
@@ -257,15 +405,6 @@ export class CreateCustomPizzaComponent implements OnInit {
     }
   }
 
-  protected formatControl = "";
-  protected sauceControl = "";
-  protected baseCheeseControl = "";
-  protected allergensControl = "";
-  protected meatControl = "";
-  protected cheeseControl = "";
-  protected vegetableControl = "";
-  protected otherControl = "";
-
   private deselectValues() {
     this.formatControl = "";
     this.sauceControl = "";
@@ -275,18 +414,6 @@ export class CreateCustomPizzaComponent implements OnInit {
     this.cheeseControl = "";
     this.vegetableControl = "";
     this.otherControl = "";
-  }
-
-  protected reset() {
-    this.deselectValues();
-    this.ingredients.set([]);
-    this.excludedAllergens.set([]);
-    this.allergensInfo.set(["component.products.filters.allergen.gluten"]);
-    this.ingredientQuantity.set(0);
-    this.price.set(0);
-    this.format.set('');
-    this.isLactoseFree.set(false);
-    this.isGlutenFree.set(false);
   }
 
   private onFormatChange(price: number) {
@@ -301,141 +428,4 @@ export class CreateCustomPizzaComponent implements OnInit {
     this.format.set(price === 11 ? this.m : this.l);
     this.formatControl = this.format(); // it only unchecks if value !== '', so have to set it back here, otherwise on reset() it wont uncheck
   }
-
-  private m = 'component.custom.pizza.format.m';
-  private l = 'component.custom.pizza.format.l';
-  private tomatoSauce = 'component.products.filters.sauce.tomato';
-  private creamSauce = 'component.products.filters.sauce.cream';
-  private mozzarella = 'component.products.filters.cheese.mozzarella';
-  private doubleMozzarella = 'component.products.filters.cheese.double.mozzarella';
-  private glutenFree = 'component.custom.pizza.base.no.gluten';
-  private lactoseFree = 'component.custom.pizza.base.no.lactose';
-
-  protected formatOptions = [
-    {
-      label: this.m,
-      value: this.m,
-    },
-    {
-      label: this.l,
-      value: this.l
-    }
-  ];
-
-  protected sauceOptions = [
-    {
-      label: this.tomatoSauce,
-      value: this.tomatoSauce,
-    },
-    {
-      label: this.creamSauce,
-      value: this.creamSauce,
-    }
-  ];
-
-  protected baseCheeseOptions = [
-    {
-      label: this.mozzarella,
-      value: this.mozzarella
-    },
-    {
-      label: this.doubleMozzarella,
-      value: this.doubleMozzarella,
-    },
-  ];
-
-  protected allergenOptions = [
-    {
-      label: this.lactoseFree,
-      value: this.lactoseFree
-    },
-    {
-      label: this.glutenFree,
-      value: this.glutenFree
-    }
-  ];
-
-  protected meatOptions = [
-    {
-      label: "component.products.filters.meat.bacon",
-      value: "component.products.filters.meat.bacon"
-    },
-    {
-      label: "component.products.filters.meat.double.bacon",
-      value: "component.products.filters.meat.double.bacon"
-    },
-    {
-      label: "component.products.filters.meat.pepperoni",
-      value: "component.products.filters.meat.pepperoni"
-    },
-    {
-      label: "component.products.filters.meat.double.pepperoni",
-      value: "component.products.filters.meat.double.pepperoni"
-    },
-    {
-      label: "component.products.filters.meat.beef",
-      value: "component.products.filters.meat.beef"
-    },
-    {
-      label: "component.products.filters.meat.york.ham",
-      value: "component.products.filters.meat.york.ham"
-    },
-    {
-      label: "component.products.filters.meat.chicken",
-      value: "component.products.filters.meat.chicken"
-    },
-  ];
-
-  protected cheeseOptions = [
-    {
-      label: "component.products.filters.cheese.parmesan",
-      value: "component.products.filters.cheese.parmesan"
-    },
-    {
-      label: "component.products.filters.cheese.emmental",
-      value: "component.products.filters.cheese.emmental"
-    },
-    {
-      label: "component.products.filters.cheese.goat",
-      value: "component.products.filters.cheese.goat"
-    },
-    {
-      label: "component.products.filters.cheese.blue",
-      value: "component.products.filters.cheese.blue"
-    },
-  ];
-
-  protected vegetableOptions = [
-    {
-      label: "component.products.filters.vegetables.zucchini",
-      value: "component.products.filters.vegetables.zucchini"
-    },
-    {
-      label: "component.products.filters.vegetables.tomato",
-      value: "component.products.filters.vegetables.tomato"
-    },
-    {
-      label: "component.products.filters.vegetables.onion",
-      value: "component.products.filters.vegetables.onion"
-    },
-    {
-      label: "component.products.filters.vegetables.mushroom",
-      value: "component.products.filters.vegetables.mushroom"
-    },
-    {
-      label: "component.products.filters.vegetables.eggplant",
-      value: "component.products.filters.vegetables.eggplant"
-    },
-    {
-      label: "component.products.filters.vegetables.olives.black",
-      value: "component.products.filters.vegetables.olives.black"
-    },
-  ];
-
-  protected otherOptions = [
-    {
-      label: "component.products.filters.oil.truffle",
-      value: "component.products.filters.oil.truffle"
-    },
-  ];
 }

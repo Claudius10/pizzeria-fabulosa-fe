@@ -36,8 +36,6 @@ import {myIcon} from '../../../../primeng/icon';
 export class StepOneWhoComponent implements OnInit {
   protected checkoutFormService = inject(CheckoutFormService);
   protected authService = inject(AuthService);
-  private router = inject(Router);
-
   protected form = new FormGroup({
     fullName: new FormControl("", {
       nonNullable: true,
@@ -52,6 +50,9 @@ export class StepOneWhoComponent implements OnInit {
       updateOn: "change"
     }),
   });
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.checkoutFormService.step = 0;
@@ -89,7 +90,4 @@ export class StepOneWhoComponent implements OnInit {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }
-
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
 }

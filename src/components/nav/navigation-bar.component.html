@@ -1,54 +1,54 @@
-<div title="Navigation" class="fixed top-0 left-0 w-screen style">
+<div class="fixed top-0 left-0 w-screen style" title="Navigation">
   <div class="flex items-center justify-between">
     <!-- ICON SMALL SCREEN -->
     <img
-      title="Home"
       alt="Small Main Pizza Icon"
-      routerLink="/"
-      class="logo-sm cursor-pointer"
       aria-label="To Home Page"
+      class="logo-sm cursor-pointer"
+      height="50"
       ngSrc="/assets/icons/pizzabig.png"
-      height="50" width="50">
+      routerLink="/"
+      title="Home" width="50">
 
     <!-- LEFT SIDE LARGE SCREEN QUICK LINKS -->
     <div class="quick-links-ls">
       <img
-        title="Home"
         alt="Large Main Pizza Icon"
         aria-label="To Home Page"
-        routerLink="/"
         class="logo-ls cursor-pointer"
-        ngSrc="/assets/icons/pizzabig.png"
         height="60"
+        ngSrc="/assets/icons/pizzabig.png"
+        routerLink="/"
+        title="Home"
         width="60">
       <div class="flex gap-12">
         <button
-          title="Pizzas"
-          class="text-lg"
           aria-label="To Pizzas Page"
+          class="text-lg"
+          routerLink="pizzas"
           routerLinkActive="color"
-          routerLink="pizzas">
+          title="Pizzas">
           Pizzas
         </button>
         <button
-          title="Beverages"
           aria-label="To Beverages Page"
           class="text-lg"
+          routerLink="beverages"
           routerLinkActive="color"
-          routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+          title="Beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
         </button>
       </div>
     </div>
 
     <!-- RIGHT SIDE ICON LIST -->
-    <ul title="Navigation Buttons" class="flex list-none m-0 p-0 gap-2 items-center">
+    <ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
       <!-- CART ICON -->
       <li (click)="toggleCartDrawer()" pBadge value="{{cartService.quantity()}}">
         <button
-          title="Cart"
-          type="button"
           aria-label="Open Cart"
-          class="flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center">
+          class="flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center"
+          title="Cart"
+          type="button">
           <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
         </button>
       </li>
@@ -56,10 +56,10 @@
       <!-- SMALL SCREEN MENU ICON -->
       <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
         <button
-          title="Navigation Menu"
-          type="button"
           aria-label="Open Site Navigation"
-          class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center">
+          class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center"
+          title="Navigation Menu"
+          type="button">
           <i class="pi pi-bars" style="font-size: 1.25rem"></i>
         </button>
       </li>

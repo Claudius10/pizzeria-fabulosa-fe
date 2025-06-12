@@ -1,17 +1,17 @@
-<div title="Filters Box" class="flex flex-col gap-2">
+<div class="flex flex-col gap-2" title="Filters Box">
 
   <div class="filter-box">
     <div class="flex justify-between">
 
-      <div title="Toggle Filters" class="flex gap-2 cursor-pointer" (click)="toggle()">
+      <div (click)="toggle()" class="flex gap-2 cursor-pointer" title="Toggle Filters">
         <i class="flex items-center color cursor-pointer"></i>
-        <span title="Filters" class="cursor-pointer">{{ "component.products.filters.drawer.header" | translate }}</span>
+        <span class="cursor-pointer" title="Filters">{{ "component.products.filters.drawer.header" | translate }}</span>
       </div>
 
       <i
-        title="Remove All Filters"
+        (click)="this.filterService.clear()"
         [ngClass]="['flex items-center color cursor-pointer', filterService.areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
-        (click)="this.filterService.clear()"></i>
+        title="Remove All Filters"></i>
     </div>
 
     @if (!filterService.areFiltersEmpty()) {

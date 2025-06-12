@@ -47,31 +47,14 @@ import {UserAddressSelectComponent} from './user-address-select/user-address-sel
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
-  private loadingAnimationService = inject(LoadingAnimationService);
   protected checkoutFormService = inject(CheckoutFormService);
-  private storeAPI = inject(StoreAPIService);
   protected authService = inject(AuthService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
-  protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-
-  protected stores = injectQuery(() => ({
-    queryKey: RESOURCE_STORES,
-    queryFn: () => firstValueFrom(this.storeAPI.findAll()),
-    enabled: false
-  }));
-
-  private storesStatus = toObservable(this.stores.status);
-
   protected options: Option[] = [
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
   ];
-
   protected selectedOption: Option = this.options[0];
   protected validStoreOrAddressSelection = true;
-
   protected form = new FormGroup({
     street: new FormControl("", {
         nonNullable: true,
@@ -89,6 +72,20 @@ export class StepTwoWhereComponent implements OnInit {
       updateOn: "change"
     }),
   });
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
+  private loadingAnimationService = inject(LoadingAnimationService);
+  protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
+  private storeAPI = inject(StoreAPIService);
+  protected stores = injectQuery(() => ({
+    queryKey: RESOURCE_STORES,
+    queryFn: () => firstValueFrom(this.storeAPI.findAll()),
+    enabled: false
+  }));
+  private errorService = inject(ErrorService);
+  private destroyRef = inject(DestroyRef);
+  private router = inject(Router);
+  private storesStatus = toObservable(this.stores.status);
 
   ngOnInit(): void {
     // set up component
@@ -129,6 +126,14 @@ export class StepTwoWhereComponent implements OnInit {
     }
   }
 
+  previousStep() {
+    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
+      this.saveFormValues();
+    }
+
+    this.router.navigate(['order', 'new', 'step-one']);
+  }
+
   protected selectDelivery(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
@@ -155,44 +160,9 @@ export class StepTwoWhereComponent implements OnInit {
     this.form.reset();
   }
 
-  private fetchStores() {
-    this.loadingAnimationService.startLoading();
-    this.stores.refetch(); // no need to handle promise here
-
-    const subscription = this.storesStatus.subscribe({
-      next: status => {
-        if (status === ERROR) {
-          this.errorService.handleError(this.stores.error()!);
-        }
-
-        this.loadingAnimationService.stopLoading();
-      }
-    });
-
-    this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
-    });
-  }
-
   protected setSelectedId(address: Address): void {
     this.checkoutFormService.selectedAddress = ({name: address.name, isStore: address.isStore});
     this.validStoreOrAddressSelection = true;
-  }
-
-  private saveFormValues() {
-    this.checkoutFormService.where = {
-      street: this.form.get("street")!.value,
-      number: Number(this.form.get("number")!.value),
-      details: this.form.get("details")!.value === null ? undefined : this.form.get("details")!.value!,
-    };
-  }
-
-  previousStep() {
-    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
-      this.saveFormValues();
-    }
-
-    this.router.navigate(['order', 'new', 'step-one']);
   }
 
   protected nextStep() {
@@ -233,6 +203,33 @@ export class StepTwoWhereComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
+  private fetchStores() {
+    this.loadingAnimationService.startLoading();
+    this.stores.refetch(); // no need to handle promise here
+
+    const subscription = this.storesStatus.subscribe({
+      next: status => {
+        if (status === ERROR) {
+          this.errorService.handleError(this.stores.error()!);
+        }
+
+        this.loadingAnimationService.stopLoading();
+      }
+    });
+
+    this.destroyRef.onDestroy(() => {
+      subscription.unsubscribe();
+    });
+  }
+
+  private saveFormValues() {
+    this.checkoutFormService.where = {
+      street: this.form.get("street")!.value,
+      number: Number(this.form.get("number")!.value),
+      details: this.form.get("details")!.value === null ? undefined : this.form.get("details")!.value!,
+    };
+  }
+
   private setHomeDeliveryValidators(add: boolean): void {
     if (add) {
       this.form.controls.street.addValidators([Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)]);
@@ -242,7 +239,4 @@ export class StepTwoWhereComponent implements OnInit {
       this.form.controls.number.removeValidators([Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)]);
     }
   }
-
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
 }

@@ -39,35 +39,38 @@ import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, NewUserOrde
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent implements OnInit {
-  private loadingAnimationService = inject(LoadingAnimationService);
   protected checkoutFormService = inject(CheckoutFormService);
+  protected authService = inject(AuthService);
+  protected cartService = inject(CartService);
+  protected selectedStore: Store | null = null;
+  protected selectedAddress: string | null = null;
+  protected form = new FormGroup({
+    comment: new FormControl<string | null>(null, {
+      validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
+      nonNullable: false,
+      updateOn: "change"
+    }),
+  });
+  private loadingAnimationService = inject(LoadingAnimationService);
   private anonymousOrdersAPI = inject(AnonymousOrdersAPIService);
   private userOrdersAPI = inject(UserOrdersAPIService);
   private storesAPI = inject(StoreAPIService);
   private errorService = inject(ErrorService);
-  protected authService = inject(AuthService);
-  protected cartService = inject(CartService);
   private queryClient = inject(QueryClient);
   private router = inject(Router);
-
   private createAnonOrder = injectMutation(() => ({
     mutationFn: (data: NewAnonOrderDTO) => lastValueFrom(this.anonymousOrdersAPI.createAnonOrder(data))
   }));
-
   private createUserOrder = injectMutation(() => ({
     mutationFn: (data: { userId: number, order: NewUserOrderDTO }) => lastValueFrom(this.userOrdersAPI.create(data.userId, data.order)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
     }
   }));
-
   private stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storesAPI.findAll()),
   }));
-
-  protected selectedStore: Store | null = null;
-  protected selectedAddress: string | null = null;
 
   ngOnInit(): void {
     this.checkoutFormService.step = 4;
@@ -91,14 +94,6 @@ export class StepFiveSummaryComponent implements OnInit {
     }
   }
 
-  protected form = new FormGroup({
-    comment: new FormControl<string | null>(null, {
-      validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
-      nonNullable: false,
-      updateOn: "change"
-    }),
-  });
-
   protected onSubmit(): void {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
@@ -109,6 +104,22 @@ export class StepFiveSummaryComponent implements OnInit {
         this.newAnonOrder();
       }
     }
+  }
+
+  protected previousStep() {
+    if (isFormValid(this.form)) {
+      this.checkoutFormService.comment = this.form.get("comment")!.value;
+    }
+    this.router.navigate(['order', 'new', 'step-four']);
+  }
+
+  protected cancel() {
+    this.checkoutFormService.clear();
+    this.router.navigate(['/']);
+  }
+
+  protected firstStep() {
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 
   private newUserOrder() {
@@ -184,22 +195,6 @@ export class StepFiveSummaryComponent implements OnInit {
         this.loadingAnimationService.stopLoading();
       }
     });
-  }
-
-  protected previousStep() {
-    if (isFormValid(this.form)) {
-      this.checkoutFormService.comment = this.form.get("comment")!.value;
-    }
-    this.router.navigate(['order', 'new', 'step-four']);
-  }
-
-  protected cancel() {
-    this.checkoutFormService.clear();
-    this.router.navigate(['/']);
-  }
-
-  protected firstStep() {
-    this.router.navigate(['order', 'new', 'step-one']);
   }
 }
 

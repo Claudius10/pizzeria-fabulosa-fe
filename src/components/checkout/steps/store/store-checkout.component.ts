@@ -21,8 +21,8 @@ export class StoreCheckoutComponent implements OnInit {
   invalid = input<boolean>();
   onStoreSelect = output<Address>();
   private translateService = inject(TranslateService);
-  private destroyRef = inject(DestroyRef);
   protected currentLang = signal(this.translateService.currentLang);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

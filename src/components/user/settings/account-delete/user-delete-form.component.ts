@@ -36,6 +36,16 @@ import {UserAccountAPIService} from '../../../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
+  protected showPassword = signal(false);
+  protected form = new FormGroup({
+    password: new FormControl<string>("", {
+      nonNullable: true,
+      updateOn: "change",
+      validators: [Validators.required]
+    })
+  });
+  protected readonly myInput = myInput;
+  protected readonly myIcon = myIcon;
   private loadingAnimationService = inject(LoadingAnimationService);
   private checkoutFormService = inject(CheckoutFormService);
   private userAccountAPI = inject(UserAccountAPIService);
@@ -50,23 +60,13 @@ export class UserDeleteFormComponent implements OnDestroy {
     mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteById(data.id))
   }));
 
-  protected showPassword = signal(false);
-
-  protected togglePassword() {
-    this.showPassword.set(!this.showPassword());
-  }
-
   ngOnDestroy(): void {
     this.loadingAnimationService.stopLoading();
   }
 
-  protected form = new FormGroup({
-    password: new FormControl<string>("", {
-      nonNullable: true,
-      updateOn: "change",
-      validators: [Validators.required]
-    })
-  });
+  protected togglePassword() {
+    this.showPassword.set(!this.showPassword());
+  }
 
   protected onSubmit() {
     if (isFormValid(this.form)) {
@@ -98,7 +98,4 @@ export class UserDeleteFormComponent implements OnDestroy {
       });
     }
   }
-
-  protected readonly myInput = myInput;
-  protected readonly myIcon = myIcon;
 }

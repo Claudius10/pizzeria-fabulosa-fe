@@ -1,15 +1,15 @@
-<div title="{{this.item().name['en']}} {{item().formatCode | translate}}"
-     class="flex flex-col items-center rounded-lg cart-item justify-center">
+<div class="flex flex-col items-center rounded-lg cart-item justify-center"
+     title="{{this.item().name['en']}} {{item().formatCode | translate}}">
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
 
     <div class="flex items-center">
       <img
+        alt="Cart Item Icon"
         class="rounded-border"
-        ngSrc="{{isDarkMode() ? item().images.light : item().images.dark}}"
-        width="80"
         height="80"
-        alt="Cart Item Icon">
+        ngSrc="{{isDarkMode() ? item().images.light : item().images.dark}}"
+        width="80">
     </div>
 
     <!-- BODY -->
@@ -17,8 +17,8 @@
 
       <!-- 1ST ROW -> NAME + FORMAT -->
       <div class="flex items-start gap-1">
-        <span title="{{this.item().name['en']}} {{item().formatCode}}"
-              class="font-bold">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
+        <span class="font-bold"
+              title="{{this.item().name['en']}} {{item().formatCode}}">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
 
         <div class="flex">
           @if (this.item().formats['s']) {
@@ -43,11 +43,11 @@
 
         <!-- PRICE -->
         <p-button
-          type="button"
-          title="{{this.item().name['en']}} {{item().formatCode}} Price"
-          size="small"
-          label="{{ item().price.toFixed(2) }}€" [outlined]="true"
-          [raised]="true"/>
+          [outlined]="true"
+          [raised]="true"
+          label="{{ item().price.toFixed(2) }}€"
+          size="small" title="{{this.item().name['en']}} {{item().formatCode}} Price"
+          type="button"/>
 
         @if (viewOnly()) {
           <!-- X QUANTITY -->

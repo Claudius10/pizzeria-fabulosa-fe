@@ -1,4 +1,4 @@
-<div title="Cart" [ngClass]="['flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding card cart-background']">
+<div [ngClass]="['flex flex-col gap-4 h-full w-full', inSidebar() ? '' : 'padding card cart-background']" title="Cart">
 
   @if (cartService.quantity() === 0) {
     <span>{{ "component.cart.empty.text" | translate }}</span>
@@ -14,10 +14,10 @@
 
   <div class="flex flex-col gap-4">
     <app-cart-totals
-      [total]="cartService.total()"
-      [threeForTwoOffers]="cartService.threeForTwoOffers()"
       [secondForHalfPriceOffer]="cartService.secondHalfPriceOffer()"
+      [threeForTwoOffers]="cartService.threeForTwoOffers()"
       [totalAfterOffers]="cartService.totalAfterOffers()"
+      [total]="cartService.total()"
     />
 
     @if (cartService.quantity() !== 0 && !getIsViewOnly()) {
