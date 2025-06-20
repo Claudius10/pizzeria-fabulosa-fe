@@ -14,9 +14,11 @@ import {HttpClient, HttpContext, HttpEvent, HttpResponse} from '@angular/common/
 import {Observable} from 'rxjs';
 
 // @ts-ignore
-import {ResponseDTO} from '../model/responseDTO';
+import {CreatedOrderDTO} from '../model/createdOrderDTO';
 // @ts-ignore
-import {StoreListDTO} from '../model/storeListDTO';
+import {NewAnonOrderDTO} from '../model/newAnonOrderDTO';
+// @ts-ignore
+import {ResponseDTO} from '../model/responseDTO';
 
 // @ts-ignore
 import {BASE_PATH, COLLECTION_FORMATS} from '../variables';
@@ -27,29 +29,41 @@ import {BaseService} from '../api.base.service';
 @Injectable({
     providedIn: 'root'
 })
-export class StoreAPIService extends BaseService {
+export class AnonymousOrdersAPIService extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
         super(basePath, configuration);
     }
 
     /**
-     * Returns all stores
+     * Create order as an anonymous user
+     * @param newAnonOrderDTO
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAll(observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<StoreListDTO>;
-    public findAll(observe?: 'response', reportProgress?: boolean, options?: {
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'body', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json',
         context?: HttpContext,
         transferCache?: boolean
-    }): Observable<HttpResponse<StoreListDTO>>;
-    public findAll(observe?: 'events', reportProgress?: boolean, options?: {
+    }): Observable<CreatedOrderDTO>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'response', reportProgress?: boolean, options?: {
         httpHeaderAccept?: 'application/json',
         context?: HttpContext,
         transferCache?: boolean
-    }): Observable<HttpEvent<StoreListDTO>>;
-    public findAll(observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<any> {
+    }): Observable<HttpResponse<CreatedOrderDTO>>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpEvent<CreatedOrderDTO>>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe: any = 'body', reportProgress: boolean = false, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<any> {
+        if (newAnonOrderDTO === null || newAnonOrderDTO === undefined) {
+            throw new Error('Required parameter newAnonOrderDTO was null or undefined when calling createAnonOrder.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -65,6 +79,15 @@ export class StoreAPIService extends BaseService {
         const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -76,11 +99,12 @@ export class StoreAPIService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/resource/store`;
+        let localVarPath = `/api/v1/anon/order`;
         const {basePath, withCredentials} = this.configuration;
-        return this.httpClient.request<StoreListDTO>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CreatedOrderDTO>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                body: newAnonOrderDTO,
                 responseType: <any>responseType_,
                 ...(withCredentials ? {withCredentials} : {}),
                 headers: localVarHeaders,

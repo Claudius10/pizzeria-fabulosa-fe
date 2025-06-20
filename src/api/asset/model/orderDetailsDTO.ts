@@ -1,5 +1,5 @@
 /**
- * Pizzeria Business API
+ * Pizzeria Assets API
  *
  *
  *
@@ -9,12 +9,12 @@
  */
 
 
-export interface OrderSummaryDTO {
-    id: number;
-    formattedCreatedOn: string;
+export interface OrderDetailsDTO {
+    deliveryTime: string;
     paymentMethod: string;
-    quantity: number;
-    cost: number;
-    costAfterOffers: number;
+    billToChange?: number;
+    comment?: string;
+    storePickUp: boolean;
+    changeToGive?: number;
 }
 

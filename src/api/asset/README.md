@@ -59,29 +59,28 @@ In your Angular project:
 
 ```typescript
 // without configuring providers
-import {ApiModule} from '';
-import {HttpClientModule} from '@angular/common/http';
+import { ApiModule } from '';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [
-    ApiModule,
-    // make sure to import the HttpClientModule in the AppModule only,
-    // see https://github.com/angular/angular/issues/20575
-    HttpClientModule
-  ],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+    imports: [
+        ApiModule,
+        // make sure to import the HttpClientModule in the AppModule only,
+        // see https://github.com/angular/angular/issues/20575
+        HttpClientModule
+    ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule {}
 ```
 
 ```typescript
 // configuring providers
-import {ApiModule, Configuration, ConfigurationParameters} from '';
+import { ApiModule, Configuration, ConfigurationParameters } from '';
 
-export function apiConfigFactory(): Configuration {
+export function apiConfigFactory (): Configuration {
   const params: ConfigurationParameters = {
     // set configuration parameters here.
   }
@@ -89,47 +88,44 @@ export function apiConfigFactory(): Configuration {
 }
 
 @NgModule({
-  imports: [ApiModule.forRoot(apiConfigFactory)],
-  declarations: [AppComponent],
-  providers: [],
-  bootstrap: [AppComponent]
+    imports: [ ApiModule.forRoot(apiConfigFactory) ],
+    declarations: [ AppComponent ],
+    providers: [],
+    bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule {}
 ```
 
 ```typescript
 // configuring providers with an authentication service that manages your access tokens
-import {ApiModule, Configuration} from '';
+import { ApiModule, Configuration } from '';
 
 @NgModule({
-  imports: [ApiModule],
-  declarations: [AppComponent],
-  providers: [
-    {
-      provide: Configuration,
-      useFactory: (authService: AuthService) => new Configuration(
-        {
-          basePath: environment.apiUrl,
-          accessToken: authService.getAccessToken.bind(authService)
-        }
-      ),
-      deps: [AuthService],
-      multi: false
-    }
-  ],
-  bootstrap: [AppComponent]
+    imports: [ ApiModule ],
+    declarations: [ AppComponent ],
+    providers: [
+      {
+        provide: Configuration,
+        useFactory: (authService: AuthService) => new Configuration(
+          {
+            basePath: environment.apiUrl,
+            accessToken: authService.getAccessToken.bind(authService)
+          }
+        ),
+        deps: [AuthService],
+        multi: false
+      }
+    ],
+    bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule {}
 ```
 
 ```typescript
-import {DefaultApi} from '';
+import { DefaultApi } from '';
 
 export class AppComponent {
-  constructor(private apiGateway: DefaultApi) {
-  }
+    constructor(private apiGateway: DefaultApi) { }
 }
 ```
 
@@ -143,9 +139,9 @@ you can create an alias name when importing the modules
 in order to avoid naming conflicts:
 
 ```typescript
-import {ApiModule} from 'my-api-path';
-import {ApiModule as OtherApiModule} from 'my-other-api-path';
-import {HttpClientModule} from '@angular/common/http';
+import { ApiModule } from 'my-api-path';
+import { ApiModule as OtherApiModule } from 'my-other-api-path';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -166,31 +162,25 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service.
 
 ```typescript
-import {BASE_PATH} from '';
+import { BASE_PATH } from '';
 
 bootstrap(AppComponent, [
-  {provide: BASE_PATH, useValue: 'https://your-web-service.com'},
+    { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
 ]);
 ```
 
 or
 
 ```typescript
-import {BASE_PATH} from '';
+import { BASE_PATH } from '';
 
 @NgModule({
-  imports: [],
-  declarations: [AppComponent],
-  providers: [provide:
-BASE_PATH, useValue
-:
-'https://your-web-service.com'
-],
-bootstrap: [AppComponent]
+    imports: [],
+    declarations: [ AppComponent ],
+    providers: [ provide: BASE_PATH, useValue: 'https://your-web-service.com' ],
+    bootstrap: [ AppComponent ]
 })
-
-export class AppModule {
-}
+export class AppModule {}
 ```
 
 ### Using @angular/cli
@@ -207,19 +197,18 @@ export const environment = {
 In the src/app/app.module.ts:
 
 ```typescript
-import {BASE_PATH} from '';
-import {environment} from '../environments/environment';
+import { BASE_PATH } from '';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [],
-  providers: [{provide: BASE_PATH, useValue: environment.API_BASE_PATH}],
-  bootstrap: [AppComponent]
+  imports: [ ],
+  providers: [{ provide: BASE_PATH, useValue: environment.API_BASE_PATH }],
+  bootstrap: [ AppComponent ]
 })
-export class AppModule {
-}
+export class AppModule { }
 ```
 
 ### Customizing path parameter encoding
@@ -238,7 +227,7 @@ Example value for use in your Configuration-Provider:
 
 ```typescript
 new Configuration({
-  encodeParam: (param: Param) => myFancyParamEncoder(param),
+    encodeParam: (param: Param) => myFancyParamEncoder(param),
 })
 ```
 

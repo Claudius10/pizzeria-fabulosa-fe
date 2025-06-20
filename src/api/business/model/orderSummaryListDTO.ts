@@ -11,10 +11,10 @@ import {OrderSummaryDTO} from './orderSummaryDTO';
 
 
 export interface OrderSummaryListDTO {
-  content: Array<OrderSummaryDTO>;
-  number: number;
-  size: number;
-  totalElements: number;
-  last: boolean;
+    content: Array<OrderSummaryDTO>;
+    number: number;
+    size: number;
+    totalElements: number;
+    last: boolean;
 }
 

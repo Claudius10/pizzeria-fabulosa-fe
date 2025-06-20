@@ -12,8 +12,8 @@ import {CartDTO} from './cartDTO';
 
 
 export interface NewUserOrderDTO {
-  address: string;
-  orderDetails: OrderDetailsDTO;
-  cart: CartDTO;
+    address: string;
+    orderDetails: OrderDetailsDTO;
+    cart: CartDTO;
 }
 

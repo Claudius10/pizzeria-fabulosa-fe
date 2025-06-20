@@ -519,7 +519,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await expect(page.url()).toBe('http://192.168.1.128:4200/');
+    await expect(page.url()).toBe('http://127.0.0.1:4200/');
   });
 
   test('givenCheckout_whenCancelledWithFormFieldFilled_thenCheckoutFormIsReset', async ({page}) => {

@@ -37,94 +37,82 @@
       <div class="flex flex-col gap-4">
         @if (checkoutFormService.homeDelivery) {
 
-          @if (authService.isAuthenticated()) {
-            <app-user-address-select
-              (onAddressSelect)="setSelectedId($event)"
-              [address]="authService.address!"
-              [selected]="checkoutFormService.selectedAddress.name"
-              [invalid]="validStoreOrAddressSelection"
-            />
-          } @else {
-            <div class="flex flex-col gap-6">
+          <div class="flex flex-col gap-6">
 
-              <div class="flex flex-col gap-2">
-                <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
-                  <input
-                    title="Address Input"
-                    class="w-full"
-                    id="street"
-                    type="text"
-                    placeholder="{{ 'form.label.delivery.address' | translate }}"
-                    formControlName="street"
-                    pInputText
-                    [dt]="myInput(true)"
-                  >
-                </p-iconfield>
-                @if (!form.controls.street.untouched && !form.controls.street.valid) {
-                  <span title="Invalid Address" id="street-help"
-                        class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
+            <div class="flex flex-col gap-2">
+              <p-iconfield [dt]="myIcon('{primary.400}')">
+                <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
+                <input
+                  title="Address Input"
+                  class="w-full"
+                  id="street"
+                  type="text"
+                  placeholder="{{ 'form.label.delivery.address' | translate }}"
+                  formControlName="street"
+                  pInputText
+                  [dt]="myInput(true)"
+                >
+              </p-iconfield>
+              @if (!form.controls.street.untouched && !form.controls.street.valid) {
+                <span title="Invalid Address" id="street-help"
+                      class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
                   </span>
-                }
-              </div>
+              }
+            </div>
 
-              <div class="flex flex-col gap-2">
-                <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon title="Number Icon" styleClass="pi pi-home"/>
-                  <input
-                    title="Address Number Input"
-                    class="w-full"
-                    id="streetNumber"
-                    type="tel"
-                    placeholder="{{ 'form.label.delivery.number' | translate }}"
-                    formControlName="number"
-                    pInputText
-                    [dt]="myInput(true)"
-                  >
-                </p-iconfield>
-                @if (!form.controls.number.untouched && !form.controls.number.valid) {
-                  <span title="Invalid Address Number" id="number-help" class="invalid-text">
+            <div class="flex flex-col gap-2">
+              <p-iconfield [dt]="myIcon('{primary.400}')">
+                <p-inputicon title="Number Icon" styleClass="pi pi-home"/>
+                <input
+                  title="Address Number Input"
+                  class="w-full"
+                  id="streetNumber"
+                  type="tel"
+                  placeholder="{{ 'form.label.delivery.number' | translate }}"
+                  formControlName="number"
+                  pInputText
+                  [dt]="myInput(true)"
+                >
+              </p-iconfield>
+              @if (!form.controls.number.untouched && !form.controls.number.valid) {
+                <span title="Invalid Address Number" id="number-help" class="invalid-text">
                       {{ "form.invalid.delivery.number" | translate }}
                   </span>
-                }
-              </div>
+              }
+            </div>
 
-              <div class="flex flex-col gap-2">
-                <p-iconfield [dt]="myIcon('{primary.400}')">
-                  <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
-                  <input
-                    title="Details Input"
-                    class="w-full"
-                    id="details"
-                    type="text"
-                    placeholder="{{ 'form.label.delivery.details' | translate }}"
-                    formControlName="details"
-                    pInputText
-                    [dt]="myInput(true)"
-                  >
-                </p-iconfield>
-                @if (!form.controls.details.untouched && !form.controls.details.valid) {
-                  <span title="Invalid Details" id="details-help" class="invalid-text">
+            <div class="flex flex-col gap-2">
+              <p-iconfield [dt]="myIcon('{primary.400}')">
+                <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
+                <input
+                  title="Details Input"
+                  class="w-full"
+                  id="details"
+                  type="text"
+                  placeholder="{{ 'form.label.delivery.details' | translate }}"
+                  formControlName="details"
+                  pInputText
+                  [dt]="myInput(true)"
+                >
+              </p-iconfield>
+              @if (!form.controls.details.untouched && !form.controls.details.valid) {
+                <span title="Invalid Details" id="details-help" class="invalid-text">
                     {{ "form.invalid.delivery.details" | translate }}
                   </span>
-                }
-              </div>
+              }
             </div>
-          }
+          </div>
+
         } @else {
           <!-- STORE SELECT -->
-          @if (stores.status() === "error") {
-            <app-server-error/>
-          }
-
           @if (stores.status() === 'success') {
             <ul title="Stores" class="flex flex-col gap-4">
               @for (store of stores.data()!.stores; track store.id) {
                 <li>
                   <app-store-checkout
                     [store]="store"
-                    (onStoreSelect)="setSelectedId($event)"
-                    [selected]="checkoutFormService.selectedAddress.name"
+                    (onStoreSelect)="setSelectedStore($event)"
+                    [selected]="this.checkoutFormService.selectedStore"
                     [invalid]="validStoreOrAddressSelection"
                     [highlight]="true"
                   />
@@ -139,6 +127,10 @@
                 {{ "form.invalid.store.selection" | translate }}
               </span>
             }
+          }
+
+          @if (stores.status() === "error") {
+            <app-server-error/>
           }
         }
       </div>

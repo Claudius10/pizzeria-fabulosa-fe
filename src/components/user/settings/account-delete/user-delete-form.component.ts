@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, signal} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {Router} from '@angular/router';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
 import {Button} from 'primeng/button';
-import {isFormValid} from '../../../../utils/functions';
+import {isFormValid, logout} from '../../../../utils/functions';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
@@ -16,7 +15,6 @@ import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {CartService} from '../../../../services/cart/cart.service';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {UserAccountAPIService} from '../../../../api/user';
 
@@ -54,10 +52,8 @@ export class UserDeleteFormComponent implements OnDestroy {
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
-  private cartService = inject(CartService);
-  private router = inject(Router);
   private delete = injectMutation(() => ({
-    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteById(data.id))
+    mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPI.deleteById(data.id, data.password))
   }));
 
   ngOnDestroy(): void {
@@ -76,18 +72,18 @@ export class UserDeleteFormComponent implements OnDestroy {
         onSuccess: () => {
           this.authService.logout();
           this.queryClient.removeQueries({queryKey: ["user"]});
-          this.cartService.clear();
           this.checkoutFormService.clear();
 
           this.messageService.add({
             severity: 'success',
             summary: this.translateService.instant("toast.severity.info"),
             detail: this.translateService.instant("component.user.delete.form"),
-            life: 2000
+            life: 1000
           });
 
-          this.router.navigate(["/"]);
-
+          setTimeout(() => {
+            logout();
+          }, 1000);
         },
         onError: (error) => {
           this.errorService.handleError(error);

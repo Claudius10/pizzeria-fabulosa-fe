@@ -10,11 +10,11 @@
 
 
 export interface OrderDetailsDTO {
-  deliveryTime: string;
-  paymentMethod: string;
-  billToChange?: number;
-  comment?: string;
-  storePickUp: boolean;
-  changeToGive?: number;
+    deliveryTime: string;
+    paymentMethod: string;
+    billToChange?: number;
+    comment?: string;
+    storePickUp: boolean;
+    changeToGive?: number;
 }
 

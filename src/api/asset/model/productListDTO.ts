@@ -11,10 +11,10 @@ import {Product} from './product';
 
 
 export interface ProductListDTO {
-  content: Array<Product>;
-  number: number;
-  size: number;
-  totalElements: number;
-  last: boolean;
+    content: Array<Product>;
+    number: number;
+    size: number;
+    totalElements: number;
+    last: boolean;
 }
 

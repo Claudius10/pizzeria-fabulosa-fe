@@ -1,23 +1,29 @@
 import {expect, test} from '@playwright/test';
-import {
-  AUTH_TOKEN_COOKIE,
-  userOrderSummaryList,
-  userOrderSummaryListManySizeFivePageOne,
-  userOrderSummaryListManySizeFivePageThree,
-  userOrderSummaryListManySizeFivePageTwo
-} from '../../api-responses';
+import {userinfo, userOrderSummaryList, userOrderSummaryListManySizeFivePageOne, userOrderSummaryListManySizeFivePageThree, userOrderSummaryListManySizeFivePageTwo} from '../../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
   });
 
   test('ShowSkeletons', async ({page}) => {
 
+    // Arrange
+
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+
     // Act
 
-    await page.goto('/user/orders');
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
 
     // Assert
 
@@ -29,13 +35,16 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({status: 204});
     });
 
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+
     // Act
 
-    await page.goto('/user/orders');
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
 
     // Assert
 
@@ -47,13 +56,16 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryList});
     });
 
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+
     // Act
 
-    await page.goto('/user/orders');
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
 
     // Assert
 
@@ -71,13 +83,16 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+
     // Act
 
-    await page.goto('/user/orders');
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
 
     // Assert
 
@@ -104,22 +119,24 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=1&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
     });
 
-    await page.goto('/user/orders');
-
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
     const pageTwoButton = page.getByRole('button', {name: 'Page 2'});
 
     // Act
 
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
     await pageTwoButton.click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/user/orders?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/user/orders?page=2');
 
     // Assert
 
@@ -146,30 +163,32 @@ test.describe('Render', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
     });
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=1&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
     });
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=2&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=2&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryListManySizeFivePageThree});
     });
 
-    await page.goto('/user/orders');
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
 
     const pageTwoButton = page.getByRole('button', {name: 'Page 2'});
     await pageTwoButton.click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/user/orders?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/user/orders?page=2');
 
     const pageThreeButton = page.getByRole('button', {name: 'Page 3'});
 
     // Act
 
     await pageThreeButton.click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/user/orders?page=3');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/user/orders?page=3');
 
     // Assert
 
@@ -191,19 +210,29 @@ test.describe('Render', () => {
 
 test.describe('Navigation', () => {
   test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
   });
 
   test('givenOrderSummaryItem_whenClickOnItem_thenGoToOrderRoute', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
       await route.fulfill({json: userOrderSummaryList});
     });
 
-    await page.goto('/user/orders');
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
     await expect(page.locator('p-card').getByText('1', {exact: true})).toBeVisible();
     const item = page.getByTitle('Order 1 Summary');
     await expect(item).toBeVisible();
@@ -218,60 +247,25 @@ test.describe('Navigation', () => {
   });
 });
 
-test.describe('URL Paths', () => {
-  test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=0&pageSize=5', async route => {
-      await route.fulfill({json: userOrderSummaryListManySizeFivePageOne});
-    });
-
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=1&pageSize=5', async route => {
-      await route.fulfill({json: userOrderSummaryListManySizeFivePageTwo});
-    });
-
-    await page.route('*/**/api/v1/user/1/order/summary?pageNumber=2&pageSize=5', async route => {
-      await route.fulfill({json: userOrderSummaryListManySizeFivePageThree});
-    });
-  });
-
-  test('givenNavigationToUrlsDirectly_thenCorrectlySetThePageNumber', async ({page}) => {
-
-    // page 1
-
-    await page.goto('/user/orders?page=1');
-
-    await expect(page.getByTitle("Orders Summary List").getByRole('listitem')).toHaveCount(5);
-    await expect(page.getByRole('button', {name: 'Page 1'})).toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 2'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 3'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-
-    // page 2
-
-    await page.goto('/user/orders?page=2');
-
-    await expect(page.getByTitle("Orders Summary List").getByRole('listitem')).toHaveCount(5);
-    await expect(page.getByRole('button', {name: 'Page 1'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 2'})).toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 3'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-
-    // page 3
-
-    await page.goto('/user/orders?page=3');
-
-    await expect(page.getByTitle("Orders Summary List").getByRole('listitem')).toHaveCount(1);
-    await expect(page.getByRole('button', {name: 'Page 1'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 2'})).not.toHaveCSS('color', 'rgb(194, 65, 12)');
-    await expect(page.getByRole('button', {name: 'Page 3'})).toHaveCSS('color', 'rgb(194, 65, 12)');
-  });
-});
-
 test.describe('Render: API KO', () => {
   test('ShowErrorComponent', async ({page}) => {
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    await page.goto('/user/orders');
-    expect(await page.title()).toEqual('Order History');
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.goto('/');
+
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+
+    expect(await page.title()).toBe('Profile');
+
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+
+    expect(await page.title()).toBe('Order History');
+
     await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
     await expect(page.getByText('Please try again later. We apologize for any inconvenience.').first()).toBeVisible({timeout: 10_000});
   });

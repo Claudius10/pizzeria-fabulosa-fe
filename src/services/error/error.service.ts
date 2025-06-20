@@ -137,7 +137,7 @@ export class ErrorService {
       case USER_NOT_FOUND:
         return this.translateService.instant("toast.error.api.user.not.found.detail");
       case BAD_CREDENTIALS:
-        return this.translateService.instant("toast.error.api.user.not.found.detail");
+        return this.translateService.instant("toast.error.api.user.badcredentials");
       case USER_EMAIL_ALREADY_EXISTS:
         return this.translateService.instant("toast.error.api.user.email.unique.detail");
       case ADDRESS_MAX_SIZE:

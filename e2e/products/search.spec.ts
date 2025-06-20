@@ -33,7 +33,7 @@ test.describe('Search', () => {
     // Act
 
     await pageTwo.click();
-    await expect(page.url()).toBe('http://192.168.1.128:4200/pizzas?page=2');
+    await expect(page.url()).toBe('http://127.0.0.1:4200/pizzas?page=2');
 
     // Assert
 

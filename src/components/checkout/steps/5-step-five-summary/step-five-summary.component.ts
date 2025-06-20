@@ -19,8 +19,8 @@ import {UserDetailsComponent} from '../../../user/details/user-details.component
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
 import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
-import {Store, StoreAPIService} from '../../../../api/asset';
-import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, NewUserOrderDTO, UserOrdersAPIService} from '../../../../api/business';
+import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, Store, StoreAPIService} from '../../../../api/asset';
+import {NewUserOrderDTO, UserOrdersAPIService} from '../../../../api/business';
 
 @Component({
   selector: 'app-step-five-summary',
@@ -43,7 +43,6 @@ export class StepFiveSummaryComponent implements OnInit {
   protected authService = inject(AuthService);
   protected cartService = inject(CartService);
   protected selectedStore: Store | null = null;
-  protected selectedAddress: string | null = null;
   protected form = new FormGroup({
     comment: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
@@ -81,15 +80,10 @@ export class StepFiveSummaryComponent implements OnInit {
         this.form.controls.comment.patchValue(this.checkoutFormService.comment);
       }
 
-      if (this.checkoutFormService.where === null && this.checkoutFormService.selectedAddress.name !== null) {
-        // either store or user address was selected since where is null
-
-        if (this.checkoutFormService.selectedAddress.isStore) {
-          // store address
-          const fetchedStores: Store[] = this.stores.data()!.stores; // NOTE - data is in cache
-          const selectedStoreIndex = fetchedStores.findIndex(store => store.address === this.checkoutFormService.selectedAddress.name);
-          this.selectedStore = fetchedStores[selectedStoreIndex];
-        }
+      if (this.checkoutFormService.where === null && this.checkoutFormService.selectedStore !== null) {
+        const fetchedStores: Store[] = this.stores.data()!.stores; // NOTE - data is in cache
+        const selectedStoreIndex = fetchedStores.findIndex(store => store.address === this.checkoutFormService.selectedStore);
+        this.selectedStore = fetchedStores[selectedStoreIndex];
       }
     }
   }
@@ -124,13 +118,13 @@ export class StepFiveSummaryComponent implements OnInit {
 
   private newUserOrder() {
     const payload: NewUserOrderDTO = {
-      address: this.checkoutFormService.selectedAddress.name!,
+      address: this.resolveAddress(),
       orderDetails: {
         deliveryTime: this.checkoutFormService.when!.deliveryTime,
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
         billToChange: this.checkoutFormService.how!.billToChange === null ? undefined : this.checkoutFormService.how!.billToChange,
         comment: this.form.get("comment")!.value === null ? undefined : this.form.get("comment")!.value!,
-        storePickUp: this.checkoutFormService.selectedAddress.isStore === null ? false : this.checkoutFormService.selectedAddress.isStore
+        storePickUp: this.checkoutFormService.selectedStore !== null
       },
       cart: {
         cartItems: cleanIds(this.cartService.items()),
@@ -157,21 +151,20 @@ export class StepFiveSummaryComponent implements OnInit {
   }
 
   private newAnonOrder() {
+
     const payload: NewAnonOrderDTO = {
       customer: {
         anonCustomerName: this.checkoutFormService.who!.anonCustomerName,
         anonCustomerContactNumber: this.checkoutFormService.who!.anonCustomerContactNumber,
         anonCustomerEmail: this.checkoutFormService.who!.anonCustomerEmail,
       },
-      address: this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.street! +
-      this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.number!.toString() +
-      this.checkoutFormService.where === null ? undefined : this.checkoutFormService.where.details!,
+      address: this.resolveAddress(),
       orderDetails: {
         deliveryTime: this.checkoutFormService.when!.deliveryTime,
         paymentMethod: this.checkoutFormService.how!.paymentMethod,
         billToChange: this.checkoutFormService.how!.billToChange,
         comment: this.form.get("comment")!.value === undefined ? undefined : this.form.get("comment")!.value!,
-        storePickUp: this.checkoutFormService.selectedAddress.isStore === null ? false : this.checkoutFormService.selectedAddress.isStore
+        storePickUp: this.checkoutFormService.selectedStore !== null
       },
       cart: {
         cartItems: cleanIds(this.cartService.items()),
@@ -195,6 +188,19 @@ export class StepFiveSummaryComponent implements OnInit {
         this.loadingAnimationService.stopLoading();
       }
     });
+  }
+
+  private resolveAddress(): string {
+    let address = "";
+    if (this.checkoutFormService.selectedStore !== null) {
+      address = this.checkoutFormService.selectedStore;
+    } else if (this.checkoutFormService.where) {
+      address = this.checkoutFormService.where.street + " " + this.checkoutFormService.where.number.toString();
+      if (this.checkoutFormService.where.details) {
+        address = address + " " + this.checkoutFormService.where.details;
+      }
+    }
+    return address;
   }
 }
 

@@ -1,13 +1,5 @@
 import {expect, test} from '@playwright/test';
-import {
-  anonUserOrderSuccess,
-  AUTH_TOKEN_COOKIE,
-  nowFromBE,
-  pizzas,
-  stores,
-  userAddressList,
-  userOrderSuccess
-} from '../api-responses';
+import {anonUserOrderSuccess, nowFromBE, pizzas, stores, userAddressList, userinfo, userOrderSuccess} from '../api-responses';
 
 test.describe('Render: Large Screen', () => {
 
@@ -127,7 +119,7 @@ test.describe('Render: Large Screen', () => {
       await route.fulfill({json: pizzas});
     });
 
-    await page.route('*/**/api/v1/resource/now', async route => {
+    await page.route('*/**/api/v1/resource/util/now', async route => {
       await route.fulfill({json: nowFromBE});
     });
 
@@ -222,8 +214,9 @@ test.describe('Render: Large Screen', () => {
 
   test('givenUserAndUserAddressAndAsapAndCashWithChange_thenRender', async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
     await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
@@ -253,7 +246,7 @@ test.describe('Render: Large Screen', () => {
     const next = page.getByRole('button', {name: 'NEXT'});
 
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
@@ -264,12 +257,13 @@ test.describe('Render: Large Screen', () => {
     const deliverySelect = page.getByLabel('Please select delivery type');
     await expect(deliverySelect).toBeVisible();
     await expect(deliverySelect).toHaveValue('0');
-    const userAddress = page.getByText('Address: En un lugar de la Mancha...');
-    const userAddressDiv = page.getByTitle('Address 1');
-    await expect(userAddress).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
-    await userAddress.click();
-    await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+
+    const addressInput = page.getByRole('textbox', {name: 'Address Input'});
+    const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
+    const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
+    await addressInput.fill('Alustre');
+    await addressNumberInput.fill('15');
+    await addressDetails.fill('Floor 5, Door 2E');
 
     await next.click();
     await expect(page).toHaveURL('/order/new/step-three');
@@ -296,13 +290,14 @@ test.describe('Render: Large Screen', () => {
 
     await expect(page.getByText('Customer details')).toBeVisible();
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await expect(page.getByText('Delivery details')).toBeVisible();
     await expect(page.getByText('Selected time of delivery: AS SOON AS POSSIBLE')).toBeVisible();
-    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Address: Alustre')).toBeVisible();
+    await expect(page.getByText('Address number: 15')).toBeVisible();
+    await expect(page.getByText('Address details: Floor 5, Door 2E')).toBeVisible();
 
     await expect(page.getByText('Order details')).toBeVisible();
     await expect(page.getByText('Selected payment method: Cash')).toBeVisible();
@@ -423,7 +418,7 @@ test.describe('Render: Small Screen', () => {
       await route.fulfill({json: pizzas});
     });
 
-    await page.route('*/**/api/v1/resource/now', async route => {
+    await page.route('*/**/api/v1/resource/util/now', async route => {
       await route.fulfill({json: nowFromBE});
     });
 
@@ -517,8 +512,9 @@ test.describe('Render: Small Screen', () => {
 
   test('givenUserAndUserAddressAndAsapAndCashWithChange_thenRender', async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
     await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
@@ -548,7 +544,7 @@ test.describe('Render: Small Screen', () => {
     const next = page.getByRole('button', {name: 'NEXT'});
 
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
@@ -559,12 +555,13 @@ test.describe('Render: Small Screen', () => {
     const deliverySelect = page.getByLabel('Please select delivery type');
     await expect(deliverySelect).toBeVisible();
     await expect(deliverySelect).toHaveValue('0');
-    const userAddress = page.getByText('Address: En un lugar de la Mancha...');
-    const userAddressDiv = page.getByTitle('Address 1');
-    await expect(userAddress).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
-    await userAddress.click();
-    await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+
+    const addressInput = page.getByRole('textbox', {name: 'Address Input'});
+    const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
+    const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
+    await addressInput.fill('Alustre');
+    await addressNumberInput.fill('15');
+    await addressDetails.fill('Floor 5, Door 2E');
 
     await next.click();
     await expect(page).toHaveURL('/order/new/step-three');
@@ -591,13 +588,13 @@ test.describe('Render: Small Screen', () => {
 
     await expect(page.getByText('Customer details')).toBeVisible();
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await expect(page.getByText('Delivery details')).toBeVisible();
-    await expect(page.getByText('Selected time of delivery: AS SOON AS POSSIBLE')).toBeVisible();
-    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Address: Alustre')).toBeVisible();
+    await expect(page.getByText('Address number: 15')).toBeVisible();
+    await expect(page.getByText('Address details: Floor 5, Door 2E')).toBeVisible();
 
     await expect(page.getByText('Order details')).toBeVisible();
     await expect(page.getByText('Selected payment method: Cash')).toBeVisible();
@@ -619,8 +616,9 @@ test.describe('Render: Small Screen', () => {
 test.describe('Buttons', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
     await page.route('*/**/api/v1/user/1/address', async route => {
       await route.fulfill({json: userAddressList});
@@ -650,7 +648,7 @@ test.describe('Buttons', () => {
     const next = page.getByRole('button', {name: 'NEXT'});
 
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
@@ -661,12 +659,13 @@ test.describe('Buttons', () => {
     const deliverySelect = page.getByLabel('Please select delivery type');
     await expect(deliverySelect).toBeVisible();
     await expect(deliverySelect).toHaveValue('0');
-    const userAddress = page.getByText('Address: En un lugar de la Mancha...');
-    const userAddressDiv = page.getByTitle('Address 1');
-    await expect(userAddress).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
-    await userAddress.click();
-    await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+
+    const addressInput = page.getByRole('textbox', {name: 'Address Input'});
+    const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
+    const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
+    await addressInput.fill('Alustre');
+    await addressNumberInput.fill('15');
+    await addressDetails.fill('Floor 5, Door 2E');
 
     await next.click();
     await expect(page).toHaveURL('/order/new/step-three');
@@ -763,14 +762,11 @@ test.describe('Order Success', () => {
 
     // Arrange
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-
-    await page.route('*/**/api/v1/user/1/address', async route => {
-      await route.fulfill({json: userAddressList});
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
     });
 
-    await page.route('*/**/api/v1/user/1/order', async route => {
+    await page.route('*/**/api/v1/order?userId=1', async route => {
       await route.fulfill({json: userOrderSuccess});
     });
 
@@ -798,7 +794,7 @@ test.describe('Order Success', () => {
     const next = page.getByRole('button', {name: 'NEXT'});
 
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await next.click();
@@ -809,12 +805,13 @@ test.describe('Order Success', () => {
     const deliverySelect = page.getByLabel('Please select delivery type');
     await expect(deliverySelect).toBeVisible();
     await expect(deliverySelect).toHaveValue('0');
-    const userAddress = page.getByText('Address: En un lugar de la Mancha...');
-    const userAddressDiv = page.getByTitle('Address 1');
-    await expect(userAddress).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
-    await userAddress.click();
-    await expect(userAddressDiv).toHaveCSS('border-color', 'color(srgb 0.976471 0.45098 0.0862745)');
+
+    const addressInput = page.getByRole('textbox', {name: 'Address Input'});
+    const addressNumberInput = page.getByRole('textbox', {name: 'Address Number Input'});
+    const addressDetails = page.getByRole('textbox', {name: 'Details Input'});
+    await addressInput.fill('Alustre');
+    await addressNumberInput.fill('15');
+    await addressDetails.fill('Floor 5, Door 2E');
 
     await next.click();
     await expect(page).toHaveURL('/order/new/step-three');
@@ -851,13 +848,11 @@ test.describe('Order Success', () => {
 
     await expect(page.getByText('Customer details')).toBeVisible();
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
 
     await expect(page.getByText('Delivery details')).toBeVisible();
-    await expect(page.getByText('Selected time of delivery: AS SOON AS POSSIBLE')).toBeVisible();
-    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Address: Avenida Alustre 15')).toBeVisible();
 
     await expect(page.getByText('Order details')).toBeVisible();
     await expect(page.getByText('Selected payment method: Card')).toBeVisible();
@@ -887,7 +882,7 @@ test.describe('Order Success', () => {
       await route.fulfill({json: pizzas});
     });
 
-    await page.route('*/**/api/v1/resource/now', async route => {
+    await page.route('*/**/api/v1/resource/util/now', async route => {
       await route.fulfill({json: nowFromBE});
     });
 

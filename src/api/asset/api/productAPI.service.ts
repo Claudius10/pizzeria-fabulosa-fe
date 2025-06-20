@@ -25,99 +25,99 @@ import {BaseService} from '../api.base.service';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ProductAPIService extends BaseService {
 
-  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
-    super(basePath, configuration);
-  }
-
-  /**
-   * Returns all products by type with pagination
-   * @param type Type of the product
-   * @param pageNumber Page number starting at 0
-   * @param pageSize Page size
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'body', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<ProductListDTO>;
-  public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'response', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpResponse<ProductListDTO>>;
-  public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'events', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpEvent<ProductListDTO>>;
-  public findAllByType(type: string, pageNumber: number, pageSize: number, observe: any = 'body', reportProgress: boolean = false, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<any> {
-    if (type === null || type === undefined) {
-      throw new Error('Required parameter type was null or undefined when calling findAllByType.');
-    }
-    if (pageNumber === null || pageNumber === undefined) {
-      throw new Error('Required parameter pageNumber was null or undefined when calling findAllByType.');
-    }
-    if (pageSize === null || pageSize === undefined) {
-      throw new Error('Required parameter pageSize was null or undefined when calling findAllByType.');
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
-    let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-      <any>type, 'type');
-    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-      <any>pageNumber, 'pageNumber');
-    localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-      <any>pageSize, 'pageSize');
+    /**
+     * Returns all products by type with pagination
+     * @param type Type of the product
+     * @param pageNumber Page number starting at 0
+     * @param pageSize Page size
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<ProductListDTO>;
+    public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpResponse<ProductListDTO>>;
+    public findAllByType(type: string, pageNumber: number, pageSize: number, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpEvent<ProductListDTO>>;
+    public findAllByType(type: string, pageNumber: number, pageSize: number, observe: any = 'body', reportProgress: boolean = false, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<any> {
+        if (type === null || type === undefined) {
+            throw new Error('Required parameter type was null or undefined when calling findAllByType.');
+        }
+        if (pageNumber === null || pageNumber === undefined) {
+            throw new Error('Required parameter pageNumber was null or undefined when calling findAllByType.');
+        }
+        if (pageSize === null || pageSize === undefined) {
+            throw new Error('Required parameter pageSize was null or undefined when calling findAllByType.');
+        }
 
-    let localVarHeaders = this.defaultHeaders;
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>type, 'type');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageNumber, 'pageNumber');
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageSize, 'pageSize');
 
-    const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-      'application/json'
-    ]);
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/v1/resource/product`;
+        const {basePath, withCredentials} = this.configuration;
+        return this.httpClient.request<ProductListDTO>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                ...(withCredentials ? {withCredentials} : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
     }
-
-    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-    const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/api/v1/resource/product`;
-    const {basePath, withCredentials} = this.configuration;
-    return this.httpClient.request<ProductListDTO>('get', `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        params: localVarQueryParameters,
-        responseType: <any>responseType_,
-        ...(withCredentials ? {withCredentials} : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress
-      }
-    );
-  }
 
 }

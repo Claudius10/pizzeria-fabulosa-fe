@@ -21,19 +21,19 @@ export const stores = {
     "name": "Alustre",
     "phoneNumber": 666555666,
     "schedule": {"es": "Lunes a Domingo - 12PM a 12AM", "en": "Monday to Sunday - 12PM to 12AM"},
-    "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null}
+    "address": "Avenida Alustre 15"
   }, {
     "id": 2,
     "image": "/assets/stores/viciosa.png",
     "name": "Viciosa",
     "phoneNumber": 555666555,
     "schedule": {"es": "Lunes a Domingo - 12PM a 12AM", "en": "Monday to Sunday - 12PM to 12AM"},
-    "address": {"id": 3, "street": "Calle Viciosa", "number": 221, "details": null}
+    "address": "Calle Viciosa 221"
   }]
 };
 
 export const pizzas = {
-  "productList": [{
+  "content": [{
     "id": 9,
     "type": "pizza",
     "image": "/assets/products/pizza/pizzaProduct.webp",
@@ -105,11 +105,11 @@ export const pizzas = {
     "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
     "prices": {"m": 13.3, "l": 18.3},
     "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }], "totalPages": 2, "pageSize": 7, "totalElements": 9, "hasNext": true
+  }], "number": 2, "size": 7, "totalElements": 9, "last": false
 };
 
 export const pizzasPageTwo = {
-  "productList": [{
+  "content": [{
     "id": 2,
     "type": "pizza",
     "image": "/assets/products/pizza/pizzaProduct.webp",
@@ -133,11 +133,11 @@ export const pizzasPageTwo = {
     "formats": {"m": {"es": "Mediana", "en": "Medium"}, "l": {"es": "Familiar", "en": "Large"}},
     "prices": {"m": 13.3, "l": 18.3},
     "allergens": {"es": ["Gluten", "Lactosa"], "en": ["Gluten", "Lactose"]}
-  }], "totalPages": 2, "pageSize": 7, "totalElements": 9, "hasNext": false
+  }], "number": 2, "size": 7, "totalElements": 9, "last": true
 };
 
 export const beverages = {
-  "productList": [{
+  "content": [{
     "id": 18,
     "type": "beverage",
     "image": "/assets/products/beverages/mahou_sin_gluten.jpeg",
@@ -209,7 +209,7 @@ export const beverages = {
     "formats": {"s": {"es": "330ML", "en": "330ML"}, "m": {"es": "1L", "en": "1L"}},
     "prices": {"s": 1.95, "m": 2.95},
     "allergens": {"es": [], "en": []}
-  }], "totalPages": 1, "pageSize": 8, "totalElements": 8, "hasNext": false
+  }], "number": 1, "size": 8, "totalElements": 8, "last": true
 };
 
 export const nowFromBE = "2025-05-19T22:12:58.88240703";
@@ -217,8 +217,8 @@ export const nowFromBE = "2025-05-19T22:12:58.88240703";
 export const userOrder = {
   "id": 1,
   "formattedCreatedOn": "11:49 - 16/03/2025",
-  "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
-  "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+  "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@example.com"},
+  "address": "En un lugar de la Mancha 1605",
   "orderDetails": {"deliveryTime": "form.select.time.asap", "paymentMethod": "form.select.payment.method.card", "billToChange": null, "comment": null, "storePickUp": false, "changeToGive": null},
   "cart": {
     "id": 1,
@@ -241,13 +241,21 @@ export const userOrder = {
 };
 
 export const userOrderPickUp = {
-  "id": 2,
+  "id": 1,
   "formattedCreatedOn": "11:56 - 16/03/2025",
   "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
-  "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null},
-  "orderDetails": {"deliveryTime": "form.select.time.asap", "paymentMethod": "form.select.payment.method.card", "billToChange": null, "comment": null, "storePickUp": true, "changeToGive": null},
+  "address": "Avenida Alustre 15",
+  "orderDetails": {
+    "id": 1,
+    "deliveryTime": "form.select.time.asap",
+    "paymentMethod": "form.select.payment.method.card",
+    "billToChange": null,
+    "comment": null,
+    "storePickUp": true,
+    "changeToGive": null
+  },
   "cart": {
-    "id": 2,
+    "id": 1,
     "totalQuantity": 3,
     "totalCost": 29.55,
     "totalCostOffers": 22.9,
@@ -275,12 +283,12 @@ export const userOrderPickUp = {
 };
 
 export const userOrderStoreProgrammedCash = {
-  "id": 3,
+  "id": 1,
   "formattedCreatedOn": "11:59 - 16/03/2025",
   "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
-  "address": {"id": 3, "street": "Calle Viciosa", "number": 221, "details": null},
+  "address": "Calle Viciosa 221",
   "orderDetails": {
-    "id": 3,
+    "id": 1,
     "deliveryTime": "12:05",
     "paymentMethod": "form.select.payment.method.cash",
     "billToChange": null,
@@ -289,7 +297,7 @@ export const userOrderStoreProgrammedCash = {
     "storePickUp": true,
   },
   "cart": {
-    "id": 3,
+    "id": 1,
     "totalQuantity": 2,
     "totalCost": 20.25,
     "totalCostOffers": 0.0,
@@ -317,12 +325,12 @@ export const userOrderStoreProgrammedCash = {
 };
 
 export const userOrderHomeProgrammedCashChangeComment = {
-  "id": 4,
+  "id": 1,
   "formattedCreatedOn": "12:02 - 16/03/2025",
   "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
-  "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+  "address": "En un lugar de la Mancha 1605",
   "orderDetails": {
-    "id": 4,
+    "id": 1,
     "deliveryTime": "12:30",
     "paymentMethod": "form.select.payment.method.cash",
     "billToChange": 20.0,
@@ -331,7 +339,7 @@ export const userOrderHomeProgrammedCashChangeComment = {
     "storePickUp": false,
   },
   "cart": {
-    "id": 4,
+    "id": 1,
     "totalQuantity": 1,
     "totalCost": 18.0,
     "totalCostOffers": 0.0,
@@ -350,7 +358,7 @@ export const userOrderHomeProgrammedCashChangeComment = {
   }
 };
 
-export const userOrderDeleteOk = "4";
+export const userOrderDeleteOk = "1";
 
 export const badCredentials = {
   "apiError": {
@@ -375,18 +383,18 @@ export const newUserAddressList = [{"id": 1, "street": "En un lugar de la Mancha
 }];
 
 export const userOrderSummaryList = {
-  "orderList": [{
+  "content": [{
     "id": 1,
     "formattedCreatedOn": "13:44 - 16/03/2025",
     "paymentMethod": "form.select.payment.method.card",
     "quantity": 1,
     "cost": 13.3,
     "costAfterOffers": null
-  }], "totalPages": 1, "pageSize": 5, "totalElements": 1, "hasNext": false
+  }], "number": 1, "size": 5, "totalElements": 1, "last": true
 };
 
 export const userOrderSummaryListManySizeFivePageOne = {
-  "orderList": [
+  "content": [
     {
       "id": 1,
       "formattedCreatedOn": "13:40 - 16/03/2025",
@@ -427,11 +435,11 @@ export const userOrderSummaryListManySizeFivePageOne = {
       "cost": 13.3,
       "costAfterOffers": null
     },
-  ], "totalPages": 3, "pageSize": 5, "totalElements": 11, "hasNext": true
+  ], "number": 3, "size": 5, "totalElements": 11, "last": false
 };
 
 export const userOrderSummaryListManySizeFivePageTwo = {
-  "orderList": [
+  "content": [
     {
       "id": 6,
       "formattedCreatedOn": "13:45 - 16/03/2025",
@@ -472,25 +480,25 @@ export const userOrderSummaryListManySizeFivePageTwo = {
       "cost": 13.3,
       "costAfterOffers": null
     },
-  ], "totalPages": 3, "pageSize": 5, "totalElements": 11, "hasNext": true
+  ], "number": 3, "size": 5, "totalElements": 11, "last": false
 };
 
 export const userOrderSummaryListManySizeFivePageThree = {
-  "orderList": [{
+  "content": [{
     "id": 11,
     "formattedCreatedOn": "13:50 - 16/03/2025",
     "paymentMethod": "form.select.payment.method.card",
     "quantity": 1,
     "cost": 13.3,
     "costAfterOffers": null
-  }], "totalPages": 3, "pageSize": 5, "totalElements": 11, "hasNext": false
+  }], "number": 3, "size": 5, "totalElements": 11, "last": true
 };
 
 export const dummyAccountDelete = {
   "apiError": {
     "id": 3455166844270299951,
     "cause": "DummyAccountError",
-    "message": null,
+    "message": "DummyAccountError",
     "origin": "UserController",
     "path": null,
     "logged": false,
@@ -502,8 +510,7 @@ export const dummyAccountDelete = {
 export const userOrderSuccess = {
   "id": 1,
   "formattedCreatedOn": "18:22 - 19/03/2025",
-  "customer": {"name": "Miguel de Cervantes", "contactNumber": 123456789, "email": "donQuijote@gmail.com"},
-  "address": {"id": 1, "street": "En un lugar de la Mancha...", "number": 1605, "details": null},
+  "address": "Avenida Alustre 15",
   "orderDetails": {"deliveryTime": "form.select.time.asap", "paymentMethod": "form.select.payment.method.card", "billToChange": null, "comment": null, "storePickUp": false, "changeToGive": null},
   "cart": {
     "id": 1,
@@ -528,8 +535,8 @@ export const userOrderSuccess = {
 export const anonUserOrderSuccess = {
   "id": 2,
   "formattedCreatedOn": "19:16 - 19/03/2025",
-  "customer": {"name": "Clau", "contactNumber": 123456789, "email": "clau@example.com"},
-  "address": {"id": 2, "street": "Avenida Alustre", "number": 15, "details": null},
+  "customer": {"anonCustomerName": "Clau", "anonCustomerContactNumber": 123456789, "anonCustomerEmail": "clau@example.com"},
+  "address": "Avenida Alustre 15",
   "orderDetails": {
     "id": 2,
     "deliveryTime": "23:55",
@@ -572,11 +579,10 @@ export const fatalError = {
   }
 };
 
-export const AUTH_TOKEN_COOKIE = {
-  name: "Pizzeria.Fabulosa.ID_TOKEN",
-  value: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJkb25RdWlqb3RlQGdtYWlsLmNvbSIsImlzcyI6Imh0dHA6Ly8xOTIuMTY4LjEuMTI4IiwibmFtZSI6Ik1pZ3VlbCBkZSBDZXJ2YW50ZXMiLCJjb250YWN0TnVtYmVyIjoiMTIzNDU2Nzg5IiwiaWQiOiIxIiwiZXhwIjoxNzQ3Nzc4MzIzLCJpYXQiOjE3NDc2OTE5MjN9.YiduDVTO6rcxuWY7SwgaFD236VDsdiqOWxIprNyuND1eStkeVA_LSYg2Ax9geHsfJuChWoYHPGObS07Z1wgTjUAonUV_piDaNfvj479j6_8tnYYtaiSau6euL7xZNeTuMrisJyaHKY2AYVjLrjIMFik59mAWbEtQUqHzwOXlZEl-mrF8SL4zFmbe8dmIynsdst2jwowA4dNgW7bRE1csU1b0dveQLxLPO-4LdTtpIM67Sz2b3v-drrxBCWVTDOp1QXLXUGJn3UZaMI2Zx43O7vSWqzKRDpg6krBkGhamjv7MV1ym-IShPBQmjJDaZyzmcpE7CpJXzAiZf6JUWyfQAVSmm0O3BIuZweunB9rxWkbmvq_O2R1_oxtFzRAnuECrjQL_AjFIliO4JIITzbsDeQ_qVHzcRl6rHweGNAKErZbz4gcGh4mz0_wfOfWwo9_PskWmwIBcOWGxO-vZ0zWqAhsZS6k6l3CewNc1eyqZJs8Yu6GD8bmzY8jO4hQRZ7gP",
-  path: "/",
-  domain: "192.168.1.128",
-  httpOnly: false,
-  secure: false,
+export const userinfo = {
+  "sub": "donQuijote@example.com",
+  "name": "Miguel de Cervantes",
+  "email": "donQuijote@example.com",
+  "phone_number": "123456789",
+  "id": 1,
 };

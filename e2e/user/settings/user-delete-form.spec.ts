@@ -1,12 +1,23 @@
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE, dummyAccountDelete} from '../../api-responses';
+import {badCredentials, dummyAccountDelete, userinfo} from '../../api-responses';
 
 test.describe('Validation: Password', () => {
   test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    await page.goto('/user/settings');
+    await page.goto('/');
+
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+
+    expect(await page.title()).toBe('Profile');
+
+    const settingsButton = page.getByRole('link', {name: 'Settings'});
+    await settingsButton.click();
+
     expect(await page.title()).toEqual('Account Settings');
   });
 
@@ -110,10 +121,21 @@ test.describe('Validation: Password', () => {
 
 test.describe('Submit', () => {
   test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    await page.goto('/user/settings');
+    await page.goto('/');
+
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+
+    expect(await page.title()).toBe('Profile');
+
+    const settingsButton = page.getByRole('link', {name: 'Settings'});
+    await settingsButton.click();
+
     expect(await page.title()).toEqual('Account Settings');
   });
 
@@ -160,8 +182,7 @@ test.describe('Submit', () => {
 
     // Arrange
 
-    // 1 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user?id=1&password=Password1', async route => {
+    await page.route('*/**/api/v1/user/1?password=Password1', async route => {
       await route.fulfill({status: 200});
     });
 
@@ -179,14 +200,14 @@ test.describe('Submit', () => {
 
     await expect(page.getByText('Information')).toBeVisible();
     await expect(page.getByText('Account deleted successfully')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/');
+    expect(page.url()).toBe('http://127.0.0.1:4200/user/settings');
   });
 
   test('givenSubmitClick_whenFormIsValid_thenShowWarningDummyAccountCannotBeDeleted', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user?id=1&password=Password1', async route => {
+    await page.route('*/**/api/v1/user/1?password=Password1', async route => {
       await route.fulfill({json: dummyAccountDelete, status: 500});
     });
 
@@ -204,5 +225,29 @@ test.describe('Submit', () => {
 
     await expect(page.getByText('Warning')).toBeVisible();
     await expect(page.getByText('Dummy account cannot be deleted')).toBeVisible();
+  });
+
+  test('givenSubmitClick_whenPasswordIsWrong_thenShowWarningBadCredentials', async ({page}) => {
+
+    // Arrange
+
+    await page.route('*/**/api/v1/user/1?password=Password1', async route => {
+      await route.fulfill({json: badCredentials, status: 401});
+    });
+
+    const password = page.getByRole('textbox', {name: 'Password', exact: true});
+    await password.fill('Password1');
+    await expect(password).toHaveValue('Password1');
+    const deleteButton = page.getByRole('button', {name: 'DELETE'});
+    await expect(deleteButton).toBeVisible();
+
+    // Act
+
+    await deleteButton.click();
+
+    // Assert
+
+    await expect(page.getByText('Warning')).toBeVisible();
+    await expect(page.getByText('Wrong password. Please, try again.')).toBeVisible();
   });
 });

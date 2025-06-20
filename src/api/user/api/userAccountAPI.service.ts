@@ -10,7 +10,7 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 import {Inject, Injectable, Optional} from '@angular/core';
-import {HttpClient, HttpContext, HttpEvent, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpContext, HttpEvent, HttpParams, HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 // @ts-ignore
@@ -25,136 +25,149 @@ import {BaseService} from '../api.base.service';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UserAccountAPIService extends BaseService {
 
-  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
-    super(basePath, configuration);
-  }
-
-  /**
-   * Delete user account
-   * @param userId Id of the user account to delete
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public deleteById(userId: number, observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<any>;
-  public deleteById(userId: number, observe?: 'response', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpResponse<any>>;
-  public deleteById(userId: number, observe?: 'events', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpEvent<any>>;
-  public deleteById(userId: number, observe: any = 'body', reportProgress: boolean = false, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<any> {
-    if (userId === null || userId === undefined) {
-      throw new Error('Required parameter userId was null or undefined when calling deleteById.');
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
-    let localVarHeaders = this.defaultHeaders;
+    /**
+     * Delete user account
+     * @param userId Id of the user account to delete
+     * @param password Password of user\&#39;s account
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public deleteById(userId: number, password: string, observe?: 'body', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<any>;
+    public deleteById(userId: number, password: string, observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpResponse<any>>;
+    public deleteById(userId: number, password: string, observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpEvent<any>>;
+    public deleteById(userId: number, password: string, observe: any = 'body', reportProgress: boolean = false, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<any> {
+        if (userId === null || userId === undefined) {
+            throw new Error('Required parameter userId was null or undefined when calling deleteById.');
+        }
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling deleteById.');
+        }
 
-    const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-      'application/json'
-    ]);
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>password, 'password');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/v1/user/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
+        const {basePath, withCredentials} = this.configuration;
+        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                ...(withCredentials ? {withCredentials} : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
     }
 
-    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    /**
+     * Find user account info
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getUserInfo(observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<UserInfoDTO>;
+    public getUserInfo(observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpResponse<UserInfoDTO>>;
+    public getUserInfo(observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpEvent<UserInfoDTO>>;
+    public getUserInfo(observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<any> {
 
-    const localVarTransferCache: boolean = options?.transferCache ?? true;
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/userinfo`;
+        const {basePath, withCredentials} = this.configuration;
+        return this.httpClient.request<UserInfoDTO>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? {withCredentials} : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
     }
-
-    let localVarPath = `/api/v1/user/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int64"})}`;
-    const {basePath, withCredentials} = this.configuration;
-    return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        ...(withCredentials ? {withCredentials} : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress
-      }
-    );
-  }
-
-  /**
-   * Find user account info
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public getUserInfo(observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<UserInfoDTO>;
-  public getUserInfo(observe?: 'response', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpResponse<UserInfoDTO>>;
-  public getUserInfo(observe?: 'events', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpEvent<UserInfoDTO>>;
-  public getUserInfo(observe: any = 'body', reportProgress: boolean = false, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<any> {
-
-    let localVarHeaders = this.defaultHeaders;
-
-    const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-      'application/json'
-    ]);
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
-    }
-
-    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
-
-    const localVarTransferCache: boolean = options?.transferCache ?? true;
-
-
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
-    }
-
-    let localVarPath = `/userinfo`;
-    const {basePath, withCredentials} = this.configuration;
-    return this.httpClient.request<UserInfoDTO>('get', `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        ...(withCredentials ? {withCredentials} : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress
-      }
-    );
-  }
 
 }

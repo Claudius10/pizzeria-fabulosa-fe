@@ -756,7 +756,7 @@ test.describe('Submit', () => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/anon/register', async route => {
+    await page.route('*/**/api/v1/anon/user/register', async route => {
       await route.fulfill({status: 201});
     });
 
@@ -783,7 +783,7 @@ test.describe('Submit', () => {
     // Assert
 
     await expect(page.getByText('Information')).toBeVisible();
-    await expect(page.getByText('Successful registration! You may now login.')).toBeVisible();
+    await expect(page.getByText('Registration successful! You may login.')).toBeVisible();
     await expect(page).toHaveURL('/');
   });
 
@@ -816,22 +816,10 @@ test.describe('Footer', () => {
     const signIn = page.getByRole('button', {name: 'Sign In', exact: true});
 
     // login component
-    const signInText = page.getByTitle('Sign In');
     const closeLoginDialogIcon = page.getByTitle('Close Login Box', {exact: true});
 
-    const emailAddressText = page.getByText("Email address");
-    const emailInput = page.getByLabel('email');
-
-    const passwordText = page.getByText("Password");
-    const passwordInput = page.getByLabel('password');
-    const showPasswordIcon = page.getByTitle('Toggle Password', {exact: true});
-
-    const enterButton = page.getByRole("button", {name: 'ENTER'});
-
-    const questionText = page.getByText("Are you new to Pizzeria Fabulosa?");
-    const createAccountButton = page.getByRole("button", {name: 'Create an account'});
-    const orText = page.getByText("or", {exact: true});
-    const dummyLoginButton = page.getByRole("button", {name: 'Use a dummy account'});
+    const signInButton = page.getByRole('link', {name: 'SIGN IN'});
+    const createAccountButton = page.getByRole('button', {name: 'CREATE AN ACCOUNT'});
 
     // Act
 
@@ -839,18 +827,9 @@ test.describe('Footer', () => {
 
     // Arrange
 
-    await expect(signInText).toBeVisible();
     await expect(closeLoginDialogIcon).toBeVisible();
-    await expect(emailAddressText).toBeVisible();
-    await expect(emailInput).toBeVisible();
-    await expect(passwordText).toBeVisible();
-    await expect(passwordInput).toBeVisible();
-    await expect(showPasswordIcon).toBeVisible();
-    await expect(enterButton).toBeVisible();
-    await expect(questionText).toBeVisible();
+    await expect(signInButton).toBeVisible();
     await expect(createAccountButton).toBeVisible();
-    await expect(orText).toBeVisible();
-    await expect(dummyLoginButton).toBeVisible();
   });
 });
 

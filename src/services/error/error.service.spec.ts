@@ -120,7 +120,7 @@ describe('ErrorService', () => {
     expect(messageServiceSpy.add.calls.count()).toBe(1);
     expect(messageAdded!.severity).toBe('error');
     expect(messageAdded!.summary).toBe('toast.severity.warning');
-    expect(messageAdded!.detail).toBe('toast.error.api.user.not.found.detail');
+    expect(messageAdded!.detail).toBe('toast.error.api.user.badcredentials');
     expect(messageAdded!.life).toBe(3000);
   });
 

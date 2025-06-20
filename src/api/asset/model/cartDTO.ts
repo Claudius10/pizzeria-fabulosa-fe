@@ -7,13 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import {CartItemDTO} from './cartItemDTO';
 
 
-export interface Offer {
-    id?: number;
-    image: string;
-    name: { [key: string]: string; };
-    description: { [key: string]: string; };
-    caveat: { [key: string]: string; };
+export interface CartDTO {
+    totalQuantity: number;
+    totalCost: number;
+    totalCostOffers: number;
+    cartItems: Array<CartItemDTO>;
 }
 

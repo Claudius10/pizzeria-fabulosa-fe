@@ -3,7 +3,6 @@ export * from './cartDTO';
 export * from './cartItemDTO';
 export * from './createdOrderDTO';
 export * from './customerDTO';
-export * from './newAnonOrderDTO';
 export * from './newUserOrderDTO';
 export * from './orderDTO';
 export * from './orderDetailsDTO';

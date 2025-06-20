@@ -86,11 +86,11 @@ test.describe('Navigation', () => {
     });
 
     await page.goto('/pizzas');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
 
     await page.getByRole('button', {name: 'Page 2'}).click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=2');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
   });
 
@@ -105,15 +105,15 @@ test.describe('Navigation', () => {
     });
 
     await page.goto('/pizzas');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
 
     await page.getByRole('button', {name: 'Page 2'}).click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=2');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
 
     await page.getByRole('button', {name: 'Page 1'}).click();
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=1');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=1');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
   });
 });
@@ -121,13 +121,13 @@ test.describe('Navigation', () => {
 test.describe('Skeletons', () => {
   test('givenPageOne_thenShowSkeletons', async ({page}) => {
     await page.goto('/pizzas?page=1');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=1');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=1');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
   });
 
   test('givenPageTwo_thenShowSkeletons', async ({page}) => {
     await page.goto('/pizzas?page=2');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=2');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
   });
 
@@ -138,7 +138,7 @@ test.describe('Skeletons', () => {
     });
 
     await page.goto('/pizzas');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(8);
 
     await page.getByRole('button', {name: 'Page 2'}).click();
@@ -153,7 +153,7 @@ test.describe('Skeletons', () => {
     });
 
     await page.goto('/pizzas?page=2');
-    expect(page.url()).toEqual('http://192.168.1.128:4200/pizzas?page=2');
+    expect(page.url()).toEqual('http://127.0.0.1:4200/pizzas?page=2');
     await expect(page.getByTitle("Pizza List").getByRole('listitem')).toHaveCount(2);
 
     await page.getByRole('button', {name: 'Page 1'}).click();

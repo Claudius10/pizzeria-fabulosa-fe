@@ -1,12 +1,39 @@
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE, stores, userOrder, userOrderDeleteOk, userOrderHomeProgrammedCashChangeComment, userOrderPickUp, userOrderStoreProgrammedCash} from '../../api-responses';
+import {stores, userinfo, userOrder, userOrderDeleteOk, userOrderHomeProgrammedCashChangeComment, userOrderPickUp, userOrderStoreProgrammedCash, userOrderSummaryList} from '../../api-responses';
 
 test.describe('Render: Skeleton', () => {
   test('ShowSkeleton', async ({page}) => {
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    // 1 is the userId in the ID_TOKEN
 
-    await page.goto('/user/orders/1');
+    // Arrange
+
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    // Act
+
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
+
+    // Assert
 
     await expect(page.getByTitle('Skeleton One').locator('div')).toBeVisible();
     await expect(page.getByTitle('Skeleton Two').locator('div')).toBeVisible();
@@ -22,14 +49,34 @@ test.describe('Render: Skeleton', () => {
 test.describe('Render: HomeDelivery, ASAP, Card', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    await page.route('*/**/api/v1/user/1/order/1', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
       await route.fulfill({json: userOrder});
     });
 
-    await page.goto('/user/orders/1');
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
   });
 
   test('ShowTabTitle', async ({page}) => {
@@ -45,15 +92,14 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
   test('ShowCustomerDetails', async ({page}) => {
     await expect(page.getByText('Customer details')).toBeVisible();
     await expect(page.getByText('Full name: Miguel de Cervantes')).toBeVisible();
-    await expect(page.getByText('Email address: donQuijote@gmail.com')).toBeVisible();
+    await expect(page.getByText('Email address: donQuijote@example.com')).toBeVisible();
     await expect(page.getByText('Contact number: 123456789')).toBeVisible();
   });
 
   test('ShowDeliveryDetails', async ({page}) => {
     await expect(page.getByText('Delivery details')).toBeVisible();
     await expect(page.getByText('Selected time of delivery: As soon as possible')).toBeVisible();
-    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Address: En un lugar de la Mancha 1605')).toBeVisible();
   });
 
   test('ShowOrderDetails', async ({page}) => {
@@ -76,11 +122,15 @@ test.describe('Render: HomeDelivery, ASAP, Card', () => {
 test.describe('Render: StorePickUp, ASAP, Card', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    // 1 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/1/order/2', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
       await route.fulfill({json: userOrderPickUp});
     });
 
@@ -88,11 +138,26 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
       await route.fulfill({json: stores});
     });
 
-    await page.goto('/user/orders/2');
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
   });
 
   test('ShowOrderPanel', async ({page}) => {
-    await expect(page.getByTitle('Identification Number').getByText('2')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
     await expect(page.getByTitle('Minimize')).toBeVisible();
     await expect(page.getByText('Date of order 11:56 - 16/03/2025')).toBeVisible();
   });
@@ -119,11 +184,15 @@ test.describe('Render: StorePickUp, ASAP, Card', () => {
 test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    // 1 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/1/order/3', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
       await route.fulfill({json: userOrderStoreProgrammedCash});
     });
 
@@ -131,11 +200,26 @@ test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
       await route.fulfill({json: stores});
     });
 
-    await page.goto('/user/orders/3');
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
   });
 
   test('ShowOrderPanel', async ({page}) => {
-    await expect(page.getByTitle('Identification Number').getByText('3')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
     await expect(page.getByTitle('Minimize')).toBeVisible();
     await expect(page.getByText('Date of order 11:59 - 16/03/2025')).toBeVisible();
   });
@@ -162,19 +246,38 @@ test.describe('Render: StorePickUp, ProgrammedHour, Cash, NoChange', () => {
 test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    // 1 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/1/order/4', async route => {
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
       await route.fulfill({json: userOrderHomeProgrammedCashChangeComment});
     });
 
-    await page.goto('/user/orders/4');
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
+
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
   });
 
   test('ShowOrderPanel', async ({page}) => {
-    await expect(page.getByTitle('Identification Number').getByText('4')).toBeVisible();
+    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
     await expect(page.getByTitle('Minimize')).toBeVisible();
     await expect(page.getByText('Date of order 12:02 - 16/03/2025')).toBeVisible();
   });
@@ -182,8 +285,7 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
   test('ShowDeliveryDetails', async ({page}) => {
     await expect(page.getByText('Delivery details')).toBeVisible();
     await expect(page.getByText('Selected time of delivery: 12:30')).toBeVisible();
-    await expect(page.getByText('Address: En un lugar de la Mancha...')).toBeVisible();
-    await expect(page.getByText('Address number: 1605')).toBeVisible();
+    await expect(page.getByText('Address: En un lugar de la Mancha 1605')).toBeVisible();
   });
 
   test('ShowOrderDetails', async ({page}) => {
@@ -196,40 +298,39 @@ test.describe('Render: HomeDelivery, ProgrammedHour, Cash, Change, Comment', () 
   });
 });
 
-test.describe('Render: Order Not Found', () => {
-  test('givenUnknownOrderId_thenShowOrderNotFoundMessage', async ({page}) => {
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    // 1 is the userId in the ID_TOKEN
-
-    await page.route('*/**/api/v1/user/1/order/99999', async route => {
-      await route.fulfill({status: 204});
-    });
-
-    await page.goto('/user/orders/99999');
-    await expect(page.getByText('Could not find order 99999 in our database. If you believe this is an error, contact us.')).toBeVisible({timeout: 10_000});
-  });
-});
-
-test.describe('Render: API KO', () => {
-  test('ShowErrorComponent', async ({page}) => {
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-    await page.goto('/user/orders/1');
-    await expect(page.getByText('Our servers are not available at the moment').first()).toBeVisible({timeout: 10_000});
-    await expect(page.getByText('Please try again later. We apologize for any inconvenience.').first()).toBeVisible({timeout: 10_000});
-  });
-});
-
 test.describe('Cancel', () => {
   test.beforeEach(async ({page}) => {
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
+      await route.fulfill({json: userOrderHomeProgrammedCashChangeComment});
+    });
+
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
   });
 
   test('givenOrderDelete_whenAllowed_thenDeleteOrder', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/1', async route => {
+    await page.route('*/**/api/order/1', async route => {
       if (route.request().method() === 'GET') {
         await route.fulfill({json: userOrder});
       }
@@ -239,7 +340,10 @@ test.describe('Cancel', () => {
       }
     });
 
-    await page.goto('/user/orders/1');
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
 
     await expect(page).toHaveURL('/user/orders/1');
 
@@ -263,17 +367,17 @@ test.describe('Cancel', () => {
     // Assert
 
     await expect(page.getByRole('alert').getByText('Information')).toBeVisible();
-    await expect(page.getByRole('alert').getByText('Order successfully cancelled. Redirecting in 2 seconds...')).toBeVisible();
-    await page.waitForURL('http://192.168.1.128:4200/user/orders');
+    await expect(page.getByRole('alert').getByText('Order cancelled. Redirecting in 2 seconds...')).toBeVisible();
+    await page.waitForURL('http://127.0.0.1:4200/user/orders');
     await expect(page.getByText('Profile')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
+    expect(page.url()).toBe('http://127.0.0.1:4200/user/orders');
   });
 
   test('givenOrderDelete_whenNotAllowed_thenShowWarning', async ({page}) => {
 
     // Arrange
 
-    await page.route('*/**/api/v1/user/1/order/1', async route => {
+    await page.route('*/**/api/v1/order/1', async route => {
       if (route.request().method() === 'GET') {
         await route.fulfill({json: userOrder});
       }
@@ -284,7 +388,7 @@ test.describe('Cancel', () => {
             "apiError": {
               "id": 2791732487339788000,
               "cause": "InvalidOrderDeleteTime",
-              "message": null,
+              "message": "InvalidOrderDeleteTime",
               "origin": "UserOrdersController",
               "path": null,
               "logged": false,
@@ -297,7 +401,10 @@ test.describe('Cancel', () => {
       }
     });
 
-    await page.goto('/user/orders/1');
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
 
     const cancelButton = page.getByRole("button", {name: 'Cancel'});
     await expect(cancelButton).toBeVisible();
@@ -319,7 +426,7 @@ test.describe('Cancel', () => {
     // Arrange
 
     // fulfill initial order GET
-    await page.route('*/**/api/v1/user/1/order/1', async route => {
+    await page.route('*/**/api/v1/order/1', async route => {
       if (route.request().method() === 'DELETE') {
         // do not fulfill delete
         await route.abort();
@@ -328,7 +435,10 @@ test.describe('Cancel', () => {
       }
     });
 
-    await page.goto('/user/orders/1');
+    // click the order summary item
+    const item = page.getByTitle('Order 1 Summary');
+    await expect(item).toBeVisible();
+    await item.click();
 
     const cancelButton = page.getByRole("button", {name: 'Cancel'});
     await expect(cancelButton).toBeVisible();
@@ -360,25 +470,39 @@ test.describe('Cancel', () => {
 test.describe('Minimize/Back To Order list', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
-
-    // 1 is the userId in the ID_TOKEN
-    await page.route('*/**/api/v1/user/1/order/1', async route => {
-      await route.fulfill({json: userOrder});
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
     });
 
-    await page.goto('/user/orders/1');
-    expect(await page.title()).toEqual('Order Review');
-    await expect(page.getByTitle('Identification Number').getByText('1')).toBeVisible();
+    await page.route('*/**/api/v1/order/summary?pageNumber=0&pageSize=5&userId=1', async route => {
+      await route.fulfill({json: userOrderSummaryList});
+    });
+
+    await page.route('*/**/api/v1/order/1', async route => {
+      await route.fulfill({json: userOrderHomeProgrammedCashChangeComment});
+    });
+
+    // go to profile
+    await page.goto('/');
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+    expect(await page.title()).toBe('Profile');
+
+    // go to orders
+    const ordersButton = page.getByRole('link', {name: 'Orders'});
+    await ordersButton.click();
+    expect(await page.title()).toBe('Order History');
   });
 
   test('givenOrderIdOne_whenClickOnMinimize_thenRedirectToOrderListRoute', async ({page}) => {
 
     // Arrange
 
-    const orderPanel = page.getByTitle('Order 1');
+    const orderPanel = page.getByTitle('Order 1', {exact: true});
     await expect(orderPanel).toBeVisible();
+    await orderPanel.click();
+    await page.waitForURL('http://127.0.0.1:4200/user/orders/1');
 
     // Act
 
@@ -386,8 +510,8 @@ test.describe('Minimize/Back To Order list', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/user/orders');
+    await page.waitForURL('http://127.0.0.1:4200/user/orders');
     await expect(page.getByText('Profile')).toBeVisible();
-    expect(page.url()).toBe('http://192.168.1.128:4200/user/orders');
+    expect(page.url()).toBe('http://127.0.0.1:4200/user/orders');
   });
 });

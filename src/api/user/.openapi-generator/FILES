@@ -3,7 +3,6 @@
 README.md
 api.base.service.ts
 api.module.ts
-api/anonymousUserAPI.service.ts
 api/api.ts
 api/userAccountAPI.service.ts
 configuration.ts
@@ -12,7 +11,6 @@ git_push.sh
 index.ts
 model/aPIError.ts
 model/models.ts
-model/registerDTO.ts
 model/responseDTO.ts
 model/userInfoDTO.ts
 param.ts

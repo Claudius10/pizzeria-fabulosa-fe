@@ -19,7 +19,6 @@ describe('AuthServiceTests', () => {
       name: "John Doe",
       email: "john@email.com",
       phone_number: "123123123",
-      address: "address",
       sub: "john@email.com",
       email_verified: false,
       phone_number_verified: false,
@@ -37,7 +36,6 @@ describe('AuthServiceTests', () => {
     expect(service.email).toBe("john@email.com");
     expect(service.name).toBe("John Doe");
     expect(service.phoneNumber).toBe("123123123");
-    expect(service.address).toBe("address");
     expect(service.isAuthenticated()).toBeTrue();
   });
 
@@ -50,7 +48,6 @@ describe('AuthServiceTests', () => {
       name: "John Doe",
       email: "john@email.com",
       phone_number: "123123123",
-      address: "address",
       sub: "john@email.com",
       email_verified: false,
       phone_number_verified: false,
@@ -65,7 +62,6 @@ describe('AuthServiceTests', () => {
     expect(service.email).toBe("john@email.com");
     expect(service.name).toBe("John Doe");
     expect(service.phoneNumber).toBe("123123123");
-    expect(service.address).toBe("address");
     expect(service.isAuthenticated()).toBeTrue();
 
     // Act
@@ -78,7 +74,6 @@ describe('AuthServiceTests', () => {
     expect(service.email).toBe(null);
     expect(service.name).toBe(null);
     expect(service.phoneNumber).toBe(null);
-    expect(service.address).toBe(null);
     expect(service.isAuthenticated()).toBeFalse();
   });
 });

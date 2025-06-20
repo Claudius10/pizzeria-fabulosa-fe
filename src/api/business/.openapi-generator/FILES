@@ -3,7 +3,6 @@
 README.md
 api.base.service.ts
 api.module.ts
-api/anonymousOrdersAPI.service.ts
 api/api.ts
 api/userOrdersAPI.service.ts
 configuration.ts
@@ -16,7 +15,6 @@ model/cartItemDTO.ts
 model/createdOrderDTO.ts
 model/customerDTO.ts
 model/models.ts
-model/newAnonOrderDTO.ts
 model/newUserOrderDTO.ts
 model/orderDTO.ts
 model/orderDetailsDTO.ts

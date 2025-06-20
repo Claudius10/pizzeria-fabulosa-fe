@@ -23,74 +23,74 @@ import {BaseService} from '../api.base.service';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UtilAPIService extends BaseService {
 
-  constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
-    super(basePath, configuration);
-  }
-
-  /**
-   * Returns the local date and time accounting for DST
-   * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-   * @param reportProgress flag to report request and response progress.
-   */
-  public getNowAccountingDST(observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<string>;
-  public getNowAccountingDST(observe?: 'response', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpResponse<string>>;
-  public getNowAccountingDST(observe?: 'events', reportProgress?: boolean, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<HttpEvent<string>>;
-  public getNowAccountingDST(observe: any = 'body', reportProgress: boolean = false, options?: {
-    httpHeaderAccept?: 'application/json',
-    context?: HttpContext,
-    transferCache?: boolean
-  }): Observable<any> {
-
-    let localVarHeaders = this.defaultHeaders;
-
-    const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
-      'application/json'
-    ]);
-    if (localVarHttpHeaderAcceptSelected !== undefined) {
-      localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+    constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string | string[], @Optional() configuration?: Configuration) {
+        super(basePath, configuration);
     }
 
-    const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+    /**
+     * Returns the local date and time accounting for DST
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getNowAccountingDST(observe?: 'body', reportProgress?: boolean, options?: { httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean }): Observable<string>;
+    public getNowAccountingDST(observe?: 'response', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpResponse<string>>;
+    public getNowAccountingDST(observe?: 'events', reportProgress?: boolean, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<HttpEvent<string>>;
+    public getNowAccountingDST(observe: any = 'body', reportProgress: boolean = false, options?: {
+        httpHeaderAccept?: 'application/json',
+        context?: HttpContext,
+        transferCache?: boolean
+    }): Observable<any> {
 
-    const localVarTransferCache: boolean = options?.transferCache ?? true;
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
 
 
-    let responseType_: 'text' | 'json' | 'blob' = 'json';
-    if (localVarHttpHeaderAcceptSelected) {
-      if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
-        responseType_ = 'text';
-      } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
-        responseType_ = 'json';
-      } else {
-        responseType_ = 'blob';
-      }
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/v1/resource/util/now`;
+        const {basePath, withCredentials} = this.configuration;
+        return this.httpClient.request<string>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                responseType: <any>responseType_,
+                ...(withCredentials ? {withCredentials} : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
     }
-
-    let localVarPath = `/api/v1/resource/util/now`;
-    const {basePath, withCredentials} = this.configuration;
-    return this.httpClient.request<string>('get', `${basePath}${localVarPath}`,
-      {
-        context: localVarHttpContext,
-        responseType: <any>responseType_,
-        ...(withCredentials ? {withCredentials} : {}),
-        headers: localVarHeaders,
-        observe: observe,
-        transferCache: localVarTransferCache,
-        reportProgress: reportProgress
-      }
-    );
-  }
 
 }

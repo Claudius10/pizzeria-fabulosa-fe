@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, o
 import {NgClass} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
 import {Store} from '../../../../api/asset';
-import {Address} from '../../../../services/checkout/checkout-form.service';
 
 @Component({
   selector: 'app-store-checkout',
@@ -19,7 +18,7 @@ export class StoreCheckoutComponent implements OnInit {
   selected = input<string | null>(null);
   highlight = input<boolean>();
   invalid = input<boolean>();
-  onStoreSelect = output<Address>();
+  onStoreSelect = output<string>();
   private translateService = inject(TranslateService);
   protected currentLang = signal(this.translateService.currentLang);
   private destroyRef = inject(DestroyRef);
@@ -33,6 +32,6 @@ export class StoreCheckoutComponent implements OnInit {
   }
 
   protected selectStore() {
-    this.onStoreSelect.emit({name: this.store().address!, isStore: true});
+    this.onStoreSelect.emit(this.store().address!);
   }
 }

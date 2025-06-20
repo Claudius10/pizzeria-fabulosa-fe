@@ -3,6 +3,8 @@
 README.md
 api.base.service.ts
 api.module.ts
+api/anonymousOrdersAPI.service.ts
+api/anonymousUserAPI.service.ts
 api/api.ts
 api/offerAPI.service.ts
 api/productAPI.service.ts
@@ -13,11 +15,18 @@ encoder.ts
 git_push.sh
 index.ts
 model/aPIError.ts
+model/cartDTO.ts
+model/cartItemDTO.ts
+model/createdOrderDTO.ts
+model/customerDTO.ts
 model/models.ts
+model/newAnonOrderDTO.ts
 model/offer.ts
 model/offerListDTO.ts
+model/orderDetailsDTO.ts
 model/product.ts
 model/productListDTO.ts
+model/registerDTO.ts
 model/responseDTO.ts
 model/store.ts
 model/storeListDTO.ts

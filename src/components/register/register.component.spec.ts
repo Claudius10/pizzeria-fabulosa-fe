@@ -4,7 +4,7 @@ import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {AnonymousUserAPIService} from '../../api/user';
+import {AnonymousUserAPIService} from '../../api/asset';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;

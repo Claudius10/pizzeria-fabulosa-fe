@@ -191,7 +191,7 @@ test.describe('Buttons', () => {
       await route.fulfill({json: pizzas});
     });
 
-    await page.route('*/**/api/v1/resource/now', async route => {
+    await page.route('*/**/api/v1/resource/util/now', async route => {
       await route.fulfill({json: nowFromBE});
     });
 

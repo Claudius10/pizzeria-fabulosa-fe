@@ -1,4 +1,5 @@
 import {expect, test} from '@playwright/test';
+import {userinfo} from '../api-responses';
 
 test.describe('Large screen tests', () => {
   test.beforeEach(async ({page}) => {
@@ -358,5 +359,25 @@ test.describe('Small screen tests', () => {
 
 test.describe('User Logged In', () => {
 
+  test.beforeEach(async ({page}) => {
 
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
+
+    await page.goto('/');
+  });
+
+  test('LoggedInUserButtonIsVisible', async ({page}) => {
+
+    // Arrange
+
+    const loginButton = page.getByRole('button', {name: 'Open Login Box'});
+    const loggedInButton = page.getByRole('button', {name: 'User Home Page'});
+
+    // Assert
+
+    await expect(loginButton).not.toBeVisible();
+    await expect(loggedInButton).toBeVisible();
+  });
 });

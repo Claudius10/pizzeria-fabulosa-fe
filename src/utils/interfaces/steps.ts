@@ -1,6 +1,6 @@
 export interface where {
-  street: string | undefined;
-  number: number | undefined;
+  street: string;
+  number: number;
   details: string | undefined;
 }
 

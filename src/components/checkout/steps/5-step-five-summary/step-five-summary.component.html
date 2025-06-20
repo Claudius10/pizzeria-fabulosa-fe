@@ -28,33 +28,19 @@
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
 
-          @if (checkoutFormService.where === null) {
-            @if (selectedStore !== null) {
-
-              <div class="flex flex-col gap-2">
+          @if (this.checkoutFormService.selectedStore !== null) {
+            <div class="flex flex-col gap-2">
 
               <span>{{ "view.delivery.pickup.time.selected" | translate }}:
                 <span class="text-primary uppercase">{{ checkoutFormService.when!.deliveryTime | translate }}</span>
               </span>
 
-                <div class="flex flex-col gap-4">
-                  <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
-                  <app-store-checkout [invalid]="true" [store]="selectedStore" [highlight]="true"/>
-                </div>
-
+              <div class="flex flex-col gap-4">
+                <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
+                <app-store-checkout [invalid]="true" [store]="selectedStore!" [highlight]="true"/>
               </div>
-            }
 
-            @if (selectedAddress !== null) {
-
-              <span>{{ "view.delivery.time.selected" | translate }}:
-                <span class="text-primary uppercase">{{ checkoutFormService.when!.deliveryTime | translate }}</span>
-              </span>
-
-              <span>{{ "form.label.delivery.address" | translate }}:
-                <span class="text-primary uppercase">{{ selectedAddress }}</span>
-            </span>
-            }
+            </div>
           } @else {
 
             <span>{{ "view.delivery.time.selected" | translate }}:
@@ -75,7 +61,6 @@
               </span>
             }
           }
-
         </div>
       </p-card>
 
@@ -87,7 +72,7 @@
               <span class="text-primary uppercase">{{ checkoutFormService.how!.paymentMethod | translate }}</span>
             </span>
 
-          @if (checkoutFormService.how!.billToChange !== null) {
+          @if (checkoutFormService.how?.billToChange) {
             <span>{{ "view.payment.bill.to.change" | translate }}:
               <span class="text-primary">
                 {{ checkoutFormService.how?.billToChange }}€

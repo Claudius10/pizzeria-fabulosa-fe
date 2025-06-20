@@ -11,6 +11,6 @@ import {Offer} from './offer';
 
 
 export interface OfferListDTO {
-  offers: Array<Offer>;
+    offers: Array<Offer>;
 }
 

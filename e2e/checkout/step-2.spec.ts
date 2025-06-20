@@ -718,7 +718,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/');
+    await page.waitForURL('http://127.0.0.1:4200/');
   });
 
   test('givenClickOnNext_whenFormIsInvalid_thenTriggerValidationErrors', async ({page}) => {
@@ -780,7 +780,7 @@ test.describe('Buttons', () => {
 
     // Assert
 
-    await page.waitForURL('http://192.168.1.128:4200/order/new/step-three');
+    await page.waitForURL('http://127.0.0.1:4200/order/new/step-three');
     await expect(page.getByTitle('Steps')).toBeVisible();
   });
 

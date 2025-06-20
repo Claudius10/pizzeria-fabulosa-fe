@@ -10,16 +10,15 @@
 
 
 export interface UserInfoDTO {
-  id: string;
-  sub: string;
-  name: string;
-  email: string;
-  email_verified: boolean;
-  phone_number: string;
-  phone_number_verified: boolean;
-  address: string;
-  locale: string;
-  zoneinfo: string;
-  updated_at: string;
+    id: string;
+    sub: string;
+    name: string;
+    email: string;
+    email_verified: boolean;
+    phone_number: string;
+    phone_number_verified: boolean;
+    locale: string;
+    zoneinfo: string;
+    updated_at: string;
 }
 

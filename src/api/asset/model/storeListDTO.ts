@@ -11,6 +11,6 @@ import {Store} from './store';
 
 
 export interface StoreListDTO {
-  stores: Array<Store>;
+    stores: Array<Store>;
 }
 

@@ -1,14 +1,24 @@
-// TODO
 import {expect, test} from '@playwright/test';
-import {AUTH_TOKEN_COOKIE} from '../../api-responses';
+import {userinfo} from '../../api-responses';
 
 test.describe('Render', () => {
   test.beforeEach(async ({page}) => {
 
-    // auth is automatically set inside the initializeApp fn in config.app.ts
-    await page.context().addCookies([AUTH_TOKEN_COOKIE]);
+    await page.route('*/**/userinfo', async route => {
+      await route.fulfill({json: userinfo});
+    });
 
-    await page.goto('/user/settings');
+    await page.goto('/');
+
+    const userHomeButton = page.getByRole('button', {name: 'User Home Page'});
+    await expect(userHomeButton).toBeVisible();
+    await userHomeButton.click();
+
+    expect(await page.title()).toBe('Profile');
+
+    const settingsButton = page.getByRole('link', {name: 'Settings'});
+    await settingsButton.click();
+
     expect(await page.title()).toEqual('Account Settings');
   });
 

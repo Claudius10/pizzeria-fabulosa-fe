@@ -1,5 +1,5 @@
 /**
- * Pizzeria User API
+ * Pizzeria Assets API
  *
  *
  *
@@ -10,11 +10,11 @@
 
 
 export interface RegisterDTO {
-  name: string;
-  email: string;
-  matchingEmail: string;
-  contactNumber: number;
-  password: string;
-  matchingPassword: string;
+    name: string;
+    email: string;
+    matchingEmail: string;
+    contactNumber: number;
+    password: string;
+    matchingPassword: string;
 }
 

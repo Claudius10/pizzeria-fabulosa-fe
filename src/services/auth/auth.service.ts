@@ -12,7 +12,6 @@ export class AuthService {
   email: string | null = null;
   name: string | null = null;
   phoneNumber: string | null = null;
-  address: string | null = null;
 
   authenticate(userInfo: UserInfoDTO): boolean {
     if (userInfo === null) {
@@ -23,7 +22,6 @@ export class AuthService {
     this.email = userInfo.email;
     this.name = userInfo.name;
     this.phoneNumber = userInfo.phone_number;
-    this.address = userInfo.address;
     this.isAuthenticated.set(true);
     return true;
   }
@@ -33,7 +31,6 @@ export class AuthService {
     this.email = null;
     this.name = null;
     this.phoneNumber = null;
-    this.address = null;
     this.isAuthenticated.set(false);
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Pizzeria Business API
+ * Pizzeria Assets API
  *
  *
  *
@@ -12,10 +12,12 @@ import {OrderDetailsDTO} from './orderDetailsDTO';
 import {CartDTO} from './cartDTO';
 
 
-export interface NewAnonOrderDTO {
-  customer: CustomerDTO;
-  address?: string;
-  orderDetails: OrderDetailsDTO;
-  cart: CartDTO;
+export interface CreatedOrderDTO {
+    id: number;
+    formattedCreatedOn: string;
+    customer?: CustomerDTO;
+    address: string;
+    orderDetails: OrderDetailsDTO;
+    cart: CartDTO;
 }
 

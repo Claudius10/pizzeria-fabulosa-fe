@@ -10,8 +10,8 @@
 
 
 export interface CustomerDTO {
-  anonCustomerName: string;
-  anonCustomerContactNumber: number;
-  anonCustomerEmail: string;
+    anonCustomerName: string;
+    anonCustomerContactNumber: number;
+    anonCustomerEmail: string;
 }
 
