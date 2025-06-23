@@ -1,6 +1,6 @@
 import {FormGroup} from '@angular/forms';
 
-export function logout() {
+export function logout(baseUri: string) {
   const csrfToken = getCookie('XSRF-TOKEN');
 
   if (!csrfToken) {
@@ -10,7 +10,7 @@ export function logout() {
 
   const form = document.createElement('form');
   form.method = 'POST';
-  form.action = 'http://127.0.0.1:8080/logout';
+  form.action = baseUri + '/logout';
 
   const csrfInput = document.createElement('input');
   csrfInput.type = 'hidden';

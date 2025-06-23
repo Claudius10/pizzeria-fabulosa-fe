@@ -11,6 +11,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {logout} from '../../utils/functions';
 import {USER_INFO} from '../../utils/query-keys';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-userinfo',
@@ -19,6 +20,7 @@ import {USER_INFO} from '../../utils/query-keys';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserinfoComponent implements OnInit {
+  private backEndClientBaseUri = environment.url;
   private checkoutFormService = inject(CheckoutFormService);
   private userAccountAPI = inject(UserAccountAPIService);
   private translateService = inject(TranslateService);
@@ -61,7 +63,7 @@ export class UserinfoComponent implements OnInit {
             }
 
             setTimeout(() => {
-              logout();
+              logout(this.backEndClientBaseUri);
             }, 2000);
           }
         }

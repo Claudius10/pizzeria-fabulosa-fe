@@ -17,6 +17,7 @@ import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental'
 import {lastValueFrom} from 'rxjs';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
 import {UserAccountAPIService} from '../../../../api/user';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -34,6 +35,7 @@ import {UserAccountAPIService} from '../../../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
+  private backEndClientBaseUri = environment.url;
   protected showPassword = signal(false);
   protected form = new FormGroup({
     password: new FormControl<string>("", {
@@ -82,7 +84,7 @@ export class UserDeleteFormComponent implements OnDestroy {
           });
 
           setTimeout(() => {
-            logout();
+            logout(this.backEndClientBaseUri);
           }, 1000);
         },
         onError: (error) => {

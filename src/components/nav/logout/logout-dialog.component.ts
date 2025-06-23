@@ -5,6 +5,7 @@ import {DialogModule} from 'primeng/dialog';
 import {Button} from 'primeng/button';
 import {UpperCasePipe} from '@angular/common';
 import {logout} from '../../../utils/functions';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -19,11 +20,12 @@ import {logout} from '../../../utils/functions';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent {
+  private backEndClientBaseUri = environment.url;
   private authService = inject(AuthService);
   protected visible: boolean = this.authService.logoutDialogVisibility();   // visible provides hiding dialog on esc key press
 
   protected acceptLogout() {
-    logout();
+    logout(this.backEndClientBaseUri);
   }
 
   protected cancelLogout() {
