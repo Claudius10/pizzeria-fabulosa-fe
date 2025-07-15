@@ -19,8 +19,8 @@ import {UserDetailsComponent} from '../../../user/details/user-details.component
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
 import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
-import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, Store, StoreAPIService} from '../../../../api/asset';
 import {NewUserOrderDTO, UserOrdersAPIService} from '../../../../api/business';
+import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, Store, StoreAPIService} from '../../../../api/public';
 
 @Component({
   selector: 'app-step-five-summary',

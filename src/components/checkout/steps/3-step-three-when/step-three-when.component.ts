@@ -18,7 +18,7 @@ import {lastValueFrom} from 'rxjs';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, SUCCESS} from '../../../../utils/constants';
 import {ErrorService} from '../../../../services/error/error.service';
-import {UtilAPIService} from '../../../../api/asset';
+import {UtilAPIService} from '../../../../api/public';
 
 @Component({
   selector: 'app-checkout-step-three-when',

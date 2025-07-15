@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {StoreItemComponent} from './store-item.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {Store} from '../../../api/asset';
+import {Store} from '../../../api/public';
 
 describe('StoreItemComponent', () => {
   let component: StoreItemComponent;

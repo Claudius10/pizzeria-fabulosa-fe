@@ -21,8 +21,8 @@ import {myIcon} from '../../../../primeng/icon';
 import {ERROR} from '../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
-import {StoreAPIService} from '../../../../api/asset';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
+import {StoreAPIService} from '../../../../api/public';
 
 @Component({
   selector: 'app-checkout-step-two-where',

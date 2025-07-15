@@ -9,7 +9,7 @@ import {ERROR, SUCCESS} from '../../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
 import {OrderDetailsDTO} from '../../../../../api/business';
-import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/asset';
+import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/public';
 
 @Component({
   selector: 'order-address-details',

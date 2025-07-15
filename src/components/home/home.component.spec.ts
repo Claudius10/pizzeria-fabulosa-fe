@@ -4,7 +4,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../services/error/error.service';
 import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {OfferAPIService, StoreAPIService} from '../../api/asset';
+import {OfferAPIService, StoreAPIService} from '../../api/public';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

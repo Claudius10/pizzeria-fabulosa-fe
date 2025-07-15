@@ -3,8 +3,8 @@ import {StepFiveSummaryComponent} from './step-five-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {AnonymousOrdersAPIService, StoreAPIService} from '../../../../api/asset';
 import {UserOrdersAPIService} from '../../../../api/business';
+import {AnonymousOrdersAPIService, StoreAPIService} from '../../../../api/public';
 
 describe('StepFiveSummaryComponent', () => {
   let component: StepFiveSummaryComponent;

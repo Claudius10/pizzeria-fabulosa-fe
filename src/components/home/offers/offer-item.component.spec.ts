@@ -4,7 +4,7 @@ import {OfferItemComponent} from './offer-item.component';
 import {TranslateModule} from '@ngx-translate/core';
 
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {Offer} from '../../../api/asset';
+import {Offer} from '../../../api/public';
 
 describe('OfferItemComponent', () => {
   let component: OfferItemComponent;

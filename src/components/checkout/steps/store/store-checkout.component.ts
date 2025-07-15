@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, output, signal} from '@angular/core';
 import {NgClass} from '@angular/common';
 import {TranslateService} from '@ngx-translate/core';
-import {Store} from '../../../../api/asset';
+import {Store} from '../../../../api/public';
 
 @Component({
   selector: 'app-store-checkout',

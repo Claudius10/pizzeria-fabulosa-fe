@@ -21,7 +21,7 @@ import {tempQueryResult, tempStatus$} from '../../../utils/placeholder';
 import {RESOURCE_PIZZA, RESOURCE_PRODUCT_PIZZA} from '../../../utils/query-keys';
 import {TranslatePipe} from '@ngx-translate/core';
 import {QueryResult} from '../../../utils/interfaces/query';
-import {ProductAPIService, ProductListDTO} from '../../../api/asset';
+import {ProductAPIService, ProductListDTO} from '../../../api/public';
 
 const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
 

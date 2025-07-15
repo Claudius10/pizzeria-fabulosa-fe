@@ -4,7 +4,7 @@ import {Card} from "primeng/card";
 import {PrimeTemplate} from "primeng/api";
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {NgOptimizedImage} from '@angular/common';
-import {Store} from '../../../api/asset';
+import {Store} from '../../../api/public';
 
 @Component({
   selector: 'app-store-item',

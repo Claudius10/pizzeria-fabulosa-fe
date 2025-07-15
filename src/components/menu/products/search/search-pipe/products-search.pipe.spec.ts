@@ -2,7 +2,7 @@ import {ProductsSearchPipe} from './products-search.pipe';
 import {TestBed} from '@angular/core/testing';
 import {TranslateService} from '@ngx-translate/core';
 import {Filter} from '../../../../../services/filter/filter.service';
-import {Product} from '../../../../../api/asset';
+import {Product} from '../../../../../api/public';
 
 describe('ProductsSearchPipe', () => {
   let pipe: ProductsSearchPipe;

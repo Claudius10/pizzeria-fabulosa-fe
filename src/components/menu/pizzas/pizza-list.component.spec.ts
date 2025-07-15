@@ -5,7 +5,7 @@ import {ErrorService} from '../../../services/error/error.service';
 import {of} from 'rxjs';
 import {provideRouter} from '@angular/router';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {ProductAPIService} from '../../../api/asset';
+import {ProductAPIService} from '../../../api/public';
 
 describe('PizzaListComponent', () => {
   let component: PizzaListComponent;

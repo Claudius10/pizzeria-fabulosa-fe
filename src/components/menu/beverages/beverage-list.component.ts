@@ -20,7 +20,7 @@ import {lastValueFrom} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
 import {QueryResult} from '../../../utils/interfaces/query';
-import {ProductAPIService, ProductListDTO} from '../../../api/asset';
+import {ProductAPIService, ProductListDTO} from '../../../api/public';
 
 const DEFAULT_PAGE_MAX_SIZE = 8;
 

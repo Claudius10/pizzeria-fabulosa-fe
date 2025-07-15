@@ -1,12 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-
 import {TranslateModule} from '@ngx-translate/core';
 import {StepThreeWhenComponent} from './step-three-when.component';
 import {ErrorService} from '../../../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {StoreAPIService, UtilAPIService} from '../../../../api/asset';
 import {of} from 'rxjs';
+import {StoreAPIService, UtilAPIService} from '../../../../api/public';
 
 describe('Step-three-when', () => {
   let component: StepThreeWhenComponent;

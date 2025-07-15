@@ -5,7 +5,7 @@ import {ErrorService} from '../../../../services/error/error.service';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 import {provideHttpClient} from '@angular/common/http';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {StoreAPIService} from '../../../../api/asset';
+import {StoreAPIService} from '../../../../api/public';
 
 describe('Step-two-where', () => {
   let component: StepTwoWhereComponent;

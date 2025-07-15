@@ -14,7 +14,7 @@ import {injectQuery} from '@tanstack/angular-query-experimental';
 import {isPlatformBrowser} from '@angular/common';
 import {tempQueryResult, tempStatus$} from '../../utils/placeholder';
 import {QueryResult} from '../../utils/interfaces/query';
-import {OfferAPIService, OfferListDTO, StoreAPIService, StoreListDTO} from '../../api/asset';
+import {OfferAPIService, OfferListDTO, StoreAPIService, StoreListDTO} from '../../api/public';
 
 @Component({
   selector: 'app-home',

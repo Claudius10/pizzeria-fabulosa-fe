@@ -3,7 +3,7 @@ import {CardModule} from 'primeng/card';
 import {AccordionModule} from 'primeng/accordion';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {NgOptimizedImage} from '@angular/common';
-import {Offer} from '../../../api/asset';
+import {Offer} from '../../../api/public';
 
 @Component({
   selector: 'app-offer-item',

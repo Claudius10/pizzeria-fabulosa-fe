@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {StoreCheckoutComponent} from './store-checkout.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {Store} from '../../../../api/asset';
+import {Store} from '../../../../api/public';
 
 describe('StoreCheckoutComponent', () => {
   let component: StoreCheckoutComponent;
