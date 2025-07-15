@@ -10,11 +10,11 @@
 
 
 export interface OrderSummaryDTO {
-    id: number;
-    formattedCreatedOn: string;
-    paymentMethod: string;
-    quantity: number;
-    cost: number;
-    costAfterOffers: number;
+  id: number;
+  formattedCreatedOn: string;
+  paymentMethod: string;
+  quantity: number;
+  cost: number;
+  costAfterOffers: number;
 }
 

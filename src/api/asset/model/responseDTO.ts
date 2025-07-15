@@ -11,7 +11,7 @@ import {APIError} from './aPIError';
 
 
 export interface ResponseDTO {
-    apiError: APIError;
-    status?: number;
+  apiError: APIError;
+  status?: number;
 }
 

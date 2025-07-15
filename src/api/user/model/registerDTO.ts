@@ -1,5 +1,5 @@
 /**
- * Pizzeria Business API
+ * Pizzeria User API
  *
  *
  *
@@ -7,11 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import {APIError} from './aPIError';
 
 
-export interface ResponseDTO {
-  apiError: APIError;
-  status?: number;
+export interface RegisterDTO {
+  name: string;
+  email: string;
+  matchingEmail: string;
+  contactNumber: number;
+  password: string;
+  matchingPassword: string;
 }
 

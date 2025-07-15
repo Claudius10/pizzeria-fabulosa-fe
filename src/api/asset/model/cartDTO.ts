@@ -11,9 +11,9 @@ import {CartItemDTO} from './cartItemDTO';
 
 
 export interface CartDTO {
-    totalQuantity: number;
-    totalCost: number;
-    totalCostOffers: number;
-    cartItems: Array<CartItemDTO>;
+  totalQuantity: number;
+  totalCost: number;
+  totalCostOffers: number;
+  cartItems: Array<CartItemDTO>;
 }
 

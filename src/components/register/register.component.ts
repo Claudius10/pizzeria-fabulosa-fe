@@ -18,7 +18,7 @@ import {myInput} from '../../primeng/input';
 import {myIcon} from '../../primeng/icon';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {AnonymousUserAPIService, RegisterDTO} from '../../api/asset';
+import {RegisterAPIService, RegisterDTO} from '../../api/user';
 
 @Component({
 
@@ -81,13 +81,13 @@ export class RegisterComponent implements OnDestroy {
   protected readonly myInput = myInput;
   protected readonly myIcon = myIcon;
   private loadingAnimationService = inject(LoadingAnimationService);
-  private anonymousUserAPI = inject(AnonymousUserAPIService);
+  private registerAPI = inject(RegisterAPIService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private errorService = inject(ErrorService);
   private router = inject(Router);
   private register = injectMutation(() => ({
-    mutationFn: (data: RegisterDTO) => lastValueFrom(this.anonymousUserAPI.registerAnonUser(data))
+    mutationFn: (data: RegisterDTO) => lastValueFrom(this.registerAPI.registerAnonUser(data))
   }));
 
   ngOnDestroy(): void {

@@ -1,9 +1,9 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
 api/api.ts
+api/registerAPI.service.ts
 api/userAccountAPI.service.ts
 configuration.ts
 encoder.ts
@@ -11,6 +11,7 @@ git_push.sh
 index.ts
 model/aPIError.ts
 model/models.ts
+model/registerDTO.ts
 model/responseDTO.ts
 model/userInfoDTO.ts
 param.ts

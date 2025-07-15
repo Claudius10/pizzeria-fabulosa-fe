@@ -10,12 +10,12 @@
 
 
 export interface CartItemDTO {
-    id?: number;
-    type: string;
-    price: number;
-    quantity: number;
-    name: { [key: string]: string; };
-    description: { [key: string]: Array<string>; };
-    formats: { [key: string]: { [key: string]: string; }; };
+  id?: number;
+  type: string;
+  price: number;
+  quantity: number;
+  name: { [key: string]: string; };
+  description: { [key: string]: Array<string>; };
+  formats: { [key: string]: { [key: string]: string; }; };
 }
 

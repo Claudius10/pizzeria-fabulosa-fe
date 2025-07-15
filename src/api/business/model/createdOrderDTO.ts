@@ -13,11 +13,11 @@ import {CartDTO} from './cartDTO';
 
 
 export interface CreatedOrderDTO {
-    id: number;
-    formattedCreatedOn: string;
-    customer?: CustomerDTO;
-    address: string;
-    orderDetails: OrderDetailsDTO;
-    cart: CartDTO;
+  id: number;
+  formattedCreatedOn: string;
+  customer?: CustomerDTO;
+  address: string;
+  orderDetails: OrderDetailsDTO;
+  cart: CartDTO;
 }
 

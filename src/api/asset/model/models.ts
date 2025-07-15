@@ -9,7 +9,6 @@ export * from './offerListDTO';
 export * from './orderDetailsDTO';
 export * from './product';
 export * from './productListDTO';
-export * from './registerDTO';
 export * from './responseDTO';
 export * from './store';
 export * from './storeListDTO';

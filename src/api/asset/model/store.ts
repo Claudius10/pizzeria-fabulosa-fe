@@ -10,11 +10,11 @@
 
 
 export interface Store {
-    id?: number;
-    image: string;
-    name: string;
-    phoneNumber: number;
-    schedule: { [key: string]: string; };
-    address: string;
+  id?: number;
+  image: string;
+  name: string;
+  phoneNumber: number;
+  schedule: { [key: string]: string; };
+  address: string;
 }
 

@@ -10,13 +10,13 @@
 
 
 export interface APIError {
-    id?: number;
-    cause: string;
-    message: string;
-    origin: string;
-    path: string;
-    logged: boolean;
-    fatal: boolean;
-    createdOn: string;
+  id?: number;
+  cause: string;
+  message: string;
+  origin: string;
+  path: string;
+  logged: boolean;
+  fatal: boolean;
+  createdOn: string;
 }
 

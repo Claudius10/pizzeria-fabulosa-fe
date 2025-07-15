@@ -10,13 +10,13 @@
 
 
 export interface Product {
-    id?: number;
-    type: string;
-    image: string;
-    name: { [key: string]: string; };
-    description: { [key: string]: Array<string>; };
-    formats: { [key: string]: { [key: string]: string; }; };
-    prices: { [key: string]: number; };
-    allergens: { [key: string]: Array<string>; };
+  id?: number;
+  type: string;
+  image: string;
+  name: { [key: string]: string; };
+  description: { [key: string]: Array<string>; };
+  formats: { [key: string]: { [key: string]: string; }; };
+  prices: { [key: string]: number; };
+  allergens: { [key: string]: Array<string>; };
 }
 

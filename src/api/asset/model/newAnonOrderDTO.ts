@@ -13,9 +13,9 @@ import {CartDTO} from './cartDTO';
 
 
 export interface NewAnonOrderDTO {
-    customer: CustomerDTO;
-    address?: string;
-    orderDetails: OrderDetailsDTO;
-    cart: CartDTO;
+  customer: CustomerDTO;
+  address?: string;
+  orderDetails: OrderDetailsDTO;
+  cart: CartDTO;
 }
 

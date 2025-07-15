@@ -4,7 +4,7 @@ import {MessageService} from 'primeng/api';
 import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../services/error/error.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {AnonymousUserAPIService} from '../../api/asset';
+import {RegisterAPIService} from '../../api/user';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -13,7 +13,7 @@ describe('RegisterComponent', () => {
   beforeEach(async () => {
     const errorServiceSpy = jasmine.createSpyObj('ErrorService', ['getErrors', 'clear', 'isEmpty']);
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
-    const accountServiceSpy = jasmine.createSpyObj('AccountService', ['create']);
+    const registerAPISpy = jasmine.createSpyObj('RegisterAPIService', ['registerAnonUser']);
 
     await TestBed.configureTestingModule({
       imports: [RegisterComponent, TranslateModule.forRoot()],
@@ -21,7 +21,7 @@ describe('RegisterComponent', () => {
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: AnonymousUserAPIService, useValue: accountServiceSpy},
+        {provide: RegisterAPIService, useValue: registerAPISpy},
       ],
     })
       .compileComponents();

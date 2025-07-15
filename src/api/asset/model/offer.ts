@@ -10,10 +10,10 @@
 
 
 export interface Offer {
-    id?: number;
-    image: string;
-    name: { [key: string]: string; };
-    description: { [key: string]: string; };
-    caveat: { [key: string]: string; };
+  id?: number;
+  image: string;
+  name: { [key: string]: string; };
+  description: { [key: string]: string; };
+  caveat: { [key: string]: string; };
 }
 
