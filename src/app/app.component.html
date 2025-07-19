@@ -1,0 +1,13 @@
+<div class="flex flex-col items-center min-h-screen" title="Pizzeria Fabulosa">
+  @if (authService.isAuthenticated() && authService.isAdmin() && authService.isAdminMode()) {
+    <app-admin-navigation-bar/>
+  } @else {
+    <app-navigation-bar/>
+  }
+  <router-outlet/>
+  <div class="mt-auto w-full">
+    <app-footer/>
+  </div>
+</div>
+<app-userinfo/>
+<p-toast [breakpoints]="{ '920px': { width: '100%' } }" position="top-center"/>

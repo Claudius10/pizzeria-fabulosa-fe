@@ -1,0 +1,15 @@
+<p-button
+  label='{{ "component.user.form.delete.account" | translate }}'
+  severity="danger"
+  type="button"
+  (onClick)="showPassAuth()"
+/>
+@if (passAuthVisibility) {
+  <app-password-authorization
+    title="component.user.form.delete.account"
+    action="button.delete"
+    [guestAction]="false"
+    (password)="onAuthorizedPassword($event)"
+    [(show)]="passAuthVisibility"
+  />
+}

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, Signal} from '@angular/core';
-import {ErrorService} from '../../../services/error/error.service';
+import {ErrorService} from '../../services/error/error.service';
 import {ErrorItemComponent} from './item/error-item.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {APIError} from '../../../api/user';
@@ -18,7 +18,7 @@ import {APIError} from '../../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorComponent implements OnDestroy {
-  errorService = inject(ErrorService);
+  protected errorService = inject(ErrorService);
   errors: Signal<APIError[]> = this.errorService.getErrors();
 
   ngOnDestroy(): void {
