@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {CheckoutFormService} from '../../../services/checkout/checkout-form.service';
 import {Router} from '@angular/router';
 import {RESOURCE_STORES, USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
@@ -39,35 +39,47 @@ import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, Store, Stor
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFiveSummaryComponent implements OnInit {
-  private router = inject(Router);
-  private storesAPI = inject(StoreAPIService);
-  private anonymousOrdersAPI = inject(AnonymousOrdersAPIService);
-  private userOrdersAPI = inject(UserOrdersAPIService);
-  private queryClient = inject(QueryClient);
-  private errorService = inject(ErrorService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  protected checkoutFormService = inject(CheckoutFormService);
-  protected authService = inject(AuthService);
-  protected cartService = inject(CartService);
-  protected selectedStore: Store | null = null;
+  private readonly router = inject(Router);
+  private readonly queryClient = inject(QueryClient);
+  private readonly errorService = inject(ErrorService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
+  private readonly storesAPI = inject(StoreAPIService);
+  private readonly anonymousOrdersAPI = inject(AnonymousOrdersAPIService);
+  private readonly userOrdersAPI = inject(UserOrdersAPIService);
+  private readonly userId = this.authService.getId();
+  protected readonly isAuthenticated = this.authService.getIsAuthenticated();
+  private readonly cartQuantity = this.cartService.getQuantity();
+  private readonly cartItems = this.cartService.getItems();
+  private readonly cartTotal = this.cartService.getTotal();
+  private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
+  private readonly comment = this.checkoutFormService.getComment();
+  protected readonly who = this.checkoutFormService.getWho();
+  protected readonly where = this.checkoutFormService.getWhere();
+  protected readonly when = this.checkoutFormService.getWhen();
+  protected readonly how = this.checkoutFormService.getHow();
+  protected readonly selectedStore = this.checkoutFormService.getSelectedStore();
+  protected readonly store = signal<Store | null>(null);
 
-  private stores = injectQuery(() => ({
+  private readonly stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storesAPI.findAll()),
   }));
 
-  private createAnonOrder = injectMutation(() => ({
+  private readonly createAnonOrder = injectMutation(() => ({
     mutationFn: (data: NewAnonOrderDTO) => lastValueFrom(this.anonymousOrdersAPI.createAnonOrder(data))
   }));
 
-  private createUserOrder = injectMutation(() => ({
+  private readonly createUserOrder = injectMutation(() => ({
     mutationFn: (data: { userId: number, order: NewUserOrderDTO }) => lastValueFrom(this.userOrdersAPI.create(data.userId, data.order)),
     onSuccess: () => {
       this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
     }
   }));
 
-  protected form = new FormGroup({
+  protected readonly form = new FormGroup({
     comment: new FormControl<string | null>(null, {
       validators: [Validators.maxLength(150), Validators.pattern(esCharsAndNumbersAndBasicSymbolsRgx)],
       nonNullable: false,
@@ -76,18 +88,18 @@ export class StepFiveSummaryComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.checkoutFormService.step = 4;
+    this.checkoutFormService.setStep(4);
 
-    if (this.checkoutFormService.isStepFilled(4)) {
+    if (this.checkStep()) {
 
-      if (this.checkoutFormService.comment !== null) {
-        this.form.controls.comment.patchValue(this.checkoutFormService.comment);
+      if (this.comment()) {
+        this.form.controls.comment.patchValue(this.comment());
       }
 
-      if (this.checkoutFormService.where === null && this.checkoutFormService.selectedStore !== null) {
+      if (this.where() === null && this.selectedStore()) {
         const fetchedStores: Store[] = this.stores.data()!.stores; // NOTE - data is in cache
-        const selectedStoreIndex = fetchedStores.findIndex(store => store.address === this.checkoutFormService.selectedStore);
-        this.selectedStore = fetchedStores[selectedStoreIndex];
+        const selectedStoreIndex = fetchedStores.findIndex(store => store.address === this.selectedStore());
+        this.store.set(fetchedStores[selectedStoreIndex]);
       }
     }
   }
@@ -96,7 +108,7 @@ export class StepFiveSummaryComponent implements OnInit {
     if (isFormValid(this.form)) {
       this.loadingAnimationService.startLoading();
 
-      if (this.authService.isAuthenticated()) {
+      if (this.isAuthenticated()) {
         this.newUserOrder();
       } else {
         this.newAnonOrder();
@@ -106,7 +118,7 @@ export class StepFiveSummaryComponent implements OnInit {
 
   protected previousStep() {
     if (isFormValid(this.form)) {
-      this.checkoutFormService.comment = this.form.get("comment")!.value;
+      this.checkoutFormService.setComment(this.form.get("comment")!.value);
     }
     this.router.navigate(['order', 'new', 'step-four']);
   }
@@ -124,25 +136,25 @@ export class StepFiveSummaryComponent implements OnInit {
     const payload: NewUserOrderDTO = {
       address: this.resolveAddress(),
       orderDetails: {
-        deliveryTime: this.checkoutFormService.when!.deliveryTime,
-        paymentMethod: this.checkoutFormService.how!.paymentMethod,
-        billToChange: this.checkoutFormService.how!.billToChange === null ? undefined : this.checkoutFormService.how!.billToChange,
+        deliveryTime: this.when()!.deliveryTime,
+        paymentMethod: this.how()!.paymentMethod,
+        billToChange: this.how()!.billToChange === null ? undefined : this.how()!.billToChange,
         comment: this.form.get("comment")!.value === null ? undefined : this.form.get("comment")!.value!,
-        storePickUp: this.checkoutFormService.selectedStore !== null
+        storePickUp: this.selectedStore() !== null
       },
       cart: {
-        cartItems: cleanIds(this.cartService.items()),
-        totalQuantity: this.cartService.quantity(),
-        totalCost: Number(this.cartService.total().toFixed(2)),
-        totalCostOffers: Number(this.cartService.totalAfterOffers().toFixed(2)),
+        cartItems: cleanIds(this.cartItems()),
+        totalQuantity: this.cartQuantity(),
+        totalCost: Number(this.cartTotal().toFixed(2)),
+        totalCostOffers: Number(this.cartTotalAfterOffers().toFixed(2)),
       }
     };
 
-    this.createUserOrder.mutate({userId: this.authService.id!, order: payload}, {
+    this.createUserOrder.mutate({userId: this.userId()!, order: payload}, {
       onSuccess: (response: CreatedOrderDTO) => {
         this.cartService.clear();
         this.checkoutFormService.clear();
-        this.checkoutFormService.orderSuccess = response;
+        this.checkoutFormService.setOrderSuccess(response);
         this.router.navigate(['order', 'success']);
       },
       onError: (error) => {
@@ -158,23 +170,23 @@ export class StepFiveSummaryComponent implements OnInit {
 
     const payload: NewAnonOrderDTO = {
       customer: {
-        anonCustomerName: this.checkoutFormService.who!.anonCustomerName,
-        anonCustomerContactNumber: this.checkoutFormService.who!.anonCustomerContactNumber,
-        anonCustomerEmail: this.checkoutFormService.who!.anonCustomerEmail,
+        anonCustomerName: this.who()!.anonCustomerName,
+        anonCustomerContactNumber: this.who()!.anonCustomerContactNumber,
+        anonCustomerEmail: this.who()!.anonCustomerEmail,
       },
       address: this.resolveAddress(),
       orderDetails: {
-        deliveryTime: this.checkoutFormService.when!.deliveryTime,
-        paymentMethod: this.checkoutFormService.how!.paymentMethod,
-        billToChange: this.checkoutFormService.how!.billToChange,
-        comment: this.form.get("comment")!.value === undefined ? undefined : this.form.get("comment")!.value!,
-        storePickUp: this.checkoutFormService.selectedStore !== null
+        deliveryTime: this.when()!.deliveryTime,
+        paymentMethod: this.how()!.paymentMethod,
+        billToChange: this.how()!.billToChange === null ? undefined : this.how()!.billToChange,
+        comment: this.form.get("comment")!.value === null ? undefined : this.form.get("comment")!.value!,
+        storePickUp: this.selectedStore() !== null
       },
       cart: {
-        cartItems: cleanIds(this.cartService.items()),
-        totalQuantity: this.cartService.quantity(),
-        totalCost: Number(this.cartService.total().toFixed(2)),
-        totalCostOffers: Number(this.cartService.totalAfterOffers().toFixed(2)),
+        cartItems: cleanIds(this.cartItems()),
+        totalQuantity: this.cartQuantity(),
+        totalCost: Number(this.cartTotal().toFixed(2)),
+        totalCostOffers: Number(this.cartTotalAfterOffers().toFixed(2)),
       }
     };
 
@@ -182,7 +194,7 @@ export class StepFiveSummaryComponent implements OnInit {
       onSuccess: (response: CreatedOrderDTO) => {
         this.cartService.clear();
         this.checkoutFormService.clear();
-        this.checkoutFormService.orderSuccess = response;
+        this.checkoutFormService.setOrderSuccess(response);
         this.router.navigate(['order', 'success']);
       },
       onError: (error) => {
@@ -196,15 +208,23 @@ export class StepFiveSummaryComponent implements OnInit {
 
   private resolveAddress(): string {
     let address = "";
-    if (this.checkoutFormService.selectedStore !== null) {
-      address = this.checkoutFormService.selectedStore;
-    } else if (this.checkoutFormService.where) {
-      address = this.checkoutFormService.where.street + " " + this.checkoutFormService.where.number.toString();
-      if (this.checkoutFormService.where.details) {
-        address = address + " " + this.checkoutFormService.where.details;
+    if (this.selectedStore()) {
+      address = this.selectedStore()!;
+    } else if (this.where()) {
+      address = this.where()!.street + " " + this.where()!.number.toString();
+      if (this.where()!.details) {
+        address = address + " " + this.where()!.details;
       }
     }
     return address;
+  }
+
+  protected isCartEmpty() {
+    return this.cartService.isEmpty();
+  }
+
+  protected checkStep() {
+    return this.checkoutFormService.isStepFilled(4);
   }
 }
 

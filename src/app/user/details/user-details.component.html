@@ -3,21 +3,21 @@
     class="flex gap-1"
     title="Name">{{ "form.label.name" | translate }}:
     <span
-      class="text-primary uppercase">{{ authService.isAuthenticated() ? authService.name : anon()?.anonCustomerName }}
+      class="text-primary uppercase">{{ authState() ? name() : anon()?.anonCustomerName }}
   </span>
   </span>
   <span
     class="flex gap-1"
     title="Email">{{ "form.label.email" | translate }}:
     <span
-      class="text-primary uppercase"> {{ authService.isAuthenticated() ? authService.email : anon()?.anonCustomerEmail }}
+      class="text-primary uppercase"> {{ authState() ? email() : anon()?.anonCustomerEmail }}
     </span>
   </span>
   <span
     class="flex gap-1"
     title="Contact Number">{{ "form.label.contact.number" | translate }}:
     <span
-      class="text-primary uppercase"> {{ authService.isAuthenticated() ? authService.phoneNumber : anon()?.anonCustomerContactNumber }}
+      class="text-primary uppercase"> {{ authState() ? phone() : anon()?.anonCustomerContactNumber }}
     </span>
   </span>
 </div>

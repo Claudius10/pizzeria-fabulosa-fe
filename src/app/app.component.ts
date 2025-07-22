@@ -1,9 +1,9 @@
 import {afterNextRender, ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-import {NavigationBarComponent} from './nav/navigation-bar.component';
+import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {BaseNavigationBarComponent} from './nav/bar/base-navigation-bar.component';
 import {FooterComponent} from './footer/footer.component';
 import {ToastModule} from "primeng/toast";
-import {TranslateService} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {CartService} from './services/cart/cart.service';
 import {PrimeNG} from 'primeng/config';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
@@ -15,30 +15,46 @@ import primeEN from "../../public/i18n/primeng-en.json";
 import {MessageService} from 'primeng/api';
 import {ErrorService} from './services/error/error.service';
 import {MyCartItemDTO} from '../utils/interfaces/MyCartItemDTO';
-import {UserinfoComponent} from './userinfo/userinfo.component';
-import {AuthService} from './services/auth/auth.service';
-import {AdminNavigationBarComponent} from './nav/admin-nav-bar/admin-navigation-bar.component';
+import {UserinfoComponent} from './util/userinfo/userinfo.component';
+import {CartComponent} from './cart/cart.component';
+import {Drawer} from 'primeng/drawer';
+import {RenderService} from './services/ui/render.service';
+import {toObservable} from '@angular/core/rxjs-interop';
+import {LogoutDialogComponent} from './nav/logout/logout-dialog.component';
+import {LoginDialogComponent} from './nav/login/login-dialog.component';
 
 @Component({
   selector: 'app-root',
   imports: [
-    NavigationBarComponent,
+    BaseNavigationBarComponent,
     RouterOutlet,
     FooterComponent,
     ToastModule,
     UserinfoComponent,
-    AdminNavigationBarComponent
+    CartComponent,
+    Drawer,
+    RouterLink,
+    RouterLinkActive,
+    TranslatePipe,
+    LogoutDialogComponent,
+    LoginDialogComponent
   ],
   providers: [MessageService, ErrorService],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  private translateService = inject(TranslateService);
-  private cookieService = inject(SsrCookieService);
-  private primeNgConfig = inject(PrimeNG);
-  private cartService = inject(CartService);
-  protected authService = inject(AuthService);
+  private readonly translateService = inject(TranslateService);
+  private readonly cookieService = inject(SsrCookieService);
+  private readonly primeNgConfig = inject(PrimeNG);
+  private readonly cartService = inject(CartService);
+  private readonly renderService = inject(RenderService);
+  protected readonly loginState = this.renderService.getLogin();
+  protected readonly logoutState = this.renderService.getLogout();
+  private readonly cartState = toObservable(this.renderService.getCartDrawer());
+  private readonly routesState = toObservable(this.renderService.getRoutesDrawer());
+  protected routesDrawerState = false;
+  protected cartDrawerState = false;
 
   constructor() {
     afterNextRender(() => {
@@ -47,6 +63,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cartState.subscribe(state => {
+      this.cartDrawerState = state;
+    });
+
+    this.routesState.subscribe(state => {
+      this.routesDrawerState = state;
+    });
+
     this.initLanguage();
   }
 
@@ -84,5 +108,13 @@ export class AppComponent implements OnInit {
       const cartItems = cart.items as MyCartItemDTO[];
       this.cartService.set(cartItems, cart.quantity, cart.total);
     }
+  }
+
+  hideRoutesDrawer() {
+    this.renderService.switchRoutesDrawer(false);
+  }
+
+  hideCartDrawer() {
+    this.renderService.switchCartDrawer(false);
   }
 }

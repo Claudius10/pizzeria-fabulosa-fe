@@ -34,10 +34,12 @@ import {myIcon} from '../../../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepOneWhoComponent implements OnInit {
-  private router = inject(Router);
-  protected checkoutFormService = inject(CheckoutFormService);
-  protected authService = inject(AuthService);
-  protected form = new FormGroup({
+  private readonly router = inject(Router);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly authService = inject(AuthService);
+  private readonly who = this.checkoutFormService.getWho();
+  protected readonly isAuthenticated = this.authService.getIsAuthenticated();
+  protected readonly form = new FormGroup({
     fullName: new FormControl("", {
       nonNullable: true,
       updateOn: "change"
@@ -52,39 +54,40 @@ export class StepOneWhoComponent implements OnInit {
     }),
   });
 
+
   ngOnInit(): void {
-    this.checkoutFormService.step = 0;
+    this.checkoutFormService.setStep(0);
 
     // restore previously set values
-    if (this.checkoutFormService.who !== null) {
+    if (this.who()) {
       this.form.setValue({
-        fullName: this.checkoutFormService.who.anonCustomerName,
-        email: this.checkoutFormService.who.anonCustomerEmail,
-        contactNumber: this.checkoutFormService.who.anonCustomerContactNumber.toString()
+        fullName: this.who()!.anonCustomerName,
+        email: this.who()!.anonCustomerEmail,
+        contactNumber: this.who()!.anonCustomerContactNumber.toString()
       });
     }
 
-    if (!this.authService.isAuthenticated()) {
+    if (!this.isAuthenticated()) {
       this.form.controls.fullName.addValidators([Validators.required, Validators.minLength(2), Validators.maxLength(50)]);
       this.form.controls.email.addValidators([Validators.required, Validators.pattern(emailRgx)]);
       this.form.controls.contactNumber.addValidators([Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern(numbersRegex)]);
     }
   }
 
-  nextStep() {
+  protected nextStep() {
     if (isFormValid(this.form)) {
 
-      this.checkoutFormService.who = {
+      this.checkoutFormService.setWho({
         anonCustomerName: this.form.get("fullName")!.value,
         anonCustomerContactNumber: Number(this.form.get("contactNumber")!.value),
         anonCustomerEmail: this.form.get("email")!.value,
-      };
+      });
 
       this.router.navigate(['order', 'new', 'step-two']);
     }
   }
 
-  cancel() {
+  protected cancel() {
     this.checkoutFormService.clear();
     this.router.navigate(['/']);
   }

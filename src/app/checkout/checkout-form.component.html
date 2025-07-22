@@ -3,13 +3,13 @@
 
     <div class="steps" title="Steps">
       <p-card>
-        <p-steps [activeIndex]="checkoutFormService.step" [model]="steps"/>
+        <p-steps [activeIndex]="step()" [model]="steps()"/>
       </p-card>
     </div>
 
     <div class="small-steps" title="Step">
       <p-card>
-        <app-small-screen-steps [activeIndex]="checkoutFormService.step" [items]="steps"/>
+        <app-small-screen-steps [activeIndex]="step()" [items]="steps()"/>
       </p-card>
     </div>
 

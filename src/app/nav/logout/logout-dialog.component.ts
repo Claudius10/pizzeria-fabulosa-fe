@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
-import {AuthService} from '../../services/auth/auth.service';
 import {DialogModule} from 'primeng/dialog';
 import {Button} from 'primeng/button';
 import {UpperCasePipe} from '@angular/common';
 import {logout} from '../../../utils/functions';
 import {environment} from '../../../environments/environment';
+import {RenderService} from '../../services/ui/render.service';
 
 @Component({
   selector: 'app-logout-dialog',
@@ -20,16 +20,17 @@ import {environment} from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LogoutDialogComponent {
-  private backEndClientBaseUri = environment.url;
-  private authService = inject(AuthService);
-  protected visible: boolean = this.authService.logoutDialogVisibility();   // visible provides hiding dialog on esc key press
+  private readonly backEndClientBaseUri = environment.url;
+  private readonly renderService = inject(RenderService);
+  protected readonly logoutState = this.renderService.getLogout();
+  protected visible = this.logoutState();
 
   protected acceptLogout() {
     logout(this.backEndClientBaseUri);
   }
 
   protected cancelLogout() {
-    this.authService.logoutDialogVisibility.set(false);
-    this.visible = this.authService.logoutDialogVisibility();
+    this.renderService.switchLogout(false);
+    this.visible = this.logoutState();
   }
 }

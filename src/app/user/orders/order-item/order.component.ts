@@ -59,6 +59,7 @@ export class OrderComponent {
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
   private authService = inject(AuthService);
+  private userId = this.authService.getId();
   private cartService = inject(CartService);
   private activatedRoute = inject(ActivatedRoute);
   protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
@@ -131,7 +132,7 @@ export class OrderComponent {
         // if user accepts, send DELETE request for order
         this.loadingAnimationService.startLoading();
 
-        this.delete.mutate({orderId: this.orderId, userId: this.authService.id!},
+        this.delete.mutate({orderId: this.orderId, userId: this.userId()!},
           {
             onSuccess: (response: number) => {
               // trigger toast

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
@@ -33,53 +33,57 @@ import {myIcon} from '../../../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepFourHowComponent implements OnInit {
-  private router = inject(Router);
-  private cartService = inject(CartService);
-  protected checkoutFormService = inject(CheckoutFormService);
-
-  protected paymentOptions: Option[] = [
+  private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly how = this.checkoutFormService.getHow();
+  protected readonly cashPayment = this.checkoutFormService.getCashPayment();
+  protected readonly changeRequested = this.checkoutFormService.getChangeRequested();
+  private readonly cartTotal = this.cartService.getTotal();
+  private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
+  protected readonly paymentOptions = signal<Option[]>([
     {code: "0", description: "form.select.payment.method.card"},
     {code: "1", description: "form.select.payment.method.cash"}
-  ];
-  protected changeOptions: Option[] = [
+  ]);
+  protected readonly changeOptions = signal<Option[]>([
     {code: "0", description: "prompt.no"},
     {code: "1", description: "prompt.yes"}
-  ];
-  protected selectedChangeOption: Option = this.changeOptions[0];
+  ]);
+  protected readonly selectedChangeOption = signal<Option>(this.changeOptions()[0]);
 
   protected form = new FormGroup({
-    paymentMethod: new FormControl(this.paymentOptions[0].code, {
+    paymentMethod: new FormControl(this.paymentOptions()[0].code, {
       validators: [Validators.required],
       nonNullable: true,
       updateOn: "change"
     }),
     billToChange: new FormControl<string | null>(null, {
       updateOn: "change",
-      validators: [billValidator(this.cartService.total(), this.cartService.totalAfterOffers())]
+      validators: [billValidator(this.cartTotal(), this.cartTotalAfterOffers())],
     }),
   });
 
   ngOnInit(): void {
-    this.checkoutFormService.step = 3; // counting starts from 0 LOL
+    this.checkoutFormService.setStep(3);
 
     // if data was previously set, restore
-    if (this.checkoutFormService.how !== null) {
+    if (this.how()) {
       // is cash was selected
-      if (this.checkoutFormService.how.paymentMethod !== this.paymentOptions[0].description) {
+      if (this.how()!.paymentMethod !== this.paymentOptions()[0].description) {
         // selected option is 'Cash'
-        this.form.controls.paymentMethod.patchValue(this.paymentOptions[1].code);
+        this.form.controls.paymentMethod.patchValue(this.paymentOptions()[1].code);
 
         // show select for bill to change request
-        this.checkoutFormService.cashPayment = true;
+        this.checkoutFormService.setCashPayment(true);
 
         // if bill to change was selected
-        if (this.checkoutFormService.how.billToChange !== undefined) {
+        if (this.how()!.billToChange !== undefined) {
           // selected option is 'Yes'
-          this.selectedChangeOption = this.changeOptions[1];
+          this.selectedChangeOption.set(this.changeOptions()[1]);
           // set the previously selected bill to change
-          this.form.controls.billToChange.patchValue(this.checkoutFormService.how.billToChange!.toString());
+          this.form.controls.billToChange.patchValue(this.how()!.billToChange!.toString());
           // show input
-          this.checkoutFormService.changeRequested = true;
+          this.checkoutFormService.setChangeRequested(true);
         }
       }
     }
@@ -88,21 +92,21 @@ export class StepFourHowComponent implements OnInit {
   protected togglePaymentOption(eventTarget: EventTarget) {
     const value = (eventTarget as HTMLSelectElement).value;
 
-    if (value === this.paymentOptions[0].code) {
-      this.checkoutFormService.cashPayment = false;
+    if (value === this.paymentOptions()[0].code) {
+      this.checkoutFormService.setCashPayment(false);
       this.hideChangeRequest();
     } else {
-      this.checkoutFormService.cashPayment = true;
+      this.checkoutFormService.setCashPayment(true);
     }
   }
 
   protected toggleChangeRequest(eventTarget: EventTarget) {
     const value = (eventTarget as HTMLSelectElement).value;
 
-    if (value === this.changeOptions[1].code) {
+    if (value === this.changeOptions()[1].code) {
       this.form.controls.billToChange.reset();
       this.form.controls.billToChange.addValidators([Validators.required, Validators.pattern(numbersRegex)]);
-      this.checkoutFormService.changeRequested = true;
+      this.checkoutFormService.setChangeRequested(true);
     } else {
       this.hideChangeRequest();
     }
@@ -112,9 +116,9 @@ export class StepFourHowComponent implements OnInit {
     this.router.navigate(['order', 'new', 'step-three']);
 
     if (this.form.controls.billToChange.invalid) {
-      this.checkoutFormService.cashPayment = false;
-      this.checkoutFormService.changeRequested = false;
-      this.checkoutFormService.how = null;
+      this.checkoutFormService.setCashPayment(false);
+      this.checkoutFormService.setChangeRequested(false);
+      this.checkoutFormService.setHow(null);
     } else {
       this.saveFormValues();
     }
@@ -140,14 +144,18 @@ export class StepFourHowComponent implements OnInit {
     this.form.controls.billToChange.reset();
     this.form.controls.billToChange.setErrors(null);
     this.form.controls.billToChange.removeValidators([Validators.required, Validators.pattern(numbersRegex)]);
-    this.checkoutFormService.changeRequested = false;
+    this.checkoutFormService.setChangeRequested(false);
   }
 
   private saveFormValues() {
-    this.checkoutFormService.how = {
-      paymentMethod: getPaymentOption(this.form.get("paymentMethod")!.value, this.paymentOptions),
+    this.checkoutFormService.setHow({
+      paymentMethod: getPaymentOption(this.form.get("paymentMethod")!.value, this.paymentOptions()),
       billToChange: this.form.get("billToChange")!.value === null ? undefined : Number(this.form.get("billToChange")!.value),
-    };
+    });
+  }
+
+  protected checkStep() {
+    return this.checkoutFormService.isStepFilled(3);
   }
 
   protected readonly myInput = myInput;

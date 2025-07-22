@@ -22,19 +22,25 @@ import {NgClass, UpperCasePipe} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartComponent implements OnInit {
-  protected cartService = inject(CartService);
-  private router = inject(Router);
-  viewOnly = input.required<boolean>();
-  inSidebar = input<boolean>(false);
-  onNewOrderClick = output<boolean>();
+  private readonly router = inject(Router);
+  private readonly cartService = inject(CartService);
+  private readonly cartQuantity = this.cartService.getQuantity();
+  private readonly cartItems = this.cartService.getItems();
+  private readonly cartTotal = this.cartService.getTotal();
+  private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
+  private readonly secondHalPriceOffer = this.cartService.getSecondHalfPriceOffer();
+  private readonly threeForTwoOffer = this.cartService.getThreeForTwoOffers();
+  readonly viewOnly = input.required<boolean>();
+  readonly inSidebar = input<boolean>(false);
+  readonly onNewOrderClick = output<boolean>();
   private viewOnlyRoute = false;
 
   ngOnInit(): void {
-    const viewOnlyRoutes = getViewOnlyRoutes();
+    const viewOnlyRoutes = ["/order/new/", "/order/success", "/user/orders/"];
     for (let i = 0; i < viewOnlyRoutes.length; i++) {
       if (this.router.url.includes(viewOnlyRoutes[i])) {
         this.viewOnlyRoute = true;
-        break;
+        break; // this break does not work lmao
       }
     }
   }
@@ -48,8 +54,28 @@ export class CartComponent implements OnInit {
     this.router.navigate(['order', 'new', 'step-one']);
     this.onNewOrderClick.emit(false); // hides de cart side panel
   }
-}
 
-const getViewOnlyRoutes = () => {
-  return ["/order/new/", "/order/success", "/user/orders/"];
-};
+  getTotal() {
+    return this.cartTotal();
+  }
+
+  getTotalAfterOffers() {
+    return this.cartTotalAfterOffers();
+  }
+
+  getSecondHalfPriceOffer() {
+    return this.secondHalPriceOffer();
+  }
+
+  getThreeForTwoOffer() {
+    return this.threeForTwoOffer();
+  }
+
+  getItems() {
+    return this.cartItems();
+  }
+
+  getQuantity() {
+    return this.cartQuantity();
+  }
+}

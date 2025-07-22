@@ -1,0 +1,76 @@
+<div class="fixed top-0 left-0 w-screen style" title="Navigation">
+  <div class="flex items-center justify-between">
+    <!-- LEFT SIDE START -->
+
+    <!-- ICON SMALL SCREEN -->
+    <img
+      alt="Small Main Pizza Icon"
+      aria-label="To Home Page"
+      class="logo-sm cursor-pointer"
+      height="50"
+      ngSrc="/assets/icons/pizzabig.png"
+      routerLink="/"
+      title="Home" width="50">
+
+    <div class="quick-links-ls">
+      <!-- ICON LARGE SCREEN -->
+      <img
+        alt="Large Main Pizza Icon"
+        aria-label="To Home Page"
+        class="logo-ls cursor-pointer"
+        height="60"
+        ngSrc="/assets/icons/pizzabig.png"
+        routerLink="/"
+        title="Home"
+        width="60">
+
+      @switch (mode()) {
+        @case (MODE.USER) {
+          @for (link of userLinks; track link.path) {
+            <button
+              class="text-lg"
+              routerLink="{{ link.path }}"
+              routerLinkActive="color"
+              title="{{ link.name }}">
+              {{ link.name | translate }}
+            </button>
+          }
+        }
+        @case (MODE.ADMIN) {
+
+        }
+      }
+    </div>
+
+    <!-- LEFT SIDE END -->
+
+    <!-- RIGHT SIDE START -->
+
+    <!-- RIGHT SIDE ICON LIST -->
+    <ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
+      @switch (mode()) {
+        @case (MODE.USER) {
+          <app-user-nav-buttons/>
+        }
+        @case (MODE.ADMIN) {
+          <app-admin-nav-buttons/>
+        }
+      }
+      <li>
+        <app-locale-selector/>
+      </li>
+      <li>
+        <app-theme-selector/>
+      </li>
+    </ul>
+
+    <!-- RIGHT SIDE END -->
+  </div>
+  @if (isLoading()) {
+    <p-progressBar mode="indeterminate"
+                   [style]="{'height': '3px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
+  } @else {
+    <p-progressBar [value]="100" [showValue]="false"
+                   [style]="{'height': '3px', 'width': '100vw', 'position': 'fixed', 'left': '0px', 'margin-top': '0.5rem'}"/>
+  }
+</div>

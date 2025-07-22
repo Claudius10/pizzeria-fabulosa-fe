@@ -1,4 +1,4 @@
-@if (!checkoutFormService.isStepFilled(3)) {
+@if (!checkStep()) {
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.four.warning" | translate }}</span>
     <p-button
@@ -26,19 +26,19 @@
             pInputText
             [dt]="myInput(true)"
           >
-            <option *ngFor="let option of paymentOptions" [value]="option.code">{{ option.description | translate }}
+            <option *ngFor="let option of paymentOptions()" [value]="option.code">{{ option.description | translate }}
             </option>
           </select>
         </p-iconfield>
 
-        @if (checkoutFormService.cashPayment) {
+        @if (cashPayment()) {
 
           <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon title="Change Request Icon" styleClass="pi pi-angle-down"/>
             <select
               title="Change Request Select"
-              [ngModel]="selectedChangeOption.code"
+              [ngModel]="selectedChangeOption().code"
               [ngModelOptions]="{standalone: true}"
               class="w-full"
               id="changeRequestChoice"
@@ -46,13 +46,13 @@
               pInputText
               [dt]="myInput(true)"
             >
-              <option *ngFor="let option of changeOptions" [value]="option.code">{{ option.description | translate }}
+              <option *ngFor="let option of changeOptions()" [value]="option.code">{{ option.description | translate }}
               </option>
             </select>
           </p-iconfield>
         }
 
-        @if (checkoutFormService.changeRequested) {
+        @if (changeRequested()) {
           <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
             <p-inputicon title="Bill Icon" styleClass="pi pi-euro"/>

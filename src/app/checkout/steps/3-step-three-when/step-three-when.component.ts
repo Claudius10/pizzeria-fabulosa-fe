@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
 import {InputText} from "primeng/inputtext";
@@ -38,35 +38,38 @@ import {UtilAPIService} from '../../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepThreeWhenComponent implements OnInit {
-  private router = inject(Router);
-  private utilAPI = inject(UtilAPIService);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  protected checkoutFormService = inject(CheckoutFormService);
-
-  private localDateTimeNow = injectQuery(() => ({
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly utilAPI = inject(UtilAPIService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly when = this.checkoutFormService.getWhen();
+  protected readonly programmedDelivery = this.checkoutFormService.getProgrammedDelivery();
+  private readonly localDateTimeNow = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
     queryFn: () => lastValueFrom(this.utilAPI.getNowAccountingDST()),
     staleTime: 0
   }));
-  private status = toObservable(this.localDateTimeNow.status);
-
-  protected deliveryHours: string[] = [];
-  protected options: Option[] = [
-    {code: "0", description: "form.select.time.asap"},
-    {code: "1", description: "form.select.time.programmed"}
-  ];
-  protected selectedOption: Option = this.options[0];
-
-  protected form = new FormGroup({
-    deliveryTime: new FormControl(this.options[0].description, {
+  private readonly status = toObservable(this.localDateTimeNow.status);
+  protected readonly deliveryHours = signal<string[]>([]);
+  protected readonly options = signal<Option[]>([
+      {code: "0", description: "form.select.time.asap"},
+      {code: "1", description: "form.select.time.programmed"}
+    ]
+  );
+  protected readonly selectedOption = signal<Option>(this.options()[0]);
+  protected readonly form = new FormGroup({
+    deliveryTime: new FormControl(this.options()[0].description, {
       validators: [Validators.required, Validators.minLength(4)],
       nonNullable: true,
       updateOn: "change"
     }),
   });
 
+
   ngOnInit(): void {
+    this.checkoutFormService.setStep(2);
+
     const subscription = this.status.subscribe({
       next: status => {
         if (status === ERROR) {
@@ -74,7 +77,7 @@ export class StepThreeWhenComponent implements OnInit {
         }
 
         if (status === SUCCESS) {
-          this.deliveryHours = this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!);
+          this.deliveryHours.set(this.checkoutFormService.getDeliveryHours(this.localDateTimeNow.data()!));
         }
       }
     });
@@ -83,37 +86,32 @@ export class StepThreeWhenComponent implements OnInit {
       subscription.unsubscribe();
     });
 
-    this.checkoutFormService.step = 2;
     // restore previously set values
-    if (this.checkoutFormService.when !== null) {
-      if (this.checkoutFormService.when.deliveryTime !== this.options[0].description) {
-
-        this.selectedOption = this.options[1];
-        this.checkoutFormService.programmedDelivery = true;
-
-        this.form.setValue({
-          deliveryTime: this.checkoutFormService.when.deliveryTime,
-        });
-      }
+    if (this.when() && this.when()!.deliveryTime !== this.options()[0].description) {
+      this.selectedOption.set(this.options()[1]);
+      this.checkoutFormService.setProgrammedDelivery(true);
+      this.form.setValue({
+        deliveryTime: this.when()!.deliveryTime,
+      });
     }
   }
 
   protected selectDeliveryChoice(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
 
-    if (selectElement.value === this.options[0].code) {
-      this.form.controls.deliveryTime.setValue(this.options[0].description);
-      this.checkoutFormService.programmedDelivery = false;
+    if (selectElement.value === this.options()[0].code) {
+      this.form.controls.deliveryTime.setValue(this.options()[0].description);
+      this.checkoutFormService.setProgrammedDelivery(false);
     } else {
       this.form.controls.deliveryTime.setValue("");
-      this.checkoutFormService.programmedDelivery = true;
+      this.checkoutFormService.setProgrammedDelivery(true);
     }
   }
 
   protected previousStep() {
     if (this.form.controls.deliveryTime.invalid) {
-      this.checkoutFormService.programmedDelivery = false;
-      this.checkoutFormService.when = null;
+      this.checkoutFormService.setProgrammedDelivery(false);
+      this.checkoutFormService.setWhen(null);
     } else {
       this.saveFormValues();
     }
@@ -137,9 +135,13 @@ export class StepThreeWhenComponent implements OnInit {
   }
 
   private saveFormValues() {
-    this.checkoutFormService.when = {
+    this.checkoutFormService.setWhen({
       deliveryTime: this.form.get("deliveryTime")!.value
-    };
+    });
+  }
+
+  protected checkStep() {
+    return this.checkoutFormService.isStepFilled(2);
   }
 
   protected readonly myInput = myInput;

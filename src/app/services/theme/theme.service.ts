@@ -1,31 +1,34 @@
-import {afterNextRender, Injectable, signal} from '@angular/core';
+import {afterNextRender, inject, Injectable, signal} from '@angular/core';
 import {THEME_MODE} from '../../../utils/constants';
+import {LocalStorageService} from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
+  private localStorageService = inject(LocalStorageService);
   isDarkMode = signal(false);
 
   constructor() {
     afterNextRender(() => {
-      let darkTheme = localStorage.getItem(THEME_MODE);
+      const darkTheme = this.localStorageService.get(THEME_MODE);
       if (darkTheme && darkTheme === 'dark') {
         this.isDarkMode.set(true);
       }
     });
   }
 
-  toggleDarkMode(on: boolean) {
+  toggleDarkMode() {
     const element = document.querySelector('html');
-    if (on) {
+    const theme = this.localStorageService.get(THEME_MODE);
+    if (theme && theme === 'light') {
       this.isDarkMode.set(true);
       element!.classList.add('my-app-dark');
-      localStorage.setItem(THEME_MODE, 'dark');
+      this.localStorageService.add(THEME_MODE, 'dark');
     } else {
       this.isDarkMode.set(false);
       element!.classList.remove('my-app-dark');
-      localStorage.setItem(THEME_MODE, 'light');
+      this.localStorageService.add(THEME_MODE, 'light');
     }
   }
 

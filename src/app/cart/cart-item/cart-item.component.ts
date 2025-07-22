@@ -20,15 +20,15 @@ import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartItemComponent implements OnInit {
-  private translateService = inject(TranslateService);
-  private themeService = inject(ThemeService);
-  private cartService = inject(CartService);
-  private destroyRef = inject(DestroyRef);
-  viewOnly = input.required<boolean>();
-  item = input.required<MyCartItemDTO>();
-  currentLang = signal(this.translateService.currentLang);
-  viewIngredients = signal(false);
-  isDarkMode = this.themeService.getDarkMode();
+  private readonly translateService = inject(TranslateService);
+  private readonly themeService = inject(ThemeService);
+  private readonly cartService = inject(CartService);
+  private readonly destroyRef = inject(DestroyRef);
+  protected readonly currentLang = signal(this.translateService.currentLang);
+  protected readonly viewIngredients = signal(false);
+  protected readonly isDarkMode = this.themeService.getDarkMode();
+  readonly viewOnly = input.required<boolean>();
+  readonly item = input.required<MyCartItemDTO>();
 
   ngOnInit(): void {
     const translateSub = this.translateService.onLangChange.subscribe(langEvent => {
@@ -40,15 +40,15 @@ export class CartItemComponent implements OnInit {
     });
   }
 
-  decreaseItemQuantity(id: string) {
+  protected decreaseItemQuantity(id: string) {
     this.cartService.decreaseQuantity(id);
   }
 
-  increaseItemQuantity(id: string) {
+  protected increaseItemQuantity(id: string) {
     this.cartService.increaseQuantity(id);
   }
 
-  toggleIngredients() {
+  protected toggleIngredients() {
     this.viewIngredients.set(!this.viewIngredients());
   }
 }

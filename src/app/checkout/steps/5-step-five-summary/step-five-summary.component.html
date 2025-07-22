@@ -1,4 +1,4 @@
-@if (!checkoutFormService.isStepFilled(4)) {
+@if (!checkStep()) {
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.five.warning" | translate }}</span>
     <p-button
@@ -15,10 +15,10 @@
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
 
-          @if (authService.isAuthenticated()) {
+          @if (this.isAuthenticated()) {
             <app-user-details/>
           } @else {
-            <app-user-details [anon]="checkoutFormService.who!"/>
+            <app-user-details [anon]="who()!"/>
           }
 
         </div>
@@ -28,36 +28,36 @@
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.delivery.header" | translate }}</span>
 
-          @if (this.checkoutFormService.selectedStore !== null) {
+          @if (selectedStore() !== null) {
             <div class="flex flex-col gap-2">
 
               <span>{{ "view.delivery.pickup.time.selected" | translate }}:
-                <span class="text-primary uppercase">{{ checkoutFormService.when!.deliveryTime | translate }}</span>
+                <span class="text-primary uppercase">{{ when()!.deliveryTime | translate }}</span>
               </span>
 
               <div class="flex flex-col gap-4">
                 <span>{{ "view.delivery.pickup.store.selected" | translate }}:</span>
-                <app-store-checkout [invalid]="true" [store]="selectedStore!" [highlight]="true"/>
+                <app-store-checkout [invalid]="true" [store]="store()!" [highlight]="true"/>
               </div>
 
             </div>
           } @else {
 
             <span>{{ "view.delivery.time.selected" | translate }}:
-                <span class="text-primary uppercase">{{ checkoutFormService.when!.deliveryTime | translate }}</span>
+                <span class="text-primary uppercase">{{ when()!.deliveryTime | translate }}</span>
               </span>
 
             <span>{{ "form.label.delivery.address" | translate }}:
-                <span class="text-primary uppercase">{{ checkoutFormService.where!.street }}</span>
+                <span class="text-primary uppercase">{{ where()!.street }}</span>
             </span>
 
             <span>{{ "form.label.delivery.number" | translate }}:
-                <span class="text-primary">{{ checkoutFormService.where!.number }}</span>
+                <span class="text-primary">{{ where()!.number }}</span>
             </span>
 
-            @if (checkoutFormService.where!.details !== null) {
+            @if (where()!.details !== null) {
               <span>{{ "form.label.delivery.details" | translate }}:
-                <span class="text-primary uppercase">{{ checkoutFormService.where!.details }}</span>
+                <span class="text-primary uppercase">{{ where()!.details }}</span>
               </span>
             }
           }
@@ -69,13 +69,13 @@
           <span class="text-2xl text-primary">{{ "view.orderdetails.header" | translate }}</span>
 
           <span>{{ "view.payment.method" | translate }}:
-              <span class="text-primary uppercase">{{ checkoutFormService.how!.paymentMethod | translate }}</span>
+              <span class="text-primary uppercase">{{ how()!.paymentMethod | translate }}</span>
             </span>
 
-          @if (checkoutFormService.how?.billToChange) {
+          @if (how()?.billToChange) {
             <span>{{ "view.payment.bill.to.change" | translate }}:
               <span class="text-primary">
-                {{ checkoutFormService.how?.billToChange }}€
+                {{ how()?.billToChange }}€
               </span>
             </span>
           }
@@ -122,7 +122,7 @@
         type="button"
         [severity]="'success'"
         (onClick)="onSubmit()"
-        [disabled]="cartService.isEmpty()"
+        [disabled]="isCartEmpty()"
         label="{{ 'button.order.confirm' | translate | uppercase }}"/>
     </div>
   </div>

@@ -1,27 +1,27 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {NavigationBarComponent} from './navigation-bar.component';
+import {BaseNavigationBarComponent} from './base-navigation-bar.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {provideRouter} from '@angular/router';
 import {MessageService} from 'primeng/api';
 
-describe('NavigationBarComponent', () => {
-  let component: NavigationBarComponent;
-  let fixture: ComponentFixture<NavigationBarComponent>;
+describe('BaseNavigationBar', () => {
+  let component: BaseNavigationBarComponent;
+  let fixture: ComponentFixture<BaseNavigationBarComponent>;
 
   beforeEach(async () => {
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
 
     await TestBed.configureTestingModule({
-      imports: [NavigationBarComponent, TranslateModule.forRoot()],
+      imports: [BaseNavigationBarComponent, TranslateModule.forRoot()],
       providers: [
         {provide: MessageService, useValue: messageSpy},
-        provideRouter([{path: '**', component: NavigationBarComponent}])
+        provideRouter([{path: '**', component: BaseNavigationBarComponent}])
       ],
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(NavigationBarComponent);
+    fixture = TestBed.createComponent(BaseNavigationBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,12 +2,12 @@ import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {Dialog} from 'primeng/dialog';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth/auth.service';
 import {PrimeTemplate} from 'primeng/api';
 import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {myIcon} from '../../../primeng/icon';
 import {environment} from '../../../environments/environment';
+import {RenderService} from '../../services/ui/render.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -24,14 +24,15 @@ import {environment} from '../../../environments/environment';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginDialogComponent {
-  protected backEndClientBaseUri = environment.url;
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  protected visible: boolean = this.authService.loginDialogVisibility();  // provides hiding dialog on esc key press
+  private readonly router = inject(Router);
+  private readonly renderService = inject(RenderService);
+  protected readonly backEndClientBaseUri = environment.url;
+  protected readonly loginState = this.renderService.getLogin();
+  protected visible = this.loginState();
 
   protected closeLoginDialog(): void {
-    this.authService.loginDialogVisibility.set(false);
-    this.visible = this.authService.loginDialogVisibility();
+    this.renderService.switchLogin(false);
+    this.visible = this.loginState();
   }
 
   protected goToRegister(): void {

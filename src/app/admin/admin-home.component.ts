@@ -1,7 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {AuthService} from '../services/auth/auth.service';
 import {AdminNavComponent} from './nav/admin-nav.component';
+import {RenderService} from '../services/ui/render.service';
+import {ADMIN_MODE, MODE} from '../../utils/constants';
+import {LocalStorageService} from '../services/local-storage/local-storage.service';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-admin-home',
@@ -17,14 +20,19 @@ import {AdminNavComponent} from './nav/admin-nav.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {
-
-  private authService = inject(AuthService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly renderService = inject(RenderService);
+  private readonly localStorageService = inject(LocalStorageService);
 
   ngOnInit(): void {
-    this.authService.isAdminMode.set(true);
+    this.renderService.switchNavBarMode(MODE.ADMIN);
   }
 
   ngOnDestroy(): void {
-    this.authService.isAdminMode.set(false);
+    if (!this.isServer) {
+      this.localStorageService.remove(ADMIN_MODE);
+    }
+    this.renderService.switchNavBarMode(MODE.USER);
   }
 }

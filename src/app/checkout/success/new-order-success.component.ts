@@ -34,16 +34,18 @@ import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewOrderSuccessComponent {
-  protected checkoutFormService = inject(CheckoutFormService);
-  protected authService = inject(AuthService);
-  private cartService = inject(CartService);
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly cartService = inject(CartService);
+  private readonly authService = inject(AuthService);
+  protected readonly authState = this.authService.getIsAuthenticated();
+  protected readonly orderSuccess = this.checkoutFormService.getOrderSuccess();
 
   constructor() {
     afterNextRender(() => {
-      if (this.checkoutFormService.orderSuccess) {
-        const cart = this.checkoutFormService.orderSuccess.cart!;
+      if (this.orderSuccess()) {
+        const cart = this.orderSuccess()!.cart!;
         const cartItems = cart.cartItems as MyCartItemDTO[];
         this.cartService.set(cartItems, cart.totalQuantity, cart.totalCost);
       }

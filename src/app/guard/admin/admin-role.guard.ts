@@ -1,19 +1,21 @@
 import {CanMatchFn, Router} from '@angular/router';
 import {inject, PLATFORM_ID} from '@angular/core';
 import {isPlatformBrowser} from '@angular/common';
-import {AuthService} from '../../services/auth/auth.service';
+import {ADMIN, ADMIN_MODE, AUTH} from '../../../utils/constants';
+import {LocalStorageService} from '../../services/local-storage/local-storage.service';
 
 export const adminRoleGuard: CanMatchFn = (route, segments) => {
   const platformId = inject(PLATFORM_ID);
   const isServer = !isPlatformBrowser(platformId);
-  const router = inject(Router);
-  const authService = inject(AuthService);
 
   if (isServer) {
     return true;
   }
 
-  if (!authService.isAuthenticated() && !authService.isAdmin() && !authService.isAdminMode()) {
+  const router = inject(Router);
+  const localStorageService = inject(LocalStorageService);
+
+  if (!localStorageService.exists(AUTH) || !localStorageService.exists(ADMIN) || !localStorageService.exists(ADMIN_MODE)) {
     return router.parseUrl("/forbidden");
   }
 

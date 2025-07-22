@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, Signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, Signal} from '@angular/core';
 import {Button} from "primeng/button";
 import {IconField} from "primeng/iconfield";
 import {InputIcon} from "primeng/inputicon";
@@ -44,28 +44,29 @@ import {StoreAPIService} from '../../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoWhereComponent implements OnInit {
-  private router = inject(Router);
-  private errorService = inject(ErrorService);
-  private destroyRef = inject(DestroyRef);
-  private storeAPI = inject(StoreAPIService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  protected checkoutFormService = inject(CheckoutFormService);
-  protected stores = injectQuery(() => ({
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly storeAPI = inject(StoreAPIService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly where = this.checkoutFormService.getWhere();
+  protected readonly homeDelivery = this.checkoutFormService.getHomeDelivery();
+  protected readonly selectedStore = this.checkoutFormService.getSelectedStore();
+  protected readonly stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storeAPI.findAll()),
     enabled: false
   }));
-  private storesStatus = toObservable(this.stores.status);
-  protected isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
-
-  protected options: Option[] = [
+  private readonly storesStatus = toObservable(this.stores.status);
+  protected readonly isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
+  protected readonly options = signal<Option[]>([
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
-  ];
-  protected selectedOption: Option = this.options[0];
-  protected validStoreOrAddressSelection = true;
-
-  protected form = new FormGroup({
+  ]);
+  protected readonly selectedOption = signal<Option>(this.options()[0]);
+  protected readonly validStoreOrAddressSelection = signal(true);
+  protected readonly form = new FormGroup({
     street: new FormControl("", {
         nonNullable: true,
         updateOn: "change"
@@ -83,36 +84,35 @@ export class StepTwoWhereComponent implements OnInit {
     }),
   });
 
-
   ngOnInit(): void {
-    this.checkoutFormService.step = 1;
+    this.checkoutFormService.setStep(1);
     this.setHomeDeliveryValidators(true);
 
     // if store was selected
-    if (this.checkoutFormService.selectedStore !== null) {
+    if (this.selectedStore()) {
       this.setHomeDeliveryValidators(false);
-      this.checkoutFormService.homeDelivery = false;
-      this.selectedOption = this.options[1];
+      this.checkoutFormService.setHomeDelivery(false);
+      this.selectedOption.set(this.options()[1]);
     } else {
       // home delivery
-      if (this.checkoutFormService.homeDelivery) {
-        this.selectedOption = this.options[0];
+      if (this.homeDelivery()) {
+        this.selectedOption.set(this.options()[0]);
 
-        if (this.checkoutFormService.where !== null) {
+        if (this.where()) {
           this.form.patchValue({
-            street: this.checkoutFormService.where.street!,
-            number: this.checkoutFormService.where.number!.toString(),
-            details: this.checkoutFormService.where.details
+            street: this.where()!.street,
+            number: this.where()!.number.toString(),
+            details: this.where()!.details
           });
         }
       } else {
-        this.selectedOption = this.options[1];
+        this.selectedOption.set(this.options()[1]);
       }
     }
   }
 
-  previousStep() {
-    if (this.checkoutFormService.homeDelivery && isFormValid(this.form)) {
+  protected previousStep() {
+    if (this.homeDelivery() && isFormValid(this.form)) {
       this.saveFormValues();
     }
 
@@ -123,15 +123,15 @@ export class StepTwoWhereComponent implements OnInit {
     const selectElement = event.target as HTMLSelectElement;
 
     // if home delivery selected
-    if (selectElement.value === this.options[0].code) {
-      this.checkoutFormService.homeDelivery = true;
-      this.checkoutFormService.selectedStore = null;
+    if (selectElement.value === this.options()[0].code) {
+      this.checkoutFormService.setHomeDelivery(true);
+      this.checkoutFormService.setSelectedStore(null);
       this.setHomeDeliveryValidators(true);
     } else {
       // if store delivery selected
       this.fetchStores();
-      this.checkoutFormService.homeDelivery = false;
-      this.checkoutFormService.where = null;
+      this.checkoutFormService.setHomeDelivery(false);
+      this.checkoutFormService.setWhere(null);
       this.setHomeDeliveryValidators(false);
     }
 
@@ -139,12 +139,12 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   protected setSelectedStore(store: string): void {
-    this.checkoutFormService.selectedStore = store;
-    this.validStoreOrAddressSelection = true;
+    this.checkoutFormService.setSelectedStore(store);
+    this.validStoreOrAddressSelection.set(true);
   }
 
   protected nextStep() {
-    if (this.checkoutFormService.homeDelivery) {
+    if (this.homeDelivery()) {
       if (isFormValid(this.form)) {
         this.saveFormValues();
         this.router.navigate(['order', 'new', 'step-three']);
@@ -152,11 +152,11 @@ export class StepTwoWhereComponent implements OnInit {
 
     } else {
       // if pick-up store selected, then next step
-      if (this.checkoutFormService.selectedStore !== null) {
+      if (this.selectedStore()) {
         this.router.navigate(['order', 'new', 'step-three']);
       } else {
         // pick-up store not selected
-        this.validStoreOrAddressSelection = false;
+        this.validStoreOrAddressSelection.set(false);
       }
     }
   }
@@ -186,11 +186,11 @@ export class StepTwoWhereComponent implements OnInit {
   }
 
   private saveFormValues() {
-    this.checkoutFormService.where = {
+    this.checkoutFormService.setWhere({
       street: this.form.get("street")!.value,
       number: Number(this.form.get("number")!.value),
       details: this.form.get("details")!.value === null ? undefined : this.form.get("details")!.value!,
-    };
+    });
   }
 
   private setHomeDeliveryValidators(add: boolean): void {
@@ -201,6 +201,10 @@ export class StepTwoWhereComponent implements OnInit {
       this.form.controls.street.removeValidators([Validators.required, Validators.maxLength(52), Validators.pattern(esCharsRegex)]);
       this.form.controls.number.removeValidators([Validators.required, Validators.maxLength(4), Validators.pattern(numbersRegex)]);
     }
+  }
+
+  protected checkStep() {
+    return this.checkoutFormService.isStepFilled(1);
   }
 
   protected readonly myInput = myInput;

@@ -6,7 +6,6 @@ import {Button} from 'primeng/button';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
-import {AuthService} from '../services/auth/auth.service';
 import {LoadingAnimationService} from '../services/animation/loading-animation.service';
 import {Router} from '@angular/router';
 import {MessageService} from 'primeng/api';
@@ -19,6 +18,7 @@ import {myIcon} from '../../primeng/icon';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {RegisterAPIService, RegisterDTO} from '../../api/user';
+import {RenderService} from '../services/ui/render.service';
 
 @Component({
 
@@ -44,7 +44,7 @@ import {RegisterAPIService, RegisterDTO} from '../../api/user';
 })
 export class RegisterComponent implements OnDestroy {
   private router = inject(Router);
-  protected authService = inject(AuthService);
+  protected renderService = inject(RenderService);
   private errorService = inject(ErrorService);
   private translateService = inject(TranslateService);
   private messageService = inject(MessageService);
@@ -108,7 +108,7 @@ export class RegisterComponent implements OnDestroy {
   }
 
   protected showLoginDialog() {
-    this.authService.loginDialogVisibility.set(true);
+    this.renderService.switchLogin(true);
   }
 
   protected onSubmit(): void {

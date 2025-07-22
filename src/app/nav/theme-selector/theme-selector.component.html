@@ -1,7 +1,7 @@
 @if (isDarkMode()) {
   <button
     title="Dark Mode Off"
-    (click)="toggleDarkMode(false)"
+    (click)="toggleDarkMode()"
     aria-label="Light mode"
     type="button"
     class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
@@ -10,7 +10,7 @@
 } @else {
   <button
     title="Dark Mode On"
-    (click)="toggleDarkMode(true)"
+    (click)="toggleDarkMode()"
     aria-label="Dark mode"
     class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
     <i class="pi pi-moon" style="font-size: 1.25rem"></i>

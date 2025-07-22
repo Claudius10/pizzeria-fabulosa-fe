@@ -1,19 +1,21 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {Cart, ICart} from '../../../utils/Cart';
 import {CART} from '../../../utils/constants';
 import {getDarkIcon, getLightIcon} from '../../../utils/functions';
 import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
+import {LocalStorageService} from '../local-storage/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  items = signal<MyCartItemDTO[]>([]);
-  quantity = signal(0);
-  total = signal(0);
-  totalAfterOffers = signal(0);
-  threeForTwoOffers = signal(0);
-  secondHalfPriceOffer = signal(0);
+  private readonly localStorageService = inject(LocalStorageService);
+  private items = signal<MyCartItemDTO[]>([]);
+  private quantity = signal(0);
+  private total = signal(0);
+  private totalAfterOffers = signal(0);
+  private threeForTwoOffers = signal(0);
+  private secondHalfPriceOffer = signal(0);
 
   set(items: MyCartItemDTO[], quantity: number, total: number) {
     this.clear();
@@ -89,10 +91,6 @@ export class CartService {
     return this.items().length === 0;
   }
 
-  getCart(): ICart | null {
-    return localStorage.getItem(CART) === null ? null : JSON.parse(localStorage.getItem(CART)!);
-  }
-
   private updateQuantity(items: MyCartItemDTO[]) {
     this.quantity.set(items.reduce((previousValue, {quantity}) => previousValue + quantity, 0));
   }
@@ -164,8 +162,36 @@ export class CartService {
     return Math.min(...pizzaPrices);
   }
 
+  public getCart(): ICart | null {
+    return this.localStorageService.getObject(CART);
+  }
+
   private setCart(cart: ICart) {
-    localStorage.setItem(CART, JSON.stringify(cart));
+    this.localStorageService.addObject(CART, cart);
+  }
+
+  getItems() {
+    return this.items.asReadonly();
+  }
+
+  getQuantity() {
+    return this.quantity.asReadonly();
+  }
+
+  getTotal() {
+    return this.total.asReadonly();
+  }
+
+  getTotalAfterOffers() {
+    return this.totalAfterOffers.asReadonly();
+  }
+
+  getThreeForTwoOffers() {
+    return this.threeForTwoOffers.asReadonly();
+  }
+
+  getSecondHalfPriceOffer() {
+    return this.secondHalfPriceOffer.asReadonly();
   }
 
   // when loading order in user orders or in order-success

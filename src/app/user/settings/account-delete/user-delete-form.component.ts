@@ -36,6 +36,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   private errorService = inject(ErrorService);
   private queryClient = inject(QueryClient);
   private authService = inject(AuthService);
+  private userId = this.authService.getId();
   protected passAuthVisibility = false;
 
   showPassAuth() {
@@ -53,7 +54,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   protected onAuthorizedPassword(password: string) {
     this.loadingAnimationService.startLoading();
 
-    this.delete.mutate({id: this.authService.id!, password: password}, {
+    this.delete.mutate({id: this.userId()!, password: password}, {
       onSuccess: () => {
         this.authService.logout();
         this.queryClient.removeQueries({queryKey: ["user"]});

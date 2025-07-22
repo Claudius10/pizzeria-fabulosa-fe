@@ -13,8 +13,8 @@ import {TranslatePipe} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TotalsComponent {
-  total = input.required<number>();
-  threeForTwoOffers = input.required<number>();
-  secondForHalfPriceOffer = input.required<number>();
-  totalAfterOffers = input.required<number>();
+  readonly total = input.required<number>();
+  readonly threeForTwoOffers = input.required<number>();
+  readonly secondForHalfPriceOffer = input.required<number>();
+  readonly totalAfterOffers = input.required<number>();
 }

@@ -1,9 +1,5 @@
 <div class="flex flex-col items-center min-h-screen" title="Pizzeria Fabulosa">
-  @if (authService.isAuthenticated() && authService.isAdmin() && authService.isAdminMode()) {
-    <app-admin-navigation-bar/>
-  } @else {
-    <app-navigation-bar/>
-  }
+  <app-base-navigation-bar/>
   <router-outlet/>
   <div class="mt-auto w-full">
     <app-footer/>
@@ -11,3 +7,59 @@
 </div>
 <app-userinfo/>
 <p-toast [breakpoints]="{ '920px': { width: '100%' } }" position="top-center"/>
+
+@if (routesDrawerState) {
+  <p-drawer
+    [(visible)]="routesDrawerState"
+    (onHide)="hideRoutesDrawer()"
+    [blockScroll]="true">
+    <div class="flex flex-col items-center gap-6">
+      <button
+        title="Home"
+        (click)="hideRoutesDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="/"
+        [routerLinkActiveOptions]="{exact: true}">
+        {{ 'component.navigation.quick.link.home' | translate }}
+      </button>
+      <button
+        title="Pizzas"
+        (click)="hideRoutesDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="pizzas">
+        Pizzas
+      </button>
+      <button
+        title="Beverages"
+        (click)="hideRoutesDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+      </button>
+    </div>
+  </p-drawer>
+}
+
+@if (cartDrawerState) {
+  <p-drawer
+    [(visible)]="cartDrawerState"
+    (onHide)="hideCartDrawer()"
+    position="right"
+    styleClass="!w-[25rem]"
+    [blockScroll]="true">
+    <ng-template pTemplate="header">
+      <span class="font-bold font text-2xl">{{ "component.navigation.cart.drawer.header" | translate }}</span>
+    </ng-template>
+    <app-cart [viewOnly]="false" [inSidebar]="true" (onNewOrderClick)="hideCartDrawer()"/>
+  </p-drawer>
+}
+
+@if (loginState()) {
+  <app-login-dialog/>
+}
+
+@if (logoutState()) {
+  <app-logout-dialog/>
+}

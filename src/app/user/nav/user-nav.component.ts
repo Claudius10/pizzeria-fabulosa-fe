@@ -1,10 +1,12 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Menubar} from 'primeng/menubar';
 import {userMenuBar} from '../../../primeng/menubar';
 import {PasswordAuthorizationComponent} from '../../util/password/password-authorization.component';
-import {AuthService} from '../../services/auth/auth.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {isPlatformBrowser} from '@angular/common';
+import {LocalStorageService} from '../../services/local-storage/local-storage.service';
+import {ADMIN, ADMIN_MODE} from '../../../utils/constants';
 
 @Component({
   selector: 'app-user-nav',
@@ -20,10 +22,11 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserNavComponent implements OnInit {
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  protected passAuthVisibility = false;
-  protected userProfileMenu = [
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
+  private readonly localStorageService = inject(LocalStorageService);
+  protected readonly userProfileMenu = [
     {
       label: "component.user.nav.profile",
       icon: 'pi pi-user',
@@ -40,9 +43,10 @@ export class UserNavComponent implements OnInit {
       route: "settings",
     },
   ];
+  protected passAuthVisibility = false;
 
   ngOnInit(): void {
-    if (this.authService.isAdmin()) {
+    if (!this.isServer && this.localStorageService.exists(ADMIN)) {
       const adminMenuItem = {
         label: "component.user.nav.admin",
         icon: 'pi pi-building-columns',
@@ -57,6 +61,7 @@ export class UserNavComponent implements OnInit {
   }
 
   protected onAuthorizedPassword(password: string) {
+    this.localStorageService.add(ADMIN_MODE, "true");
     this.router.navigate(['admin']);
   }
 

@@ -13,15 +13,15 @@ import {Store} from '../../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreCheckoutComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  protected currentLang = signal(this.translateService.currentLang);
-  store = input.required<Store>();
-  orientation = input<"horizontal" | "vertical">('horizontal');
-  selected = input<string | null>(null);
-  highlight = input<boolean>();
-  invalid = input<boolean>();
-  onStoreSelect = output<string>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  protected readonly currentLang = signal(this.translateService.currentLang);
+  readonly store = input.required<Store>();
+  readonly orientation = input<"horizontal" | "vertical">('horizontal');
+  readonly selected = input<string | null>(null);
+  readonly highlight = input<boolean>();
+  readonly invalid = input<boolean>();
+  readonly onStoreSelect = output<string>();
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

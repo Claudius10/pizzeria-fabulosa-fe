@@ -39,12 +39,13 @@ export class PasswordAuthorizationComponent implements OnInit {
   private authService = inject(AuthService);
   private loadingAnimationService = inject(LoadingAnimationService);
   private userAccountAPIService = inject(UserAccountAPIService);
+  private userId = this.authService.getId();
   protected showPassword = signal(false);
   title = input.required<string>();
   action = input.required<string>();
   guestAction = input.required<boolean>();
-  password = output<string>();
   show = model<boolean>(false);
+  password = output<string>();
   showObservable = toObservable(this.show);
   isVisible = false;
 
@@ -59,7 +60,6 @@ export class PasswordAuthorizationComponent implements OnInit {
 
     this.destroyRef.onDestroy(() => {
       subscription.unsubscribe();
-      this.closeDialog();
       this.isVisible = false;
     });
   }
@@ -94,9 +94,10 @@ export class PasswordAuthorizationComponent implements OnInit {
   private passwordCheck(password: string) {
     this.loadingAnimationService.startLoading();
 
-    this.checkPassword.mutate({id: this.authService.id!, password: password}, {
+    this.checkPassword.mutate({id: this.userId()!, password: password}, {
       onSuccess: () => {
         this.password.emit(password);
+        this.closeDialog();
       },
       onError: (error) => {
         this.errorService.handleError(error);

@@ -42,6 +42,7 @@ export class OrderSummaryListComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private errorService = inject(ErrorService);
   private authService = inject(AuthService);
+  private userId = this.authService.getId();
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
@@ -49,7 +50,7 @@ export class OrderSummaryListComponent implements OnInit {
   protected orderList: QueryResult<OrderSummaryListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
-      return lastValueFrom(this.userOrdersAPI.findSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.authService.id!));
+      return lastValueFrom(this.userOrdersAPI.findSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.userId()!));
     },
   })) : tempQueryResult();
 

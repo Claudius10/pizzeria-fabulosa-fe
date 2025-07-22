@@ -1,0 +1,55 @@
+<ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
+  <!-- SMALL SCREEN MENU ICON -->
+  <li (click)="toggleMobileLinksDrawer()" class="quick-links-sm">
+    <button
+      aria-label="Open Site Navigation"
+      class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center"
+      title="Navigation Menu"
+      type="button">
+      <i class="pi pi-bars" style="font-size: 1.25rem"></i>
+    </button>
+  </li>
+
+  <!-- RETURN BUTTON -->
+  <li>
+    <button
+      type="button"
+      title="Profile"
+      [routerLink]="['user', 'profile']"
+      aria-label="User Home Page"
+      class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+      <i class="pi pi-sign-out" style="font-size: 1.25rem"></i>
+    </button>
+  </li>
+</ul>
+
+@if (linksDrawerVisible) {
+  <p-drawer [(visible)]="linksDrawerVisible" [blockScroll]="true">
+    <div class="flex flex-col items-center gap-6">
+      <button
+        title="Home"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="/"
+        [routerLinkActiveOptions]="{exact: true}">
+        {{ 'component.navigation.quick.link.home' | translate }}
+      </button>
+      <button
+        title="Pizzas"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="pizzas">
+        Pizzas
+      </button>
+      <button
+        title="Beverages"
+        (click)="hideMobileLinksDrawer()"
+        class="text-lg font-bold"
+        routerLinkActive="color"
+        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+      </button>
+    </div>
+  </p-drawer>
+}

@@ -12,6 +12,6 @@ import {TranslatePipe} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallScreenStepsComponent {
-  activeIndex = input.required<number>();
-  items = input.required<MenuItem[]>();
+  readonly activeIndex = input.required<number>();
+  readonly items = input.required<MenuItem[]>();
 }
