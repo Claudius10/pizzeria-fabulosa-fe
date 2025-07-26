@@ -6,8 +6,8 @@ import {LocalStorageService} from '../local-storage/local-storage.service';
   providedIn: 'root'
 })
 export class ThemeService {
-  private localStorageService = inject(LocalStorageService);
-  isDarkMode = signal(false);
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly isDarkMode = signal(false);
 
   constructor() {
     afterNextRender(() => {

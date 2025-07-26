@@ -18,6 +18,6 @@ import {OrderSummaryDTO} from '../../../../../api/business';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryComponent {
-  orderSummary = input.required<OrderSummaryDTO>();
+  readonly orderSummary = input.required<OrderSummaryDTO>();
 
 }

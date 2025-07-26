@@ -10,12 +10,12 @@ import {LocalStorageService} from '../local-storage/local-storage.service';
 })
 export class CartService {
   private readonly localStorageService = inject(LocalStorageService);
-  private items = signal<MyCartItemDTO[]>([]);
-  private quantity = signal(0);
-  private total = signal(0);
-  private totalAfterOffers = signal(0);
-  private threeForTwoOffers = signal(0);
-  private secondHalfPriceOffer = signal(0);
+  private readonly items = signal<MyCartItemDTO[]>([]);
+  private readonly quantity = signal(0);
+  private readonly total = signal(0);
+  private readonly totalAfterOffers = signal(0);
+  private readonly threeForTwoOffers = signal(0);
+  private readonly secondHalfPriceOffer = signal(0);
 
   set(items: MyCartItemDTO[], quantity: number, total: number) {
     this.clear();

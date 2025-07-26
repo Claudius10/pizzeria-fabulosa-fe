@@ -10,13 +10,9 @@ export interface Filter {
   providedIn: 'root'
 })
 export class FilterService {
-  filters = signal<Filter[]>([]);
-  areFiltersEmpty = signal(true);
-  searchText = signal("");
-
-  setSearchText(text: string) {
-    this.searchText.set(text);
-  }
+  private readonly filters = signal<Filter[]>([]);
+  private readonly areFiltersEmpty = signal(true);
+  private readonly searchByText = signal("");
 
   toggleFilter(filterName: string, type: string): Filter | null {
     const index = this.containsFilter(filterName);
@@ -42,11 +38,7 @@ export class FilterService {
   clear() {
     this.filters.set([]);
     this.areFiltersEmpty.set(true);
-    this.searchText.set("");
-  }
-
-  getFilters() {
-    return this.filters.asReadonly();
+    this.searchByText.set("");
   }
 
   private containsFilter(name: string): number {
@@ -86,5 +78,21 @@ export class FilterService {
     }
 
     return null;
+  }
+
+  getFilters() {
+    return this.filters.asReadonly();
+  }
+
+  getAreFiltersEmpty() {
+    return this.areFiltersEmpty.asReadonly();
+  }
+
+  getSearchByText() {
+    return this.searchByText.asReadonly();
+  }
+
+  setSearchByText(text: string) {
+    this.searchByText.set(text);
   }
 }

@@ -34,20 +34,20 @@ import {ErrorService} from '../../services/error/error.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordAuthorizationComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private errorService = inject(ErrorService);
-  private authService = inject(AuthService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private userAccountAPIService = inject(UserAccountAPIService);
-  private userId = this.authService.getId();
-  protected showPassword = signal(false);
-  title = input.required<string>();
-  action = input.required<string>();
-  guestAction = input.required<boolean>();
-  show = model<boolean>(false);
-  password = output<string>();
-  showObservable = toObservable(this.show);
-  isVisible = false;
+  readonly title = input.required<string>();
+  readonly action = input.required<string>();
+  readonly guestAction = input.required<boolean>();
+  readonly show = model<boolean>(false);
+  readonly password = output<string>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly authService = inject(AuthService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly userAccountAPIService = inject(UserAccountAPIService);
+  private readonly userId = this.authService.getId();
+  private readonly showObservable = toObservable(this.show);
+  protected readonly showPassword = signal(false);
+  protected isVisible = false;
 
   private checkPassword = injectMutation(() => ({
     mutationFn: (data: { id: number, password: string }) => lastValueFrom(this.userAccountAPIService.passwordMatches(data.id, data.password))

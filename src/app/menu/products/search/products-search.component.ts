@@ -19,8 +19,8 @@ import {myIcon} from '../../../../primeng/icon';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductsSearchComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  onSearch = output<string>();
+  private readonly destroyRef = inject(DestroyRef);
+  readonly onSearch = output<string>();
 
   protected form = new FormGroup({
     searchText: new FormControl<string>("", {

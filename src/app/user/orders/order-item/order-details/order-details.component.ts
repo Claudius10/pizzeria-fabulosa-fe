@@ -14,5 +14,5 @@ import {OrderDetailsDTO} from '../../../../../api/business';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderDetailsComponent {
-  orderDetails = input.required<OrderDetailsDTO>();
+  readonly orderDetails = input.required<OrderDetailsDTO>();
 }

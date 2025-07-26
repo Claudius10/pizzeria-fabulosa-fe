@@ -10,8 +10,8 @@ import {ThemeService} from '../../services/theme/theme.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ThemeSelectorComponent {
-  private themeService = inject(ThemeService);
-  protected isDarkMode = this.themeService.getDarkMode();
+  private readonly themeService = inject(ThemeService);
+  protected readonly isDarkMode = this.themeService.getDarkMode();
 
   protected toggleDarkMode = () => {
     this.themeService.toggleDarkMode();

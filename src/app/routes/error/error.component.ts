@@ -18,8 +18,12 @@ import {APIError} from '../../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorComponent implements OnDestroy {
-  protected errorService = inject(ErrorService);
-  errors: Signal<APIError[]> = this.errorService.getErrors();
+  private readonly errorService = inject(ErrorService);
+  protected readonly errors: Signal<APIError[]> = this.errorService.getErrors();
+
+  protected isEmpty() {
+    return this.errorService.isEmpty();
+  }
 
   ngOnDestroy(): void {
     this.errorService.clear();

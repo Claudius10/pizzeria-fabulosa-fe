@@ -55,23 +55,26 @@ const PILL_ANIMATION_TRANSITION_DURATION = "400ms";
   ]
 })
 export class ProductsFilterComponent {
-  protected filterService = inject(FilterService);
-  protected filters = this.filterService.getFilters();
-  items = input.required<FilterItem[]>();
-  drawerFiltersVisible = false;
-  collapsed = true;
+  private readonly filterService = inject(FilterService);
+  protected readonly filters = this.filterService.getFilters();
+  protected readonly areFiltersEmpty = this.filterService.getAreFiltersEmpty();
+  readonly items = input.required<FilterItem[]>();
+  protected drawerFiltersVisible = false;
+
+  toggleFilter(item: string, type: string) {
+    this.filterService.toggleFilter(item, type);
+  }
+
+  clear() {
+    this.filterService.clear();
+  }
 
   toggleFiltersDrawer() {
     this.drawerFiltersVisible = !this.drawerFiltersVisible;
   }
 
   toggle() {
-    this.toggleCollapse();
     this.toggleFiltersDrawer();
-  }
-
-  toggleCollapse() {
-    this.collapsed = !this.collapsed;
   }
 
   protected readonly myInput = myInput;

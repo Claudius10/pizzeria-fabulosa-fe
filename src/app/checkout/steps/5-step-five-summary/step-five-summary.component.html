@@ -14,13 +14,11 @@
       <p-card title="Customer Details">
         <div class="flex flex-col gap-2">
           <span class="text-2xl text-primary">{{ "view.customer.header" | translate }}</span>
-
-          @if (this.isAuthenticated()) {
+          @if (isAuthenticated()) {
             <app-user-details/>
           } @else {
             <app-user-details [anon]="who()!"/>
           }
-
         </div>
       </p-card>
 

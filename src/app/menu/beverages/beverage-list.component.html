@@ -2,7 +2,7 @@
   <div class="layout">
 
     <div class="products-search">
-      <app-products-search (onSearch)="filterService.setSearchText($event)"/>
+      <app-products-search (onSearch)="setSearchByText($event)"/>
       <app-products-filter [items]="getAllBeverageFilters()"/>
     </div>
 
@@ -10,15 +10,15 @@
       <ul title="Beverage List" class="products flex flex-wrap gap-y-8 gap-x-8">
 
         @if (query.status() === "pending") {
-          <ng-container *ngFor="let _ of [].constructor(skeletonCount)">
+          @for (_ of [].constructor(skeletonCount()); track $index) {
             <li>
               <p-skeleton width="15rem" height="25rem"/>
             </li>
-          </ng-container>
+          }
         }
 
         @if (query.status() === "success") {
-          @if (query.data()!.content | productsSearch: filterService.searchText():filters(); as products) {
+          @if (query.data()!.content | productsSearch:searchByText():filters(); as products) {
             @if (products.length > 0) {
 
               @for (product of products; track product.id) {
@@ -38,9 +38,9 @@
         <p-paginator
           title="Paginator"
           (onPageChange)="onPageChange($event)"
-          [first]="first"
+          [first]="first()"
           [rows]="8"
-          [totalRecords]="totalElements"/>
+          [totalRecords]="totalElements()"/>
       </div>
     </div>
   </div>

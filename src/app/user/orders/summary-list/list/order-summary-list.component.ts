@@ -5,7 +5,7 @@ import {LoadingAnimationService} from '../../../../services/animation/loading-an
 import {ErrorService} from '../../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../../routes/error/server-no-response/server-error.component';
 import {TranslatePipe} from '@ngx-translate/core';
-import {isPlatformBrowser, NgForOf} from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {Skeleton} from 'primeng/skeleton';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
@@ -27,7 +27,6 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
     OrderSummaryComponent,
     TranslatePipe,
     Paginator,
-    NgForOf,
     Skeleton
   ],
   templateUrl: './order-summary-list.component.html',
@@ -35,32 +34,32 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderSummaryListComponent implements OnInit {
-  private platformId = inject(PLATFORM_ID);
-  private isServer = !isPlatformBrowser(this.platformId);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private userOrdersAPI = inject(UserOrdersAPIService);
-  private activatedRoute = inject(ActivatedRoute);
-  private errorService = inject(ErrorService);
-  private authService = inject(AuthService);
-  private userId = this.authService.getId();
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
-  private page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly errorService = inject(ErrorService);
+  private readonly authService = inject(AuthService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly userOrdersAPI = inject(UserOrdersAPIService);
+  private readonly userId = this.authService.getId();
+  private readonly page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
 
-  protected orderList: QueryResult<OrderSummaryListDTO | undefined> = !this.isServer ? injectQuery(() => ({
+  protected readonly orderList: QueryResult<OrderSummaryListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...USER_ORDER_SUMMARY_LIST, this.page()],
     queryFn: () => {
       return lastValueFrom(this.userOrdersAPI.findSummary(this.page() - 1, DEFAULT_PAGE_MAX_SIZE, this.userId()!));
     },
   })) : tempQueryResult();
 
-  private orderListStatus = !this.isServer ? toObservable(this.orderList.status) : tempStatus$();
+  private readonly orderListStatus = !this.isServer ? toObservable(this.orderList.status) : tempStatus$();
 
-  protected first = 0;
-  protected totalElements = 0;
+  protected readonly first = signal(0);
+  protected readonly totalElements = signal(0);
 
   ngOnInit() {
-    this.first = (this.page() - 1) * DEFAULT_PAGE_MAX_SIZE;
+    this.first.set((this.page() - 1) * DEFAULT_PAGE_MAX_SIZE);
 
     const subscription = this.orderListStatus.subscribe({
       next: orderListStatus => {
@@ -78,7 +77,7 @@ export class OrderSummaryListComponent implements OnInit {
           const response: OrderSummaryListDTO = this.orderList.data()!;
           // if list is empty the return is 204 without a body
           if (response) {
-            this.totalElements = response.totalElements;
+            this.totalElements.set(response.totalElements);
           }
         }
       }
@@ -91,7 +90,7 @@ export class OrderSummaryListComponent implements OnInit {
   }
 
   protected onPageChange(event: PaginatorState) {
-    this.first = event.first ?? 0;
+    this.first.set(event.first ?? 0);
     const page = event.page === undefined ? 1 : event.page + 1;
     this.page.set(page);
     this.router.navigate(["user/orders"], {queryParams: {page: page}});

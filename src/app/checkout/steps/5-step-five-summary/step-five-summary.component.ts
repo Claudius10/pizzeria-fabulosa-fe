@@ -50,12 +50,12 @@ export class StepFiveSummaryComponent implements OnInit {
   private readonly anonymousOrdersAPI = inject(AnonymousOrdersAPIService);
   private readonly userOrdersAPI = inject(UserOrdersAPIService);
   private readonly userId = this.authService.getId();
-  protected readonly isAuthenticated = this.authService.getIsAuthenticated();
   private readonly cartQuantity = this.cartService.getQuantity();
   private readonly cartItems = this.cartService.getItems();
   private readonly cartTotal = this.cartService.getTotal();
   private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
   private readonly comment = this.checkoutFormService.getComment();
+  protected readonly isAuthenticated = this.authService.getIsAuthenticated();
   protected readonly who = this.checkoutFormService.getWho();
   protected readonly where = this.checkoutFormService.getWhere();
   protected readonly when = this.checkoutFormService.getWhen();
@@ -167,7 +167,6 @@ export class StepFiveSummaryComponent implements OnInit {
   }
 
   private newAnonOrder() {
-
     const payload: NewAnonOrderDTO = {
       customer: {
         anonCustomerName: this.who()!.anonCustomerName,

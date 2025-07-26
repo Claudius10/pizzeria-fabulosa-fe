@@ -17,12 +17,11 @@
 
     <ul class="flex flex-wrap justify-center gap-8" title="Offers">
       @if (offers.status() === 'pending') {
-        <li>
-          <p-skeleton width="320px" height="425.15px"/>
-        </li>
-        <li>
-          <p-skeleton width="320px" height="425.15px"/>
-        </li>
+        @for (_ of [].constructor(2); track $index) {
+          <li>
+            <p-skeleton width="320px" height="425.15px"/>
+          </li>
+        }
       }
 
       @if (offers.status() === 'success') {
@@ -45,12 +44,11 @@
 
     <ul class="flex flex-wrap justify-center gap-8" title="Stores">
       @if (stores.status() === 'pending') {
-        <li>
-          <p-skeleton width="320px" height="401.25px"/>
-        </li>
-        <li>
-          <p-skeleton width="320px" height="401.25px"/>
-        </li>
+        @for (_ of [].constructor(2); track $index) {
+          <li>
+            <p-skeleton width="320px" height="401.25px"/>
+          </li>
+        }
       }
 
       @if (stores.status() === 'success') {

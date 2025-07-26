@@ -23,13 +23,13 @@ import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderAddressDetailsComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private errorService = inject(ErrorService);
-  private storeAPI = inject(StoreAPIService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  address = input.required<string>();
-  orderDetails = input.required<OrderDetailsDTO>();
-  protected selectedStore = signal<Store | null>(null);
+  readonly address = input.required<string>();
+  readonly orderDetails = input.required<OrderDetailsDTO>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly storeAPI = inject(StoreAPIService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  protected readonly selectedStore = signal<Store | null>(null);
 
   protected stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,

@@ -1,24 +1,24 @@
-<p-card [style]="{ width: '320px' }" header="{{store().name}}" title="{{store().name}}">
+<p-card [style]="{ width: '320px' }" header="{{ store().name }}" title="{{ store().name }}">
 
   <ng-template pTemplate="header">
     <img
-      alt="{{store().name}} Location on Map"
+      alt="{{ store().name }} Location on Map"
       class="rounded-border"
       height="220"
-      ngSrc="{{store().image}}"
+      ngSrc="{{ store().image }}"
       title="Store Map Location"
       width="320">
   </ng-template>
 
   <div class="flex flex-col gap-3" title="Store Details">
 
-    <div class="flex gap-2 items-center" title="{{store().name}} Location">
-      <i class="pi pi-map" title="{{store().name}} Location Icon"></i>
+    <div class="flex gap-2 items-center" title="{{ store().name }} Location">
+      <i class="pi pi-map" title="{{ store().name }} Location Icon"></i>
       <span title="Address">{{ store().address }}</span>
     </div>
 
-    <div class="flex gap-2 items-center" title="{{store().name}} Contact">
-      <i class="pi pi-phone" title="{{store().name}} Phone Icon"></i>
+    <div class="flex gap-2 items-center" title="{{ store().name }} Contact">
+      <i class="pi pi-phone" title="{{ store().name }} Phone Icon"></i>
       <span title="Contact Number">{{ store().phoneNumber }}</span>
     </div>
 

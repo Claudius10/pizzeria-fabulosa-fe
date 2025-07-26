@@ -14,15 +14,15 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterItemComponent {
-  private filterService = inject(FilterService);
-  item = input.required<string>();
+  private readonly filterService = inject(FilterService);
+  readonly item = input.required<string>();
 
-  toggleFilter() {
+  protected toggleFilter() {
     const type = this.isAllergen() ? "allergen" : "filter";
     this.filterService.toggleFilter(this.item(), type);
   };
 
-  isAllergen() {
+  private isAllergen() {
     return this.item().includes("allergen");
   }
 }

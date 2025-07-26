@@ -37,10 +37,10 @@ export class StepFourHowComponent implements OnInit {
   private readonly cartService = inject(CartService);
   private readonly checkoutFormService = inject(CheckoutFormService);
   private readonly how = this.checkoutFormService.getHow();
-  protected readonly cashPayment = this.checkoutFormService.getCashPayment();
-  protected readonly changeRequested = this.checkoutFormService.getChangeRequested();
   private readonly cartTotal = this.cartService.getTotal();
   private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
+  protected readonly cashPayment = this.checkoutFormService.getCashPayment();
+  protected readonly changeRequested = this.checkoutFormService.getChangeRequested();
   protected readonly paymentOptions = signal<Option[]>([
     {code: "0", description: "form.select.payment.method.card"},
     {code: "1", description: "form.select.payment.method.cash"}

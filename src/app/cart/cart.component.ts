@@ -24,12 +24,12 @@ import {NgClass, UpperCasePipe} from '@angular/common';
 export class CartComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly cartService = inject(CartService);
-  private readonly cartQuantity = this.cartService.getQuantity();
-  private readonly cartItems = this.cartService.getItems();
-  private readonly cartTotal = this.cartService.getTotal();
-  private readonly cartTotalAfterOffers = this.cartService.getTotalAfterOffers();
-  private readonly secondHalPriceOffer = this.cartService.getSecondHalfPriceOffer();
-  private readonly threeForTwoOffer = this.cartService.getThreeForTwoOffers();
+  protected readonly quantity = this.cartService.getQuantity();
+  protected readonly items = this.cartService.getItems();
+  protected readonly total = this.cartService.getTotal();
+  protected readonly totalAfterOffers = this.cartService.getTotalAfterOffers();
+  protected readonly secondHalPriceOffer = this.cartService.getSecondHalfPriceOffer();
+  protected readonly threeForTwoOffer = this.cartService.getThreeForTwoOffers();
   readonly viewOnly = input.required<boolean>();
   readonly inSidebar = input<boolean>(false);
   readonly onNewOrderClick = output<boolean>();
@@ -51,31 +51,7 @@ export class CartComponent implements OnInit {
   }
 
   toCheckout() {
-    this.router.navigate(['order', 'new', 'step-one']);
     this.onNewOrderClick.emit(false); // hides de cart side panel
-  }
-
-  getTotal() {
-    return this.cartTotal();
-  }
-
-  getTotalAfterOffers() {
-    return this.cartTotalAfterOffers();
-  }
-
-  getSecondHalfPriceOffer() {
-    return this.secondHalPriceOffer();
-  }
-
-  getThreeForTwoOffer() {
-    return this.threeForTwoOffer();
-  }
-
-  getItems() {
-    return this.cartItems();
-  }
-
-  getQuantity() {
-    return this.cartQuantity();
+    this.router.navigate(['order', 'new', 'step-one']);
   }
 }

@@ -23,12 +23,12 @@ import {APIError} from '../../../api/user';
   providedIn: 'root',
 })
 export class ErrorService {
-  errors = signal<APIError[]>([]);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private queryClient = inject(QueryClient);
-  private authService = inject(AuthService);
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly queryClient = inject(QueryClient);
+  private readonly translateService = inject(TranslateService);
+  private readonly messageService = inject(MessageService);
+  private readonly authService = inject(AuthService);
+  private readonly errors = signal<APIError[]>([]);
 
   handleError(error: any) {
     // TODO - when a non API Error is the error

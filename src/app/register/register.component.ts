@@ -43,15 +43,15 @@ import {RenderService} from '../services/ui/render.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent implements OnDestroy {
-  private router = inject(Router);
-  protected renderService = inject(RenderService);
-  private errorService = inject(ErrorService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private registerAPI = inject(RegisterAPIService);
-  protected showPassword = signal(false);
-  protected showMatchingPassword = signal(false);
+  private readonly router = inject(Router);
+  private readonly errorService = inject(ErrorService);
+  private readonly translateService = inject(TranslateService);
+  private readonly messageService = inject(MessageService);
+  private readonly renderService = inject(RenderService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly registerAPI = inject(RegisterAPIService);
+  protected readonly showPassword = signal(false);
+  protected readonly showMatchingPassword = signal(false);
 
   protected form = new FormGroup({
     name: new FormControl<string>("", {

@@ -45,12 +45,14 @@ export class StepThreeWhenComponent implements OnInit {
   private readonly checkoutFormService = inject(CheckoutFormService);
   private readonly when = this.checkoutFormService.getWhen();
   protected readonly programmedDelivery = this.checkoutFormService.getProgrammedDelivery();
+
   private readonly localDateTimeNow = injectQuery(() => ({
     queryKey: RESOURCE_LOCAL_DATE_TIME_NOW,
     queryFn: () => lastValueFrom(this.utilAPI.getNowAccountingDST()),
     staleTime: 0
   }));
   private readonly status = toObservable(this.localDateTimeNow.status);
+
   protected readonly deliveryHours = signal<string[]>([]);
   protected readonly options = signal<Option[]>([
       {code: "0", description: "form.select.time.asap"},
@@ -58,6 +60,7 @@ export class StepThreeWhenComponent implements OnInit {
     ]
   );
   protected readonly selectedOption = signal<Option>(this.options()[0]);
+
   protected readonly form = new FormGroup({
     deliveryTime: new FormControl(this.options()[0].description, {
       validators: [Validators.required, Validators.minLength(4)],
@@ -65,7 +68,6 @@ export class StepThreeWhenComponent implements OnInit {
       updateOn: "change"
     }),
   });
-
 
   ngOnInit(): void {
     this.checkoutFormService.setStep(2);

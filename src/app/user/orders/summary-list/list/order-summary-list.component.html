@@ -5,11 +5,11 @@
 
   <ul class="flex flex-col justify-center gap-4 w-full" title="Orders Summary List">
     @if (orderList.status() === 'pending') {
-      <ng-container *ngFor="let _ of [].constructor(5)">
+      @for (_ of [].constructor(5); track $index) {
         <li>
           <p-skeleton height="131.5px"/>
         </li>
-      </ng-container>
+      }
     }
 
     @if (orderList.status() === 'success') {
@@ -27,8 +27,8 @@
 
   <p-paginator
     (onPageChange)="onPageChange($event)"
-    [first]="first"
+    [first]="first()"
     [rows]="5"
-    [totalRecords]="totalElements"
+    [totalRecords]="totalElements()"
     title="Paginator"/>
 </div>

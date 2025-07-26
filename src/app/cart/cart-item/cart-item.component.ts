@@ -20,10 +20,10 @@ import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartItemComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   private readonly translateService = inject(TranslateService);
   private readonly themeService = inject(ThemeService);
   private readonly cartService = inject(CartService);
-  private readonly destroyRef = inject(DestroyRef);
   protected readonly currentLang = signal(this.translateService.currentLang);
   protected readonly viewIngredients = signal(false);
   protected readonly isDarkMode = this.themeService.getDarkMode();
@@ -40,12 +40,12 @@ export class CartItemComponent implements OnInit {
     });
   }
 
-  protected decreaseItemQuantity(id: string) {
-    this.cartService.decreaseQuantity(id);
+  protected decreaseItemQuantity() {
+    this.cartService.decreaseQuantity(this.item().pseudoId);
   }
 
-  protected increaseItemQuantity(id: string) {
-    this.cartService.increaseQuantity(id);
+  protected increaseItemQuantity() {
+    this.cartService.increaseQuantity(this.item().pseudoId);
   }
 
   protected toggleIngredients() {

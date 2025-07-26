@@ -23,10 +23,10 @@ import {Store} from '../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StoreItemComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  protected currentLang = signal(this.translateService.currentLang);
-  store = input.required<Store>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  protected readonly currentLang = signal(this.translateService.currentLang);
+  readonly store = input.required<Store>();
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

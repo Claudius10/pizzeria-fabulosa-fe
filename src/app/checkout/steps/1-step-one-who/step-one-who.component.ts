@@ -39,6 +39,7 @@ export class StepOneWhoComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly who = this.checkoutFormService.getWho();
   protected readonly isAuthenticated = this.authService.getIsAuthenticated();
+
   protected readonly form = new FormGroup({
     fullName: new FormControl("", {
       nonNullable: true,
@@ -53,7 +54,6 @@ export class StepOneWhoComponent implements OnInit {
       updateOn: "change"
     }),
   });
-
 
   ngOnInit(): void {
     this.checkoutFormService.setStep(0);

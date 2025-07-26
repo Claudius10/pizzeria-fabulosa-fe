@@ -15,7 +15,7 @@ import {NgClass} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterListComponent {
-  header = input.required<string>();
-  items = input.required<string[]>();
-  inverseCardBg = input.required<boolean>();
+  readonly header = input.required<string>();
+  readonly items = input.required<string[]>();
+  readonly inverseCardBg = input.required<boolean>();
 }

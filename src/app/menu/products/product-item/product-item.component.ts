@@ -23,13 +23,13 @@ import {Product} from '../../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductItemComponent implements OnInit {
-  private translateService = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  private readonly cartService = inject(CartService);
   protected readonly currentLang = signal(this.translateService.currentLang);
-  private cartService = inject(CartService);
-  private destroyRef = inject(DestroyRef);
+  protected readonly productFormat = signal("");
+  protected readonly productPrice = signal(0);
   readonly product = input.required<Product>();
-  protected productFormat = signal("");
-  protected productPrice = signal(0);
   protected dialogVisible = false;
 
   ngOnInit(): void {
@@ -42,18 +42,18 @@ export class ProductItemComponent implements OnInit {
     this.destroyRef.onDestroy(() => subscription.unsubscribe());
   }
 
-  protected addProductToCart(product: Product) {
+  protected addProductToCart() {
     this.cartService.add({
-      pseudoId: product.id + this.productFormat(),
+      pseudoId: this.product().id + this.productFormat(),
       formatCode: this.productFormat(),
       images: {
-        dark: getDarkIcon(product.type),
-        light: getLightIcon(product.type)
+        dark: getDarkIcon(this.product().type),
+        light: getLightIcon(this.product().type)
       },
-      type: product.type,
-      name: product.name,
-      description: product.description,
-      formats: this.getFormats(product),
+      type: this.product().type,
+      name: this.product().name,
+      description: this.product().description,
+      formats: this.getFormats(this.product()),
       price: this.productPrice(),
       quantity: 1,
     });

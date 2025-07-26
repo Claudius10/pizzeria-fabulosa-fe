@@ -9,29 +9,31 @@
       </div>
 
       <i
-        (click)="this.filterService.clear()"
-        [ngClass]="['flex items-center color cursor-pointer', filterService.areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
-        title="Remove All Filters"></i>
+        (click)="clear()"
+        [ngClass]="['flex items-center color cursor-pointer', areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
+        title="Remove All Filters">
+      </i>
     </div>
 
-    @if (!filterService.areFiltersEmpty()) {
+    @if (!areFiltersEmpty()) {
       <div class="flex flex-wrap gap-1" @pillsAnimation>
         @for (filter of filters(); track $index) {
           @let severity = filter.include ? 'success' : 'danger';
           @let state = filter.include ? 'On' : 'Off';
           <p-tag
-            title="{{filter.name | translate}} {{state}}"
+            title="{{ filter.name | translate }} {{ state }}"
             @pillsAnimation
-            [style]="{fontSize: '12px', cursor: 'pointer'}"
+            [style]="{ fontSize: '12px', cursor: 'pointer'} "
             [rounded]="true"
             [value]="filter.name | translate"
             [severity]="severity"
-            (click)="this.filterService.toggleFilter(filter.name, filter.type)"/>
+            (click)="toggleFilter(filter.name, filter.type)"/>
         }
       </div>
     }
   </div>
 </div>
+
 @if (drawerFiltersVisible) {
   <p-drawer [(visible)]="drawerFiltersVisible" position="left">
 
@@ -40,19 +42,19 @@
     </ng-template>
 
     <div title="Filters Drawer" class="flex flex-col gap-2">
-      @if (!filterService.areFiltersEmpty()) {
+      @if (!areFiltersEmpty()) {
         <div class="flex flex-wrap gap-1" @pillsAnimation>
           @for (filter of filters(); track $index) {
             @let severity = filter.include ? 'success' : 'danger';
             @let state = filter.include ? 'On' : 'Off';
             <p-tag
-              title="{{filter.name | translate}} {{state}}"
+              title="{{ filter.name | translate }} {{ state }}"
               @pillsAnimation
               [style]="{fontSize: '12px', cursor: 'pointer'}"
               [rounded]="true"
               [value]="filter.name | translate"
               [severity]="severity"
-              (click)="this.filterService.toggleFilter(filter.name, filter.type)"/>
+              (click)="toggleFilter(filter.name, filter.type)"/>
           }
         </div>
       }

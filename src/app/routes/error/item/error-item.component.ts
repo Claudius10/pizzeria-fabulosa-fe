@@ -14,5 +14,5 @@ import {APIError} from '../../../../api/user';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorItemComponent {
-  error = input.required<APIError>();
+  readonly error = input.required<APIError>();
 }

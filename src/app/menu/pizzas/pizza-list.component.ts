@@ -11,7 +11,7 @@ import {FilterService} from '../../services/filter/filter.service';
 import {getAllPizzaFilters} from '../../../utils/filter-items';
 import {CustomPizzaComponent} from './custom/custom-pizza/custom-pizza.component';
 import {ServerErrorComponent} from '../../routes/error/server-no-response/server-error.component';
-import {isPlatformBrowser, NgForOf} from '@angular/common';
+import {isPlatformBrowser} from '@angular/common';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {Skeleton} from 'primeng/skeleton';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -40,7 +40,6 @@ const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
     ServerErrorComponent,
     Paginator,
     Skeleton,
-    NgForOf,
     TranslatePipe
   ],
   templateUrl: './pizza-list.component.html',
@@ -48,33 +47,34 @@ const DEFAULT_PAGE_MAX_SIZE = 7; // 7 + 1 (custom pizza) = 8
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PizzaListComponent implements OnInit {
-  private platformId = inject(PLATFORM_ID);
-  private isServer = !isPlatformBrowser(this.platformId);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  private errorService = inject(ErrorService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private productAPI = inject(ProductAPIService);
-  private activatedRoute = inject(ActivatedRoute);
-  protected page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
-  protected filterService = inject(FilterService);
-  protected filters = this.filterService.getFilters();
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly productAPI = inject(ProductAPIService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly filterService = inject(FilterService);
+  protected readonly page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+  protected readonly searchByText = this.filterService.getSearchByText();
+  protected readonly filters = this.filterService.getFilters();
   protected readonly getAllPizzaFilters = getAllPizzaFilters;
 
-  protected query: QueryResult<ProductListDTO | undefined> = !this.isServer ? injectQuery(() => ({
+  protected readonly query: QueryResult<ProductListDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: [...RESOURCE_PRODUCT_PIZZA, this.page() - 1],
     queryFn: () => lastValueFrom(this.productAPI.findAllByType(RESOURCE_PIZZA, this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
   })) : tempQueryResult();
-  private statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
+  private readonly statusObservable = !this.isServer ? toObservable(this.query.status) : tempStatus$();
 
-  private currentElements = DEFAULT_PAGE_MAX_SIZE;
-  protected skeletonCount = DEFAULT_PAGE_MAX_SIZE + 1;
-  protected totalElements = 0;
-  protected first = 0;
-  private totalPages = 0;
+  private readonly currentElements = signal(DEFAULT_PAGE_MAX_SIZE);
+  private readonly totalPages = signal(0);
+  protected readonly skeletonCount = signal(DEFAULT_PAGE_MAX_SIZE);
+  protected readonly totalElements = signal(0);
+  protected readonly first = signal(0);
 
   ngOnInit() {
-    this.first = (this.page() - 1) * DEFAULT_PAGE_MAX_SIZE;
+    this.first.set((this.page() - 1) * DEFAULT_PAGE_MAX_SIZE);
 
     const subscription = this.statusObservable.subscribe({
         next: result => {
@@ -90,9 +90,9 @@ export class PizzaListComponent implements OnInit {
           if (result === SUCCESS) {
             this.loadingAnimationService.stopLoading();
             const response: ProductListDTO = this.query.data()!;
-            this.totalElements = response.totalElements;
-            this.currentElements = response.content.length;
-            this.totalPages = response.number;
+            this.totalElements.set(response.totalElements);
+            this.currentElements.set(response.content.length);
+            this.totalPages.set(response.number);
           }
         }
       },
@@ -106,15 +106,15 @@ export class PizzaListComponent implements OnInit {
   }
 
   protected onPageChange(event: PaginatorState) {
-    this.first = event.first ?? 0;
+    this.first.set(event.first ?? 0);
     const nextPage = event.page === undefined ? 1 : event.page + 1;
-    this.skeletonCount = this.countSkeletons(this.page(), nextPage);
+    this.skeletonCount.set(this.countSkeletons(this.page(), nextPage));
     this.page.set(nextPage);
     this.router.navigate(["pizzas"], {queryParams: {page: nextPage}});
   }
 
   private countSkeletons(currentPage: number, nextPage: number) {
-    if (nextPage < this.totalPages) {
+    if (nextPage < this.totalPages()) {
       if (nextPage !== 1) {
         return DEFAULT_PAGE_MAX_SIZE;
       } else {
@@ -122,10 +122,14 @@ export class PizzaListComponent implements OnInit {
       }
     }
 
-    if (nextPage === this.totalPages) {
-      return this.totalElements - (this.currentElements * currentPage);
+    if (nextPage === this.totalPages()) {
+      return this.totalElements() - (this.currentElements() * currentPage);
     }
 
     return DEFAULT_PAGE_MAX_SIZE;
+  }
+
+  protected setSearchByText(text: string) {
+    this.filterService.setSearchByText(text);
   }
 }

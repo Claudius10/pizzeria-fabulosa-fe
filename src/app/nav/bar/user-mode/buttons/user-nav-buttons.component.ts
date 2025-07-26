@@ -20,25 +20,21 @@ export class UserNavButtonsComponent {
   private readonly cartService = inject(CartService);
   private readonly renderService = inject(RenderService);
   protected readonly isAuthenticated = this.authService.getIsAuthenticated();
-  private readonly cartQuantity = this.cartService.getQuantity();
+  protected readonly cartQuantity = this.cartService.getQuantity();
 
-  showCartDrawer() {
+  protected showCartDrawer() {
     this.renderService.switchCartDrawer(true);
   }
 
-  showRoutesDrawer() {
+  protected showRoutesDrawer() {
     this.renderService.switchRoutesDrawer(true);
   }
 
-  showLogin() {
+  protected showLogin() {
     this.renderService.switchLogin(true);
   }
 
-  showLogout() {
+  protected showLogout() {
     this.renderService.switchLogout(true);
-  }
-
-  getCartQuantity() {
-    return this.cartQuantity();
   }
 }

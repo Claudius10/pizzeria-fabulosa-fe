@@ -13,5 +13,5 @@ import {TranslatePipe} from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ServerErrorComponent {
-  reason = input<string>();
+  readonly reason = input<string>();
 }

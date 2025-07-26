@@ -28,20 +28,17 @@ export interface CustomPizza {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateCustomPizzaComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  onNewCustomPizza = output<CustomPizza>();
-
-  protected ingredientQuantity = signal<number>(0);
-  protected price = signal<number>(0);
-  protected format = signal(''); // the format is NOT an ingredient
-
-  private ingredients = signal<string[]>([]);
-  private ingredientsObservable = toObservable(this.ingredients);
-
-  private isGlutenFree = signal(false);
-  protected isLactoseFree = signal(false);
-  protected allergensInfo = signal<string[]>(["component.products.filters.allergen.gluten"]);
-  private excludedAllergens = signal<string[]>([]);
+  readonly onNewCustomPizza = output<CustomPizza>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly ingredients = signal<string[]>([]);
+  private readonly ingredientsObservable = toObservable(this.ingredients);
+  private readonly isGlutenFree = signal(false);
+  private readonly excludedAllergens = signal<string[]>([]);
+  protected readonly isLactoseFree = signal(false);
+  protected readonly ingredientQuantity = signal<number>(0);
+  protected readonly price = signal<number>(0);
+  protected readonly format = signal(''); // the format is NOT an ingredient
+  protected readonly allergensInfo = signal<string[]>(["component.products.filters.allergen.gluten"]);
 
   ngOnInit(): void {
     const subscription = this.ingredientsObservable.subscribe(ingredients => {

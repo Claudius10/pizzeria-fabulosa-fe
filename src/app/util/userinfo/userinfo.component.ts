@@ -23,18 +23,18 @@ import {isPlatformBrowser} from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserinfoComponent implements OnInit {
-  private platformId = inject(PLATFORM_ID);
-  private isServer = !isPlatformBrowser(this.platformId);
-  private backEndClientBaseUri = environment.url;
-  private checkoutFormService = inject(CheckoutFormService);
-  private localStorageService = inject(LocalStorageService);
-  private userAccountAPI = inject(UserAccountAPIService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private authService = inject(AuthService);
-  private queryClient = inject(QueryClient);
-  private destroyRef = inject(DestroyRef);
-  private router = inject(Router);
+  private readonly backEndClientBaseUri = environment.url;
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly queryClient = inject(QueryClient);
+  private readonly translateService = inject(TranslateService);
+  private readonly messageService = inject(MessageService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly authService = inject(AuthService);
+  private readonly userAccountAPI = inject(UserAccountAPIService);
 
   private query: QueryResult<UserInfoDTO | undefined> = injectQuery(() => ({
     queryKey: USER_INFO,

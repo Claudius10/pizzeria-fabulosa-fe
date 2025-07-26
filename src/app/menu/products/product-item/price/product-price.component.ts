@@ -11,5 +11,5 @@ import {Button} from 'primeng/button';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProductPriceComponent {
-  price = input.required<number>();
+  readonly price = input.required<number>();
 }

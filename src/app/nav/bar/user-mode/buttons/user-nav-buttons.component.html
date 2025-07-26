@@ -1,6 +1,6 @@
 <ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
   <!-- CART ICON -->
-  <li (click)="showCartDrawer()" pBadge value="{{ getCartQuantity() }}">
+  <li (click)="showCartDrawer()" pBadge value="{{ cartQuantity() }}">
     <button
       aria-label="Open Cart"
       class="flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center"
@@ -21,7 +21,7 @@
     </button>
   </li>
 
-  @if (this.isAuthenticated()) {
+  @if (isAuthenticated()) {
     <!-- USER BUTTON -->
     <li>
       <button

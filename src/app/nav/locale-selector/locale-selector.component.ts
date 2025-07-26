@@ -21,11 +21,11 @@ import {LOCALE} from '../../../utils/constants';
 })
 export class LocaleSelectorComponent {
   @ViewChild('locale') locale: ElementRef | undefined;
-  protected visible = signal(false);
-  private cookieService = inject(SsrCookieService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private primeNgConfig = inject(PrimeNG);
+  private readonly cookieService = inject(SsrCookieService);
+  private readonly translateService = inject(TranslateService);
+  private readonly messageService = inject(MessageService);
+  private readonly primeNgConfig = inject(PrimeNG);
+  protected readonly visible = signal(false);
 
   @HostListener('document:click', ['$event'])
   onClick(event: Event) {

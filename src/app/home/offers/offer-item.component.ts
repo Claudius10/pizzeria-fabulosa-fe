@@ -18,10 +18,10 @@ import {Offer} from '../../../api/public';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OfferItemComponent implements OnInit {
-  private destroyRef = inject(DestroyRef);
-  private translateService = inject(TranslateService);
-  protected currentLang = signal(this.translateService.currentLang);
-  offer = input.required<Offer>();
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly translateService = inject(TranslateService);
+  protected readonly currentLang = signal(this.translateService.currentLang);
+  readonly offer = input.required<Offer>();
 
   ngOnInit(): void {
     const subscription = this.translateService.onLangChange.subscribe(langEvent => {

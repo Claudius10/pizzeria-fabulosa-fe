@@ -13,8 +13,8 @@ import {CustomerDTO} from '../../../api/business';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDetailsComponent {
-  private readonly authService = inject(AuthService);
   readonly anon = input<CustomerDTO>();
+  private readonly authService = inject(AuthService);
   protected readonly authState = this.authService.getIsAuthenticated();
   protected readonly name = this.authService.getName();
   protected readonly email = this.authService.getEmail();

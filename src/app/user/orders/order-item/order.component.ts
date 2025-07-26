@@ -48,28 +48,27 @@ import {OrderDTO, UserOrdersAPIService} from '../../../../api/business';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent {
-  private platformId = inject(PLATFORM_ID);
-  private isServer = !isPlatformBrowser(this.platformId);
-  private router = inject(Router);
-  private destroyRef = inject(DestroyRef);
-  private errorService = inject(ErrorService);
-  private queryClient = inject(QueryClient);
-  private confirmationService = inject(ConfirmationService);
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private authService = inject(AuthService);
-  private userId = this.authService.getId();
-  private cartService = inject(CartService);
-  private activatedRoute = inject(ActivatedRoute);
-  protected orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
-  private userOrdersAPI = inject(UserOrdersAPIService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly queryClient = inject(QueryClient);
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly translateService = inject(TranslateService);
+  private readonly messageService = inject(MessageService);
+  private readonly authService = inject(AuthService);
+  private readonly cartService = inject(CartService);
+  private readonly activatedRoute = inject(ActivatedRoute);
+  private readonly userOrdersAPI = inject(UserOrdersAPIService);
+  protected readonly orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
+  private readonly userId = this.authService.getId();
 
   protected order: QueryResult<OrderDTO | undefined> = !this.isServer ? injectQuery(() => ({
     queryKey: ["user", "order", this.orderId.toString()],
     queryFn: () => lastValueFrom(this.userOrdersAPI.findById(this.orderId))
   })) : tempQueryResult();
-
 
   private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 

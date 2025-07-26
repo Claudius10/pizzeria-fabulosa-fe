@@ -32,8 +32,4 @@ export class LocalStorageService {
   exists(token: string) {
     return localStorage.getItem(token) !== null;
   }
-
-  clear() {
-    localStorage.clear();
-  }
 }

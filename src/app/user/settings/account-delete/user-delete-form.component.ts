@@ -27,19 +27,19 @@ import {Button} from 'primeng/button';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDeleteFormComponent implements OnDestroy {
-  private backEndClientBaseUri = environment.url;
-  private loadingAnimationService = inject(LoadingAnimationService);
-  private checkoutFormService = inject(CheckoutFormService);
-  private userAccountAPI = inject(UserAccountAPIService);
-  private translateService = inject(TranslateService);
-  private messageService = inject(MessageService);
-  private errorService = inject(ErrorService);
-  private queryClient = inject(QueryClient);
-  private authService = inject(AuthService);
-  private userId = this.authService.getId();
+  private readonly backEndClientBaseUri = environment.url;
+  private readonly errorService = inject(ErrorService);
+  private readonly queryClient = inject(QueryClient);
+  private readonly messageService = inject(MessageService);
+  private readonly translateService = inject(TranslateService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly authService = inject(AuthService);
+  private readonly checkoutFormService = inject(CheckoutFormService);
+  private readonly userAccountAPI = inject(UserAccountAPIService);
+  private readonly userId = this.authService.getId();
   protected passAuthVisibility = false;
 
-  showPassAuth() {
+  protected showPassAuth() {
     this.passAuthVisibility = true;
   }
 
@@ -78,7 +78,6 @@ export class UserDeleteFormComponent implements OnDestroy {
         this.loadingAnimationService.stopLoading();
       }
     });
-
   }
 
   protected readonly myInput = myInput;

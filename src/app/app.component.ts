@@ -44,15 +44,15 @@ import {LoginDialogComponent} from './nav/login/login-dialog.component';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
-  private readonly translateService = inject(TranslateService);
-  private readonly cookieService = inject(SsrCookieService);
   private readonly primeNgConfig = inject(PrimeNG);
+  private readonly cookieService = inject(SsrCookieService);
+  private readonly translateService = inject(TranslateService);
   private readonly cartService = inject(CartService);
   private readonly renderService = inject(RenderService);
-  protected readonly loginState = this.renderService.getLogin();
-  protected readonly logoutState = this.renderService.getLogout();
   private readonly cartState = toObservable(this.renderService.getCartDrawer());
   private readonly routesState = toObservable(this.renderService.getRoutesDrawer());
+  protected readonly loginState = this.renderService.getLogin();
+  protected readonly logoutState = this.renderService.getLogout();
   protected routesDrawerState = false;
   protected cartDrawerState = false;
 
