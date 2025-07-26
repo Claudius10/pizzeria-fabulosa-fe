@@ -8,7 +8,7 @@ import {numbersRegex} from '../../../../utils/regex';
 import {Router} from '@angular/router';
 import {Option} from '../../../../utils/interfaces/steps';
 import {Button} from 'primeng/button';
-import {NgForOf, UpperCasePipe} from '@angular/common';
+import {UpperCasePipe} from '@angular/common';
 import {CartService} from '../../../services/cart/cart.service';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../utils/functions';
@@ -25,7 +25,6 @@ import {myIcon} from '../../../../primeng/icon';
     IconField,
     InputIcon,
     InputText,
-    NgForOf,
     FormsModule
   ],
   templateUrl: './step-four-how.component.html',

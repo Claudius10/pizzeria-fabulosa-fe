@@ -9,7 +9,7 @@ import {esCharsAndNumbersRegex, esCharsRegex, numbersRegex} from '../../../../ut
 import {RESOURCE_STORES} from '../../../../utils/query-keys';
 import {Router} from '@angular/router';
 import {Option} from '../../../../utils/interfaces/steps';
-import {NgForOf, UpperCasePipe} from '@angular/common';
+import {UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -35,7 +35,6 @@ import {StoreAPIService} from '../../../../api/public';
     InputIcon,
     FormsModule,
     InputText,
-    NgForOf,
     ServerErrorComponent,
     StoreCheckoutComponent,
   ],

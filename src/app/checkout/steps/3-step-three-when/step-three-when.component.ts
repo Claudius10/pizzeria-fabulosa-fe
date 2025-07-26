@@ -7,7 +7,7 @@ import {CheckoutFormService} from '../../../services/checkout/checkout-form.serv
 import {Router} from '@angular/router';
 import {Option} from '../../../../utils/interfaces/steps';
 import {Button} from 'primeng/button';
-import {NgForOf, UpperCasePipe} from '@angular/common';
+import {UpperCasePipe} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isFormValid} from '../../../../utils/functions';
 import {myInput} from '../../../../primeng/input';
@@ -30,8 +30,7 @@ import {UtilAPIService} from '../../../../api/public';
     IconField,
     InputIcon,
     FormsModule,
-    InputText,
-    NgForOf
+    InputText
   ],
   templateUrl: './step-three-when.component.html',
   styleUrl: './step-three-when.component.scss',

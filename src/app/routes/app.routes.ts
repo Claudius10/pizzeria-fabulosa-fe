@@ -22,6 +22,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
 import {adminRoleGuard} from '../guard/admin/admin-role.guard';
 import {AdminHomeComponent} from '../users/admin/admin-home.component';
 import {DashboardComponent} from '../users/admin/dashboard/dashboard.component';
+import {IncidentsComponent} from '../users/admin/incidents/incidents.component';
 
 export const routes: Routes = [
   {
@@ -123,6 +124,11 @@ export const routes: Routes = [
         path: "dashboard",
         component: DashboardComponent,
         title: "Dashboard",
+      },
+      {
+        path: "incidents/:origin",
+        component: IncidentsComponent,
+        title: "Incidents",
       },
     ]
   },

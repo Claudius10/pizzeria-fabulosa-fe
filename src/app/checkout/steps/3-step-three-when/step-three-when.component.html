@@ -16,7 +16,6 @@
         <label for="deliveryChoice">{{ "component.form.step.three.advice" | translate }}</label>
 
         <p-iconfield [dt]="myIcon('{primary.400}')">
-          <p-inputicon title="Delivery Time Icon" styleClass="pi pi-angle-down"/>
           <select
             title="Delivery Time Select"
             [ngModel]="selectedOption().code"
@@ -28,14 +27,16 @@
             pInputText
             [dt]="myInput(true)"
           >
-            <option *ngFor="let option of options()" [value]="option.code">{{ option.description | translate }}</option>
+            @for (option of options(); track option.code) {
+              <option [value]="option.code">{{ option.description | translate }}</option>
+            }
           </select>
+          <p-inputicon title="Delivery Time Icon" styleClass="pi pi-angle-down"/>
         </p-iconfield>
 
         @if (programmedDelivery()) {
           <label for="deliveryTime">{{ "component.form.step.three.programmed.delivery.advice" | translate }}</label>
           <p-iconfield title="Delivery Hour Icon" [dt]="myIcon('{primary.400}')">
-            <p-inputicon styleClass="pi pi-angle-down"/>
             <select
               title="Delivery Hour Select"
               class="w-full"
@@ -48,6 +49,7 @@
                 <option value="{{deliveryHour}}">{{ deliveryHour }}</option>
               }
             </select>
+            <p-inputicon styleClass="pi pi-angle-down"/>
           </p-iconfield>
           @if (!form.controls.deliveryTime.untouched && !form.controls.deliveryTime.valid) {
             <span title="Invalid Delivery Hour" id="deliveryTime-help" class="invalid-text">

@@ -1,0 +1,7 @@
+.color {
+  color: var(--p-primary-color);
+}
+
+:host ::ng-deep .p-menubar-item-content {
+  padding: 0.5rem;
+}

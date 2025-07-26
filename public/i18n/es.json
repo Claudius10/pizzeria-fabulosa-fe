@@ -147,6 +147,7 @@
   "component.user.nav.order.history": "Pedidos",
   "component.user.nav.settings": "Configuración",
   "component.user.nav.admin": "Administrador",
+  "component.admin.nav.incidents": "Incidencias",
   "component.user.profile.view.address.list": "Mis domicilios",
   "component.user.profile.view.address.list.empty": "La lista de domicilios está vacía",
   "component.user.form.delete.account": "Borrar cuenta",

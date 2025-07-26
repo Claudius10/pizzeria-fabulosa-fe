@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-4">
+  <div>
+    <p-iconfield title="Delivery Choice Icon" [dt]="myIcon('{primary.400}')">
+      <select
+        [ngModel]="selectedOrigin()"
+        [ngModelOptions]="{standalone: true}"
+        (change)="selectOrigin($event)"
+        id="deliveryOption"
+        pInputText
+        [dt]="myInput(true)"
+      >
+        @for (origin of origins(); track $index) {
+          <option [value]="origin">{{ origin }}</option>
+        }
+      </select>
+      <p-inputicon styleClass="pi pi-angle-down"/>
+    </p-iconfield>
+  </div>
+
+  <div>
+    @if (incidents.status() === 'success') {
+      <p-card>
+        <p-table
+          [value]="incidents.data()!.content"
+          [lazy]="true"
+          [paginator]="true"
+          [first]="first()"
+          [rows]="5"
+          [totalRecords]="totalElements()"
+          [rowsPerPageOptions]="[5, 10, 20]"
+          (onPage)="onPageSelect($event)"
+          stripedRows
+        >
+          <ng-template #header>
+            <tr>
+              <th>Id</th>
+              <th>Date</th>
+              <th>Cause</th>
+              <th>Path</th>
+              <th>Fatal</th>
+            </tr>
+          </ng-template>
+          <ng-template #body let-incidentDTO>
+            @let incident = withType(incidentDTO);
+            <tr>
+              <td>{{ incident.id }}</td>
+              <td>{{ incident.createdOn | date:'short' }}</td>
+              <td>{{ incident.cause }}</td>
+              <td>{{ incident.path }}</td>
+              <td>
+                <p-badge [value]="String(incident.fatal)" [severity]="fatalSeverity(incident.fatal)"/>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-card>
+    }
+
+    @if (incidents.status() === 'pending') {
+      <p-skeleton height="450px"/>
+    }
+
+    @if (incidents.status() === 'error') {
+      <app-server-error/>
+    }
+  </div>
+</div>

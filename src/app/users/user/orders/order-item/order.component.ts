@@ -60,8 +60,8 @@ export class OrderComponent {
   private readonly messageService = inject(MessageService);
   private readonly authService = inject(AuthService);
   private readonly cartService = inject(CartService);
-  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly userOrdersAPI = inject(UserOrdersAPIService);
+  private readonly activatedRoute = inject(ActivatedRoute);
   protected readonly orderId = this.activatedRoute.snapshot.paramMap.get("orderId") === null ? 0 : Number(this.activatedRoute.snapshot.paramMap.get("orderId")!);
   private readonly userId = this.authService.getId();
 

@@ -1,0 +1,17 @@
+.gitignore
+.openapi-generator-ignore
+README.md
+api.base.service.ts
+api.module.ts
+api/api.ts
+api/incidentsAPI.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/aPIError.ts
+model/incidenceListDTO.ts
+model/models.ts
+model/responseDTO.ts
+param.ts
+variables.ts

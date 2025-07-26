@@ -16,7 +16,6 @@
 
         <label for="paymentMethod">{{ "component.form.step.four.advice" | translate }}</label>
         <p-iconfield [dt]="myIcon('{primary.400}')">
-          <p-inputicon title="Payment Method Icon" styleClass="pi pi-angle-down"/>
           <select
             title="Payment Method Select"
             class="w-full"
@@ -26,16 +25,17 @@
             pInputText
             [dt]="myInput(true)"
           >
-            <option *ngFor="let option of paymentOptions()" [value]="option.code">{{ option.description | translate }}
-            </option>
+            @for (option of paymentOptions(); track option.code) {
+              <option [value]="option.code">{{ option.description | translate }}</option>
+            }
           </select>
+          <p-inputicon title="Payment Method Icon" styleClass="pi pi-angle-down"/>
         </p-iconfield>
 
         @if (cashPayment()) {
 
           <label for="changeRequestChoice">{{ "component.form.step.four.bill.change.question" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Change Request Icon" styleClass="pi pi-angle-down"/>
             <select
               title="Change Request Select"
               [ngModel]="selectedChangeOption().code"
@@ -46,16 +46,17 @@
               pInputText
               [dt]="myInput(true)"
             >
-              <option *ngFor="let option of changeOptions()" [value]="option.code">{{ option.description | translate }}
-              </option>
+              @for (option of changeOptions(); track option.code) {
+                <option [value]="option.code">{{ option.description | translate }}</option>
+              }
             </select>
+            <p-inputicon title="Change Request Icon" styleClass="pi pi-angle-down"/>
           </p-iconfield>
         }
 
         @if (changeRequested()) {
           <label for="billToChange">{{ "component.form.step.four.bill.change.advice" | translate }}</label>
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Bill Icon" styleClass="pi pi-euro"/>
             <input
               title="Bill Input"
               class="w-full invalid-border"
@@ -66,6 +67,7 @@
               pInputText
               [dt]="myInput(true)"
             >
+            <p-inputicon title="Bill Icon" styleClass="pi pi-euro"/>
           </p-iconfield>
           @if (!form.controls.billToChange.untouched && !form.controls.billToChange.valid) {
             <span title="Invalid Bill" id="fullName-help" class="invalid-text">

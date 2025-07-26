@@ -11,7 +11,8 @@
     "e2e": "ng e2e",
     "generate-assets-api": "openapi-generator-cli generate -g typescript-angular -i http://127.0.0.1:8081/api/v1/docs.yaml -o src/api/public",
     "generate-users-api": "openapi-generator-cli generate -g typescript-angular -i http://127.0.0.1:8082/api/v1/docs.yaml -o src/api/user",
-    "generate-business-api": "openapi-generator-cli generate -g typescript-angular -i http://127.0.0.1:8083/api/v1/docs.yaml -o src/api/business"
+    "generate-business-api": "openapi-generator-cli generate -g typescript-angular -i http://127.0.0.1:8083/api/v1/docs.yaml -o src/api/business",
+    "generate-admin-api": "openapi-generator-cli generate -g typescript-angular -i http://127.0.0.1:8084/api/v1/docs.yaml -o src/api/admin"
   },
   "private": true,
   "dependencies": {

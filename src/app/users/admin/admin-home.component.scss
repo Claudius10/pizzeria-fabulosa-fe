@@ -4,3 +4,27 @@
   flex-direction: column;
   gap: 0.5rem;
 }
+
+@media (max-width: 1280px) {
+  .page {
+    width: 100%;
+  }
+}
+
+@media (max-width: 992px) {
+  .page {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .page {
+    width: 100%;
+  }
+}

@@ -1,1 +1,9 @@
-<p>admin-nav works!</p>
+<p-menubar [dt]="userMenuBar()" [model]="adminMenu" breakpoint="320px">
+  <ng-template #item let-item>
+    <a [routerLink]="item.route" class="flex justify-center items-center" routerLinkActive="color"
+       title="{{ item.label }}">
+      <span [class]="item.icon" title="{{ item.label | translate }} Icon"></span>
+      <span class="ml-2" title="{{ item.label | translate }}">{{ item.label | translate }}</span>
+    </a>
+  </ng-template>
+</p-menubar>

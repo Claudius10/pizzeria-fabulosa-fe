@@ -38,8 +38,8 @@ export class OrderSummaryListComponent implements OnInit {
   private readonly isServer = !isPlatformBrowser(this.platformId);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly errorService = inject(ErrorService);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly authService = inject(AuthService);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly userOrdersAPI = inject(UserOrdersAPIService);

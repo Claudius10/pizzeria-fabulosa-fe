@@ -146,6 +146,7 @@
   "component.user.nav.order.history": "Orders",
   "component.user.nav.settings": "Settings",
   "component.user.nav.admin": "Administrator",
+  "component.admin.nav.incidents": "Incidents",
   "component.user.profile.view.address.list": "My address list",
   "component.user.profile.view.address.list.empty": "The address list is empty",
   "component.user.form.delete.account": "Delete account",
