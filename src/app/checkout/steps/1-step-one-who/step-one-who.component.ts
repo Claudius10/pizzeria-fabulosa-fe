@@ -12,7 +12,7 @@ import {TranslatePipe} from '@ngx-translate/core';
 import {UpperCasePipe} from '@angular/common';
 import {isFormValid} from '../../../../utils/functions';
 import {InputText} from 'primeng/inputtext';
-import {UserDetailsComponent} from "../../../user/details/user-details.component";
+import {UserDetailsComponent} from "../../../users/user/details/user-details.component";
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 

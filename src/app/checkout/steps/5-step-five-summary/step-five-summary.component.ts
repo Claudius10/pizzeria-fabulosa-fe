@@ -15,7 +15,7 @@ import {UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../services/error/error.service';
 import {isFormValid} from '../../../../utils/functions';
 import {Textarea} from 'primeng/textarea';
-import {UserDetailsComponent} from '../../../user/details/user-details.component';
+import {UserDetailsComponent} from '../../../users/user/details/user-details.component';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
 import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';

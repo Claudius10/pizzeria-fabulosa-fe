@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OrderSummaryComponent} from './order-summary.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {provideRouter} from '@angular/router';
-import {OrderSummaryDTO} from '../../../../../api/business';
+import {OrderSummaryDTO} from '../../../../../../api/business';
 
 
 describe('OrderSummaryComponent', () => {

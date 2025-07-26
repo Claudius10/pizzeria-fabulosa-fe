@@ -4,11 +4,11 @@ import {HomeComponent} from '../home/home.component';
 import {userCredentialsGuardGuard} from '../guard/user/user-credentials-guard.guard';
 import {BeverageListComponent} from '../menu/beverages/beverage-list.component';
 import {RegisterComponent} from '../register/register.component';
-import {UserHomeComponent} from '../user/user-home.component';
-import {ProfileComponent} from '../user/profile/profile.component';
-import {OrderSummaryListComponent} from '../user/orders/summary-list/list/order-summary-list.component';
-import {OrderComponent} from '../user/orders/order-item/order.component';
-import {UserSettingsComponent} from '../user/settings/user-settings.component';
+import {UserHomeComponent} from '../users/user/user-home.component';
+import {ProfileComponent} from '../users/user/profile/profile.component';
+import {OrderSummaryListComponent} from '../users/user/orders/summary-list/list/order-summary-list.component';
+import {OrderComponent} from '../users/user/orders/order-item/order.component';
+import {UserSettingsComponent} from '../users/user/settings/user-settings.component';
 import {CheckoutFormComponent} from '../checkout/checkout-form.component';
 import {StepOneWhoComponent} from '../checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../checkout/steps/2-step-two-where/step-two-where.component';
@@ -20,8 +20,8 @@ import {ForbiddenComponent} from './forbidden/forbidden.component';
 import {ErrorComponent} from './error/error.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {adminRoleGuard} from '../guard/admin/admin-role.guard';
-import {AdminHomeComponent} from '../admin/admin-home.component';
-import {DashboardComponent} from '../admin/dashboard/dashboard.component';
+import {AdminHomeComponent} from '../users/admin/admin-home.component';
+import {DashboardComponent} from '../users/admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   {

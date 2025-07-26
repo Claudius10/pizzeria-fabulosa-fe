@@ -1,12 +1,12 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {Menubar} from 'primeng/menubar';
-import {userMenuBar} from '../../../primeng/menubar';
-import {PasswordAuthorizationComponent} from '../../util/password/password-authorization.component';
+import {userMenuBar} from '../../../../primeng/menubar';
+import {PasswordAuthorizationComponent} from '../../../util/password/password-authorization.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {isPlatformBrowser} from '@angular/common';
-import {LocalStorageService} from '../../services/local-storage/local-storage.service';
-import {ADMIN, ADMIN_MODE} from '../../../utils/constants';
+import {LocalStorageService} from '../../../services/local-storage/local-storage.service';
+import {ADMIN, ADMIN_MODE} from '../../../../utils/constants';
 
 @Component({
   selector: 'app-user-nav',

@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, input, OnInit, signal} from '@angular/core';
 import {CardModule} from 'primeng/card';
 import {TranslatePipe} from '@ngx-translate/core';
-import {RESOURCE_STORES} from '../../../../../utils/query-keys';
-import {StoreCheckoutComponent} from '../../../../checkout/steps/store/store-checkout.component';
-import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
-import {ErrorService} from '../../../../services/error/error.service';
-import {ERROR, SUCCESS} from '../../../../../utils/constants';
+import {RESOURCE_STORES} from '../../../../../../utils/query-keys';
+import {StoreCheckoutComponent} from '../../../../../checkout/steps/store/store-checkout.component';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
+import {ErrorService} from '../../../../../services/error/error.service';
+import {ERROR, SUCCESS} from '../../../../../../utils/constants';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {firstValueFrom} from 'rxjs';
-import {OrderDetailsDTO} from '../../../../../api/business';
-import {Store, StoreAPIService, StoreListDTO} from '../../../../../api/public';
+import {OrderDetailsDTO} from '../../../../../../api/business';
+import {Store, StoreAPIService, StoreListDTO} from '../../../../../../api/public';
 
 @Component({
   selector: 'order-address-details',

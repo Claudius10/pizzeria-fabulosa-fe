@@ -1,11 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OrderSummaryListComponent} from './order-summary-list.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {ErrorService} from '../../../../services/error/error.service';
+import {ErrorService} from '../../../../../services/error/error.service';
 import {of} from 'rxjs';
 import {provideRouter} from '@angular/router';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {UserOrdersAPIService} from '../../../../../api/business';
+import {UserOrdersAPIService} from '../../../../../../api/business';
 
 describe('OrderSummaryListComponent', () => {
   let component: OrderSummaryListComponent;

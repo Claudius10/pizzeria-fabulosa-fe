@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {CardModule} from 'primeng/card';
 import {TranslatePipe} from '@ngx-translate/core';
-import {OrderDetailsDTO} from '../../../../../api/business';
+import {OrderDetailsDTO} from '../../../../../../api/business';
 
 @Component({
   selector: 'app-order-details',

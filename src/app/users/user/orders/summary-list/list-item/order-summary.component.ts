@@ -3,7 +3,7 @@ import {RouterLink} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
-import {OrderSummaryDTO} from '../../../../../api/business';
+import {OrderSummaryDTO} from '../../../../../../api/business';
 
 @Component({
   selector: 'app-order-summary',

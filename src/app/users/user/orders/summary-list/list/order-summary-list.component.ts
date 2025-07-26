@@ -1,22 +1,22 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {Paginator, PaginatorState} from 'primeng/paginator';
 import {OrderSummaryComponent} from '../list-item/order-summary.component';
-import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
-import {ErrorService} from '../../../../services/error/error.service';
-import {ServerErrorComponent} from '../../../../routes/error/server-no-response/server-error.component';
+import {LoadingAnimationService} from '../../../../../services/animation/loading-animation.service';
+import {ErrorService} from '../../../../../services/error/error.service';
+import {ServerErrorComponent} from '../../../../../routes/error/server-no-response/server-error.component';
 import {TranslatePipe} from '@ngx-translate/core';
 import {isPlatformBrowser} from '@angular/common';
 import {Skeleton} from 'primeng/skeleton';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
+import {ERROR, PENDING, SUCCESS} from '../../../../../../utils/constants';
 import {ActivatedRoute, Router} from '@angular/router';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
-import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
-import {AuthService} from '../../../../services/auth/auth.service';
-import {QueryResult} from '../../../../../utils/interfaces/query';
-import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../api/business';
+import {tempQueryResult, tempStatus$} from '../../../../../../utils/placeholder';
+import {USER_ORDER_SUMMARY_LIST} from '../../../../../../utils/query-keys';
+import {AuthService} from '../../../../../services/auth/auth.service';
+import {QueryResult} from '../../../../../../utils/interfaces/query';
+import {OrderSummaryListDTO, UserOrdersAPIService} from '../../../../../../api/business';
 
 const DEFAULT_PAGE_MAX_SIZE = 5;
 

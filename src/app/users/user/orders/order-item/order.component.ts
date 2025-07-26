@@ -1,30 +1,30 @@
 import {afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, inject, PLATFORM_ID} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {CartService} from '../../../services/cart/cart.service';
-import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
+import {CartService} from '../../../../services/cart/cart.service';
+import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
 import {ConfirmDialog} from 'primeng/confirmdialog';
 import {OrderAddressDetailsComponent} from './address-details/order-address-details.component';
 import {OrderDetailsComponent} from './order-details/order-details.component';
 import {Card} from 'primeng/card';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
-import {CartComponent} from '../../../cart/cart.component';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
+import {CartComponent} from '../../../../cart/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
-import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
+import {ServerErrorComponent} from '../../../../routes/error/server-no-response/server-error.component';
 import {isPlatformBrowser, UpperCasePipe} from '@angular/common';
-import {ErrorService} from '../../../services/error/error.service';
+import {ErrorService} from '../../../../services/error/error.service';
 import {Button} from 'primeng/button';
 import {UserDetailsComponent} from '../../details/user-details.component';
 import {Skeleton} from 'primeng/skeleton';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {USER_ORDER_SUMMARY_LIST} from '../../../../utils/query-keys';
-import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
-import {AuthService} from '../../../services/auth/auth.service';
-import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
-import {QueryResult} from '../../../../utils/interfaces/query';
-import {OrderDTO, UserOrdersAPIService} from '../../../../api/business';
+import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
+import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
+import {AuthService} from '../../../../services/auth/auth.service';
+import {MyCartItemDTO} from '../../../../../utils/interfaces/MyCartItemDTO';
+import {QueryResult} from '../../../../../utils/interfaces/query';
+import {OrderDTO, UserOrdersAPIService} from '../../../../../api/business';
 
 @Component({
   selector: 'app-order',

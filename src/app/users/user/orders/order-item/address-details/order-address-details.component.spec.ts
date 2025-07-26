@@ -2,10 +2,10 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {OrderAddressDetailsComponent} from './order-address-details.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {getMockOrderDetails} from '../order-details/order-details.component.spec';
-import {ErrorService} from '../../../../services/error/error.service';
+import {ErrorService} from '../../../../../services/error/error.service';
 import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {StoreAPIService} from '../../../../../api/public';
+import {StoreAPIService} from '../../../../../../api/public';
 
 describe('OrderAddressDetailsComponent', () => {
   let component: OrderAddressDetailsComponent;

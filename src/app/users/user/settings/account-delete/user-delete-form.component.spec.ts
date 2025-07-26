@@ -1,10 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {UserDeleteFormComponent} from './user-delete-form.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {ErrorService} from '../../../services/error/error.service';
+import {ErrorService} from '../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {UserAccountAPIService} from '../../../../api/user';
+import {UserAccountAPIService} from '../../../../../api/user';
 
 describe('UserDeleteFormComponent', () => {
   let component: UserDeleteFormComponent;

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {AdminNavComponent} from './nav/admin-nav.component';
-import {RenderService} from '../services/ui/render.service';
-import {ADMIN_MODE, MODE} from '../../utils/constants';
-import {LocalStorageService} from '../services/local-storage/local-storage.service';
+import {RenderService} from '../../services/ui/render.service';
+import {ADMIN_MODE, MODE} from '../../../utils/constants';
+import {LocalStorageService} from '../../services/local-storage/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
 
 @Component({
