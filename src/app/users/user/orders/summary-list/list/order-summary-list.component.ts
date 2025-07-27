@@ -93,6 +93,6 @@ export class OrderSummaryListComponent implements OnInit {
     this.first.set(event.first ?? 0);
     const page = event.page === undefined ? 1 : event.page + 1;
     this.page.set(page);
-    this.router.navigate(["user/orders"], {queryParams: {page: page}});
+    this.router.navigate(["user", "orders"], {queryParams: {page: page}});
   }
 }

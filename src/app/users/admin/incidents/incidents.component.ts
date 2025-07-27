@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {IncidenceListDTO, IncidentsAPIService} from '../../../../api/admin';
 import {DatePipe, isPlatformBrowser} from '@angular/common';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {QueryResult} from '../../../../utils/interfaces/query';
 import {firstValueFrom} from 'rxjs';
 import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
@@ -25,13 +25,13 @@ import {myIcon} from '../../../../primeng/icon';
 import {IconField} from 'primeng/iconfield';
 import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
-import {Card} from 'primeng/card';
 import {Badge} from 'primeng/badge';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {Skeleton} from 'primeng/skeleton';
+import {Card} from 'primeng/card';
 
 const DEFAULT_PAGE_MAX_SIZE = 5;
 
@@ -44,10 +44,10 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
     IconField,
     InputIcon,
     InputText,
-    Card,
     Badge,
     ServerErrorComponent,
-    Skeleton
+    Skeleton,
+    Card
   ],
   templateUrl: './incidents.component.html',
   styleUrl: './incidents.component.scss',
@@ -56,6 +56,7 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
 export class IncidentsComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isServer = !isPlatformBrowser(this.platformId);
+  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly errorService = inject(ErrorService);
   private readonly loadingAnimationService = inject(LoadingAnimationService);
@@ -63,6 +64,7 @@ export class IncidentsComponent implements OnInit {
   private readonly activatedRoute = inject(ActivatedRoute);
   protected readonly origin = signal(this.activatedRoute.snapshot.paramMap.get("origin") === null ? INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER : this.activatedRoute.snapshot.paramMap.get("origin")!);
   protected readonly page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
+
   protected readonly origins = signal<string[]>(
     [
       INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
@@ -74,18 +76,17 @@ export class IncidentsComponent implements OnInit {
   );
   protected readonly selectedOrigin = signal<string>(this.origins()[0]);
 
+  protected readonly first = signal(0);
+  protected readonly rows = signal(5);
+  protected readonly totalElements = signal(0);
+
   protected readonly incidents: QueryResult<IncidenceListDTO | undefined> = !this.isServer ? injectQuery(() => ({
-    queryKey: [...ADMIN_INCIDENTS, this.origin()],
-    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOrigin(this.origin(), this.page() - 1, DEFAULT_PAGE_MAX_SIZE))
+    queryKey: [...ADMIN_INCIDENTS, this.origin(), this.page(), this.rows()],
+    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOrigin(this.origin(), this.page() - 1, this.rows()))
   })) : tempQueryResult();
   private readonly queryStatus = !this.isServer ? toObservable(this.incidents.status) : tempStatus$();
 
-  protected readonly first = signal(0);
-  protected readonly totalElements = signal(0);
-
   ngOnInit(): void {
-    this.first.set((this.page() - 1) * DEFAULT_PAGE_MAX_SIZE);
-
     const subscription = this.queryStatus.subscribe({
       next: status => {
         if (status === PENDING) {
@@ -120,7 +121,11 @@ export class IncidentsComponent implements OnInit {
   }
 
   protected onPageSelect(event: TablePageEvent) {
-    console.log(event);
+    this.first.set(event.first);
+    this.rows.set(event.rows);
+    const page = (event.first / event.rows) + 1;
+    this.page.set(page);
+    this.router.navigate(["admin", "incidents", this.origin()], {queryParams: {page: page}});
   }
 
   protected fatalSeverity(fatal: boolean) {

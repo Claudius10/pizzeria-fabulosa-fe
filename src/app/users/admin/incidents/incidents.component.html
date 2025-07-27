@@ -25,7 +25,7 @@
           [lazy]="true"
           [paginator]="true"
           [first]="first()"
-          [rows]="5"
+          [rows]="rows()"
           [totalRecords]="totalElements()"
           [rowsPerPageOptions]="[5, 10, 20]"
           (onPage)="onPageSelect($event)"
