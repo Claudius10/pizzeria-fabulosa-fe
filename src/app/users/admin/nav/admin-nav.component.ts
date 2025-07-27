@@ -3,7 +3,13 @@ import {userMenuBar} from '../../../../primeng/menubar';
 import {TranslatePipe} from '@ngx-translate/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {Menubar} from 'primeng/menubar';
-import {INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER} from '../../../../utils/constants';
+import {
+  INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
+  INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
+  INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
+  INCIDENTS_ORIGIN_SECURITY_SERVER,
+  INCIDENTS_ORIGIN_USER_RESOURCE_SERVER
+} from '../../../../utils/constants';
 
 @Component({
   selector: 'app-admin-nav',
@@ -22,7 +28,33 @@ export class AdminNavComponent {
     {
       label: "component.admin.nav.incidents",
       icon: 'pi pi-exclamation-triangle',
-      route: "incidents/" + INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
+      items: [
+        {
+          label: INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
+          icon: 'pi pi-server',
+          route: "incidents/" + INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER
+        },
+        {
+          label: INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
+          icon: 'pi pi-server',
+          route: "incidents/" + INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER
+        },
+        {
+          label: INCIDENTS_ORIGIN_USER_RESOURCE_SERVER,
+          icon: 'pi pi-server',
+          route: "incidents/" + INCIDENTS_ORIGIN_USER_RESOURCE_SERVER
+        },
+        {
+          label: INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
+          icon: 'pi pi-server',
+          route: "incidents/" + INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER
+        },
+        {
+          label: INCIDENTS_ORIGIN_SECURITY_SERVER,
+          icon: 'pi pi-server',
+          route: "incidents/" + INCIDENTS_ORIGIN_SECURITY_SERVER
+        },
+      ]
     },
   ];
 

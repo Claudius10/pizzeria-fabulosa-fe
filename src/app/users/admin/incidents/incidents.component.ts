@@ -5,26 +5,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {QueryResult} from '../../../../utils/interfaces/query';
 import {firstValueFrom} from 'rxjs';
 import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
-import {injectQuery} from '@tanstack/angular-query-experimental';
+import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {ADMIN_INCIDENTS} from '../../../../utils/query-keys';
-import {
-  ERROR,
-  INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_SECURITY_SERVER,
-  INCIDENTS_ORIGIN_USER_RESOURCE_SERVER,
-  PENDING,
-  SUCCESS
-} from '../../../../utils/constants';
+import {ERROR, INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER, PENDING, SUCCESS} from '../../../../utils/constants';
 import {TableModule, TablePageEvent} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
 import {APIError} from '../../../../api/user';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
-import {IconField} from 'primeng/iconfield';
-import {InputIcon} from 'primeng/inputicon';
-import {InputText} from 'primeng/inputtext';
 import {Badge} from 'primeng/badge';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
@@ -33,7 +21,8 @@ import {ServerErrorComponent} from '../../../routes/error/server-no-response/ser
 import {Skeleton} from 'primeng/skeleton';
 import {Card} from 'primeng/card';
 
-const DEFAULT_PAGE_MAX_SIZE = 5;
+const DEFAULT_PAGINATOR_NUMBER = 0;
+const DEFAULT_PAGINATOR_ROWS = 5;
 
 @Component({
   selector: 'app-incidents',
@@ -41,9 +30,6 @@ const DEFAULT_PAGE_MAX_SIZE = 5;
     FormsModule,
     TableModule,
     DatePipe,
-    IconField,
-    InputIcon,
-    InputText,
     Badge,
     ServerErrorComponent,
     Skeleton,
@@ -57,27 +43,16 @@ export class IncidentsComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isServer = !isPlatformBrowser(this.platformId);
   private readonly router = inject(Router);
+  private readonly queryClient = inject(QueryClient);
   private readonly destroyRef = inject(DestroyRef);
   private readonly errorService = inject(ErrorService);
   private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly incidenceAPIService = inject(IncidentsAPIService);
   private readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly origin = signal(this.activatedRoute.snapshot.paramMap.get("origin") === null ? INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER : this.activatedRoute.snapshot.paramMap.get("origin")!);
-  protected readonly page = signal(this.activatedRoute.snapshot.queryParamMap.get("page") === null ? 1 : Number(this.activatedRoute.snapshot.queryParamMap.get("page")!));
-
-  protected readonly origins = signal<string[]>(
-    [
-      INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
-      INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
-      INCIDENTS_ORIGIN_USER_RESOURCE_SERVER,
-      INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
-      INCIDENTS_ORIGIN_SECURITY_SERVER
-    ]
-  );
-  protected readonly selectedOrigin = signal<string>(this.origins()[0]);
-
-  protected readonly first = signal(0);
-  protected readonly rows = signal(5);
+  protected readonly origin = signal("");
+  protected readonly page = signal(1);
+  protected readonly first = signal(DEFAULT_PAGINATOR_NUMBER);
+  protected readonly rows = signal(DEFAULT_PAGINATOR_ROWS);
   protected readonly totalElements = signal(0);
 
   protected readonly incidents: QueryResult<IncidenceListDTO | undefined> = !this.isServer ? injectQuery(() => ({
@@ -87,7 +62,7 @@ export class IncidentsComponent implements OnInit {
   private readonly queryStatus = !this.isServer ? toObservable(this.incidents.status) : tempStatus$();
 
   ngOnInit(): void {
-    const subscription = this.queryStatus.subscribe({
+    const queryStatus = this.queryStatus.subscribe({
       next: status => {
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
@@ -109,15 +84,32 @@ export class IncidentsComponent implements OnInit {
       }
     });
 
+    const routeParams = this.activatedRoute.paramMap.subscribe(params => {
+      const origin = params.get("origin");
+      this.origin.set(origin === null ? INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER : origin);
+
+      // restore totalElements if data is in cache for given origin
+      const data: IncidenceListDTO | undefined = this.queryClient.getQueryData([...ADMIN_INCIDENTS, this.origin(), this.page(), this.rows()]);
+      if (data) {
+        this.totalElements.set(data.totalElements);
+      }
+
+      // restore the initial page and initial rows to display to defaults
+      this.first.set(DEFAULT_PAGINATOR_NUMBER);
+      this.rows.set(DEFAULT_PAGINATOR_ROWS);
+    });
+
+    const routeQueryParams = this.activatedRoute.queryParamMap.subscribe(params => {
+      const page = params.get("page");
+      this.page.set(page === null ? 1 : Number(page));
+    });
+
     this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
+      queryStatus.unsubscribe();
+      routeParams.unsubscribe();
+      routeQueryParams.unsubscribe();
       this.loadingAnimationService.stopLoading();
     });
-  }
-
-  protected selectOrigin(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    console.log(selectElement.value);
   }
 
   protected onPageSelect(event: TablePageEvent) {

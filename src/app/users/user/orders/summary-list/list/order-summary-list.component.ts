@@ -59,7 +59,7 @@ export class OrderSummaryListComponent implements OnInit {
   protected readonly totalElements = signal(0);
 
   ngOnInit() {
-    this.first.set((this.page() - 1) * DEFAULT_PAGE_MAX_SIZE);
+    this.first.set((this.page() - 1) * DEFAULT_PAGE_MAX_SIZE); // NOTE - when page 2 is refreshed, paginator page number is set to 2, instead of returning to default 1
 
     const subscription = this.orderListStatus.subscribe({
       next: orderListStatus => {

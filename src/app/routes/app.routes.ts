@@ -23,6 +23,7 @@ import {adminRoleGuard} from '../guard/admin/admin-role.guard';
 import {AdminHomeComponent} from '../users/admin/admin-home.component';
 import {DashboardComponent} from '../users/admin/dashboard/dashboard.component';
 import {IncidentsComponent} from '../users/admin/incidents/incidents.component';
+import {AuthorizingPlaceholderComponent} from './auth/authorizing-placeholder.component';
 
 export const routes: Routes = [
   {
@@ -141,6 +142,11 @@ export const routes: Routes = [
     path: "error",
     component: ErrorComponent,
     title: "Unexpected Error",
+  },
+  {
+    path: "authorizing",
+    component: AuthorizingPlaceholderComponent,
+    title: "Authorizing",
   },
   {
     path: "**",

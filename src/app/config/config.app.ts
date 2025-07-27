@@ -39,13 +39,15 @@ export const configApp: ApplicationConfig = {
       },
     }),
     provideTanStackQuery(new QueryClient({
-      defaultOptions: {
-        queries: {
-          refetchOnMount: true,
-          staleTime: 300000
-        },
-      }
-    })), // withDevtools()
+        defaultOptions: {
+          queries: {
+            refetchOnMount: true,
+            staleTime: 300000
+          },
+        }
+      }),
+      // withDevtools()
+    ),
     // {provide: IMAGE_CONFIG, useValue: {disableImageSizeWarning: true, disableImageLazyLoadWarning: true}}
   ]
 };

@@ -7,25 +7,23 @@ import {LocalStorageService} from '../../services/local-storage/local-storage.se
 export const adminRoleGuard: CanMatchFn = (route, segments) => {
   const platformId = inject(PLATFORM_ID);
   const isServer = !isPlatformBrowser(platformId);
-
-  if (isServer) {
-    return true;
-  }
-
   const router = inject(Router);
   const localStorageService = inject(LocalStorageService);
 
-  if (!localStorageService.exists(AUTH) || !localStorageService.exists(ADMIN) || !localStorageService.exists(ADMIN_MODE)) {
-    return router.parseUrl("/forbidden");
+  if (!isServer) {
+    if (localStorageService.exists(AUTH) && localStorageService.exists(ADMIN) && localStorageService.exists(ADMIN_MODE)) {
+
+      if (segments.length === 1 && segments[0].path === "admin") {
+        return router.parseUrl("admin/dashboard");
+      }
+
+      if (segments.length > 1 && segments[0].path === "admin") {
+        return true;
+      }
+    }
+
+    return router.parseUrl("forbidden");
   }
 
-  if (segments.length === 1 && segments[0].path === "admin") {
-    return router.parseUrl("/admin/dashboard");
-  }
-
-  if (segments.length > 1 && segments[0].path === "admin") {
-    return true;
-  }
-
-  return router.parseUrl("/404");
+  return router.parseUrl("authorizing");
 };
