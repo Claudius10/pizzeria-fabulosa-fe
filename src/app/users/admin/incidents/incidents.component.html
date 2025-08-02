@@ -2,18 +2,27 @@
   @if (incidents.status() === 'success') {
     <p-card>
       <p-table
+        #dt2
+        dataKey="id"
         [value]="incidents.data()!.content"
+        [globalFilterFields]="['id', 'fatal', 'date', 'path', 'cause']"
         [showGridlines]="true"
         [resizableColumns]="true"
-        [lazy]="true"
-        [paginator]="true"
-        [first]="first()"
-        [rows]="rows()"
-        [totalRecords]="totalElements()"
-        [rowsPerPageOptions]="[5, 10, 20]"
-        (onPage)="onPageSelect($event)"
+        (onFilter)="updateTotalRecords($event)"
         stripedRows
       >
+
+        <ng-template #caption>
+          <div class="flex">
+            <p-iconfield iconPosition="left" class="ml-auto">
+              <p-inputicon>
+                <i class="pi pi-search"></i>
+              </p-inputicon>
+              <input pInputText type="text" (input)="dt2.filterGlobal(getValue($event.target), 'contains')" placeholder="Search keyword"/>
+            </p-iconfield>
+          </div>
+        </ng-template>
+
         <ng-template #header>
           <tr>
             <th>Id</th>
@@ -22,6 +31,25 @@
             <th>Path</th>
             <th>Cause</th>
           </tr>
+
+          <tr>
+            <th>
+              <p-columnFilter type="text" field="id" placeholder="Search by id" ariaLabel="Filter Id"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="fatal" placeholder="Search by fatal" ariaLabel="Filter Fatal"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="date" placeholder="Search by date" ariaLabel="Filter Date"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="path" placeholder="Search by path" ariaLabel="Filter Path"></p-columnFilter>
+            </th>
+            <th>
+              <p-columnFilter type="text" field="cause" placeholder="Search by cause" ariaLabel="Filter Cause"></p-columnFilter>
+            </th>
+          </tr>
+
         </ng-template>
         <ng-template #body let-incidentDTO>
           @let incident = withType(incidentDTO);
@@ -36,6 +64,14 @@
           </tr>
         </ng-template>
       </p-table>
+
+      <p-paginator
+        [first]="first()"
+        [rows]="rows()"
+        [totalRecords]="totalElements()"
+        [rowsPerPageOptions]="[5, 10, 20]"
+        (onPageChange)="onPageChange($event)"
+        title="Paginator"/>
     </p-card>
   }
 

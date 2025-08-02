@@ -1,14 +1,13 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import {IncidenceListDTO, IncidentsAPIService} from '../../../../api/admin';
-import {DatePipe, isPlatformBrowser} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {QueryResult} from '../../../../utils/interfaces/query';
 import {firstValueFrom} from 'rxjs';
-import {tempQueryResult, tempStatus$} from '../../../../utils/placeholder';
 import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {ADMIN_INCIDENTS} from '../../../../utils/query-keys';
 import {ERROR, INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER, PENDING, SUCCESS} from '../../../../utils/constants';
-import {TableModule, TablePageEvent} from 'primeng/table';
+import {TableFilterEvent, TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
 import {APIError} from '../../../../api/user';
 import {myInput} from '../../../../primeng/input';
@@ -20,6 +19,10 @@ import {ErrorService} from '../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {Skeleton} from 'primeng/skeleton';
 import {Card} from 'primeng/card';
+import {IconField} from 'primeng/iconfield';
+import {InputIcon} from 'primeng/inputicon';
+import {InputText} from 'primeng/inputtext';
+import {Paginator, PaginatorState} from 'primeng/paginator';
 
 const DEFAULT_PAGINATOR_NUMBER = 0;
 const DEFAULT_PAGINATOR_ROWS = 5;
@@ -33,15 +36,17 @@ const DEFAULT_PAGINATOR_ROWS = 5;
     Badge,
     ServerErrorComponent,
     Skeleton,
-    Card
+    Card,
+    IconField,
+    InputIcon,
+    InputText,
+    Paginator
   ],
   templateUrl: './incidents.component.html',
   styleUrl: './incidents.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncidentsComponent implements OnInit {
-  private readonly platformId = inject(PLATFORM_ID);
-  private readonly isServer = !isPlatformBrowser(this.platformId);
   private readonly router = inject(Router);
   private readonly queryClient = inject(QueryClient);
   private readonly destroyRef = inject(DestroyRef);
@@ -55,11 +60,11 @@ export class IncidentsComponent implements OnInit {
   protected readonly rows = signal(DEFAULT_PAGINATOR_ROWS);
   protected readonly totalElements = signal(0);
 
-  protected readonly incidents: QueryResult<IncidenceListDTO | undefined> = !this.isServer ? injectQuery(() => ({
+  protected readonly incidents: QueryResult<IncidenceListDTO | undefined> = injectQuery(() => ({
     queryKey: [...ADMIN_INCIDENTS, this.origin(), this.page(), this.rows()],
     queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOrigin(this.origin(), this.page() - 1, this.rows()))
-  })) : tempQueryResult();
-  private readonly queryStatus = !this.isServer ? toObservable(this.incidents.status) : tempStatus$();
+  }));
+  private readonly queryStatus = toObservable(this.incidents.status);
 
   ngOnInit(): void {
     const queryStatus = this.queryStatus.subscribe({
@@ -112,10 +117,10 @@ export class IncidentsComponent implements OnInit {
     });
   }
 
-  protected onPageSelect(event: TablePageEvent) {
-    this.first.set(event.first);
-    this.rows.set(event.rows);
-    const page = (event.first / event.rows) + 1;
+  protected onPageChange(event: PaginatorState) {
+    this.first.set(event.first ?? 0);
+    this.rows.set(event.rows ?? 0);
+    const page = event.page === undefined ? 1 : event.page + 1;
     this.page.set(page);
     this.router.navigate(["admin", "incidents", this.origin()], {queryParams: {page: page}});
   }
@@ -130,6 +135,32 @@ export class IncidentsComponent implements OnInit {
 
   protected withType(incident: any) {
     return incident as APIError;
+  }
+
+  protected getValue(event: EventTarget | null) {
+    if (event === null) {
+      return "";
+    }
+    const input = event as HTMLInputElement;
+    return input.value;
+  }
+
+  protected updateTotalRecords(event: TableFilterEvent) {
+    let reset = true;
+
+    for (const key in event.filters) {
+      const filter = event.filters[key];
+      if (filter && (filter.value !== null && filter.value !== "")) {
+        reset = false;
+        break;
+      }
+    }
+
+    if (reset) {
+      this.totalElements.set(this.incidents.data()!.totalElements);
+    } else {
+      this.totalElements.set(event.filteredValue.length);
+    }
   }
 
   protected readonly myIcon = myIcon;
