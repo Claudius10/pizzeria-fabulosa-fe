@@ -12,9 +12,5 @@ import { APIError } from './aPIError';
 
 export interface IncidenceListDTO { 
     content: Array<APIError>;
-    number: number;
-    size: number;
-    totalElements: number;
-    last: boolean;
 }
 

@@ -9,7 +9,7 @@ import {isPlatformBrowser} from '@angular/common';
 @Component({
   selector: 'app-admin-home',
   host: {
-    class: 'upper-layout',
+    class: 'admin-upper-layout',
   },
   imports: [
     RouterOutlet,

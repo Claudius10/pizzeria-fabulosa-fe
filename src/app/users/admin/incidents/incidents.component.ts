@@ -1,13 +1,11 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {IncidenceListDTO, IncidentsAPIService} from '../../../../api/admin';
-import {DatePipe} from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
-import {QueryResult} from '../../../../utils/interfaces/query';
+import {IncidentsAPIService} from '../../../../api/admin';
+import {ActivatedRoute} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
-import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
+import {injectQuery} from '@tanstack/angular-query-experimental';
 import {ADMIN_INCIDENTS} from '../../../../utils/query-keys';
 import {ERROR, INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER, PENDING, SUCCESS} from '../../../../utils/constants';
-import {TableFilterEvent, TableModule} from 'primeng/table';
+import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
 import {APIError} from '../../../../api/user';
 import {myInput} from '../../../../primeng/input';
@@ -19,50 +17,55 @@ import {ErrorService} from '../../../services/error/error.service';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {Skeleton} from 'primeng/skeleton';
 import {Card} from 'primeng/card';
-import {IconField} from 'primeng/iconfield';
-import {InputIcon} from 'primeng/inputicon';
 import {InputText} from 'primeng/inputtext';
-import {Paginator, PaginatorState} from 'primeng/paginator';
-
-const DEFAULT_PAGINATOR_NUMBER = 0;
-const DEFAULT_PAGINATOR_ROWS = 5;
+import {DatePicker} from 'primeng/datepicker';
+import {Button} from 'primeng/button';
+import {Select} from 'primeng/select';
+import {Tag} from 'primeng/tag';
+import {Ripple} from 'primeng/ripple';
+import {NgClass} from '@angular/common';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-incidents',
   imports: [
-    FormsModule,
-    TableModule,
-    DatePipe,
-    Badge,
-    ServerErrorComponent,
-    Skeleton,
+    NgClass,
     Card,
-    IconField,
-    InputIcon,
+    TableModule,
+    DatePicker,
+    FormsModule,
+    Button,
+    TranslatePipe,
     InputText,
-    Paginator
+    Select,
+    Tag,
+    Ripple,
+    Badge,
+    Skeleton,
+    ServerErrorComponent
   ],
   templateUrl: './incidents.component.html',
   styleUrl: './incidents.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncidentsComponent implements OnInit {
-  private readonly router = inject(Router);
-  private readonly queryClient = inject(QueryClient);
   private readonly destroyRef = inject(DestroyRef);
   private readonly errorService = inject(ErrorService);
   private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly incidenceAPIService = inject(IncidentsAPIService);
   private readonly activatedRoute = inject(ActivatedRoute);
   protected readonly origin = signal("");
-  protected readonly page = signal(1);
-  protected readonly first = signal(DEFAULT_PAGINATOR_NUMBER);
-  protected readonly rows = signal(DEFAULT_PAGINATOR_ROWS);
-  protected readonly totalElements = signal(0);
+  protected readonly smallTable = signal(true);
+  protected rangeDates: Date[] = [new Date(new Date().setDate(new Date().getDate() - 30)), new Date()];
+  protected fatal: any[] = [
+    {label: 'true', value: 'true'},
+    {label: 'false', value: 'false'},
+  ];
+  protected expandedRows = {};
 
-  protected readonly incidents: QueryResult<IncidenceListDTO | undefined> = injectQuery(() => ({
-    queryKey: [...ADMIN_INCIDENTS, this.origin(), this.page(), this.rows()],
-    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOrigin(this.origin(), this.page() - 1, this.rows()))
+  protected readonly incidents = injectQuery(() => ({
+    queryKey: [...ADMIN_INCIDENTS, this.origin()],
+    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOriginBetweenDates(this.origin(), this.rangeDates[0].toISOString(), this.rangeDates[1].toISOString())),
   }));
   private readonly queryStatus = toObservable(this.incidents.status);
 
@@ -80,11 +83,6 @@ export class IncidentsComponent implements OnInit {
 
         if (status === SUCCESS) {
           this.loadingAnimationService.stopLoading();
-          const response: IncidenceListDTO = this.incidents.data()!;
-          // if list is empty the return is 204 without a body
-          if (response) {
-            this.totalElements.set(response.totalElements);
-          }
         }
       }
     });
@@ -92,41 +90,32 @@ export class IncidentsComponent implements OnInit {
     const routeParams = this.activatedRoute.paramMap.subscribe(params => {
       const origin = params.get("origin");
       this.origin.set(origin === null ? INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER : origin);
-
-      // restore totalElements if data is in cache for given origin
-      const data: IncidenceListDTO | undefined = this.queryClient.getQueryData([...ADMIN_INCIDENTS, this.origin(), this.page(), this.rows()]);
-      if (data) {
-        this.totalElements.set(data.totalElements);
-      }
-
-      // restore the initial page and initial rows to display to defaults
-      this.first.set(DEFAULT_PAGINATOR_NUMBER);
-      this.rows.set(DEFAULT_PAGINATOR_ROWS);
-    });
-
-    const routeQueryParams = this.activatedRoute.queryParamMap.subscribe(params => {
-      const page = params.get("page");
-      this.page.set(page === null ? 1 : Number(page));
     });
 
     this.destroyRef.onDestroy(() => {
       queryStatus.unsubscribe();
       routeParams.unsubscribe();
-      routeQueryParams.unsubscribe();
       this.loadingAnimationService.stopLoading();
     });
   }
 
-  protected onPageChange(event: PaginatorState) {
-    this.first.set(event.first ?? 0);
-    this.rows.set(event.rows ?? 0);
-    const page = event.page === undefined ? 1 : event.page + 1;
-    this.page.set(page);
-    this.router.navigate(["admin", "incidents", this.origin()], {queryParams: {page: page}});
+  protected fetch() {
+    this.incidents.refetch();
   }
 
-  protected fatalSeverity(fatal: boolean) {
-    if (fatal) {
+  protected getStringSeverity(value: string) {
+    switch (value) {
+      case 'true':
+        return "danger";
+      case 'false':
+        return "success";
+      default:
+        return "info";
+    }
+  }
+
+  protected getBooleanSeverity(value: boolean) {
+    if (value) {
       return "danger";
     } else {
       return "success";
@@ -145,22 +134,8 @@ export class IncidentsComponent implements OnInit {
     return input.value;
   }
 
-  protected updateTotalRecords(event: TableFilterEvent) {
-    let reset = true;
-
-    for (const key in event.filters) {
-      const filter = event.filters[key];
-      if (filter && (filter.value !== null && filter.value !== "")) {
-        reset = false;
-        break;
-      }
-    }
-
-    if (reset) {
-      this.totalElements.set(this.incidents.data()!.totalElements);
-    } else {
-      this.totalElements.set(event.filteredValue.length);
-    }
+  protected toggleTableSize() {
+    this.smallTable.set(!this.smallTable());
   }
 
   protected readonly myIcon = myIcon;

@@ -40,32 +40,32 @@ export class IncidentsAPIService extends BaseService {
     /**
      * Returns all incidents by origin
      * @param origin Origin of incidents
-     * @param pageNumber Page number starting at 0
-     * @param pageSize Page size
+     * @param startDate Start date
+     * @param endDate End date
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findAllByOrigin(origin: string, pageNumber: number, pageSize: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<IncidenceListDTO>;
-    public findAllByOrigin(origin: string, pageNumber: number, pageSize: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<IncidenceListDTO>>;
-    public findAllByOrigin(origin: string, pageNumber: number, pageSize: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<IncidenceListDTO>>;
-    public findAllByOrigin(origin: string, pageNumber: number, pageSize: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public findAllByOriginBetweenDates(origin: string, startDate: string, endDate: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<IncidenceListDTO>;
+    public findAllByOriginBetweenDates(origin: string, startDate: string, endDate: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<IncidenceListDTO>>;
+    public findAllByOriginBetweenDates(origin: string, startDate: string, endDate: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<IncidenceListDTO>>;
+    public findAllByOriginBetweenDates(origin: string, startDate: string, endDate: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (origin === null || origin === undefined) {
-            throw new Error('Required parameter origin was null or undefined when calling findAllByOrigin.');
+            throw new Error('Required parameter origin was null or undefined when calling findAllByOriginBetweenDates.');
         }
-        if (pageNumber === null || pageNumber === undefined) {
-            throw new Error('Required parameter pageNumber was null or undefined when calling findAllByOrigin.');
+        if (startDate === null || startDate === undefined) {
+            throw new Error('Required parameter startDate was null or undefined when calling findAllByOriginBetweenDates.');
         }
-        if (pageSize === null || pageSize === undefined) {
-            throw new Error('Required parameter pageSize was null or undefined when calling findAllByOrigin.');
+        if (endDate === null || endDate === undefined) {
+            throw new Error('Required parameter endDate was null or undefined when calling findAllByOriginBetweenDates.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>origin, 'origin');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>pageNumber, 'pageNumber');
+          <any>startDate, 'startDate');
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>pageSize, 'pageSize');
+          <any>endDate, 'endDate');
 
         let localVarHeaders = this.defaultHeaders;
 

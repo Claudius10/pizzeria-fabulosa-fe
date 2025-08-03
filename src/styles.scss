@@ -22,6 +22,13 @@ body {
   width: 80vw;
 }
 
+.admin-upper-layout {
+  padding: 8rem 0 2rem 0;
+  display: flex;
+  justify-content: center;
+  width: 95vw;
+}
+
 .p-toast-detail {
   text-align: center;
 }
@@ -31,21 +38,16 @@ body {
 }
 
 @media (max-width: 992px) {
-  .upper-layout {
-    padding: 8rem 0 2rem 0;
-  }
+
 }
 
 @media (max-width: 768px) {
-  .upper-layout {
-    padding: 8rem 0 2rem 0;
-  }
+
 }
 
 @media (max-width: 576px) {
   .upper-layout {
     width: 85vw;
-    padding: 8rem 0 2rem 0;
   }
 }
 
