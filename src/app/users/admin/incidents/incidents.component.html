@@ -129,6 +129,12 @@
             </td>
           </tr>
         </ng-template>
+
+        <ng-template #emptymessage>
+          <tr>
+            <td colspan="5">{{ "table.no.records" | translate }}</td>
+          </tr>
+        </ng-template>
       </p-table>
     </p-card>
   }

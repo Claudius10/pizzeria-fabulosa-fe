@@ -23,6 +23,7 @@
   "table.header.path": "Path",
   "table.header.cause": "Cause",
   "table.row.message": "Message",
+  "table.no.records": "No records found",
   "form.step": "Step",
   "form.step.one": "My info",
   "form.step.two": "Delivery location",

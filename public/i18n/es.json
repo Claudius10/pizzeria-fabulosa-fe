@@ -23,6 +23,7 @@
   "table.header.path": "Ruta",
   "table.header.cause": "Causa",
   "table.row.message": "Mensaje",
+  "table.no.records": "Sin registros",
   "form.step": "Paso",
   "form.step.one": "Mis datos",
   "form.step.two": "Dirección de entrega",
