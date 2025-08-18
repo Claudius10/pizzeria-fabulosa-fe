@@ -4,15 +4,17 @@
     (click)="toggleDarkMode()"
     aria-label="Light mode"
     type="button"
-    class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+    class="cursor-pointer flex items-center justify-start gap-3 w-full h-12 pl-3 pr-3 border border-solid border-surface rounded-border item-background">
     <i class="pi pi-sun" style="font-size: 1.25rem"></i>
+    <span>{{ 'theme.light' | translate }}</span>
   </button>
 } @else {
   <button
     title="Dark Mode On"
     (click)="toggleDarkMode()"
     aria-label="Dark mode"
-    class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
+    class="cursor-pointer flex items-center justify-start gap-3 w-full h-12 pl-3 pr-3 border border-solid border-surface rounded-border item-background">
     <i class="pi pi-moon" style="font-size: 1.25rem"></i>
+    <span>{{ 'theme.dark' | translate }}</span>
   </button>
 }

@@ -7,7 +7,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {CartService} from './services/cart/cart.service';
 import {PrimeNG} from 'primeng/config';
 import {SsrCookieService} from 'ngx-cookie-service-ssr';
-import {LOCALE} from '../utils/constants';
+import {LOCALE, MODE} from '../utils/constants';
 import en from '../../public/i18n/en.json';
 import es from '../../public/i18n/es.json';
 import primeES from "../../public/i18n/primeng-es.json";
@@ -22,6 +22,7 @@ import {RenderService} from './services/ui/render.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {LogoutDialogComponent} from './nav/logout/logout-dialog.component';
 import {LoginDialogComponent} from './nav/login/login-dialog.component';
+import {AuthService} from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -47,12 +48,15 @@ export class AppComponent implements OnInit {
   private readonly primeNgConfig = inject(PrimeNG);
   private readonly cookieService = inject(SsrCookieService);
   private readonly translateService = inject(TranslateService);
-  private readonly cartService = inject(CartService);
   private readonly renderService = inject(RenderService);
+  private readonly cartService = inject(CartService);
+  private readonly authService = inject(AuthService);
   private readonly cartState = toObservable(this.renderService.getCartDrawer());
   private readonly routesState = toObservable(this.renderService.getRoutesDrawer());
   protected readonly loginState = this.renderService.getLogin();
   protected readonly logoutState = this.renderService.getLogout();
+  protected readonly mode = this.renderService.getNavBarMode();
+  protected readonly isAuthenticated = this.authService.getIsAuthenticated();
   protected routesDrawerState = false;
   protected cartDrawerState = false;
 
@@ -117,4 +121,6 @@ export class AppComponent implements OnInit {
   hideCartDrawer() {
     this.renderService.switchCartDrawer(false);
   }
+
+  protected readonly MODE = MODE;
 }

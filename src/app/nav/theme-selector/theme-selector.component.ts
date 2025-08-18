@@ -1,10 +1,13 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 
 import {ThemeService} from '../../services/theme/theme.service';
+import {TranslatePipe} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-theme-selector',
-  imports: [],
+  imports: [
+    TranslatePipe
+  ],
   templateUrl: './theme-selector.component.html',
   styleUrls: ['./theme-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

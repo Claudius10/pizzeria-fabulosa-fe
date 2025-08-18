@@ -14,30 +14,57 @@
     (onHide)="hideRoutesDrawer()"
     [blockScroll]="true">
     <div class="flex flex-col items-center gap-6">
-      <button
-        title="Home"
-        (click)="hideRoutesDrawer()"
-        class="text-lg font-bold"
-        routerLinkActive="color"
-        routerLink="/"
-        [routerLinkActiveOptions]="{exact: true}">
-        {{ 'component.navigation.quick.link.home' | translate }}
-      </button>
-      <button
-        title="Pizzas"
-        (click)="hideRoutesDrawer()"
-        class="text-lg font-bold"
-        routerLinkActive="color"
-        routerLink="pizzas">
-        Pizzas
-      </button>
-      <button
-        title="Beverages"
-        (click)="hideRoutesDrawer()"
-        class="text-lg font-bold"
-        routerLinkActive="color"
-        routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
-      </button>
+      @switch (mode()) {
+        @case (MODE.USER) {
+          <button
+            title="Home"
+            (click)="hideRoutesDrawer()"
+            class="text-lg font-bold"
+            routerLinkActive="color"
+            routerLink="/"
+            [routerLinkActiveOptions]="{exact: true}">
+            {{ 'component.navigation.quick.link.home' | translate }}
+          </button>
+
+          @if (isAuthenticated()) {
+            <button
+              title="Profile"
+              (click)="hideRoutesDrawer()"
+              class="text-lg font-bold"
+              routerLinkActive="color"
+              routerLink="user/profile">{{ 'component.user.nav.profile' | translate }}
+            </button>
+          }
+
+          <button
+            title="Pizzas"
+            (click)="hideRoutesDrawer()"
+            class="text-lg font-bold"
+            routerLinkActive="color"
+            routerLink="pizzas">
+            Pizzas
+          </button>
+
+          <button
+            title="Beverages"
+            (click)="hideRoutesDrawer()"
+            class="text-lg font-bold"
+            routerLinkActive="color"
+            routerLink="beverages">{{ 'component.navigation.quick.link.beverages' | translate }}
+          </button>
+        }
+        @case (MODE.ADMIN) {
+          <button
+            title="Home"
+            (click)="hideRoutesDrawer()"
+            class="text-lg font-bold"
+            routerLinkActive="color"
+            routerLink="/admin"
+            [routerLinkActiveOptions]="{exact: true}">
+            {{ 'component.navigation.quick.link.home' | translate }}
+          </button>
+        }
+      }
     </div>
   </p-drawer>
 }

@@ -158,6 +158,7 @@
   "component.user.nav.settings": "Configuración",
   "component.user.nav.admin": "Administrador",
   "component.admin.nav.incidents": "Incidencias",
+  "component.admin.nav.metrics": "Métricas",
   "component.user.profile.view.address.list": "Mis domicilios",
   "component.user.profile.view.address.list.empty": "La lista de domicilios está vacía",
   "component.user.form.delete.account": "Borrar cuenta",
@@ -217,5 +218,7 @@
   "page.forbidden": "Acceso denegado: asegúrese de tener la sesión abierta y los privilegios suficientes para acceder a esta página",
   "page.not.found": "Esto es un callejón sin salida",
   "toast.dev.note": "El servidor puede estar durmiendo. Por favor, espera unos segundos.",
-  "footer.dev": "Proyecto de Clau"
+  "footer.dev": "Proyecto de Clau",
+  "theme.light": "Claro",
+  "theme.dark": "Oscuro"
 }

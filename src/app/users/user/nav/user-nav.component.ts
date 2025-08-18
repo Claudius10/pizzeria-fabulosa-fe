@@ -37,11 +37,6 @@ export class UserNavComponent implements OnInit {
       icon: 'pi pi-list',
       route: "orders"
     },
-    {
-      label: "component.user.nav.settings",
-      icon: 'pi pi-cog',
-      route: "settings",
-    },
   ];
   protected passAuthVisibility = false;
 

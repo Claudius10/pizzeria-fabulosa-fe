@@ -157,6 +157,7 @@
   "component.user.nav.settings": "Settings",
   "component.user.nav.admin": "Administrator",
   "component.admin.nav.incidents": "Incidents",
+  "component.admin.nav.metrics": "Metrics",
   "component.user.profile.view.address.list": "My address list",
   "component.user.profile.view.address.list.empty": "The address list is empty",
   "component.user.form.delete.account": "Delete account",
@@ -216,5 +217,7 @@
   "page.forbidden": "Access denied: ensure you are logged-in and have the sufficient privileges to access this page",
   "page.not.found": "You have reached a dead-end",
   "toast.dev.note": "The server is asleep. Please, wait a few seconds.",
-  "footer.dev": "Clau's project"
+  "footer.dev": "Clau's project",
+  "theme.light": "Light",
+  "theme.dark": "Dark"
 }

@@ -8,7 +8,6 @@ import {UserHomeComponent} from '../users/user/user-home.component';
 import {ProfileComponent} from '../users/user/profile/profile.component';
 import {OrderSummaryListComponent} from '../users/user/orders/summary-list/list/order-summary-list.component';
 import {OrderComponent} from '../users/user/orders/order-item/order.component';
-import {UserSettingsComponent} from '../users/user/settings/user-settings.component';
 import {CheckoutFormComponent} from '../checkout/checkout-form.component';
 import {StepOneWhoComponent} from '../checkout/steps/1-step-one-who/step-one-who.component';
 import {StepTwoWhereComponent} from '../checkout/steps/2-step-two-where/step-two-where.component';
@@ -66,11 +65,6 @@ export const routes: Routes = [
         component: OrderComponent,
         title: "Order Review",
         pathMatch: "full",
-      },
-      {
-        path: "settings",
-        component: UserSettingsComponent,
-        title: "Account Settings",
       }
     ]
   },

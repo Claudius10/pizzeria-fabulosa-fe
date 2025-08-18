@@ -4,40 +4,50 @@
 
     <!-- ICON SMALL SCREEN -->
     <img
-      alt="Small Main Pizza Icon"
-      aria-label="To Home Page"
+      alt="Navigation Menu"
+      aria-label="Navigation Menu"
       class="logo-sm cursor-pointer"
       height="50"
       ngSrc="/assets/icons/pizzabig.png"
-      routerLink="/"
-      title="Home" width="50">
+      title="Navigation Menu"
+      (click)="showRoutesDrawer()"
+      width="50">
 
     <div class="quick-links-ls">
-      <!-- ICON LARGE SCREEN -->
-      <img
-        alt="Large Main Pizza Icon"
-        aria-label="To Home Page"
-        class="logo-ls cursor-pointer"
-        height="60"
-        ngSrc="/assets/icons/pizzabig.png"
-        routerLink="/"
-        title="Home"
-        width="60">
-
       @switch (mode()) {
         @case (MODE.USER) {
+          <!-- ICON LARGE SCREEN -->
+          <img
+            alt="Home Page"
+            aria-label="Home Page"
+            class="logo-ls cursor-pointer"
+            height="60"
+            ngSrc="/assets/icons/pizzabig.png"
+            title="Home Page"
+            routerLink="/"
+            width="60">
+
           @for (link of userLinks; track link.path) {
             <button
               class="text-lg"
               routerLink="{{ link.path }}"
               routerLinkActive="color"
-              title="{{ link.name }}">
+              type="button">
               {{ link.name | translate }}
             </button>
           }
         }
         @case (MODE.ADMIN) {
-
+          <!-- ICON LARGE SCREEN -->
+          <img
+            alt="Home Page"
+            aria-label="Home Page"
+            class="logo-ls cursor-pointer"
+            height="60"
+            ngSrc="/assets/icons/pizzabig.png"
+            title="Home Page"
+            routerLink="/admin"
+            width="60">
         }
       }
     </div>
@@ -56,11 +66,21 @@
           <app-admin-nav-buttons/>
         }
       }
+
       <li>
-        <app-locale-selector/>
-      </li>
-      <li>
-        <app-theme-selector/>
+        <button
+          (click)="toggle()"
+          aria-label="Options"
+          class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background"
+          title="Options">
+          <i class="pi pi-cog" style="font-size: 1.25rem"></i>
+        </button>
+        @if (visible()) {
+          <div #options class="container flex flex-col gap-2 rounded-border shadow-sm origin-top mt-2 border border-primary">
+            <app-locale-selector/>
+            <app-theme-selector/>
+          </div>
+        }
       </li>
     </ul>
 

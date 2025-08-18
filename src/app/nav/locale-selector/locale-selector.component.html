@@ -1,24 +1,8 @@
-<button #locale (click)="toggle()" aria-label="Choose Language"
-        class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background"
-        title="Language">
+<button
+  title="Switch language"
+  (click)="toggleLanguage()"
+  aria-label="Language switcher"
+  class="cursor-pointer flex items-center justify-start gap-3 w-full h-12 pl-3 pr-3 border border-solid border-surface rounded-border item-background">
   <i class="pi pi-language" style="font-size: 1.25rem"></i>
+  <span>{{ selectedLang() }}</span>
 </button>
-<div
-  [ngClass]="{'container rounded-border shadow-sm origin-top mt-2 border border-primary':visible(), 'hidden':!visible()}">
-  <div class="flex flex-col gap-2 m-0 p-0">
-    <p-button
-      (click)="changeLanguage('es')"
-      [raised]="true"
-      [text]="true"
-      label="Castellano"
-      title="Castellano"
-      type="button"/>
-    <p-button
-      (click)="changeLanguage('en')"
-      [raised]="true"
-      [text]="true"
-      label="English"
-      title="English"
-      type="button"/>
-  </div>
-</div>

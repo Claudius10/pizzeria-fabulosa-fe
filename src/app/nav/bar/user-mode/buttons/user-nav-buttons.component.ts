@@ -26,10 +26,6 @@ export class UserNavButtonsComponent {
     this.renderService.switchCartDrawer(true);
   }
 
-  protected showRoutesDrawer() {
-    this.renderService.switchRoutesDrawer(true);
-  }
-
   protected showLogin() {
     this.renderService.switchLogin(true);
   }

@@ -12,7 +12,6 @@ import {MessageService} from 'primeng/api';
 import {logout} from '../../../utils/functions';
 import {USER_INFO} from '../../../utils/query-keys';
 import {environment} from '../../../environments/environment';
-import {Router} from '@angular/router';
 import {LocalStorageService} from '../../services/local-storage/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
 
@@ -26,7 +25,6 @@ export class UserinfoComponent implements OnInit {
   private readonly backEndClientBaseUri = environment.url;
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isServer = !isPlatformBrowser(this.platformId);
-  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly queryClient = inject(QueryClient);
   private readonly translateService = inject(TranslateService);
@@ -88,10 +86,6 @@ export class UserinfoComponent implements OnInit {
     this.authService.logout();
     this.queryClient.removeQueries({queryKey: ["user"]});
     this.checkoutFormService.clear();
-
-    setTimeout(() => {
-      this.router.navigate(['/']);
-    }, 2000);
   }
 
   private fullLogout(authHeader: string) {

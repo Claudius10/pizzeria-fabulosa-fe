@@ -26,6 +26,11 @@ import {
 export class AdminNavComponent {
   protected readonly adminMenu = [
     {
+      label: "component.admin.nav.metrics",
+      icon: 'pi pi-gauge',
+      route: "dashboard"
+    },
+    {
       label: "component.admin.nav.incidents",
       icon: 'pi pi-exclamation-triangle',
       items: [

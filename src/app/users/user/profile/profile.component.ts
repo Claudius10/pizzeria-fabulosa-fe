@@ -1,12 +1,14 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Card} from 'primeng/card';
 import {UserDetailsComponent} from '../details/user-details.component';
+import {UserDeleteFormComponent} from './account-delete/user-delete-form.component';
 
 @Component({
   selector: 'app-profile',
   imports: [
     Card,
     UserDetailsComponent,
+    UserDeleteFormComponent,
   ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss',

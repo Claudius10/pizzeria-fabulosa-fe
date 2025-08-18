@@ -35,6 +35,7 @@ export class ErrorService {
     if (error === null) {
       throw new Error("Expected error cannot be null");
     }
+
     const apiError: APIError = error.error.apiError;
 
     if (!apiError) {
@@ -46,6 +47,17 @@ export class ErrorService {
       this.addError(apiError);
       this.router.navigate(["/error"]);
     } else {
+      const cause = apiError.cause;
+      if (cause === "ResourceAccessException") {
+        // if Back-end client can't connect with a resource source server
+        // ignore error, since it's being handled by
+        /*
+            @if (query.status() === 'error') {
+            <app-server-error/>
+            }
+         */
+        return;
+      }
       const message = apiError.message;
       const summary = this.getErrorSummary(message);
       const severity = this.getSeverity(summary);

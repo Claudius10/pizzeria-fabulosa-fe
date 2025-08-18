@@ -10,17 +10,6 @@
     </button>
   </li>
 
-  <!-- SMALL SCREEN MENU ICON -->
-  <li (click)="showRoutesDrawer()" class="quick-links-sm">
-    <button
-      aria-label="Open Site Navigation"
-      class="flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background align-items-center justify-content-center"
-      title="Navigation Menu"
-      type="button">
-      <i class="pi pi-bars" style="font-size: 1.25rem"></i>
-    </button>
-  </li>
-
   @if (isAuthenticated()) {
     <!-- USER BUTTON -->
     <li>
@@ -47,9 +36,9 @@
     <!-- SIGN IN BUTTON -->
     <li (click)="showLogin()">
       <button
-        title="Open Login Box"
+        title="Sign In"
         type="button"
-        aria-label="Open Login Box"
+        aria-label="Sign In"
         class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
         <i class="pi pi-sign-in" style="font-size: 1.25rem"></i>
       </button>

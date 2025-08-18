@@ -4,6 +4,16 @@
   padding: 0.5rem 10.5rem 0.5rem 10.5rem;
 }
 
+.container {
+  position: absolute;
+  top: auto;
+  right: auto;
+  padding: 0.75rem;
+  width: fit-content;
+  z-index: 10;
+  background-color: var(--p-surface-bg);
+}
+
 .item-background {
   background-color: var(--p-surface-nav-item-bg);
   border-color: var(--p-surface-nav-item-border);
@@ -77,6 +87,10 @@ a, a:visited {
 @media (max-width: 768px) {
   .style {
     padding: 0.5rem 5.5rem 0.5rem 5.5rem;
+  }
+
+  .container {
+    right: 10%
   }
 }
 
