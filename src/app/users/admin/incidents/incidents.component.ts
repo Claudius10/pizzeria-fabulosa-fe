@@ -57,7 +57,7 @@ export class IncidentsComponent implements OnInit {
   protected readonly origin = signal("");
   protected readonly smallTable = signal(true);
   protected rangeDates: Date[] = [new Date(new Date().setDate(new Date().getDate() - 30)), new Date()];
-  protected fatal: any[] = [
+  protected fatal = [
     {label: 'true', value: 'true'},
     {label: 'false', value: 'false'},
   ];

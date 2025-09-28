@@ -1,0 +1,7 @@
+:host ::ng-deep .p-selectbutton .p-togglebutton {
+  border-radius: 8px;
+}
+
+:host ::ng-deep .p-togglebutton.p-togglebutton-checked {
+  color: var(--p-primary-color);
+}
