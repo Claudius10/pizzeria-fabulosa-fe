@@ -7,9 +7,9 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import {HttpHeaders, HttpParameterCodec, HttpParams} from '@angular/common/http';
-import {CustomHttpParameterCodec} from './encoder';
-import {Configuration} from './configuration';
+import { HttpHeaders, HttpParams, HttpParameterCodec } from '@angular/common/http';
+import { CustomHttpParameterCodec } from './encoder';
+import { Configuration } from './configuration';
 
 export class BaseService {
     protected basePath = '';
@@ -17,7 +17,7 @@ export class BaseService {
     public configuration: Configuration;
     public encoder: HttpParameterCodec;
 
-    constructor(basePath?: string | string[], configuration?: Configuration) {
+    constructor(basePath?: string|string[], configuration?: Configuration) {
         this.configuration = configuration || new Configuration();
         if (typeof this.configuration.basePath !== 'string') {
             const firstBasePath = Array.isArray(basePath) ? basePath[0] : undefined;

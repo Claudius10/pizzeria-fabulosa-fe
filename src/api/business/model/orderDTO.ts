@@ -14,6 +14,7 @@ import { CartDTO } from './cartDTO';
 export interface OrderDTO { 
     id: number;
     formattedCreatedOn: string;
+    state: string;
     address: string;
     orderDetails: OrderDetailsDTO;
     cart: CartDTO;

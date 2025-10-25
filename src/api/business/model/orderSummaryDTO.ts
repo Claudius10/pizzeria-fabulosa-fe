@@ -12,6 +12,7 @@
 export interface OrderSummaryDTO { 
     id: number;
     formattedCreatedOn: string;
+    state: string;
     paymentMethod: string;
     quantity: number;
     cost: number;

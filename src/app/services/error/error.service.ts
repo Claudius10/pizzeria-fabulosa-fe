@@ -8,7 +8,7 @@ import {
   DUMMY_ACCOUNT_ERROR,
   INVALID_TOKEN,
   MISSING_TOKEN,
-  ORDER_DELETE_TIME_ERROR,
+  ORDER_CANCEL_TIME_ERROR,
   ORDER_NOT_FOUND,
   USER_EMAIL_ALREADY_EXISTS,
   USER_ID_NO_MATCH,
@@ -128,7 +128,7 @@ export class ErrorService {
         return this.translateService.instant("toast.severity.warning");
       case ORDER_NOT_FOUND:
         return this.translateService.instant("toast.severity.error");
-      case ORDER_DELETE_TIME_ERROR:
+      case ORDER_CANCEL_TIME_ERROR:
         return this.translateService.instant("toast.severity.warning");
       case INVALID_TOKEN:
         return this.translateService.instant("toast.severity.error");
@@ -155,7 +155,7 @@ export class ErrorService {
         return this.translateService.instant("toast.error.api.user.address.list.full.detail");
       case ORDER_NOT_FOUND:
         return this.translateService.instant("toast.error.api.user.order.not.found.detail");
-      case ORDER_DELETE_TIME_ERROR:
+      case ORDER_CANCEL_TIME_ERROR:
         return this.translateService.instant("toast.error.api.user.order.cancel.not.allowed");
       case INVALID_TOKEN:
         return this.translateService.instant("toast.error.api.user.invalid.token");

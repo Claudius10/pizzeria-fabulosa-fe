@@ -9,31 +9,24 @@
         title="View Order Icon"></i>
     </div>
 
-    <div class="flex flex-col gap-4">
+    <div class="flex flex-col gap-4 text-center">
+      <span title="State" [ngClass]="['font-bold', orderSummary().state == 'COMPLETED' ? 'green' : 'yellow']"> {{
+          (orderSummary().state === 'COMPLETED' ? 'view.order.status.completed' : 'view.order.status.canceled') | translate | uppercase
+        }}</span>
       <span title="Date">{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
     </div>
 
     <div class="flex gap-4">
+      <div class="flex gap-2">
 
-      @if (orderSummary().costAfterOffers) {
-        <div class="flex items-center gap-2">
+        @if (orderSummary().costAfterOffers) {
           <span title="Total After Offers">{{ "component.cart.total.offers" | translate }}:</span>
-          <p-button
-            title="Amount"
-            type="button"
-            [text]="true"
-            label="{{ orderSummary().costAfterOffers.toFixed(2) }}€"
-            severity="success"/>
-        </div>
-      }
+          <span class="green">{{ orderSummary().costAfterOffers.toFixed(2) }}€</span>
+        }
 
-      <div class="flex items-center gap-2">
         <span title="Total">Total:</span>
-        <p-button
-          [severity]="orderSummary().costAfterOffers ? 'danger' : 'success'"
-          [text]="true"
-          label="{{ orderSummary().cost.toFixed(2) }}€"
-          type="button"/>
+        <span [ngClass]="orderSummary().costAfterOffers ? 'red' : 'green'">{{ orderSummary().cost.toFixed(2) }}€</span>
+
       </div>
     </div>
   </div>

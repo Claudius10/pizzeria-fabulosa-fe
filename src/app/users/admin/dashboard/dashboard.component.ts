@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {OrderStatsComponent} from './order/order-stats.component';
+import OrderStatsComponent from './order/order-stats.component';
 
 @Component({
   selector: 'app-dashboard',

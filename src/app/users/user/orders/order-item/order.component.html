@@ -21,6 +21,9 @@
               </div>
 
               <span title="Date">{{ "view.order.created.on" | translate }} {{ order.formattedCreatedOn }}</span>
+              <span title="State" [ngClass]="['font-bold', order.state == 'COMPLETED' ? 'green' : 'yellow']"> {{
+                  (order.state === 'COMPLETED' ? 'view.order.status.completed' : 'view.order.status.canceled') | translate | uppercase
+                }}</span>
 
             </div>
           </p-card>
@@ -48,13 +51,14 @@
         </div>
       </div>
 
-      <p-button
-        type="button"
-        title="Cancel Order"
-        (click)="beginDelete($event)"
-        severity="danger"
-        label="{{ 'button.cancel' | translate | uppercase}}"/>
-      <div class="flex items-center gap-4">
+      @if (order.state !== "CANCELLED") {
+        <p-button
+          type="button"
+          title="Cancel Order"
+          (click)="beginCancel($event)"
+          severity="danger"
+          label="{{ 'button.cancel' | translate | uppercase}}"/>
+        <div class="flex items-center gap-4">
         <span title="Cancel Conditions" class="text-center">
 
           <span class="text-primary">{{ "component.user.order.note" | translate }}</span>
@@ -62,7 +66,8 @@
           {{ "component.user.order.note.text" | translate }}
 
         </span>
-      </div>
+        </div>
+      }
     </div>
   }
   <p-confirmDialog/>

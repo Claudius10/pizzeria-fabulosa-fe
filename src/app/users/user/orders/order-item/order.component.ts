@@ -1,5 +1,5 @@
 import {afterNextRender, ChangeDetectionStrategy, Component, DestroyRef, inject, PLATFORM_ID} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CartService} from '../../../../services/cart/cart.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 import {ConfirmationService, MessageService} from 'primeng/api';
@@ -12,14 +12,13 @@ import {LoadingAnimationService} from '../../../../services/animation/loading-an
 import {CartComponent} from '../../../../cart/cart.component';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {ServerErrorComponent} from '../../../../routes/error/server-no-response/server-error.component';
-import {isPlatformBrowser, UpperCasePipe} from '@angular/common';
+import {isPlatformBrowser, NgClass, UpperCasePipe} from '@angular/common';
 import {ErrorService} from '../../../../services/error/error.service';
 import {Button} from 'primeng/button';
 import {UserDetailsComponent} from '../../details/user-details.component';
 import {Skeleton} from 'primeng/skeleton';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
 import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
 import {AuthService} from '../../../../services/auth/auth.service';
 import {MyCartItemDTO} from '../../../../../utils/interfaces/MyCartItemDTO';
@@ -40,7 +39,8 @@ import {OrderDTO, UserOrdersAPIService} from '../../../../../api/business';
     Button,
     UpperCasePipe,
     ConfirmDialog,
-    Skeleton
+    Skeleton,
+    NgClass
   ],
   providers: [ConfirmationService],
   templateUrl: './order.component.html',
@@ -50,7 +50,6 @@ import {OrderDTO, UserOrdersAPIService} from '../../../../../api/business';
 export class OrderComponent {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly isServer = !isPlatformBrowser(this.platformId);
-  private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly errorService = inject(ErrorService);
   private readonly queryClient = inject(QueryClient);
@@ -72,10 +71,10 @@ export class OrderComponent {
 
   private orderStatus = !this.isServer ? toObservable(this.order.status) : tempStatus$();
 
-  private delete = injectMutation(() => ({
-    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.deleteById(data.orderId)),
+  private cancel = injectMutation(() => ({
+    mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.cancelById(data.orderId)),
     onSuccess: () => {
-      this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
+      this.queryClient.invalidateQueries({queryKey: ["user", "order", this.orderId.toString()]});
     }
   }));
 
@@ -113,7 +112,7 @@ export class OrderComponent {
     });
   }
 
-  protected beginDelete(event: Event) {
+  protected beginCancel(event: Event) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       header: this.translateService.instant("toast.order.cancel.confirm.header"),
@@ -128,10 +127,10 @@ export class OrderComponent {
         severity: 'success',
       },
       accept: () => {
-        // if user accepts, send DELETE request for order
+        // if user accepts, send PUT request for order
         this.loadingAnimationService.startLoading();
 
-        this.delete.mutate({orderId: this.orderId, userId: this.userId()!},
+        this.cancel.mutate({orderId: this.orderId, userId: this.userId()!},
           {
             onSuccess: (response: number) => {
               // trigger toast
@@ -141,11 +140,6 @@ export class OrderComponent {
                 detail: this.translateService.instant("toast.order.cancel.order.cancelled"),
                 life: 2000
               });
-
-              // nav to order summary list after two seconds
-              setTimeout(() => {
-                this.router.navigate(["user", "orders"]);
-              }, 2000);
             },
             onError: (error) => {
               this.errorService.handleError(error);

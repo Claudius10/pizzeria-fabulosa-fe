@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, input} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {TranslatePipe} from '@ngx-translate/core';
-import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {OrderSummaryDTO} from '../../../../../../api/business';
+import {NgClass, UpperCasePipe} from '@angular/common';
 
 @Component({
   selector: 'app-order-summary',
@@ -11,7 +11,8 @@ import {OrderSummaryDTO} from '../../../../../../api/business';
     Card,
     RouterLink,
     TranslatePipe,
-    Button
+    NgClass,
+    UpperCasePipe
   ],
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss',

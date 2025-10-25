@@ -52,19 +52,24 @@ export class StepTwoWhereComponent implements OnInit {
   private readonly where = this.checkoutFormService.getWhere();
   protected readonly homeDelivery = this.checkoutFormService.getHomeDelivery();
   protected readonly selectedStore = this.checkoutFormService.getSelectedStore();
+
   protected readonly stores = injectQuery(() => ({
     queryKey: RESOURCE_STORES,
     queryFn: () => firstValueFrom(this.storeAPI.findAll()),
     enabled: false
   }));
+
   private readonly storesStatus = toObservable(this.stores.status);
   protected readonly isFetching: Signal<boolean> = this.loadingAnimationService.getIsLoading();
+
   protected readonly options = signal<Option[]>([
     {code: "0", description: "form.select.address.home"},
     {code: "1", description: "form.select.address.pickup"}
   ]);
+
   protected readonly selectedOption = signal<Option>(this.options()[0]);
   protected readonly validStoreOrAddressSelection = signal(true);
+
   protected readonly form = new FormGroup({
     street: new FormControl("", {
         nonNullable: true,

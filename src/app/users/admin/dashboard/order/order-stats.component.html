@@ -1,7 +1,7 @@
 <p-card>
   <div class="flex gap-2">
     <p-selectButton
-      [(ngModel)]="timeLineControl"
+      [(ngModel)]="timeLine"
       [options]="timeLineOptions"
       class="flex flex-wrap gap-2"
       id="timeline"
@@ -14,5 +14,5 @@
       </ng-template>
     </p-selectButton>
   </div>
-  <p-chart type="line" [data]="data" [options]="options" class="chart"/>
+  <p-chart type="bar" [data]="data" [options]="options"/>
 </p-card>

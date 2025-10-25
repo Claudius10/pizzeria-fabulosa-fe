@@ -7,7 +7,12 @@ import {UIChart} from 'primeng/chart';
 import {SelectButton} from 'primeng/selectbutton';
 import {TranslatePipe} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
-import {merge} from 'rxjs';
+import {lastValueFrom, merge} from 'rxjs';
+import {OrderStatisticsAPIService, OrderStatisticsByState} from '../../../../../api/admin';
+import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
+import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
+import {ErrorService} from '../../../../services/error/error.service';
+import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
 
 @Component({
   selector: 'app-order-stats',
@@ -22,56 +27,73 @@ import {merge} from 'rxjs';
   styleUrl: './order-stats.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderStatsComponent implements OnInit {
+class OrderStatsComponent implements OnInit {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly themeService = inject(ThemeService);
-  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly errorService = inject(ErrorService);
+  private readonly themeService = inject(ThemeService);
+  private readonly queryClient = inject(QueryClient);
+  private readonly loadingAnimationService = inject(LoadingAnimationService);
+  private readonly orderStatisticsAPI = inject(OrderStatisticsAPIService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly isDarkMode = this.themeService.getDarkMode();
-  protected readonly timeLineControl = signal("H");
-  private readonly timeControl$ = toObservable(this.timeLineControl);
+  protected readonly timeLine = signal("hourly");
+  private readonly timeControl$ = toObservable(this.timeLine);
   private readonly darkMode$ = toObservable(this.isDarkMode);
-  private readonly chart$ = merge(this.timeControl$, this.darkMode$);
 
-  protected timeLineOptions = [
-    {
-      label: "Hourly",
-      value: "Hourly"
-    },
-    {
-      label: "Daily",
-      value: "Daily"
-    },
-    {
-      label: "Monthly",
-      value: "Monthly"
-    },
-    {
-      label: "Yearly",
-      value: "Yearly"
-    }
-  ];
+  private readonly ordersCompleted = injectQuery(() => ({
+    queryKey: ["admin", "order", "statistics", "byState", "completed", this.timeLine()],
+    queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "COMPLETED")),
 
-  protected data: any; // TODO - populate with data from back-end
+  }));
+  private readonly ordersCompletedStatus$ = toObservable(this.ordersCompleted.status);
+
+  private readonly ordersCanceled = injectQuery(() => ({
+    queryKey: ["admin", "order", "statistics", "byState", "cancelled", this.timeLine()],
+    queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "CANCELLED")),
+
+  }));
+  private readonly ordersCanceledStatus$ = toObservable(this.ordersCanceled.status);
+
+  private readonly statsFetchStatus$ = merge(this.ordersCompletedStatus$, this.ordersCanceledStatus$);
+  private readonly chartInit$ = merge(this.timeControl$, this.darkMode$);
+  private readonly chart$ = merge(this.chartInit$, this.statsFetchStatus$);
+
+  protected data: any;
 
   protected options: any;
 
-  // TODO - replaces values with tokens for localization
-  private readonly years = ["2020", "2021", "2022", "2023", "2024", "2025"];
-  private readonly months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  private readonly days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  private readonly hours = ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00"];
-
   ngOnInit() {
-    this.initChart();
+    const dataFetchSubscription = this.statsFetchStatus$.subscribe({
+      next: status => {
+        if (status === PENDING) {
+          this.loadingAnimationService.startLoading();
+        }
 
-    const subscription = this.chart$.subscribe(() => {
-      // TODO - fetch data with admin resource server API when timeControl$ emits
+        if (status === ERROR) {
+          this.loadingAnimationService.stopLoading();
+          let completedErrors = this.ordersCompleted.error();
+          let cancelledErrors = this.ordersCanceled.error();
+          if (completedErrors) {
+            this.errorService.handleError(completedErrors);
+          } else if (cancelledErrors) {
+            this.errorService.handleError(cancelledErrors);
+          }
+        }
+
+        if (status === SUCCESS) {
+          this.loadingAnimationService.stopLoading();
+        }
+      }
+    });
+
+    const chartSubscription = this.chart$.subscribe(() => {
       this.initChart();
     });
 
     this.destroyRef.onDestroy(() => {
-      subscription.unsubscribe();
+      dataFetchSubscription.unsubscribe();
+      chartSubscription.unsubscribe();
     });
   }
 
@@ -82,24 +104,30 @@ export class OrderStatsComponent implements OnInit {
       const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
       const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
+      const ordersCompleted = this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "completed", this.timeLine()]) ?
+        this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "completed", this.timeLine()]) as OrderStatisticsByState : this.emptyData();
+
+      const ordersCancelled = this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "cancelled", this.timeLine()]) ?
+        this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "cancelled", this.timeLine()]) as OrderStatisticsByState : this.emptyData();
+
       this.data = {
         labels: this.labels(),
         datasets: [
           {
             label: 'Orders Completed',
-            data: [65, 59, 80, 81, 56, 55, 40],
-            fill: false,
-            borderColor: documentStyle.getPropertyValue('--p-green-500'),
-            tension: 0.4,
+            data: ordersCompleted.countsByState,
+            backgroundColor: [documentStyle.getPropertyValue('--p-green-500')],
+            borderColor: [documentStyle.getPropertyValue('--p-green-500')],
+            borderWidth: 1,
           },
           {
             label: 'Orders Cancelled',
-            data: [28, 48, 40, 19, 86, 27, 90],
-            fill: false,
-            borderColor: documentStyle.getPropertyValue('--p-amber-400'),
-            tension: 0.4
-          }
-        ]
+            data: ordersCancelled.countsByState,
+            backgroundColor: [documentStyle.getPropertyValue('--p-amber-400')],
+            borderColor: [documentStyle.getPropertyValue('--p-amber-400')],
+            borderWidth: 1,
+          },
+        ],
       };
 
       this.options = {
@@ -118,41 +146,73 @@ export class OrderStatsComponent implements OnInit {
         scales: {
           x: {
             ticks: {
-              color: textColorSecondary
+              color: textColorSecondary,
             },
             grid: {
               color: surfaceBorder,
-              drawBorder: false
-            }
+            },
           },
           y: {
+            beginAtZero: true,
             ticks: {
-              color: textColorSecondary
+              color: textColorSecondary,
             },
             grid: {
               color: surfaceBorder,
-              drawBorder: false
-            }
-          }
-        }
+            },
+          },
+        },
       };
     }
 
     this.changeDetectorRef.markForCheck();
   }
 
+  protected timeLineOptions = [
+    {
+      label: "Hourly",
+      value: "hourly"
+    },
+    {
+      label: "Daily",
+      value: "daily"
+    },
+    {
+      label: "Monthly",
+      value: "monthly"
+    },
+    {
+      label: "Yearly",
+      value: "yearly"
+    }
+  ];
+
+  // TODO - replaces values with tokens for localization
+  private readonly years = ["2022", "2023", "2024", "2025"];
+  private readonly months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  private readonly days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  private readonly hours = ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00"];
+
   private labels(): string[] {
-    switch (this.timeLineControl()) {
-      case "Hourly":
+    switch (this.timeLine()) {
+      case "hourly":
         return this.hours;
-      case "Daily":
+      case "daily":
         return this.days;
-      case "Monthly":
+      case "monthly":
         return this.months;
-      case "Yearly":
+      case "yearly":
         return this.years;
       default:
         return this.hours;
     }
   }
+
+  private emptyData(): OrderStatisticsByState {
+    return {
+      countsByState: []
+    };
+  }
 }
+
+export default OrderStatsComponent;
