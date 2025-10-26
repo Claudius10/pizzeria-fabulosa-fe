@@ -65,7 +65,11 @@ export class IncidentsComponent implements OnInit {
 
   protected readonly incidents = injectQuery(() => ({
     queryKey: [...ADMIN_INCIDENTS, this.origin()],
-    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOriginBetweenDates(this.origin(), this.rangeDates[0].toISOString(), this.rangeDates[1].toISOString())),
+    queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOriginBetweenDates(
+      this.origin(),
+      this.rangeDates[0] == null ? "" : this.rangeDates[0].toISOString(),
+      this.rangeDates[1] == null ? "" : this.rangeDates[1].toISOString()
+    )),
   }));
   private readonly queryStatus = toObservable(this.incidents.status);
 
