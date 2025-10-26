@@ -16,10 +16,11 @@ describe('AuthServiceTests', () => {
 
     const userInfo: UserInfoDTO = {
       id: "1",
+      sub: "john@email.com",
       name: "John Doe",
       email: "john@email.com",
+      roles: ["user", "admin"],
       phone_number: "123123123",
-      sub: "john@email.com",
       email_verified: false,
       phone_number_verified: false,
       locale: "",
@@ -32,11 +33,11 @@ describe('AuthServiceTests', () => {
     // Assert
 
     expect(result).toBeTrue();
-    expect(service.id).toBe(1);
-    expect(service.email).toBe("john@email.com");
-    expect(service.name).toBe("John Doe");
-    expect(service.phoneNumber).toBe("123123123");
-    expect(service.isAuthenticated()).toBeTrue();
+    expect(service.getId()()).toBe(1);
+    expect(service.getEmail()()).toBe("john@email.com");
+    expect(service.getName()()).toBe("John Doe");
+    expect(service.getPhoneNumber()()).toBe("123123123");
+    expect(service.getIsAuthenticated()()).toBeTrue();
   });
 
   it('givenLoggedInUser_thenLogout', () => {
@@ -45,10 +46,11 @@ describe('AuthServiceTests', () => {
 
     const userInfo: UserInfoDTO = {
       id: "1",
+      sub: "john@email.com",
       name: "John Doe",
       email: "john@email.com",
+      roles: ["user", "admin"],
       phone_number: "123123123",
-      sub: "john@email.com",
       email_verified: false,
       phone_number_verified: false,
       locale: "",
@@ -58,11 +60,11 @@ describe('AuthServiceTests', () => {
 
     const result = service.authenticate(userInfo);
     expect(result).toBeTrue();
-    expect(service.id).toBe(1);
-    expect(service.email).toBe("john@email.com");
-    expect(service.name).toBe("John Doe");
-    expect(service.phoneNumber).toBe("123123123");
-    expect(service.isAuthenticated()).toBeTrue();
+    expect(service.getId()()).toBe(1);
+    expect(service.getEmail()()).toBe("john@email.com");
+    expect(service.getName()()).toBe("John Doe");
+    expect(service.getPhoneNumber()()).toBe("123123123");
+    expect(service.getIsAuthenticated()()).toBeTrue();
 
     // Act
 
@@ -70,10 +72,10 @@ describe('AuthServiceTests', () => {
 
     // Assert
 
-    expect(service.id).toBe(null);
-    expect(service.email).toBe(null);
-    expect(service.name).toBe(null);
-    expect(service.phoneNumber).toBe(null);
-    expect(service.isAuthenticated()).toBeFalse();
+    expect(service.getId()()).toBe(null);
+    expect(service.getEmail()()).toBe(null);
+    expect(service.getName()()).toBe(null);
+    expect(service.getPhoneNumber()()).toBe(null);
+    expect(service.getIsAuthenticated()()).toBeFalse();
   });
 });

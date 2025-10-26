@@ -19,7 +19,11 @@ import {APIError} from '../../../api/user';
 })
 export class ErrorComponent implements OnDestroy {
   private readonly errorService = inject(ErrorService);
-  protected readonly errors: Signal<APIError[]> = this.errorService.getErrors();
+  private readonly errors: Signal<APIError[]> = this.errorService.getErrors();
+
+  getErrors() {
+    return this.errors();
+  }
 
   protected isEmpty() {
     return this.errorService.isEmpty();

@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {UserDetailsComponent} from './user-details.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 describe('UserDetailsComponent', () => {
   let component: UserDetailsComponent;
@@ -9,7 +10,10 @@ describe('UserDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserDetailsComponent, TranslateModule.forRoot()]
+      imports: [UserDetailsComponent, TranslateModule.forRoot()],
+      providers: [
+        {provide: QueryClient},
+      ]
     })
       .compileComponents();
 

@@ -25,6 +25,7 @@ describe('OrderSummaryComponent', () => {
       id: 1,
       cost: 10,
       formattedCreatedOn: "",
+      state: "pending",
       costAfterOffers: 0,
       paymentMethod: "cash",
       quantity: 1

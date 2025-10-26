@@ -19,11 +19,11 @@ describe('FilterService', () => {
 
     // Act
 
-    service.setSearchText("Test text here");
+    service.setSearchByText("Test text here");
 
     // Assert
-
-    expect(service.searchText()).toEqual("Test text here");
+    const searchByText = service.getSearchByText();
+    expect(searchByText()).toEqual("Test text here");
   });
 
   it('givenToggleFilter_whenFiltersIsEmpty_thenAddFilterAsIncluded', () => {
@@ -34,10 +34,11 @@ describe('FilterService', () => {
 
     // Assert
 
-    expect(service.areFiltersEmpty()).toBeFalse();
-    expect(service.filters()[0].name).toEqual("testFilter");
-    expect(service.filters()[0].type).toEqual("test");
-    expect(service.filters()[0].include).toBeTrue();
+    const filters = service.getFilters();
+    expect(service.getAreFiltersEmpty()()).toBeFalse();
+    expect(filters()[0].name).toEqual("testFilter");
+    expect(filters()[0].type).toEqual("test");
+    expect(filters()[0].include).toBeTrue();
   });
 
   it('givenToggleFilter_whenFilterIsAlreadyIncluded_thenSetFilterAsExcluded', () => {
@@ -46,10 +47,11 @@ describe('FilterService', () => {
 
     // include the filter
     service.toggleFilter("testFilter", "test");
-    expect(service.areFiltersEmpty()).toBeFalse();
-    expect(service.filters()[0].name).toEqual("testFilter");
-    expect(service.filters()[0].type).toEqual("test");
-    expect(service.filters()[0].include).toBeTrue();
+    const filters = service.getFilters();
+    expect(service.getAreFiltersEmpty()()).toBeFalse();
+    expect(filters()[0].name).toEqual("testFilter");
+    expect(filters()[0].type).toEqual("test");
+    expect(filters()[0].include).toBeTrue();
 
     // Act
 
@@ -57,10 +59,10 @@ describe('FilterService', () => {
 
     // Assert
 
-    expect(service.areFiltersEmpty()).toBeFalse();
-    expect(service.filters()[0].name).toEqual("testFilter");
-    expect(service.filters()[0].type).toEqual("test");
-    expect(service.filters()[0].include).toBeFalse();
+    expect(service.getAreFiltersEmpty()()).toBeFalse();
+    expect(filters()[0].name).toEqual("testFilter");
+    expect(filters()[0].type).toEqual("test");
+    expect(filters()[0].include).toBeFalse();
   });
 
   it('givenToggleFilter_whenFilterIsAlreadyExcluded_thenRemoveTheFilter', () => {
@@ -69,17 +71,18 @@ describe('FilterService', () => {
 
     // include the filter
     service.toggleFilter("testFilter", "test");
-    expect(service.areFiltersEmpty()).toBeFalse();
-    expect(service.filters()[0].name).toEqual("testFilter");
-    expect(service.filters()[0].type).toEqual("test");
-    expect(service.filters()[0].include).toBeTrue();
+    const filters = service.getFilters();
+    expect(service.getAreFiltersEmpty()()).toBeFalse();
+    expect(filters()[0].name).toEqual("testFilter");
+    expect(filters()[0].type).toEqual("test");
+    expect(filters()[0].include).toBeTrue();
 
     // exclude the filter
     service.toggleFilter("testFilter", "test");
-    expect(service.areFiltersEmpty()).toBeFalse();
-    expect(service.filters()[0].name).toEqual("testFilter");
-    expect(service.filters()[0].type).toEqual("test");
-    expect(service.filters()[0].include).toBeFalse();
+    expect(service.getAreFiltersEmpty()()).toBeFalse();
+    expect(filters()[0].name).toEqual("testFilter");
+    expect(filters()[0].type).toEqual("test");
+    expect(filters()[0].include).toBeFalse();
 
     // Act
 
@@ -87,6 +90,6 @@ describe('FilterService', () => {
 
     // Assert
 
-    expect(service.areFiltersEmpty()).toBeTrue();
+    expect(service.getAreFiltersEmpty()()).toBeTrue();
   });
 });

@@ -18,12 +18,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(1);
-    expect(cartService.quantity()).toBe(1);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(1);
-    expect(cartService.totalAfterOffers()).toBe(0);
+    expect(cartService.getItems()().length).toBe(1);
+    expect(cartService.getQuantity()()).toBe(1);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(1);
+    expect(cartService.getTotalAfterOffers()()).toBe(0);
   });
 
   it('givenItems_whenTwoForHalfOfferApplies_thenWorkAsExpected', () => {
@@ -33,12 +33,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(2);
-    expect(cartService.quantity()).toBe(2);
-    expect(cartService.secondHalfPriceOffer()).toBe(1);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(2);
-    expect(cartService.totalAfterOffers()).toBe(1.5);
+    expect(cartService.getItems()().length).toBe(2);
+    expect(cartService.getQuantity()()).toBe(2);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(1);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(2);
+    expect(cartService.getTotalAfterOffers()()).toBe(1.5);
   });
 
   it('givenItems_whenThreeForTwoOfferApplies_thenWorkAsExpected', () => {
@@ -48,12 +48,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(3);
-    expect(cartService.quantity()).toBe(3);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(1);
-    expect(cartService.total()).toBe(3);
-    expect(cartService.totalAfterOffers()).toBe(2);
+    expect(cartService.getItems()().length).toBe(3);
+    expect(cartService.getQuantity()()).toBe(3);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(1);
+    expect(cartService.getTotal()()).toBe(3);
+    expect(cartService.getTotalAfterOffers()()).toBe(2);
   });
 
   it('givenItems_whenTwoForHalfAndThreeForTwoOfferApplies_thenWorkAsExpected', () => {
@@ -63,12 +63,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(5);
-    expect(cartService.quantity()).toBe(5);
-    expect(cartService.secondHalfPriceOffer()).toBe(1);
-    expect(cartService.threeForTwoOffers()).toBe(1);
-    expect(cartService.total()).toBe(5);
-    expect(cartService.totalAfterOffers()).toBe(3.5);
+    expect(cartService.getItems()().length).toBe(5);
+    expect(cartService.getQuantity()()).toBe(5);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(1);
+    expect(cartService.getThreeForTwoOffers()()).toBe(1);
+    expect(cartService.getTotal()()).toBe(5);
+    expect(cartService.getTotalAfterOffers()()).toBe(3.5);
   });
 
   it('givenEmptyCart_thenAddItem', () => {
@@ -83,12 +83,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(1);
-    expect(cartService.quantity()).toBe(1);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(1);
-    expect(cartService.totalAfterOffers()).toBe(0);
+    expect(cartService.getItems()().length).toBe(1);
+    expect(cartService.getQuantity()()).toBe(1);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(1);
+    expect(cartService.getTotalAfterOffers()()).toBe(0);
   });
 
   it('givenItem_whenAddingTheSameItem_thenIncreaseQuantityOfItem', () => {
@@ -104,12 +104,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(1);
-    expect(cartService.quantity()).toBe(2);
-    expect(cartService.secondHalfPriceOffer()).toBe(1);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(2);
-    expect(cartService.totalAfterOffers()).toBe(1.5);
+    expect(cartService.getItems()().length).toBe(1);
+    expect(cartService.getQuantity()()).toBe(2);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(1);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(2);
+    expect(cartService.getTotalAfterOffers()()).toBe(1.5);
   });
 
   it('givenCartWithOneItem_thenIncreaseQuantity', () => {
@@ -125,12 +125,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(1);
-    expect(cartService.quantity()).toBe(2);
-    expect(cartService.secondHalfPriceOffer()).toBe(1);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(2);
-    expect(cartService.totalAfterOffers()).toBe(1.5);
+    expect(cartService.getItems()().length).toBe(1);
+    expect(cartService.getQuantity()()).toBe(2);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(1);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(2);
+    expect(cartService.getTotalAfterOffers()()).toBe(1.5);
   });
 
   it('givenCartWithTwoItems_thenIncreaseQuantityOfItemOne', () => {
@@ -148,12 +148,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(2);
-    expect(cartService.quantity()).toBe(3);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(1);
-    expect(cartService.total()).toBe(3);
-    expect(cartService.totalAfterOffers()).toBe(2);
+    expect(cartService.getItems()().length).toBe(2);
+    expect(cartService.getQuantity()()).toBe(3);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(1);
+    expect(cartService.getTotal()()).toBe(3);
+    expect(cartService.getTotalAfterOffers()()).toBe(2);
   });
 
   it('givenCartWithOneItem_thenEmptyCartAfterDecreasingQuantity', () => {
@@ -169,12 +169,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(0);
-    expect(cartService.quantity()).toBe(0);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(0);
-    expect(cartService.totalAfterOffers()).toBe(0);
+    expect(cartService.getItems()().length).toBe(0);
+    expect(cartService.getQuantity()()).toBe(0);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(0);
+    expect(cartService.getTotalAfterOffers()()).toBe(0);
   });
 
   it('givenCartWithItemWithTwoQuantity_thenDecreaseQuantity', () => {
@@ -190,12 +190,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(1);
-    expect(cartService.quantity()).toBe(1);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(1);
-    expect(cartService.totalAfterOffers()).toBe(0);
+    expect(cartService.getItems()().length).toBe(1);
+    expect(cartService.getQuantity()()).toBe(1);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(1);
+    expect(cartService.getTotalAfterOffers()()).toBe(0);
   });
 
   it('givenCartWithTwoItemsWithTwoQuantity_thenDecreaseQuantityOfItemOne', () => {
@@ -213,12 +213,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(2);
-    expect(cartService.quantity()).toBe(3);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(1);
-    expect(cartService.total()).toBe(3);
-    expect(cartService.totalAfterOffers()).toBe(2);
+    expect(cartService.getItems()().length).toBe(2);
+    expect(cartService.getQuantity()()).toBe(3);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(1);
+    expect(cartService.getTotal()()).toBe(3);
+    expect(cartService.getTotalAfterOffers()()).toBe(2);
   });
 
   it('givenCart_thenEmptyCart', () => {
@@ -236,12 +236,12 @@ describe('CartServiceTests', () => {
 
     // Assert
 
-    expect(cartService.items().length).toBe(0);
-    expect(cartService.quantity()).toBe(0);
-    expect(cartService.secondHalfPriceOffer()).toBe(0);
-    expect(cartService.threeForTwoOffers()).toBe(0);
-    expect(cartService.total()).toBe(0);
-    expect(cartService.totalAfterOffers()).toBe(0);
+    expect(cartService.getItems()().length).toBe(0);
+    expect(cartService.getQuantity()()).toBe(0);
+    expect(cartService.getSecondHalfPriceOffer()()).toBe(0);
+    expect(cartService.getThreeForTwoOffers()()).toBe(0);
+    expect(cartService.getTotal()()).toBe(0);
+    expect(cartService.getTotalAfterOffers()()).toBe(0);
   });
 
   it('givenCart_thenReturnTrueThatCartIsNotEmpty', () => {

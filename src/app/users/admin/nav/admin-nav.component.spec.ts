@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminNavComponent } from './admin-nav.component';
+import {AdminNavComponent} from './admin-nav.component';
+import {provideRouter} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('AdminNavComponent', () => {
   let component: AdminNavComponent;
@@ -8,9 +10,12 @@ describe('AdminNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminNavComponent]
+      imports: [AdminNavComponent, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([{path: '**', component: AdminNavComponent}])
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AdminNavComponent);
     component = fixture.componentInstance;

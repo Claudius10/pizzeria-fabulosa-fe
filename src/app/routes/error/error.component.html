@@ -9,7 +9,7 @@
     </div>
 
 
-    @for (error of errors(); track error.id) {
+    @for (error of getErrors(); track error.id) {
       <app-error-item [error]="error"/>
     }
   </div>

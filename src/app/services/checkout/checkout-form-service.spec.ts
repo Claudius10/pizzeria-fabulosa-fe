@@ -17,11 +17,11 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
     // Act
 
@@ -47,11 +47,11 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
     // Act
 
@@ -66,17 +66,17 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
-    service.where = {
+    service.setWhere({
       details: "",
       number: 1,
       street: ""
-    };
+    });
 
     // Act
 
@@ -91,21 +91,21 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
-    service.where = {
+    service.setWhere({
       details: "",
       number: 1,
       street: ""
-    };
+    });
 
-    service.when = {
+    service.setWhen({
       deliveryTime: "asap"
-    };
+    });
 
     // Act
 
@@ -120,17 +120,17 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
-    service.where = {
+    service.setWhere({
       details: "",
       number: 1,
       street: ""
-    };
+    });
 
     // Act
 
@@ -145,26 +145,26 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
-    service.where = {
+    service.setWhere({
       details: "",
       number: 1,
       street: ""
-    };
+    });
 
-    service.when = {
+    service.setWhen({
       deliveryTime: "asap"
-    };
+    });
 
-    service.how = {
+    service.setHow({
       paymentMethod: "Card",
       billToChange: 0
-    };
+    });
 
     // Act
 
@@ -179,21 +179,21 @@ describe('CheckoutFormServiceServiceTests', () => {
 
     // Arrange
 
-    service.who = {
+    service.setWho({
       anonCustomerName: "",
       anonCustomerEmail: "",
       anonCustomerContactNumber: 0
-    };
+    });
 
-    service.where = {
+    service.setWhere({
       details: "",
       number: 1,
       street: ""
-    };
+    });
 
-    service.when = {
+    service.setWhen({
       deliveryTime: "asap"
-    };
+    });
 
     // Act
 

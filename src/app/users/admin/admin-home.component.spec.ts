@@ -1,6 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AdminHomeComponent } from './admin-home.component';
+import {AdminHomeComponent} from './admin-home.component';
+import {provideRouter} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('AdminHomeComponent', () => {
   let component: AdminHomeComponent;
@@ -8,9 +10,12 @@ describe('AdminHomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminHomeComponent]
+      imports: [AdminHomeComponent, TranslateModule.forRoot()],
+      providers: [
+        provideRouter([{path: '**', component: AdminHomeComponent}])
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AdminHomeComponent);
     component = fixture.componentInstance;

@@ -92,7 +92,7 @@ describe('ErrorService', () => {
 
     expect(service.isEmpty()).toBeFalse();
     expect(router.url).toEqual('/error');
-    expect(errorComponent.errors().length).toBe(1);
+    expect(errorComponent.getErrors().length).toBe(1);
   });
 
   it('givenNonFatalError_thenAddMessage', () => {
@@ -190,7 +190,7 @@ describe('ErrorService', () => {
 
     mockError.error.apiError = buildError(true, "FATAL_CAUSE", "FATAL_MESSAGE");
     service.handleError(mockError);
-    expect(service.errors().length).toBe(1);
+    expect(service.getErrors()().length).toBe(1);
 
     // Act
 
@@ -198,6 +198,6 @@ describe('ErrorService', () => {
 
     // Assert
 
-    expect(service.errors().length).toBe(0);
+    expect(service.getErrors()().length).toBe(0);
   });
 });

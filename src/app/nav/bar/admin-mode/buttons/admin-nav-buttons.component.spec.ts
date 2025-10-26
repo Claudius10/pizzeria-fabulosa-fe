@@ -1,6 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AdminNavButtonsComponent} from './admin-nav-buttons.component';
+import {provideRouter} from '@angular/router';
 
 describe('AdminNavButtons', () => {
   let component: AdminNavButtonsComponent;
@@ -8,7 +9,10 @@ describe('AdminNavButtons', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminNavButtonsComponent]
+      imports: [AdminNavButtonsComponent],
+      providers: [
+        provideRouter([{path: '**', component: AdminNavButtonsComponent}])
+      ]
     })
       .compileComponents();
 
