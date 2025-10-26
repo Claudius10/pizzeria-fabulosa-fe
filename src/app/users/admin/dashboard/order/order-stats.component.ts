@@ -5,7 +5,7 @@ import {isPlatformBrowser} from '@angular/common';
 import {Card} from 'primeng/card';
 import {UIChart} from 'primeng/chart';
 import {SelectButton} from 'primeng/selectbutton';
-import {TranslatePipe} from '@ngx-translate/core';
+import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
 import {lastValueFrom, merge} from 'rxjs';
 import {OrderStatisticsAPIService, OrderStatisticsByState} from '../../../../../api/admin';
@@ -13,6 +13,7 @@ import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
 import {ErrorService} from '../../../../services/error/error.service';
 import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
+import {QueryResult} from '../../../../../utils/interfaces/query';
 
 @Component({
   selector: 'app-order-stats',
@@ -32,23 +33,26 @@ class OrderStatsComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly errorService = inject(ErrorService);
   private readonly themeService = inject(ThemeService);
+  private readonly translateService = inject(TranslateService);
   private readonly queryClient = inject(QueryClient);
   private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly orderStatisticsAPI = inject(OrderStatisticsAPIService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly isDarkMode = this.themeService.getDarkMode();
+  private readonly lang = signal(this.translateService.currentLang);
   protected readonly timeLine = signal("hourly");
-  private readonly timeControl$ = toObservable(this.timeLine);
   private readonly darkMode$ = toObservable(this.isDarkMode);
+  private readonly lang$ = toObservable(this.lang);
+  private readonly timeControl$ = toObservable(this.timeLine);
 
-  private readonly ordersCompleted = injectQuery(() => ({
+  private readonly ordersCompleted: QueryResult<OrderStatisticsByState | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byState", "completed", this.timeLine()],
     queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "COMPLETED")),
 
   }));
   private readonly ordersCompletedStatus$ = toObservable(this.ordersCompleted.status);
 
-  private readonly ordersCanceled = injectQuery(() => ({
+  private readonly ordersCanceled: QueryResult<OrderStatisticsByState | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byState", "cancelled", this.timeLine()],
     queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "CANCELLED")),
 
@@ -56,7 +60,7 @@ class OrderStatsComponent implements OnInit {
   private readonly ordersCanceledStatus$ = toObservable(this.ordersCanceled.status);
 
   private readonly statsFetchStatus$ = merge(this.ordersCompletedStatus$, this.ordersCanceledStatus$);
-  private readonly chartInit$ = merge(this.timeControl$, this.darkMode$);
+  private readonly chartInit$ = merge(this.timeControl$, this.darkMode$, this.lang$);
   private readonly chart$ = merge(this.chartInit$, this.statsFetchStatus$);
 
   protected data: any;
@@ -64,6 +68,10 @@ class OrderStatsComponent implements OnInit {
   protected options: any;
 
   ngOnInit() {
+    const languageChangeSubscription = this.translateService.onLangChange.subscribe((value) => {
+      this.lang.set(value.lang);
+    });
+
     const dataFetchSubscription = this.statsFetchStatus$.subscribe({
       next: status => {
         if (status === PENDING) {
@@ -92,6 +100,7 @@ class OrderStatsComponent implements OnInit {
     });
 
     this.destroyRef.onDestroy(() => {
+      languageChangeSubscription.unsubscribe();
       dataFetchSubscription.unsubscribe();
       chartSubscription.unsubscribe();
     });
@@ -111,17 +120,17 @@ class OrderStatsComponent implements OnInit {
         this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "cancelled", this.timeLine()]) as OrderStatisticsByState : this.emptyData();
 
       this.data = {
-        labels: this.labels(),
+        labels: this.labels(this.lang()),
         datasets: [
           {
-            label: 'Orders Completed',
+            label: this.lang() === "en" ? "Orders Completed" : "Pedidos Completados",
             data: ordersCompleted.countsByState,
             backgroundColor: [documentStyle.getPropertyValue('--p-green-500')],
             borderColor: [documentStyle.getPropertyValue('--p-green-500')],
             borderWidth: 1,
           },
           {
-            label: 'Orders Cancelled',
+            label: this.lang() === "en" ? "Orders Cancelled" : "Pedidos Cancelados",
             data: ordersCancelled.countsByState,
             backgroundColor: [documentStyle.getPropertyValue('--p-amber-400')],
             borderColor: [documentStyle.getPropertyValue('--p-amber-400')],
@@ -170,37 +179,38 @@ class OrderStatsComponent implements OnInit {
 
   protected timeLineOptions = [
     {
-      label: "Hourly",
+      label: "component.admin.nav.metrics.hourly",
       value: "hourly"
     },
     {
-      label: "Daily",
+      label: "component.admin.nav.metrics.daily",
       value: "daily"
     },
     {
-      label: "Monthly",
+      label: "component.admin.nav.metrics.monthly",
       value: "monthly"
     },
     {
-      label: "Yearly",
+      label: "component.admin.nav.metrics.yearly",
       value: "yearly"
     }
   ];
 
-  // TODO - replaces values with tokens for localization
-  private readonly years = ["2022", "2023", "2024", "2025"];
-  private readonly months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  private readonly days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  private readonly hours = ["12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00"];
+  private readonly hours = ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00"];
+  private readonly daysEN = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  private readonly daysES = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+  private readonly monthsEN = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  private readonly monthsES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  private readonly years = ["2023", "2024", "2025"];
 
-  private labels(): string[] {
+  private labels(locale: string): string[] {
     switch (this.timeLine()) {
       case "hourly":
         return this.hours;
       case "daily":
-        return this.days;
+        return locale === "en" ? this.daysEN : this.daysES;
       case "monthly":
-        return this.months;
+        return locale === "en" ? this.monthsEN : this.monthsES;
       case "yearly":
         return this.years;
       default:

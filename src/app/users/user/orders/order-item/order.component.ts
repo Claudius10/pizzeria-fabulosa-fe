@@ -24,6 +24,7 @@ import {AuthService} from '../../../../services/auth/auth.service';
 import {MyCartItemDTO} from '../../../../../utils/interfaces/MyCartItemDTO';
 import {QueryResult} from '../../../../../utils/interfaces/query';
 import {OrderDTO, UserOrdersAPIService} from '../../../../../api/business';
+import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';
 
 @Component({
   selector: 'app-order',
@@ -74,6 +75,7 @@ export class OrderComponent {
   private cancel = injectMutation(() => ({
     mutationFn: (data: { orderId: number, userId: number }) => lastValueFrom(this.userOrdersAPI.cancelById(data.orderId)),
     onSuccess: () => {
+      this.queryClient.refetchQueries({queryKey: USER_ORDER_SUMMARY_LIST});
       this.queryClient.invalidateQueries({queryKey: ["user", "order", this.orderId.toString()]});
     }
   }));

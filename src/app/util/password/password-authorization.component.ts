@@ -34,7 +34,7 @@ import {ErrorService} from '../../services/error/error.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PasswordAuthorizationComponent implements OnInit {
-  readonly title = input.required<string>();
+  readonly headerTitle = input.required<string>();
   readonly action = input.required<string>();
   readonly guestAction = input.required<boolean>();
   readonly show = model<boolean>(false);
