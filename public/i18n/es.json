@@ -204,7 +204,7 @@
   "toast.order.cancel.confirm.header": "Confirmación",
   "toast.order.cancel.confirm.message": "¿Desea cancelar el pedido?",
   "toast.order.cancel.not.allowed.message": "El pedido no se puede cancelar transcurrido 10 minutos",
-  "toast.order.cancel.order.cancelled": "Pedido cancelado. Redirigiendo en 2 segundos...",
+  "toast.order.cancel.order.cancelled": "Pedido cancelado.",
   "toast.error.server.detail": "El servidor no está disponible en estos momentos. Por favor, inténtelo más tarde.",
   "toast.error.api.user.id.no.match.detail": "Por favor reinicie la sesión. Si el problema persiste, contáctenos.",
   "toast.error.api.user.not.found.detail": "No existe una cuenta asociada al correo electrónico introducido",

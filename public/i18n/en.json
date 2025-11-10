@@ -203,7 +203,7 @@
   "toast.order.cancel.confirm.header": "Confirmation",
   "toast.order.cancel.confirm.message": "Do you wish to cancel the order?",
   "toast.order.cancel.not.allowed.message": "The order can no longer be cancelled",
-  "toast.order.cancel.order.cancelled": "Order cancelled. Redirecting in 2 seconds...",
+  "toast.order.cancel.order.cancelled": "Order cancelled.",
   "toast.error.server.detail": "Our servers are not available at the moment. Please try again later.",
   "toast.error.api.user.id.no.match.detail": "Please re-login into your account. If the problem persists, contact us.",
   "toast.error.api.user.not.found.detail": "No account exists for the entered email address",
