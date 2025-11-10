@@ -1,6 +1,6 @@
 <p-menubar [dt]="userMenuBar()" [model]="userProfileMenu" breakpoint="320px">
   <ng-template #item let-item>
-    <div [routerLink]="item.route" class="cursor-pointer" title="{{ item.label | translate }}">
+    <div [routerLink]="item.route" class="cursor-pointer">
       <div class="flex justify-center items-center" routerLinkActive="color">
         <span [class]="item.icon"></span>
         <span class="ml-2">{{ item.label | translate }}</span>

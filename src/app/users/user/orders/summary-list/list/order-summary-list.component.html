@@ -1,9 +1,9 @@
-<div class="list flex flex-col justify-between gap-4 w-full" title="Orders Summary">
+<div class="list flex flex-col justify-between gap-4 w-full">
   @if (orderList.status() === 'error') {
     <app-server-error/>
   }
 
-  <ul class="flex flex-col justify-center gap-4 w-full" title="Orders Summary List">
+  <ul class="flex flex-col justify-center gap-4 w-full">
     @if (orderList.status() === 'pending') {
       @for (_ of [].constructor(5); track $index) {
         <li>
@@ -29,6 +29,5 @@
     (onPageChange)="onPageChange($event)"
     [first]="first()"
     [rows]="5"
-    [totalRecords]="totalElements()"
-    title="Paginator"/>
+    [totalRecords]="totalElements()"/>
 </div>

@@ -1,30 +1,29 @@
-<p-card title="Order {{orderSummary().id}} Summary">
+<p-card>
   <div class="flex flex-col items-center gap-4" routerLink="{{orderSummary().id}}">
 
     <div class="flex items-center gap-2">
-      <span class="text-xl text-primary" title="Order {{ orderSummary().id }}">{{ orderSummary().id }}</span>
+      <span class="text-xl text-primary">{{ orderSummary().id }}</span>
       <i
         class="pi pi-window-maximize"
-        style="color: var(--p-primary-color)"
-        title="View Order Icon"></i>
+        style="color: var(--p-primary-color)"></i>
     </div>
 
     <div class="flex flex-col gap-4 text-center">
-      <span title="State" [ngClass]="['font-bold', orderSummary().state == 'COMPLETED' ? 'green' : 'yellow']"> {{
+      <span [ngClass]="['font-bold', orderSummary().state == 'COMPLETED' ? 'green' : 'yellow']"> {{
           (orderSummary().state === 'COMPLETED' ? 'view.order.status.completed' : 'view.order.status.canceled') | translate | uppercase
         }}</span>
-      <span title="Date">{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
+      <span>{{ "view.order.created.on" | translate }} {{ orderSummary().formattedCreatedOn }}</span>
     </div>
 
     <div class="flex gap-4">
       <div class="flex gap-2">
 
         @if (orderSummary().costAfterOffers) {
-          <span title="Total After Offers">{{ "component.cart.total.offers" | translate }}:</span>
+          <span>{{ "component.cart.total.offers" | translate }}:</span>
           <span class="green">{{ orderSummary().costAfterOffers.toFixed(2) }}€</span>
         }
 
-        <span title="Total">Total:</span>
+        <span>Total:</span>
         <span [ngClass]="orderSummary().costAfterOffers ? 'red' : 'green'">{{ orderSummary().cost.toFixed(2) }}€</span>
 
       </div>

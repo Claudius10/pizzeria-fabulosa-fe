@@ -7,13 +7,11 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
-        title="Cancel"
         type="button"
         severity="danger"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
-        title="Continue"
         type="button"
         (onClick)="nextStep()"
         label="{{ 'button.step.next' | translate | uppercase }}"/>
@@ -29,9 +27,8 @@
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Full Name Icon" styleClass="pi pi-user"/>
+            <p-inputicon styleClass="pi pi-user"/>
             <input
-              title="Full Name"
               class="w-full"
               id="fullName"
               type="text"
@@ -42,19 +39,14 @@
             >
           </p-iconfield>
           @if (!form.controls.fullName.untouched && !form.controls.fullName.valid) {
-            <span title="Invalid Name"
-                  id="fullName-help"
-                  class="invalid-text">
-              {{ "form.invalid.name" | translate }}
-            </span>
+            <span id="fullName-help" class="invalid-text">{{ "form.invalid.name" | translate }}</span>
           }
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Email Icon" styleClass="pi pi-envelope"/>
+            <p-inputicon styleClass="pi pi-envelope"/>
             <input
-              title="Email"
               class="w-full"
               id="email"
               type="email"
@@ -64,19 +56,14 @@
               [dt]="myInput(true)">
           </p-iconfield>
           @if (!form.controls.email.untouched && !form.controls.email.valid) {
-            <span title="Invalid Email"
-                  id="email-help"
-                  class="invalid-text">
-              {{ "form.invalid.email" | translate }}
-            </span>
+            <span id="email-help" class="invalid-text">{{ "form.invalid.email" | translate }}</span>
           }
         </div>
 
         <div class="flex flex-col gap-2">
           <p-iconfield [dt]="myIcon('{primary.400}')">
-            <p-inputicon title="Phone Icon" styleClass="pi pi-phone"/>
+            <p-inputicon styleClass="pi pi-phone"/>
             <input
-              title="Contact Number"
               class="w-full"
               id="contactNumber"
               type="tel"
@@ -86,12 +73,7 @@
               [dt]="myInput(true)">
           </p-iconfield>
           @if (!form.controls.contactNumber.untouched && !form.controls.contactNumber.valid) {
-            <span
-              title="Invalid Contact Number"
-              id="contactNumber-help"
-              class="invalid-text">
-              {{ "form.invalid.contact.number" | translate }}
-            </span>
+            <span id="contactNumber-help" class="invalid-text">{{ "form.invalid.contact.number" | translate }}</span>
           }
         </div>
       </div>
@@ -99,13 +81,11 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
-        title="Cancel"
         type="button"
         severity="danger"
         (onClick)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
-        title="Continue"
         type="button"
         (onClick)="nextStep()"
         label="{{ 'button.step.next' | translate | uppercase }}"/>

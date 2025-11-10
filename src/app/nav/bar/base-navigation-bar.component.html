@@ -1,4 +1,4 @@
-<div class="fixed top-0 left-0 w-screen style" title="Navigation">
+<div class="fixed top-0 left-0 w-screen style">
   <div class="flex items-center justify-between">
     <!-- LEFT SIDE START -->
 
@@ -9,7 +9,7 @@
       class="logo-sm cursor-pointer"
       height="50"
       ngSrc="/assets/icons/pizzabig.png"
-      title="Navigation Menu"
+      data-testid="logo-sm"
       (click)="showRoutesDrawer()"
       width="50">
 
@@ -23,7 +23,7 @@
             class="logo-ls cursor-pointer"
             height="60"
             ngSrc="/assets/icons/pizzabig.png"
-            title="Home Page"
+            data-testid="logo-ls"
             routerLink="/"
             width="60">
 
@@ -45,7 +45,6 @@
             class="logo-ls cursor-pointer"
             height="60"
             ngSrc="/assets/icons/pizzabig.png"
-            title="Home Page"
             routerLink="/admin"
             width="60">
         }
@@ -57,7 +56,7 @@
     <!-- RIGHT SIDE START -->
 
     <!-- RIGHT SIDE ICON LIST -->
-    <ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
+    <ul class="flex list-none m-0 p-0 gap-2 items-center">
       @switch (mode()) {
         @case (MODE.USER) {
           <app-user-nav-buttons/>
@@ -72,7 +71,7 @@
           (click)="toggle()"
           aria-label="Options"
           class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background"
-          title="Options">
+          data-testid="options-button">
           <i class="pi pi-cog" style="font-size: 1.25rem"></i>
         </button>
         @if (visible()) {

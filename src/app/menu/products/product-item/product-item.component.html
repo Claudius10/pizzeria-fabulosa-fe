@@ -8,17 +8,16 @@
          height="150"
          ngSrc="{{product().image}}"
          priority
-         title="{{product().name['en']}} Image"
          width="225">
 
     <!-- NAME -->
-    <span class="font-semibold text-xl text-center"
-          title="Name">{{ currentLang() === 'es' ? product().name['es'] : product().name['en'] }}</span>
+    <span class="font-semibold text-xl text-center">
+      {{ currentLang() === 'es' ? product().name['es'] : product().name['en'] }}</span>
   </div>
 
   <!-- INGREDIENTES -->
   @if (product().description !== null) {
-    <div title="{{product().name['en']}} Ingredients" class="flex flex-wrap items-start text-center description">
+    <div class="flex flex-wrap items-start text-center description">
       {{ currentLang() === 'es' ? product().description!['es'].join(", ") : product().description!['en'].join(", ") }}
     </div>
   }
@@ -29,7 +28,6 @@
     class="pb-2"
     label="{{'button.custom.pizza.add' | translate | uppercase}}"
     size="small"
-    title="{{product().name['en']}} Details"
     type="button"/>
 </div>
 <p-dialog
@@ -42,7 +40,6 @@
   [modal]="true"
   [resizable]="false"
   [style]="{ width: '30rem' }"
-  title="{{product().name['en']}} Window"
 >
   <div class="flex flex-col items-center gap-4">
 
@@ -52,13 +49,11 @@
          height="150"
          ngSrc="{{product().image}}"
          priority
-         title="{{product().name['en']}} Image"
          width="225">
 
     <!-- INGREDIENTES -->
     @if (product().description !== null) {
-      <div title="Ingredients"
-           class="flex justify-center flex-wrap dialog-description text-center">
+      <div class="flex justify-center flex-wrap dialog-description text-center">
         {{ currentLang() === 'es' ? product().description!['es'].join(", ") : product().description!['en'].join(", ") }}
       </div>
     }
@@ -66,18 +61,18 @@
     <!-- ALLERGENS-->
     @if (product().allergens['es'].length > 0) {
       <div class="flex flex-col items-center">
-        <i title="Allergens Warning Icon" class="pi pi-exclamation-triangle allergens-icon-big"></i>
+        <i class="pi pi-exclamation-triangle allergens-icon-big"></i>
       </div>
 
-      <span title="Header" class="text-center">{{ "component.products.allergens.text" | translate }}</span>
+      <span class="text-center">{{ "component.products.allergens.text" | translate }}</span>
       <div class="flex justify-center flex-wrap gap-4 font-bold">
         @if (currentLang() === 'es') {
           @for (allergen of product().allergens['es']; track $index) {
-            <span title="{{ allergen }}">{{ allergen }}</span>
+            <span>{{ allergen }}</span>
           }
         } @else {
           @for (allergen of product().allergens['en']; track $index) {
-            <span title="{{ allergen }}">{{ allergen }}</span>
+            <span>{{ allergen }}</span>
           }
         }
       </div>
@@ -88,7 +83,6 @@
       <div class="flex gap-2">
         @if (product().formats['s']) {
           <p-button
-            title="Small"
             (click)="setFormat('S')"
             type="button"
             size="small"
@@ -99,7 +93,6 @@
 
         @if (product().formats['m']) {
           <p-button
-            title="Medium"
             (click)="setFormat('M')"
             type="button"
             size="small"
@@ -110,7 +103,6 @@
 
         @if (product().formats['l']) {
           <p-button
-            title="Large"
             (click)="setFormat('L')"
             type="button"
             size="small"
@@ -122,7 +114,7 @@
     }
 
     <!-- PRICE -->
-    <app-product-price [price]="this.productPrice()" title="Price"/>
+    <app-product-price [price]="this.productPrice()"/>
 
     <!-- ADD -->
     <p-button
@@ -130,7 +122,6 @@
       [raised]="true"
       label="{{'button.custom.pizza.add' | translate | uppercase}}"
       size="small"
-      title="Add to Cart"
       type="button"/>
   </div>
 </p-dialog>

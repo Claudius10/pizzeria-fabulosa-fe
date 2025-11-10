@@ -1,11 +1,5 @@
 <a class="step">
-  <span class="step-name">
-    {{ 'form.step' | translate }}
-  </span>
-  <span class="step-number" title="Number">
-    {{ activeIndex() + 1 }}
-  </span>
-  <span title="Name">
-    {{ items()[activeIndex()].label }}
-  </span>
+  <span class="step-name">{{ 'form.step' | translate }}</span>
+  <span class="step-number">{{ activeIndex() + 1 }}</span>
+  <span>{{ items()[activeIndex()].label }}</span>
 </a>

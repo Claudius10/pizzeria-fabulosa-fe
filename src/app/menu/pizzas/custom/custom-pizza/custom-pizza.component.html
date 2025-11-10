@@ -6,15 +6,14 @@
          height="150"
          ngSrc="/assets/products/pizza/custom-pizza.png"
          priority
-         title="Custom Pizza"
          width="225">
 
     <!-- NAME -->
-    <span class="font-semibold text-xl" title="My Pizza">{{ "component.custom.pizza.header" | translate }}</span>
+    <span class="font-semibold text-xl">{{ "component.custom.pizza.header" | translate }}</span>
   </div>
 
   <!-- DESCRIPTION -->
-  <span class="flex justify-center flex-wrap description text-center" title="Description">
+  <span class="flex justify-center flex-wrap description text-center">
       {{ "component.custom.pizza.text" | translate }}
     </span>
 
@@ -24,13 +23,12 @@
     class="pb-2"
     label="{{'button.step.start' | translate | uppercase}}"
     size="small"
-    title="Open Custom Pizza Builder"
+    data-testid="custom-pizza-button"
     type="button"/>
 </div>
 
 @if (customPizzaDialogVisible) {
   <p-dialog
-    title="Custom Pizza Creator"
     [draggable]="false"
     [resizable]="true"
     [modal]="true"

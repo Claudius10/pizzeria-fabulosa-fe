@@ -1,4 +1,4 @@
-<p-card [style]="{ width: '320px' }" header="{{ store().name }}" title="{{ store().name }}">
+<p-card [style]="{ width: '320px' }" header="{{ store().name }}">
 
   <ng-template pTemplate="header">
     <img
@@ -6,20 +6,19 @@
       class="rounded-border"
       height="220"
       ngSrc="{{ store().image }}"
-      title="Store Map Location"
       width="320">
   </ng-template>
 
-  <div class="flex flex-col gap-3" title="Store Details">
+  <div class="flex flex-col gap-3">
 
-    <div class="flex gap-2 items-center" title="{{ store().name }} Location">
-      <i class="pi pi-map" title="{{ store().name }} Location Icon"></i>
-      <span title="Address">{{ store().address }}</span>
+    <div class="flex gap-2 items-center">
+      <i class="pi pi-map"></i>
+      <span>{{ store().address }}</span>
     </div>
 
-    <div class="flex gap-2 items-center" title="{{ store().name }} Contact">
-      <i class="pi pi-phone" title="{{ store().name }} Phone Icon"></i>
-      <span title="Contact Number">{{ store().phoneNumber }}</span>
+    <div class="flex gap-2 items-center">
+      <i class="pi pi-phone"></i>
+      <span>{{ store().phoneNumber }}</span>
     </div>
 
   </div>
@@ -29,13 +28,12 @@
     <p-accordion value="0">
       <p-accordion-panel value="1">
 
-        <p-accordion-header title="Schedule">
+        <p-accordion-header>
           {{ 'component.store.item.schedule' | translate }}
         </p-accordion-header>
 
         <p-accordion-content>
-          <span
-            title="Schedule Details">{{ currentLang() === "en" ? store().schedule['en'] : store().schedule['es'] }}</span>
+          <span>{{ currentLang() === "en" ? store().schedule['en'] : store().schedule['es'] }}</span>
         </p-accordion-content>
 
       </p-accordion-panel>

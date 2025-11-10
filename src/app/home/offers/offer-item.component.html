@@ -1,7 +1,6 @@
 <p-card
   [style]="{ width: '320px' }"
-  header="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}}"
-  title="Offer">
+  header="{{currentLang() === 'en' ? this.offer().name['en'] : this.offer().name['es']}}">
 
   <ng-template pTemplate="header">
     <img
@@ -9,23 +8,22 @@
       class="rounded-border" height="255"
       ngSrc="{{offer().image}}"
       priority
-      title="Offer Image"
       width="320">
   </ng-template>
 
-  <span title="Description">{{ currentLang() === 'en' ? this.offer().description['en'] : this.offer().description['es'] }}</span>
+  <span>{{ currentLang() === 'en' ? this.offer().description['en'] : this.offer().description['es'] }}</span>
 
   <ng-template pTemplate="footer">
 
     <p-accordion value="0">
       <p-accordion-panel value="1">
 
-        <p-accordion-header title="Conditions">
+        <p-accordion-header>
           {{ 'component.offer.item.conditions' | translate }}
         </p-accordion-header>
 
         <p-accordion-content>
-          <span title="Offer Details">{{ currentLang() === 'en' ? this.offer().caveat['en'] : this.offer().caveat['es'] }}</span>
+          <span>{{ currentLang() === 'en' ? this.offer().caveat['en'] : this.offer().caveat['es'] }}</span>
         </p-accordion-content>
 
       </p-accordion-panel>

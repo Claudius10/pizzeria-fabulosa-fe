@@ -1,21 +1,18 @@
-<div class="flex flex-col gap-2" title="User Details">
+<div class="flex flex-col gap-2">
   <span
-    class="flex gap-1"
-    title="Name">{{ "form.label.name" | translate }}:
+    class="flex gap-1">{{ "form.label.name" | translate }}:
     <span
       class="text-primary uppercase">{{ authState() ? name() : anon()?.anonCustomerName }}
   </span>
   </span>
   <span
-    class="flex gap-1"
-    title="Email">{{ "form.label.email" | translate }}:
+    class="flex gap-1">{{ "form.label.email" | translate }}:
     <span
       class="text-primary uppercase"> {{ authState() ? email() : anon()?.anonCustomerEmail }}
     </span>
   </span>
   <span
-    class="flex gap-1"
-    title="Contact Number">{{ "form.label.contact.number" | translate }}:
+    class="flex gap-1">{{ "form.label.contact.number" | translate }}:
     <span
       class="text-primary uppercase"> {{ authState() ? phone() : anon()?.anonCustomerContactNumber }}
     </span>

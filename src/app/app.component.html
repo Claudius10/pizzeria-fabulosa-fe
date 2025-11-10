@@ -1,4 +1,4 @@
-<div class="flex flex-col items-center min-h-screen" title="Pizzeria Fabulosa">
+<div class="flex flex-col items-center min-h-screen">
   <app-base-navigation-bar/>
   <router-outlet/>
   <div class="mt-auto w-full">
@@ -17,7 +17,6 @@
       @switch (mode()) {
         @case (MODE.USER) {
           <button
-            title="Home"
             (click)="hideRoutesDrawer()"
             class="text-lg font-bold"
             routerLinkActive="color"
@@ -28,7 +27,6 @@
 
           @if (isAuthenticated()) {
             <button
-              title="Profile"
               (click)="hideRoutesDrawer()"
               class="text-lg font-bold"
               routerLinkActive="color"
@@ -37,7 +35,6 @@
           }
 
           <button
-            title="Pizzas"
             (click)="hideRoutesDrawer()"
             class="text-lg font-bold"
             routerLinkActive="color"
@@ -46,7 +43,6 @@
           </button>
 
           <button
-            title="Beverages"
             (click)="hideRoutesDrawer()"
             class="text-lg font-bold"
             routerLinkActive="color"
@@ -55,7 +51,6 @@
         }
         @case (MODE.ADMIN) {
           <button
-            title="Home"
             (click)="hideRoutesDrawer()"
             class="text-lg font-bold"
             routerLinkActive="color"

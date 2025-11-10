@@ -1,10 +1,9 @@
-<ul class="flex list-none m-0 p-0 gap-2 items-center" title="Navigation Buttons">
+<ul class="flex list-none m-0 p-0 gap-2 items-center">
   <!-- CART ICON -->
   <li (click)="showCartDrawer()" pBadge value="{{ cartQuantity() }}">
     <button
       aria-label="Open Cart"
       class="flex w-10 h-10 border border-solid border-surface rounded-border item-background items-center justify-center"
-      title="Cart"
       type="button">
       <i class="pi pi-shopping-cart" style="font-size: 1.25rem"></i>
     </button>
@@ -15,7 +14,6 @@
     <li>
       <button
         type="button"
-        title="Profile"
         [routerLink]="['user', 'profile']"
         aria-label="User Home Page"
         class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
@@ -25,7 +23,6 @@
     <!-- SIGN OUT BUTTON -->
     <li (click)="showLogout()">
       <button
-        title="Sign Out"
         type="button"
         aria-label="Sign out"
         class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">
@@ -36,7 +33,7 @@
     <!-- SIGN IN BUTTON -->
     <li (click)="showLogin()">
       <button
-        title="Sign In"
+        data-testid="login-button"
         type="button"
         aria-label="Sign In"
         class="cursor-pointer flex items-center justify-center w-10 h-10 border border-solid border-surface rounded-border item-background">

@@ -8,17 +8,15 @@
   [style]="{ width: '30rem' }"
   styleClass="!border-0 !bg-transparent">
   <ng-template pTemplate="headless">
-    <div title="Login Box">
+    <div>
       <div class="flex flex-col px-10 py-6 gap-6 style">
 
         <div class="flex justify-end items-center">
-          <i (click)="closeLoginDialog()" class="pi pi-times cursor-pointer" style="color: #ffffff"
-             title="Close Login Box"></i>
+          <i (click)="closeLoginDialog()" class="pi pi-times cursor-pointer" style="color: #ffffff"></i>
         </div>
 
         <div class="flex items-center buttons gap-2">
-          <a [href]="backEndClientBaseUri" [text]="true" class="w-full !p-4 !text-primary-50 !border !border-white/30 hover:!bg-white/10" pButton
-             title="Existing Account">
+          <a [href]="backEndClientBaseUri" [text]="true" class="w-full !p-4 !text-primary-50 !border !border-white/30 hover:!bg-white/10" pButton>
             {{ 'component.form.login.account.existing' | translate | uppercase }}
           </a>
         </div>
@@ -30,7 +28,6 @@
             class="w-full"
             label="{{ 'component.form.login.account.new' | translate | uppercase }}"
             styleClass="!p-4 w-full !text-primary-50 !border !border-white/30 hover:!bg-white/10"
-            title="New Account"
             type="button"
           />
         </div>

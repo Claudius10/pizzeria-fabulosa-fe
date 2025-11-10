@@ -20,8 +20,6 @@ import {ErrorComponent} from './error/error.component';
 import {NotFoundComponent} from './not-found/not-found.component';
 import {adminRoleGuard} from '../guard/admin/admin-role.guard';
 import {AdminHomeComponent} from '../users/admin/admin-home.component';
-import {DashboardComponent} from '../users/admin/dashboard/dashboard.component';
-import {IncidentsComponent} from '../users/admin/incidents/incidents.component';
 import {AuthorizingPlaceholderComponent} from './auth/authorizing-placeholder.component';
 
 export const routes: Routes = [
@@ -114,18 +112,7 @@ export const routes: Routes = [
     path: "admin",
     component: AdminHomeComponent,
     canMatch: [adminRoleGuard],
-    children: [
-      {
-        path: "dashboard",
-        component: DashboardComponent,
-        title: "Dashboard",
-      },
-      {
-        path: "incidents/:origin",
-        component: IncidentsComponent,
-        title: "Incidents",
-      },
-    ]
+    loadChildren: () => import('./admin.routes').then(m => m.ADMIN_ROUTES)
   },
   {
     path: "forbidden",

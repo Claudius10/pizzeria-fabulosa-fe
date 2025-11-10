@@ -1,24 +1,24 @@
-<div class="form-container flex gap-4" title="Checkout">
+<div class="form-container flex gap-4">
   <div class="flex flex-col gap-4">
 
-    <div class="steps" title="Steps">
+    <div class="steps">
       <p-card>
         <p-steps [activeIndex]="step()" [model]="steps()"/>
       </p-card>
     </div>
 
-    <div class="small-steps" title="Step">
+    <div class="small-steps">
       <p-card>
         <app-small-screen-steps [activeIndex]="step()" [items]="steps()"/>
       </p-card>
     </div>
 
-    <div class="steps-container h-full" title="Form">
+    <div class="steps-container h-full">
       <router-outlet/>
     </div>
   </div>
 
-  <div class="checkout-cart" title="Checkout Cart">
+  <div class="checkout-cart">
     <app-cart [viewOnly]="true"/>
   </div>
 </div>

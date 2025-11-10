@@ -2,7 +2,6 @@
   <div class="flex flex-col justify-between items-center gap-8 h-full w-full">
     <span class="text-center">{{ "component.form.step.two.warning" | translate }}</span>
     <p-button
-      title="Start"
       type="button"
       (onClick)="previousStep()"
       label="{{ 'button.step.start' | translate | uppercase }}"/>
@@ -16,9 +15,8 @@
 
         <label for="deliveryOption">{{ "component.form.step.two.advice" | translate }}</label>
 
-        <p-iconfield title="Delivery Choice Icon" [dt]="myIcon('{primary.400}')">
+        <p-iconfield [dt]="myIcon('{primary.400}')">
           <select
-            title="Delivery Choice Select"
             [ngModel]="selectedOption().code"
             [ngModelOptions]="{standalone: true}"
             (change)="selectDelivery($event)"
@@ -43,9 +41,8 @@
 
             <div class="flex flex-col gap-2">
               <p-iconfield [dt]="myIcon('{primary.400}')">
-                <p-inputicon title="Address Icon" styleClass="pi pi-directions"/>
+                <p-inputicon styleClass="pi pi-directions"/>
                 <input
-                  title="Address Input"
                   class="w-full"
                   id="street"
                   type="text"
@@ -56,17 +53,14 @@
                 >
               </p-iconfield>
               @if (!form.controls.street.untouched && !form.controls.street.valid) {
-                <span title="Invalid Address" id="street-help"
-                      class="invalid-text">{{ "form.invalid.delivery.address" | translate }}
-                  </span>
+                <span id="street-help" class="invalid-text">{{ "form.invalid.delivery.address" | translate }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-2">
               <p-iconfield [dt]="myIcon('{primary.400}')">
-                <p-inputicon title="Number Icon" styleClass="pi pi-home"/>
+                <p-inputicon styleClass="pi pi-home"/>
                 <input
-                  title="Address Number Input"
                   class="w-full"
                   id="streetNumber"
                   type="tel"
@@ -77,17 +71,14 @@
                 >
               </p-iconfield>
               @if (!form.controls.number.untouched && !form.controls.number.valid) {
-                <span title="Invalid Address Number" id="number-help" class="invalid-text">
-                      {{ "form.invalid.delivery.number" | translate }}
-                  </span>
+                <span id="number-help" class="invalid-text">{{ "form.invalid.delivery.number" | translate }}</span>
               }
             </div>
 
             <div class="flex flex-col gap-2">
               <p-iconfield [dt]="myIcon('{primary.400}')">
-                <p-inputicon title="Details Icon" styleClass="pi pi-info-circle"/>
+                <p-inputicon styleClass="pi pi-info-circle"/>
                 <input
-                  title="Details Input"
                   class="w-full"
                   id="details"
                   type="text"
@@ -98,9 +89,7 @@
                 >
               </p-iconfield>
               @if (!form.controls.details.untouched && !form.controls.details.valid) {
-                <span title="Invalid Details" id="details-help" class="invalid-text">
-                    {{ "form.invalid.delivery.details" | translate }}
-                  </span>
+                <span id="details-help" class="invalid-text">{{ "form.invalid.delivery.details" | translate }}</span>
               }
             </div>
           </div>
@@ -108,7 +97,7 @@
         } @else {
           <!-- STORE SELECT -->
           @if (stores.status() === 'success') {
-            <ul title="Stores" class="flex flex-col gap-4">
+            <ul class="flex flex-col gap-4">
               @for (store of stores.data()!.stores; track store.id) {
                 <li>
                   <app-store-checkout
@@ -123,11 +112,7 @@
             </ul>
 
             @if (!validStoreOrAddressSelection()) {
-              <span
-                title="Invalid Store Selection"
-                class="invalid-text">
-                {{ "form.invalid.store.selection" | translate }}
-              </span>
+              <span class="invalid-text">{{ "form.invalid.store.selection" | translate }}</span>
             }
           }
 
@@ -141,18 +126,15 @@
     <!-- STEP NAVIGATION BUTTONS -->
     <div class="buttons">
       <p-button
-        title="Previous"
         type="button"
         (onClick)="previousStep()"
         label="{{ 'button.step.previous' | translate | uppercase }}"/>
       <p-button
-        title="Cancel"
         severity="danger"
         type="button"
         (click)="cancel()"
         label="{{ 'button.cancel' | translate | uppercase }}"/>
       <p-button
-        title="Next"
         type="button"
         (onClick)="nextStep()"
         [disabled]="isFetching()"

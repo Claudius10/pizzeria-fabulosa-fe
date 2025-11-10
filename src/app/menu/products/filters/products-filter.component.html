@@ -1,17 +1,16 @@
-<div class="flex flex-col gap-2" title="Filters Box">
+<div class="flex flex-col gap-2">
 
   <div class="filter-box">
     <div class="flex justify-between">
 
-      <div (click)="toggle()" class="flex gap-2 cursor-pointer" title="Toggle Filters">
+      <div (click)="toggle()" class="flex gap-2 cursor-pointer">
         <i class="flex items-center color cursor-pointer"></i>
-        <span class="cursor-pointer" title="Filters">{{ "component.products.filters.drawer.header" | translate }}</span>
+        <span>{{ "component.products.filters.drawer.header" | translate }}</span>
       </div>
 
       <i
         (click)="clear()"
-        [ngClass]="['flex items-center color cursor-pointer', areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]"
-        title="Remove All Filters">
+        [ngClass]="['flex items-center color cursor-pointer', areFiltersEmpty() ? 'pi pi-filter' : 'pi pi-filter-fill' ]">
       </i>
     </div>
 
@@ -21,7 +20,6 @@
           @let severity = filter.include ? 'success' : 'danger';
           @let state = filter.include ? 'On' : 'Off';
           <p-tag
-            title="{{ filter.name | translate }} {{ state }}"
             @pillsAnimation
             [style]="{ fontSize: '12px', cursor: 'pointer'} "
             [rounded]="true"
@@ -41,14 +39,13 @@
       <span class="font-bold font text-2xl ml-1">{{ "component.products.filters.drawer.header" | translate }}</span>
     </ng-template>
 
-    <div title="Filters Drawer" class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
       @if (!areFiltersEmpty()) {
         <div class="flex flex-wrap gap-1" @pillsAnimation>
           @for (filter of filters(); track $index) {
             @let severity = filter.include ? 'success' : 'danger';
             @let state = filter.include ? 'On' : 'Off';
             <p-tag
-              title="{{ filter.name | translate }} {{ state }}"
               @pillsAnimation
               [style]="{fontSize: '12px', cursor: 'pointer'}"
               [rounded]="true"

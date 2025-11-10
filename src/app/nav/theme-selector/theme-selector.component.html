@@ -1,6 +1,5 @@
 @if (isDarkMode()) {
   <button
-    title="Dark Mode Off"
     (click)="toggleDarkMode()"
     aria-label="Light mode"
     type="button"
@@ -10,7 +9,6 @@
   </button>
 } @else {
   <button
-    title="Dark Mode On"
     (click)="toggleDarkMode()"
     aria-label="Dark mode"
     class="cursor-pointer flex items-center justify-start gap-3 w-full h-12 pl-3 pr-3 border border-solid border-surface rounded-border item-background">

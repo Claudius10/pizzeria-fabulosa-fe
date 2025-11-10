@@ -6,7 +6,7 @@
 
       <span class="font-bold">{{ "component.custom.pizza.essentials" | translate }}</span>
 
-      <div class="flex flex-col w-fit gap-3" title="The Essentials">
+      <div class="flex flex-col w-fit gap-3">
 
         <div class="flex flex-col gap-2 w-fit">
           <span>{{ "component.custom.pizza.format" | translate }}</span>
@@ -22,7 +22,7 @@
             optionValue="value"
             size="small">
             <ng-template #item let-item>
-              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+              <span> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -43,7 +43,7 @@
               optionValue="value"
               size="small">
               <ng-template #item let-item>
-                <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+                <button> {{ item.label | translate }}</button>
               </ng-template>
             </p-selectButton>
           </div>
@@ -63,7 +63,7 @@
             optionValue="value"
             size="small">
             <ng-template #item let-item>
-              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+              <span> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -82,7 +82,7 @@
             optionValue="value"
             size="small">
             <ng-template #item let-item>
-              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+              <span> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -104,7 +104,7 @@
           optionValue="value"
           size="small">
           <ng-template #item let-item>
-            <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+            <span> {{ item.label | translate }}</span>
           </ng-template>
         </p-selectButton>
       </div>
@@ -124,12 +124,12 @@
           optionValue="value"
           size="small">
           <ng-template #item let-item>
-            <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+            <span> {{ item.label | translate }}</span>
           </ng-template>
         </p-selectButton>
       </div>
 
-      <div class="flex flex-col w-fit gap-3" title="Ingredients">
+      <div class="flex flex-col w-fit gap-3">
         <div class="flex flex-col gap-2">
           <span>{{ "component.products.filters.meat" | translate }}</span>
           <p-selectButton
@@ -145,7 +145,7 @@
             optionValue="value"
             size="small">
             <ng-template #item let-item>
-              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+              <span> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -165,7 +165,7 @@
             optionValue="value"
             size="small">
             <ng-template #item let-item>
-              <span title="{{ item.label | translate }}"> {{ item.label | translate }}</span>
+              <span> {{ item.label | translate }}</span>
             </ng-template>
           </p-selectButton>
         </div>
@@ -176,7 +176,7 @@
   </div>
 
   @if (allergensInfo().length > 0) {
-    <div title="Allergens" class="flex flex-col gap-2 items-center">
+    <div class="flex flex-col gap-2 items-center">
       <div class="flex gap-2 items-center">
         <span class="font-bold text-xl allergen-color">{{ "component.products.filters.allergen" | translate }}</span>
       </div>
@@ -194,7 +194,6 @@
       [outlined]="true"
       [raised]="true"
       label="{{'button.custom.pizza.reset' | translate | uppercase}}"
-      title="Reset"
       type="button"
     />
     <p-button
@@ -204,7 +203,6 @@
       [raised]="true"
       [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3) ? 'danger' : 'primary'"
       label="{{'button.custom.pizza.add' | translate | uppercase}}"
-      title="Add"
       type="button"
     />
   </div>
@@ -215,7 +213,6 @@
       label="{{ price().toFixed(2) }}€"
       severity="primary"
       size="small"
-      title="Price"
       type="button"/>
   </div>
 
@@ -225,7 +222,6 @@
       [severity]="(ingredientQuantity() > 9 || ingredientQuantity() < 3)  ? 'danger' : 'primary'"
       label="{{ ingredientQuantity() }}/9"
       size="small"
-      title="Ingredients Quantity"
       type="button"/>
   </div>
 </div>

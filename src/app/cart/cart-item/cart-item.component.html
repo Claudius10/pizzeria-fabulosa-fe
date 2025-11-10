@@ -1,5 +1,4 @@
-<div class="flex flex-col items-center rounded-lg cart-item justify-center"
-     title="{{this.item().name['en']}} {{item().formatCode | translate}}">
+<div class="flex flex-col items-center rounded-lg cart-item justify-center">
   <div class="flex justify-center pt-3 pb-3">
     <!-- IMAGE -->
 
@@ -17,23 +16,19 @@
 
       <!-- 1ST ROW -> NAME + FORMAT -->
       <div class="flex items-start gap-1">
-        <span class="font-bold"
-              title="{{this.item().name['en']}} {{item().formatCode}}">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
+        <span class="font-bold">{{ currentLang() === 'en' ? this.item().name['en'] : this.item().name['es'] }}</span>
 
         <div class="flex">
           @if (this.item().formats['s']) {
-            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['s']!['en'] : this.item().formats['s']!['es'] }}</span>
+            <span class="font-bold">{{ currentLang() === 'en' ? this.item().formats['s']!['en'] : this.item().formats['s']!['es'] }}</span>
           }
 
           @if (this.item().formats['m']) {
-            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['m']!['en'] : this.item().formats['m']!['es'] }}</span>
+            <span class="font-bold">{{ currentLang() === 'en' ? this.item().formats['m']!['en'] : this.item().formats['m']!['es'] }}</span>
           }
 
           @if (this.item().formats['l']) {
-            <span title="{{this.item().name['en']}} {{item().formatCode}} Format"
-                  class="font-bold">{{ currentLang() === 'en' ? this.item().formats['l']!['en'] : this.item().formats['l']!['es'] }}</span>
+            <span class="font-bold">{{ currentLang() === 'en' ? this.item().formats['l']!['en'] : this.item().formats['l']!['es'] }}</span>
           }
         </div>
       </div>
@@ -46,15 +41,14 @@
           [outlined]="true"
           [raised]="true"
           label="{{ item().price.toFixed(2) }}€"
-          size="small" title="{{this.item().name['en']}} {{item().formatCode}} Price"
+          size="small"
           type="button"/>
 
         @if (viewOnly()) {
           <!-- X QUANTITY -->
           <div class="flex gap-4 items-center justify-center">
-            <i title="Times Icon" class="pi pi-times"></i>
+            <i class="pi pi-times"></i>
             <button
-              title="{{this.item().name['en']}} {{item().formatCode}} Quantity"
               type="button"
               pButton
               size="small">
@@ -66,17 +60,15 @@
           <div class="flex gap-2 items-center justify-center">
             <p-button
               type="button"
-              title="Increase {{this.item().name['en']}} {{item().formatCode}} Quantity"
               size="small"
               icon="pi pi-plus"
               [raised]="true"
               (click)="increaseItemQuantity()"/>
 
-            <span title="{{this.item().name['en']}} {{item().formatCode}} Quantity">{{ item().quantity }}</span>
+            <span>{{ item().quantity }}</span>
 
             <p-button
               type="button"
-              title="Decrease {{this.item().name['en']}} {{item().formatCode}} Quantity"
               size="small"
               icon="pi pi-minus"
               [raised]="true"
@@ -88,14 +80,8 @@
       @if (this.item().description['en'].length > 0) {
         <div class="flex flex-col gap-2" (click)="toggleIngredients()">
           <div class="flex items-center gap-1">
-            <i
-              title="Toggle {{this.item().name['en']}} {{item().formatCode}} Ingredients"
-              style="color: var(--p-primary-color)"
-              [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
-            <span
-              title="{{this.item().name['en']}} {{item().formatCode}} Ingredients"
-              class="cursor-pointer">
-              {{ "component.custom.pizza.ingredients" | translate }}
+            <i style="color: var(--p-primary-color)" [ngClass]="[viewIngredients() ? 'pi pi-angle-down' : 'pi pi-angle-right']"></i>
+            <span class="cursor-pointer">{{ "component.custom.pizza.ingredients" | translate }}
             </span>
           </div>
         </div>
