@@ -18,7 +18,6 @@
       <div class="flex flex-wrap gap-1" @pillsAnimation>
         @for (filter of filters(); track $index) {
           @let severity = filter.include ? 'success' : 'danger';
-          @let state = filter.include ? 'On' : 'Off';
           <p-tag
             @pillsAnimation
             [style]="{ fontSize: '12px', cursor: 'pointer'} "
@@ -44,7 +43,6 @@
         <div class="flex flex-wrap gap-1" @pillsAnimation>
           @for (filter of filters(); track $index) {
             @let severity = filter.include ? 'success' : 'danger';
-            @let state = filter.include ? 'On' : 'Off';
             <p-tag
               @pillsAnimation
               [style]="{fontSize: '12px', cursor: 'pointer'}"
