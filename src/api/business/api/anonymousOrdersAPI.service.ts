@@ -1,5 +1,5 @@
 /**
- * Pizzeria User API
+ * Pizzeria Business API
  *
  * 
  *
@@ -17,7 +17,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { RegisterDTO } from '../model/registerDTO';
+import { CreatedOrderDTO } from '../model/createdOrderDTO';
+// @ts-ignore
+import { NewAnonOrderDTO } from '../model/newAnonOrderDTO';
 // @ts-ignore
 import { ResponseDTO } from '../model/responseDTO';
 
@@ -31,24 +33,24 @@ import { BaseService } from '../api.base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterAPIService extends BaseService {
+export class AnonymousOrdersAPIService extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
         super(basePath, configuration);
     }
 
     /**
-     * Register user
-     * @param registerDTO 
+     * Create order as an anonymous user
+     * @param newAnonOrderDTO 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public registerAnonUser(registerDTO: RegisterDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public registerAnonUser(registerDTO: RegisterDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public registerAnonUser(registerDTO: RegisterDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public registerAnonUser(registerDTO: RegisterDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (registerDTO === null || registerDTO === undefined) {
-            throw new Error('Required parameter registerDTO was null or undefined when calling registerAnonUser.');
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<CreatedOrderDTO>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CreatedOrderDTO>>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CreatedOrderDTO>>;
+    public createAnonOrder(newAnonOrderDTO: NewAnonOrderDTO, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (newAnonOrderDTO === null || newAnonOrderDTO === undefined) {
+            throw new Error('Required parameter newAnonOrderDTO was null or undefined when calling createAnonOrder.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -85,12 +87,12 @@ export class RegisterAPIService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/register/user`;
+        let localVarPath = `/api/v1/anon/order`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<CreatedOrderDTO>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: registerDTO,
+                body: newAnonOrderDTO,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

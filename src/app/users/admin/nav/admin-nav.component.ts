@@ -3,13 +3,7 @@ import {userMenuBar} from '../../../../primeng/menubar';
 import {TranslatePipe} from '@ngx-translate/core';
 import {RouterLink, RouterLinkActive} from '@angular/router';
 import {Menubar} from 'primeng/menubar';
-import {
-  INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
-  INCIDENTS_ORIGIN_SECURITY_SERVER,
-  INCIDENTS_ORIGIN_USER_RESOURCE_SERVER
-} from '../../../../utils/constants';
+import {ADMIN_RESOURCE_SERVER, BUSINESS_RESOURCE_SERVER, PUBLIC_RESOURCE_SERVER, SECURITY_SERVER} from '../../../../utils/constants';
 
 @Component({
   selector: 'app-admin-nav',
@@ -35,30 +29,25 @@ export class AdminNavComponent {
       icon: 'pi pi-exclamation-triangle',
       items: [
         {
-          label: INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER,
+          label: PUBLIC_RESOURCE_SERVER,
           icon: 'pi pi-server',
-          route: "incidents/" + INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER
+          route: "incidents/" + PUBLIC_RESOURCE_SERVER
         },
         {
-          label: INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER,
+          label: BUSINESS_RESOURCE_SERVER,
           icon: 'pi pi-server',
-          route: "incidents/" + INCIDENTS_ORIGIN_BUSINESS_RESOURCE_SERVER
+          route: "incidents/" + BUSINESS_RESOURCE_SERVER
         },
         {
-          label: INCIDENTS_ORIGIN_USER_RESOURCE_SERVER,
+          label: ADMIN_RESOURCE_SERVER,
           icon: 'pi pi-server',
-          route: "incidents/" + INCIDENTS_ORIGIN_USER_RESOURCE_SERVER
+          route: "incidents/" + ADMIN_RESOURCE_SERVER
         },
         {
-          label: INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER,
+          label: SECURITY_SERVER,
           icon: 'pi pi-server',
-          route: "incidents/" + INCIDENTS_ORIGIN_ADMIN_RESOURCE_SERVER
-        },
-        {
-          label: INCIDENTS_ORIGIN_SECURITY_SERVER,
-          icon: 'pi pi-server',
-          route: "incidents/" + INCIDENTS_ORIGIN_SECURITY_SERVER
-        },
+          route: "incidents/" + SECURITY_SERVER,
+        }
       ]
     },
   ];

@@ -17,7 +17,7 @@ import {
 import {AuthService} from '../auth/auth.service';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateService} from '@ngx-translate/core';
-import {APIError} from '../../../api/user';
+import {APIError} from '../../../api/admin';
 
 @Injectable({
   providedIn: 'root',

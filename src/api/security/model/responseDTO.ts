@@ -1,5 +1,5 @@
 /**
- * Pizzeria Public API
+ * OpenAPI definition
  *
  * 
  *
@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { APIError } from './aPIError';
 
 
-export interface CustomerDTO { 
-    anonCustomerName: string;
-    anonCustomerContactNumber: number;
-    anonCustomerEmail: string;
+export interface ResponseDTO { 
+    apiError: APIError;
+    status?: number;
 }
 

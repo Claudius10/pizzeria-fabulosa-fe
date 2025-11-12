@@ -10,10 +10,10 @@ import {myIcon} from '../../../../../primeng/icon';
 import {injectMutation, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {CheckoutFormService} from '../../../../services/checkout/checkout-form.service';
-import {UserAccountAPIService} from '../../../../../api/user';
 import {environment} from '../../../../../environments/environment';
 import {PasswordAuthorizationComponent} from '../../../../util/password/password-authorization.component';
 import {Button} from 'primeng/button';
+import {UserAPIService} from '../../../../../api/security';
 
 @Component({
   selector: 'app-user-delete-form',
@@ -35,7 +35,7 @@ export class UserDeleteFormComponent implements OnDestroy {
   private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly authService = inject(AuthService);
   private readonly checkoutFormService = inject(CheckoutFormService);
-  private readonly userAccountAPI = inject(UserAccountAPIService);
+  private readonly userAccountAPI = inject(UserAPIService);
   private readonly userId = this.authService.getId();
   protected passAuthVisibility = false;
 

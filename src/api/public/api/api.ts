@@ -1,5 +1,3 @@
-export * from './anonymousOrdersAPI.service';
-import { AnonymousOrdersAPIService } from './anonymousOrdersAPI.service';
 export * from './offerAPI.service';
 import { OfferAPIService } from './offerAPI.service';
 export * from './productAPI.service';
@@ -8,4 +6,4 @@ export * from './storeAPI.service';
 import { StoreAPIService } from './storeAPI.service';
 export * from './utilAPI.service';
 import { UtilAPIService } from './utilAPI.service';
-export const APIS = [AnonymousOrdersAPIService, OfferAPIService, ProductAPIService, StoreAPIService, UtilAPIService];
+export const APIS = [OfferAPIService, ProductAPIService, StoreAPIService, UtilAPIService];

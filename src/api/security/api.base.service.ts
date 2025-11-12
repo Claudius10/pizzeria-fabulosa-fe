@@ -1,5 +1,5 @@
 /**
- * Pizzeria User API
+ * OpenAPI definition
  *
  *
  *

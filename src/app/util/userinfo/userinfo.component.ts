@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {QueryResult} from '../../../utils/interfaces/query';
-import {UserAccountAPIService, UserInfoDTO} from '../../../api/user';
 import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
 import {toObservable} from '@angular/core/rxjs-interop';
@@ -14,6 +13,7 @@ import {USER_INFO} from '../../../utils/query-keys';
 import {environment} from '../../../environments/environment';
 import {LocalStorageService} from '../../services/local-storage/local-storage.service';
 import {isPlatformBrowser} from '@angular/common';
+import {UserAPIService, UserInfoDTO} from '../../../api/security';
 
 @Component({
   selector: 'app-userinfo',
@@ -32,7 +32,7 @@ export class UserinfoComponent implements OnInit {
   private readonly checkoutFormService = inject(CheckoutFormService);
   private readonly localStorageService = inject(LocalStorageService);
   private readonly authService = inject(AuthService);
-  private readonly userAccountAPI = inject(UserAccountAPIService);
+  private readonly userAccountAPI = inject(UserAPIService);
 
   private query: QueryResult<UserInfoDTO | undefined> = injectQuery(() => ({
     queryKey: USER_INFO,

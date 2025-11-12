@@ -17,8 +17,8 @@ import {myInput} from '../../primeng/input';
 import {myIcon} from '../../primeng/icon';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {lastValueFrom} from 'rxjs';
-import {RegisterAPIService, RegisterDTO} from '../../api/user';
 import {RenderService} from '../services/ui/render.service';
+import {RegisterAPIService, RegisterDTO} from '../../api/security';
 
 @Component({
 

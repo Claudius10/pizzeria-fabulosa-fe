@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {UserInfoDTO} from '../../../api/user';
 import {ADMIN, AUTH} from '../../../utils/constants';
 import {LocalStorageService} from '../local-storage/local-storage.service';
+import {UserInfoDTO} from '../../../api/security';
 
 @Injectable({
   providedIn: 'root'

@@ -1,13 +1,12 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {IncidentsAPIService} from '../../../../api/admin';
+import {APIError, IncidentsAPIService} from '../../../../api/admin';
 import {ActivatedRoute} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {ADMIN_INCIDENTS} from '../../../../utils/query-keys';
-import {ERROR, INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER, PENDING, SUCCESS} from '../../../../utils/constants';
+import {ERROR, PENDING, SECURITY_SERVER, SUCCESS} from '../../../../utils/constants';
 import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
-import {APIError} from '../../../../api/user';
 import {myInput} from '../../../../primeng/input';
 import {myIcon} from '../../../../primeng/icon';
 import {Badge} from 'primeng/badge';
@@ -93,7 +92,7 @@ export class IncidentsComponent implements OnInit {
 
     const routeParams = this.activatedRoute.paramMap.subscribe(params => {
       const origin = params.get("origin");
-      this.origin.set(origin === null ? INCIDENTS_ORIGIN_PUBLIC_RESOURCE_SERVER : origin);
+      this.origin.set(origin === null ? SECURITY_SERVER : origin);
     });
 
     this.destroyRef.onDestroy(() => {

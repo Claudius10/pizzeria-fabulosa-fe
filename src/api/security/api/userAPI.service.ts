@@ -1,5 +1,5 @@
 /**
- * Pizzeria User API
+ * OpenAPI definition
  *
  * 
  *
@@ -31,7 +31,7 @@ import { BaseService } from '../api.base.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UserAccountAPIService extends BaseService {
+export class UserAPIService extends BaseService {
 
     constructor(protected httpClient: HttpClient, @Optional() @Inject(BASE_PATH) basePath: string|string[], @Optional() configuration?: Configuration) {
         super(basePath, configuration);

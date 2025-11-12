@@ -10,12 +10,12 @@ import {myInput} from '../../../primeng/input';
 import {isFormValid} from '../../../utils/functions';
 import {Dialog} from 'primeng/dialog';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {UserAccountAPIService} from '../../../api/user';
 import {injectMutation} from '@tanstack/angular-query-experimental';
 import {AuthService} from '../../services/auth/auth.service';
 import {lastValueFrom} from 'rxjs';
 import {LoadingAnimationService} from '../../services/animation/loading-animation.service';
 import {ErrorService} from '../../services/error/error.service';
+import {UserAPIService} from '../../../api/security';
 
 @Component({
   selector: 'app-password-authorization',
@@ -43,7 +43,7 @@ export class PasswordAuthorizationComponent implements OnInit {
   private readonly errorService = inject(ErrorService);
   private readonly authService = inject(AuthService);
   private readonly loadingAnimationService = inject(LoadingAnimationService);
-  private readonly userAccountAPIService = inject(UserAccountAPIService);
+  private readonly userAccountAPIService = inject(UserAPIService);
   private readonly userId = this.authService.getId();
   private readonly showObservable = toObservable(this.show);
   protected readonly showPassword = signal(false);
