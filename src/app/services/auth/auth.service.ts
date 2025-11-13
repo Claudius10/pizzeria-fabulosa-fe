@@ -34,15 +34,13 @@ export class AuthService {
   }
 
   logout() {
-    this.localStorageService.remove(AUTH);
-    if (this.isAdmin()) {
-      this.localStorageService.remove(ADMIN);
-    }
     this.id.set(null);
     this.email.set(null);
     this.name.set(null);
     this.phoneNumber.set(null);
     this.isAuthenticated.set(false);
+    this.localStorageService.remove(AUTH);
+    this.localStorageService.remove(ADMIN);
   }
 
   isAdmin() {
