@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import {APIError, IncidentsAPIService} from '../../../../api/admin';
+import {APIError, IncidenceListDTO, IncidentsAPIService} from '../../../../api/admin';
 import {ActivatedRoute} from '@angular/router';
 import {firstValueFrom} from 'rxjs';
 import {injectQuery} from '@tanstack/angular-query-experimental';
 import {ADMIN_INCIDENTS} from '../../../../utils/query-keys';
-import {ERROR, PENDING, SECURITY_SERVER, SUCCESS} from '../../../../utils/constants';
+import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
 import {myInput} from '../../../../primeng/input';
@@ -24,6 +24,7 @@ import {Tag} from 'primeng/tag';
 import {Ripple} from 'primeng/ripple';
 import {NgClass} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
+import {QueryResultWithRefetch} from '../../../../utils/interfaces/query';
 
 @Component({
   selector: 'app-incidents',
@@ -53,7 +54,7 @@ export class IncidentsComponent implements OnInit {
   private readonly loadingAnimationService = inject(LoadingAnimationService);
   private readonly incidenceAPIService = inject(IncidentsAPIService);
   private readonly activatedRoute = inject(ActivatedRoute);
-  protected readonly origin = signal("");
+  protected readonly origin = signal(this.activatedRoute.snapshot.params["origin"]);
   protected readonly smallTable = signal(true);
   protected rangeDates: Date[] = [new Date(new Date().setDate(new Date().getDate() - 30)), new Date()];
   protected fatal = [
@@ -62,7 +63,7 @@ export class IncidentsComponent implements OnInit {
   ];
   protected expandedRows = {};
 
-  protected readonly incidents = injectQuery(() => ({
+  protected readonly incidents: QueryResultWithRefetch<IncidenceListDTO | undefined> = injectQuery(() => ({
     queryKey: [...ADMIN_INCIDENTS, this.origin()],
     queryFn: () => firstValueFrom(this.incidenceAPIService.findAllByOriginBetweenDates(
       this.origin(),
@@ -70,6 +71,7 @@ export class IncidentsComponent implements OnInit {
       this.rangeDates[1] == null ? "" : this.rangeDates[1].toISOString()
     )),
   }));
+
   private readonly queryStatus = toObservable(this.incidents.status);
 
   ngOnInit(): void {
@@ -90,9 +92,8 @@ export class IncidentsComponent implements OnInit {
       }
     });
 
-    const routeParams = this.activatedRoute.paramMap.subscribe(params => {
-      const origin = params.get("origin");
-      this.origin.set(origin === null ? SECURITY_SERVER : origin);
+    const routeParams = this.activatedRoute.params.subscribe(params => {
+      this.origin.set(params["origin"]);
     });
 
     this.destroyRef.onDestroy(() => {

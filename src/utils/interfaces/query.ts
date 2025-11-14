@@ -5,3 +5,10 @@ export interface QueryResult<T> {
   error: Signal<any>;
   data: Signal<T>;
 }
+
+export interface QueryResultWithRefetch<T> {
+  status: Signal<"error" | "success" | "pending">;
+  error: Signal<any>;
+  data: Signal<T>;
+  refetch: () => void;
+}
