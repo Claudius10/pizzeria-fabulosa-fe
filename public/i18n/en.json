@@ -165,6 +165,8 @@
   "component.admin.nav.metrics.daily": "Daily",
   "component.admin.nav.metrics.monthly": "Monthly",
   "component.admin.nav.metrics.yearly": "Yearly",
+  "component.admin.nav.metrics.order.state": "Order state",
+  "component.admin.nav.metrics.user.state": "Client type",
   "component.user.profile.view.address.list": "My address list",
   "component.user.profile.view.address.list.empty": "The address list is empty",
   "component.user.form.delete.account": "Delete account",

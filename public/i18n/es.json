@@ -166,6 +166,8 @@
   "component.admin.nav.metrics.daily": "Diario",
   "component.admin.nav.metrics.monthly": "Mensual",
   "component.admin.nav.metrics.yearly": "Anual",
+  "component.admin.nav.metrics.order.state": "Estado del pedido",
+  "component.admin.nav.metrics.user.state": "Tipo de cliente",
   "component.user.profile.view.address.list": "Mis domicilios",
   "component.user.profile.view.address.list.empty": "La lista de domicilios está vacía",
   "component.user.form.delete.account": "Borrar cuenta",

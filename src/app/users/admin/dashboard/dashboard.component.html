@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page flex flex-col gap-4">
   @if (orderStatisticsByOrderState.status() === 'error') {
     <app-server-error/>
   }
@@ -9,9 +9,23 @@
 
   @if (orderStatisticsByOrderState.status() === 'success') {
     <app-statistics-bar
+      title="component.admin.nav.metrics.order.state"
       [(timeLine)]="timeLineByOrderState"
       [queryKey]="byOrderStateQueryKey()"
       [dataLabels]="[ordersCompletedLabels, ordersCancelledLabels]"
+    />
+  }
+
+  @if (orderStatisticsByUserState.status() === 'pending') {
+    <p-skeleton width="65vw" height="444px"/>
+  }
+
+  @if (orderStatisticsByUserState.status() === 'success') {
+    <app-statistics-bar
+      title="component.admin.nav.metrics.user.state"
+      [(timeLine)]="timeLineByUserState"
+      [queryKey]="byUserStateQueryKey()"
+      [dataLabels]="[ordersByRegisteredLabels, ordersByAnonymousLabels]"
     />
   }
 </div>

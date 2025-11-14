@@ -12,3 +12,14 @@ export const ordersCancelledLabels: DataLabel = {
   color: "--p-amber-400"
 };
 
+export const ordersByRegisteredLabels: DataLabel = {
+  en: "Registered Clients",
+  es: "Clientes Registrados",
+  color: "--p-sky-600"
+};
+
+export const ordersByAnonymousLabels: DataLabel = {
+  en: "Anonymous Clients",
+  es: "Clientes Anónimos",
+  color: "--p-red-600"
+};

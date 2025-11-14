@@ -10,7 +10,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {Skeleton} from 'primeng/skeleton';
-import {ordersCancelledLabels, ordersCompletedLabels} from '../../../../utils/data-labels';
+import {ordersByAnonymousLabels, ordersByRegisteredLabels, ordersCancelledLabels, ordersCompletedLabels} from '../../../../utils/data-labels';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,6 +31,7 @@ export class DashboardComponent implements OnInit {
   protected readonly timeLineByOrderState = signal("hourly");
   protected readonly timeLineByUserState = signal("hourly");
   protected readonly byOrderStateQueryKey = computed(() => ["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()]);
+  protected readonly byUserStateQueryKey = computed(() => ["admin", "order", "statistics", "byUserState", this.timeLineByUserState()]);
 
   protected readonly orderStatisticsByOrderState: QueryResult<OrderStatistics | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()],
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
   }));
   private readonly ordersByStateStatus$ = toObservable(this.orderStatisticsByOrderState.status);
 
-  private readonly orderStatisticsByUserState: QueryResult<OrderStatistics | undefined> = injectQuery(() => ({
+  protected readonly orderStatisticsByUserState: QueryResult<OrderStatistics | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byUserState", this.timeLineByUserState()],
     queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountByUserState(this.timeLineByUserState())),
   }));
@@ -76,4 +77,6 @@ export class DashboardComponent implements OnInit {
 
   protected readonly ordersCompletedLabels = ordersCompletedLabels;
   protected readonly ordersCancelledLabels = ordersCancelledLabels;
+  protected readonly ordersByRegisteredLabels = ordersByRegisteredLabels;
+  protected readonly ordersByAnonymousLabels = ordersByAnonymousLabels;
 }

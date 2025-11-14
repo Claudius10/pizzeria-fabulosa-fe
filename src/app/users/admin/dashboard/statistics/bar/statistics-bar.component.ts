@@ -25,6 +25,7 @@ import {DataLabel} from '../../../../../../utils/interfaces/label';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 class StatisticsBarComponent implements OnInit {
+  title = input.required<string>();
   timeLine = model.required<string>();
   queryKey = input.required<string[]>();
   dataLabels = input.required<DataLabel[]>();
