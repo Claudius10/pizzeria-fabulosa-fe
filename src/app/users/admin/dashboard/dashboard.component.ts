@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core';
 import StatisticsBarComponent from './statistics/bar/statistics-bar.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
   private readonly orderStatisticsAPI = inject(OrderStatisticsAPIService);
   protected readonly timeLineByOrderState = signal("hourly");
   protected readonly timeLineByUserState = signal("hourly");
-  protected readonly byOrderStateQueryKey = signal(["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()]);
+  protected readonly byOrderStateQueryKey = computed(() => ["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()]);
 
   protected readonly orderStatisticsByOrderState: QueryResult<OrderStatistics | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()],

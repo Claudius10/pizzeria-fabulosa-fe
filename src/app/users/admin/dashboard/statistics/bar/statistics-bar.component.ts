@@ -75,7 +75,6 @@ class StatisticsBarComponent implements OnInit {
 
       const count = ordersByState.statisticsByState.at(i)!.count;
       const dataLabel = this.dataLabels().at(i)!;
-      console.log(this.queryKey());
 
       datasets.push({
         label: this.lang() === "en" ? dataLabel!.en : dataLabel!.es,
