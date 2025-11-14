@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, input, model, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, input, model, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {ThemeService} from '../../../../../services/theme/theme.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {Card} from 'primeng/card';
@@ -10,6 +10,7 @@ import {merge} from 'rxjs';
 import {OrderStatistics, OrderStatisticsByState} from '../../../../../../api/admin';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {DataLabel} from '../../../../../../utils/interfaces/label';
+import {isPlatformBrowser} from '@angular/common';
 
 @Component({
   selector: 'app-statistics-bar',
@@ -25,11 +26,12 @@ import {DataLabel} from '../../../../../../utils/interfaces/label';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 class StatisticsBarComponent implements OnInit {
-  title = input.required<string>();
+  header = input.required<string>();
   timeLine = model.required<string>();
   queryKey = input.required<string[]>();
   dataLabels = input.required<DataLabel[]>();
 
+  private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
   private readonly themeService = inject(ThemeService);
   private readonly translateService = inject(TranslateService);
@@ -63,69 +65,71 @@ class StatisticsBarComponent implements OnInit {
   }
 
   private initChart() {
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--p-text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-    const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+    if (isPlatformBrowser(this.platformId)) {
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--p-text-color');
+      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-    const ordersByState = this.queryClient.getQueryData(this.queryKey()) ?
-      this.queryClient.getQueryData(this.queryKey()) as OrderStatistics : this.emptyData();
+      const ordersByState = this.queryClient.getQueryData(this.queryKey()) ?
+        this.queryClient.getQueryData(this.queryKey()) as OrderStatistics : this.emptyData();
 
-    const datasets = [];
-    for (let i = 0; i < ordersByState.statisticsByState.length; i++) {
+      const datasets = [];
+      for (let i = 0; i < ordersByState.statisticsByState.length; i++) {
 
-      const count = ordersByState.statisticsByState.at(i)!.count;
-      const dataLabel = this.dataLabels().at(i)!;
+        const count = ordersByState.statisticsByState.at(i)!.count;
+        const dataLabel = this.dataLabels().at(i)!;
 
-      datasets.push({
-        label: this.lang() === "en" ? dataLabel!.en : dataLabel!.es,
-        data: count,
-        backgroundColor: [documentStyle.getPropertyValue(dataLabel.color)],
-        borderColor: [documentStyle.getPropertyValue(dataLabel.color)],
-        borderWidth: 1,
-      });
-    }
+        datasets.push({
+          label: this.lang() === "en" ? dataLabel!.en : dataLabel!.es,
+          data: count,
+          backgroundColor: [documentStyle.getPropertyValue(dataLabel.color)],
+          borderColor: [documentStyle.getPropertyValue(dataLabel.color)],
+          borderWidth: 1,
+        });
+      }
 
-    this.data = {
-      labels: this.labels(this.lang()),
-      datasets: datasets,
-    };
+      this.data = {
+        labels: this.labels(this.lang()),
+        datasets: datasets,
+      };
 
-    this.options = {
-      maintainAspectRatio: false,
-      aspectRatio: 0.8,
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
-            font: {
-              size: 14,
+      this.options = {
+        maintainAspectRatio: false,
+        aspectRatio: 0.8,
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor,
+              font: {
+                size: 14,
+              }
             }
           }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: textColorSecondary,
+        },
+        scales: {
+          x: {
+            ticks: {
+              color: textColorSecondary,
+            },
+            grid: {
+              color: surfaceBorder,
+            },
           },
-          grid: {
-            color: surfaceBorder,
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: textColorSecondary,
+            },
+            grid: {
+              color: surfaceBorder,
+            },
           },
         },
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-          },
-        },
-      },
-    };
+      };
 
-    this.changeDetectorRef.markForCheck();
+      this.changeDetectorRef.markForCheck();
+    }
   }
 
   protected timeLineOptions = [
@@ -170,17 +174,11 @@ class StatisticsBarComponent implements OnInit {
   }
 
   private emptyData(): OrderStatistics {
-    const completed: OrderStatisticsByState = {
-      count: []
-    };
-    const cancelled: OrderStatisticsByState = {
+    const empty: OrderStatisticsByState = {
       count: []
     };
     return {
-      statisticsByState: [
-        completed,
-        cancelled
-      ]
+      statisticsByState: [empty]
     };
   }
 }

@@ -4,28 +4,50 @@
   }
 
   @if (orderStatisticsByOrderState.status() === 'pending') {
-    <p-skeleton width="65vw" height="444px"/>
+    <p-skeleton width="65vw" height="513px"/>
   }
 
   @if (orderStatisticsByOrderState.status() === 'success') {
     <app-statistics-bar
-      title="component.admin.nav.metrics.order.state"
+      [header]="headerByOrderState"
       [(timeLine)]="timeLineByOrderState"
       [queryKey]="byOrderStateQueryKey()"
       [dataLabels]="[ordersCompletedLabels, ordersCancelledLabels]"
     />
   }
 
-  @if (orderStatisticsByUserState.status() === 'pending') {
-    <p-skeleton width="65vw" height="444px"/>
-  }
+  <div class="clients-container">
+    @if (orderStatisticsByUserState.status() === 'pending') {
+      <div class="clients-bar">
+        <p-skeleton height="513px"/>
+      </div>
+    }
 
-  @if (orderStatisticsByUserState.status() === 'success') {
-    <app-statistics-bar
-      title="component.admin.nav.metrics.user.state"
-      [(timeLine)]="timeLineByUserState"
-      [queryKey]="byUserStateQueryKey()"
-      [dataLabels]="[ordersByRegisteredLabels, ordersByAnonymousLabels]"
-    />
-  }
+    @if (orderStatisticsByUserState.status() === 'success') {
+      <div class="clients-bar">
+        <app-statistics-bar
+          [header]="headerByUserState"
+          [(timeLine)]="timeLineByUserState"
+          [queryKey]="byUserStateQueryKey()"
+          [dataLabels]="[ordersByRegisteredLabels, ordersByAnonymousLabels]"
+        />
+      </div>
+    }
+
+    @if (orderStatisticsByUserStateAll.status() === 'pending') {
+      <div class="clients-doughnut">
+        <p-skeleton height="513px"/>
+      </div>
+    }
+
+    @if (orderStatisticsByUserStateAll.status() === 'success') {
+      <div class="clients-doughnut">
+        <app-statistics-doughnut
+          [header]="headerByUserState"
+          [queryKey]="byUserStateAllQueryKey"
+          [dataLabels]="[ordersByRegisteredLabels, ordersByAnonymousLabels]"
+        />
+      </div>
+    }
+  </div>
 </div>

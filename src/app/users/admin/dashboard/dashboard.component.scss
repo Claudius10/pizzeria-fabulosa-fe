@@ -1,3 +1,32 @@
 .page {
   width: 65vw;
 }
+
+.clients-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.clients-bar {
+  width: 60rem;
+}
+
+.clients-doughnut {
+  width: 30rem;
+}
+
+@media (max-width: 1280px) {
+}
+
+@media (max-width: 992px) {
+  .clients-container {
+    flex-direction: column;
+  }
+
+  .clients-bar {
+    width: 100%;
+  }
+  .clients-doughnut {
+    width: 100%;
+  }
+}
