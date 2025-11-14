@@ -21,7 +21,7 @@ import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-
 import {lastValueFrom} from 'rxjs';
 import {tempQueryResult, tempStatus$} from '../../../../../utils/placeholder';
 import {AuthService} from '../../../../services/auth/auth.service';
-import {MyCartItemDTO} from '../../../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../../../utils/interfaces/myCartItemDTO';
 import {QueryResult} from '../../../../../utils/interfaces/query';
 import {OrderDTO, UserOrdersAPIService} from '../../../../../api/business';
 import {USER_ORDER_SUMMARY_LIST} from '../../../../../utils/query-keys';

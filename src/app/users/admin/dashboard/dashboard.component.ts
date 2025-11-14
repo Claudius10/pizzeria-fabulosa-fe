@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal} from '@angular/core';
-import OrderStatsComponent from './order/order-stats.component';
+import StatisticsBarComponent from './statistics/bar/statistics-bar.component';
 import {ErrorService} from '../../../services/error/error.service';
 import {LoadingAnimationService} from '../../../services/animation/loading-animation.service';
 import {OrderStatistics, OrderStatisticsAPIService} from '../../../../api/admin';
@@ -10,11 +10,12 @@ import {toObservable} from '@angular/core/rxjs-interop';
 import {ERROR, PENDING, SUCCESS} from '../../../../utils/constants';
 import {ServerErrorComponent} from '../../../routes/error/server-no-response/server-error.component';
 import {Skeleton} from 'primeng/skeleton';
+import {ordersCancelledLabels, ordersCompletedLabels} from '../../../../utils/data-labels';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
-    OrderStatsComponent,
+    StatisticsBarComponent,
     ServerErrorComponent,
     Skeleton
   ],
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   private readonly orderStatisticsAPI = inject(OrderStatisticsAPIService);
   protected readonly timeLineByOrderState = signal("hourly");
   protected readonly timeLineByUserState = signal("hourly");
+  protected readonly byOrderStateQueryKey = signal(["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()]);
 
   protected readonly orderStatisticsByOrderState: QueryResult<OrderStatistics | undefined> = injectQuery(() => ({
     queryKey: ["admin", "order", "statistics", "byOrderState", this.timeLineByOrderState()],
@@ -46,7 +48,6 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     const dataFetchSubscription = this.fetchStatus$.subscribe({
       next: status => {
-        console.log(status);
         if (status === PENDING) {
           this.loadingAnimationService.startLoading();
         }
@@ -72,4 +73,7 @@ export class DashboardComponent implements OnInit {
       dataFetchSubscription.unsubscribe();
     });
   }
+
+  protected readonly ordersCompletedLabels = ordersCompletedLabels;
+  protected readonly ordersCancelledLabels = ordersCancelledLabels;
 }

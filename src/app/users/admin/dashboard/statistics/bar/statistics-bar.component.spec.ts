@@ -1,21 +1,21 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import OrderStatsComponent from './order-stats.component';
+import StatisticsBarComponent from './statistics-bar.component';
 import {QueryClient} from '@tanstack/angular-query-experimental';
 import {TranslateModule} from '@ngx-translate/core';
 import {MessageService} from 'primeng/api';
 import {provideHttpClient} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
 
-describe('OrderStatsComponent', () => {
-  let component: OrderStatsComponent;
-  let fixture: ComponentFixture<OrderStatsComponent>;
+describe('StatisticsBarComponent', () => {
+  let component: StatisticsBarComponent;
+  let fixture: ComponentFixture<StatisticsBarComponent>;
 
   beforeEach(async () => {
     const messageServiceSpy = jasmine.createSpyObj('MessageService', ['add']);
 
     await TestBed.configureTestingModule({
-      imports: [OrderStatsComponent, TranslateModule.forRoot()],
+      imports: [StatisticsBarComponent, TranslateModule.forRoot()],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -25,7 +25,7 @@ describe('OrderStatsComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(OrderStatsComponent);
+    fixture = TestBed.createComponent(StatisticsBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

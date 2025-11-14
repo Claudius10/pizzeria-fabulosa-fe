@@ -1,4 +1,4 @@
-import {MyCartItemDTO} from './interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from './interfaces/myCartItemDTO';
 
 export interface ICart {
   items: MyCartItemDTO[];

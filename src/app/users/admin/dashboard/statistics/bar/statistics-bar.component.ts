@@ -1,18 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, model, OnInit, PLATFORM_ID, signal} from '@angular/core';
-import {ThemeService} from '../../../../services/theme/theme.service';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, input, model, OnInit, signal} from '@angular/core';
+import {ThemeService} from '../../../../../services/theme/theme.service';
 import {toObservable} from '@angular/core/rxjs-interop';
-import {isPlatformBrowser} from '@angular/common';
 import {Card} from 'primeng/card';
 import {UIChart} from 'primeng/chart';
 import {SelectButton} from 'primeng/selectbutton';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
 import {merge} from 'rxjs';
-import {OrderStatistics, OrderStatisticsByState} from '../../../../../api/admin';
+import {OrderStatistics, OrderStatisticsByState} from '../../../../../../api/admin';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {DataLabel} from '../../../../../../utils/interfaces/label';
 
 @Component({
-  selector: 'app-order-stats',
+  selector: 'app-statistics-bar',
   imports: [
     Card,
     UIChart,
@@ -20,16 +20,16 @@ import {QueryClient} from '@tanstack/angular-query-experimental';
     TranslatePipe,
     FormsModule
   ],
-  templateUrl: './order-stats.component.html',
-  styleUrl: './order-stats.component.scss',
+  templateUrl: './statistics-bar.component.html',
+  styleUrl: './statistics-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-class OrderStatsComponent implements OnInit {
+class StatisticsBarComponent implements OnInit {
   timeLine = model.required<string>();
+  queryKey = input.required<string[]>();
+  dataLabels = input.required<DataLabel[]>();
 
-  private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
-
   private readonly themeService = inject(ThemeService);
   private readonly translateService = inject(TranslateService);
   private readonly queryClient = inject(QueryClient);
@@ -62,70 +62,68 @@ class OrderStatsComponent implements OnInit {
   }
 
   private initChart() {
-    if (isPlatformBrowser(this.platformId)) {
-      const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--p-text-color');
-      const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
-      const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = documentStyle.getPropertyValue('--p-text-color');
+    const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
+    const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-      const queryKey = ["admin", "order", "statistics", "byOrderState", this.timeLine()];
-      const ordersByState = this.queryClient.getQueryData(queryKey) ?
-        this.queryClient.getQueryData(queryKey) as OrderStatistics : this.emptyData();
+    const ordersByState = this.queryClient.getQueryData(this.queryKey()) ?
+      this.queryClient.getQueryData(this.queryKey()) as OrderStatistics : this.emptyData();
 
-      this.data = {
-        labels: this.labels(this.lang()),
-        datasets: [
-          {
-            label: this.lang() === "en" ? "Orders Completed" : "Pedidos Completados",
-            data: ordersByState.statisticsByState.at(0)!.count,
-            backgroundColor: [documentStyle.getPropertyValue('--p-green-500')],
-            borderColor: [documentStyle.getPropertyValue('--p-green-500')],
-            borderWidth: 1,
-          },
-          {
-            label: this.lang() === "en" ? "Orders Cancelled" : "Pedidos Cancelados",
-            data: ordersByState.statisticsByState.at(1)!.count,
-            backgroundColor: [documentStyle.getPropertyValue('--p-amber-400')],
-            borderColor: [documentStyle.getPropertyValue('--p-amber-400')],
-            borderWidth: 1,
-          },
-        ],
-      };
+    const datasets = [];
+    for (let i = 0; i < ordersByState.statisticsByState.length; i++) {
 
-      this.options = {
-        maintainAspectRatio: false,
-        aspectRatio: 0.8,
-        plugins: {
-          legend: {
-            labels: {
-              color: textColor,
-              font: {
-                size: 14,
-              }
+      const count = ordersByState.statisticsByState.at(i)!.count;
+      const dataLabel = this.dataLabels().at(i)!;
+      console.log(this.queryKey());
+
+      datasets.push({
+        label: this.lang() === "en" ? dataLabel!.en : dataLabel!.es,
+        data: count,
+        backgroundColor: [documentStyle.getPropertyValue(dataLabel.color)],
+        borderColor: [documentStyle.getPropertyValue(dataLabel.color)],
+        borderWidth: 1,
+      });
+    }
+
+    this.data = {
+      labels: this.labels(this.lang()),
+      datasets: datasets,
+    };
+
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
+      plugins: {
+        legend: {
+          labels: {
+            color: textColor,
+            font: {
+              size: 14,
             }
           }
-        },
-        scales: {
-          x: {
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: textColorSecondary,
           },
-          y: {
-            beginAtZero: true,
-            ticks: {
-              color: textColorSecondary,
-            },
-            grid: {
-              color: surfaceBorder,
-            },
+          grid: {
+            color: surfaceBorder,
           },
         },
-      };
-    }
+        y: {
+          beginAtZero: true,
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+          },
+        },
+      },
+    };
 
     this.changeDetectorRef.markForCheck();
   }
@@ -187,4 +185,4 @@ class OrderStatsComponent implements OnInit {
   }
 }
 
-export default OrderStatsComponent;
+export default StatisticsBarComponent;

@@ -14,7 +14,7 @@ import primeES from "../../public/i18n/primeng-es.json";
 import primeEN from "../../public/i18n/primeng-en.json";
 import {MessageService} from 'primeng/api';
 import {ErrorService} from './services/error/error.service';
-import {MyCartItemDTO} from '../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../utils/interfaces/myCartItemDTO';
 import {UserinfoComponent} from './util/userinfo/userinfo.component';
 import {CartComponent} from './cart/cart.component';
 import {Drawer} from 'primeng/drawer';

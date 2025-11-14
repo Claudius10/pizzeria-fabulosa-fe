@@ -8,6 +8,10 @@
   }
 
   @if (orderStatisticsByOrderState.status() === 'success') {
-    <app-order-stats [(timeLine)]="timeLineByOrderState"/>
+    <app-statistics-bar
+      [(timeLine)]="timeLineByOrderState"
+      [queryKey]="byOrderStateQueryKey()"
+      [dataLabels]="[ordersCompletedLabels, ordersCancelledLabels]"
+    />
   }
 </div>

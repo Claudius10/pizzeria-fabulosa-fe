@@ -11,7 +11,7 @@ import {OrderAddressDetailsComponent} from '../../users/user/orders/order-item/a
 import {OrderDetailsComponent} from '../../users/user/orders/order-item/order-details/order-details.component';
 import {Card} from "primeng/card";
 import {UserDetailsComponent} from "../../users/user/details/user-details.component";
-import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../utils/interfaces/myCartItemDTO';
 
 @Component({
   selector: 'app-new-order-success',

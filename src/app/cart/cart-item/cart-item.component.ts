@@ -4,7 +4,7 @@ import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {Button, ButtonDirective} from 'primeng/button';
 import {NgClass, NgOptimizedImage} from '@angular/common';
 import {ThemeService} from '../../services/theme/theme.service';
-import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../utils/interfaces/myCartItemDTO';
 
 @Component({
   selector: 'app-cart-item',

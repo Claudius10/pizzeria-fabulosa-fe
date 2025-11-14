@@ -1,8 +1,8 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {Cart, ICart} from '../../../utils/Cart';
+import {Cart, ICart} from '../../../utils/cart';
 import {CART} from '../../../utils/constants';
 import {getDarkIcon, getLightIcon} from '../../../utils/functions';
-import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../utils/interfaces/myCartItemDTO';
 import {LocalStorageService} from '../local-storage/local-storage.service';
 
 @Injectable({

@@ -18,7 +18,7 @@ import {Textarea} from 'primeng/textarea';
 import {UserDetailsComponent} from '../../../users/user/details/user-details.component';
 import {injectMutation, injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
 import {firstValueFrom, lastValueFrom} from 'rxjs';
-import {MyCartItemDTO} from '../../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../../utils/interfaces/myCartItemDTO';
 import {AnonymousOrdersAPIService, CreatedOrderDTO, NewAnonOrderDTO, NewUserOrderDTO, UserOrdersAPIService} from '../../../../api/business';
 import {Store, StoreAPIService} from '../../../../api/public';
 
