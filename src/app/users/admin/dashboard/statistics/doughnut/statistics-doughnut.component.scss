@@ -1,29 +1,4 @@
 .doughnut {
-  display: flex;
-  flex-direction: column;
-  width: 25rem;
-}
-
-@media (max-width: 1280px) {
-  .doughnut {
-    width: 20rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .doughnut {
-    width: 15rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .doughnut {
-    width: 10rem;
-  }
-}
-
-@media (max-width: 576px) {
-  .doughnut {
-    width: 5rem;
-  }
+  width: 100%;
+  max-width: 25rem;
 }

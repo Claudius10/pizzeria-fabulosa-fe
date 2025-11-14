@@ -92,9 +92,7 @@ class StatisticsDoughnutComponent implements OnInit {
       };
 
       this.options = {
-        animation: {
-          animateScale: true,
-        },
+        maintainAspectRatio: false,
         plugins: {
           legend: {
             labels: {
