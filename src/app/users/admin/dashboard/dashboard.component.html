@@ -1,3 +1,13 @@
 <div class="page">
-  <app-order-stats/>
+  @if (orderStatisticsByOrderState.status() === 'error') {
+    <app-server-error/>
+  }
+
+  @if (orderStatisticsByOrderState.status() === 'pending') {
+    <p-skeleton width="65vw" height="444px"/>
+  }
+
+  @if (orderStatisticsByOrderState.status() === 'success') {
+    <app-order-stats [(timeLine)]="timeLineByOrderState"/>
+  }
 </div>

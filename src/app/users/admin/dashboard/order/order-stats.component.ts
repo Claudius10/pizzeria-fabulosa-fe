@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, OnInit, PLATFORM_ID, signal} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, DestroyRef, inject, model, OnInit, PLATFORM_ID, signal} from '@angular/core';
 import {ThemeService} from '../../../../services/theme/theme.service';
 import {toObservable} from '@angular/core/rxjs-interop';
 import {isPlatformBrowser} from '@angular/common';
@@ -7,13 +7,9 @@ import {UIChart} from 'primeng/chart';
 import {SelectButton} from 'primeng/selectbutton';
 import {TranslatePipe, TranslateService} from '@ngx-translate/core';
 import {FormsModule} from '@angular/forms';
-import {lastValueFrom, merge} from 'rxjs';
-import {OrderStatisticsAPIService, OrderStatisticsByState} from '../../../../../api/admin';
-import {injectQuery, QueryClient} from '@tanstack/angular-query-experimental';
-import {LoadingAnimationService} from '../../../../services/animation/loading-animation.service';
-import {ErrorService} from '../../../../services/error/error.service';
-import {ERROR, PENDING, SUCCESS} from '../../../../../utils/constants';
-import {QueryResult} from '../../../../../utils/interfaces/query';
+import {merge} from 'rxjs';
+import {OrderStatistics, OrderStatisticsByState} from '../../../../../api/admin';
+import {QueryClient} from '@tanstack/angular-query-experimental';
 
 @Component({
   selector: 'app-order-stats',
@@ -29,42 +25,25 @@ import {QueryResult} from '../../../../../utils/interfaces/query';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 class OrderStatsComponent implements OnInit {
+  timeLine = model.required<string>();
+
   private readonly platformId = inject(PLATFORM_ID);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly errorService = inject(ErrorService);
+
   private readonly themeService = inject(ThemeService);
   private readonly translateService = inject(TranslateService);
   private readonly queryClient = inject(QueryClient);
-  private readonly loadingAnimationService = inject(LoadingAnimationService);
-  private readonly orderStatisticsAPI = inject(OrderStatisticsAPIService);
   private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly isDarkMode = this.themeService.getDarkMode();
   private readonly lang = signal(this.translateService.currentLang);
-  protected readonly timeLine = signal("hourly");
-  private readonly darkMode$ = toObservable(this.isDarkMode);
+
   private readonly lang$ = toObservable(this.lang);
+  private readonly darkMode$ = toObservable(this.isDarkMode);
   private readonly timeControl$ = toObservable(this.timeLine);
 
-  private readonly ordersCompleted: QueryResult<OrderStatisticsByState | undefined> = injectQuery(() => ({
-    queryKey: ["admin", "order", "statistics", "byState", "completed", this.timeLine()],
-    queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "COMPLETED")),
-
-  }));
-  private readonly ordersCompletedStatus$ = toObservable(this.ordersCompleted.status);
-
-  private readonly ordersCanceled: QueryResult<OrderStatisticsByState | undefined> = injectQuery(() => ({
-    queryKey: ["admin", "order", "statistics", "byState", "cancelled", this.timeLine()],
-    queryFn: () => lastValueFrom(this.orderStatisticsAPI.findCountForTimelineAndState(this.timeLine(), "CANCELLED")),
-
-  }));
-  private readonly ordersCanceledStatus$ = toObservable(this.ordersCanceled.status);
-
-  private readonly statsFetchStatus$ = merge(this.ordersCompletedStatus$, this.ordersCanceledStatus$);
   private readonly chartInit$ = merge(this.timeControl$, this.darkMode$, this.lang$);
-  private readonly chart$ = merge(this.chartInit$, this.statsFetchStatus$);
 
   protected data: any;
-
   protected options: any;
 
   ngOnInit() {
@@ -72,36 +51,12 @@ class OrderStatsComponent implements OnInit {
       this.lang.set(value.lang);
     });
 
-    const dataFetchSubscription = this.statsFetchStatus$.subscribe({
-      next: status => {
-        if (status === PENDING) {
-          this.loadingAnimationService.startLoading();
-        }
-
-        if (status === ERROR) {
-          this.loadingAnimationService.stopLoading();
-          let completedErrors = this.ordersCompleted.error();
-          let cancelledErrors = this.ordersCanceled.error();
-          if (completedErrors) {
-            this.errorService.handleError(completedErrors);
-          } else if (cancelledErrors) {
-            this.errorService.handleError(cancelledErrors);
-          }
-        }
-
-        if (status === SUCCESS) {
-          this.loadingAnimationService.stopLoading();
-        }
-      }
-    });
-
-    const chartSubscription = this.chart$.subscribe(() => {
+    const chartSubscription = this.chartInit$.subscribe(() => {
       this.initChart();
     });
 
     this.destroyRef.onDestroy(() => {
       languageChangeSubscription.unsubscribe();
-      dataFetchSubscription.unsubscribe();
       chartSubscription.unsubscribe();
     });
   }
@@ -113,25 +68,23 @@ class OrderStatsComponent implements OnInit {
       const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
       const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
 
-      const ordersCompleted = this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "completed", this.timeLine()]) ?
-        this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "completed", this.timeLine()]) as OrderStatisticsByState : this.emptyData();
-
-      const ordersCancelled = this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "cancelled", this.timeLine()]) ?
-        this.queryClient.getQueryData(["admin", "order", "statistics", "byState", "cancelled", this.timeLine()]) as OrderStatisticsByState : this.emptyData();
+      const queryKey = ["admin", "order", "statistics", "byOrderState", this.timeLine()];
+      const ordersByState = this.queryClient.getQueryData(queryKey) ?
+        this.queryClient.getQueryData(queryKey) as OrderStatistics : this.emptyData();
 
       this.data = {
         labels: this.labels(this.lang()),
         datasets: [
           {
             label: this.lang() === "en" ? "Orders Completed" : "Pedidos Completados",
-            data: ordersCompleted.countsByState,
+            data: ordersByState.statisticsByState.at(0)!.count,
             backgroundColor: [documentStyle.getPropertyValue('--p-green-500')],
             borderColor: [documentStyle.getPropertyValue('--p-green-500')],
             borderWidth: 1,
           },
           {
             label: this.lang() === "en" ? "Orders Cancelled" : "Pedidos Cancelados",
-            data: ordersCancelled.countsByState,
+            data: ordersByState.statisticsByState.at(1)!.count,
             backgroundColor: [documentStyle.getPropertyValue('--p-amber-400')],
             borderColor: [documentStyle.getPropertyValue('--p-amber-400')],
             borderWidth: 1,
@@ -218,9 +171,18 @@ class OrderStatsComponent implements OnInit {
     }
   }
 
-  private emptyData(): OrderStatisticsByState {
+  private emptyData(): OrderStatistics {
+    const completed: OrderStatisticsByState = {
+      count: []
+    };
+    const cancelled: OrderStatisticsByState = {
+      count: []
+    };
     return {
-      countsByState: []
+      statisticsByState: [
+        completed,
+        cancelled
+      ]
     };
   }
 }

@@ -7,9 +7,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OrderStatisticsByState } from './orderStatisticsByState';
 
 
-export interface OrderStatisticsByState { 
-    count: Array<number>;
+export interface OrderStatistics { 
+    statisticsByState: Array<OrderStatisticsByState>;
 }
 

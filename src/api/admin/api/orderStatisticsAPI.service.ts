@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { OrderStatisticsByState } from '../model/orderStatisticsByState';
+import { OrderStatistics } from '../model/orderStatistics';
 // @ts-ignore
 import { ResponseDTO } from '../model/responseDTO';
 
@@ -38,28 +38,22 @@ export class OrderStatisticsAPIService extends BaseService {
     }
 
     /**
-     * Returns order count for given timeline and state
+     * Returns order count for given timeline and all order states
      * @param timeline hourly, daily, monthly, yearly
-     * @param state COMPLETED, CANCELLED
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public findCountForTimelineAndState(timeline: string, state: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderStatisticsByState>;
-    public findCountForTimelineAndState(timeline: string, state: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderStatisticsByState>>;
-    public findCountForTimelineAndState(timeline: string, state: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderStatisticsByState>>;
-    public findCountForTimelineAndState(timeline: string, state: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public findCountByOrderState(timeline: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderStatistics>;
+    public findCountByOrderState(timeline: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderStatistics>>;
+    public findCountByOrderState(timeline: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderStatistics>>;
+    public findCountByOrderState(timeline: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (timeline === null || timeline === undefined) {
-            throw new Error('Required parameter timeline was null or undefined when calling findCountForTimelineAndState.');
-        }
-        if (state === null || state === undefined) {
-            throw new Error('Required parameter state was null or undefined when calling findCountForTimelineAndState.');
+            throw new Error('Required parameter timeline was null or undefined when calling findCountByOrderState.');
         }
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
           <any>timeline, 'timeline');
-        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-          <any>state, 'state');
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -86,9 +80,68 @@ export class OrderStatisticsAPIService extends BaseService {
             }
         }
 
-        let localVarPath = `/api/v1/admin/order/count`;
+        let localVarPath = `/api/v1/admin/order/statistics/state/order`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<OrderStatisticsByState>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<OrderStatistics>('get', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                params: localVarQueryParameters,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                transferCache: localVarTransferCache,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Returns order count for given timeline and all user states
+     * @param timeline hourly, daily, monthly, yearly
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public findCountByUserState(timeline: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<OrderStatistics>;
+    public findCountByUserState(timeline: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<OrderStatistics>>;
+    public findCountByUserState(timeline: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<OrderStatistics>>;
+    public findCountByUserState(timeline: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (timeline === null || timeline === undefined) {
+            throw new Error('Required parameter timeline was null or undefined when calling findCountByUserState.');
+        }
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+          <any>timeline, 'timeline');
+
+        let localVarHeaders = this.defaultHeaders;
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'application/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/v1/admin/order/statistics/state/user`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<OrderStatistics>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
