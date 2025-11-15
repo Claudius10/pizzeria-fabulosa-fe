@@ -38,7 +38,8 @@ export class OrderStatisticsAPIService extends BaseService {
     }
 
     /**
-     * Returns order count for given timeline and all order states
+     * Returns order count for the given timeline and all order states
+     * First index is for completed orders; second index is for cancelled orders
      * @param timeline hourly, daily, monthly, yearly
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
@@ -97,8 +98,9 @@ export class OrderStatisticsAPIService extends BaseService {
     }
 
     /**
-     * Returns order count for given timeline and all user states
-     * @param timeline hourly, daily, monthly, yearly
+     * Returns order count for the given timeline and all user states
+     * First index is for registered users; second index is for anonymous users
+     * @param timeline hourly, daily, monthly, yearly, all
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
