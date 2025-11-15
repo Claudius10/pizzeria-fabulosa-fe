@@ -3,14 +3,14 @@ import {AppComponent} from './app.component';
 import {MessageService} from 'primeng/api';
 import {provideRouter} from '@angular/router';
 import {TranslateModule} from '@ngx-translate/core';
-import {UserAccountAPIService} from '../api/user';
-import {of} from 'rxjs';
 import {QueryClient} from '@tanstack/angular-query-experimental';
+import {UserAPIService} from '../api/security';
+import {of} from 'rxjs';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let userAccountAPIService: jasmine.SpyObj<UserAccountAPIService>;
+  let userAccountAPIService: jasmine.SpyObj<UserAPIService>;
 
   beforeEach(async () => {
     const messageSpy = jasmine.createSpyObj('MessageService', ['add']);
@@ -21,12 +21,12 @@ describe('AppComponent', () => {
       providers: [
         {provide: QueryClient},
         {provide: MessageService, useValue: messageSpy},
-        {provide: UserAccountAPIService, useValue: userAccountAPIServiceSpy},
+        {provide: UserAPIService, useValue: userAccountAPIServiceSpy},
         provideRouter([{path: '**', component: AppComponent}])
       ],
     }).compileComponents();
 
-    userAccountAPIService = TestBed.inject(UserAccountAPIService) as jasmine.SpyObj<UserAccountAPIService>;
+    userAccountAPIService = TestBed.inject(UserAPIService) as jasmine.SpyObj<UserAPIService>;
     userAccountAPIService.getUserInfo.and.returnValue(of());
 
     fixture = TestBed.createComponent(AppComponent);

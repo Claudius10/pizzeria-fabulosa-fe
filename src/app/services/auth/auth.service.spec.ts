@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {AuthService} from './auth.service';
-import {UserInfoDTO} from '../../../api/user';
+import {UserInfoDTO} from '../../../api/security';
 
 describe('AuthServiceTests', () => {
   let service: AuthService;

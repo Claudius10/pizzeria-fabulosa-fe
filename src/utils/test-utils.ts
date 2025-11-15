@@ -1,4 +1,4 @@
-import {APIError} from '../api/user';
+import {APIError} from '../api/admin';
 
 export function buildError(fatal: boolean, cause: string, message: string): APIError {
   return {

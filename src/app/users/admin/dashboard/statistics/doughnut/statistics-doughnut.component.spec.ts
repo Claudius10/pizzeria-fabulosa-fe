@@ -27,6 +27,11 @@ describe('StatisticsDoughnutComponent', () => {
 
     fixture = TestBed.createComponent(StatisticsDoughnutComponent);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput("header", "test");
+    fixture.componentRef.setInput("queryKey", ["test"]);
+    fixture.componentRef.setInput("dataLabels", []);
+
     fixture.detectChanges();
   });
 

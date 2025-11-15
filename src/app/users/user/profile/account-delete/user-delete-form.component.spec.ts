@@ -4,7 +4,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {ErrorService} from '../../../../services/error/error.service';
 import {MessageService} from 'primeng/api';
 import {QueryClient} from '@tanstack/angular-query-experimental';
-import {UserAccountAPIService} from '../../../../../api/user';
+import {UserAPIService} from '../../../../../api/security';
 
 describe('UserDeleteFormComponent', () => {
   let component: UserDeleteFormComponent;
@@ -21,7 +21,7 @@ describe('UserDeleteFormComponent', () => {
         {provide: QueryClient},
         {provide: ErrorService, useValue: errorServiceSpy},
         {provide: MessageService, useValue: messageSpy},
-        {provide: UserAccountAPIService, useValue: accountServiceSpy},
+        {provide: UserAPIService, useValue: accountServiceSpy},
       ]
     })
       .compileComponents();

@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing';
 
 import {CartService} from './cart.service';
-import {MyCartItemDTO} from '../../../utils/interfaces/MyCartItemDTO';
+import {MyCartItemDTO} from '../../../utils/interfaces/myCartItemDTO';
 
 describe('CartServiceTests', () => {
   let cartService: CartService;

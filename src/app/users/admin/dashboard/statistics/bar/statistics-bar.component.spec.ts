@@ -27,6 +27,12 @@ describe('StatisticsBarComponent', () => {
 
     fixture = TestBed.createComponent(StatisticsBarComponent);
     component = fixture.componentInstance;
+
+    fixture.componentRef.setInput("header", "test");
+    fixture.componentRef.setInput("timeLine", "test");
+    fixture.componentRef.setInput("queryKey", ["test"]);
+    fixture.componentRef.setInput("dataLabels", []);
+
     fixture.detectChanges();
   });
 
